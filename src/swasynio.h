@@ -29,7 +29,6 @@ typedef enum { ASYN_LISTEN, ASYN_CONNECT, ASYN_TCPLOOP } asynmode_t;
 extern asynmode_t asynmode;
 extern char asynhost[128];
 
-extern int asynget(OBJECTS *ob);
 extern void asynput(int movekey);
 extern char *asynclos(BOOL update);
 extern void init1asy();
@@ -42,6 +41,9 @@ extern void asynupdate(void);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/10/20 18:56:11  fraggle
+// Remove prototype for removed function
+//
 // Revision 1.4  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //
