@@ -29,7 +29,7 @@
 /* maximum number of tics before the game stops sending commands over 
  * the network */
 
-#define MAX_NET_LAG 4
+#define MAX_NET_LAG 12
 
 extern BOOL conf_missiles;
 extern BOOL conf_solidground;
@@ -64,10 +64,8 @@ extern OBJECTS *compnear[MAX_PLYR];
 extern int     lcompter[MAX_PLYR];
 extern int     rcompter[MAX_PLYR];
 extern OBJECTS *objsmax;
-extern int     endsts[MAX_PLYR];
 extern int     endcount;
 extern int     player;
-extern int     currobx;
 extern BOOL    plyrplane;
 extern BOOL    compplane;
 extern BOOL    goingsun;
@@ -93,6 +91,9 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.13  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.12  2004/10/15 22:28:39  fraggle
 // Remove some dead variables and code
 //

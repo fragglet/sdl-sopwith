@@ -294,7 +294,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		if (state == CRASHED || state == GHOSTCRASHED)
 			return;
 
-		if (endsts[ob->ob_index] == WINNER)
+		if (ob->ob_endsts == WINNER)
 			return;
 
 		if (ttype == STARBURST
@@ -496,6 +496,9 @@ void scorepln(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.12  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.11  2004/10/20 18:12:57  fraggle
 // Fix incorrect endgames when numtargs < 0
 //

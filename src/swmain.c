@@ -89,10 +89,8 @@ int rcompter[MAX_PLYR] = {	/* Computer plane territory         */
 };
 
 OBJECTS *objsmax = 0;		/* Maximum object allocated         */
-int endsts[MAX_PLYR];		/* End of game status and move count */
 int endcount;
 int player;			/* Pointer to player's object       */
-int currobx;			/* Current object index             */
 BOOL plyrplane;			/* Current object is player flag    */
 BOOL compplane;			/* Current object is a comp plane   */
 BOOL goingsun;			/* Going to the sun flag            */
@@ -227,6 +225,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.15  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.14  2004/10/15 22:28:39  fraggle
 // Remove some dead variables and code
 //

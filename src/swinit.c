@@ -356,8 +356,8 @@ OBJECTS *initpln(OBJECTS * obp)
 		ob->ob_life = MAXFUEL;
 	}
 	if (!obp) {
-		ob->ob_score = ob->ob_updcount = ob->ob_crashcnt
-		    = endsts[ob->ob_index] = 0;
+		ob->ob_score = ob->ob_updcount = ob->ob_crashcnt = 0;
+		ob->ob_endsts = PLAYING;
 		compnear[ob->ob_index] = NULL;
 		insertx(ob, &topobj);
 	} else {
@@ -1007,7 +1007,7 @@ void swrestart()
 	int inc;
 	int time;
 		
-	if (endsts[player] == WINNER) {
+	if (consoleplayer->ob_endsts == WINNER) {
 		ob = &nobjects[player];
 		inc = 0;
 		while (ob->ob_crashcnt < maxcrash) {
@@ -1135,6 +1135,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.17  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.16  2004/10/15 22:28:39  fraggle
 // Remove some dead variables and code
 //

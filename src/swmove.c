@@ -178,9 +178,8 @@ BOOL moveplyr(OBJECTS * obp)
 	plyrplane = player == obp->ob_plrnum;
 
 	ob = obp;
-	currobx = ob->ob_index;
 
-	endstat = endsts[player];
+	endstat = consoleplayer->ob_endsts;
 
 	if (endstat) {
 		--endcount;
@@ -355,8 +354,7 @@ BOOL movecomp(OBJECTS * obp)
 	ob->ob_bfiring = ob->ob_bombing = FALSE;
 	ob->ob_mfiring = NULL;
 
-	currobx = ob->ob_index;
-	endstat = endsts[currobx];
+	endstat = ob->ob_endsts;
 
 	if (!dispcnt)
 		ob->ob_firing = NULL;
@@ -636,7 +634,7 @@ BOOL movepln(OBJECTS * obp)
 		|| ob->ob_state == STALLED
 		|| ob->ob_state == WOUNDED
 		|| ob->ob_state == WOUNDSTALL)
-	    && !endsts[player])
+	    && consoleplayer->ob_endsts == PLAYING)
 		nearpln(ob);
 
 	deletex(ob);
@@ -1123,6 +1121,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.14  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.13  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //

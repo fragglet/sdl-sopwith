@@ -97,7 +97,7 @@ void endgame(int targclr)
 
 	ob = objtop;
 	while (ob->ob_type == PLANE) {
-		if (!endsts[ob->ob_index]) {
+		if (ob->ob_endsts == PLAYING) {
 			if (ob->ob_clr == winclr
 			    && (ob->ob_crashcnt < (MAXCRASH - 1)
 				|| (ob->ob_crashcnt < MAXCRASH
@@ -115,15 +115,13 @@ void endgame(int targclr)
 
 
 
-
-
 void winner(OBJECTS * obp)
 {
 	register OBJECTS *ob = obp;
-	register int n = ob->ob_index;
 
-	endsts[n] = WINNER;
-	if (n == player) {
+	ob->ob_endsts = WINNER;
+
+	if (ob == consoleplayer) {
 		endcount = 72;
 		goingsun = TRUE;
 		ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = 0;
@@ -134,25 +132,21 @@ void winner(OBJECTS * obp)
 }
 
 
-
-
 void loser(OBJECTS * ob)
 {
-	register int n = ob->ob_index;
-
-	endsts[n] = LOSER;
+	ob->ob_endsts = LOSER;
 
 	// sdh 28/4/2002: change swposcur to center screen on 
 	// non-320 pixel wide screens
 
-	if (n == player) {
+	if (ob == consoleplayer) {
 		endcount = 20;
 	}
 }
 
 void dispendmessage()
 {
-	if (endsts[consoleplayer->ob_index]) {
+	if (consoleplayer->ob_endsts != PLAYING) {
 		swcolour(0x82);
 		swposcur((SCR_WDTH/16) - 4, 12);
 		swputs("THE END");
@@ -164,6 +158,9 @@ void dispendmessage()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.5  2004/10/15 17:52:32  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.

@@ -332,7 +332,7 @@ int gohome(OBJECTS *obpt)
 	if (obp->ob_athome)
 		return 0;
 
-	ob = &oobjects[currobx];
+	ob = obpt;
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
 	if (abs(obp->ob_x - ob->ob_x) < HOME
@@ -360,7 +360,7 @@ static void cruise(OBJECTS *ob)
 	register int orgx;
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	orgx = oobjects[currobx].ob_x;
+	orgx = ob->ob_x;
 	aim(ob, courseadj +
 		(orgx < (MAX_X / 3) ? (MAX_X / 3) :
 		 orgx > (2 * MAX_X / 3) ? (2 * MAX_X / 3) : orgx),
@@ -386,12 +386,12 @@ void swauto(OBJECTS *ob)
 {
 	goinghome = FALSE;
 
-	if (compnear[currobx])
-		attack(ob, compnear[currobx]);
+	if (compnear[ob->ob_index])
+		attack(ob, compnear[ob->ob_index]);
 	else if (!ob->ob_athome)
 		cruise(ob);
 
-	compnear[currobx] = NULL;
+	compnear[ob->ob_index] = NULL;
 }
 
 
@@ -421,6 +421,9 @@ int range(int x, int y, int ax, int ay)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.2  2003/04/06 22:01:01  fraggle
 // Fix compile warnings
 //

@@ -149,10 +149,11 @@ typedef enum {               /*  Player states  */
 
 // sdh 21/10/2001: made this an enum
 
-enum {
-	WINNER = 1,
+typedef enum {
+	PLAYING,
+	WINNER,
 	LOSER
-};
+} obendstatus_t;
 
 // sdh 21/10/2001: converted object types to an enum
 
@@ -262,6 +263,7 @@ typedef struct obj {                            /*  Object list             */
         int            ob_bfiring;
         int            ob_bsdelay;
 	int            ob_plrnum;
+	obendstatus_t  ob_endsts;
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */
@@ -291,6 +293,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2004/10/20 19:00:01  fraggle
+// Remove currobx, endsts variables
+//
 // Revision 1.8  2004/10/15 21:30:57  fraggle
 // Improve multiplayer
 //
