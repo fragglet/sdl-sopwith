@@ -35,79 +35,6 @@ static BOOL goinghome;		/*  Going home flag               */
 static OBJECTS obs;		/*  Saved computer object         */
 static int courseadj;		/*  Course adjustment             */
 
-
-static void cruise(OBJECTS *ob)
-{
-	register int orgx;
-
-	courseadj = ((countmove & 0x001F) < 16) << 4;
-	orgx = oobjects[currobx].ob_x;
-	aim(ob, courseadj +
-		(orgx < (MAX_X / 3) ? (MAX_X / 3) :
-		 orgx > (2 * MAX_X / 3) ? (2 * MAX_X / 3) : orgx),
-		MAX_Y - 50 - (courseadj >> 1), NULL, NO);
-}
-
-void swauto(OBJECTS *ob)
-{
-	goinghome = FALSE;
-
-	if (compnear[currobx])
-		attack(ob, compnear[currobx]);
-	else if (!ob->ob_athome)
-		cruise(ob);
-
-	compnear[currobx] = NULL;
-}
-
-
-void attack(OBJECTS *obp, OBJECTS *obt)
-{
-	register OBJECTS *ob;
-
-	courseadj = ((countmove & 0x001F) < 16) << 4;
-	ob = obt;
-	if (ob->ob_speed)
-		aim(obp,
-		    ob->ob_x - ((CLOSE * COS(ob->ob_angle)) >> 8),
-		    ob->ob_y - ((CLOSE * SIN(ob->ob_angle)) >> 8), ob, NO);
-	else
-		aim(obp, ob->ob_x, ob->ob_y + 4, ob, NO);
-}
-
-
-
-int gohome(OBJECTS *obpt)
-{
-	register OBJECTS *ob, *obp = obpt;
-
-	if (obp->ob_athome)
-		return 0;
-
-	ob = &oobjects[currobx];
-
-	courseadj = ((countmove & 0x001F) < 16) << 4;
-	if (abs(obp->ob_x - ob->ob_x) < HOME
-	    && abs(obp->ob_y - ob->ob_y) < HOME) {
-		if (plyrplane) {
-			initplyr(obp);
-			initdisp(YES);
-		} else if (compplane) {
-			initcomp(obp);
-		} else {
-			initpln(obp);
-		}
-		return 0;
-	}
-	goinghome = TRUE;
-
-	return aim(obp, ob->ob_x, ob->ob_y, NULL, NO);
-}
-
-
-
-
-
 int shoot(OBJECTS *obt)
 {
 	static OBJECTS obsp, obtsp;
@@ -398,6 +325,76 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 
 
 
+int gohome(OBJECTS *obpt)
+{
+	register OBJECTS *ob, *obp = obpt;
+
+	if (obp->ob_athome)
+		return 0;
+
+	ob = &oobjects[currobx];
+
+	courseadj = ((countmove & 0x001F) < 16) << 4;
+	if (abs(obp->ob_x - ob->ob_x) < HOME
+	    && abs(obp->ob_y - ob->ob_y) < HOME) {
+		if (plyrplane) {
+			initplyr(obp);
+			initdisp(YES);
+		} else if (compplane) {
+			initcomp(obp);
+		} else {
+			initpln(obp);
+		}
+		return 0;
+	}
+	goinghome = TRUE;
+
+	return aim(obp, ob->ob_x, ob->ob_y, NULL, NO);
+}
+
+
+
+
+static void cruise(OBJECTS *ob)
+{
+	register int orgx;
+
+	courseadj = ((countmove & 0x001F) < 16) << 4;
+	orgx = oobjects[currobx].ob_x;
+	aim(ob, courseadj +
+		(orgx < (MAX_X / 3) ? (MAX_X / 3) :
+		 orgx > (2 * MAX_X / 3) ? (2 * MAX_X / 3) : orgx),
+		MAX_Y - 50 - (courseadj >> 1), NULL, NO);
+}
+
+void attack(OBJECTS *obp, OBJECTS *obt)
+{
+	register OBJECTS *ob;
+
+	courseadj = ((countmove & 0x001F) < 16) << 4;
+	ob = obt;
+	if (ob->ob_speed)
+		aim(obp,
+		    ob->ob_x - ((CLOSE * COS(ob->ob_angle)) >> 8),
+		    ob->ob_y - ((CLOSE * SIN(ob->ob_angle)) >> 8), ob, NO);
+	else
+		aim(obp, ob->ob_x, ob->ob_y + 4, ob, NO);
+}
+
+
+void swauto(OBJECTS *ob)
+{
+	goinghome = FALSE;
+
+	if (compnear[currobx])
+		attack(ob, compnear[currobx]);
+	else if (!ob->ob_athome)
+		cruise(ob);
+
+	compnear[currobx] = NULL;
+}
+
+
 int range(int x, int y, int ax, int ay)
 {
 	register int dx, dy;
@@ -424,8 +421,11 @@ int range(int x, int y, int ax, int ay)
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:08  fraggle
-// Initial revision
+// Revision 1.2  2003/04/06 22:01:01  fraggle
+// Fix compile warnings
+//
+// Revision 1.1.1.1  2003/02/14 19:03:08  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

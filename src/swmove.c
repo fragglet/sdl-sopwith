@@ -434,6 +434,24 @@ BOOL movecomp(OBJECTS * obp)
 	return rc;
 }
 
+static BOOL stallpln(OBJECTS * obp)
+{
+	register OBJECTS *ob;
+
+	ob = obp;
+	ob->ob_ldx = ob->ob_ldy = ob->ob_orient = ob->ob_dx = 0;
+	ob->ob_angle = 7 * ANGLES / 8;
+	ob->ob_speed = 0;
+	ob->ob_dy = 0;
+	ob->ob_hitcount = STALLCOUNT;
+	ob->ob_state = 
+		ob->ob_state >= GHOST ? GHOSTSTALLED :
+		ob->ob_state == WOUNDED ? WOUNDSTALL : STALLED;
+	ob->ob_athome = FALSE;
+
+	return TRUE;
+}
+
 
 
 BOOL movepln(OBJECTS * obp)
@@ -1110,26 +1128,6 @@ BOOL hitpln(OBJECTS * obp)
 
 
 
-static BOOL stallpln(OBJECTS * obp)
-{
-	register OBJECTS *ob;
-
-	ob = obp;
-	ob->ob_ldx = ob->ob_ldy = ob->ob_orient = ob->ob_dx = 0;
-	ob->ob_angle = 7 * ANGLES / 8;
-	ob->ob_speed = 0;
-	ob->ob_dy = 0;
-	ob->ob_hitcount = STALLCOUNT;
-	ob->ob_state = 
-		ob->ob_state >= GHOST ? GHOSTSTALLED :
-		ob->ob_state == WOUNDED ? WOUNDSTALL : STALLED;
-	ob->ob_athome = FALSE;
-
-	return TRUE;
-}
-
-
-
 
 BOOL insertx(OBJECTS * ob, OBJECTS * obp)
 {
@@ -1171,6 +1169,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/04/06 22:01:02  fraggle
+// Fix compile warnings
+//
 // Revision 1.3  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files
