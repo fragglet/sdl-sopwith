@@ -90,8 +90,6 @@ void swputs(char *sp)
 {
 	register char *s;
 
-	setvdisp();
-
 	for (s = sp; *s; ++s) {
 		swputc(*s);
 	}
@@ -180,6 +178,9 @@ void swflush()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/08 03:41:41  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.2  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //

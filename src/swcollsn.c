@@ -271,9 +271,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		ob->ob_state = FINISHED;
 		initexpl(ob, 0);
 
-		setvdisp();
 		dispwobj(ob);
-		setadisp();
 
 		scoretarg(ob, ob->ob_orient == 2 ? 200 : 100);
 		if (!--numtarg[ob->ob_clr - 1])
@@ -405,7 +403,7 @@ void swcollsn()
 		collxadj = -collxadj;
 		collyadj = -collyadj;
 	}
-	setadisp();
+
 	prevx1 = topobj.ob_x;
 	for (ob = topobj.ob_xnext; ob != &botobj; ob = ob->ob_xnext) {
 		prevx2 = prevx1 = ob->ob_x;
@@ -492,8 +490,6 @@ void dispd(int n, int size)
 
 	// sdh 24/10/2001: make sure we use the main video buffer
 
-	setvdisp();
-
 	if (n < 0) {
 		n = -n;
 		swputc('-');
@@ -516,8 +512,6 @@ void dispd(int n, int size)
 
 void dispscore(OBJECTS * ob)
 {
-	setvdisp();
-
 	Vid_Box(0, 16, 48, 16, 0);
 	
 	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
@@ -530,6 +524,9 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 03:41:41  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.3  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

@@ -37,14 +37,8 @@
 
 #define VRAMSIZE (SCR_HGHT * vid_pitch)
 
-static char *dispoff = NULL;           // current display offset
-
 unsigned char *vid_vram;
 unsigned int vid_pitch;              // line length in bytes(not pixels)
-
-// sdh 28/10/2001: moved auxdisp here
-
-char *auxdisp = NULL;
 
 /*---------------------------------------------------------------------------
 
@@ -59,7 +53,7 @@ char *auxdisp = NULL;
 
 void Vid_DispGround(GRNDTYPE *gptr)
 {
-	char *p = dispoff + (SCR_HGHT-1 - *gptr) * vid_pitch;
+	char *p = vid_vram + (SCR_HGHT-1 - *gptr) * vid_pitch;
 	int oldy = *gptr;
 	int x;
 
@@ -105,7 +99,7 @@ void Vid_DispGround(GRNDTYPE *gptr)
 
 void Vid_DispGround_Solid(GRNDTYPE * gptr)
 {
-	char *p = dispoff + (SCR_HGHT-SBAR_HGHT-1) * vid_pitch;
+	char *p = vid_vram + (SCR_HGHT-SBAR_HGHT-1) * vid_pitch;
 	int x;
 
 	for (x=0; x<SCR_WDTH; ++p) {
@@ -142,7 +136,7 @@ void Vid_DispGround_Solid(GRNDTYPE * gptr)
 
 void Vid_PlotPixel(int x, int y, int clr)
 {
-	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
+	unsigned char *s = vid_vram + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 
 	clr = ~clr & 0x3;
 	clr |= clr << 2;
@@ -156,7 +150,7 @@ void Vid_PlotPixel(int x, int y, int clr)
 
 void Vid_XorPixel(int x, int y, int clr)
 {
-	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
+	unsigned char *s = vid_vram + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 
 	clr &= 0x3;
 	clr |= clr << 2;
@@ -169,7 +163,7 @@ void Vid_XorPixel(int x, int y, int clr)
 
 int Vid_GetPixel(int x, int y)
 {
-	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
+	unsigned char *s = vid_vram + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 
 	if (x & 1)
 		return (~*s >> 6) & 3;
@@ -194,7 +188,7 @@ int Vid_GetPixel(int x, int y)
 
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {
-	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
+	unsigned char *s = vid_vram + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 	unsigned char *data = symbol->data;
 	int w, h;
 
@@ -266,7 +260,7 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 
 void Vid_Box(int x, int y, int w, int h, int c)
 {
-	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
+	unsigned char *s = vid_vram + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 	
 	c = ~c & 0x3;
 	c |= (c << 6) | (c << 4) | (c << 2);
@@ -276,53 +270,21 @@ void Vid_Box(int x, int y, int w, int h, int c)
 		memset(s, c, w);
 }
 
-/*---------------------------------------------------------------------------
-
-        External calls to specify current video ram as screen ram or
-        auxiliary screen area.
-
----------------------------------------------------------------------------*/
-
-void Vid_SetBuf()
-{
-	dispoff = vid_vram;
-}
-
-void Vid_SetBuf_Aux()
-{
-	if (!auxdisp)
-		auxdisp = malloc(VRAMSIZE);
-
-	dispoff = auxdisp;
-}
-
-// sdh 28/10/2001: moved various auxdisp functions here:
-
-void Vid_CopyBuf()
-{
-	memset(vid_vram, 0xff, VRAMSIZE);
-	memcpy(vid_vram + ((SCR_HGHT-SBAR_HGHT) * vid_pitch), 
-	       auxdisp + ((SCR_HGHT-SBAR_HGHT) * vid_pitch), 
-	       SBAR_HGHT*vid_pitch);
-}
-
+//
+// clear buffer
+//
 
 void Vid_ClearBuf()
 {
 	memset(vid_vram, 0xff, VRAMSIZE);
 }
 
-void Vid_ClearBuf_Aux()
-{
-	if (!auxdisp)
-		auxdisp = malloc(VRAMSIZE);
-
-	memset(auxdisp, 0xff, VRAMSIZE);
-}
-
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/08 03:41:42  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.2  2003/03/26 14:58:34  fraggle
 // devfs support
 // improved screen squishing for revo

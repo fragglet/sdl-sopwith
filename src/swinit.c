@@ -283,13 +283,9 @@ void initdisp(BOOL reset)
 
 	splatox = oxsplatted = 0;
 	if (!reset) {
-		clrdispa();
-		setadisp();
 		swtitlf();
 		ghost = FALSE;
 	}
-	movedisp();
-	setvdisp();
 	initwobj();
 	initscore();
 
@@ -1013,9 +1009,6 @@ void swrestart()
 		inc = 0;
 		while (ob->ob_crashcnt++ < maxcrash) {
 			ob->ob_score += (inc += 25);
-			setvdisp();
-			dispguages(ob);
-			dispscore(ob);
 
 			Vid_Update();
 			
@@ -1149,7 +1142,6 @@ void swinit(int argc, char *argv[])
 	// initialise video
 
 	Vid_Init();
-	Vid_SetBuf();
 
 	// dont init speaker if started with -q (quiet)
 
@@ -1178,6 +1170,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2003/06/08 03:41:41  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.6  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

@@ -95,32 +95,18 @@ extern int Vid_GetPixel(int x, int y);
 extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
 			   int clr);
 
-// draw to the screen
-
-void Vid_SetBuf();
-
 // clear screen
 
 void Vid_ClearBuf();
-
-// draw to aux buffer
-
-void Vid_SetBuf_Aux();
-
-// clear aux buffer
-
-void Vid_ClearBuf_Aux();
-
-// copy bottom of aux buffer to screen
-
-void Vid_CopyBuf();
-
 
 #endif
 
 //-----------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/08 03:41:42  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.2  2003/03/26 13:53:29  fraggle
 // Allow control via arrow keys
 // Some code restructuring, system-independent video.c added

@@ -64,7 +64,6 @@ static void dispgrnd()
 
 void swground()
 {
-	setvdisp();
 	dispgrnd();
 }
 
@@ -138,8 +137,7 @@ void swdisp()
 {
 	register OBJECTS *ob;
 
-	setvdisp();
-	clrdispv();
+	Vid_ClearBuf();
 
 	// calculate displx from the player position
 	// do sanity checks to make sure we never go out of range
@@ -203,43 +201,12 @@ void colorscreen(int color)
 	}
 }
 
-
-/*---------------------------------------------------------------------------
-
-        External calls to specify current video ram as screen ram or
-        auxiliary screen area.
-
----------------------------------------------------------------------------*/
-
-void setvdisp()
-{
-	Vid_SetBuf();
-}
-
-void setadisp()
-{
-	Vid_SetBuf_Aux();
-}
-
-void movedisp()
-{
-	Vid_CopyBuf();
-}
-
-
-void clrdispv()
-{
-	Vid_ClearBuf();
-}
-
-void clrdispa()
-{
-	Vid_ClearBuf_Aux();
-}
-
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2003/06/08 03:41:41  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.5  2003/06/08 02:48:45  fraggle
 // Remove dispdx, always calculated displx from the current player position
 // and do proper edge-of-level bounds checking

@@ -613,15 +613,6 @@ BOOL movepln(OBJECTS * obp)
 		}
 
 		if (!compplane) {
-			if (plyrplane
-			    && ob->ob_speed >
-				(ob->ob_life % (MAXFUEL / 10))) {
-				setvdisp();
-
-				// sdh 26/10/2001: use new dispguages function
-
-				dispguages(ob); 
-			}
 			ob->ob_life -= ob->ob_speed;
 		}
 
@@ -681,7 +672,6 @@ BOOL movepln(OBJECTS * obp)
 		    || ob->ob_state == WOUNDED
 		    || ob->ob_state == WOUNDSTALL)
 			initsmok(ob);
-		setvdisp();
 		dispwobj(ob);
 		return plyrplane || ob->ob_state < FINISHED;
 	}
@@ -752,7 +742,6 @@ BOOL movebomb(OBJECTS * obp)
 	if (ob->ob_life < 0) {
 		deallobj(ob);
 		ob->ob_state = FINISHED;
-		setvdisp();
 		dispwobj(ob);
 		return FALSE;
 	}
@@ -768,7 +757,6 @@ BOOL movebomb(OBJECTS * obp)
 		deallobj(ob);
 		stopsound(ob);
 		ob->ob_state = FINISHED;
-		setvdisp();
 		dispwobj(ob);
 		return FALSE;
 	}
@@ -779,7 +767,6 @@ BOOL movebomb(OBJECTS * obp)
 	if (y >= MAX_Y)
 		return FALSE;
 
-	setvdisp();
 	dispwobj(ob);
 	return TRUE;
 }
@@ -799,7 +786,6 @@ BOOL movemiss(OBJECTS * obp)
 	if (ob->ob_life < 0) {
 		deallobj(ob);
 		ob->ob_state = FINISHED;
-		setvdisp();
 		dispwobj(ob);
 		return FALSE;
 	}
@@ -836,7 +822,6 @@ BOOL movemiss(OBJECTS * obp)
 	if (y < 0 || x < 0 || x >= MAX_X) {
 		deallobj(ob);
 		ob->ob_state = FINISHED;
-		setvdisp();
 		dispwobj(ob);
 		return FALSE;
 	}
@@ -847,7 +832,6 @@ BOOL movemiss(OBJECTS * obp)
 	if (y >= MAX_Y)
 		return FALSE;
 
-	setvdisp();
 	dispwobj(ob);
 	return TRUE;
 }
@@ -1006,7 +990,6 @@ BOOL moveflck(OBJECTS * obp)
 	deletex(ob);
 
 	if (ob->ob_life == -1) {
-		setvdisp();
 		dispwobj(ob);
 		deallobj(ob);
 		return FALSE;
@@ -1025,7 +1008,6 @@ BOOL moveflck(OBJECTS * obp)
 	movexy(ob, &x, &y);
 	insertx(ob, ob->ob_xnext);
 	ob->ob_newsym = symbol_flock[ob->ob_orient]; 
-	setvdisp();
 	dispwobj(ob);
 	return TRUE;
 }
@@ -1163,6 +1145,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2003/06/08 03:41:42  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.8  2003/06/08 02:48:45  fraggle
 // Remove dispdx, always calculated displx from the current player position
 // and do proper edge-of-level bounds checking

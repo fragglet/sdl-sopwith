@@ -250,7 +250,7 @@ void setconfig()
 	for (;;) {
 		int i;
 		
-		clrdispv();
+		Vid_ClearBuf();
 
 		swcolour(2);
 		swposcur(15, 2);
@@ -331,6 +331,9 @@ void setconfig()
 //-------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 03:41:41  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.3  2003/06/04 17:22:11  fraggle
 // Remove "save settings" option in settings menus. Just save it anyway.
 //

@@ -57,9 +57,7 @@ void swtitln()
 
 	// clear the screen
 
-	setvdisp();
-
-	clrdispv();
+	Vid_ClearBuf();
 
 /*---------------- Original BMB Version---------------*/
 #ifndef NET_TITLE
@@ -359,6 +357,9 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 03:41:42  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.3  2003/06/04 15:43:39  fraggle
 // Fix year range in copyright
 //

@@ -37,14 +37,8 @@
 
 #define VRAMSIZE (SCR_HGHT * vid_pitch)
 
-static char *dispoff = NULL;           // current display offset
-
 unsigned char *vid_vram;
 unsigned int vid_pitch;
-
-// sdh 28/10/2001: moved auxdisp here
-
-char *auxdisp = NULL;
 
 /*---------------------------------------------------------------------------
 
@@ -66,7 +60,7 @@ void Vid_DispGround(GRNDTYPE *gptr)
 
 	gl = *g;
 
-	sptr = dispoff + (SCR_HGHT-1 - gl) * vid_pitch;
+	sptr = vid_vram + (SCR_HGHT-1 - gl) * vid_pitch;
 
 	for (x=SCR_WDTH, g = gptr; x>0; --x) {
 		gc = *g++;
@@ -103,7 +97,7 @@ void Vid_DispGround_Solid(GRNDTYPE * gptr)
 	for (x=0, g = gptr; x<SCR_WDTH; ++x) {
 		gc = *g++;
 
-		sptr = dispoff + (SCR_HGHT-SBAR_HGHT-1) * vid_pitch + x;
+		sptr = vid_vram + (SCR_HGHT-SBAR_HGHT-1) * vid_pitch + x;
 	
 		for (y = gc-SBAR_HGHT+1; y; --y) {
 			*sptr ^= 3;
@@ -127,7 +121,7 @@ void Vid_DispGround_Solid(GRNDTYPE * gptr)
 void Vid_PlotPixel(int x, int y, int clr)
 {
 	register unsigned char *sptr 
-		= dispoff + (SCR_HGHT-1 - y) * vid_pitch + x;
+		= vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;
 
 	*sptr = clr & 3;
 }
@@ -135,7 +129,7 @@ void Vid_PlotPixel(int x, int y, int clr)
 void Vid_XorPixel(int x, int y, int clr)
 {
 	register unsigned char *sptr 
-		= dispoff + (SCR_HGHT-1 - y) * vid_pitch + x;
+		= vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;
 
 	*sptr ^= clr & 3;
 }
@@ -143,7 +137,7 @@ void Vid_XorPixel(int x, int y, int clr)
 int Vid_GetPixel(int x, int y)
 {
 	register unsigned char *sptr 
-		= dispoff + (SCR_HGHT-1 - y) * vid_pitch + x;
+		= vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;
 
 	return *sptr;
 }
@@ -164,7 +158,7 @@ int Vid_GetPixel(int x, int y)
 
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {
-	unsigned char *sptr = dispoff + (SCR_HGHT-1 - y) * vid_pitch + x;
+	unsigned char *sptr = vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;
 	unsigned char *data = symbol->data;
 	int x1, y1;
 	int w = symbol->w, h = symbol->h;
@@ -216,61 +210,29 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 
 void Vid_Box(int x, int y, int w, int h, int c)
 {
-	unsigned char *p = dispoff + (SCR_HGHT-1-y) * vid_pitch + x;
+	unsigned char *p = vid_vram + (SCR_HGHT-1-y) * vid_pitch + x;
 
 	for (; h >= 0; --h, p += vid_pitch)
 		memset(p, c, w);
 }
 
-/*---------------------------------------------------------------------------
-
-        External calls to specify current video ram as screen ram or
-        auxiliary screen area.
-
----------------------------------------------------------------------------*/
-
-void Vid_SetBuf()
-{
-	dispoff = vid_vram;
-}
-
-void Vid_SetBuf_Aux()
-{
-	if (!auxdisp)
-		auxdisp = malloc(VRAMSIZE);
-
-	dispoff = auxdisp;
-}
-
-// sdh 28/10/2001: moved various auxdisp functions here:
-
-void Vid_CopyBuf()
-{
-	memset(vid_vram, 0, VRAMSIZE);
-	memcpy(vid_vram + ((SCR_HGHT-SBAR_HGHT) * vid_pitch), 
-	       auxdisp + ((SCR_HGHT-SBAR_HGHT) * vid_pitch), 
-	       SBAR_HGHT*vid_pitch);
-}
-
+//
+// Clear screen
+//
 
 void Vid_ClearBuf()
 {
 	memset(vid_vram, 0, VRAMSIZE);
 }
 
-void Vid_ClearBuf_Aux()
-{
-	if (!auxdisp)
-		auxdisp = malloc(VRAMSIZE);
-
-	memset(auxdisp, 0, VRAMSIZE);
-}
-
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:34  fraggle
-// Initial revision
+// Revision 1.2  2003/06/08 03:41:42  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
+// Revision 1.1.1.1  2003/02/14 19:03:34  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

@@ -35,20 +35,15 @@ extern void swinitgrph();
 
 extern void colorscreen(int color);
 
-extern void setadisp();
-extern void clrdispa();
-
-extern void setvdisp();
-extern void clrdispv();
-
-extern void movedisp();
-
 #endif
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/08 03:41:41  fraggle
+// Remove auxdisp buffer totally, and all associated functions
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files
