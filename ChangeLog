@@ -1,3 +1,4 @@
+v1.7.0
 
 Allow control via arrow keys, for people with "unusual" keyboard layouts
 Fix right-ctrl for ctrl-c (thanks to electricelf)
