@@ -62,8 +62,6 @@ void swmove()
 	ob = objtop;
 	while (ob) {
 		obn = ob->ob_next;
-		ob->ob_delflg = ob->ob_drwflg;
-		ob->ob_oldsym = ob->ob_newsym;
 		ob->ob_drwflg = (*ob->ob_movef) (ob);
 		if (playmode == PLAYMODE_ASYNCH && !dispcnt) {
 			asynput();
@@ -133,25 +131,20 @@ static int topup(int *counter, int max)
 
 static void refuel(OBJECTS * obp)
 {
-	register OBJECTS *ob;
-	BOOL topped_up;
+	OBJECTS *ob;
 
 	ob = obp;
-	setvdisp();
 
 	// sdh 26/10/2001: top up stuff, if anything happens update 
 	// the guages (now a single function)
 	// sdh 27/10/2001: fix refueling in parallel (was a single
 	// set of ||'s and was being shortcircuited)
 
-	topped_up = topup(&ob->ob_life, MAXFUEL);
-	topped_up |= topup(&ob->ob_rounds, MAXROUNDS);
-	topped_up |= topup(&ob->ob_bombs, MAXBOMBS);
-	topped_up |= topup(&ob->ob_missiles, MAXMISSILES);
-	topped_up |= topup(&ob->ob_bursts, MAXBURSTS);
-
-	if (topped_up)
-		dispguages(ob);
+	topup(&ob->ob_life, MAXFUEL);
+	topup(&ob->ob_rounds, MAXROUNDS);
+	topup(&ob->ob_bombs, MAXBOMBS);
+	topup(&ob->ob_missiles, MAXMISSILES);
+	topup(&ob->ob_bursts, MAXBURSTS);
 }
 
 
@@ -263,16 +256,6 @@ BOOL moveplyr(OBJECTS * obp)
 	else {
 		dispdx = ob->ob_x - oldx;
 		displx += dispdx;
-	}
-
-	if (!ob->ob_athome) {
-		setvdisp();
-
-		// sdh 26/10/2001: guages are now a single function
-
-		if (ob->ob_firing || ob->ob_bombing 
-		    || ob->ob_mfiring || ob->ob_bfiring)
-			dispguages(ob);
 	}
 
 	return rc;
@@ -1187,6 +1170,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.6  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //

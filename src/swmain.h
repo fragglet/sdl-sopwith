@@ -33,6 +33,7 @@ extern BOOL conf_wounded;
 extern BOOL conf_animals;
 extern BOOL conf_harrykeys;
 
+extern OBJECTS *consoleplayer;
 extern playmode_t playmode;
 extern GAMES   *currgame;
 extern OBJECTS *targets[MAX_TARG+MAX_OXEN];
@@ -58,7 +59,6 @@ extern int     koveride;
 extern int     displx;
 extern int     dispdx;
 extern BOOL    dispinit;
-extern OBJECTS *drawlist;
 extern OBJECTS *nobjects;
 extern OBJECTS oobjects[MAX_PLYR];
 extern OBJECTS *objbot, *objtop, *objfree, *deltop, *delbot;
@@ -95,6 +95,9 @@ extern jmp_buf envrestart;
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.4  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //

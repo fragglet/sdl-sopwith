@@ -28,6 +28,7 @@ extern void swend(char *msg, BOOL update);
 extern void endgame(int targclr);
 extern void winner(OBJECTS *obp);
 extern void loser(OBJECTS *ob);
+extern void dispendmessage();
 
 #endif
 
@@ -35,6 +36,9 @@ extern void loser(OBJECTS *ob);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

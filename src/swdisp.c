@@ -260,7 +260,7 @@ static void dispoxsplat()
 
 	ob = nobjects;
 	for (i = 0; i < MAX_OBJS; ++i, ob++)
-		ob->ob_drwflg = ob->ob_delflg = 0;
+		ob->ob_drwflg = 0;
 
 	dispinit = TRUE;
 }
@@ -281,6 +281,9 @@ void dispplyr(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

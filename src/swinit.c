@@ -103,7 +103,7 @@ static void initwobj()
 	ow = wdisp;
 	ob = nobjects;
 	for (x = 0; x < MAX_OBJS; ++x, ow++, ob++)
-		ow->ow_xorplot = ob->ob_drwflg = ob->ob_delflg = 0;
+		ow->ow_xorplot = ob->ob_drwflg = 0;
 
 	for (x = 0; x < MAX_TARG; ++x) {
 		ob = targets[x];
@@ -226,7 +226,7 @@ void dispguages(OBJECTS *ob)
 }
 
 
-static void dispworld()
+void dispworld()
 {
 	int x, y, dx, maxh, sx;
 
@@ -272,8 +272,6 @@ static void dispworld()
 
 	for (x = 0; x < SCR_WDTH; ++x)
 		Vid_PlotPixel(x, (SCR_MNSH + 2), 7);
-
-	Vid_Update();
 }
 
 
@@ -287,7 +285,6 @@ void initdisp(BOOL reset)
 	if (!reset) {
 		clrdispa();
 		setadisp();
-		dispworld();
 		swtitlf();
 		ghost = FALSE;
 	}
@@ -303,11 +300,8 @@ void initdisp(BOOL reset)
 		ghostob.ob_clr = ob->ob_clr;
 		ghostob.ob_newsym = symbol_ghost;     // sdh 27/6/2002
 		swputsym(GHOSTX, 12, &ghostob);
-	} else {
-		// sdh 26/10/2001: merged guages into a single function
-
-		dispguages(ob);
 	}
+
 	dispinit = TRUE;
 }
 
@@ -416,9 +410,8 @@ void initplyr(OBJECTS * obp)
 		oobjects[ob->ob_index] = *ob;  // sdh 16/11: removed movmem
 		goingsun = FALSE;
 		endcount = 0;
+		consoleplayer = ob;
 	}
-
-	displx = ob->ob_x - SCR_CENTR;
 
 	swflush();
 }
@@ -1185,6 +1178,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.5  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //

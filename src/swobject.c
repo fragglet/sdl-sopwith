@@ -46,7 +46,7 @@ OBJECTS *allocobj()
 		objtop = ob;
 
 	ob->ob_sound = NULL;
-	ob->ob_drwflg = ob->ob_delflg = 0;
+	ob->ob_drwflg = 0;
 	if (ob > objsmax)
 		objsmax = ob;
 	return (objbot = ob);
@@ -85,8 +85,11 @@ void deallobj(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:17  fraggle
-// Initial revision
+// Revision 1.2  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
+// Revision 1.1.1.1  2003/02/14 19:03:17  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

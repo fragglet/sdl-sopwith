@@ -232,12 +232,7 @@ typedef struct obj {                            /*  Object list             */
         struct obj    *ob_next;
         struct obj    *ob_prev;
         int            ob_index;
-        int            ob_oldx;
-        int            ob_oldy;
         int            ob_drwflg;
-        int            ob_delflg;
-        // char          *ob_oldsym;   // sdh 27/6/2002
-	sopsym_t      *ob_oldsym;
         void        ( *ob_drawf ) ();
         BOOL        ( *ob_movef ) ();
         struct obj    *ob_xnext;
@@ -293,6 +288,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.4  2003/06/04 15:49:05  fraggle
 // Removed and unused #define
 //

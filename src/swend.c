@@ -146,19 +146,27 @@ void loser(OBJECTS * ob)
 	// non-320 pixel wide screens
 
 	if (n == player) {
-		swcolour(0x82);
-		swposcur((SCR_WDTH/16) - 4, 12);
-		swputs("THE END");
 		endcount = 20;
 	}
 }
 
+void dispendmessage()
+{
+	if (endsts[consoleplayer->ob_index]) {
+		swcolour(0x82);
+		swposcur((SCR_WDTH/16) - 4, 12);
+		swputs("THE END");
+	}
+}
 
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.3  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

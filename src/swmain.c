@@ -51,6 +51,7 @@ BOOL conf_harrykeys = 0;            // plane rotation relative to screen
 
 playmode_t playmode;		/* Mode of play                     */
 GAMES *currgame;		/* Game parameters and current game */
+OBJECTS *consoleplayer;
 OBJECTS *targets[MAX_TARG + MAX_OXEN];	/* Status of targets array          */
 int numtarg[2];			/* Number of active targets by color */
 int savemode;			/* Saved PC display mode            */
@@ -79,7 +80,6 @@ int displx;			/* Display left and right           */
 int dispdx;			/* Display shift                    */
 BOOL dispinit;			/* Inialized display flag           */
 
-OBJECTS *drawlist;		/* Onscreen object list             */
 OBJECTS *nobjects;		/* Objects list.                    */
 OBJECTS oobjects[MAX_PLYR];	/* Original plane object description */
 OBJECTS *objbot, *objtop,	/* Top and bottom of object list    */
@@ -186,6 +186,9 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.5  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //

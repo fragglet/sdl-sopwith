@@ -48,6 +48,7 @@ static GRNDTYPE grndsave[SCR_WDTH];   // saved ground buffer
 
 static void dispgrnd()
 {
+	/*
 	{
 		static int clrgrndsave = 0;
 		if (!clrgrndsave) {
@@ -68,6 +69,8 @@ static void dispgrnd()
 	// sdh 16/10/2001: removed movmem
 
 	memcpy(grndsave, ground+displx, SCR_WDTH * sizeof(GRNDTYPE));
+
+	*/
 
 	if (conf_solidground)
 		Vid_DispGround_Solid(ground + displx);
@@ -163,42 +166,32 @@ void swdisp()
 	register OBJECTS *ob;
 
 	setvdisp();
+	clrdispv();
+
+	displx = consoleplayer->ob_x - SCR_CENTR;
+
+	// display the status bar
+
+	dispworld();
+	dispscore(consoleplayer);
+	dispguages(consoleplayer);
+
+	// "the end"
+	
+	dispendmessage();
 
 	// draw objects
 
 	for (ob = objtop; ob; ob = ob->ob_next) {
-		if (!(ob->ob_delflg && ob->ob_drwflg)
-		    || ob->ob_newsym->h == 1
-		    || ob->ob_oldsym != ob->ob_newsym
-		    || ob->ob_y != ob->ob_oldy
-		    || (ob->ob_oldx + displx) != ob->ob_x) {
-			if (ob->ob_delflg)
-				Vid_DispSymbol(ob->ob_oldx, ob->ob_oldy,
-					       ob->ob_oldsym, 
-					       ob_color(ob));
-			if (!ob->ob_drwflg)
-				continue;
-			if (ob->ob_x < displx
-			 || ob->ob_x >= displx + SCR_WDTH) {
-				ob->ob_drwflg = 0;
-				continue;
-			}
-			ob->ob_oldx = ob->ob_x - displx;
-			ob->ob_oldy = ob->ob_y;
-			Vid_DispSymbol(ob->ob_oldx,
-				       ob->ob_oldy,
-				       ob->ob_newsym, 
-				       ob_color(ob));
+		if (ob->ob_drwflg
+		 && ob->ob_x >= displx 
+		 && ob->ob_x < displx + SCR_WDTH) {
+			swputsym(ob->ob_x - displx, ob->ob_y, ob);
+
+			if (ob->ob_drawf)
+				(*(ob->ob_drawf)) (ob);
 		}
-
-		if (ob->ob_drawf)
-			(*(ob->ob_drawf)) (ob);
 	}
-
-	for (ob = deltop; ob; ob = ob->ob_next)
-		if (ob->ob_delflg)
-			Vid_DispSymbol(ob->ob_oldx, ob->ob_oldy,
-				       ob->ob_oldsym, ob_color(ob));
 
 	dispgrnd();
 
@@ -266,6 +259,9 @@ void clrdispa()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.3  2003/06/04 17:13:25  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //

@@ -33,7 +33,6 @@ extern void swinit(int argc, char *argv[]);
 extern void swinitlevel();
 extern void swrestart();
 extern void initdisp(BOOL reset);
-extern void dispguages(OBJECTS *ob); 
 extern void initcomp(OBJECTS *obp);
 extern void initplyr(OBJECTS *obp);
 extern OBJECTS *initpln(OBJECTS *obp);
@@ -45,12 +44,18 @@ extern void initexpl(OBJECTS *obop, int small);
 extern void initsmok(OBJECTS *obop);
 extern void initbird(OBJECTS *obop, int i);
 
+extern void dispworld();
+extern void dispguages(OBJECTS *ob); 
+
 #endif
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 02:39:25  fraggle
+// Initial code to remove XOR based drawing
+//
 // Revision 1.3  2003/06/04 15:33:53  fraggle
 // Store global argc/argv for gtk_init
 //
