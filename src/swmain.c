@@ -46,8 +46,8 @@
 
 BOOL conf_missiles = 0;             // allow missiles: replaces missok
 BOOL conf_solidground = 0;          // draw ground solid like in sopwith 1
-BOOL conf_hudsplats = 1;            // splatted birds etc
-BOOL conf_wounded = 1;              // enable wounded planes
+BOOL conf_hudsplats = 0;            // splatted birds etc
+BOOL conf_wounded = 0;              // enable wounded planes
 BOOL conf_animals = 1;              // birds and oxes
 BOOL conf_harrykeys = 0;            // plane rotation relative to screen
 
@@ -224,6 +224,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.17  2004/10/26 06:54:41  fraggle
+// Default options which behave like Sopwith II
+//
 // Revision 1.16  2004/10/25 19:58:06  fraggle
 // Remove 'goingsun' global variable
 //
