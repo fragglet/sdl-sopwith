@@ -125,3 +125,4 @@ register int    i;
                 if ( _inttab[i].internum )
                         _intreset( i );
 }
+

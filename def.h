@@ -98,3 +98,4 @@ typedef int bool;
 #define SOUND_STUTTER  50
 #define SOUND_ENGINE   60
 #define SOUND_NONE     0x7fff
+
