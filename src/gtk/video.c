@@ -319,17 +319,6 @@ static GtkWidget *build_menus()
 
 }
 
-static gint screen_context(GtkWidget *widget, GdkEvent *event)
-{
-	if (event->type == GDK_BUTTON_PRESS) {
-		gtk_menu_popup(GTK_MENU(menubar), widget, NULL,
-			       NULL,
-			       NULL, 0, 0);
-	}
-
-	return 0;
-}
-
 static sopkey_t translate_key(int gdk_key)
 {
 	switch (gdk_key) {
@@ -422,10 +411,6 @@ static GtkWidget *build_gui()
 	gtk_image_set(GTK_IMAGE(screen_widget),
 		      screen, NULL);
 #endif
-
-	gtk_signal_connect_object(GTK_OBJECT(window),
-				  "button_press_event",
-				  GTK_SIGNAL_FUNC(screen_context), NULL);
 
 	gtk_key_snooper_install(key_snooper, NULL);
 
@@ -889,6 +874,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.7  2003/06/05 01:51:18  fraggle
+// Remove broken popup menu code (was useless anyway)
+//
 // Revision 1.6  2003/06/04 17:22:11  fraggle
 // Remove "save settings" option in settings menus. Just save it anyway.
 //
