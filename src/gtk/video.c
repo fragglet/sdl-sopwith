@@ -105,85 +105,92 @@ static void settings_bool_toggle(GtkWidget *widget, BOOL *b)
 		Vid_Reset();
 }
 
+static GtkWidget *build_settings_dialog()
+{
+	GtkWidget *window;
+	GtkWidget *hbox, *vbox, *vbox2, *button;
+	int i;
+
+	window = gtk_dialog_new();
+	vbox = GTK_DIALOG(window)->vbox;
+
+	gtk_window_set_title(GTK_WINDOW(window), "Settings");
+
+	gtk_signal_connect(GTK_OBJECT(window), "destroy",
+			   GTK_SIGNAL_FUNC(delete_event), 
+			   window);
+	gtk_signal_connect(GTK_OBJECT(window), "delete_event",
+			   GTK_SIGNAL_FUNC(delete_event), 
+			   window);
+
+	vbox = gtk_vbox_new(FALSE, 5);
+	vbox2 = gtk_vbox_new(FALSE, 5);
+
+	hbox = gtk_hbox_new(FALSE, 5);
+
+	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 10);
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->vbox),
+			   hbox,
+			   TRUE, TRUE, 10);
+
+	for (i=0; i<num_confoptions; ++i) {
+		GtkWidget *widget;
+			
+		switch (confoptions[i].type) {
+		case CONF_BOOL:
+			widget = gtk_check_button_new_with_label
+				(confoptions[i].description);
+
+			gtk_box_pack_start(GTK_BOX(i % 2 ? vbox2 : vbox),
+					   widget, 
+					   TRUE, TRUE, 0);
+			gtk_toggle_button_set_active
+				(GTK_TOGGLE_BUTTON(widget),
+				 *confoptions[i].value.b);
+			gtk_signal_connect(GTK_OBJECT(widget),
+					   "toggled",
+					   GTK_SIGNAL_FUNC(settings_bool_toggle),
+					   confoptions[i].value.b);
+			gtk_widget_show(widget);
+		default:
+			break;
+		}
+	}
+		
+	gtk_widget_show(vbox);
+	gtk_widget_show(vbox2);
+	gtk_widget_show(hbox);
+
+	vbox = GTK_DIALOG(window)->action_area;
+
+	// 29/6/2002: save button
+
+	button = gtk_button_new_with_label("Save Settings");
+	gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(swsaveconf), NULL);
+	gtk_widget_show(button);
+		
+	// close button
+
+	button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
+	gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(hide_callback), 
+			   window);
+	gtk_widget_show(button);
+
+	return window;
+}
+
 static void settings_dialog()
 {
 	static GtkWidget *window = NULL;
 
-	if (!window) {
-		GtkWidget *hbox, *vbox, *vbox2, *button;
-		int i;
-
-		window = gtk_dialog_new();
-		vbox = GTK_DIALOG(window)->vbox;
-
-		gtk_window_set_title(GTK_WINDOW(window), "Settings");
-
-		gtk_signal_connect(GTK_OBJECT(window), "destroy",
-				   GTK_SIGNAL_FUNC(delete_event), 
-				   window);
-		gtk_signal_connect(GTK_OBJECT(window), "delete_event",
-				   GTK_SIGNAL_FUNC(delete_event), 
-				   window);
-
-		vbox = gtk_vbox_new(FALSE, 5);
-		vbox2 = gtk_vbox_new(FALSE, 5);
-
-		hbox = gtk_hbox_new(FALSE, 5);
-
-		gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 10);
-		gtk_box_pack_start(GTK_BOX(hbox), vbox2, TRUE, TRUE, 10);
-
-		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->vbox),
-				   hbox,
-				   TRUE, TRUE, 10);
-
-		for (i=0; i<num_confoptions; ++i) {
-			GtkWidget *widget;
-			
-			switch (confoptions[i].type) {
-			case CONF_BOOL:
-				widget = gtk_check_button_new_with_label
-					(confoptions[i].description);
-
-				gtk_box_pack_start(GTK_BOX(i % 2 ? vbox2 : vbox),
-						   widget, 
-						   TRUE, TRUE, 0);
-				gtk_toggle_button_set_active
-					(GTK_TOGGLE_BUTTON(widget),
-					 *confoptions[i].value.b);
-				gtk_signal_connect(GTK_OBJECT(widget),
-						   "toggled",
-						   GTK_SIGNAL_FUNC(settings_bool_toggle),
-						   confoptions[i].value.b);
-				gtk_widget_show(widget);
-			default:
-				break;
-			}
-		}
-		
-		gtk_widget_show(vbox);
-		gtk_widget_show(vbox2);
-		gtk_widget_show(hbox);
-
-		vbox = GTK_DIALOG(window)->action_area;
-
-		// 29/6/2002: save button
-
-		button = gtk_button_new_with_label("Save Settings");
-		gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
-		gtk_signal_connect(GTK_OBJECT(button), "clicked",
-				   GTK_SIGNAL_FUNC(swsaveconf), NULL);
-		gtk_widget_show(button);
-		
-		// close button
-
-		button = gtk_button_new_with_label("Close");
-		gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
-		gtk_signal_connect(GTK_OBJECT(button), "clicked",
-				   GTK_SIGNAL_FUNC(hide_callback), 
-				   window);
-		gtk_widget_show(button);
-	}
+	if (!window)
+		window = build_settings_dialog();
 
 	gtk_widget_show(window);
 }
@@ -196,69 +203,100 @@ static void new_game(gpointer callback_data,
 	longjmp(envrestart, 0);
 }
 
+static GtkWidget *build_about_window()
+{
+	GtkWidget *window;
+	GtkWidget *label, *button;
+
+	// window
+
+	window = gtk_dialog_new(); 
+
+	gtk_container_set_border_width(GTK_CONTAINER(GTK_DIALOG(window)->vbox), 6);
+	gtk_window_set_title(GTK_WINDOW(window), 
+			     "About Sopwith");
+
+	gtk_signal_connect(GTK_OBJECT(window), "destroy",
+			   GTK_SIGNAL_FUNC(delete_event), window);
+	gtk_signal_connect(GTK_OBJECT(window), "delete_event",
+			   GTK_SIGNAL_FUNC(delete_event), window);
+
+	// label:
+
+	label = gtk_label_new(NULL);
+
+	gtk_label_set_justify(GTK_LABEL (label), GTK_JUSTIFY_CENTER);
+	gtk_label_set_markup(GTK_LABEL(label), 
+		"<span size=\"xx-large\" weight=\"bold\">"
+		"Gtk+ Sopwith " VERSION "</span>\n\n"
+		"Classic biplane shoot-em-up game.\n\n"
+		"<span size=\"small\">"
+		"Copyright(C) 1984, 1985, 1987 "
+		"BMB Compuscience Canada Ltd.\n"
+		"Copyright(C) 1984-2000 David L. Clark\n"
+		"Copyright(C) 2001-2003 Simon Howard"
+		"</span>");
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->vbox),
+			   label,
+			   TRUE, TRUE, 10);
+
+	gtk_widget_show(label);
+
+	// button:
+
+	button = gtk_button_new_from_stock(GTK_STOCK_OK);
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->action_area),
+			   button,
+			   TRUE, TRUE, 0);
+
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(hide_callback), window);
+
+	gtk_widget_show(button);
+
+	return window;
+}
+
 static void about_window(gpointer callback_data, 
 			 guint callback_action,
 			 GtkWidget *widget)
 {
 	static GtkWidget *window = NULL;
 
-	if (!window) {
-		GtkWidget *label = gtk_label_new(
-			"Gtk+ Sopwith\n"
-			"Version " VERSION "\n"
-			"Copyright(C) 1984, 1985, 1987 "
-			"BMB Compuscience Canada Ltd.\n"
-			"Copyright(C) 1984-2000 David L. Clark\n"
-			"Copyright(C) 2001 Simon Howard\n");
-		GtkWidget *button = gtk_button_new_with_label("Close");
-
-		window = gtk_dialog_new(); 
-
-		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->vbox),
-				   label,
-				   TRUE, TRUE, 10);
-
-		gtk_widget_show(label);
-	
-		gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->action_area),
-				   button,
-				   TRUE, TRUE, 0);
-
-		gtk_signal_connect(GTK_OBJECT(button), "clicked",
-				   GTK_SIGNAL_FUNC(hide_callback), window);
-
-		gtk_widget_show(button);
-		
-		gtk_window_set_title(GTK_WINDOW(window), 
-				     "About Sopwith");
-
-		gtk_signal_connect(GTK_OBJECT(window), "destroy",
-				   GTK_SIGNAL_FUNC(delete_event), window);
-		gtk_signal_connect(GTK_OBJECT(window), "delete_event",
-				   GTK_SIGNAL_FUNC(delete_event), window);
-	}
+	if (!window)
+		window = build_about_window();
 
 	gtk_widget_show(window);
 }
 
 static GtkItemFactoryEntry menu_items[] = {
 	{ "/_Game",              NULL,         NULL,  0,    "<Branch>" },
-	{ "/Game/_New Game",     NULL,         NULL,  0,    "<Branch>"},
-	{ "/Game/New Game/Novice",       NULL,    new_game,   PLAYMODE_NOVICE},
-	{ "/Game/New Game/Expert",       NULL,    new_game,   PLAYMODE_SINGLE},
-	{ "/Game/New Game/sep1",         NULL,    NULL,       0,   "<Separator>"},
-	{ "/Game/New Game/vs. Computer", NULL,    new_game,   PLAYMODE_COMPUTER},
+	{ "/Game/_Single Player",     NULL,         NULL,  0,    "<Branch>"},
+	{ "/Game/Single Player/Play in _Novice Mode",       NULL,    
+			new_game,   PLAYMODE_NOVICE},
+	{ "/Game/Single Player/Play in _Expert Mode",       NULL,    
+			new_game,   PLAYMODE_SINGLE},
+	{ "/Game/Single Player/sep1",         NULL,    NULL,       0,   "<Separator>"},
+	{ "/Game/Single Player/Play vs. _Computer", NULL,    
+			new_game,   PLAYMODE_COMPUTER},
 #ifdef TCPIP
-	{ "/Game/_Network Game", NULL,         NULL,  0,    "<Branch>"},
-	{ "/Game/Network Game/_Listen",  NULL,    NULL,       0,   NULL},
-	{ "/Game/Network Game/_Connect", NULL,    NULL,       0,   NULL},
+	// not done yet:
+//	{ "/Game/_Network Game", NULL,         NULL,  0,    "<Branch>"},
+//	{ "/Game/Network Game/_Listen",  NULL,    NULL,       0,   NULL},
+//	{ "/Game/Network Game/_Connect", NULL,    NULL,       0,   NULL},
 #endif
-	{ "/Game/_End Game",     NULL,         new_game,  0,    PLAYMODE_UNSET},
 	{ "/Game/sep1",          NULL,         NULL,  0,    "<Separator>"},
-	{ "/Game/Settings"   ,   NULL,         settings_dialog,  0,    NULL},
+	{ "/Game/_End Game",     NULL,         new_game,  PLAYMODE_UNSET,
+			"<StockItem>", GTK_STOCK_CLOSE},
 	{ "/Game/sep1",          NULL,         NULL,  0,    "<Separator>"},
-	{ "/Game/_Quit",         NULL,         exit,  0,    NULL},
-	{ "/_Help",              NULL,         NULL,  0,    "<LastBranch>"},
+	{ "/Game/_Quit",         NULL,         exit,  0,    
+			"<StockItem>", GTK_STOCK_QUIT},
+	{ "/_Settings",		 NULL,	       NULL,  0,    "<Branch>"},
+	{ "/Settings/_Preferences",   NULL,    settings_dialog,  0,    
+			"<StockItem>", GTK_STOCK_PREFERENCES},
+	{ "/_Help",              NULL,         NULL,  0,    "<Branch>"},
 	{ "/Help/_About",        NULL,         about_window,  0,    NULL},
 };
 
@@ -868,6 +906,10 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.4  2003/05/26 20:07:15  fraggle
+// Pseudo GNOME HiG-ify
+// Remove Gtk+ 1.x support
+//
 // Revision 1.3  2003/03/26 14:11:52  fraggle
 // Gtk+ 2.0 support
 //
