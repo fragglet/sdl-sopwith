@@ -23,6 +23,8 @@
 //
 //---------------------------------------------------------------------------
 
+#include "video.h"
+
 #include "sw.h"
 #include "swdisp.h"
 #include "swgrpha.h"
@@ -281,6 +283,9 @@ void dispplyr(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.2.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

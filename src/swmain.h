@@ -44,7 +44,6 @@ extern int     movetick, movemax;
 extern int     gamenum;
 extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
-extern int     multkey;
 extern BOOL    hires;
 extern BOOL    disppos;
 extern BOOL    titleflg;
@@ -95,6 +94,9 @@ extern jmp_buf envrestart;
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.4  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //

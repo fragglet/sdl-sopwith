@@ -30,7 +30,7 @@ extern asynmode_t asynmode;
 extern char asynhost[128];
 
 extern int asynget(OBJECTS *ob);
-extern void asynput();
+extern void asynput(int movekey);
 extern char *asynclos(BOOL update);
 extern void init1asy();
 extern void init2asy();
@@ -41,6 +41,9 @@ extern void init2asy();
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.2.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

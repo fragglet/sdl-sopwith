@@ -1056,14 +1056,12 @@ char **g_argv;
 
 void swinit(int argc, char *argv[])
 {
-	BOOL reset = FALSE;
 	BOOL n = FALSE;
 	BOOL s = FALSE;
 	BOOL c = FALSE;
 	BOOL a = FALSE;
 	BOOL k = FALSE;
 	int modeset = 0, keyset;
-	char *device = "\0              ";
 	int i;
 
 	// store global argc/argv
@@ -1184,6 +1182,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5.2.2  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.5.2.1  2003/06/08 17:08:17  fraggle
 // Fix variable declared in wrong place
 //

@@ -53,12 +53,17 @@ extern sopsym_t *symbol_plane_win[4];            // swwinsym
 
 extern sopsym_t symbol_pixel;
 
+extern void symbol_generate();
+
 #endif
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.1.1.1.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.1.1.1  2003/02/14 19:03:32  fraggle
 // Initial Sourceforge CVS import
 //

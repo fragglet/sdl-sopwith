@@ -62,8 +62,6 @@ int gamenum;			/* Current game number              */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
-int multkey;			/* Keystroke to be passed           */
-
 BOOL hires;			/* High res flag                    */
 BOOL disppos;			/* Display position flag            */
 BOOL titleflg;			/* Title flag                       */
@@ -186,6 +184,9 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.5  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //

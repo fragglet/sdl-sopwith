@@ -24,6 +24,7 @@
 //---------------------------------------------------------------------------
 
 #include <ctype.h>
+#include <string.h>
 
 #include "font.h"
 #include "timer.h"
@@ -180,6 +181,9 @@ void swflush()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.2.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.2  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //

@@ -23,6 +23,8 @@
 //
 //---------------------------------------------------------------------------
 
+#include <string.h>
+
 #include "video.h"
 
 #include "sw.h"
@@ -266,6 +268,9 @@ void clrdispa()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.3  2003/06/04 17:13:25  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //
