@@ -1042,14 +1042,13 @@ char **g_argv;
 
 void swinit(int argc, char *argv[])
 {
-	BOOL reset = FALSE;
 	BOOL n = FALSE;
 	BOOL s = FALSE;
 	BOOL c = FALSE;
 	BOOL a = FALSE;
 	BOOL k = FALSE;
 	int modeset = 0, keyset;
-	char *device = "\0              ";
+	int i;
 
 	// store global argc/argv
 	
@@ -1081,8 +1080,6 @@ void swinit(int argc, char *argv[])
 		exit(1);
 	}
 #endif
-
-	int i;
 	
 	// sdh 29/10/2001: load config from configuration file
 
@@ -1170,11 +1167,20 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
 // Revision 1.7  2003/06/08 03:41:41  fraggle
 // Remove auxdisp buffer totally, and all associated functions
 //
 // Revision 1.6  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
+//
+// Revision 1.5.2.2  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
+// Revision 1.5.2.1  2003/06/08 17:08:17  fraggle
+// Fix variable declared in wrong place
 //
 // Revision 1.5  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.

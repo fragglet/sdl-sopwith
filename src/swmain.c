@@ -63,8 +63,6 @@ int gamenum;			/* Current game number              */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
-int multkey;			/* Keystroke to be passed           */
-
 BOOL hires;			/* High res flag                    */
 BOOL disppos;			/* Display position flag            */
 BOOL titleflg;			/* Title flag                       */
@@ -185,12 +183,18 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
 // Revision 1.7  2003/06/08 02:48:45  fraggle
 // Remove dispdx, always calculated displx from the current player position
 // and do proper edge-of-level bounds checking
 //
 // Revision 1.6  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
+//
+// Revision 1.5.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
 //
 // Revision 1.5  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.

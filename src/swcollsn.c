@@ -23,6 +23,8 @@
 //
 //---------------------------------------------------------------------------
 
+#include "video.h"
+
 #include "sw.h"
 #include "swcollsn.h"
 #include "swdisp.h"
@@ -58,9 +60,9 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 	int w, h;
 	unsigned char *data1, *data2;
 
-	if (ob1->ob_type == PLANE && ob1->ob_state >= FINISHED
-	    || ob2->ob_type == PLANE && ob2->ob_state >= FINISHED
-	    || ob1->ob_type == EXPLOSION && ob2->ob_type == EXPLOSION)
+	if ((ob1->ob_type == PLANE && ob1->ob_state >= FINISHED)
+	    || (ob2->ob_type == PLANE && ob2->ob_state >= FINISHED)
+	    || (ob1->ob_type == EXPLOSION && ob2->ob_type == EXPLOSION))
 		return;
 
 	// (x1, y1) are the coords of the area we are testing in ob1
@@ -524,8 +526,14 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
 // Revision 1.4  2003/06/08 03:41:41  fraggle
 // Remove auxdisp buffer totally, and all associated functions
+//
+// Revision 1.3.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
 //
 // Revision 1.3  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they

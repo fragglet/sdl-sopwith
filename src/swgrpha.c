@@ -23,6 +23,8 @@
 //
 //---------------------------------------------------------------------------
 
+#include <string.h>
+
 #include "video.h"
 
 #include "sw.h"
@@ -204,6 +206,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
 // Revision 1.6  2003/06/08 03:41:41  fraggle
 // Remove auxdisp buffer totally, and all associated functions
 //
@@ -213,6 +218,9 @@ void colorscreen(int color)
 //
 // Revision 1.4  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
+//
+// Revision 1.3.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
 //
 // Revision 1.3  2003/06/04 17:13:25  fraggle
 // Remove disprx, as it is implied from displx anyway.

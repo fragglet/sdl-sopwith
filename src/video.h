@@ -78,6 +78,8 @@ extern int Vid_GetGameKeys();
 
 // drawing routines
 
+void Vid_Box(int x, int y, int w, int h, int c);
+
 // draw ground
 
 extern void Vid_DispGround(GRNDTYPE *gptr);
@@ -104,8 +106,14 @@ void Vid_ClearBuf();
 //-----------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
 // Revision 1.3  2003/06/08 03:41:42  fraggle
 // Remove auxdisp buffer totally, and all associated functions
+//
+// Revision 1.2.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
 //
 // Revision 1.2  2003/03/26 13:53:29  fraggle
 // Allow control via arrow keys

@@ -1,3 +1,8 @@
+v1.7.1
+
+Fix some compilation errors due to an error in swinit.c
+Fix networking which got broken somewhere.
+
 v1.7.0
 
 Allow control via arrow keys, for people with "unusual" keyboard layouts

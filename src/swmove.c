@@ -63,9 +63,6 @@ void swmove()
 	while (ob) {
 		obn = ob->ob_next;
 		ob->ob_drwflg = (*ob->ob_movef) (ob);
-		if (playmode == PLAYMODE_ASYNCH && !dispcnt) {
-			asynput();
-		}
 		ob = obn;
 	}
 
@@ -177,12 +174,12 @@ static int symangle(OBJECTS * ob)
 		return 4;
 }
 
-
 BOOL moveplyr(OBJECTS * obp)
 {
 	register OBJECTS *ob;
 	register BOOL rc;
 	register int oldx;
+	int multkey;
 
 	compplane = FALSE;
 	plyrplane = TRUE;
@@ -201,27 +198,29 @@ BOOL moveplyr(OBJECTS * obp)
 		}
 	}
 	
-	if (!dispcnt) {
-		if (playmode == PLAYMODE_ASYNCH)
-			multkey = asynget(ob);
-		else {
-			// sdh: use the cga (sdl) interface to
-			// read key status
+	// sdh: use the cga (sdl) interface to
+	// read key status
 
-			multkey = Vid_GetGameKeys();
+	multkey = Vid_GetGameKeys();
 
-			// Thanks to Kodath duMatri for fixing this :)
+	// Thanks to Kodath duMatri for fixing this :)
 
-			if (conf_harrykeys && ob->ob_orient)
-				if(multkey & (K_FLAPU | K_FLAPD))
-					multkey ^= K_FLAPU | K_FLAPD;
-		}
-		interpret(ob, multkey);
-	} else {
+	if (conf_harrykeys && ob->ob_orient)
+		if(multkey & (K_FLAPU | K_FLAPD))
+			multkey ^= K_FLAPU | K_FLAPD;
+
+	if (playmode == PLAYMODE_ASYNCH) {
+		asynput(multkey);
+	}
+
+	interpret(ob, multkey);
+
+	/*
+	if (dispcnt) {
 		ob->ob_flaps = 0;
 		ob->ob_bfiring = ob->ob_bombing = FALSE;
 		ob->ob_mfiring = NULL;
-	}
+	}*/
 
 	if ((ob->ob_state == CRASHED || ob->ob_state == GHOSTCRASHED)
 	    && ob->ob_hitcount <= 0) {
@@ -1145,6 +1144,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
 // Revision 1.9  2003/06/08 03:41:42  fraggle
 // Remove auxdisp buffer totally, and all associated functions
 //
@@ -1154,6 +1156,9 @@ void deletex(OBJECTS * obp)
 //
 // Revision 1.7  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
+//
+// Revision 1.6.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
 //
 // Revision 1.6  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.

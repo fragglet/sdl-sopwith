@@ -37,6 +37,7 @@
 #include "swinit.h"
 #include "swmain.h"
 #include "swmisc.h"
+#include "swmove.h"
 #include "swsound.h"
 #include "swtitle.h"
 
@@ -116,22 +117,17 @@ int asynget(OBJECTS * ob)
 	return key;
 }
 
-void asynput()
+void asynput(int movekey)
 {
 	static BOOL first = TRUE;
-
+	
 	if (first)
 		first = FALSE;
-	else {
-		lastkey = Vid_GetGameKeys();
-		
-		if (conf_harrykeys && nobjects[player].ob_orient)
-			lastkey ^= K_FLAPU | K_FLAPD;
-	}
+	else 
 
 	swflush();
 
-	sendshort(lastkey);
+	sendshort(movekey);
 }
 
 char *asynclos(BOOL update)
@@ -146,17 +142,21 @@ char *asynclos(BOOL update)
 BOOL movemult(OBJECTS * obp)
 {
 	register OBJECTS *ob;
+	int cmd;
 
 	plyrplane = compplane = FALSE;
 
 	endstat = endsts[currobx = (ob = obp)->ob_index];
 
-	if (!dispcnt)
-		interpret(ob, asynget(ob));
-	else {
+	cmd = asynget(ob);
+	interpret(ob, cmd);
+
+	/*
+	if (dispcnt) {
 		ob->ob_flaps = 0;
 		ob->ob_bombing = FALSE;
 	}
+	*/
 
 	if ((ob->ob_state == CRASHED || ob->ob_state == GHOSTCRASHED)
 	    && ob->ob_hitcount <= 0) {
@@ -383,14 +383,17 @@ void init2asy()
 
 	if (player)
 		initplyr(NULL);
-
-	commout(0);
-	commout(0);
 }
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
+// Revision 1.4.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
+//
 // Revision 1.4  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //

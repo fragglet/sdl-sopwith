@@ -24,6 +24,7 @@
 //---------------------------------------------------------------------------
 
 #include <ctype.h>
+#include <string.h>
 
 #include "font.h"
 #include "timer.h"
@@ -178,8 +179,14 @@ void swflush()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/08 18:41:01  fraggle
+// Merge changes from 1.7.0 -> 1.7.1 into HEAD
+//
 // Revision 1.3  2003/06/08 03:41:41  fraggle
 // Remove auxdisp buffer totally, and all associated functions
+//
+// Revision 1.2.2.1  2003/06/08 18:16:38  fraggle
+// Fix networking and some compile bugs
 //
 // Revision 1.2  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
