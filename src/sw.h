@@ -82,9 +82,9 @@
 #define MINFLCKX        370                           /*  Bird flock travel    */
 #define MAXFLCKX        (MAX_X - 370)             /*  limits */
 
-// sdh 26/10/2001: merged guages, removed unneccesary coordinates
+// sdh 26/10/2001: merged gauges, removed unneccesary coordinates
 
-#define GUAGEX          (SCR_CENTR - 25)  /* X co-ordinate of first guage */
+#define GUAGEX          (SCR_CENTR - 25)  /* X co-ordinate of first gauge */
 #define GHOSTX          (SCR_CENTR - 21)/*  Ghost face display x-coodinate  */
 
 // sdh 28/10/2001: made into a type
@@ -294,6 +294,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2004/10/25 20:02:11  fraggle
+// Fix spelling error: guage -> gauge
+//
 // Revision 1.10  2004/10/25 19:58:06  fraggle
 // Remove 'goingsun' global variable
 //

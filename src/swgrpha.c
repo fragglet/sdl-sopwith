@@ -148,7 +148,7 @@ void swdisp()
 
 	dispmap();
 	dispscore(consoleplayer);
-	dispguages(consoleplayer);
+	dispgauges(consoleplayer);
 
 	// heads up splats
 	
@@ -225,6 +225,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.14  2004/10/25 20:02:11  fraggle
+// Fix spelling error: guage -> gauge
+//
 // Revision 1.13  2004/10/15 22:27:52  fraggle
 // Remove attempt at movement prediction
 //

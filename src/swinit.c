@@ -159,9 +159,9 @@ static void dispgge(int x, int cury, int maxy, int clr)
 		Vid_PlotPixel(x, y, 0);
 }
 
-// sdh 26/10/2001: merged guage functions into a single function
+// sdh 26/10/2001: merged gauge functions into a single function
 
-void dispguages(OBJECTS *ob)
+void dispgauges(OBJECTS *ob)
 {
 	int x = GUAGEX;
 	int sep = conf_missiles ? 3 : 5;
@@ -1134,6 +1134,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.19  2004/10/25 20:02:11  fraggle
+// Fix spelling error: guage -> gauge
+//
 // Revision 1.18  2004/10/25 19:58:06  fraggle
 // Remove 'goingsun' global variable
 //

@@ -127,7 +127,7 @@ static void refuel(OBJECTS * obp)
 	ob = obp;
 
 	// sdh 26/10/2001: top up stuff, if anything happens update 
-	// the guages (now a single function)
+	// the gauges (now a single function)
 	// sdh 27/10/2001: fix refueling in parallel (was a single
 	// set of ||'s and was being shortcircuited)
 
@@ -1121,6 +1121,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.16  2004/10/25 20:02:11  fraggle
+// Fix spelling error: guage -> gauge
+//
 // Revision 1.15  2004/10/25 19:58:06  fraggle
 // Remove 'goingsun' global variable
 //

@@ -40,7 +40,7 @@ extern void initsmok(OBJECTS *obop);
 extern void initbird(OBJECTS *obop, int i);
 
 extern void dispmap();
-extern void dispguages(OBJECTS *ob); 
+extern void dispgauges(OBJECTS *ob); 
 
 #endif
 
@@ -48,6 +48,9 @@ extern void dispguages(OBJECTS *ob);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2004/10/25 20:02:11  fraggle
+// Fix spelling error: guage -> gauge
+//
 // Revision 1.6  2004/10/15 18:51:24  fraggle
 // Fix the map. Rename dispworld to dispmap as this is what it really does.
 //
