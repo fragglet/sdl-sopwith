@@ -19,7 +19,7 @@
 */
 #include        "sw.h"
 
-
+// sdh -- most of this is all no-op 
 
 
 extern  int     player;                 /* Pointer to player's object       */
@@ -37,6 +37,7 @@ static  int     lastkey = 0;            /*  Always behind one character     */
 
 static  synchronize()
 {
+#if 0
 register int     syncount;
 register int     c;
 
@@ -68,6 +69,7 @@ register int     c;
                 if ( c != K_ASYNACK )
                         break;
         }
+#endif
 }
 
 
@@ -81,10 +83,12 @@ static  tickwait;
 static  settimeout( tick )
 int     tick;
 {
+#if 0
         intsoff();
         tickwait = tick;
         counttick = 0;
         intson();
+#endif
 }
 
 
@@ -101,6 +105,7 @@ static  timeout()
 
 static  asynin()
 {
+#if 0
 register int     c;
 
         settimeout( 180 );
@@ -112,6 +117,7 @@ register int     c;
                 if ( timeout() )
                         return( -1 );
         }
+#endif
 }
 
 
@@ -121,9 +127,9 @@ register int     c;
 asynget( ob )
 OBJECTS *ob;
 {
+#if 0
 register int     key;
 register int     c;
-
 
         if ( ob->ob_index == player ) {
                 key = lastkey;
@@ -135,6 +141,7 @@ register int     c;
                 key = key | ( c << 8 );
         }
         return( histmult( ob->ob_index, key ) );
+#endif
 }
 
 
@@ -142,6 +149,7 @@ register int     c;
 
 asynput()
 {
+#if 0
 static  BOOL    first = TRUE;
 
 
@@ -153,6 +161,7 @@ static  BOOL    first = TRUE;
 
         commout( lastkey & 0x00FF );
         commout( lastkey >> 8 );
+#endif
 }
 
 
@@ -162,8 +171,10 @@ static  BOOL    first = TRUE;
 char    *asynclos( update )
 BOOL    update;
 {
+#if 0
         commterm();
         return( NULL );
+#endif
 }
 
 
@@ -171,12 +182,13 @@ BOOL    update;
 
 init1asy()
 {
+#if 0
 unsigned          seed;
 register int      c1, c2;
 
         comminit();
         clrprmpt();
-        puts( "        Waiting for other player" );
+        swputs( "        Waiting for other player" );
         synchronize();
 
         commout( explseed & 0x00FF );
@@ -190,12 +202,14 @@ register int      c1, c2;
 
         currgame = &swgames[0];
         multbuff->mu_numplyr = multbuff->mu_maxplyr = 2;
+#endif
 }
 
 
 
 init2asy()
 {
+#if 0
 register OBJECTS *ob;
 OBJECTS          *initpln();
 
@@ -215,4 +229,6 @@ OBJECTS          *initpln();
 
         commout( 0 );
         commout( 0 );
+#endif
 }
+

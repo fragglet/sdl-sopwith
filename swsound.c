@@ -14,9 +14,10 @@
                         84-04-11        Development
                         87-03-10        Microsoft compiler.
 */
-#include        "sw.h"
 
-
+#include "sw.h"
+#include "pcsound.h"
+#include "timer.h"
 
 #define         TIMER   0x40
 #define         PORTB   0x61
@@ -87,12 +88,10 @@ register int     i;
 }
 
 
-
 sound( type, parm, ob )
 int     type, parm;
 OBJECTS *ob;
 {
-
         if ( type < soundtype ) {
                 soundtype = type;
                 soundparm = parm;
@@ -105,11 +104,9 @@ OBJECTS *ob;
 }
 
 
-
-
 swsound()
 {
-unsigned          rand();
+unsigned          swrand();
 int               adjcont(),  adjshot();
 register TONETAB  *tt;
 
@@ -159,7 +156,7 @@ register TONETAB  *tt;
                         break;
 
                 case S_HIT:
-                        tone( rand( 2 ) ? 0x9000 : 0xF000 );
+                        tone( swrand( 2 ) ? 0x9000 : 0xF000 );
                         lastobj = NULL;
                         toneadj = NULL;
                         break;
@@ -393,7 +390,6 @@ register TONETAB *ttb, *tt;
 
 
 
-
 stopsound( ob )
 OBJECTS *ob;
 {
@@ -415,7 +411,6 @@ TONETAB *tt;
 
 
 
-
 static  tone( freq )
 unsigned freq;
 {
@@ -426,7 +421,13 @@ unsigned freq;
         if ( lastfreq == freq )
                 return;
 
+	// sdh: use the emulated sdl pc speaker code
+	
+	Speaker_Output(freq);
+	
 #ifdef IBMPC
+	// old dos system stuff
+	
         if ( !lastfreq )
                 outportb( TIMER + 3, 0xB6 );
         outportb( TIMER + 2, freq & 0x00FF );
@@ -441,19 +442,21 @@ unsigned freq;
 
 
 
-
 soundoff()
 {
         if ( lastfreq ) {
+
+		// sdh: use the emulated sdl pc speaker code
+		
+		Speaker_Off();
 #ifdef IBMPC
+		// old dos calls
                 outportb( PORTB, 0xFC & inportb( PORTB ) );
 #endif
                 lastfreq = 0;
                 dispdbg = 0;
         }
 }
-
-
 
 
 
@@ -469,7 +472,7 @@ static  int       seed[50] = {
 
 
 
-static  unsigned  rand( modulo )
+static  unsigned  swrand( modulo )
 unsigned  modulo;
 {
 static    i = 0;
@@ -498,82 +501,113 @@ static    i = 0;
 
 
 playnote()
-  {
+{
+	
+	static int noteindex[] = { 0,2,3,5,7,8,10 };
+	static int notefreq[]  = {440,466,494,523,554,587,622,659,698,740,784,831};
+	
+	static int durplace, test, freq, duration;
+	static int index;
+	static int indexadj;
+	
+	static  char    durstring[5];
+	static  char    charatplace, noteletter;
+	
+	static  int   noteoctavefactor;
+	static  int   dottednote;
+	
+	BOOL          firstplace = TRUE;
+	
+	indexadj = 0;
+	durplace = 0;
+	dottednote = 2;
+	noteoctavefactor = 256;
+	
+	FOREVER {
+		if ( ( !line ) && ( !place ) )
+			octavefactor = 256;
+		
+		if ( !( charatplace = toupper( tune[line][place++] ) ) ) {
+			if ( !( charatplace = tune[++line][place = 0] ) ) {
+				line = 0;
+			}
+			
+			if ( firstplace )
+				continue;
+			break;
+		}
+		firstplace = FALSE;
+		if ( charatplace == NOTEEND )
+			break;
+		
+		if ( test = isalpha( charatplace )) {
+			index = *(noteindex + (charatplace - 'A'));
+			noteletter = charatplace;
+		} else
+			switch( charatplace ) {
+			case UPOCTAVE : octavefactor <<= 1; break;
+			case DOWNOCTAVE : octavefactor >>= 1; break;
+			case SHARP    : indexadj++; break;
+			case FLAT     : indexadj--; break;
+			case DOT      : dottednote = 3; break;
+			default       :
+				if ( test = isdigit(charatplace))
+					*(durstring + durplace++) = charatplace;
+				break;
+			}
+		
+	}
+	
+	*(durstring + durplace) = '\0';
+	duration = atoi( durstring );
+	if (duration <= 0) duration = 4;
+	duration = (1440 * dottednote / (60*duration)) >> 1;
+	
+	if (noteletter == REST) {
+		tunefreq = 0;
+	} else {
+		index += indexadj;
+		while (index < 0) {
+			index += 12;
+			noteoctavefactor >>= 1 ;
+		}
+		while ( index >= 12 ) {
+			index -= 12;
+			noteoctavefactor <<= 1 ;
+		}
+		
+		// sdh: soundmul and sounddiv were asm functions. i cant
+		// read x86 asm so i have to guess
+		
+		freq = notefreq[index];
+		freq *= octavefactor; freq >>= 8;
+		freq *= noteoctavefactor; freq >>= 8;
+//        freq = soundmul( *(notefreq+index), octavefactor, noteoctavefactor );
+		tunefreq = 1331000 / freq;
+//    tunefreq = sounddiv( 1331000L, freq );
+		
+	}
+	tunedura = duration;
+}
 
-    static int noteindex[] = { 0,2,3,5,7,8,10 };
-    static int notefreq[]  = {440,466,494,523,554,587,622,659,698,740,784,831};
+// sdh:
+// in original sopwith this was done with interrupts
+// we dont have access to interrupts and its ugly in
+// any case, so instead we call this function occasionally
+// to check for updating the sound
 
-    static int durplace, test, freq, duration;
-    static int index;
-    static int indexadj;
+// in fact for continuity i have put a call to this
+// in the sdl sound callback function, so it is done
+// rather like the old interrupt system after all :)
 
-    static  char    durstring[5];
-    static  char    charatplace, noteletter;
+static int lastclock = 0;
 
-    static  int   noteoctavefactor;
-    static  int   dottednote;
-
-    BOOL          firstplace = TRUE;
-
-    indexadj = 0;
-    durplace = 0;
-    dottednote = 2;
-    noteoctavefactor = 256;
-
-    FOREVER {
-        if ( ( !line ) && ( !place ) )
-                octavefactor = 256;
-
-        if ( !( charatplace = toupper( tune[line][place++] ) ) ) {
-                if ( !( charatplace = tune[++line][place = 0] ) ) {
-                        line = 0;
-                }
-
-                if ( firstplace )
-                        continue;
-                break;
-        }
-        firstplace = FALSE;
-        if ( charatplace == NOTEEND )
-                break;
-
-        if ( test = isalpha( charatplace )) {
-            index = *(noteindex + (charatplace - 'A'));
-            noteletter = charatplace;
-        } else
-            switch( charatplace ) {
-                case UPOCTAVE : octavefactor <<= 1; break;
-                case DOWNOCTAVE : octavefactor >>= 1; break;
-                case SHARP    : indexadj++; break;
-                case FLAT     : indexadj--; break;
-                case DOT      : dottednote = 3; break;
-                default       :
-                        if ( test = isdigit(charatplace))
-                            *(durstring + durplace++) = charatplace;
-                        break;
-            }
-
-    }
-
-    *(durstring + durplace) = '\0';
-    duration = atoi( durstring );
-    if (duration <= 0) duration = 4;
-    duration = (1440 * dottednote / (60*duration)) >> 1;
-
-    if (noteletter == REST)
-        freq = 32000;
-    else {
-        index += indexadj;
-        while (index < 0) {
-            index += 12;
-            noteoctavefactor >>= 1 ;
-        }
-        while ( index >= 12 ) {
-            index -= 12;
-            noteoctavefactor <<= 1 ;
-        }
-        freq = soundmul( *(notefreq+index), octavefactor, noteoctavefactor );
-    }
-    tunefreq = sounddiv( 1331000L, freq );
-    tunedura = duration;
-  }
+void swsndupdate()
+{
+	int thisclock = Timer_GetMS();
+	
+	if(thisclock > lastclock + 1000/18.2) {
+		lastclock = thisclock;
+		soundadj();
+	}
+}

@@ -35,8 +35,11 @@
                                         Comment out multiplayer selection
                                           on startup.
 */
-#include        "sw.h"
+#include "sw.h"
+#include "cgavideo.h"
+#include "pcsound.h"
 
+// sdh -- put them in a header damnit! aarrgh
 
 extern  int     _systype;               /* operating environment            */
 extern  int     playmode;               /* Mode of play                     */
@@ -113,9 +116,6 @@ extern  OBJECTS *allocobj();
 extern  int      swbreak(), swtick(), swshfprt(), swkeyint();
 extern  int      counttick, countmove;   /* Performance counters   */
 
-
-extern  int     sintab[];               /*  sine table based on angles    */
-
 extern  jmp_buf envrestart;             /* Restart environment for restart  */
                                         /*  long jump.                      */
 
@@ -138,40 +138,40 @@ static  int      savescore;             /* save players score on restart  */
 static  BOOL     ghost;                 /* ghost display flag             */
 
 static  char     *helptxt[] = {         /* Help text                      */
-"",
-"SOPWITH, Distribution Version",
-"(c) Copyright 1984-2000 David L. Clark",
-"Modification Date:  October 29, 2000",
-"",
-"Usage:  sopwith [options]",
-"The options are:",
-"        -n :  novice single player",
-"        -s :  single player",
-"        -c :  single player against computer",
+	"",
+	"SOPWITH, Distribution Version",
+	"(c) Copyright 1984-2000 David L. Clark",
+	"Modification Date:  October 29, 2000",
+	"",
+	"Usage:  sopwith [options]",
+	"The options are:",
+	"        -n :  novice single player",
+	"        -s :  single player",
+	"        -c :  single player against computer",
 /*
-"        -m :  multiple players on a network",
+  "        -m :  multiple players on a network",
 */
-"        -a :  2 players over asynchrounous communications line",
-"              (Only one of -n, -s, -c, -a may be specified)",
-"        -k :  keyboard only",
-"        -j :  joystick and keyboard",
-"              (Only one of -k and -j  may be specified)",
+	"        -a :  2 players over asynchrounous communications line",
+	"              (Only one of -n, -s, -c, -a may be specified)",
+	"        -k :  keyboard only",
+	"        -j :  joystick and keyboard",
+	"              (Only one of -k and -j  may be specified)",
 /*
-"        -i :  IBM PC keyboard",
+  "        -i :  IBM PC keyboard",
 */
-"        -q :  begin game with sound off",
+	"        -q :  begin game with sound off",
 /*
-"        -r :  resets the multiuser communications file after an abnormal",
-"                  end of a game",
-"        -d*:  overrides the default drive C as the device containing the",
-"                  communications file",
+  "        -r :  resets the multiuser communications file after an abnormal",
+  "                  end of a game",
+  "        -d*:  overrides the default drive C as the device containing the",
+  "                  communications file",
 */
-"        -p#:  overrides asynchronous port 1 as the asynchrounous port",
-"                  to use",
-0
+	"        -p#:  overrides asynchronous port 1 as the asynchrounous port",
+	"                  to use",
+	NULL
 };
 
-
+// sdh: not much changed here, some interrupt stuff commented out
 
 swinit( argc, argv )
 int     argc;
@@ -218,15 +218,20 @@ char    *device   = "\0              ";
 
         movemax=15;
         initseed();
-        explseed = histinit( explseed );
+
+	CGA_Init();             // init CGA driver
+	Speaker_Init();         // init pc speaker
+	
+	//        explseed = histinit( explseed );
         initsndt();
         intsoff();
-        _intsetup( BREAKINT, swbreak, csseg(), dsseg() );
-        _intsetup( CLOCKINT, swtick, csseg(), dsseg() );
+//        _intsetup( BREAKINT, swbreak, csseg(), dsseg() );
+//        _intsetup( CLOCKINT, swtick, csseg(), dsseg() );
         initgrnd();
         swtitln();
         intson();
 
+	
         if ( modeset )
                 playmode = n ? NOVICE
                              : ( s ? SINGLE
@@ -234,9 +239,9 @@ char    *device   = "\0              ";
                              : ( m ? MULTIPLE : ASYNCH ) ) );
         else
                 getmode();
-
-        if ( !keyset )
-                getkey();
+	
+//        if ( !keyset )
+//                getkey();
 
         if ( ( playmode == MULTIPLE ) || ( playmode == ASYNCH ) ) {
                 maxcrash = MAXCRASH * 2;
@@ -279,8 +284,8 @@ char    *device   = "\0              ";
         initgdep();
 
         intsoff();
-        _intsetup( PRINTINT, swshfprt, csseg(), dsseg() );
-        koveride = _intsetup( KEYINT, swkeyint, csseg(), dsseg() );
+//        _intsetup( PRINTINT, swshfprt, csseg(), dsseg() );
+//        koveride = _intsetup( KEYINT, swkeyint, csseg(), dsseg() );
         inplay = TRUE;
         intson();
 }
@@ -341,7 +346,7 @@ register int      tickwait, inc;
                         tickwait = 5;
                         counttick = 0;
                         intson();
-                        while ( counttick < tickwait );
+                        //while ( counttick < tickwait );
                 }
                 ++gamenum;
                 savescore = ob->ob_score;
@@ -390,29 +395,16 @@ initgdep()
 
 clrprmpt()
 {
-#ifdef  IBMPC
-register int    i;
-struct  regval  reg;
+	// sdh: generic clear
 
-        for ( i = 0; i < 4; ++i ) {
-                swposcur( 0, 20 + i );
-                reg.axr = 0x0A20;
-                reg.bxr = 0;
-                reg.cxr = hires ? 80 : 40;
-                sysint( 0x10, &reg, &reg );
-        }
+	int x, y;
+
+	for(y=0; y<32; ++y)
+		for(x=0; x<SCR_WDTH; ++x) {
+			swpntsym(x, SCR_HGHT-(y+160), 0);
+		}
+
         swposcur( 0, 20 );
-#endif
-
-#ifdef  ATARI
-register int     i;
-
-        for ( i = 0; i < 4; ++i ) {
-                swposcur( 0, 20 + i );
-                puts( "\33K" );
-        }
-        swposcur( 0, 20 );
-#endif
 }
 
 
@@ -420,14 +412,14 @@ register int     i;
 
 static getkey()
 {
-register char    key;
-
+        register char    key;
+ 
         /*----------------97/12/27--------------
         clrprmpt();
-        puts( "Key: 1 - Joystick with IBM Keyboard\r\n" );
-        puts( "     2 - Joystick with non-IBM Keyboard\r\n" );
-        puts( "     3 - IBM Keyboard only\r\n" );
-        puts( "     4 - Non-IBM keyboard only\r\n" );
+        swputs( "Key: 1 - Joystick with IBM Keyboard\r\n" );
+        swputs( "     2 - Joystick with non-IBM Keyboard\r\n" );
+        swputs( "     3 - IBM Keyboard only\r\n" );
+        swputs( "     4 - Non-IBM keyboard only\r\n" );
         FOREVER {
                 if ( ctlbreak() )
                         swend( NULL, NO );
@@ -440,9 +432,13 @@ register char    key;
         }
         ------------------97/12/27--------------*/
         clrprmpt();
-        puts( "Key: K - Keyboard Only\r\n" );
-        puts( "     J - Joystick and Keyboard\r\n" );
-        FOREVER {
+        swputs( "Key: K - Keyboard Only\r\n" );
+        swputs( "     J - Joystick and Keyboard\r\n" );
+
+	CGA_Update();
+	
+	FOREVER {
+		swsndupdate();
                 if ( ctlbreak() )
                         swend( NULL, NO );
                 if ( ( ( key = toupper(swgetc() & 0x00FF) ) != 'K' )
@@ -461,23 +457,30 @@ register char    key;
 static getmode()
 {
         clrprmpt();
-        puts( "Key: S - single player\r\n" );
-        puts( "     C - single player against computer\r\n" );
-        if ( _systype == PCDOS ) {
-                /*--------------- 2000/10/29 -----------------------
-                puts( "     M - multiple players on network\r\n" );
-                ----------------- 2000/10/29 ---------------------*/
-                puts( "     A - 2 players on asynchronous line" );
-        }
-        FOREVER {
+        swputs( "Key: S - single player\r\n" );
+        swputs( "     C - single player against computer\r\n" );
+
+	CGA_Update();
+	
+	FOREVER {
+		char c;
+
+		swsndupdate();
                 if ( ctlbreak() )
                         swend( NULL, NO );
-                switch ( toupper( swgetc() & 0x00FF ) ) {
+
+		c = toupper(swgetc() & 0xff);
+		
+                switch ( c ) {
                         case 'S':
                                 clrprmpt();
-                                puts( "Key: N - novice player\r\n" );
-                                puts( "     E - expert player\r\n" );
-                                FOREVER {
+                                swputs( "Key: N - novice player\r\n" );
+                                swputs( "     E - expert player\r\n" );
+
+				CGA_Update();
+				
+				FOREVER {
+					swsndupdate();
                                         if ( ctlbreak() )
                                                 swend( NULL, NO );
                                         switch ( toupper( swgetc()
@@ -509,6 +512,7 @@ static getmode()
                                 break;
                         default:
                                 break;
+				
                 }
         }
 }
@@ -518,10 +522,10 @@ static getmode()
 
 getgame()
 {
-register int     game;
+        register int     game;
 
         clrprmpt();
-        puts( "         Key a game number" );
+        swputs( "         Key a game number" );
         FOREVER {
                 if ( ctlbreak() )
                         swend( NULL, NO );
@@ -553,9 +557,9 @@ static  initgrnd()
 initdisp( reset )
 BOOL    reset;
 {
-register OBJECTS *ob;
-OBJECTS          ghostob;
-extern   char    swghtsym[];
+	register OBJECTS *ob;
+	OBJECTS          ghostob;
+	extern   char    swghtsym[];
 
         splatox = oxsplatted = 0;
         if ( !reset ) {
@@ -718,6 +722,8 @@ register int     x, y, dx, maxh, sx;
 
         for ( x = 0; x < SCR_WDTH; ++x )
                 swpntsym( x, (SCR_MNSH+2), 7 );
+
+	CGA_Update();
 }
 
 
@@ -759,6 +765,14 @@ long    trap14(), vidram;
         setmem( vidram, 0x4000, 0 );
         movmem( auxdisp, vidram + 0x4000, 0x4000 );
 #endif
+        int x, y;
+
+        for(y=20; y<SCR_HGHT; ++y)
+                for(x=0; x<SCR_WDTH; ++x)
+                        swpntsym(x, y, 0);
+
+//	CGA_ClearScreen();
+	dispworld();
 }
 
 
@@ -766,13 +780,7 @@ long    trap14(), vidram;
 
 static clrdispa()
 {
-#ifdef  IBMPC
-        setmem( auxdisp, 0x2000, 0 );
-#endif
-
-#ifdef  ATARI
-        setmem( auxdisp, 0x4000, 0 );
-#endif
+	CGA_ClearScreen();
 }
 
 
@@ -834,8 +842,8 @@ OBJECTS          *initpln();
 initplyr( obp )
 OBJECTS *obp;
 {
-register OBJECTS *ob;
-OBJECTS          *initpln();
+	register OBJECTS *ob;
+	OBJECTS          *initpln();
 
         ob = initpln( obp );
         if ( !obp ) {
@@ -1413,3 +1421,4 @@ static   ioy[] = { 80,   91   };
                 insertx( ob, &topobj );
         }
 }
+

@@ -9,7 +9,13 @@
 
 */
 
+// sdh: #ifndef incase of multiple includes
+
+#ifndef __SWMACH_H__
+#define __SWMACH_H__
+
 #undef IBMPC
 #undef ATARI
-#define IBMPC
 /* #define ATARI */
+
+#endif

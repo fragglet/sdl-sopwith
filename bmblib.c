@@ -13,14 +13,14 @@
 */
 
 
-#include "dos.h"
 #include "sw.h"
 #include "string.h"
 
 
 int _systype = PCDOS;
 
-
+// sdh: a lot of these functions are unused now, especially the dos
+// interrupt ones. remove at some point.
 
 
 
@@ -28,8 +28,7 @@ int _systype = PCDOS;
                 GETFLAGS flags processing ( Jack Cole )
 ----------------------------------------------------------------------------*/
 
-
-
+// sdh: this is broken somewhere, giving unused flags (eg -f) crashes
 
 getflags(ac, av, fmt, flds)
 int  *ac;
@@ -137,85 +136,84 @@ ret:
   }
 
 
-int index(char *str,int c)
+int strindex(char *str,int c)
 {
-char *s;
+	char *s;
 
-    return((s=strchr(str,c))==NULL?0:s-str+1);
+	return((s=strchr(str,c))==NULL?0:s-str+1);
 }
 
 
+#ifdef IBMPC
 int inportb(unsigned port)
 {
-    return(inp(port));
+	return(inp(port));
 }
 
-
-void movblock(unsigned int srcoff,unsigned int srcseg,
-              unsigned int destoff,unsigned int destseg,
-              unsigned int count)
+int outportb(unsigned port,int data)
 {
-    movedata(srcseg,srcoff,destseg,destoff,count);
+	return(outp(port,data));
 }
 
+#endif
 
 
 void movmem(void *src,void *dest,unsigned count)
 {
-    memmove(dest,src,count);
-}
-
-
-
-int outportb(unsigned port,int data)
-{
-    return(outp(port,data));
+	memmove(dest,src,count);
 }
 
 
 void setmem(void *dest,unsigned count,int c)
 {
-    memset(dest,c,count);
+	memset(dest,c,count);
 }
 
 
 int sysint(int intnum,struct regval *inrv,struct regval *outrv)
 {
-union REGS regs;
-struct SREGS segregs;
-int rc;
-
-    regs.x.ax=inrv->axr;
-    regs.x.bx=inrv->bxr;
-    regs.x.cx=inrv->cxr;
-    regs.x.dx=inrv->dxr;
-    segregs.ds=inrv->dsr;
-    rc=int86x(intnum,&regs,&regs,&segregs);
-    outrv->axr=regs.x.ax;
-    outrv->bxr=regs.x.bx;
-    outrv->cxr=regs.x.cx;
-    outrv->dxr=regs.x.dx;
-    outrv->dsr=segregs.ds;
-    return(rc);
+/*
+  union REGS regs;
+  struct SREGS segregs;
+  int rc;
+  
+  regs.x.ax=inrv->axr;
+  regs.x.bx=inrv->bxr;
+  regs.x.cx=inrv->cxr;
+  regs.x.dx=inrv->dxr;
+  segregs.ds=inrv->dsr;
+  rc=int86x(intnum,&regs,&regs,&segregs);
+  outrv->axr=regs.x.ax;
+  outrv->bxr=regs.x.bx;
+  outrv->cxr=regs.x.cx;
+  outrv->dxr=regs.x.dx;
+  outrv->dsr=segregs.ds;
+  return(rc);
+*/
 }
 
 
 int sysint21(struct regval *inrv,struct regval *outrv)
 {
-union REGS regs;
-struct SREGS segregs;
-int rc;
-
-    regs.x.ax=inrv->axr;
-    regs.x.bx=inrv->bxr;
-    regs.x.cx=inrv->cxr;
-    regs.x.dx=inrv->dxr;
-    segregs.ds=inrv->dsr;
-    rc=intdosx(&regs,&regs,&segregs);
-    outrv->axr=regs.x.ax;
-    outrv->bxr=regs.x.bx;
-    outrv->cxr=regs.x.cx;
-    outrv->dxr=regs.x.dx;
-    outrv->dsr=segregs.ds;
-    return(rc);
+/*
+  union REGS regs;
+  struct SREGS segregs;
+  int rc;
+  
+  regs.x.ax=inrv->axr;
+  regs.x.bx=inrv->bxr;
+  regs.x.cx=inrv->cxr;
+  regs.x.dx=inrv->dxr;
+  segregs.ds=inrv->dsr;
+  rc=intdosx(&regs,&regs,&segregs);
+  outrv->axr=regs.x.ax;
+  outrv->bxr=regs.x.bx;
+  outrv->cxr=regs.x.cx;
+  outrv->dxr=regs.x.dx;
+  outrv->dsr=segregs.ds;
+  return(rc);
+*/
 }
+
+void intson() {}
+void intsoff() {}

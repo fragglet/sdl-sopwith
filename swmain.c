@@ -19,9 +19,14 @@
                         87-04-06        Computer plane avoiding oxen.
                         96-12-26        Speed up game a bit
 */
-#include        "sw.h"
 
+#include <stdio.h>
+#include "sw.h"
+#include "timer.h"
 
+// sdh: framerate control
+
+#define FPS 10
 
 int     playmode;                       /* Mode of play                     */
 GAMES   *currgame;                      /* Game parameters and current game */
@@ -37,9 +42,9 @@ int     gmaxspeed, gminspeed;           /* Speed range based on game number */
 int     targrnge;                       /* Target range based on game number*/
 
 MULTIO  multiost;                       /* Multiple player I/O buffer       */
-#ifdef  IBMPC                           /* Auxiliary display area           */
-char    auxdisp[0x2000];
-#endif
+
+char    auxdisp[0x2000];                /* Auxiliary display area           */
+
 #ifdef  ATARI
 char    auxdisp[0x4000];
 #endif
@@ -115,7 +120,7 @@ int     sintab[ANGLES] = {              /* sine table of pi/8 increments    */
         256,    237,    181,    98,
         0,      -98,    -181,   -237,
         -256,   -237,   -181,   -98
-        };
+};
 
 jmp_buf envrestart;                     /* Restart environment for restart  */
                                         /*  long jump.                      */
@@ -134,41 +139,57 @@ main( argc, argv )
 int     argc;
 char    *argv[];
 {
-char    *malloc();
-
+        int nexttic;
+        
         nobjects = (OBJECTS *)malloc( 100 * sizeof( OBJECTS ) );
-        _systype = PCDOS;
 
         swinit( argc, argv );
         setjmp( envrestart );
-        FOREVER {
 
+        nexttic = Timer_GetMS();
+        
+        FOREVER {
+		
                 /*----- DLC 96/12/27 ------
                 while ( movetick < 2  );
                 movetick = 0;
                 -------------------------*/
-                while ( movetick < movemax );
+                //while ( movetick < movemax );
+
+		// sdh: in the original, movetick was incremented
+		// automagically by a timed interrupt. we dont
+		// have interrupts so we have to pause between tics
+		
+                nexttic += 1000/FPS;
+                do {
+			swsndupdate();
+		} while(Timer_GetMS() < nexttic);
+              
                 intsoff();
                 movetick -= movemax;
                 intson();
 
-                swmove();
-                swgetjoy();
+		// swmove and swdisp should be made to run
+		// asyncronously probably
+
+		swmove();
+//                swgetjoy();
                 swdisp();
                 swgetjoy();
                 swcollsn();
-                swgetjoy();
+//                swgetjoy();
                 intsoff();
                 if ( printflg ) {
                         printflg = FALSE;
-                        _intreset( koveride );
+//                        _intreset( koveride );
                         intson();
                         swprint();
                         intsoff();
-                        koveride = _intsetup( KEYINT, swkeyint,
-                                              csseg(), dsseg() );
+//                        koveride = _intsetup( KEYINT, swkeyint,
+//                                              csseg(), dsseg() );
                 }
                 intson();
                 swsound();
         }
 }
+

@@ -1,0 +1,12 @@
+This is my modified sopwith source, as of 15/10/2001. I have removed all
+the x86 asm (rewritten/replaced with portable C code). Internally, it 
+draws everything in CGA, and this is then converted and drawn to the
+screen. The PC speaker is emulated in a similar way. 
+
+Currently this is only known to work in linux, but it is fairly portable
+code and should compile on any system.  It requires LibSDL for video
+and sound, this is available from www.libsdl.org. I have only tried
+compiling with GCC, possibly it would work with MSVC but I have no idea.
+
+Simon Howard
+

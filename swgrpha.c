@@ -22,8 +22,9 @@
 
 
 #include        "sw.h"
+#include        "cgavideo.h"
 
-
+#define VRAMSIZE 32000
 
 extern  int     displx, disprx;         /* Display left and right bounds    */
 extern  int     dispdx;                 /* Display shift                    */
@@ -81,10 +82,11 @@ static  char    spcbirds[BIRDSYMS][BRDBYTES*2];   /* Special bird symbol    */
 
 swdisp()
 {
-register OBJECTS *ob;
+	register OBJECTS *ob;
 
         setvdisp();
-        for ( ob = objtop; ob; ob = ob->ob_next ) {
+
+	for ( ob = objtop; ob; ob = ob->ob_next ) {
                 if ( ( !( ob->ob_delflg && ob->ob_drwflg ) )
                         || ( ob->ob_symhgt == 1 )
                         || ( ob->ob_oldsym != ob->ob_newsym )
@@ -94,7 +96,7 @@ register OBJECTS *ob;
                                 ( *drawsym )( ob, ob->ob_oldx, ob->ob_oldy,
                                               ob->ob_oldsym, ob->ob_clr, NULL );
                         if ( !ob->ob_drwflg )
-                                continue;
+				continue;
                         if ( ( ob->ob_x < displx ) || ( ob->ob_x > disprx ) ) {
                                 ob->ob_drwflg = 0;
                                 continue;
@@ -103,7 +105,8 @@ register OBJECTS *ob;
                                       ob->ob_oldy = ob->ob_y,
                                       ob->ob_newsym,
                                       ob->ob_clr, NULL );
-                }
+		}
+
                 if ( ob->ob_drawf )
                         ( *( ob->ob_drawf ) )( ob );
         }
@@ -113,9 +116,15 @@ register OBJECTS *ob;
                         ( *drawsym )( ob, ob->ob_oldx, ob->ob_oldy,
                                       ob->ob_oldsym, ob->ob_clr, NULL );
 
-        dispgrnd();
+	dispgrnd();
+
         dispinit = FALSE;
-        forcdisp = FALSE;
+        forcdisp = TRUE;
+
+	// need to update the screen as we arent writing
+	// directly into vram any more
+	
+	CGA_Update();
 }
 
 
@@ -135,12 +144,13 @@ register OBJECTS *ob;
 
 static  dispgrnd()
 {
-        if ( !dispinit ) {
+	if (!dispinit ) {
                 if ( !( dispdx || forcdisp ) )
                         return;
                 ( *dispg )( grndsave );
-        }
-        movmem( ground + displx, grndsave, SCR_WDTH * sizeof( GRNDTYPE ) );
+	}
+	movmem( ground + displx, grndsave, SCR_WDTH * sizeof( GRNDTYPE ) );
+
         ( *dispg )( ground + displx );
 }
 
@@ -187,11 +197,11 @@ register char     *sptr;
 static  dispgc( gptr )
 GRNDTYPE *gptr;
 {
-register GRNDTYPE *g, gl, gc;
-register int      gmask, i;
-register char     *sptr;
+	register GRNDTYPE *g, gl, gc;
+	register int      gmask, i;
+	register char     *sptr;
 
-        i = SCR_WDTH;
+	i = SCR_WDTH;
         gl = *( g = gptr );
         gmask = 0x80;
         sptr = dispoff + ( SCR_HGHT - gl - 1 ) * 160;
@@ -334,10 +344,12 @@ OBJECTS *ob;
 int     x, y, clr, *retcode;
 char    *symbol;
 {
-register char   *s, *sptr, *sym;
-register int    j, c, cr, pc;
-int             rotr, rotl, wdth, wrap, n;
+	register char   *s, *sptr, *sym;
+	register int    j, c, cr, pc;
+	int             rotr, rotl, wdth, wrap, n;
 
+	exit(-1);
+	
         if ( !( sym = symbol ) )
                 return;
 
@@ -394,12 +406,12 @@ OBJECTS *ob;
 int     x, y, clr, *retcode;
 char    *symbol;
 {
-register char   *s, *sptr, *sym;
-register int    j, c1, c2, c;
-int             rotr, rotl, wdth, wrap, n;
-int             cr, pc1, pc2, invert, enhance1;
-extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
-
+	register char   *s, *sptr, *sym;
+	register int    j, c1, c2, c;
+	int             rotr, rotl, wdth, wrap, n;
+	int             cr, pc1, pc2, invert, enhance1;
+	extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
+	
         if ( !( sym = symbol ) )
                 return;
 
@@ -431,7 +443,9 @@ extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
                 s = sptr;
                 j = wdth;
                 pc1 = pc2 = 0;
-                while ( j-- ) {
+
+		while ( j-- ) {
+
                         if ( j ) {
                                 c = 0xFF;
                                 --j;
@@ -451,7 +465,8 @@ extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
                                 *retcode = TRUE;
                                 retcode = 0;
                         }
-                        *s     ^= c1 ^ ( c & invert );
+
+			*s     ^= c1 ^ ( c & invert );
                         *(s+2) ^= c2 ^ ( c & invert );
                         *(s+6) ^= c & enhance1;
 
@@ -460,6 +475,7 @@ extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
                         else
                                 ++s;
                 }
+
                 if ( wrap >= 0 )
                         sym += wrap & 0xFFFE;
                 else {
@@ -569,7 +585,7 @@ register  char  *sptr;
                 *oldclr = ( ( *sptr & mask ) >> ( 6 - x ) ) & 0x00FF;
 
         c = clr << ( 6 - x );
-        if ( clr & 0x0080 ) {
+        if (clr & 0x0080 ) {
                 *sptr        ^= ( mask & c );
                 *( sptr+80 ) ^= ( mask & c );
         } else {
@@ -603,12 +619,21 @@ get_type()
         return( scrtype = trap14( 4 ) );
 }
 
-
+// sdh: just set the res using the cga (sdl) calls
 
 set_type( type )
 int     type;
 {
-        if ( type > 2 ) {
+	CGA_Init();
+	
+	dispg = dispgc;
+	drawpnt = drawpc;
+	drawsym = drawsc;
+	invertsymbols();
+
+	return;
+	/*
+        if (type > 2 ) {
                 if ( scrtype == 2 ) {
                         type = 2;
                         dispg = dispgm;
@@ -630,23 +655,28 @@ int     type;
                 trap14( 5, -1L, -1L, type );
                 trap14( 21, 1 );
         }
+	*/
 }
 
 
 
 static  invertsymbols()
 {
-extern  char    swplnsym[ORIENTS][ANGLES][SYMBYTES];
-extern  char    swhitsym[HITSYMS][SYMBYTES];
-extern  char    swbmbsym[BOMBANGS][BOMBBYTES];
-extern  char    swtrgsym[TARGORIENTS][TARGBYTES];
-extern  char    swwinsym[WINSIZES][WINBYTES];
-extern  char    swhtrsym[TARGBYTES];
-extern  char    swexpsym[EXPLSYMS][EXPBYTES];
-extern  char    swflksym[FLCKSYMS][FLKBYTES];
-extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
-extern  char    swoxsym[OXSYMS][OXBYTES];
-
+	extern  char    swplnsym[ORIENTS][ANGLES][SYMBYTES];
+	extern  char    swhitsym[HITSYMS][SYMBYTES];
+	extern  char    swbmbsym[BOMBANGS][BOMBBYTES];
+	extern  char    swtrgsym[TARGORIENTS][TARGBYTES];
+	extern  char    swwinsym[WINSIZES][WINBYTES];
+	extern  char    swhtrsym[TARGBYTES];
+	extern  char    swexpsym[EXPLSYMS][EXPBYTES];
+	extern  char    swflksym[FLCKSYMS][FLKBYTES];
+	extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
+	extern  char    swoxsym[OXSYMS][OXBYTES];
+	extern  char    swshtsym[SHOTBYTES];
+	extern  char    swsplsym[SPLTBYTES];
+	extern  char    swmscsym[MISCANGS][MISCBYTES];
+	extern  char    swbstsym[BRSTSYMS][BRSTBYTES];
+	
         invert( swplnsym, ORIENTS*ANGLES*SYMBYTES );
         invert( swhitsym, HITSYMS*SYMBYTES        );
         invert( swbmbsym, BOMBANGS*BOMBBYTES      );
@@ -658,6 +688,10 @@ extern  char    swoxsym[OXSYMS][OXBYTES];
         copy( swbrdsym, spcbirds );
         invert( spcbirds, BIRDSYMS*BRDBYTES*2     );
         invert( swoxsym,  OXSYMS*OXBYTES          );
+	invert( swshtsym, SHOTBYTES );
+	invert( swsplsym, SPLTBYTES );
+	invert( swbstsym, BRSTSYMS * BRSTBYTES );
+	invert( swmscsym, MISCANGS * MISCBYTES );
 }
 
 
@@ -706,8 +740,37 @@ int             n;
         }
 }
 
+// sdh: experiments into fixing splatted ox
 
+void colorscreen(int color)
+{
+        char *p;
+        int n = SCR_WDTH * SCR_HGHT / 2;
 
+        for(p=dispoff; p<dispoff+n;) {
+                if(color & 1) {
+                        *p = ~*p;
+                        *(p+1) = ~*(p+1);
+                }
+                p += 2;
+//                if(color & 2) {
+//                        *p = ~*p;
+//                        *(p+1) = ~*(p+1);
+//                }
+                p += 2;
+                if(color & 4) {
+                        *p = ~*p;
+                        *(p+1) = ~*(p+1);
+                }
+                p += 2;
+//                if(color & 8) {
+//                        *p = ~*p;
+//                        *(p+1) = ~*(p+1);
+//                }
+                p += 2;
+        }
+
+}
 
 
 
@@ -718,15 +781,14 @@ int             n;
 
 ---------------------------------------------------------------------------*/
 
-
-
-
 setvdisp()
 {
-static  char    *videoram = NULL;
+	static  char    *videoram = NULL;
 
-        if ( !videoram )
-                videoram = trap14( 3 );
+        if ( !videoram ) {
+		videoram = CGA_GetVRAM();
+	}
+	
         dispoff = videoram;
 }
 
@@ -735,5 +797,22 @@ static  char    *videoram = NULL;
 
 setadisp()
 {
-        dispoff = auxdisp - 0x4000;
+	// not sure what this does
+	
+//      CGA_ClearScreen();
+
+//	dispoff = malloc(0x4000);
+//        dispoff = auxdisp - 0x4000;
+}
+
+// sdh: screenshot function
+
+screendump()
+{
+	FILE *fs = fopen("screendump.bin", "wb");
+	printf("screendump\n");
+
+	fwrite(dispoff, VRAMSIZE, 1, fs);
+
+	fclose(fs);
 }

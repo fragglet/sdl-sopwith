@@ -9,5 +9,11 @@
 
 */
 
+// sdh: #ifndef incase of multiple includes
+
+#ifndef __SWDEVE_H__
+#define __SWDEVE_H__
+
 #define DEVELOPE
-
+
+#endif 

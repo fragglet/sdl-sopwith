@@ -24,7 +24,6 @@
 */
 #include        "sw.h"
 
-extern  int     sintab[];               /* sine table based on angles    */
 extern  GRNDTYPE ground[];              /* Ground height by pixel        */
 extern  GRNDTYPE orground[];            /* Minimum ground height in craters */
 extern  OBJECTS *nobjects;              /* Objects list.                    */
@@ -193,13 +192,15 @@ register int    r, i;
 
 
 
+/*  sdh -- this is standard c
 
-abs( x )
-int     x;
-{
-        return( ( x < 0 ) ? -x : x );
-}
 
+    abs( x )
+    int     x;
+    {
+    return( ( x < 0 ) ? -x : x );
+    }
+*/
 
 
 
@@ -270,7 +271,7 @@ static  int     crange[3],ccrash[3], calt[3];
                 movexy( &obs, &nx, &ny );
                 crange[i] = range( nx, ny, ax, ay );
                 calt[i] = ny - orground[nx + 8];
-                ccrash[i] = tstcrash( ob, nx, ny, calt[i] );
+                ccrash[i] = tstcrash2( ob, nx, ny, calt[i] );
                 movmem( ob, &obs, sizeof( OBJECTS ) );
         }
 
@@ -365,8 +366,10 @@ register int    i, xl, xr;
 
 
 
+// sdh: changed to tstcrash2 to stop conflicts with the other 
+// function with the same name in swcollsn.c
 
-static  tstcrash( obp, x, y, alt )
+static  tstcrash2( obp, x, y, alt )
 int     x, y, alt;
 OBJECTS *obp;
 {
@@ -421,3 +424,4 @@ register int     t;
 
         return( - ( ( ( 7 * dx ) + ( dy << 2 ) ) >> 3 ) );
 }
+

@@ -24,9 +24,14 @@
                         87-04-04        Missile and starburst support
                         87-04-08        Delay between starbursts
 */
+
+// sdh: #ifndef to catch multiple includes
+
+#ifndef __SW_H__
+#define __SW_H__
+
 #include        "std.h"
-#include        "sysint.h"
-#include        "setjmp.h"
+#include        <setjmp.h>
 #include        "swdeve.h"
 #include        "swmach.h"
 
@@ -217,13 +222,14 @@
 
 
 
-typedef struct tt {                     /*  Continuous tone table entry    */
+struct tt {                     /*  Continuous tone table entry    */
         unsigned  tt_tone;
         unsigned  tt_chng;
         struct tt *tt_next;
         struct tt *tt_prev;
-}       TONETAB;
+};
 
+typedef struct tt TONETAB;
 
 typedef struct obj {                            /*  Object list             */
         int        ob_state;
@@ -323,18 +329,26 @@ typedef struct {                        /*  Old display parameters for    */
         int     ow_x, ow_y;
 }       OLDWDISP;
 
+// sdh: made these into inline functions rather than ugly #define macros
 
-#define COS(x)  sintab[(x+(ANGLES/4))%ANGLES]
-#define SIN(x)  sintab[x%ANGLES]
-#define BOOL    int
-#define BIOFD   int
+extern int sintab[];
+
+static inline int COS(int x) {
+	return sintab[(x+(ANGLES/4)) % ANGLES];
+}
+
+static inline int SIN(int x) {
+	return sintab[x % ANGLES];
+}
+
+// made these into typedefs rather than ugly #define macros
+
+typedef enum {false, true} BOOL;
+typedef int BIOFD;
 
                                         /*  Internal representation of ground */
                                         /*  due to non-implementation of      */
                                         /*  unsigned char on ATARI            */
-#ifdef  IBMPC
-#define GRNDTYPE        unsigned char
-#endif
-#ifdef  ATARI
-#define GRNDTYPE        int
+typedef  unsigned int GRNDTYPE;
+
 #endif

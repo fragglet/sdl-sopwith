@@ -9,6 +9,12 @@
 
 */
 
+#ifndef __STD_H__
+#define __STD_H__
+
+#include <stdio.h>
+#include <stdlib.h>
+
 #define NULL     ((void *)0)
 #define FALSE    0
 #define TRUE     1
@@ -16,11 +22,11 @@
 #define YES      1
 #define FOREVER  for (;;)
 
-int index(char *str,int c);
-int inportb(unsigned port);
+int strindex(char *str,int c);
 void movblock(unsigned int srcoff,unsigned int srcseg,
               unsigned int destoff,unsigned int destseg,
               unsigned int count);
 void movmem(void *src,void *dest,unsigned count);
-int outportb(unsigned port,int data);
 void setmem(void *dest,unsigned count,int c);
+
+#endif

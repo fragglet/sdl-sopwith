@@ -27,7 +27,7 @@
 */
 #include        "sw.h"
 
-
+// sdh: put them in a header
 
 extern  int     displx, disprx;         /*  Display left and right bounds */
 extern  int     dispdx;                 /*  Display shift                 */
@@ -41,7 +41,6 @@ extern  int     lcompter[];             /* Computer plane territory       */
 extern  int     rcompter[];             /* Computer plane territory       */
 extern  int     playmode;               /*  Play mode                     */
 extern  MULTIO  *multbuff;              /*  Communications buffer         */
-extern  int     sintab[];               /*  sine table based on angles    */
 extern  GRNDTYPE ground[];              /*  Ground height by pixel        */
 extern  int     keydelay;               /*  Number of displays per keystr */
 extern  int     multkey;                /* Keystroke to be passed         */
@@ -77,8 +76,7 @@ extern  int     missok;                 /* Missiles supported               */
 
 static  BOOL    quit;
 
-
-
+moveplyr(OBJECTS *obp);
 
 swmove()
 {
@@ -98,7 +96,7 @@ register OBJECTS *ob, *obn;
                 obn = ob->ob_next;
                 ob->ob_delflg = ob->ob_drwflg;
                 ob->ob_oldsym = ob->ob_newsym;
-                ob->ob_drwflg = ( *ob->ob_movef )( ob );
+		ob->ob_drwflg = ( *ob->ob_movef )( ob );
                 if ( ( ( playmode == MULTIPLE ) || ( playmode == ASYNCH ) )
                         && ( ob->ob_index == multbuff->mu_maxplyr )
                         && ( !dispcnt ) )
@@ -117,11 +115,11 @@ register OBJECTS *ob, *obn;
 moveplyr( obp )
 OBJECTS *obp;
 {
-register OBJECTS *ob;
-register BOOL    rc;
-register oldx;
-
-        compplane = FALSE;
+	register OBJECTS *ob;
+	register BOOL    rc;
+	register oldx;
+	
+	compplane = FALSE;
         plyrplane = TRUE;
 
         ob = obp;
@@ -142,8 +140,10 @@ register oldx;
                 else if ( playmode == ASYNCH )
                         multkey = asynget( ob );
                 else {
-                        multkey = swgetc();
-                        swflush();
+			// sdh: use the cga (sdl) interface to
+			// read key status
+			
+                        multkey = CGA_GetGameKeys();
                 }
                 interpret( ob, multkey );
         } else {
@@ -175,12 +175,13 @@ register oldx;
 
         oldx = ob->ob_x;
         rc = movepln( ob );
+
         if ( ( oldx <= SCR_LIMIT ) || ( oldx >= ( MAX_X - SCR_LIMIT ) ) )
                 dispdx = 0;
         else {
                 displx += ( dispdx = ob->ob_x - oldx );
                 disprx += dispdx;
-        }
+        } 
 
         if ( !ob->ob_athome ) {
                 setvdisp();
@@ -301,14 +302,16 @@ register int     state;
                 gohome( ob );
 }
 
-
+extern void dispplyr();
 
 movecomp( obp )
 OBJECTS *obp;
 {
-register OBJECTS *ob;
-
-        compplane = TRUE;
+	register OBJECTS *ob;
+	int oldx;
+	int rc;
+	
+	compplane = TRUE;
         plyrplane = FALSE;
 
         ob = obp;
@@ -349,7 +352,10 @@ register OBJECTS *ob;
                         break;
         }
 
-        return( movepln( ob ) );
+	
+        rc = movepln( ob );
+        
+	return rc;
 }
 
 
@@ -357,12 +363,13 @@ register OBJECTS *ob;
 movepln( obp )
 OBJECTS *obp;
 {
-register OBJECTS *ob;
-register int    nangle, nspeed, state, limit, update;
-int             x, y, newstate, stalled, grv;
-static   char   gravity[] = { 0,-1,-2,-3,-4,-3,-2,-1,
-                              0, 1, 2, 3, 4, 3, 2, 1 };
-
+	register OBJECTS *ob;
+	register int    nangle, nspeed, state, limit, update;
+	int             x, y, newstate, stalled, grv;
+	static   char   gravity[] = { 0,-1,-2,-3,-4,-3,-2,-1,
+				      0, 1, 2, 3, 4, 3, 2, 1 };
+	extern char *swshtsym;
+	
         ob = obp;
         switch ( state = ob->ob_state ) {
                 case FINISHED:
@@ -549,8 +556,7 @@ static   char   gravity[] = { 0,-1,-2,-3,-4,-3,-2,-1,
                                 : ( ( ( ob->ob_state == FALLING )
                                     && ( !ob->ob_dx ) && ( ob->ob_dy < 0 ) )
                                     ? swhitsym[ob->ob_orient]
-                                    : swplnsym[ob->ob_orient][ob->ob_angle]);
-
+				    : swplnsym[ob->ob_orient][ob->ob_angle]);
         movexy( ob, &x, &y );
 
         if ( x < 0 )
@@ -566,7 +572,7 @@ static   char   gravity[] = { 0,-1,-2,-3,-4,-3,-2,-1,
                   || ( ob->ob_state == WOUNDSTALL ) )
                 && !endsts[player] )
                 nearpln( ob );
-
+	
         deletex( ob );
         insertx( ob, ob->ob_xnext );
 
@@ -589,7 +595,7 @@ static   char   gravity[] = { 0,-1,-2,-3,-4,-3,-2,-1,
                 dispwobj( ob );
                 return( plyrplane || ( ob->ob_state < FINISHED ) );
         }
-
+	
         return( FALSE );
 }
 
@@ -1182,3 +1188,4 @@ register OBJECTS *ob;
         ob->ob_xnext->ob_xprev = ob->ob_xprev;
         ob->ob_xprev->ob_xnext = ob->ob_xnext;
 }
+

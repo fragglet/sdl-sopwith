@@ -18,7 +18,7 @@
 */
 #include        "sw.h"
 
-
+// sdh: put them in a header
 
 extern  OBJECTS *nobjects;              /* Objects list.                    */
 extern  OBJECTS *objbot, *objtop,       /* Top and bottom of object list    */
@@ -81,3 +81,4 @@ register OBJECTS *ob, *obb;
 
 
 }
+

@@ -12,12 +12,14 @@
 #include <stdio.h>
 #include <setjmp.h>
 #include <stdlib.h>
-#include <dos.h>
-#include <alloc.h>
+//#include <dos.h>
+//#include <alloc.h>
 #include <string.h>
-#include <conio.h>
+//#include <conio.h>
 #include "sopasm.h"
 #include "def.h"
+
+#define huge 
 
 struct snd
 {
@@ -3539,3 +3541,4 @@ int pixel(int x,int y,int c)
     *scp^=(c&0x7f)<<shift;
   return o>>shift;
 }
+

@@ -23,6 +23,7 @@
 */
 #include        "sw.h"
 
+// sdh: this file is well and truly broken
 
 extern  int     playmode;               /* Mode of play                     */
 extern  GAMES   swgames[], *currgame;   /* Game parameters and current game */
@@ -90,7 +91,7 @@ struct bpbtab {                         /* Disk BPB structure               */
 #define BP_NHEADS       15
 #define BP_NHIDDEN      17
 
-static char *prtbuf = auxdisp;
+//static char *prtbuf = auxdisp;
 static struct bpbtab *swbpb;
 static BIOFD  devfd;
 
@@ -222,6 +223,7 @@ char    *cmndfile, *multfile;
 multparm( multfile )
 char    *multfile;
 {
+#ifdef IBMPC
 char    dev[3];
 BIOFD   fd;
 register int    i;
@@ -246,6 +248,7 @@ register char   *mf;
 
         multasect = --multsect;
         sectparm();
+#endif
 }
 
 
@@ -254,6 +257,7 @@ static  name_to_sec( fd, name )
 BIOFD   fd;
 char    *name;
 {
+#ifdef IBMPC
 struct  bpbtab  bpb;
 struct  dirent  entry;
 
@@ -261,6 +265,7 @@ struct  dirent  entry;
         if ( !get_ent( fd, &bpb, name, &entry ))
                 return(NO);
         return( clu_to_sec( _word( entry.dc + DIR_CLU ), &bpb ) );
+#endif
 }
 
 
@@ -283,10 +288,12 @@ static  make_bpb( fd, bpb )
 BIOFD           fd;
 struct  bpbtab  *bpb;
 {
+#ifdef IBMPC
         bseek( fd, 0l, 0);
         bread( prtbuf, 512, fd);
         movmem( prtbuf + 11, bpb, sizeof( struct bpbtab ) );
         swbpb = bpb;
+#endif
 }
 
 
@@ -311,6 +318,7 @@ struct  bpbtab  *bpb;
 char            *name;
 struct  dirent  *entry;
 {
+#ifdef IBMPC
 long             block;
 int              strtdir;
 register int     i;
@@ -346,7 +354,9 @@ char             want[12];
                         }
                 }
         }
+#endif
         return(NO);
+
 }
 
 
@@ -417,7 +427,7 @@ int     spc;
 
 multread()
 {
-
+#ifdef IBMPC
         bseek( devfd, commasect << 9, 0 );
         if ( bread( prtbuf, 512, devfd ) != 512 ) {
                 errlog( ( bioerr() & 0xFF00 ) + 1, OREAD );
@@ -449,6 +459,7 @@ multread()
                 return( 0 );
         }
         _fromintel();
+#endif
         return( 1 );
 }
 
@@ -458,6 +469,7 @@ multread()
 
 multwrite()
 {
+#ifdef IBMPC
 register int     dkerr;
 register char    *buff;
 
@@ -471,6 +483,7 @@ register char    *buff;
                 if ( dkerr != 0x0300 )
                         return( 0 );
         }
+#endif
 }
 
 
@@ -478,6 +491,7 @@ register char    *buff;
 
 multunlock()
 {
+#ifdef IBMPC
         if ( !swlocked )
                 return( 1 );
 
@@ -487,7 +501,7 @@ multunlock()
                 return( 0 );
 
         swlocked = FALSE;
-
+#endif
         return( 1 );
 }
 
@@ -496,12 +510,14 @@ multunlock()
 
 multwait()
 {
+#ifdef IBMPC
 int     _multwait();
 
         _dkproc( _multwait, multstack );
         while ( _dkiosts() );
         if ( errorflg )
                 swend( errormsg, errflg1 );
+#endif
 }
 
 
@@ -511,6 +527,7 @@ int     _multwait();
 multget( ob )
 OBJECTS *ob;
 {
+#ifdef IBMPC
 register int     o;
 
         if ( errorflg )
@@ -524,6 +541,7 @@ register int     o;
         if ( o != player )
                 updstate( ob, multbuff->mu_state[o] );
         return( histmult( o, multbuff->mu_key[o] ) );
+#endif
 }
 
 
@@ -551,12 +569,14 @@ register int     state;
 
 multput()
 {
+#ifdef IBMPC
 int     _multput();
 
         while ( _dkiosts() );
         if ( errorflg )
                  swend( errormsg, errflg1 );
         _dkproc( _multput, multstack );
+#endif
 }
 
 
@@ -566,6 +586,9 @@ int     _multput();
 char    *multclos( update )
 BOOL    update;
 {
+
+#ifdef IBMPC
+
 register int     rc, n;
 char             *closeret  = NULL;
 BOOL             alldone;
@@ -625,6 +648,7 @@ int              tickwait;
                          closeret = "Unlock error on communications file";
 
         return( closeret );
+#endif
 }
 
 
@@ -633,6 +657,7 @@ int              tickwait;
 
 static  _multwait()
 {
+#ifdef IBMPC
 register MULTIO  *mu;
 register int     i;
 int              count, dkerr;
@@ -668,6 +693,7 @@ int              count, dkerr;
                 if ( i == mu->mu_maxplyr )
                         return;
         }
+#endif
 }
 
 
@@ -679,6 +705,7 @@ static  unsigned curtry    = 0;
 
 static  _multput()
 {
+#ifdef IBMPC
 register MULTIO  *mu;
 register OBJECTS *ob;
 int              count, dkerr;
@@ -742,6 +769,7 @@ char             *buff;
 
         updated( player + 1, mu->mu_maxplyr );
         changedelay();
+#endif
 }
 
 
@@ -749,6 +777,7 @@ char             *buff;
 static  updated( n1, n2 )
 int     n1, n2;
 {
+#ifdef IBMPC
 int              n, count;
 register MULTIO  *mu;
 register OBJECTS *ob;
@@ -806,6 +835,7 @@ BOOL             readdone = FALSE;
                 readdone = TRUE;
                 ++curtry;
         }
+#endif
 }
 
 
@@ -913,6 +943,7 @@ static  unsigned numadjdn  = 0;
 
 static delay()
 {
+#ifdef IBMPC
 register int     t;
 
         if ( multtick == -1 )
@@ -925,6 +956,7 @@ register int     t;
 
         numdel += t;
         _dktick( t );
+#endif
 }
 
 
@@ -1034,6 +1066,7 @@ init1mul( reset, device )
 BOOL    reset;
 char    *device;
 {
+#ifdef IBMPC
 register MULTIO *mu;
 register int    n;
 int      tickwait, rc;
@@ -1079,6 +1112,7 @@ int      tickwait, rc;
         if ( mu->mu_numplyr >= mu->mu_maxplyr )
                 swend( "Mamimum number of players already playing", NO );
         ++mu->mu_numplyr;
+#endif
 }
 
 
@@ -1127,6 +1161,7 @@ BOOL             playinit = FALSE;
 
 static getmaxplyr()
 {
+#ifdef IBMPC
 register int     max;
 
         clrprmpt();
@@ -1137,7 +1172,8 @@ register int     max;
                 if ( ( ( max = ( swgetc() & 0x00FF ) - '0' ) >= 1 )
                     && ( max <=  MAX_PLYR  ) )
                         return( max );
-        }
+}
+#endif
 }
 
 
@@ -1156,3 +1192,4 @@ register int     i;
                 multbuff->mu_state[i] = WAITING;
         }
 }
+

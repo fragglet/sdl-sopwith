@@ -449,12 +449,14 @@ multunlock()
 
 multwait()
 {
+#ifdef IBMPC
 int     _multwait();
 
         _dkproc( _multwait, multstack );
         while ( _dkiosts() );
         if ( errorflg )
                 swend( errormsg, errflg1 );
+#endif
 }
 
 
@@ -464,6 +466,7 @@ int     _multwait();
 multget( ob )
 OBJECTS *ob;
 {
+#ifdef IBMPC
 register int     o;
 
         if ( errorflg )
@@ -477,6 +480,7 @@ register int     o;
         if ( o != player )
                 updstate( ob, multbuff->mu_state[o] );
         return( histmult( o, multbuff->mu_key[o] ) );
+#endif 
 }
 
 
@@ -485,6 +489,7 @@ static  updstate( obp, statep )
 OBJECTS *obp;
 int     statep;
 {
+#ifdef IBMPC
 register OBJECTS *ob;
 register int     state;
 
@@ -497,6 +502,7 @@ register int     state;
                 setvdisp();
                 dispwobj( ob );
         }
+#endif
 }
 
 
@@ -504,12 +510,14 @@ register int     state;
 
 multput()
 {
+#ifdef IBMPC
 int     _multput();
 
         while ( _dkiosts() );
         if ( errorflg )
                  swend( errormsg, errflg1 );
         _dkproc( _multput, multstack );
+#endif
 }
 
 
@@ -519,6 +527,7 @@ int     _multput();
 char    *multclos( update )
 BOOL    update;
 {
+#ifdef IBMPC
 register int     rc, n;
 char             *closeret  = NULL;
 BOOL             alldone;
@@ -578,6 +587,7 @@ int              tickwait;
                          closeret = "Unlock error on communications file";
 
         return( closeret );
+#endif
 }
 
 
@@ -586,6 +596,7 @@ int              tickwait;
 
 static  _multwait()
 {
+#ifdef IBMPC
 register MULTIO  *mu;
 register int     i;
 int              count, dkerr;
@@ -621,6 +632,7 @@ int              count, dkerr;
                 if ( i == mu->mu_maxplyr )
                         return;
         }
+#endif
 }
 
 
@@ -632,6 +644,7 @@ static  unsigned curtry    = 0;
 
 static  _multput()
 {
+#ifdef IBMPC
 register MULTIO  *mu;
 register OBJECTS *ob;
 int              count, dkerr;
@@ -695,6 +708,7 @@ char             *buff;
 
         updated( player + 1, mu->mu_maxplyr );
         changedelay();
+#endif
 }
 
 
@@ -702,6 +716,7 @@ char             *buff;
 static  updated( n1, n2 )
 int     n1, n2;
 {
+#ifdef IBMPC
 int              n, count;
 register MULTIO  *mu;
 register OBJECTS *ob;
@@ -759,6 +774,7 @@ BOOL             readdone = FALSE;
                 readdone = TRUE;
                 ++curtry;
         }
+#endif
 }
 
 
@@ -1108,3 +1124,4 @@ register int     i;
                 multbuff->mu_state[i] = WAITING;
         }
 }
+

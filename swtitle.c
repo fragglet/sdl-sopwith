@@ -20,7 +20,12 @@
                         2000-10-29      Copyright update.
 */
 #include        "sw.h"
+#include        "cgavideo.h"
 
+// sdh -- use network edition title screen
+//#define NET_TITLE
+
+// sdh: move these into headers
 
 extern  int             savemode;               /* Saved PC video mode    */
 extern  BOOL            hires;                  /* High res debug flag    */
@@ -37,14 +42,14 @@ extern  GRNDTYPE ground[];              /* Ground height by pixel         */
 
 swtitln()
 {
-OBJECTS         ob;
-extern   char   swplnsym[][ANGLES][SYMBYTES];
-extern   char   swtrgsym[][TARGBYTES];
-extern   char   swoxsym[][OXBYTES];
-extern   char   swhitsym[][SYMBYTES];
-extern   char   swwinsym[][WINBYTES];
-register int     i, h;
-
+	OBJECTS         ob;
+	extern   char   swplnsym[][ANGLES][SYMBYTES];
+	extern   char   swtrgsym[][TARGBYTES];
+	extern   char   swoxsym[][OXBYTES];
+	extern   char   swhitsym[][SYMBYTES];
+	extern   char   swwinsym[][WINBYTES];
+	register int     i, h;
+ 
         savemode = get_type();
         set_type ( ( hires ) ? 6 : 4 );
 
@@ -56,51 +61,52 @@ register int     i, h;
         sound( S_TITLE, 0, NULL );
         swsound();
 
-/*---------------- Original BMB Version---------------
-
+/*---------------- Original BMB Version---------------*/
+#ifndef NET_TITLE
+	
         swcolour( 3 );
         swposcur( 13, 6 );
-        puts( "S O P W I T H" );
+        swputs( "S O P W I T H" );
 
         swcolour( 1 );
         swposcur( 12, 8 );
-        puts( "(Version 7.F15)" );
+        swputs( "(Version 7.F15)" );
 
         swcolour( 3 );
         swposcur( 5, 11 );
-        puts( "(c) Copyright 1984, 1985, 1987" );
+        swputs( "(c) Copyright 1984, 1985, 1987" );
 
         swcolour( 1 );
         swposcur( 6, 12 );
-        puts( "BMB " );
+        swputs( "BMB " );
         swcolour( 3 );
-        puts( "Compuscience Canada Ltd." );
-
------------------- Original BMB Version---------------*/
+        swputs( "Compuscience Canada Ltd." );
+#else
+/*------------------ Original BMB Version---------------*/
 
 /*---------------- New Network Version ---------------*/
 
         swcolour( 3 );
         swposcur( 13, 4 );
-        puts( "S O P W I T H" );
+        swputs( "S O P W I T H" );
 
         swcolour( 1 );
         swposcur( 9, 6 );
-        puts( "(Distribution Version)" );
+        swputs( "(Distribution Version)" );
 
         swcolour( 3 );
         swposcur( 5, 9 );
-        puts( "(c) Copyright 1984, 1985, 1987" );
+        swputs( "(c) Copyright 1984, 1985, 1987" );
 
         swcolour( 1 );
         swposcur( 6, 10 );
-        puts( "BMB " );
+        swputs( "BMB " );
         swcolour( 3 );
-        puts( "Compuscience Canada Ltd." );
+        swputs( "Compuscience Canada Ltd." );
 
         swcolour( 3 );
         swposcur( 1, 12 );
-        puts( "(c) Copyright 1984-2000 David L. Clark" );
+        swputs( "(c) Copyright 1984-2000 David L. Clark" );
 
 /*---------------- New Network Version-----------------*/
 
@@ -138,10 +144,14 @@ register int     i, h;
         h = 150;
         for ( i = 9; i; --i )
                 swputsym( 30, h += 5, &ob );
+
+#endif /* #ifndef NET_TITLE */
+
+	// sdh: need update to show the screen
+	
+	CGA_Update();
+
 }
-
-
-
 
 swtitlf()
 {
@@ -154,7 +164,9 @@ swtitlf()
         tickmode = 0;
 }
 
-
+// sdh -- this function was called on a timed interrupt
+// in the original to keep the game moving and update
+// sounds. it is unused now
 
 swtickc()
 {
@@ -164,7 +176,7 @@ swtickc()
         ++movetick;
         ----------------*/
         movetick+=10;
-#ifdef  IBMPC
+
         soundadj();
-#endif
 }
+

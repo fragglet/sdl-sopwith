@@ -46,6 +46,10 @@ OBJECTS *ob;
                 dispwindshot();
         if ( splatbird )
                 dispsplatbird();
+
+	// sdh: splatted ox is currently broken
+//        if ( splatox )
+//                dispoxsplat();
         plnsound( ob );
 }
 
@@ -222,14 +226,15 @@ unsigned long   randsd()
 }
 
 
+extern char    swplnsym[ORIENTS][ANGLES][SYMBYTES];
 
 dispwindshot()
 {
-OBJECTS                  ob;
-
+	OBJECTS                  ob;
+	
         ob.ob_type = DUMMYTYPE;
         ob.ob_symhgt = ob.ob_symwdt = 16;
-        ob.ob_clr = 1;
+        ob.ob_clr = 0;
         ob.ob_newsym = swshtsym;
         do {
                 randsd();
@@ -262,9 +267,12 @@ OBJECTS                  ob;
 
 dispoxsplat()
 {
-register OBJECTS *ob;
-register int     i;
+        register OBJECTS *ob;
+        register int     i;
 
+        colorscreen(2);
+        printf("oxsplat\n");
+        
         swsetblk( 0,        SCR_SEGM,
                   ( ( SCR_HGHT - SCR_MNSH - 2 ) >> 1 ) * SCR_LINW, 0xAA );
         swsetblk( SCR_ROFF, SCR_SEGM,
@@ -276,3 +284,4 @@ register int     i;
         for ( i = 0; i < MAX_OBJS; ++i, ob++ )
                 ob->ob_drwflg = ob->ob_delflg = 0;
 }
+

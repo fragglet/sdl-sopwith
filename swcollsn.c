@@ -98,7 +98,7 @@ int              prevx1, prevx2;
         obkd = killed;
         obkr = killer;
         for ( i = 0; i < killptr; ++i, ++obkd, ++obkr )
-               kill( *obkd, *obkr );
+               swkill( *obkd, *obkr );
 
         obkd = collsno;
         for ( i = 0; i < collptr; ++i, ++obkd ) {
@@ -175,9 +175,10 @@ register BOOL    hit = FALSE;
         }
 }
 
+// sdh -- renamed this to swkill to remove possible conflicts with
+// the unix kill() function
 
-
-kill( ob1, ob2 )
+swkill( ob1, ob2 )
 OBJECTS *ob1, *ob2;
 {
 register OBJECTS *ob, *obt;
@@ -465,10 +466,11 @@ int             xmin, xmax;
 }
 
 
-
+// sdh: wtf?
 
 equal( x, y )
 int     ( *x )(), ( *y )();
 {
         return ( x == y );
 }
+

@@ -60,7 +60,7 @@ char            *multclos(), *asynclos();
                 closmsg = asynclos();
 
         intsoff();
-        _intterm();
+//        _intterm();
         intson();
         histend();
 
@@ -153,7 +153,7 @@ register int     n;
         if ( n == player ) {
                 swcolour( 0x82 );
                 swposcur( 16, 12 );
-                puts( "THE END" );
+                swputs( "THE END" );
                 endcount = 20;
         }
 }
@@ -168,3 +168,4 @@ swreport()
         dispd( ( (int) objsmax - (int) objtop + 1 ) / sizeof( OBJECTS ) );
         puts( "\r\n" );
 }
+
