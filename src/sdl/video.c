@@ -353,7 +353,7 @@ static void getevents()
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_LALT)
 				altdown = 1;
-			else if (event.key.keysym.sym == SDLK_LCTRL)
+			else if (event.key.keysym.sym == SDLK_LCTRL || event.key.keysym.sym == SDLK_RCTRL)
 				ctrldown = 1;
 			else if (ctrldown &&
 				 (event.key.keysym.sym == SDLK_c ||
@@ -381,7 +381,7 @@ static void getevents()
 		case SDL_KEYUP:
 			if (event.key.keysym.sym == SDLK_LALT)
 				altdown = 0;
-			else if (event.key.keysym.sym == SDLK_LCTRL)
+			else if (event.key.keysym.sym == SDLK_LCTRL || event.key.keysym.sym == SDLK_RCTRL)
 				ctrldown = 0;
 			else
 				keysdown[event.key.keysym.sym] &= ~1;
@@ -463,8 +463,12 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
-// Revision 1.1  2003/02/14 19:03:37  fraggle
-// Initial revision
+// Revision 1.2  2003/03/26 12:02:38  fraggle
+// Apply patch from David B. Harris (ElectricElf) for right ctrl key and
+// documentation
+//
+// Revision 1.1.1.1  2003/02/14 19:03:37  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
