@@ -120,20 +120,6 @@ static int asynin()
 }
 
 
-int asynget(OBJECTS * ob)
-{
-	register int key;
-
-	if (ob->ob_index == player) {
-		key = lastkey;
-		lastkey = 0;
-	} else {
-		key = readshort();
-	}
-
-	return key;
-}
-
 void asynput(int movekey)
 {
 	sendshort(movekey);
@@ -163,39 +149,6 @@ void asynupdate(void)
 		latest_player_commands[netplayer][latest_player_time[netplayer] % MAX_NET_LAG] = i;
 		++latest_player_time[netplayer];
 	}
-}
-
-// this function is called by the multiplayer planes
-
-BOOL movemult(OBJECTS * obp)
-{
-	register OBJECTS *ob;
-	int cmd;
-
-	plyrplane = compplane = FALSE;
-
-	endstat = endsts[currobx = (ob = obp)->ob_index];
-
-	cmd = asynget(ob);
-	interpret(ob, cmd);
-
-	/*
-	if (dispcnt) {
-		ob->ob_flaps = 0;
-		ob->ob_bombing = FALSE;
-	}
-	*/
-
-	if ((ob->ob_state == CRASHED || ob->ob_state == GHOSTCRASHED)
-	    && ob->ob_hitcount <= 0) {
-		if (ob->ob_life > QUIT) {
-			// sdh 25/10/2001: infinite lives in multiplayer
-			//++ob->ob_crashcnt;
-			initpln(ob);
-		}
-	}
-
-	return movepln(ob);
 }
 
 #define PROTOHEADER "SDLSOPWITH" VERSION
@@ -391,34 +344,16 @@ void init1asy()
 
 void init2asy()
 {
-	register OBJECTS *ob;
-	OBJECTS *initpln();
-
 	initplyr(NULL);
 	initplyr(NULL);
-	/*
-
-	if (!player)
-		initplyr(NULL);
-
-	ob = initpln(NULL);
-	ob->ob_drawf = dispplyr;
-	ob->ob_movef = moveplyr;
-	ob->ob_clr = ob->ob_index % 2 + 1;
-	ob->ob_owner = ob;
-	ob->ob_state = FLYING;
-	oobjects[ob->ob_index] = *ob;
-
-//	movmem(ob, &oobjects[ob->ob_index], sizeof(OBJECTS));
-
-	if (player)
-		initplyr(NULL);
-		*/
 }
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2004/10/20 18:17:06  fraggle
+// Remove dead code
+//
 // Revision 1.7  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //
