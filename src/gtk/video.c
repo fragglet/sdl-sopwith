@@ -751,7 +751,7 @@ static void Vid_SetMode()
 
 	visual = gtk_widget_get_visual(window);
 
-	screen = gdk_image_new(GDK_IMAGE_NORMAL,
+	screen = gdk_image_new(GDK_IMAGE_FASTEST,
 			       visual,
 			       w, h);
 
@@ -874,6 +874,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.8  2003/06/08 00:48:30  fraggle
+// use GDK_IMAGE_FASTEST instead of GDK_IMAGE_NORMAL for speed
+//
 // Revision 1.7  2003/06/05 01:51:18  fraggle
 // Remove broken popup menu code (was useless anyway)
 //
