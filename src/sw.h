@@ -261,6 +261,7 @@ typedef struct obj {                            /*  Object list             */
         int            ob_bursts;
         int            ob_bfiring;
         int            ob_bsdelay;
+	int            ob_plrnum;
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */
@@ -290,6 +291,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2004/10/15 21:30:57  fraggle
+// Improve multiplayer
+//
 // Revision 1.7  2004/10/15 18:51:24  fraggle
 // Fix the map. Rename dispworld to dispmap as this is what it really does.
 //

@@ -116,7 +116,6 @@ void swtitln()
 /*---------------- New Network Version-----------------*/
 
 	displx = 700-X_OFFSET;
-	dispinit = TRUE;
 	swground();
 
 	// sdh 28/06/2002: cleared this up a lot, no more 
@@ -361,6 +360,9 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.7  2004/10/15 18:06:16  fraggle
 // Fix copyright notice
 //

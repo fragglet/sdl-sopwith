@@ -30,7 +30,6 @@ extern void dispmiss(OBJECTS *obp);
 extern void dispburst(OBJECTS *obp);
 extern void dispexpl(OBJECTS *obp);
 extern void dispcomp(OBJECTS *ob);
-extern void dispmult(OBJECTS *ob);
 extern void disptarg(OBJECTS *ob);
 extern void dispflck(OBJECTS *ob);
 extern void dispbird(OBJECTS *ob);
@@ -43,6 +42,9 @@ extern void dispscore(OBJECTS *obp);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.4  2004/10/15 18:51:24  fraggle
 // Fix the map. Rename dispworld to dispmap as this is what it really does.
 //

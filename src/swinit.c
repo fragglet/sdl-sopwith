@@ -141,19 +141,6 @@ static void initseed()
 // status bar code
 //
 
-static void initscore()
-{
-	if (savescore) {
-		nobjects[0].ob_score = savescore;
-		savescore = 0;
-	}
-
-	dispscore(&nobjects[0]);
-	if (playmode == PLAYMODE_ASYNCH)
-		dispscore(&nobjects[1]);
-}
-
-
 
 
 static void dispgge(int x, int cury, int maxy, int clr)
@@ -288,7 +275,6 @@ void initdisp(BOOL reset)
 		swtitlf();
 		ghost = FALSE;
 	}
-	initscore();
 
 	ob = &nobjects[player];
 	if (ghost) {
@@ -298,8 +284,6 @@ void initdisp(BOOL reset)
 		ghostob.ob_newsym = symbol_ghost;     // sdh 27/6/2002
 		swputsym(GHOSTX, 12, &ghostob);
 	}
-
-	dispinit = TRUE;
 }
 
 
@@ -398,7 +382,6 @@ OBJECTS *initpln(OBJECTS * obp)
 void initplyr(OBJECTS * obp)
 {
 	OBJECTS *ob;
-	OBJECTS *initpln();
 
 	ob = initpln(obp);
 	if (!obp) {
@@ -409,7 +392,15 @@ void initplyr(OBJECTS * obp)
 		oobjects[ob->ob_index] = *ob;  // sdh 16/11: removed movmem
 		goingsun = FALSE;
 		endcount = 0;
-		consoleplayer = ob;
+
+		ob->ob_plrnum = num_players;
+		++num_players;
+
+		/* todo: save pointers to all player planes
+		 * and turn consoleplayer into a macro */
+
+		if (ob->ob_plrnum == player)
+			consoleplayer = ob;
 	}
 }
 
@@ -956,13 +947,10 @@ static void initgdep()
 
 void swinitlevel()
 {
+	int i;
+
 	if (playmode == PLAYMODE_ASYNCH)
 		init1asy();
-
-	// sdh 16/11/2001: this needs to be reset with each new game
-	// to keep netgames in sync if we have already played
-
-	countmove = 0;
 
 	// sdh: dont carry hud splats forward from previous games
 
@@ -971,6 +959,8 @@ void swinitlevel()
 	initsndt();
 	initgrnd();
 	initobjs();
+
+	num_players = 0;
 
 	if (keydelay == -1)
 		keydelay = 1;
@@ -1001,6 +991,14 @@ void swinitlevel()
 	initgdep();
 
 	inplay = TRUE;
+
+	// sdh 16/11/2001: this needs to be reset with each new game
+	// to keep netgames in sync if we have already played
+
+	countmove = 0;
+
+	for (i=0; i<num_players; ++i)
+		latest_player_time[i] = 0;
 }
 
 void swrestart()
@@ -1126,7 +1124,6 @@ void swinit(int argc, char *argv[])
 	if (modeset && keyset)
 		titleflg = TRUE;
 
-	movemax = 15;
 	initseed();
 
 	// sdh 27/6/2002: generate symbol objects
@@ -1164,6 +1161,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.15  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.14  2004/10/15 18:51:24  fraggle
 // Fix the map. Rename dispworld to dispmap as this is what it really does.
 //

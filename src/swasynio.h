@@ -34,6 +34,7 @@ extern void asynput(int movekey);
 extern char *asynclos(BOOL update);
 extern void init1asy();
 extern void init2asy();
+extern void asynupdate(void);
 
 #endif
 
@@ -41,6 +42,9 @@ extern void init2asy();
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.3  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

@@ -183,7 +183,6 @@ void swdisp()
 
 	dispgrnd();
 
-	dispinit = FALSE;
 	forcdisp = TRUE;
 
 	// need to update the screen as we arent writing
@@ -213,6 +212,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.10  2004/10/15 18:51:24  fraggle
 // Fix the map. Rename dispworld to dispmap as this is what it really does.
 //

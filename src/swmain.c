@@ -28,9 +28,11 @@
 #include "timer.h"
 
 #include "sw.h"
+#include "swasynio.h"
 #include "swcollsn.h"
 #include "swgrpha.h"
 #include "swinit.h"
+#include "swmain.h"
 #include "swmove.h"
 #include "swsound.h"
 #include "swtitle.h"
@@ -57,7 +59,6 @@ int numtarg[2];			/* Number of active targets by color */
 int savemode;			/* Saved PC display mode            */
 int tickmode;			/* Tick action to be performed      */
 int counttick, countmove;	/* Performance counters             */
-int movetick, movemax;		/* Move timing                      */
 
 int gamenum;			/* Current game number              */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
@@ -75,7 +76,6 @@ BOOL inplay;			/* Game is in play                  */
 int koveride;			/* Keyboard override index number   */
 
 int displx;			/* Display left and right           */
-BOOL dispinit;			/* Inialized display flag           */
 
 OBJECTS *nobjects;		/* Objects list.                    */
 OBJECTS oobjects[MAX_PLYR];	/* Original plane object description */
@@ -119,6 +119,61 @@ int sintab[ANGLES] = {		/* sine table of pi/8 increments    */
 jmp_buf envrestart;		/* Restart environment for restart  */
 				/*  long jump.                      */
 
+/* player commands */
+
+/* buffer of player commands, loops round. 
+ * latest_player_commands[plr][latest_player_time[plr] % MAX_NET_LAG] is the
+ * very latest command for plr.
+ */
+
+int latest_player_commands[MAX_PLYR][MAX_NET_LAG];
+int latest_player_time[MAX_PLYR];
+int num_players;
+
+/* possibly advance the game */
+
+static int can_move(void)
+{
+	int i;
+	int lowtic = countmove + MAX_NET_LAG;
+	
+	/* we can only advance the game if latest_player_time for all
+	 * players is > countmove. */
+
+	for (i=0; i<num_players; ++i) {
+		if (latest_player_time[i] < lowtic)
+			lowtic = latest_player_time[i];
+	}
+
+	return lowtic > countmove;
+}
+
+static void new_move(void)
+{
+	int multkey;
+
+	/* generate a new move command and save it */
+
+	multkey = Vid_GetGameKeys();
+
+	latest_player_commands[player][latest_player_time[player] % MAX_NET_LAG] = multkey;
+	++latest_player_time[player];
+
+	/* if this is a multiplayer game, send the command */
+
+	if (playmode == PLAYMODE_ASYNCH) {
+		asynput(multkey);
+	}
+}
+
+static void dump_cmds(void)
+{
+	printf("%i: %i, %i\n", countmove, 
+		latest_player_commands[0][countmove % MAX_NET_LAG],
+		latest_player_commands[1][countmove % MAX_NET_LAG]
+		);
+}
+
 int swmain(int argc, char *argv[])
 {
 	int nexttic;
@@ -139,35 +194,32 @@ int swmain(int argc, char *argv[])
 
 	for (;;) {
 
-		/*----- DLC 96/12/27 ------
-                while ( movetick < 2  );
-                movetick = 0;
-                -------------------------*/
-		//while ( movetick < movemax );
+		/* generate a new move command periodically
+		 * and send to other players if neccessary */
 
-		// sdh: in the original, movetick was incremented
-		// automagically by a timed interrupt. we dont
-		// have interrupts so we have to pause between tics
+		if (Timer_GetMS() > nexttic
+		 && latest_player_time[player] - countmove < MAX_NET_LAG) {
 
-		nexttic += 1000 / FPS;
-		do {
-			swsndupdate();
+			new_move();
+			nexttic += 1000 / FPS;
+		}
 
-			// sdh 15/11/2001: dont thrash the 
-			// processor while waiting
-			Timer_Sleep(10);
-		} while (Timer_GetMS() < nexttic);
+		asynupdate();
+		swsndupdate();
 
-		movetick -= movemax;
+		/* if we have all the tic commands we need, we can move */
 
-		// swmove and swdisp should be made to run
-		// asyncronously probably
+		if (can_move()) {
+			dump_cmds();
+			swmove();
+			swdisp();
+			swcollsn();
+			swsound();
+		}
 
-		swmove();
-		swdisp();
-		swgetjoy();
-		swcollsn();
-		swsound();
+		// sdh 15/11/2001: dont thrash the 
+		// processor while waiting
+		Timer_Sleep(10);
 	}
 
 	return 0;
@@ -177,6 +229,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.12  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.11  2004/10/15 18:57:14  fraggle
 // Remove redundant wdisp variable
 //

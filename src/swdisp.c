@@ -112,37 +112,19 @@ void dispcomp(OBJECTS * ob)
 	plnsound(ob);
 }
 
-
-
-
-void dispmult(OBJECTS * ob)
-{
-	plnsound(ob);
-}
-
-
-
-
 void disptarg(OBJECTS * ob)
 {
 	if (ob->ob_firing)
 		sound(S_SHOT, 0, ob);
 }
 
-
-
-
 void dispflck(OBJECTS * ob)
 {
 }
 
-
-
-
 void dispbird(OBJECTS * ob)
 {
 }
-
 
 void dispplyr(OBJECTS * ob)
 {
@@ -161,6 +143,9 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.8  2004/10/15 18:51:24  fraggle
 // Fix the map. Rename dispworld to dispmap as this is what it really does.
 //

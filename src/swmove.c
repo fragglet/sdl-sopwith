@@ -104,25 +104,19 @@ static void nearpln(OBJECTS * obp)
 
 
 
-static int topup(int *counter, int max)
+static void topup(int *counter, int max)
 {
-	BOOL rc;
-
-	rc = FALSE;
 	if (*counter == max)
-		return rc;
+		return;
 	if (max < 20) {
 		if (!(countmove % 20)) {
 			++*counter;
-			rc = plyrplane;
 		}
 	} else {
 		*counter += max / 100;
-		rc = plyrplane;
 	}
 	if (*counter > max)
 		*counter = max;
-	return rc;
 }
 
 
@@ -178,11 +172,10 @@ BOOL moveplyr(OBJECTS * obp)
 {
 	register OBJECTS *ob;
 	register BOOL rc;
-	register int oldx;
 	int multkey;
 
 	compplane = FALSE;
-	plyrplane = TRUE;
+	plyrplane = player == obp->ob_plrnum;
 
 	ob = obp;
 	currobx = ob->ob_index;
@@ -198,20 +191,15 @@ BOOL moveplyr(OBJECTS * obp)
 		}
 	}
 	
-	// sdh: use the cga (sdl) interface to
-	// read key status
-
-	multkey = Vid_GetGameKeys();
+	// get move command for this tic
+	
+	multkey = latest_player_commands[ob->ob_plrnum][countmove % MAX_NET_LAG];
 
 	// Thanks to Kodath duMatri for fixing this :)
 
 	if (conf_harrykeys && ob->ob_orient)
 		if(multkey & (K_FLAPU | K_FLAPD))
 			multkey ^= K_FLAPU | K_FLAPD;
-
-	if (playmode == PLAYMODE_ASYNCH) {
-		asynput(multkey);
-	}
 
 	interpret(ob, multkey);
 
@@ -247,10 +235,7 @@ BOOL moveplyr(OBJECTS * obp)
 		}
 	}
 
-	oldx = ob->ob_x;
-	rc = movepln(ob);
-
-	return rc;
+	return movepln(ob);
 }
 
 
@@ -1138,6 +1123,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.13  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.12  2004/10/15 18:51:24  fraggle
 // Fix the map. Rename dispworld to dispmap as this is what it really does.
 //

@@ -26,6 +26,11 @@
 
 #include "sw.h"
 
+/* maximum number of tics before the game stops sending commands over 
+ * the network */
+
+#define MAX_NET_LAG 4
+
 extern BOOL conf_missiles;
 extern BOOL conf_solidground;
 extern BOOL conf_hudsplats;
@@ -41,7 +46,6 @@ extern int     numtarg[2];
 extern int     savemode;
 extern int     tickmode;
 extern int     counttick, countmove;
-extern int     movetick, movemax;
 extern int     gamenum;
 extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
@@ -56,7 +60,6 @@ extern BOOL    ibmkeybd;
 extern BOOL    inplay;
 extern int     koveride;
 extern int     displx;
-extern BOOL    dispinit;
 extern OBJECTS *nobjects;
 extern OBJECTS oobjects[MAX_PLYR];
 extern OBJECTS *objbot, *objtop, *objfree, *deltop, *delbot;
@@ -82,6 +85,10 @@ extern int     maxcrash;
 extern int     sintab[ANGLES];
 extern jmp_buf envrestart;
 
+extern int latest_player_commands[MAX_PLYR][MAX_NET_LAG];
+extern int latest_player_time[MAX_PLYR];
+extern int num_players;
+
 extern int swmain(int argc, char *argv[]);
 
 #endif
@@ -90,6 +97,9 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.10  2004/10/15 18:57:14  fraggle
 // Remove redundant wdisp variable
 //

@@ -46,11 +46,13 @@ char asynhost[128];
 
 static int lastkey = 0;		/*  Always behind one character     */
 
+#define TIMEOUT_LEN_MS 5000 	/* time out after 5 seconds */
+
 static int timeout_time;
 
-static void settimeout(int ms)
+static void settimeout()
 {
-	timeout_time = Timer_GetMS() + ms;
+	timeout_time = Timer_GetMS() + TIMEOUT_LEN_MS;
 }
 
 static BOOL timeout()
@@ -64,16 +66,16 @@ static inline void sendshort(int s)
 	commout((s >> 8) & 0xff);
 }
 
-static inline int readshort()
+static inline int try_readshort()
 {
 	int s, t;
 
-	while ((s = commin()) < 0) {
-		if (timeout()) {
-			fprintf(stderr, "readshort: timeout on read\n");
-			exit(-1);
-		}
-	}
+	s = commin();
+
+	if (s < 0)
+		return -1;
+
+	settimeout();
 
 	while ((t = commin()) < 0) {
 		if (timeout()) {
@@ -85,11 +87,27 @@ static inline int readshort()
 	return (t << 8) + s;
 }
 
+static int readshort()
+{
+	int i;
+
+	settimeout();
+
+	for (i=-1; i < 0; i = try_readshort()) {
+		if (timeout()) {
+			fprintf(stderr, "readshort: timeout on read\n");
+			exit(-1);
+		}
+	}
+
+	return i;
+}
+
 static int asynin()
 {
 	register int c;
 
-	settimeout(500);
+	settimeout();
 
         for (;;) {
 		if ((c = commin()) >= 0)
@@ -110,7 +128,6 @@ int asynget(OBJECTS * ob)
 		key = lastkey;
 		lastkey = 0;
 	} else {
-		settimeout(1000);
 		key = readshort();
 	}
 
@@ -119,12 +136,6 @@ int asynget(OBJECTS * ob)
 
 void asynput(int movekey)
 {
-	static BOOL first = TRUE;
-	
-	if (first)
-		first = FALSE;
-	else 
-
 	sendshort(movekey);
 }
 
@@ -134,6 +145,25 @@ char *asynclos(BOOL update)
 	return NULL;
 }
 
+
+void asynupdate(void)
+{
+	int i;
+
+	i = try_readshort();
+
+	if (i >= 0) {
+		int netplayer;
+
+		/* we have read a short from the other player. add
+		 * to the queue */
+
+		netplayer = !player;
+
+		latest_player_commands[netplayer][latest_player_time[netplayer] % MAX_NET_LAG] = i;
+		++latest_player_time[netplayer];
+	}
+}
 
 // this function is called by the multiplayer planes
 
@@ -216,12 +246,10 @@ static void synchronize()
 	free(buf);
 
 	if (player) {
-		settimeout(1000);
 		explseed = readshort();
 
 		printf("random seed: %i\n", explseed);
 
-		settimeout(1000);
 		conf_missiles = readshort() != 0;
 		conf_wounded = readshort() != 0;
 		conf_animals = readshort() != 0;
@@ -366,12 +394,16 @@ void init2asy()
 	register OBJECTS *ob;
 	OBJECTS *initpln();
 
+	initplyr(NULL);
+	initplyr(NULL);
+	/*
+
 	if (!player)
 		initplyr(NULL);
 
 	ob = initpln(NULL);
-	ob->ob_drawf = dispmult;
-	ob->ob_movef = movemult;
+	ob->ob_drawf = dispplyr;
+	ob->ob_movef = moveplyr;
 	ob->ob_clr = ob->ob_index % 2 + 1;
 	ob->ob_owner = ob;
 	ob->ob_state = FLYING;
@@ -381,11 +413,15 @@ void init2asy()
 
 	if (player)
 		initplyr(NULL);
+		*/
 }
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2004/10/15 21:30:58  fraggle
+// Improve multiplayer
+//
 // Revision 1.6  2004/10/15 17:52:31  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.
