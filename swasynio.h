@@ -12,20 +12,32 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWASYNIO_H__
+#define __SWASYNIO_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+typedef enum { ASYN_LISTEN, ASYN_CONNECT } asynmode_t;
 
-#endif 
+extern asynmode_t asynmode;
+extern char asynhost[128];
+
+extern int asynget(OBJECTS *ob);
+extern void asynput();
+extern char    *asynclos(BOOL update);
+extern void asyninit();
+extern void init1asy();
+extern void init2asy();
+
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 

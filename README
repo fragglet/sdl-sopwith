@@ -1,12 +1,21 @@
-This is my modified sopwith source, as of 15/10/2001. I have removed all
-the x86 asm (rewritten/replaced with portable C code). Internally, it 
-draws everything in CGA, and this is then converted and drawn to the
-screen. The PC speaker is emulated in a similar way. 
+This is my sopwith source as of 25/10/2001. There is more information in 
+other files:
 
-Currently this is only known to work in linux, but it is fairly portable
-code and should compile on any system.  It requires LibSDL for video
-and sound, this is available from www.libsdl.org. I have only tried
-compiling with GCC, possibly it would work with MSVC but I have no idea.
+FAQ - Frequently asked questions about SDL Sopwith
+ChangeLog - Whats new
+TODO - a sneak peek at possible future features
 
-Simon Howard
+All my modifications to the sopwith source are dual-licensed under the
+sopwith license - that is, you may consider them to be under the sopwith
+license and treat them accordingly, but you may also use them in your
+own GPL'ed programs if you want. Note that this only applies to those
+portions of the source that I myself have wrote - the majority of the
+source is under the more restrictive Sopwith License.
+
+doc/GPL - GNU GPL
+doc/license.txt - The Sopwith License
+
+If you like SDL Sopwith, email me and let me know!
+
+Simon Howard <sdh300@ecs.soton.ac.uk>
 

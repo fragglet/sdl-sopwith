@@ -1,29 +1,20 @@
-/*
-        sw.h     -      SW  Manifest Definitions
-
-                        Copyright (C) 1984-2000 David L. Clark.
-
-                        All rights reserved except as specified in the
-                        file license.txt.  Distribution of this file
-                        without the license.txt file accompanying is
-                        prohibited.
-
-                        Author: Dave Clark
-
-        Modification History:
-                        84-02-02        Development
-                        84-06-12        PCjr Speed-up
-                        85-04-02        Asynch Mode
-                        85-10-31        Atari
-                        87-03-09        Microsoft compiler
-                        87-03-12        Wounded airplanes
-                        87-03-12        Crashed planes stay longer at home.
-                        87-03-13        Splatted bird symbol
-                        87-03-30        Novice Player
-                        87-03-31        Missiles
-                        87-04-04        Missile and starburst support
-                        87-04-08        Delay between starbursts
-*/
+// Emacs style mode select -*- C++ -*-
+//---------------------------------------------------------------------------
+//
+// $Id: $
+//
+// Copyright(C) 1984-2000 David L. Clark
+// Copyright(C) 2001 Simon Howard
+//
+// All rights reserved except as specified in the file license.txt.
+// Distribution of this file without the license.txt file accompanying
+// is prohibited.
+//
+//---------------------------------------------------------------------------
+//
+//        sw.h     -      SW  Manifest Definitions
+//
+//---------------------------------------------------------------------------
 
 // sdh: #ifndef to catch multiple includes
 
@@ -86,35 +77,6 @@
 #define         KEYINT          0x46    /* Keyboard interrupt               */
 #endif
 
-
-#define HITSYMS         2               /*  Number of hit symbols per plane */
-#define ANGLES          16              /*  Number of angle increments      */
-#define ORIENTS         2               /*  Number of plane orientations    */
-#define SYMBYTES        64              /*  Bytes in a symbol               */
-#define WINSIZES        4               /*  Number of winner plane sizes    */
-#define WINBYTES        64              /*  Bytes in a winner symbol        */
-#define SYM_WDTH        16              /*  Symbol width in pixels          */
-#define SYM_HGHT        16              /*  Symbol height in pixels         */
-#define BOMBBYTES       16              /*  Bytes in a bomb symbol          */
-#define BOMBANGS        8               /*  Number of bomb angles           */
-#define TARGBYTES       64              /*  Bytes in a target symbol        */
-#define TARGORIENTS     4               /*  Number of target types          */
-#define EXPLSYMS        8               /*  Number of explosion symbols     */
-#define EXPBYTES        16              /*  Bytes in an explosion symbol    */
-#define FLCKSYMS        2               /*  Number of flock symbols         */
-#define FLKBYTES        64              /*  Bytes in a flock symbol         */
-#define BIRDSYMS        2               /*  Number of bird symbols          */
-#define BRDBYTES        2               /*  Bytes in a bird symbol          */
-#define OXSYMS          2               /*  Number of ox symbols            */
-#define OXBYTES         64              /*  Bytes in an ox symbol           */
-#define GHSTBYTES       16              /*  Bytes in a ghost symbol         */
-#define SHOTBYTES       64              /*  Bytes in a shot window symbol   */
-#define SPLTBYTES       256             /*  Bytes in a splatted bird symbol */
-#define MISCBYTES       16              /*  Bytes in a missile symbol       */
-#define MISCANGS        16              /*  Number of missile angles        */
-#define BRSTBYTES       16              /*  Bytes in a starburst symbol     */
-#define BRSTSYMS        2               /*  Number of starburst symbols     */
-
 #define PCDOS           0               /*  Operating environments          */
 #define JRROMDOS        1
 #define JRROM           2
@@ -142,6 +104,11 @@
 #define MAX_GAME        7               /* Maximum number of games          */
 #define MAX_OXEN        2               /* Maximum number of oxen           */
 
+#define ANGLES          16              /*  Number of angle increments      */
+#define ORIENTS         2               /*  Number of plane orientations    */
+#define SYM_WDTH        16              /*  Symbol width in pixels          */
+#define SYM_HGHT        16              /*  Symbol height in pixels         */
+
 #define BULSPEED        10              /* Bullet speed    */
 #define BULLIFE         10              /* Bullet life     */
 #define BOMBLIFE        5               /* Moves between bomb course adj   */
@@ -152,37 +119,48 @@
 #define BIRDLIFE        4               /* Moves between bird flaps        */
 #define FLOCKLIFE       5               /* Moves between flop flaps        */
 
-#define WAITING         0               /*  Player states  */
-#define FLYING          1
-#define HIT             2
-#define CRASHED         4
-#define FALLING         5
-#define STANDING        6
-#define STALLED         7
-#define REBUILDING      8
-#define WOUNDED         9
-#define WOUNDSTALL      10
-#define FINISHED        91
-#define GHOST           92
-#define GHOSTCRASHED    93
-#define GHOSTSTALLED    94
+typedef enum {               /*  Player states  */
+	WAITING = 0,
+	FLYING ,
+	HIT,
+	CRASHED,
+	FALLING,
+	STANDING,
+	STALLED,
+	REBUILDING,
+	WOUNDED,
+	WOUNDSTALL,
 
-#define WINNER          1               /*  End of game status             */
-#define LOSER           2
+	FINISHED = 91,
+	GHOST,
+	GHOSTCRASHED,
+	GHOSTSTALLED,
+} obstate_t;
 
-#define GROUND          0               /*  Object types                   */
-#define PLANE           1
-#define BOMB            2
-#define SHOT            3
-#define TARGET          4
-#define EXPLOSION       5
-#define SMOKE           6
-#define FLOCK           7
-#define BIRD            8
-#define OX              9
-#define MISSILE         10
-#define STARBURST       11
-#define DUMMYTYPE       99
+// sdh 21/10/2001: made this an enum
+
+enum {
+	WINNER = 1,
+	LOSER
+};
+
+// sdh 21/10/2001: converted object types to an enum
+
+typedef enum {
+	GROUND = 0,
+	PLANE,
+	BOMB,
+	SHOT,
+	TARGET,
+	EXPLOSION,
+	SMOKE,
+	FLOCK,
+	BIRD,
+	OX,
+	MISSILE,
+	STARBURST,
+	DUMMYTYPE = 99,
+} obtype_t;
 
 #define NEAR            ( 150 * 150 )   /* Computer control distances        */
 #define NEARAPPROACH    200
@@ -192,14 +170,6 @@
 #define SAFERESET       32
 
 #define QUIT            -5000           /* Plane life value when quitting    */
-
-#define S_TITLE         05
-#define S_EXPLOSION     10              /*  Sound priorities                */
-#define S_BOMB          20
-#define S_SHOT          30
-#define S_FALLING       40
-#define S_HIT           50
-#define S_PLANE         60
 
 #define K_ACCEL         0x0001          /* Keyboard word masks               */
 #define K_DEACC         0x0002
@@ -221,6 +191,14 @@
 #define COMM_CMD        "c:semaphor\0   "/*  Multi-user semaphor file        */
 
 
+// made these into typedefs rather than ugly #define macros
+
+typedef int BIOFD;
+
+                                        /*  Internal representation of ground */
+                                        /*  due to non-implementation of      */
+                                        /*  unsigned char on ATARI            */
+typedef  unsigned int GRNDTYPE;
 
 struct tt {                     /*  Continuous tone table entry    */
         unsigned  tt_tone;
@@ -232,56 +210,56 @@ struct tt {                     /*  Continuous tone table entry    */
 typedef struct tt TONETAB;
 
 typedef struct obj {                            /*  Object list             */
-        int        ob_state;
-        int        ob_x, ob_y;
-        int        ob_dx, ob_dy;
-        int        ob_angle;
-        int        ob_orient;
-        int        ob_speed;
-        int        ob_accel;
-        int        ob_flaps;
-        struct obj *ob_firing;
-        int        ob_score;
-        int        ob_rounds;
-        int        ob_hitcount;
-        int        ob_updcount;
-        int        ob_life;
-        struct obj *ob_owner;
-        int        ob_symhgt;
-        int        ob_symwdt;
-        int        ob_bombing;
-        int        ob_bombs;
-        int        ob_clr;
-        int        ob_lx, ob_ly;
-        int        ob_ldx, ob_ldy;
-        struct obj *ob_next;
-        struct obj *ob_prev;
-        int        ob_index;
-        int        ob_oldx;
-        int        ob_oldy;
-        int        ob_drwflg;
-        int        ob_delflg;
-        char       *ob_oldsym;
-        int        ( *ob_drawf ) ();
-        int        ( *ob_movef ) ();
-        struct obj *ob_xnext;
-        struct obj *ob_xprev;
-        int        ob_crashcnt;
-        char       *ob_newsym;
-        int        ob_bdelay;
-        int        ob_home;
-        int        ob_hx[3], ob_hy[3];
-        int        ob_type;
-        struct obj *ob_dnext;
-        int        ob_athome;
-        struct tt  *ob_sound;
-        int        ob_missiles;
-        struct obj *ob_mfiring;
-        int        ob_mdelay;
-        struct obj *ob_target;
-        int        ob_bursts;
-        int        ob_bfiring;
-        int        ob_bsdelay;
+	obstate_t      ob_state;
+        int            ob_x, ob_y;
+        int            ob_dx, ob_dy;
+        int            ob_angle;
+        int            ob_orient;
+        int            ob_speed;
+        int            ob_accel;
+        int            ob_flaps;
+        struct obj    *ob_firing;
+        int            ob_score;
+        int            ob_rounds;
+        int            ob_hitcount;
+        int            ob_updcount;
+        int            ob_life;
+        struct obj    *ob_owner;
+        int            ob_symhgt;
+        int            ob_symwdt;
+        int            ob_bombing;
+        int            ob_bombs;
+        int            ob_clr;
+        int            ob_lx, ob_ly;
+        int            ob_ldx, ob_ldy;
+        struct obj    *ob_next;
+        struct obj    *ob_prev;
+        int            ob_index;
+        int            ob_oldx;
+        int            ob_oldy;
+        int            ob_drwflg;
+        int            ob_delflg;
+        char          *ob_oldsym;
+        void        ( *ob_drawf ) ();
+        BOOL        ( *ob_movef ) ();
+        struct obj    *ob_xnext;
+        struct obj    *ob_xprev;
+        int            ob_crashcnt;
+        char          *ob_newsym;
+        int            ob_bdelay;
+        int            ob_home;
+        int            ob_hx[3], ob_hy[3];
+        obtype_t       ob_type;
+        struct obj    *ob_dnext;
+        int            ob_athome;
+        struct tt     *ob_sound;
+        int            ob_missiles;
+        struct obj    *ob_mfiring;
+        int            ob_mdelay;
+        struct obj    *ob_target;
+        int            ob_bursts;
+        int            ob_bfiring;
+        int            ob_bsdelay;
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */
@@ -341,14 +319,29 @@ static inline int SIN(int x) {
 	return sintab[x % ANGLES];
 }
 
-// made these into typedefs rather than ugly #define macros
-
-typedef enum {false, true} BOOL;
-typedef int BIOFD;
-
-                                        /*  Internal representation of ground */
-                                        /*  due to non-implementation of      */
-                                        /*  unsigned char on ATARI            */
-typedef  unsigned int GRNDTYPE;
-
 #endif
+
+//---------------------------------------------------------------------------
+//
+// $Log: $
+//
+// sdh 21/10/2001: moved sound priorities into swsound.h
+// sdh 21/10/2001: moved plane sprite constants into appropriate headers
+// sdh 21/10/2001: created obstate_t and obtype_t enum types
+// sdh 21/10/2001: rearranged headers, added cvs tags
+//
+// 87-04-08        Delay between starbursts
+// 87-04-04        Missile and starburst support
+// 87-03-31        Missiles
+// 87-03-30        Novice Player
+// 87-03-13        Splatted bird symbol
+// 87-03-12        Crashed planes stay longer at home.
+// 87-03-12        Wounded airplanes
+// 87-03-09        Microsoft compiler
+// 85-10-31        Atari
+// 85-04-02        Asynch Mode
+// 84-06-12        PCjr Speed-up
+// 84-02-02        Development
+//
+//---------------------------------------------------------------------------
+

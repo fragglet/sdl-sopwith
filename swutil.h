@@ -12,20 +12,28 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWUTIL_H__
+#define __SWUTIL_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+extern void movexy(OBJECTS *ob, int *x, int *y);
+extern void setdxdy(OBJECTS *obj, int dx, int dy);
+extern void trap14();
+extern void swsetblk();
+extern void swprint();
+extern void swgetjoy();
+extern void histend();
 
-#endif 
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 

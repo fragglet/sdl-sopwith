@@ -12,20 +12,27 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWAUTO_H__
+#define __SWAUTO_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+extern void swauto(OBJECTS *ob);
+extern void attack(OBJECTS *obp, OBJECTS *obt);
+extern int gohome(OBJECTS *obpt);
+extern int shoot(OBJECTS *obt);
+extern int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway);
+extern int range(int x, int y, int ax, int ay);
 
-#endif 
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 

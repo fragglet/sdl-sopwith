@@ -12,20 +12,23 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWOBJECT_H__
+#define __SWOBJECT_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+extern OBJECTS *allocobj();
+extern void deallobj(OBJECTS *obp);
 
-#endif 
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 

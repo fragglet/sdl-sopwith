@@ -1,6 +1,8 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
+// $Id: $
+//
 // Copyright(C) 2001 Simon Howard
 //
 // This file is dual-licensed under version 2 of the GNU General Public
@@ -22,7 +24,9 @@
 
 #include <SDL.h>
 #include <math.h>
+
 #include "sw.h"
+#include "swsound.h"
 
 #define FREQ 22050
 #define TIMER_FREQ 1193280
@@ -34,13 +38,13 @@ static float current_freq = 0xff;
 
 static inline float square_wave(float time)
 {
-	int l = (int)time;
+	int l = (int) time;
 	return time - l < 0.5 ? 1 : 0;
 }
 
 // callback function to generate sound
 
-static void snd_callback(void *userdata, Uint8 *stream, int len)
+static void snd_callback(void *userdata, Uint8 * stream, int len)
 {
 	static int lasttime;
 	static float lastfreq;
@@ -57,9 +61,11 @@ static void snd_callback(void *userdata, Uint8 *stream, int len)
 
 	lasttime *= lastfreq / current_freq;
 
- 	for(i=0; i<len; ++i) {
-	 	if(speaker_on) {
-			stream[i] = 127 * square_wave(current_freq * (i+lasttime));
+	for (i = 0; i < len; ++i) {
+		if (speaker_on) {
+			stream[i] =
+			    127 * square_wave(current_freq *
+					      (i + lasttime));
 		} else {
 			stream[i] = 0;
 		}
@@ -76,13 +82,13 @@ static void snd_callback(void *userdata, Uint8 *stream, int len)
 
 void Speaker_Output(unsigned short count)
 {
-	if(!count) {
+	if (!count) {
 		current_freq = 0;
 		speaker_on = 0;
 		return;
 	}
 	speaker_on = 1;
-	current_freq = (TIMER_FREQ) / ((float)count * FREQ);
+	current_freq = (TIMER_FREQ) / ((float) count * FREQ);
 }
 
 // turn speaker on
@@ -90,13 +96,13 @@ void Speaker_Output(unsigned short count)
 void Speaker_On()
 {
 	speaker_on = 1;
-	if(!current_freq)              // sanity check
-		current_freq = 255; 
+	if (!current_freq)	// sanity check
+		current_freq = 255;
 }
 
 // turn sound off
 
-void Speaker_Off() 
+void Speaker_Off()
 {
 	speaker_on = 0;
 }
@@ -111,13 +117,12 @@ void Speaker_Init()
 {
 	static int sound_initted = 0;
 	static SDL_AudioSpec audiospec;
-	SDL_AudioSpec *obtained;
 
-	if(sound_initted)
+	if (sound_initted)
 		return;
 
 	SDL_Init(SDL_INIT_AUDIO);
-	
+
 	audiospec.samples = 512;
 	audiospec.freq = FREQ;
 	audiospec.format = AUDIO_U8;
@@ -128,9 +133,10 @@ void Speaker_Init()
 	printf("init sound: ");
 	fflush(stdout);
 
-	if(SDL_OpenAudio(&audiospec, NULL) < 0) {
+	if (SDL_OpenAudio(&audiospec, NULL) < 0) {
 		printf("failed\n");
-		fprintf(stderr, "error: cant init sound, %s\n", SDL_GetError());
+		fprintf(stderr, "error: cant init sound, %s\n",
+			SDL_GetError());
 		return;
 	}
 
@@ -148,19 +154,26 @@ void Speaker_Sound(int freq, int duration)
 	int duration_clocks = duration * 1000 / 18.2;
 	int endtime;
 
-        // turn speaker on
+	// turn speaker on
 
-        int count = TIMER_FREQ / freq;
+	int count = TIMER_FREQ / freq;
 
-        Speaker_Output(count);
+	Speaker_Output(count);
 
-        // delay
+	// delay
 
-        for(endtime = SDL_GetTicks() + duration_clocks; 
-	    SDL_GetTicks() < endtime; );
+	for (endtime = SDL_GetTicks() + duration_clocks;
+	     SDL_GetTicks() < endtime;);
 
-        // turn speaker off
+	// turn speaker off
 
-        Speaker_Off();
+	Speaker_Off();
 }
 
+//-----------------------------------------------------------------------
+// 
+// $Log: $
+//
+// sdh 21/10/2001: added cvs tags
+//
+//-----------------------------------------------------------------------

@@ -1,28 +1,48 @@
-/*
-        bmblib  -       SW Old BMB STDLIB routines
+// Emacs style mode select -*- C++ -*-
+//---------------------------------------------------------------------------
+//
+// $Id: $
+//
+// Copyright(C) 1984-2000 David L. Clark
+// Copyright(C) 2001 Simon Howard
+//
+// All rights reserved except as specified in the file license.txt.
+// Distribution of this file without the license.txt file accompanying
+// is prohibited.
+//
+//---------------------------------------------------------------------------
+//
+//        bmblib  -       SW Old BMB STDLIB routines
+//
+//---------------------------------------------------------------------------
 
-                        Copyright (C) 1984-2000 David L. Clark.
+#include <ctype.h>
+#include <string.h>
 
-                        All rights reserved except as specified in the
-                        file license.txt.  Distribution of this file
-                        without the license.txt file accompanying is
-                        prohibited.
-
-        Modification History:
-                        94-12-19        Original development
-*/
-
-
+#include "bmblib.h"
 #include "sw.h"
-#include "string.h"
-
 
 int _systype = PCDOS;
 
 // sdh: a lot of these functions are unused now, especially the dos
 // interrupt ones. remove at some point.
 
+// sdh: rewritten arg checking, not as powerful but it works
 
+int Args_CheckArg(int argc, char **argv, char arg)
+{
+	int i;
+
+	for (i = 1; i < argc; ++i) {
+		char *p = argv[i];
+		if (*p == '-')
+			++p;
+		if (*p == arg && !*(p + 1))
+			return i;
+	}
+
+	return -1;
+}
 
 /*----------------------------------------------------------------------------
                 GETFLAGS flags processing ( Jack Cole )
@@ -30,190 +50,169 @@ int _systype = PCDOS;
 
 // sdh: this is broken somewhere, giving unused flags (eg -f) crashes
 
-getflags(ac, av, fmt, flds)
-int  *ac;
-char **av;
-char *fmt;
-int  *flds[];
-  {
-    char **arg,*apend;
-    int i,j,k;
-    register char *aptr;
-    char *flag;
-    register char *fptr;
-    int  **var;
-    int  *adrvar;
-    char *cfmt;
-    int  sts = 0;
-    int  got_next;
+#if 0
+int getflags(int *ac, char **av, char *fmt, int *flds[])
+{
+	char **arg, *apend;
+	int i, j, k;
+	register char *aptr;
+	char *flag;
+	register char *fptr;
+	int **var;
+	int *adrvar;
+	char *cfmt;
+	int sts = 0;
+	int got_next;
 
-    arg = (char **) *av;
-    i = *ac;
-    ++arg;                              /* point past program name */
+	arg = (char **) *av;
+	i = *ac;
+	++arg;			/* point past program name */
 
-    while ( --i )  {                    /* for all args */
-        aptr = *arg;                    /* point at string */
-        if ( *aptr++ != '-' ) break;    /* past the switches */
-        if ( *aptr == '-' ) {           /* or -- at eol */
-                ++arg;                  /* flush it */
-                --i;
-                break;
-        }
+	while (--i) {		/* for all args */
+		aptr = *arg;	/* point at string */
+		if (*aptr++ != '-')
+			break;	/* past the switches */
+		if (*aptr == '-') {	/* or -- at eol */
+			++arg;	/* flush it */
+			--i;
+			break;
+		}
 
-nextbool:
-        flag = aptr;                            /* get the switch */
-        var = (int **) &flds;                   /* find in format */
+	      nextbool:
+		flag = aptr;	/* get the switch */
+		var = (int **) &flds;	/* find in format */
 
-        for (fptr = fmt; *fptr && *fptr != ':' ; ++var) {
-            j = 0;
-            while ( isalnum(*(fptr+j)) ) ++j;           /* get switch length */
+		for (fptr = fmt; *fptr && *fptr != ':'; ++var) {
+			j = 0;
+			while (isalnum(*(fptr + j)))
+				++j;	/* get switch length */
 
-            /* match and number or space following? */
+			/* match and number or space following? */
 
-            if ( !strncmp( flag, fptr, j ) && (!isalpha(*(flag+j)) ||
-                                                *(fptr+j)!='#') ) break;
+			if (!strncmp(flag, fptr, j)
+			    && (!isalpha(*(flag + j))
+				|| *(fptr + j) != '#')) break;
 
-            fptr += j;                                  /* skip to next */
-            if (*fptr) ++fptr;                          /* past format */
-        }
+			fptr += j;	/* skip to next */
+			if (*fptr)
+				++fptr;	/* past format */
+		}
 
-        if ( !(*fptr) || *fptr == ':' )  {              /* no match? */
-            if ( (k = index( fmt, ':')) ) {          /* find usage info */
-                cfmt = fmt + k - 1;
-                *cfmt++ = '\0';
-                if ( !(*cfmt) ) {                       /* return on error? */
-                        sts = 1;
-                        goto ret;
-                }
-            }
-            exit(0);
-        }
+		if (!(*fptr) || *fptr == ':') {	/* no match? */
+			if ((k = strindex(fmt, ':'))) {	/* find usage info */
+				cfmt = fmt + k - 1;
+				*cfmt++ = '\0';
+				if (!(*cfmt)) {	/* return on error? */
+					sts = 1;
+					goto ret;
+				}
+			}
+			exit(0);
+		}
 
-        flag = fptr+j;                          /* the type */
-        aptr += j;
-        adrvar = *var;                          /* this is addr of real var */
-        got_next = NO;
-        if (*aptr == 0 && *flag != '&')  {      /* more expected */
-            if ( i > 1 ) {                      /* any more args? */
-                aptr = *(++arg);                /* step to next arg */
-                --i;
-                got_next = YES;
-            }
-        }
+		flag = fptr + j;	/* the type */
+		aptr += j;
+		adrvar = *var;	/* this is addr of real var */
+		got_next = NO;
+		if (*aptr == 0 && *flag != '&') {	/* more expected */
+			if (i > 1) {	/* any more args? */
+				aptr = *(++arg);	/* step to next arg */
+				--i;
+				got_next = YES;
+			}
+		}
 
-        switch  (*flag)  {                       /* what kind expected */
-            case '#' :
-                j = 0;
-                if ( *aptr ) {                  /* any more chars? */
-                    *adrvar=strtol(aptr,&apend,10);
-                    j = apend - aptr;
-                    aptr = apend;
-                }
-                if ( !j ) {                     /* how many digits? */
-                        if (got_next) {         /* none - push back? */
-                                --arg;          /* yes, push back */
-                                ++i;
-                        }
-                        *(int *)adrvar = -1;    /* flag present, but no arg */
-                }
-                break;
+		switch (*flag) {	/* what kind expected */
+		case '#':
+			j = 0;
+			if (*aptr) {	/* any more chars? */
+				*adrvar = strtol(aptr, &apend, 10);
+				j = apend - aptr;
+				aptr = apend;
+			}
+			if (!j) {	/* how many digits? */
+				if (got_next) {	/* none - push back? */
+					--arg;	/* yes, push back */
+					++i;
+				}
+				*(int *) adrvar = -1;	/* flag present, but no arg */
+			}
+			break;
 
-            case '*' : *(char **)adrvar = aptr;
-                        break;
+		case '*':
+			*(char **) adrvar = aptr;
+			break;
 
-            case '&' : *(int *)adrvar = YES;              /* boolean */
-                        break;
-          }
+		case '&':
+			*(int *) adrvar = YES;	/* boolean */
+			break;
+		}
 
-        if (*flag == '&' && *aptr) goto nextbool;
-        ++arg;
-    }
+		if (*flag == '&' && *aptr)
+			goto nextbool;
+		++arg;
+	}
 
-ret:
-    *av = (char *)arg;                          /* point past those processed */
-    *ac = i;
-    return(sts);                                /* successful */
-  }
+      ret:
+	*av = (char *) arg;	/* point past those processed */
+	*ac = i;
+	return (sts);		/* successful */
+}
+#endif
 
-
-int strindex(char *str,int c)
+int strindex(char *str, int c)
 {
 	char *s;
 
-	return((s=strchr(str,c))==NULL?0:s-str+1);
+	return ((s = strchr(str, c)) == NULL ? 0 : s - str + 1);
 }
 
 
 #ifdef IBMPC
 int inportb(unsigned port)
 {
-	return(inp(port));
+	return (inp(port));
 }
 
-int outportb(unsigned port,int data)
+int outportb(unsigned port, int data)
 {
-	return(outp(port,data));
+	return (outp(port, data));
 }
 
 #endif
 
 
-void movmem(void *src,void *dest,unsigned count)
+void movmem(void *src, void *dest, unsigned count)
 {
-	memmove(dest,src,count);
+	memmove(dest, src, count);
 }
 
 
-void setmem(void *dest,unsigned count,int c)
+void setmem(void *dest, unsigned count, int c)
 {
-	memset(dest,c,count);
+	memset(dest, c, count);
+}
+
+// sdh 19/10/2001: removed sysint functions
+
+void intson()
+{
+}
+
+void intsoff()
+{
 }
 
 
-int sysint(int intnum,struct regval *inrv,struct regval *outrv)
-{
-/*
-  union REGS regs;
-  struct SREGS segregs;
-  int rc;
-  
-  regs.x.ax=inrv->axr;
-  regs.x.bx=inrv->bxr;
-  regs.x.cx=inrv->cxr;
-  regs.x.dx=inrv->dxr;
-  segregs.ds=inrv->dsr;
-  rc=int86x(intnum,&regs,&regs,&segregs);
-  outrv->axr=regs.x.ax;
-  outrv->bxr=regs.x.bx;
-  outrv->cxr=regs.x.cx;
-  outrv->dxr=regs.x.dx;
-  outrv->dsr=segregs.ds;
-  return(rc);
-*/
-}
+//---------------------------------------------------------------------------
+//
+// $Log: $
+//
+// sdh 21/20/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: reformatted with indent
+// sdh 20/10/2001: rewritten argument checking
+//
+// 94-12-19        Original development
+//
+//---------------------------------------------------------------------------
 
-
-int sysint21(struct regval *inrv,struct regval *outrv)
-{
-/*
-  union REGS regs;
-  struct SREGS segregs;
-  int rc;
-  
-  regs.x.ax=inrv->axr;
-  regs.x.bx=inrv->bxr;
-  regs.x.cx=inrv->cxr;
-  regs.x.dx=inrv->dxr;
-  segregs.ds=inrv->dsr;
-  rc=intdosx(&regs,&regs,&segregs);
-  outrv->axr=regs.x.ax;
-  outrv->bxr=regs.x.bx;
-  outrv->cxr=regs.x.cx;
-  outrv->dxr=regs.x.dx;
-  outrv->dsr=segregs.ds;
-  return(rc);
-*/
-}
-
-void intson() {}
-void intsoff() {}

@@ -12,20 +12,29 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __BMBLIB_H__
+#define __BMBLIB_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+extern int _systype;
+extern int Args_CheckArg(int argc, char **argv, char arg);
+extern int strindex(char *str,int c);
+extern int inportb(unsigned port);
+extern int outportb(unsigned port,int data);
+extern void movmem(void *src,void *dest,unsigned count);
+extern void setmem(void *dest,unsigned count,int c);
+extern void intson();
+extern void intsoff();
 
-#endif 
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
 // sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
-

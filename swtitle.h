@@ -12,20 +12,28 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWTITLE_H__
+#define __SWTITLE_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+extern void clrprmpt();
+extern BOOL ctlbreak();
+extern void getmode();
+extern int getgame();
+extern void swtitln();
+extern void swtitlf();
+extern void swtickc();
 
-#endif 
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 

@@ -1,4 +1,36 @@
-15/10/2001
+
+v1.10 (2x/10/2001)
+
+Networking! I have hacked in TCP/IP Networking based on the old asyncronous
+multiplayer option code. There is a new option on the main menu "Network"
+through which network games can be started.
+Fixed use of auxdisp which was why the score was not displayed and was 
+also why the map was not being properly refreshed.
+Fixed command line args and updated help screen
+Title screen based on the "network edition" title screen.
+Extra command line args: 
+-f (fullscreen)
+-2 (double size window for easier viewing)
+-l (network mode, listen for connection)
+-j (network mode, connect to host)
+Sopwith now quits if you hit ctrl-c, not escape, like in the original.
+However, for lazy people not wanting to wait while their plane crashes
+and the game exits, if you hit ctrl-c 3 times it quits immediately.
+Hitting escape in menus now takes you back to the previous menu.
+
+Major code cleanup - this is the main difference. I have created headers
+for all the source modules so that it is no longer neccesary to include
+millions of "extern" definitions in every file (which is tedious, ugly
+and prone to bugs). I have also reformatted all the code so that it looks
+nicer, and removed some obfuscations so that the code is more readable
+in places. 
+CVS Tags have been added to all source files for if/when I put this into
+CVS.
+Various extra code hacks: sopwith1 theme music (was different music in
+sopwith 1, I extracted the music sequence from the hexdump),
+solid ground (also ala sopwith1)
+
+v1.00 (15/10/2001)
 
 Video and Sound is all working (afaik)
 ASM removed/replaced.

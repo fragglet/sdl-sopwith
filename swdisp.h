@@ -12,22 +12,36 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWDISP_H__
+#define __SWDISP_H__
 
-#ifndef __SWMACH_H__
-#define __SWMACH_H__
+#include "sw.h"
 
-#undef IBMPC
-#undef ATARI
-/* #define ATARI */
+extern void dispplyr(OBJECTS *ob);
+extern void dispbomb(OBJECTS *obp);
+extern void dispmiss(OBJECTS *obp);
+extern void dispburst(OBJECTS *obp);
+extern void dispexpl(OBJECTS *obp);
+extern void dispcomp(OBJECTS *ob);
+extern void dispmult(OBJECTS *ob);
+extern void disptarg(OBJECTS *ob);
+extern void dispflck(OBJECTS *ob);
+extern void dispbird(OBJECTS *ob);
+extern void dispwobj(OBJECTS *obp);
+extern unsigned long   randsd();
+extern void dispwindshot();
+extern void dispsplatbird();
+extern void dispoxsplat();
 
 #endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 

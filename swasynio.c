@@ -1,234 +1,268 @@
-/*
-        swasynio -      SW asynchrounous communications I/O
+// Emacs style mode select -*- C++ -*-
+//---------------------------------------------------------------------------
+//
+// $Id: $
+//
+// Copyright(C) 1984-2000 David L. Clark
+// Copyright(C) 2001 Simon Howard
+//
+// All rights reserved except as specified in the file license.txt.
+// Distribution of this file without the license.txt file accompanying
+// is prohibited.
+//
+//---------------------------------------------------------------------------
+//
+//        swasynio -      SW asynchrounous communications I/O
+//
+//---------------------------------------------------------------------------
 
-                        Copyright (C) 1984-2000 David L. Clark.
+#include <ctype.h>
 
-                        All rights reserved except as specified in the
-                        file license.txt.  Distribution of this file
-                        without the license.txt file accompanying is
-                        prohibited.
+#include "tcpcomm.h"
+#include "cgavideo.h"
+#include "timer.h"
 
-                        Author: Dave Clark
+#include "sw.h"
+#include "swasynio.h"
+#include "swdisp.h"
+#include "swend.h"
+#include "swgames.h"
+#include "swinit.h"
+#include "swmain.h"
+#include "swmisc.h"
+#include "swnetio.h"
+#include "swsound.h"
+#include "swtitle.h"
 
-        Modification History:
-                        85-04-03        Development
-                        87-03-09        Microsoft compiler.
-                        87-03-12        Allow asynch loopback for debugging.
-                        96-12-26        Remove IMAGINET network card
-                                          card address in "multaddr".
-*/
-#include        "sw.h"
+asynmode_t asynmode;
+char asynhost[128];
 
-// sdh -- most of this is all no-op 
+static int lastkey = 0;		/*  Always behind one character     */
+static int timeout_time;
 
-
-extern  int     player;                 /* Pointer to player's object       */
-extern  GAMES   swgames[], *currgame;   /* Game parameters and current game */
-extern  int     counttick, countmove;   /* Performance counters             */
-extern  MULTIO  *multbuff;              /* Communications buffer            */
-extern  OBJECTS oobjects[];             /* Original plane object description*/
-extern  int     dispmult(),             /*  Display and move functions      */
-                movemult();
-extern  unsigned explseed;              /* explosion seed                   */
-extern  int     multaddr;               /* port address override            */
-
-static  int     lastkey = 0;            /*  Always behind one character     */
-
-
-static  synchronize()
+static void settimeout(int ms)
 {
-#if 0
-register int     syncount;
-register int     c;
+	timeout_time = Timer_GetMS() + ms;
+}
 
-        while ( commin() >= 0 );
-        syncount = 0;
-        FOREVER {
-                settimeout( 2 );
-                while ( !timeout() );
-                commout( K_ASYNACK );
+static BOOL timeout()
+{
+	return Timer_GetMS() >= timeout_time;
+}
 
-                if ( ctlbreak() )
-                        swend( NULL, NO );
+static inline void sendshort(int s)
+{
+	commout(s & 0xff);
+	commout((s >> 8) & 0xff);
+}
 
-                if ( ( c = commin() ) < 0 )
-                        continue;
+static inline int readshort()
+{
+	int s, t;
 
-                if ( c == K_ASYNACK ) {
-                        if ( ++syncount == 10 )
-                                break;
-                        continue;
-                }
-                syncount = 0;
-        }
-        commout( 0 );
+	while ((s = commin()) < 0) {
+		if (timeout()) {
+			fprintf(stderr, "readshort: timeout on read\n");
+			exit(-1);
+		}
+	}
 
-        FOREVER {
-                if ( ( c = asynin() ) == -1 )
-                        swend( "Time out on sychronization", NO );
-                if ( c != K_ASYNACK )
-                        break;
-        }
-#endif
+	while ((t = commin()) < 0) {
+		if (timeout()) {
+			fprintf(stderr, "readshort: timeout on read\n");
+			exit(-1);
+		}
+	}
+
+	return (t << 8) + s;
+}
+
+static int asynin()
+{
+	register int c;
+
+	settimeout(500);
+	FOREVER {
+		if ((c = commin()) >= 0)
+			return c;
+		if (ctlbreak())
+			swend(NULL, NO);
+		if (timeout())
+			return -1;
+	}
+}
+
+
+int asynget(OBJECTS * ob)
+{
+	register int key;
+
+	if (ob->ob_index == player) {
+		key = lastkey;
+		lastkey = 0;
+	} else {
+		settimeout(1000);
+		key = readshort();
+	}
+
+	return key;
+}
+
+void asynput()
+{
+	static BOOL first = TRUE;
+
+	if (first)
+		first = FALSE;
+	else
+		lastkey = CGA_GetGameKeys();
+	swflush();
+
+	sendshort(lastkey);
+}
+
+char *asynclos(BOOL update)
+{
+	commterm();
+	return NULL;
+}
+
+#define PROTOHEADER "SOPWITH"
+
+static void synchronize()
+{
+	// check for header
+
+	// send the header ourselves first
+
+	char *buf;
+	char *p;
+
+	buf = malloc(sizeof(PROTOHEADER) + 5);
+	sprintf(buf, PROTOHEADER "%i", asynmode);
+
+	for (p = buf; *p; ++p)
+		commout(*p);
+
+	// now listen for response
+
+	sprintf(buf, PROTOHEADER "%i", !asynmode);
+
+	settimeout(2000);
+
+	for (p = buf; *p;) {
+		int c;
+
+		if (timeout()) {
+			fprintf(stderr,
+				"synchronize: timeout on connect\n");
+			exit(-1);
+		}
+
+		c = commin();
+
+		if (c >= 0) {
+			if (c == *p) {
+				++p;
+			} else {
+				fprintf(stderr,
+					"synchronize: invalid protocol header received!\n");
+				exit(-1);
+			}
+		}
+	}
+
+	free(buf);
+
+	if (asynmode == ASYN_LISTEN) {
+		// send settings
+		sendshort(explseed);
+		sendshort(missok);
+	} else {
+		settimeout(1000);
+		explseed = readshort();
+		settimeout(1000);
+		missok = readshort();
+	}
+}
+
+// setup connection
+
+void asyninit()
+{
+	if (asynmode == ASYN_LISTEN) {
+		clrprmpt();
+		swputs("  Listening for connection...");
+		CGA_Update();
+		commlisten();
+		player = 0;
+	} else if (asynmode == ASYN_CONNECT) {
+		clrprmpt();
+		swputs("  Attempting to connect to ");
+		swputs(asynhost);
+		swputs(" ...");
+		CGA_Update();
+		commconnect(asynhost);
+		player = 1;
+	} else {
+		fprintf(stderr, "unknown asynmode mode\n");
+		exit(-1);
+	}
+}
+
+void init1asy()
+{
+	asyninit();
+	clrprmpt();
+	swputs("        Waiting for other player");
+	synchronize();
+
+	currgame = &swgames[0];
+	multbuff->mu_numplyr = multbuff->mu_maxplyr = 2;
 }
 
 
 
-
-
-static  tickwait;
-
-
-
-static  settimeout( tick )
-int     tick;
+void init2asy()
 {
-#if 0
-        intsoff();
-        tickwait = tick;
-        counttick = 0;
-        intson();
-#endif
+	register OBJECTS *ob;
+	OBJECTS *initpln();
+
+	if (!player)
+		initplyr(NULL);
+
+	ob = initpln(NULL);
+	ob->ob_drawf = dispmult;
+	ob->ob_movef = movemult;
+	ob->ob_clr = ob->ob_index % 2 + 1;
+	ob->ob_owner = ob;
+	ob->ob_state = FLYING;
+	oobjects[ob->ob_index] = *ob;
+//	movmem(ob, &oobjects[ob->ob_index], sizeof(OBJECTS));
+
+	if (player)
+		initplyr(NULL);
+
+	commout(0);
+	commout(0);
 }
 
-
-
-
-static  timeout()
-{
-        return( tickwait < counttick );
-}
-
-
-
-
-
-static  asynin()
-{
-#if 0
-register int     c;
-
-        settimeout( 180 );
-        FOREVER {
-                if ( ( c = commin() ) >= 0 )
-                        return( c );
-                if ( ctlbreak() )
-                        swend( NULL, NO );
-                if ( timeout() )
-                        return( -1 );
-        }
-#endif
-}
-
-
-
-
-
-asynget( ob )
-OBJECTS *ob;
-{
-#if 0
-register int     key;
-register int     c;
-
-        if ( ob->ob_index == player ) {
-                key = lastkey;
-                lastkey = 0;
-        } else {
-                if ( ( ( key = asynin() ) < 0 )
-                        || ( ( c = asynin() ) < 0 ) )
-                        swend( "Timeout during play", NO );
-                key = key | ( c << 8 );
-        }
-        return( histmult( ob->ob_index, key ) );
-#endif
-}
-
-
-
-
-asynput()
-{
-#if 0
-static  BOOL    first = TRUE;
-
-
-        if  ( first )
-                first = FALSE;
-        else
-                lastkey = swgetc();
-        swflush();
-
-        commout( lastkey & 0x00FF );
-        commout( lastkey >> 8 );
-#endif
-}
-
-
-
-
-
-char    *asynclos( update )
-BOOL    update;
-{
-#if 0
-        commterm();
-        return( NULL );
-#endif
-}
-
-
-
-
-init1asy()
-{
-#if 0
-unsigned          seed;
-register int      c1, c2;
-
-        comminit();
-        clrprmpt();
-        swputs( "        Waiting for other player" );
-        synchronize();
-
-        commout( explseed & 0x00FF );
-        commout( explseed >> 8 );
-        if ( ( ( c1 = asynin() ) < 0 )
-                || ( ( c2 = asynin() ) < 0 ) )
-                swend( "Timeout during player assignment", NO );
-        seed = c1 | ( c2 << 8 );
-        if ( player = ( seed > explseed ) )
-                explseed = seed;
-
-        currgame = &swgames[0];
-        multbuff->mu_numplyr = multbuff->mu_maxplyr = 2;
-#endif
-}
-
-
-
-init2asy()
-{
-#if 0
-register OBJECTS *ob;
-OBJECTS          *initpln();
-
-        if ( !player )
-                initplyr( NULL );
-
-        ob = initpln( NULL );
-        ob->ob_drawf = dispmult;
-        ob->ob_movef = movemult;
-        ob->ob_clr = ob->ob_index % 2 + 1;
-        ob->ob_owner = ob;
-        ob->ob_state = FLYING;
-        movmem( ob, &oobjects[ob->ob_index], sizeof( OBJECTS ) );
-
-        if ( player )
-                initplyr( NULL );
-
-        commout( 0 );
-        commout( 0 );
-#endif
-}
+//---------------------------------------------------------------------------
+//
+// $Log: $
+//
+// sdh 21/10/2001: rearranged file headers, added cvs tags
+// sdh 21/10/2001: reformatted with indent, adjusted some code by hand
+//                 to make more readable
+// sdh 20/10/2001: rearranged netgame syncronisation, take game settings
+//                 from the first (listening) player
+// sdh 19/10/2001: removed all externs, this is done with headers now
+// sdh 18/10/2001: converted all functions to ansi-style arguments
+//
+// 96-12-26        Remove IMAGINET network card address in "multaddr".
+// 87-03-12        Allow asynch loopback for debugging.
+// 87-03-09        Microsoft compiler.
+// 85-04-03        Development
+//
+//---------------------------------------------------------------------------
 

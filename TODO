@@ -1,15 +1,21 @@
-To Do:
+to do:
 
 Code Cleanup: 
-	half the files have extern definitions to access functions
-	and global variables in other files. These should be put in
-	headers.
+	Remove useless files: swutil.c, bmblib.c, swdeve.h
+	Remove old MULTIPLE game mode? (swnetio.c). Looks pretty dead.
 	There are a lot of ifdefs left over to check for the
 	architecture, these are redundant now and should be removed.
 	Similarly there are function calls to control DOS interrupts
 	which also should be removed.
 DOS Port? probably wouldnt be too hard infact
-TCP/IP networking: probably not that hard
+Network:
+	Infinite lives?   -- kind of annoying once you die 5 times, thats it
+	Keep sending even when we are waiting for data (up to a point of 
+	course). Currently the network code wont send the next movement
+	until its received the next movement from the other player. As
+	a result any kind of lag will drastically kill the game speed.	
+	> 2 Players, Teams
+	Extra game modes -- Capture the flag etc
 Greater control over game options: eg the guided missiles of sopwith
 	network edition, display splatted birds etc
 Hi score table?

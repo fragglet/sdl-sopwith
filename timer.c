@@ -1,6 +1,8 @@
 // Emacs style mode select -*- C++ -*-
 //--------------------------------------------------------------------------
 //
+// $Id: $
+//
 // Copyright(C) 2001 Simon Howard
 //
 // This file is dual-licensed under version 2 of the GNU General Public
@@ -32,3 +34,11 @@ void Timer_Init()
 {
 	SDL_Init(SDL_INIT_TIMER);
 }
+
+//--------------------------------------------------------------------------
+//
+// $Log: $
+//
+// sdh 21/10/2001: added cvs tags
+//
+//--------------------------------------------------------------------------

@@ -12,20 +12,28 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWMISC_H__
+#define __SWMISC_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+extern void swputc(char c);
+extern void swputs( char *sp );
+extern void swgets(char *s, int max);
+extern void swcolour(int a);
+extern void swposcur(int a, int b);
+extern int swgetc();
+extern void swflush();
 
-#endif 
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 

@@ -1,22 +1,23 @@
-/*
-        swground -      SW initial ground heights
+// Emacs style mode select -*- C++ -*-
+//---------------------------------------------------------------------------
+//
+// $Id: $
+//
+// Copyright(C) 1984-2000 David L. Clark
+// Copyright(C) 2001 Simon Howard
+//
+// All rights reserved except as specified in the file license.txt.
+// Distribution of this file without the license.txt file accompanying
+// is prohibited.
+//
+//---------------------------------------------------------------------------
+//
+//        swground -      SW initial ground heights
+//
+//---------------------------------------------------------------------------
 
-                        Copyright (C) 1984-2000 David L. Clark.
-
-                        All rights reserved except as specified in the
-                        file license.txt.  Distribution of this file
-                        without the license.txt file accompanying is
-                        prohibited.
-
-                        Author: Dave Clark
-
-        Modification History:
-                        84-04-04        Development
-                        85-10-31        Atari
-                        87-03-09        Microsoft compiler.
-*/
-#include        "sw.h"
-
+#include "sw.h"
+#include "swground.h"
 
 GRNDTYPE orground[MAX_X] = {            /* Original ground height by pixel */
 
@@ -212,4 +213,16 @@ GRNDTYPE orground[MAX_X] = {            /* Original ground height by pixel */
 
 
 GRNDTYPE ground[MAX_X];                 /* ground height by pixel  */
+
+
+//---------------------------------------------------------------------------
+//
+// $Log: $
+//
+// sdh 21/10/2001: rearranged file headers, added cvs tags
+//
+// 87-03-09        Microsoft compiler.
+// 85-10-31        Atari
+// 84-04-04        Development
+//---------------------------------------------------------------------------
 

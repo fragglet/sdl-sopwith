@@ -1,132 +1,67 @@
-/*
+// Emacs style mode select -*- C++ -*-
+//---------------------------------------------------------------------------
+//
+// $Id: $
+//
+// Copyright(C) 1984-2000 David L. Clark
+// Copyright(C) 2001 Simon Howard
+//
+// All rights reserved except as specified in the file license.txt.
+// Distribution of this file without the license.txt file accompanying
+// is prohibited.
+//
+//---------------------------------------------------------------------------
+//
+//        swgrph   -      SW screen graphics
+//
+//---------------------------------------------------------------------------
 
-        swgrph   -      SW screen graphics
+#include "cgavideo.h"
 
-                        Copyright (C) 1984-2000 David L. Clark.
+#include "sw.h"
+#include "swdisp.h"
+#include "swground.h"
+#include "swgrpha.h"
+#include "swmain.h"
+#include "swplanes.h"
+#include "swsymbol.h"
+#include "swutil.h"
 
-                        All rights reserved except as specified in the
-                        file license.txt.  Distribution of this file
-                        without the license.txt file accompanying is
-                        prohibited.
-
-                        Author: Dave Clark
-
-        Modification History:
-                        84-02-21        Development
-                        84-06-13        PCjr Speed-up
-                        85-11-05        Atari
-                        87-03-09        Microsoft compiler.
-*/
-
-
-
-
-#include        "sw.h"
-#include        "cgavideo.h"
+//#define SOLID_GROUND
 
 #define VRAMSIZE 32000
 
-extern  int     displx, disprx;         /* Display left and right bounds    */
-extern  int     dispdx;                 /* Display shift                    */
-extern  char    auxdisp[];              /* Auxiliary display area           */
-extern  GRNDTYPE ground[];              /* Ground height by pixel           */
-extern  BOOL    dispinit;               /* Initalized display flag.         */
-extern  OBJECTS *objtop;                /* Top of object list               */
-extern  OBJECTS *deltop;                /* Newly deallocated objects list   */
-extern  int     forcdisp;               /* Force display of ground          */
-extern  long    trap14();               /* BIOS trap                        */
+static char *dispoff;		        /* Current display offset            */
+static int scrtype;		        /* Screen type                       */
+static GRNDTYPE grndsave[SCR_WDTH];	/* Saved ground buffer for last      */
+					/*   last display                    */
+static void (*dispg) ();	        /* display ground routine (mono,clr) */
+static void (*drawpnt) ();              /* draw point routine                */
+static void (*drawsym) ();              /* draw symbol routine               */
 
-static  char    *dispoff;               /* Current display offset           */
-static  int     scrtype;                /* Screen type                      */
-static  GRNDTYPE grndsave[SCR_WDTH];    /* Saved ground buffer for last     */
-                                        /*   last display                   */
-static  int     ( *dispg )();           /* display ground routine (mono,clr)*/
-static  int     ( *drawpnt )();         /* draw point routine               */
-static  int     ( *drawsym )();         /* draw symbol routine              */
-
-static  int     palette[] = {   /* Colour palette                           */
-        0x000,                  /*   0 = black    background                */
-        0x037,                  /*   1 = blue     planes,targets,explosions */
-        0x700,                  /*   2 = red      planes,targets,explosions */
-        0x777,                  /*   3 = white    bullets                   */
-        0x000,                  /*   4                                      */
-        0x000,                  /*   5                                      */
-        0x000,                  /*   6                                      */
-        0x070,                  /*   7 = green    ground                    */
-        0x000,                  /*   8                                      */
-        0x433,                  /*   9 = tan      oxen, birds               */
-        0x420,                  /*  10 = brown    oxen                      */
-        0x320,                  /*  11 = brown    bottom of ground display  */
-        0x000,                  /*  12                                      */
-        0x000,                  /*  13                                      */
-        0x000,                  /*  14                                      */
-        0x000                   /*  15                                      */
+static int palette[] = {        /* Colour palette                            */
+	0x000,	                /*   0 = black    background                 */
+	0x037,		        /*   1 = blue     planes,targets,explosions  */
+	0x700,		        /*   2 = red      planes,targets,explosions  */
+	0x777,			/*   3 = white    bullets                    */
+	0x000,			/*   4                                       */
+	0x000,			/*   5                                       */
+	0x000,			/*   6                                       */
+	0x070,			/*   7 = green    ground                     */
+	0x000,			/*   8                                       */
+	0x433,			/*   9 = tan      oxen, birds                */
+	0x420,			/*  10 = brown    oxen                       */
+	0x320,			/*  11 = brown    bottom of ground display   */
+	0x000,			/*  12                                       */
+	0x000,			/*  13                                       */
+	0x000,			/*  14                                       */
+	0x000			/*  15                                       */
 };
 
 
 
-static  char    spcbirds[BIRDSYMS][BRDBYTES*2];   /* Special bird symbol    */
-                                                  /* colour video maps      */
-
-
-
-
-/*---------------------------------------------------------------------------
-
-        Main display loop.   Delete and display all visible objects.
-        Delete any newly deleted objects
-
----------------------------------------------------------------------------*/
-
-
-
-swdisp()
-{
-	register OBJECTS *ob;
-
-        setvdisp();
-
-	for ( ob = objtop; ob; ob = ob->ob_next ) {
-                if ( ( !( ob->ob_delflg && ob->ob_drwflg ) )
-                        || ( ob->ob_symhgt == 1 )
-                        || ( ob->ob_oldsym != ob->ob_newsym )
-                        || ( ob->ob_y != ob->ob_oldy )
-                        || ( ( ob->ob_oldx + displx ) != ob->ob_x ) ) {
-                        if ( ob->ob_delflg )
-                                ( *drawsym )( ob, ob->ob_oldx, ob->ob_oldy,
-                                              ob->ob_oldsym, ob->ob_clr, NULL );
-                        if ( !ob->ob_drwflg )
-				continue;
-                        if ( ( ob->ob_x < displx ) || ( ob->ob_x > disprx ) ) {
-                                ob->ob_drwflg = 0;
-                                continue;
-                        }
-                        ( *drawsym )( ob, ob->ob_oldx = ob->ob_x - displx,
-                                      ob->ob_oldy = ob->ob_y,
-                                      ob->ob_newsym,
-                                      ob->ob_clr, NULL );
-		}
-
-                if ( ob->ob_drawf )
-                        ( *( ob->ob_drawf ) )( ob );
-        }
-
-        for ( ob = deltop; ob; ob = ob->ob_next )
-                if ( ob->ob_delflg )
-                        ( *drawsym )( ob, ob->ob_oldx, ob->ob_oldy,
-                                      ob->ob_oldsym, ob->ob_clr, NULL );
-
-	dispgrnd();
-
-        dispinit = FALSE;
-        forcdisp = TRUE;
-
-	// need to update the screen as we arent writing
-	// directly into vram any more
-	
-	CGA_Update();
-}
-
+static char spcbirds[BIRDSYMS][BRDBYTES * 2];	/* Special bird symbol    */
+						/* colour video maps      */
 
 
 /*---------------------------------------------------------------------------
@@ -142,96 +77,112 @@ swdisp()
 
 
 
-static  dispgrnd()
+static void dispgrnd()
 {
-	if (!dispinit ) {
-                if ( !( dispdx || forcdisp ) )
-                        return;
-                ( *dispg )( grndsave );
+	if (!dispinit) {
+		if (!(dispdx || forcdisp))
+			return;
+		(*dispg) (grndsave);
 	}
-	movmem( ground + displx, grndsave, SCR_WDTH * sizeof( GRNDTYPE ) );
+	movmem(ground + displx, grndsave, SCR_WDTH * sizeof(GRNDTYPE));
 
-        ( *dispg )( ground + displx );
+	(*dispg) (ground + displx);
 }
 
 
 
 
-static  dispgm( gptr )
-GRNDTYPE *gptr;
+static void dispgm(GRNDTYPE * gptr)
 {
-register GRNDTYPE *g, gl, gc;
-register int      gmask, i;
-register char     *sptr;
-
-        i = SCR_WDTH;
-        gl = *( g = gptr );
-        gmask = 0xC0;
-        sptr = dispoff + ( SCR_HGHT - gl - 1 ) * 160;
-
-        while ( i-- ) {
-                if ( gl == ( gc = *g++ ) ) {
-                        *sptr        ^= gmask;
-                        *( sptr+80 ) ^= gmask;
-                } else if ( gl < gc )
-                        do  {
-                                *( sptr-=160 ) ^= gmask;
-                                *( sptr+80 )   ^= gmask;
-                        } while ( ++gl < gc );
-                else
-                        do  {
-                                *( sptr+=160 ) ^= gmask;
-                                *( sptr-80 )   ^= gmask;
-                        } while ( --gl > gc );
-
-                if ( !( gmask >>= 2 ) ) {
-                        gmask = 0xC0;
-                        ++sptr;
-                }
-        }
-}
-
-
-
-
-static  dispgc( gptr )
-GRNDTYPE *gptr;
-{
-	register GRNDTYPE *g, gl, gc;
-	register int      gmask, i;
-	register char     *sptr;
+	register GRNDTYPE *g = gptr, gl, gc;
+	register int gmask, i;
+	register char *sptr;
 
 	i = SCR_WDTH;
-        gl = *( g = gptr );
-        gmask = 0x80;
-        sptr = dispoff + ( SCR_HGHT - gl - 1 ) * 160;
+	gl = *g;
+	gmask = 0xC0;
+	sptr = dispoff + (SCR_HGHT - gl - 1) * 160;
 
-        while ( i-- ) {
-                if ( gl == ( gc = *g++ ) ) {
-                        *sptr       ^= gmask;
-                        *( sptr+2 ) ^= gmask;
-                        *( sptr+4 ) ^= gmask;
-                } else if ( gl < gc )
-                        do  {
-                                *( sptr-=160 ) ^= gmask;
-                                *( sptr+2 )    ^= gmask;
-                                *( sptr+4 )    ^= gmask;
-                        } while ( ++gl < gc );
-                else
-                        do  {
-                                *( sptr+=160 ) ^= gmask;
-                                *( sptr+2 )    ^= gmask;
-                                *( sptr+4 )    ^= gmask;
-                        } while ( --gl > gc );
+	while (i--) {
+		gc = *g++;
 
-                if ( !( gmask >>= 1 ) ) {
-                        gmask = 0x80;
-                        if ( (long) sptr & 1 )
-                                sptr += 7;
-                        else
-                                ++sptr;
+		if (gl == gc) {
+			*sptr ^= gmask;
+			*(sptr + 80) ^= gmask;
+		} else if (gl < gc)
+			do {
+				*(sptr -= 160) ^= gmask;
+				*(sptr + 80) ^= gmask;
+			} while (++gl < gc);
+		else
+			do {
+				*(sptr += 160) ^= gmask;
+				*(sptr - 80) ^= gmask;
+			} while (--gl > gc);
+
+		if (!(gmask >>= 2)) {
+			gmask = 0xC0;
+			++sptr;
+		}
+	}
+}
+
+
+
+
+static void dispgc(GRNDTYPE * gptr)
+{
+	register GRNDTYPE *g = gptr, gl, gc;
+	register int gmask, i;
+	register char *sptr;
+
+	i = SCR_WDTH;
+	gl = *g;
+	gmask = 0x80;
+	sptr = dispoff + (SCR_HGHT - gl - 1) * 160;
+
+	while (i--) {
+		gc = *g++;
+		if (gl == gc) {
+			*sptr ^= gmask;
+			*(sptr + 2) ^= gmask;
+			*(sptr + 4) ^= gmask;
+		} else if (gl < gc)
+			do {
+				*(sptr -= 160) ^= gmask;
+				*(sptr + 2) ^= gmask;
+				*(sptr + 4) ^= gmask;
+			} while (++gl < gc);
+		else
+			do {
+				*(sptr += 160) ^= gmask;
+				*(sptr + 2) ^= gmask;
+				*(sptr + 4) ^= gmask;
+			} while (--gl > gc);
+
+#ifdef SOLID_GROUND
+
+		// sdh 21/10/2001: solid ground like in sopwith 1
+
+                {
+                        char *sptr2 = sptr;
+                        int gl2 = gl;
+                        do {
+                                *( sptr2 += 160) ^= gmask;
+                                sptr2[2] ^= gmask;
+                                sptr2[4] ^= gmask;
+                        } while(--gl2 > 18);
                 }
-        }
+#endif
+
+		if (!(gmask >>= 1)) {
+			gmask = 0x80;
+			if ((long) sptr & 1)
+				sptr += 7;
+			else
+				++sptr;
+		}
+	}
 }
 
 
@@ -245,9 +196,9 @@ GRNDTYPE *gptr;
 
 
 
-swground()
+void swground()
 {
-        dispgrnd();
+	dispgrnd();
 }
 
 
@@ -261,23 +212,23 @@ swground()
 
 
 
-swclrcol()
+void swclrcol()
 {
-register long   *sptr;
-register int    l;
+	register long *sptr;
+	register int l;
 
-        sptr = dispoff + ( SCR_HGHT - 1 ) * 160;
-        if ( scrtype == 2 )
-                for ( l = 32; l; --l ) {
-                        *sptr = *( sptr + 1 ) = *( sptr + 2 ) = 0L;
-                        sptr -= 20;
-                }
-        else
-                for ( l = 16; l; --l ) {
-                        *sptr = *( sptr + 1 ) = *( sptr + 2 ) = *( sptr + 3 )
-                              = *( sptr + 4 ) = *( sptr + 5 ) = 0L;
-                        sptr -= 40;
-                }
+	sptr = (long *) (dispoff + (SCR_HGHT - 1) * 160);
+	if (scrtype == 2)
+		for (l = 32; l; --l) {
+			*sptr = *(sptr + 1) = *(sptr + 2) = 0L;
+			sptr -= 20;
+	} else {
+		for (l = 16; l; --l) {
+			*sptr = *(sptr + 1) = *(sptr + 2) = *(sptr + 3)
+			    = *(sptr + 4) = *(sptr + 5) = 0L;
+			sptr -= 40;
+		}
+	}
 }
 
 
@@ -295,202 +246,224 @@ register int    l;
 
 
 
-swputsym( x, y, ob )
-int     x, y;
-OBJECTS *ob;
+void swputsym(int x, int y, OBJECTS * ob)
 {
-        ( *drawsym )( ob, x, y, ob->ob_newsym, ob->ob_clr, NULL );
+	(*drawsym) (ob, x, y, ob->ob_newsym, ob->ob_clr, NULL);
 }
 
 
 
-swputcol( x, y, ob )
-int     x, y;
-OBJECTS *ob;
+int swputcol(int x, int y, OBJECTS * ob)
 {
-int     retcode = FALSE;
+	int retcode = FALSE;
 
-        ( *drawsym )( ob, x, y, ob->ob_newsym, ob->ob_clr, &retcode );
-        return( retcode );
+	(*drawsym) (ob, x, y, ob->ob_newsym, ob->ob_clr, &retcode);
+
+	return retcode;
 }
 
 
 
 
-char    fill[] = {
-0x00,0x03,0x03,0x03,0x0C,0x0F,0x0F,0x0F,0x0C,0x0F,0x0F,0x0F,0x0C,0x0F,0x0F,0x0F,
-0x30,0x33,0x33,0x33,0x3C,0x3F,0x3F,0x3F,0x3C,0x3F,0x3F,0x3F,0x3C,0x3F,0x3F,0x3F,
-0x30,0x33,0x33,0x33,0x3C,0x3F,0x3F,0x3F,0x3C,0x3F,0x3F,0x3F,0x3C,0x3F,0x3F,0x3F,
-0x30,0x33,0x33,0x33,0x3C,0x3F,0x3F,0x3F,0x3C,0x3F,0x3F,0x3F,0x3C,0x3F,0x3F,0x3F,
-0xC0,0xC3,0xC3,0xC3,0xCC,0xCF,0xCF,0xCF,0xCC,0xCF,0xCF,0xCF,0xCC,0xCF,0xCF,0xCF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xC0,0xC3,0xC3,0xC3,0xCC,0xCF,0xCF,0xCF,0xCC,0xCF,0xCF,0xCF,0xCC,0xCF,0xCF,0xCF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xC0,0xC3,0xC3,0xC3,0xCC,0xCF,0xCF,0xCF,0xCC,0xCF,0xCF,0xCF,0xCC,0xCF,0xCF,0xCF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,
-0xF0,0xF3,0xF3,0xF3,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF,0xFC,0xFF,0xFF,0xFF
+char fill[] = {
+	0x00, 0x03, 0x03, 0x03, 0x0C, 0x0F, 0x0F, 0x0F, 0x0C, 0x0F, 0x0F,
+	    0x0F, 0x0C, 0x0F, 0x0F, 0x0F,
+	0x30, 0x33, 0x33, 0x33, 0x3C, 0x3F, 0x3F, 0x3F, 0x3C, 0x3F, 0x3F,
+	    0x3F, 0x3C, 0x3F, 0x3F, 0x3F,
+	0x30, 0x33, 0x33, 0x33, 0x3C, 0x3F, 0x3F, 0x3F, 0x3C, 0x3F, 0x3F,
+	    0x3F, 0x3C, 0x3F, 0x3F, 0x3F,
+	0x30, 0x33, 0x33, 0x33, 0x3C, 0x3F, 0x3F, 0x3F, 0x3C, 0x3F, 0x3F,
+	    0x3F, 0x3C, 0x3F, 0x3F, 0x3F,
+	0xC0, 0xC3, 0xC3, 0xC3, 0xCC, 0xCF, 0xCF, 0xCF, 0xCC, 0xCF, 0xCF,
+	    0xCF, 0xCC, 0xCF, 0xCF, 0xCF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xC0, 0xC3, 0xC3, 0xC3, 0xCC, 0xCF, 0xCF, 0xCF, 0xCC, 0xCF, 0xCF,
+	    0xCF, 0xCC, 0xCF, 0xCF, 0xCF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xC0, 0xC3, 0xC3, 0xC3, 0xCC, 0xCF, 0xCF, 0xCF, 0xCC, 0xCF, 0xCF,
+	    0xCF, 0xCC, 0xCF, 0xCF, 0xCF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF,
+	0xF0, 0xF3, 0xF3, 0xF3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF,
+	    0xFF, 0xFC, 0xFF, 0xFF, 0xFF
 };
 
 
 
 
-static  drawsm( ob, x, y, symbol, clr, retcode )
-OBJECTS *ob;
-int     x, y, clr, *retcode;
-char    *symbol;
+static void drawsm(OBJECTS * ob, int x, int y,
+		   char *symbol, int clr, int *retcode)
 {
-	register char   *s, *sptr, *sym;
-	register int    j, c, cr, pc;
-	int             rotr, rotl, wdth, wrap, n;
+	register char *s, *sptr, *sym;
+	register int j, c, cr, pc;
+	int rotr, rotl, wdth, wrap, n;
 
-	exit(-1);
-	
-        if ( !( sym = symbol ) )
-                return;
+	if (!symbol)
+		return;
 
-        if ( ( ob->ob_symhgt == 1 ) && ( ob->ob_symwdt == 1 ) ) {
-                drawpm( x, y, (int) sym, retcode );
-                return;
-        }
+	sym = symbol;
 
-        rotr = ( x & 0x0003 ) << 1;
-        rotl = 8 - rotr;
+	if (ob->ob_symhgt == 1 && ob->ob_symwdt == 1) {
+		drawpm(x, y, (int) sym, retcode);
+		return;
+	}
 
-        if ( ( wrap = ( wdth = ob->ob_symwdt >> 2 )
-                - ( n = SCR_LINW - ( x >> 2 ) ) ) > 0 )
-                wdth = n;
+	rotr = (x & 0x0003) << 1;
+	rotl = 8 - rotr;
 
-        if ( ( n = ob->ob_symhgt ) > ( y + 1 ) )
-                n = y + 1;
-        sptr = dispoff + ( ( SCR_HGHT - y - 1 ) * 160 ) + ( x >> 2 );
+	wdth = ob->ob_symwdt >> 2;
+	n = SCR_LINW - (x >> 2);
+	wrap = wdth - n;
+ 
+	if (wrap > 0)
+		wdth = n;
 
-        while ( n-- ) {
-                s = sptr;
-                j = wdth;
-                pc = 0;
-                while ( j-- ) {
-                        cr = ( c = *sym++ ) << rotl;
-                        c = ( ( c & 0x00FF ) >> rotr ) | pc;
-                        pc = cr;
-                        if ( retcode && ( *s & fill[c & 0x00FF] ) ){
-                                *retcode = TRUE;
-                                retcode = 0;
-                        }
-                        *s ^= c;
-                        *((s++)+80) ^= c;
-                }
-                if ( wrap >= 0 )
-                        sym += wrap;
-                else {
-                        if ( retcode && ( *s & fill[pc & 0x00FF ] ) ){
-                                *retcode = TRUE;
-                                retcode = 0;
-                        }
-                        *s      ^= pc;
-                        *(s+80) ^= pc;
-                }
-                sptr += 160;
-        }
+	n = ob->ob_symhgt;
+	if (n > (y + 1))
+		n = y + 1;
+	sptr = dispoff + ((SCR_HGHT - y - 1) * 160) + (x >> 2);
+
+	while (n--) {
+		s = sptr;
+		j = wdth;
+		pc = 0;
+		while (j--) {
+			cr = (c = *sym++) << rotl;
+			c = ((c & 0x00FF) >> rotr) | pc;
+			pc = cr;
+			if (retcode && (*s & fill[c & 0x00FF])) {
+				*retcode = TRUE;
+				retcode = 0;
+			}
+			*s ^= c;
+			*((s++) + 80) ^= c;
+		}
+		if (wrap >= 0)
+			sym += wrap;
+		else {
+			if (retcode && (*s & fill[pc & 0x00FF])) {
+				*retcode = TRUE;
+				retcode = 0;
+			}
+			*s ^= pc;
+			*(s + 80) ^= pc;
+		}
+		sptr += 160;
+	}
 }
 
 
 
 
-static  drawsc( ob, x, y, symbol, clr, retcode )
-OBJECTS *ob;
-int     x, y, clr, *retcode;
-char    *symbol;
+static void drawsc(OBJECTS * ob, int x, int y,
+		   char *symbol, int clr, int *retcode)
 {
-	register char   *s, *sptr, *sym;
-	register int    j, c1, c2, c;
-	int             rotr, rotl, wdth, wrap, n;
-	int             cr, pc1, pc2, invert, enhance1;
-	extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
-	
-        if ( !( sym = symbol ) )
-                return;
+	register char *s, *sptr, *sym;
+	register int j, c1, c2, c;
+	int rotr, rotl, wdth, wrap, n;
+	int cr, pc1, pc2, invert, enhance1;
+	obtype_t obtype;
 
-        if ( ( ob->ob_symhgt == 1 ) && ( ob->ob_symwdt == 1 ) ) {
-                drawpc( x, y, (int) sym, retcode );
-                return;
-        }
+	if (!symbol)
+		return;
 
-        rotr = x & 0x0007;
-        rotl = 8 - rotr;
+	sym = symbol;
 
-        if ( ( wrap = ( wdth = ob->ob_symwdt >> 2 )
-                - ( n = SCR_LINW - ( x >> 2 ) ) ) > 0 )
-                wdth = n;
+	if (ob->ob_symhgt == 1 && ob->ob_symwdt == 1) {
+		drawpc(x, y, (int) sym, retcode);
+		return;
+	}
 
-        if ( ( n = ob->ob_symhgt ) > ( y + 1 ) )
-                n = y + 1;
-        sptr = dispoff + ( ( SCR_HGHT - y - 1 ) * 160 )
-                       + ( ( x & 0xFFF0 ) >> 1 )
-                       + ( ( x & 0x0008 ) >> 3 );
+	rotr = x & 0x0007;
+	rotl = 8 - rotr;
 
-        invert = ( clr & 0x0003 ) == 2 ? -1 : 0;
-        enhance1 = ( ( ( j = ob->ob_type ) == FLOCK ) || ( j == BIRD )
-                   || ( j == OX ) ) ? -1 : 0;
-        if ( j == BIRD )
-                sym = (char *) spcbirds + ( ( sym - (char *) swbrdsym ) << 1 );
+	wdth = ob->ob_symwdt >> 2;
+	n = SCR_LINW - (x >> 2);
+	wrap = wdth - n;
 
-        while ( n-- ) {
-                s = sptr;
-                j = wdth;
-                pc1 = pc2 = 0;
+	if (wrap > 0)
+		wdth = n;
 
-		while ( j-- ) {
+	n = ob->ob_symhgt;
 
-                        if ( j ) {
-                                c = 0xFF;
-                                --j;
-                        } else
-                                c = 0xF0;
+	if (n > (y + 1))
+		n = y + 1;
+	sptr = dispoff + ((SCR_HGHT - y - 1) * 160)
+	    + ((x & 0xFFF0) >> 1)
+	    + ((x & 0x0008) >> 3);
 
-                        cr = ( c1 = *sym++ & c ) << rotl;
-                        c1 = ( c1 >> rotr ) | pc1;
-                        pc1 = cr;
-                        cr = ( c2 = *sym++ & c ) << rotl;
-                        c2 = ( c2 >> rotr ) | pc2;
-                        pc2 = cr;
-                        c = c1 | c2;
+	invert = (clr & 0x0003) == 2 ? -1 : 0;
 
-                        if ( retcode
-                                && ( c & ( *s | *(s+2) ) & 0xFF ) ) {
-                                *retcode = TRUE;
-                                retcode = 0;
-                        }
+	obtype = ob->ob_type;
 
-			*s     ^= c1 ^ ( c & invert );
-                        *(s+2) ^= c2 ^ ( c & invert );
-                        *(s+6) ^= c & enhance1;
+	enhance1 = (obtype == FLOCK || obtype == BIRD 
+		    || obtype == OX) ? -1 : 0;
+	if (obtype == BIRD)
+		sym = (char *) spcbirds + ((sym - (char *) swbrdsym) << 1);
 
-                        if ( (long) s & 1 )
-                                s += 7;
-                        else
-                                ++s;
-                }
+	while (n--) {
+		s = sptr;
+		j = wdth;
+		pc1 = pc2 = 0;
 
-                if ( wrap >= 0 )
-                        sym += wrap & 0xFFFE;
-                else {
-                        c = pc1 | pc2;
-                        if ( retcode
-                                && ( c & ( *s | *(s+2) ) & 0xFF ) ){
-                                *retcode = TRUE;
-                                retcode = 0;
-                        }
-                        *s     ^= pc1 ^ ( c & invert );
-                        *(s+2) ^= pc2 ^ ( c & invert );
-                        *(s+6) ^= c & enhance1;
-                }
-                sptr += 160;
-        }
+		while (j--) {
+
+			if (j) {
+				c = 0xFF;
+				--j;
+			} else
+				c = 0xF0;
+
+			cr = (c1 = *sym++ & c) << rotl;
+			c1 = (c1 >> rotr) | pc1;
+			pc1 = cr;
+			cr = (c2 = *sym++ & c) << rotl;
+			c2 = (c2 >> rotr) | pc2;
+			pc2 = cr;
+			c = c1 | c2;
+
+			if (retcode && (c & (*s | *(s + 2)) & 0xFF)) {
+				*retcode = TRUE;
+				retcode = 0;
+			}
+
+			*s ^= c1 ^ (c & invert);
+			*(s + 2) ^= c2 ^ (c & invert);
+			*(s + 6) ^= c & enhance1;
+
+			if ((long) s & 1)
+				s += 7;
+			else
+				++s;
+		}
+
+		if (wrap >= 0)
+			sym += wrap & 0xFFFE;
+		else {
+			c = pc1 | pc2;
+			if (retcode && (c & (*s | *(s + 2)) & 0xFF)) {
+				*retcode = TRUE;
+				retcode = 0;
+			}
+
+			*s ^= pc1 ^ (c & invert);
+			*(s + 2) ^= pc2 ^ (c & invert);
+			*(s + 6) ^= c & enhance1;
+		}
+		sptr += 160;
+	}
 }
 
 
@@ -509,94 +482,214 @@ char    *symbol;
 
 
 
-swpntsym( x, y, clr )
-int     x, y, clr;
+void swpntsym(int x, int y, int clr)
 {
-        ( *drawpnt )( x, y, clr, NULL );
+	(*drawpnt) (x, y, clr, NULL);
 }
 
 
 
-swpntcol( x, y, clr )
-int     x, y, clr;
+int swpntcol(int x, int y, int clr)
 {
-int     oldclr;
+	int oldclr;
 
-        ( *drawpnt )( x, y, clr, &oldclr );
-        return( oldclr );
+	(*drawpnt) (x, y, clr, &oldclr);
+
+	return oldclr;
 }
 
 
 
-drawpc( x, y, clr, oldclr )
-int     x, y, clr, *oldclr;
+void drawpc(int x, int y, int clr, int *oldclr)
 {
-register  int   c, mask;
-register  char  *sptr;
+	register int c, mask;
+	register char *sptr;
 
-        sptr = dispoff + ( ( SCR_HGHT - y - 1 ) * 160 )
-                       + ( ( x & 0xFFF0 ) >> 1 )
-                       + ( ( x & 0x0008 ) >> 3 );
-        mask = 0x80 >> ( x &= 0x0007 );
+	sptr = dispoff 
+	       + (SCR_HGHT - y - 1) * 160
+	       + ((x & 0xFFF0) >> 1)
+	       + ((x & 0x0008) >> 3);
+	x &= 0x0007;
+	mask = 0x80 >> x;
 
-        if ( oldclr ) {
-                c = ( *sptr & mask )
-                        | ( ( *( sptr+2 ) & mask ) << 1 )
-                        | ( ( *( sptr+4 ) & mask ) << 2 )
-                        | ( ( *( sptr+6 ) & mask ) << 3 );
-                *oldclr = ( c >> ( 7 - x ) ) & 0x00FF;
-        }
+	if (oldclr) {
+		c = (*sptr & mask)
+		    | ((*(sptr + 2) & mask) << 1)
+		    | ((*(sptr + 4) & mask) << 2)
+		    | ((*(sptr + 6) & mask) << 3);
+		*oldclr = (c >> (7 - x)) & 0x00FF;
+	}
 
-        c = clr << ( 7 - x );
-        if ( clr & 0x0080 ) {
-                *sptr       ^= ( mask & c );
-                *( sptr+2 ) ^= ( mask & ( c >> 1 ) );
-                *( sptr+4 ) ^= ( mask & ( c >> 2 ) );
-                *( sptr+6 ) ^= ( mask & ( c >> 3 ) );
-        } else {
-                mask = ~mask;
-                *sptr       &= mask;
-                *( sptr+2 ) &= mask;
-                *( sptr+4 ) &= mask;
-                *( sptr+6 ) &= mask;
+	c = clr << (7 - x);
+	if (clr & 0x0080) {
+		*sptr ^= (mask & c);
+		*(sptr + 2) ^= (mask & (c >> 1));
+		*(sptr + 4) ^= (mask & (c >> 2));
+		*(sptr + 6) ^= (mask & (c >> 3));
+	} else {
+		mask = ~mask;
+		*sptr &= mask;
+		*(sptr + 2) &= mask;
+		*(sptr + 4) &= mask;
+		*(sptr + 6) &= mask;
 
-                mask = ~mask;
-                *sptr       |= ( mask & c );
-                *( sptr+2 ) |= ( mask & ( c >> 1 ) );
-                *( sptr+4 ) |= ( mask & ( c >> 2 ) );
-                *( sptr+6 ) |= ( mask & ( c >> 3 ) );
-        }
+		mask = ~mask;
+		*sptr |= (mask & c);
+		*(sptr + 2) |= (mask & (c >> 1));
+		*(sptr + 4) |= (mask & (c >> 2));
+		*(sptr + 6) |= (mask & (c >> 3));
+	}
 }
 
 
 
 
 
-drawpm( x, y, clr, oldclr )
-int     x, y, clr, *oldclr;
+void drawpm(int x, int y, int clr, int *oldclr)
 {
-register  int   c, mask;
-register  char  *sptr;
+	register int c, mask;
+	register char *sptr;
 
-        sptr = dispoff + ( ( SCR_HGHT - y - 1 ) * 160 ) + ( x >> 2 );
-        mask = 0xC0 >> ( x = ( x & 0x0003 ) << 1 );
+	sptr = dispoff + ((SCR_HGHT - y - 1) * 160) + (x >> 2);
+	x = (x & 0x0003) << 1;
+	mask = 0xC0 >> x;
 
-        if ( oldclr )
-                *oldclr = ( ( *sptr & mask ) >> ( 6 - x ) ) & 0x00FF;
+	if (oldclr)
+		*oldclr = ((*sptr & mask) >> (6 - x)) & 0x00FF;
 
-        c = clr << ( 6 - x );
-        if (clr & 0x0080 ) {
-                *sptr        ^= ( mask & c );
-                *( sptr+80 ) ^= ( mask & c );
-        } else {
-                *sptr        &= ~mask;
-                *( sptr+80 ) &= ~mask;
-                *sptr        |= ( mask & c );
-                *( sptr+80 ) |= ( mask & c );
-        }
+	c = clr << (6 - x);
+	if (clr & 0x0080) {
+		*sptr ^= (mask & c);
+		*(sptr + 80) ^= (mask & c);
+	} else {
+		*sptr &= ~mask;
+		*(sptr + 80) &= ~mask;
+		*sptr |= (mask & c);
+		*(sptr + 80) |= (mask & c);
+	}
 }
 
 
+/*---------------------------------------------------------------------------
+
+        Main display loop.   Delete and display all visible objects.
+        Delete any newly deleted objects
+
+---------------------------------------------------------------------------*/
+
+
+
+void swdisp()
+{
+	register OBJECTS *ob;
+
+	setvdisp();
+
+	for (ob = objtop; ob; ob = ob->ob_next) {
+		if (!(ob->ob_delflg && ob->ob_drwflg)
+		    || ob->ob_symhgt == 1
+		    || ob->ob_oldsym != ob->ob_newsym
+		    || ob->ob_y != ob->ob_oldy
+		    || (ob->ob_oldx + displx) != ob->ob_x) {
+			if (ob->ob_delflg)
+				(*drawsym) (ob, ob->ob_oldx, ob->ob_oldy,
+					    ob->ob_oldsym, ob->ob_clr,
+					    NULL);
+			if (!ob->ob_drwflg)
+				continue;
+			if (ob->ob_x < displx || ob->ob_x > disprx) {
+				ob->ob_drwflg = 0;
+				continue;
+			}
+			ob->ob_oldx = ob->ob_x - displx;
+			ob->ob_oldy = ob->ob_y;
+			(*drawsym) (ob,
+				    ob->ob_oldx,
+				    ob->ob_oldy,
+				    ob->ob_newsym, 
+				    ob->ob_clr, NULL);
+		}
+
+		if (ob->ob_drawf)
+			(*(ob->ob_drawf)) (ob);
+	}
+
+	for (ob = deltop; ob; ob = ob->ob_next)
+		if (ob->ob_delflg)
+			(*drawsym) (ob, ob->ob_oldx, ob->ob_oldy,
+				    ob->ob_oldsym, ob->ob_clr, NULL);
+
+	dispgrnd();
+
+	dispinit = FALSE;
+	forcdisp = TRUE;
+
+	// need to update the screen as we arent writing
+	// directly into vram any more
+
+	CGA_Update();
+}
+
+
+static void copy(char *from, char *to)
+{
+	int i;
+
+	for (i = 4; i; --i) {
+		*to++ = *from++;
+		*to++ = '\0';
+	}
+}
+
+
+
+static void invert(char *symbol, int bytes)
+{
+	register int c1, c2;
+	register char *s;
+	int n;
+
+	s = symbol;
+	for (n = bytes >> 1; n; --n) {
+		c1 = *s;
+		c2 = *(s + 1);
+		*s++ = ((c1 << 1) & 0x80)
+		    | ((c1 << 2) & 0x40)
+		    | ((c1 << 3) & 0x20)
+		    | ((c1 << 4) & 0x10)
+		    | ((c2 >> 3) & 0x08)
+		    | ((c2 >> 2) & 0x04)
+		    | ((c2 >> 1) & 0x02)
+		    | (c2 & 0x01);
+		*s++ = (c1 & 0x80)
+		    | ((c1 << 1) & 0x40)
+		    | ((c1 << 2) & 0x20)
+		    | ((c1 << 3) & 0x10)
+		    | ((c2 >> 4) & 0x08)
+		    | ((c2 >> 3) & 0x04)
+		    | ((c2 >> 2) & 0x02)
+		    | ((c2 >> 1) & 0x01);
+	}
+}
+
+static void invertsymbols()
+{
+	invert((char *) swplnsym, ORIENTS * ANGLES * SYMBYTES);
+	invert((char *) swhitsym, HITSYMS * SYMBYTES);
+	invert((char *) swbmbsym, BOMBANGS * BOMBBYTES);
+	invert((char *) swtrgsym, TARGORIENTS * TARGBYTES);
+	invert((char *) swwinsym, WINSIZES * WINBYTES);
+	invert((char *) swhtrsym, TARGBYTES);
+	invert((char *) swexpsym, EXPLSYMS * EXPBYTES);
+	invert((char *) swflksym, FLCKSYMS * FLKBYTES);
+	copy((char *) swbrdsym, (char *) spcbirds);
+	invert((char *) spcbirds, BIRDSYMS * BRDBYTES * 2);
+	invert((char *) swoxsym, OXSYMS * OXBYTES);
+	invert((char *) swshtsym, SHOTBYTES);
+	invert((char *) swsplsym, SPLTBYTES);
+	invert((char *) swbstsym, BRSTSYMS * BRSTBYTES);
+	invert((char *) swmscsym, MISCANGS * MISCBYTES);
+}
 
 
 /*---------------------------------------------------------------------------
@@ -614,18 +707,18 @@ register  char  *sptr;
 
 
 
-get_type()
+int get_type()
 {
-        return( scrtype = trap14( 4 ) );
+//        return( scrtype = trap14( 4 ) );
+	return 0;
 }
 
 // sdh: just set the res using the cga (sdl) calls
 
-set_type( type )
-int     type;
+void set_type(int type)
 {
 	CGA_Init();
-	
+
 	dispg = dispgc;
 	drawpnt = drawpc;
 	drawsym = drawsc;
@@ -633,142 +726,60 @@ int     type;
 
 	return;
 	/*
-        if (type > 2 ) {
-                if ( scrtype == 2 ) {
-                        type = 2;
-                        dispg = dispgm;
-                        drawpnt = drawpm;
-                        drawsym = drawsm;
-                } else {
-                        if ( type == 6 )
-                                type = 1;
-                        else
-                                type = 0;
-                        dispg = dispgc;
-                        drawpnt = drawpc;
-                        drawsym = drawsc;
-                        invertsymbols();
-                }
-                trap14( 5, -1L, -1L, type );
-                trap14( 6, palette );
-        } else {
-                trap14( 5, -1L, -1L, type );
-                trap14( 21, 1 );
-        }
-	*/
-}
-
-
-
-static  invertsymbols()
-{
-	extern  char    swplnsym[ORIENTS][ANGLES][SYMBYTES];
-	extern  char    swhitsym[HITSYMS][SYMBYTES];
-	extern  char    swbmbsym[BOMBANGS][BOMBBYTES];
-	extern  char    swtrgsym[TARGORIENTS][TARGBYTES];
-	extern  char    swwinsym[WINSIZES][WINBYTES];
-	extern  char    swhtrsym[TARGBYTES];
-	extern  char    swexpsym[EXPLSYMS][EXPBYTES];
-	extern  char    swflksym[FLCKSYMS][FLKBYTES];
-	extern  char    swbrdsym[BIRDSYMS][BRDBYTES];
-	extern  char    swoxsym[OXSYMS][OXBYTES];
-	extern  char    swshtsym[SHOTBYTES];
-	extern  char    swsplsym[SPLTBYTES];
-	extern  char    swmscsym[MISCANGS][MISCBYTES];
-	extern  char    swbstsym[BRSTSYMS][BRSTBYTES];
-	
-        invert( swplnsym, ORIENTS*ANGLES*SYMBYTES );
-        invert( swhitsym, HITSYMS*SYMBYTES        );
-        invert( swbmbsym, BOMBANGS*BOMBBYTES      );
-        invert( swtrgsym, TARGORIENTS*TARGBYTES   );
-        invert( swwinsym, WINSIZES*WINBYTES       );
-        invert( swhtrsym, TARGBYTES               );
-        invert( swexpsym, EXPLSYMS*EXPBYTES       );
-        invert( swflksym, FLCKSYMS*FLKBYTES       );
-        copy( swbrdsym, spcbirds );
-        invert( spcbirds, BIRDSYMS*BRDBYTES*2     );
-        invert( swoxsym,  OXSYMS*OXBYTES          );
-	invert( swshtsym, SHOTBYTES );
-	invert( swsplsym, SPLTBYTES );
-	invert( swbstsym, BRSTSYMS * BRSTBYTES );
-	invert( swmscsym, MISCANGS * MISCBYTES );
-}
-
-
-
-static  copy( from, to )
-char    *from, *to;
-{
-int     i;
-
-        for ( i = 4; i; --i ) {
-                *to++ = *from++;
-                *to++ = '\0';
-        }
-}
-
-
-
-static  invert( symbol, bytes )
-char    *symbol;
-int     bytes;
-{
-register int    c1, c2;
-register char   *s;
-int             n;
-
-        s = symbol;
-        for ( n = bytes >> 1; n; --n ) {
-                c1 = *s;
-                c2 = *( s + 1 );
-                *s++ =  ( ( c1 << 1 ) & 0x80 )
-                        | ( ( c1 << 2 ) & 0x40 )
-                        | ( ( c1 << 3 ) & 0x20 )
-                        | ( ( c1 << 4 ) & 0x10 )
-                        | ( ( c2 >> 3 ) & 0x08 )
-                        | ( ( c2 >> 2 ) & 0x04 )
-                        | ( ( c2 >> 1 ) & 0x02 )
-                        | ( c2 & 0x01 );
-                *s++ =  ( c1 & 0x80 )
-                        | ( ( c1 << 1 ) & 0x40 )
-                        | ( ( c1 << 2 ) & 0x20 )
-                        | ( ( c1 << 3 ) & 0x10 )
-                        | ( ( c2 >> 4 ) & 0x08 )
-                        | ( ( c2 >> 3 ) & 0x04 )
-                        | ( ( c2 >> 2 ) & 0x02 )
-                        | ( ( c2 >> 1 ) & 0x01 );
-        }
+	   if (type > 2 ) {
+	   if ( scrtype == 2 ) {
+	   type = 2;
+	   dispg = dispgm;
+	   drawpnt = drawpm;
+	   drawsym = drawsm;
+	   } else {
+	   if ( type == 6 )
+	   type = 1;
+	   else
+	   type = 0;
+	   dispg = dispgc;
+	   drawpnt = drawpc;
+	   drawsym = drawsc;
+	   invertsymbols();
+	   }
+	   trap14( 5, -1L, -1L, type );
+	   trap14( 6, palette );
+	   } else {
+	   trap14( 5, -1L, -1L, type );
+	   trap14( 21, 1 );
+	   }
+	 */
 }
 
 // sdh: experiments into fixing splatted ox
 
 void colorscreen(int color)
 {
-        char *p;
-        int n = SCR_WDTH * SCR_HGHT / 2;
+	char *p;
+	int n = SCR_WDTH * SCR_HGHT / 2;
 
-        for(p=dispoff; p<dispoff+n;) {
-                if(color & 1) {
-                        *p = ~*p;
-                        *(p+1) = ~*(p+1);
-                }
-                p += 2;
+	for (p = dispoff; p < dispoff + n;) {
+		if (color & 1) {
+			*p = ~*p;
+			*(p + 1) = ~*(p + 1);
+		}
+		p += 2;
 //                if(color & 2) {
 //                        *p = ~*p;
 //                        *(p+1) = ~*(p+1);
 //                }
-                p += 2;
-                if(color & 4) {
-                        *p = ~*p;
-                        *(p+1) = ~*(p+1);
-                }
-                p += 2;
+		p += 2;
+		if (color & 4) {
+			*p = ~*p;
+			*(p + 1) = ~*(p + 1);
+		}
+		p += 2;
 //                if(color & 8) {
 //                        *p = ~*p;
 //                        *(p+1) = ~*(p+1);
 //                }
-                p += 2;
-        }
+		p += 2;
+	}
 
 }
 
@@ -781,33 +792,34 @@ void colorscreen(int color)
 
 ---------------------------------------------------------------------------*/
 
-setvdisp()
-{
-	static  char    *videoram = NULL;
+char *vidram = NULL;
 
-        if ( !videoram ) {
-		videoram = CGA_GetVRAM();
+void setvdisp()
+{
+	if (!vidram) {
+		vidram = CGA_GetVRAM();
 	}
-	
-        dispoff = videoram;
+
+	dispoff = vidram;
 }
 
-
-
-
-setadisp()
+void setadisp()
 {
-	// not sure what this does
-	
+	static BOOL firstadisp = TRUE;
+ 
+	if(firstadisp) {
+		firstadisp = FALSE;
+		memset(auxdisp, 0, 0x8000);
+	}
+	dispoff = auxdisp;
 //      CGA_ClearScreen();
-
 //	dispoff = malloc(0x4000);
 //        dispoff = auxdisp - 0x4000;
 }
 
 // sdh: screenshot function
 
-screendump()
+void screendump()
 {
 	FILE *fs = fopen("screendump.bin", "wb");
 	printf("screendump\n");
@@ -816,3 +828,25 @@ screendump()
 
 	fclose(fs);
 }
+
+//---------------------------------------------------------------------------
+//
+// $Log: $
+//
+// sdh 24/10/2001: fix auxdisp buffer
+// sdh 21/10/2001: use new obtype_t and obstate_t
+// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added #define for solid ground (sopwith 1 style)
+// sdh 21/10/2001: reformatted with indent, adjusted some code by hand
+//                 to make more readable
+// sdh 19/10/2001: removed extern definitions, these are in headers now
+//                 shuffled some functions round to shut up the compiler
+// sdh 18/10/2001: converted all functions to ANSI-style arguments
+//
+// 87-03-09        Microsoft compiler.
+// 85-11-05        Atari
+// 84-06-13        PCjr Speed-up
+// 84-02-21        Development
+//
+//---------------------------------------------------------------------------
+

@@ -1,10 +1,11 @@
 CC=gcc
-CFLAGS=`sdl-config --cflags` -I.
+CFLAGS=`sdl-config --cflags` -g -I. -Wall
 LDFLAGS=`sdl-config --libs`
 EXE=sopwith
 OBJS =               	\
 	bmblib.o 	\
 	pcsound.o	\
+	tcpcomm.o       \
 	timer.o		\
 	cgavideo.o	\
 	swasynio.o	\
@@ -19,7 +20,7 @@ OBJS =               	\
 	swmain.o	\
 	swmisc.o	\
 	swmove.o	\
-	swmultio.o	\
+	swnetio.o	\
 	swobject.o	\
 	swplanes.o	\
 	swsound.o	\
@@ -40,6 +41,6 @@ clean:
 	rm -f *.o
 	rm -f depends
 	rm -f *~
-
+	
 include depends
 

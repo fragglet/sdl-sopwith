@@ -12,20 +12,29 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef incase of multiple includes
+#ifndef __SWCOLLSN_H__
+#define __SWCOLLSN_H__
 
-#ifndef __SWDEVE_H__
-#define __SWDEVE_H__
+#include "sw.h"
 
-#define DEVELOPE
+extern void swcollsn();
+extern void colltest(OBJECTS *ob1, OBJECTS *ob2);
+extern void tstcrash(OBJECTS *obp);
+extern void swkill(OBJECTS *ob1, OBJECTS *ob2);
+extern void scorepln(OBJECTS *ob);
+extern void dispscore(OBJECTS *obp);
+extern void dispd(int n, int size);
+extern BOOL equal(int (*x)(), int (*y)() );
 
-#endif 
+#endif
+
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-// sdh 21/10/2001: rearranged headers, added cvs tags
+// sdh 21/10/2001: added cvs tags
+// sdh 19/10/2001: added header
 //
 //---------------------------------------------------------------------------
 
