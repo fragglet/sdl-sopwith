@@ -765,7 +765,7 @@ static void Vid_SetMode()
 	if (screen->bpp == 3) {
 		printf("ATTENTION: 24 bit colour mode is untested. If you see this message,\n"
 		       "please email me and let me know if it works or not! :)\n"
-		       "sdh300@ecs.soton.ac.uk\n");
+		       "sdh300@zepler.net\n");
 	}
 
 	if (screen_widget) {
@@ -874,6 +874,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.9  2003/06/10 21:08:03  fraggle
+// Move email to zepler.net
+//
 // Revision 1.8  2003/06/08 00:48:30  fraggle
 // use GDK_IMAGE_FASTEST instead of GDK_IMAGE_NORMAL for speed
 //
