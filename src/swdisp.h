@@ -36,12 +36,18 @@ extern void dispflck(OBJECTS *ob);
 extern void dispbird(OBJECTS *ob);
 extern void dispwobj(OBJECTS *obp);
 
+extern void dispscore(OBJECTS *obp);
+
 #endif
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2004/10/15 17:52:31  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

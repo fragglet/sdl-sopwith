@@ -33,7 +33,7 @@
 #include "swgrpha.h"
 #include "swinit.h"
 #include "swmain.h"
-#include "swmisc.h"
+#include "swtext.h"
 #include "swmove.h"
 #include "swsound.h"
 #include "swsplat.h"
@@ -153,6 +153,7 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 	}
 }
 
+
 static void scoretarg(OBJECTS *obp, int score)
 {
 	register OBJECTS *ob;
@@ -169,6 +170,7 @@ static void scoretarg(OBJECTS *obp, int score)
 		dispscore(&nobjects[2 - ob->ob_clr]);
 	}
 }
+
 
 static BOOL scorepenalty(obtype_t ttype, OBJECTS * ob, int score)
 {
@@ -488,48 +490,13 @@ void scorepln(OBJECTS * ob)
 }
 
 
-void dispd(int n, int size)
-{
-	register int i = 0;
-	register int d, t;
-	register BOOL first = TRUE;
-
-	// sdh 24/10/2001: make sure we use the main video buffer
-
-	if (n < 0) {
-		n = -n;
-		swputc('-');
-		++i;
-	}
-	for (t = 10000; t > 1; n %= t, t /= 10) {
-		d = n / t;
-		if (d || !first) {
-			first = FALSE;
-			swputc(d + '0');
-			++i;
-		}
-	}
-	swputc(n + '0');
-	++i;
-	while (++i <= size)
-		swputc(' ');
-}
-
-
-void dispscore(OBJECTS * ob)
-{
-	Vid_Box(0, 16, 48, 16, 0);
-	
-	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
-	swcolour(ob->ob_clr);
-	dispd(ob->ob_score, 6);
-}
-
-
-
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2004/10/15 17:52:31  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.7  2004/10/15 17:23:32  fraggle
 // Restore HUD splats
 //

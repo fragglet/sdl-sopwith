@@ -19,7 +19,7 @@
 //
 //---------------------------------------------------------------------------
 //
-//        swmiscjr -      SW miscellaneous
+//        swtext - text processing.. input/output
 //
 //---------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@
 
 #include "sw.h"
 #include "swgrpha.h"
-#include "swmisc.h"
+#include "swtext.h"
 #include "swsound.h"
 #include "swtitle.h"
 
@@ -151,6 +151,34 @@ void swposcur(int a, int b)
 	cur_y = b;
 }
 
+
+void swdispd(int n, int size)
+{
+	int i = 0;
+	int d, t;
+	BOOL first = TRUE;
+
+	// sdh 24/10/2001: make sure we use the main video buffer
+
+	if (n < 0) {
+		n = -n;
+		swputc('-');
+		++i;
+	}
+	for (t = 10000; t > 1; n %= t, t /= 10) {
+		d = n / t;
+		if (d || !first) {
+			first = FALSE;
+			swputc(d + '0');
+			++i;
+		}
+	}
+	swputc(n + '0');
+	++i;
+	while (++i <= size)
+		swputc(' ');
+}
+
 int swgetc()
 {
 	int i;
@@ -170,15 +198,14 @@ int swgetc()
 	return i;
 }
 
-void swflush()
-{
-	// something to do with the keyboard
-}
-
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.1  2004/10/15 17:52:32  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.4  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

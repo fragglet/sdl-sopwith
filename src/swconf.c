@@ -36,7 +36,7 @@
 #include "swconf.h"
 #include "swend.h"
 #include "swgrpha.h"
-#include "swmisc.h"
+#include "swtext.h"
 #include "swtitle.h"
 #include "swmain.h"
 
@@ -331,6 +331,10 @@ void setconfig()
 //-------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/10/15 17:52:31  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.4  2003/06/08 03:41:41  fraggle
 // Remove auxdisp buffer totally, and all associated functions
 //

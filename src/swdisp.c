@@ -29,6 +29,7 @@
 #include "swdisp.h"
 #include "swgrpha.h"
 #include "swmain.h"
+#include "swtext.h"
 #include "swsound.h"
 #include "swsymbol.h"
 #include "swutil.h"
@@ -183,10 +184,22 @@ void dispplyr(OBJECTS * ob)
 	plnsound(ob);
 }
 
+void dispscore(OBJECTS * ob)
+{
+	Vid_Box(0, 16, 48, 16, 0);
+	
+	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
+	swcolour(ob->ob_clr);
+	swdispd(ob->ob_score, 6);
+}
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2004/10/15 17:52:31  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.6  2004/10/15 17:23:32  fraggle
 // Restore HUD splats
 //

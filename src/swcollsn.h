@@ -27,9 +27,6 @@
 extern void swcollsn();
 extern void tstcrash(OBJECTS *obp);
 extern void scorepln(OBJECTS *ob);
-extern void dispscore(OBJECTS *obp);
-extern void dispd(int n, int size);
-extern BOOL equal(int (*x)(), int (*y)() );
 
 #endif
 
@@ -37,6 +34,10 @@ extern BOOL equal(int (*x)(), int (*y)() );
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2004/10/15 17:52:31  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

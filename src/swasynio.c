@@ -36,7 +36,7 @@
 #include "swgames.h"
 #include "swinit.h"
 #include "swmain.h"
-#include "swmisc.h"
+#include "swtext.h"
 #include "swmove.h"
 #include "swsound.h"
 #include "swtitle.h"
@@ -124,8 +124,6 @@ void asynput(int movekey)
 	if (first)
 		first = FALSE;
 	else 
-
-	swflush();
 
 	sendshort(movekey);
 }
@@ -388,6 +386,10 @@ void init2asy()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2004/10/15 17:52:31  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.5  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

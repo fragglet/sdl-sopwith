@@ -34,7 +34,7 @@
 #include "swground.h"
 #include "swgrpha.h"
 #include "swmain.h"
-#include "swmisc.h"
+#include "swtext.h"
 #include "swsound.h"
 #include "swsymbol.h"
 #include "swtitle.h"
@@ -228,10 +228,10 @@ static void getkey()
 
 	/*----------------97/12/27--------------
         clrprmpt();
-        swputs( "Key: 1 - Joystick with IBM Keyboard\r\n" );
-        swputs( "     2 - Joystick with non-IBM Keyboard\r\n" );
-        swputs( "     3 - IBM Keyboard only\r\n" );
-        swputs( "     4 - Non-IBM keyboard only\r\n" );
+        swputs( "Key: 1 - Joystick with IBM Keyboard\n" );
+        swputs( "     2 - Joystick with non-IBM Keyboard\n" );
+        swputs( "     3 - IBM Keyboard only\n" );
+        swputs( "     4 - Non-IBM keyboard only\n" );
         for (;;) {
                 if ( ctlbreak() )
                         swend( NULL, NO );
@@ -244,8 +244,8 @@ static void getkey()
         }
         ------------------97/12/27--------------*/
 	clrprmpt();
-	swputs("Key: K - Keyboard Only\r\n");
-	swputs("     J - Joystick and Keyboard\r\n");
+	swputs("Key: K - Keyboard Only\n");
+	swputs("     J - Joystick and Keyboard\n");
 
 	Vid_Update();
 
@@ -287,8 +287,8 @@ static BOOL getskill()
 {
 	for (;;) {
 		clrprmpt();
-		swputs("Key: N - novice player\r\n");
-		swputs("     E - expert player\r\n");
+		swputs("Key: N - novice player\n");
+		swputs("     E - expert player\n");
 
 		Vid_Update();
 
@@ -317,13 +317,13 @@ void getgamemode()
 
 		clrprmpt();
 
-		swputs("Key: S - single player\r\n");
-		swputs("     C - single player against computer\r\n");
+		swputs("Key: S - single player\n");
+		swputs("     C - single player against computer\n");
 #ifdef TCPIP
-		swputs("     N - network game\r\n");
+		swputs("     N - network game\n");
 #endif
-		swputs("     O - game options\r\n");
-		swputs("     Q - quit game\r\n");
+		swputs("     O - game options\n");
+		swputs("     Q - quit game\n");
 		Vid_Update();
 
 		if (ctlbreak())
@@ -361,6 +361,10 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2004/10/15 17:52:32  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.5  2004/03/29 23:58:23  fraggle
 // Add a quit option to the main menu
 //

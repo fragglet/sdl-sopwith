@@ -10,8 +10,8 @@ CFLAGS = @CFLAGS@ -I..
 
 COMMON_SRC =       \
 video.h	    swcollsn.c  swgames.h   swmain.h    swutil.h 		\
-font.h      swcollsn.h  swground.c  swmisc.c    tcpcomm.c 		\
-pcsound.h   swconf.c    swground.h  swmisc.h    swsound.c   tcpcomm.h 	\
+font.h      swcollsn.h  swground.c  swtext.c    tcpcomm.c 		\
+pcsound.h   swconf.c    swground.h  swtext.h    swsound.c   tcpcomm.h 	\
 std.h       swconf.h    swgrpha.c   swmove.c    swsound.h   timer.h 	\
 sw.h        swdisp.c    swgrpha.h   swmove.h    swsymbol.c 		\
 swasynio.c  swdisp.h    swinit.c    swsymbol.h 				\

@@ -43,7 +43,7 @@
 #include "swground.h"
 #include "swgrpha.h"
 #include "swmain.h"
-#include "swmisc.h"
+#include "swtext.h"
 #include "swmove.h"
 #include "swobject.h"
 #include "swsound.h"
@@ -412,8 +412,6 @@ void initplyr(OBJECTS * obp)
 		endcount = 0;
 		consoleplayer = ob;
 	}
-
-	swflush();
 }
 
 // computer opponent
@@ -1163,6 +1161,10 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.12  2004/10/15 17:52:32  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.11  2004/10/15 17:23:32  fraggle
 // Restore HUD splats
 //

@@ -31,6 +31,7 @@ extern void swcolour(int a);
 extern void swposcur(int a, int b);
 extern int swgetc();
 extern void swflush();
+extern void swdispd(int n, int size);
 
 #endif
 
@@ -38,8 +39,12 @@ extern void swflush();
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:31  fraggle
-// Initial revision
+// Revision 1.1  2004/10/15 17:52:32  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
+// Revision 1.1.1.1  2003/02/14 19:03:31  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

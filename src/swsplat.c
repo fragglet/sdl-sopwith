@@ -22,6 +22,9 @@
 //
 //---------------------------------------------------------------------------
 
+#include <string.h>
+
+#include "swgrpha.h"
 #include "swmain.h"
 #include "swsplat.h"
 #include "swsymbol.h"
@@ -123,6 +126,10 @@ void swsplatox(void)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.2  2004/10/15 17:52:32  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.1  2004/10/15 17:23:32  fraggle
 // Restore HUD splats
 //

@@ -28,17 +28,17 @@
 #include "swend.h"
 #include "swgrpha.h"
 #include "swmain.h"
-#include "swmisc.h"
+#include "swtext.h"
 #include "swsound.h"
 #include "swutil.h"
 
 
 static void swreport()
 {
-	puts("\r\nEnd of game statictics\r\n\r\n");
+	puts("\nEnd of game statistics\n");
 	puts("Objects used: ");
-	dispd(((int) objsmax - (int) objtop + 1) / sizeof(OBJECTS), 0);
-	puts("\r\n");
+	printf("%d\n", ((int) objsmax - (int) objtop + 1) / sizeof(OBJECTS));
+	puts("\n");
 }
 
 void swend(char *msg, BOOL update)
@@ -57,18 +57,18 @@ void swend(char *msg, BOOL update)
 
 	histend();
 
-	puts("\r\n");
+	puts("\n");
 	if (closmsg) {
 		puts(closmsg);
-		puts("\r\n");
+		puts("\n");
 	}
 	if (msg) {
 		puts(msg);
-		puts("\r\n");
+		puts("\n");
 	}
 
 	inplay = FALSE;
-	swflush();
+
 	if (msg || closmsg)
 		exit(YES);
 	else
@@ -164,6 +164,10 @@ void dispendmessage()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/10/15 17:52:32  fraggle
+// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
+// accurately describes what the file does.
+//
 // Revision 1.4  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //
