@@ -113,10 +113,15 @@ static int seed[50] = {
 static unsigned int swrand(unsigned int modulo)
 {
 	static int i = 0;
+	int result;
 
 	if (i >= 50)
 		i = 0;
-	return (seed[i++] % modulo);
+
+	result = seed[i] % modulo;
+	++i;
+
+	return result;
 }
 
 
@@ -262,10 +267,13 @@ void playnote()
 		if (!line && !place)
 			octavefactor = 256;
 
-		charatplace = toupper(tune[line][place++]);
+		charatplace = toupper(tune[line][place]);
+		++place;
+
 		if (!charatplace) {
 			place = 0;
-			charatplace = tune[++line][0];
+			++line;
+			charatplace = tune[line][0];
 			if (!charatplace) {
 				line = 0;
 			}
@@ -301,9 +309,10 @@ void playnote()
 				break;
 			default:
 				test = isdigit(charatplace);
-				if (test)
-					*(durstring + durplace++) =
-					    charatplace;
+				if (test) {
+					durstring[durplace] = charatplace;
+					++durplace;
+				}
 				break;
 			}
 
@@ -390,7 +399,9 @@ static void explnote()
 
 static void adjexpl()
 {
-	if (--explticks >= 0)
+	--explticks;
+
+	if (explticks >= 0)
 		return;
 
 	explnote();
@@ -416,7 +427,9 @@ static void titlnote()
 
 static void adjtitl()
 {
-	if (--titlticks >= 0)
+	--titlticks;
+
+	if (titlticks >= 0)
 		return;
 	titlnote();
 }
@@ -600,6 +613,9 @@ void swsndupdate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/10/15 16:39:32  fraggle
+// Unobfuscate some parts
+//
 // Revision 1.4  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //

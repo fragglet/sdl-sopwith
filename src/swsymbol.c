@@ -1070,8 +1070,10 @@ sopsym_t *symbol_plane_win[4];            // swwinsym
 
 // special symbol for single pixel (bullets etc)
 
+static unsigned char pixel_data[] = { 3 };
+
 sopsym_t symbol_pixel = {
-	NULL,
+	pixel_data,
 	1,
 	1
 };
@@ -1103,11 +1105,6 @@ void symbol_generate()
 	symbol_ghost = sopsym_from_data(swghtsym, 8, 8);
 	symbol_shotwin = sopsym_from_data(swshtsym, 16, 16);
 	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32);
-
-	{
-		static char p = 3;
-		symbol_pixel.data = &p;
-	}
 }
 
 
@@ -1115,6 +1112,9 @@ void symbol_generate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2004/10/15 16:39:32  fraggle
+// Unobfuscate some parts
+//
 // Revision 1.2  2003/06/16 02:03:50  fraggle
 // Pseudo-MSVC support..
 //

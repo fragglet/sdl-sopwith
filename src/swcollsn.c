@@ -135,9 +135,11 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 
 				if (killptr < 2*MAX_OBJS - 1) {
 					killed[killptr] = ob1;
-					killer[killptr++] = ob2;
+					killer[killptr] = ob2;
+					++killptr;
 					killed[killptr] = ob2;
-					killer[killptr++] = ob1;
+					killer[killptr] = ob1;
+					++killptr;
 				}
 				return; 
 			}
@@ -469,7 +471,8 @@ void tstcrash(OBJECTS * obp)
 
 			if (killptr < 2 * MAX_OBJS) {
 				killed[killptr] = obp;
-				killer[killptr++] = NULL;
+				killer[killptr] = NULL;
+				++killptr;
 			}
 
 			return;
@@ -526,6 +529,9 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2004/10/15 16:39:32  fraggle
+// Unobfuscate some parts
+//
 // Revision 1.5  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

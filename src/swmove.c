@@ -602,7 +602,8 @@ BOOL movepln(OBJECTS * obp)
 		}
 
 		if (stalled) {
-			if (!--ob->ob_hitcount) {
+			--ob->ob_hitcount;
+			if (ob->ob_hitcount <= 0) {
 				ob->ob_orient = !ob->ob_orient;
 				ob->ob_angle = ((3 * ANGLES / 2)
 						- ob->ob_angle)
@@ -685,7 +686,9 @@ static void adjustfall(OBJECTS * obp)
 	register OBJECTS *ob;
 
 	ob = obp;
-	if (!--ob->ob_life) {
+	
+	--ob->ob_life;
+	if (ob->ob_life <= 0) {
 		if (ob->ob_dy < 0) {
 			if (ob->ob_dx < 0)
 				++ob->ob_dx;
@@ -1144,6 +1147,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2004/10/15 16:39:32  fraggle
+// Unobfuscate some parts
+//
 // Revision 1.10  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

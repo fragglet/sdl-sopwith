@@ -212,7 +212,8 @@ static void dispwindshot()
 		randsd();
 		swputsym((unsigned) (seed % (SCR_WDTH - 16)),
 			 (unsigned) (seed % (SCR_HGHT - 50)) + 50, &ob);
-	} while (--shothole);
+		--shothole;
+	} while (shothole > 0);
 }
 
 
@@ -235,7 +236,8 @@ static void dispsplatbird()
 		randsd();
 		swputsym((unsigned) (seed % (SCR_WDTH - 32)),
 			 (unsigned) (seed % (SCR_HGHT - 60)) + 60, &ob);
-	} while (--splatbird);
+		--splatbird;
+	} while (splatbird > 0);
 }
 
 
@@ -283,6 +285,9 @@ void dispplyr(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/10/15 16:39:32  fraggle
+// Unobfuscate some parts
+//
 // Revision 1.4  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

@@ -119,7 +119,7 @@ static void initwobj()
 static void initobjs()
 {
 	OBJECTS *ob;
-	int o;
+	int i;
 
 	topobj.ob_xnext = topobj.ob_next = &botobj;
 	botobj.ob_xprev = botobj.ob_prev = &topobj;
@@ -129,12 +129,13 @@ static void initobjs()
 	objbot = objtop = deltop = delbot = NULL;
 	objfree = ob = nobjects;
 
-	for (o = 0; o < MAX_OBJS; ++o) {
+	for (i = 0; i < MAX_OBJS; ++i) {
 		ob->ob_next = ob + 1;
-		(ob++)->ob_index = o;
+		ob->ob_index = i;
+		++ob;
 	}
 
-	(--ob)->ob_next = NULL;
+	(ob-1)->ob_next = NULL;
 }
 
 
@@ -243,7 +244,9 @@ void dispworld()
 		if (ground[x] > maxh)
 			maxh = ground[x];
 
-		if ((++dx) == WRLD_RSX) {
+		++dx;
+
+		if (dx == WRLD_RSX) {
 			maxh /= WRLD_RSY;
 			if (maxh == y)
 				Vid_PlotPixel(sx, maxh, 7);
@@ -1007,15 +1010,17 @@ void swrestart()
 	if (endsts[player] == WINNER) {
 		ob = &nobjects[player];
 		inc = 0;
-		while (ob->ob_crashcnt++ < maxcrash) {
-			ob->ob_score += (inc += 25);
+		while (ob->ob_crashcnt < maxcrash) {
+			++ob->ob_crashcnt;
+			inc += 25;
+			ob->ob_score += inc;
 
 			Vid_Update();
 			
 			// sdh 27/10/2001: use new time code for delay
 
 			time = Timer_GetMS();
-			while(Timer_GetMS() < time + 200);
+			while (Timer_GetMS() < time + 200);
 		}
 		++gamenum;
 		savescore = ob->ob_score;
@@ -1157,6 +1162,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2004/10/15 16:39:32  fraggle
+// Unobfuscate some parts
+//
 // Revision 1.9  2004/10/14 08:48:46  fraggle
 // Wrap the main function in system-specific code.  Remove g_argc/g_argv.
 // Fix crash when unable to initialise video subsystem.
