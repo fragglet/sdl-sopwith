@@ -102,8 +102,11 @@ static void delete_event(GtkWidget *widget, GdkEvent *event, gpointer data) {
 static void settings_bool_toggle(GtkWidget *widget, BOOL *b)
 {
 	*b = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) != 0;
+
 	if (b == &vid_fullscreen || b == &vid_double_size)
 		Vid_Reset();
+
+	swsaveconf();
 }
 
 static GtkWidget *build_settings_dialog()
@@ -166,14 +169,6 @@ static GtkWidget *build_settings_dialog()
 
 	vbox = GTK_DIALOG(window)->action_area;
 
-	// 29/6/2002: save button
-
-	button = gtk_button_new_with_label("Save Settings");
-	gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   GTK_SIGNAL_FUNC(swsaveconf), NULL);
-	gtk_widget_show(button);
-		
 	// close button
 
 	button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
@@ -894,6 +889,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.6  2003/06/04 17:22:11  fraggle
+// Remove "save settings" option in settings menus. Just save it anyway.
+//
 // Revision 1.5  2003/06/04 15:41:07  fraggle
 // Remove some dead code
 //

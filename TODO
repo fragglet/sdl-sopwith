@@ -22,7 +22,6 @@ Network:
 Finish GNOME port
 	Add GConf support
 	Fix starting network games from the menus
-Remove "save settings" in settings menu - just save the changes anyway
 
 Bug: If you crash into the last building in a level, the level exit sequence
 	runs with you inside the building rubble (!)

@@ -281,9 +281,6 @@ void setconfig()
 
 		swcolour(1);
 		
-		swposcur(1, 21);
-		swputs("     S - save configuration file");
-
 		swposcur(1, 22);
 		swputs("   ESC - Exit Menu");
 
@@ -315,6 +312,8 @@ void setconfig()
 			    || confoptions[i].value.b == &vid_double_size) {
 				Vid_Reset();
 			}
+
+			swsaveconf();
 			
 			continue;
 		}
@@ -322,9 +321,6 @@ void setconfig()
 		// other keys
 		
 		switch(i) {
-		case 'S':
-			swsaveconf();
-			break;
 		case 27:
 			return;
 		}
@@ -335,6 +331,9 @@ void setconfig()
 //-------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/04 17:22:11  fraggle
+// Remove "save settings" option in settings menus. Just save it anyway.
+//
 // Revision 1.2  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //
