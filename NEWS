@@ -1,3 +1,16 @@
+v1.4.0 (29/06/2002)
+
+Start of PsiLinux port (for Psion Revo/5MX)
+Collision detection code rewritten
+Save button added to settings dialog in Gtk+ version
+Added original documentation to doc/origdoc.txt
+Code restructure: All rendering is now done directly to the appropriate buffer,
+		  the old Atari rendering functions (which I thought were CGA
+		  functions) are no longer used as there are now native 8-bit
+		  versions.
+		  sopsym_t is used for storing sprites; ob->ob_symwdt/symhgt
+		  removed as they are no longer of any use
+
 v1.3.0 (??/11/2001)
 
 Gtk+ port! (work in progress, no sound yet but it is playable)

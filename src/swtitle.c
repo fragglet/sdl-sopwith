@@ -18,7 +18,7 @@
 
 #include <ctype.h>
 
-#include "cgavideo.h"
+#include "video.h"
 
 #include "sw.h"
 #include "swasynio.h"
@@ -28,10 +28,11 @@
 #include "swgrpha.h"
 #include "swmain.h"
 #include "swmisc.h"
-#include "swplanes.h"
 #include "swsound.h"
 #include "swsymbol.h"
 #include "swtitle.h"
+
+#define X_OFFSET ((SCR_WDTH/2)-160)
 
 // sdh -- use network edition title screen
 
@@ -39,40 +40,37 @@
 
 void swtitln()
 {
-	OBJECTS ob;
-	register int i, h;
+	int i, h;
 
 	tickmode = 1;
 
 	sound(S_TITLE, 0, NULL);
 
-	// if solid_ground has been changed this needs to be called
-	// again
-	
-	swinitgrph(); 
+	// sdh 26/03/2002: remove swinitgrph call
 
 	// clear the screen
 
 	setvdisp();
+
 	clrdispv();
 
 /*---------------- Original BMB Version---------------*/
 #ifndef NET_TITLE
 
 	swcolour(3);
-	swposcur(13, 6);
+	swposcur(13+X_OFFSET/8, 6);
 	swputs("S O P W I T H");
 
 	swcolour(1);
-	swposcur(12, 8);
+	swposcur(12+X_OFFSET/8, 8);
 	swputs("(Version " VERSION ")");
 
 	swcolour(3);
-	swposcur(5, 11);
+	swposcur(5+X_OFFSET/8, 11);
 	swputs("(c) Copyright 1984, 1985, 1987");
 
 	swcolour(1);
-	swposcur(6, 12);
+	swposcur(6+X_OFFSET/8, 12);
 	swputs("BMB ");
 	swcolour(3);
 	swputs("Compuscience Canada Ltd.");
@@ -82,68 +80,52 @@ void swtitln()
 /*---------------- New Network Version ---------------*/
 
 	swcolour(2);
-	swposcur(18, 2);
+	swposcur(18+X_OFFSET/8, 2);
 	swputs("SDL");
 
 	swcolour(3);
-	swposcur(13, 4);
+	swposcur(13+X_OFFSET/8, 4);
 	swputs("S O P W I T H");
 
-	swposcur(13, 6);
+	swposcur(13+X_OFFSET/8, 6);
 	swputs("Version " VERSION);
 
 	swcolour(3);
-	swposcur(1, 10);
+	swposcur(1+X_OFFSET/8, 10);
 	swputs("(c) Copyright 1984, 1985, 1987");
 
 	swcolour(1);
-	swposcur(5, 11);
+	swposcur(5+X_OFFSET/8, 11);
 	swputs("BMB ");
 	swcolour(3);
 	swputs("Compuscience Canada Ltd.");
 
 	swcolour(3);
-	swposcur(1, 12);
+	swposcur(1+X_OFFSET/8, 12);
 	swputs("(c) Copyright 1984-2000 David L. Clark");
 
 	swcolour(3);
-	swposcur(1, 13);
+	swposcur(1+X_OFFSET/8, 13);
 	swputs("(c) Copyright 2001 Simon Howard");
 
 /*---------------- New Network Version-----------------*/
 
-	displx = 700;
+	displx = 700-X_OFFSET;
 	dispinit = TRUE;
 	swground();
 
-	ob.ob_type = PLANE;
-	ob.ob_symhgt = ob.ob_symwdt = 16;
-	ob.ob_clr = 1;
-	ob.ob_newsym = swplnsym[0][0];
-	swputsym(260, 180, &ob);
+	// sdh 28/06/2002: cleared this up a lot, no more 
+	// creating objects etc
 
-	ob.ob_newsym = swwinsym[3];
-	swputsym(50, 180, &ob);
+	Vid_DispSymbol(260+X_OFFSET, 180, symbol_plane[0][0], 1, NULL);
+	Vid_DispSymbol(50+X_OFFSET, 180, symbol_plane_win[3], 1, NULL);
+	Vid_DispSymbol(100+X_OFFSET, ground[800] + 16, symbol_ox[0], 1, NULL);
+	Vid_DispSymbol(234+X_OFFSET, ground[934] + 16, symbol_targets[3], 2,
+		       NULL);
+	Vid_DispSymbol(20+X_OFFSET, 160, symbol_plane_hit[0], 1, NULL);
 
-	ob.ob_type = OX;
-	ob.ob_newsym = swoxsym[0];
-	swputsym(100, ground[800] + 16, &ob);
-
-	ob.ob_type = TARGET;
-	ob.ob_clr = 2;
-	ob.ob_newsym = swtrgsym[3];
-	swputsym(234, ground[934] + 16, &ob);
-
-	ob.ob_type = PLANE;
-	ob.ob_newsym = swhitsym[0];
-	swputsym(20, 160, &ob);
-
-	ob.ob_type = SMOKE;
-	ob.ob_symhgt = ob.ob_symwdt = 1;
-	ob.ob_newsym = (char *) 0x82;
-	h = 150;
-	for (i = 9; i; --i)
-		swputsym(30, h += 5, &ob);
+	for (i = 9, h=150; i; --i, h += 5)
+		Vid_PlotPixel(30+X_OFFSET, h, 3);
 
 #endif				/* #ifndef NET_TITLE */
 }
@@ -170,7 +152,7 @@ void swtitlf()
 
 BOOL ctlbreak()
 {
-	return CGA_GetCtrlBreak();
+	return Vid_GetCtrlBreak();
 }
 
 // clear bottom of screen
@@ -183,7 +165,7 @@ void clrprmpt()
 
 	for (y = 0; y <= 43; ++y)
 		for (x = 0; x < SCR_WDTH; ++x) {
-			swpntsym(x, y, 0);
+			Vid_PlotPixel(x, y, 0);
 		}
 
 	swposcur(0, 20);
@@ -209,7 +191,7 @@ static BOOL getnet()
 		swputs("     C - connect to remote host\n");
 		swputs("     T - connect to TCP loop\n");
 
-		CGA_Update();
+		Vid_Update();
 
 		swsndupdate();
 
@@ -261,7 +243,7 @@ static void getkey()
 	swputs("Key: K - Keyboard Only\r\n");
 	swputs("     J - Joystick and Keyboard\r\n");
 
-	CGA_Update();
+	Vid_Update();
 
 	FOREVER {
 		swsndupdate();
@@ -303,7 +285,7 @@ static BOOL getskill()
 		swputs("Key: N - novice player\r\n");
 		swputs("     E - expert player\r\n");
 
-		CGA_Update();
+		Vid_Update();
 
 		swsndupdate();
 		if (ctlbreak())
@@ -329,13 +311,14 @@ void getmode()
 		swtitln();
 
 		clrprmpt();
+
 		swputs("Key: S - single player\r\n");
 		swputs("     C - single player against computer\r\n");
 #ifdef TCPIP
 		swputs("     N - network game\r\n");
 #endif
 		swputs("     O - game options\r\n");
-		CGA_Update();
+		Vid_Update();
 
 		if (ctlbreak())
 			swend(NULL, NO);
@@ -370,6 +353,10 @@ void getmode()
 //
 // $Log: $
 //
+// sdh 27/06/2002: move to new sopsym_t for symbols,
+//                 remove references to symwdt, symhgt
+// sdh 28/04/2002: Centering of title screen on non-320 pixel wide screens
+// sdh 26/03/2002: change CGA_ to Vid_
 // sdh 16/11/2001: TCPIP #define to disable TCP/IP support
 // sdh 29/10/2001: moved options menu into swconf.c
 // sdh 29/10/2001: harrykeys

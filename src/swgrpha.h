@@ -17,10 +17,7 @@
 
 #include "sw.h"
 
-#define VRAMSIZE 0x8000
-
 extern char *vidram;
-extern char auxdisp[VRAMSIZE];
 
 extern void swdisp();
 extern void swground();
@@ -28,8 +25,6 @@ extern void swclrcol();
 extern void swputsym(int x, int y, OBJECTS *ob);
 extern int swputcol(int x, int y, OBJECTS *ob);
 //extern char    fill[];
-extern void swpntsym(int x, int y, int clr);
-extern int swpntcol(int x, int y, int clr);
 
 extern void swinitgrph();
 extern void swshutdowngrph();
@@ -51,6 +46,7 @@ extern void movedisp();
 //
 // $Log: $
 //
+// sdh 27/03/2002: remove swpntcol and swpntsym
 // sdh 21/10/2001: added cvs tags
 // sdh 19/10/2001: added header
 //

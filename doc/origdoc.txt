@@ -1,0 +1,377 @@
+
+This is apparently the original documentation for sopwith. 
+Thanks to Jornand de Buisonje' and google groups' archive :)
+
+A lot of this refers to the imaginet network system and is no longer
+relevant, but is included for historic purposes.
+
+This was split over several messages, i have combined them.
+
+From: andrew maclean (andrew.maclean@rose.com)
+Subject: Sopwith Documentatio(1/6)
+Newsgroups: comp.sys.ibm.pc.games.action
+Date: 1993-10-14 09:11:09 PST
+
+Someone from Finland posted a request for the docs of the game Sopwith.
+
+I work for the company which wrote this little program so many years ago.  First
+of all, it was intended as a demo for a network called Imaginet which we also
+developed.  Therefore, it doesn't really play over other networks.  After asking
+about this however, there is some speculation here that it can be linked over a
+serial cable.  I cannot confirm this.  Anyway, here are the docs for thems that
+wants.
+
+This program is copywrited by:
+
+                        BMB Compuscience Canada Ltd.
+                           555 Industrial Drive
+                             Milton, Ontario
+                                 L9T 5C2
+                                 Canada
+
+SOPWITH   
+
+                    a WWI biplane video game
+
+          Syntax: 
+                    sopwith [-s] [-k] [-i] [-q] [-r] [-d*] [-p#]
+                            [-c] [-j]
+                            [-m]
+                            [-a]
+
+          Description:   
+                    SOPWITH  is  a  video war-game played over the IMAGINET
+                    network or on a stand-alone PC.  The object of  SOPWITH
+                    is to destroy all enemy targets with a somewhat limited
+                    airforce.  SOPWITH may be played in four ways:
+
+                         Single Player
+                         Single Player against the computer
+                         Multiple Players on a network
+                         Two Players over  an  asynchronous  communications
+                         line
+
+                    SINGLE PLAYER
+
+                         Single  player SOPWITH should only be used to "get
+                         the  feel  of  the  stick".   The   player   (blue
+                         airplane) must destroy all the enemy (red) targets
+                         before losing five (5) airplanes.  If  the  player
+                         is  successful,  the game is restarted at a higher
+                         level of difficulty.
+
+                    SINGLE PLAYER AGAINST THE COMPUTER
+
+                         This game is of the same flavour as single  player
+                         SOPWITH  with  the  additional  realism  of having
+                         someone else (red airplanes) out to get you.
+
+                    MULTIPLE PLAYER
+
+                         Multiple user SOPWITH allows 2-4 IMAGINET users to
+                         form  opposing  air  forces with the goal of being
+                         the first  to  destroy  all  enemy  targets.   The
+                         airplane   which  the  player  controls,  and  the
+                         airforce  for  which   the   player   flies,   are
+                         determined  by the number of players and the order
+                         in which they attach themselves to the game.
+
+
+                              2 players:
+                                 - first player receives a blue airplane
+                                 - second player receives a red airplane
+
+                              3 players:
+                                 - first player receives a blue airplane
+                                 - second player receives  a  red  airplane
+                                   along  with  a computer controlled plane
+                                   eager to bring about the demise  of  the
+                                   dreaded blue enemy
+                                 - third player receives a blue airplane
+
+                              4 players:
+                                 - first player receives a blue airplane
+                                 - second player receives a red airplane
+                                 - third player receives a blue airplane
+                                 - fourth player receives a red airplane
+
+                         In  all cases, each player attempts to destroy the
+                         targets of the  opposing  colour  while  defending
+                         friendly  targets  against  enemy  aircraft.  Each
+                         player is limited to ten (10) aircraft.
+
+                    2 PLAYER ASYNCHRONOUS SOPWITH
+
+                         Two  Player  SOPWITH  is  a  limited  version   of
+                         Multiple   Player  SOPWITH  using  an  asychronous
+                         communications line in place of  a  network.   The
+                         players'  colours  are  determined  randomly.  Two
+                         Player SOPWITH may be played locally using  direct
+                         cabled  PC's,  or  remotely  using  modems  and  a
+                         telephone   system    capable    of    300    baud
+                         communications.
+
+           Scoring: The  point  score  acquired  is  of  no  importance  in
+                    determining whether a player has won or lost.  However,
+                    to  assist  in  determining  a flier's skill level, the
+                    following  points  are   associated   with   airplanes,
+                    targets, and the like:
+
+                                 50  - airplane
+                                100  - factory, hangar, or tank
+                                200  - fuel depot
+                        penalty of   25  - bird
+                        penalty of   200  - ox or falling flier
+
+                    In  single  player  games,  points  are gained if enemy
+                    targets and airplanes are destroyed; points are lost if
+                    friendly  targets  and airplanes are destroyed.  If all
+                    enemy targets are destroyed, the game is restarted at a
+                    higher level of difficulty.  The player's score to this
+                    point  is  retained,  and  the  player  is   given   an
+                    incrementing  bonus for each unused plane.  In multiple
+                    or two player SOPWITH, points are always gained by  one
+                    side  or  the  other.   The  game  ends when one team's
+                    targets are destroyed.
+
+          Keyboard: SOPWITH supports two types of keyboard input, hereafter
+                    called  IBM  and  non-IBM keyboard types.  IBM keyboard
+                    support allows the use of more than one keyboard key at
+                    one  time,  providing  the flexibility available during
+                    joystick play.  Non-IBM keyboard support allows SOPWITH
+                    to be played on PC look-alikes which do not treat their
+                    keyboards in the same manner as the IBM PC.  In non-IBM
+                    mode,  only  one  key depression is acknowledged at one
+                    time.  Which type of keyboard support will work best on
+                    a  given  system  can  only  be determined by trial and
+                    error.
+
+                    The following keys are used during the play of SOPWITH:
+
+                      Ctrl-Break   - (Non-IBM keyboard)
+                        Break      - (IBM keyboard)
+                                     terminates  the game for the player by
+                                     crashing the player's  plane.   Scores
+                                     are adjusted accordingly.
+
+                          ,        - elevator  up.   The airplane will rise
+                                     if right-side-up, drop if upside-down.
+
+                          .        - roll airplane
+
+                          /        - elevator down.  The airplane will drop
+                                     if right-side-up, rise if upside-down.
+
+                          x        - accelerate airplane
+
+                          z        - decelerate airplane
+
+                          b        - drop a bomb
+
+                      space-bar    - fire a shot
+
+                          h        - allow the computer to fly you home for
+                                     refuelling and  rearmament.   Computer
+                                     control      ends     if     elevator,
+                                     acceleration,   or   roll   keys   are
+                                     pressed.
+
+                          s        - turn sound on if off, off if on.
+
+                     Shift-PrtSc   - (Non-IBM keyboard)
+                        PrtSc      - (IBM keyboard)
+                                     Performs          the         standard
+                                     shift-printscreen    function     upon
+                                     completion  of the next screen update.
+
+                                     Output of a given scene is  guaranteed
+                                     to be complete.
+
+          Joystick: SOPWITH  supports  joystick  input  through joystick A.
+                    Functions supported by the joystick are  listed  below.
+                    The  keyboard may still be used as need be, and must be
+                    used  for  Ctrl-Break,  Shift-PrtSc,  home,  and  sound
+                    functions.
+
+                                x         - elevator down
+                                x          - elevator up
+                                x         - accelerate
+                                x         - decelerate
+                                x         - roll airplane
+                              red button  - drop a bomb
+                             black button - fire a shot
+
+
+            Screen: During  play the screen is divided into two sections, a
+                    window and a status display.  The window comprises  the
+                    upper  ninety  percent  of  the  screen  and provides a
+                    display of the player's airplane along with  a  display
+                    of   other   airplanes,  targets,  and  ground  in  the
+                    immediate vicinity.  This window is  scrolled  left  or
+                    right keeping the player's airplane centered.
+
+                    The  lower  ten  percent  of  the  screen  is  used for
+                    displaying the status of the game.  From left to right,
+                    the status display consists of:
+
+                         blue team score
+
+                         red team score (multiple or two player game)
+
+                         plane  gauge showing  the  number of airplanes not
+                                    yet  destroyed.   Each   airplane   is
+                                    represented by two (2)* vertical dots.
+                                    The  game  begins   with   the   gauge
+                                    indicating  five  airplanes available.
+                                    The gauge shows two (2)* dots when the
+                                    player  is  using  the  last  airplane
+                                    available.
+
+                                    (* in multiple and two  player  games,
+                                    each dot represents one airplane)
+
+                         fuel gauge relative display of fuel remaining.
+
+                         bomb gauge relative display of bombs remaining.
+
+                         shot  gauge relative  display  of  the  number  of
+                                    gunrounds remaining.
+
+                         Note:  fuels, bomb, and shots  may  be  topped  up
+                                    while  remaining  stationary  at one's
+                                    home base.  A player is at home  after
+                                    a  crash, or after completing a return
+                                    to home by using the "h" key.
+
+                         ghost face The above four gauges may  be  replaced
+                                    by  a  ghostly  friendly  face.   This
+                                    indicates you are a "ghost" player  in
+                                    a multiple player game.  Ghost players
+                                    may fly about  observing  the  ongoing
+                                    battle,  but  may  not take any action
+                                    which would change the  world  in  any
+                                    way.
+
+                         world display a miniaturized display of the entire
+                                    playing world showing the positions of
+                                    all   airplanes,   targets   not   yet
+                                    destroyed, bombs, and  the  occasional
+                                    flock of birds.
+
+               Play: To play SOPWITH, simply key:
+
+                          sopwith
+                     or:
+                          ?:<path>sopwith where ?  is the device indicator
+                                         of  the   disk   containing   the
+                                         SOPWITH        program       file
+                                         "sopwith.exe".
+
+                     SOPWITH will then display the following to  determine
+                     how the game is to be played:
+
+                        Key: S - single player
+                             C - single player against computer
+                             M - multiple players
+
+                     Sound:                      -q       initializes  the
+                                                          game   to    the
+                                                          no-sound  state.
+                                                          Pressing     "s"
+                                                          during play will
+                                                          start      sound
+                                                          generation.  The
+                                                          default  is   to
+                                                          initialize   the
+                                                          game with sound.
+
+                     CommuniCommunications Port:        -p#      Overrides
+                                                          CommuniCstandard
+                                                          IMAGINET    disk
+                                                          address,      or
+                                                          asynchroverrides
+                                                          asynasynchronous
+                                                          port  1  as  the
+                                                          pocommunications
+                                                          port to use.
+
+
+           Recovery: If for some reason, a player's SOPWITH program  fails
+                     to  end  properly  while in multiple player mode, the
+                     game number in use at the time is rendered  unusable.
+                     In  order to reset the game in question, SOPWITH must
+                     be run with the "reset" option:
+
+                          sopwith -r [-d*]
+
+                     Continue through the game number and  maximum  player
+                     prompts  as  usual.   Keying  "sopwith  -r [-d*]" and
+                     specifying a game which is  in  progress  will  yield
+                     unpredictable results.
+
+          Installation:   
+                     The  program  file  SOPWITH.EXE  must be available to
+                     each player.  For single player games,  this  is  the
+                     only installation needed.
+
+                     Two  player  SOPWITH  requires the following hardware
+                     and software:
+
+                        * asynchronous communications adapter on  each  PC
+                          with  a  direct  attach  cable  with a data line
+                          cross-over (hardware handshake is not  required)
+                          or   asynchronous  modems  and  a  phone  system
+                          capable of supporting 300 baud transmission.
+
+                        * BMB dictionary driver (NAMEDEV.SYS) loaded.
+
+                        * BMB   serial   communications   driver   (either
+                          SERIAL.SYS    or   SERWORK.SYS)   loaded   after
+                          NAMEDEV.SYS.
+
+                        * consistent versions of SOPWITH (See note below)
+
+                                                 OR
+
+                        * BMB    IMAGINET    board    for     asynchronous
+                          communications over the BMB IMAGINET network.
+                        * consistent versions of SOPWITH (See note below)
+
+                     For  multiple player use, the following files must be
+                     available at the root directory of an  IMAGINET  disk
+                     common to all players:
+
+                        semaphor  - IMAGINET semaphor file
+                        sopwith#.dta - SOPWITH  communications files where
+                                    the symbol # corresponds to any  valid
+                                    game number between 0-7 inclusive.
+
+                     Sopwith#.dta files may be created by copying existing
+                     SOPWITH.dta files,  or  by  using  any  other  output
+                     method  to  allocate  one  disk sector under the root
+                     directory.  In all cases, newly  created  SOPWITH.dta
+                     files  should be initialized by using the "sopwith -r
+                     [-d*]" command line described above under RECOVERY.
+
+              Notes: IMPORTANT NOTE - If  playing  2  or  multiple  player
+                     SOPWITH, all players MUST use the same version of the
+                     game.  As the game acquires  world-wide  recognition,
+                     reasonable  suggestions and/or improvements are acted
+                     upon, resulting in several versions of the game being
+                     used.   Differing  versions  of  the  game  will  not
+                     maintain  consistent  views  of  the   world.    Game
+                     versions  can be checked by the file date and time of
+                     the file SOPWITH.EXE.
+
+
+P.S.   The Ox in the game is supposed to be a jab at one of the employees       
+present at the time of the programs creation nicknamed Ox.  You loose a       
+bunch of points if you kill the Ox for either color.
+
++-------------------------------------------+--------------------------+
++                                           |      Andrew MacLean      +
++   Internet:   andrew.maclean@rose.com     |     Toronto, Ontario     +
++   Compuserve: 73547,1674@compuserve.com   |          Canada          +
++                                           |      (905) 876-4741      +
++-------------------------------------------+--------------------------+
+

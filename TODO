@@ -8,6 +8,8 @@ Code Cleanup:
 	Similarly there are function calls to control DOS interrupts
 	which also should be removed.
 DOS Port? probably wouldnt be too hard infact
+Finish Psion port
+Custom levels
 Network:
 	Infinite lives?   -- kind of annoying once you die 5 times, thats it
 	Keep sending even when we are waiting for data (up to a point of 

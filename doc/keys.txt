@@ -1,0 +1,20 @@
+Game keys:
+
+z: 	slow down (not too slow or you will stall!
+x: 	speed up 
+space: 	fire machine gun
+b:	drop bomb
+,:	pull up
+.:	flip
+/: 	pull down
+h:	home
+
+s:	sound
+
+ctrl-c:	quit game
+
+if missiles are enabled:
+
+z:	flare
+x:	launch missile
+

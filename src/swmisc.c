@@ -18,9 +18,9 @@
 
 #include <ctype.h>
 
-#include "cgavideo.h"
 #include "font.h"
 #include "timer.h"
+#include "video.h"
 
 #include "sw.h"
 #include "swgrpha.h"
@@ -43,6 +43,8 @@ static inline void drawchar(int x, int y, int c)
 
 	p = font_data + c * 8;
 
+	// sdh 27/03/02: use new drawing functions
+
 	for (y2 = 0; y2 < 8; ++y2) {
 		int m = 0x80;
 
@@ -51,14 +53,12 @@ static inline void drawchar(int x, int y, int c)
 				// sdh 17/10/2001: -1 to y co-ordinate
 				// to stop it overwriting the wrong memory
 
-				swpntsym(x + x2,
+				Vid_PlotPixel
+					(x + x2,
 					 SCR_HGHT - (y + y2 - 1),
 					 cur_color);
-			} else {
-				swpntsym(x + x2,
-					 SCR_HGHT - (y + y2 -1 ),
-					 cur_color & 0x80);
 			}
+
 			m >>= 1;
 		}
 	}
@@ -106,7 +106,8 @@ void swgets(char *s, int max)
 
 		for (y = 0; y < 8; ++y) {
 			for (x = 0; x < erase_len * 8; ++x) {
-				swpntsym(or_x * 8 + x,
+				Vid_PlotPixel
+					(or_x * 8 + x,
 					 SCR_HGHT - (or_y * 8 + y), 0);
 			}
 		}
@@ -115,7 +116,7 @@ void swgets(char *s, int max)
 		cur_y = or_y;
 		erase_len = strlen(s);
 		swputs(s);
-		CGA_Update();
+		Vid_Update();
 
 		// read next keypress
 
@@ -148,7 +149,7 @@ int swgetc()
 {
 	int i;
 
-	while(!(i = CGA_GetKey())) {
+	while(!(i = Vid_GetKey())) {
 
 		// sdh 15/11/2001: dont thrash the processor while 
 		// waiting for a key press
@@ -174,6 +175,7 @@ void swflush()
 // $Log: $
 //
 //
+// sdh 26/03/2002: change CGA_ to Vid_
 // sdh 15/11/2001: dont thrash the processor while waiting for a keypress
 // sdh 24/10/2001: fix auxdisp buffer code
 // sdh 21/10/2001: rearranged headers, added cvs tags

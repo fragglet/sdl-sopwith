@@ -19,8 +19,8 @@
 #include <ctype.h>
 
 #include "tcpcomm.h"
-#include "cgavideo.h"
 #include "timer.h"
+#include "video.h"
 
 #include "sw.h"
 #include "swasynio.h"
@@ -115,7 +115,7 @@ void asynput()
 	if (first)
 		first = FALSE;
 	else {
-		lastkey = CGA_GetGameKeys();
+		lastkey = Vid_GetGameKeys();
 		
 		if (conf_harrykeys && nobjects[player].ob_orient)
 			lastkey ^= K_FLAPU | K_FLAPD;
@@ -182,6 +182,9 @@ static void synchronize()
 	if (player) {
 		settimeout(1000);
 		explseed = readshort();
+
+		printf("random seed: %i\n", explseed);
+
 		settimeout(1000);
 		conf_missiles = readshort() != 0;
 		conf_wounded = readshort() != 0;
@@ -189,6 +192,9 @@ static void synchronize()
 	} else {
 		// send settings
 		sendshort(explseed);
+
+		printf("random seed: %i\n", explseed);
+
 		sendshort(conf_missiles);
 		sendshort(conf_wounded);
 		sendshort(conf_animals);
@@ -205,13 +211,13 @@ static void tcploop_connect()
 	swputs("  Attempting to connect to\n  ");
 	swputs(asynhost);
 	swputs(" ...");
-	CGA_Update();
+	Vid_Update();
 	
 	commconnect(asynhost);
 
 	clrprmpt();
 	swputs("  Connected, waiting for other player\n");
-	CGA_Update();
+	Vid_Update();
 
 	// for the first 5 seconds, listen to see if theres another player 
 	// there
@@ -281,17 +287,19 @@ void asyninit()
 	if (asynmode == ASYN_TCPLOOP) {
 		tcploop_connect();
 	} else if (asynmode == ASYN_LISTEN) {
+		swtitln();
 		clrprmpt();
 		swputs("  Listening for connection...");
-		CGA_Update();
+		Vid_Update();
 		commlisten();
 		player = 0;
 	} else if (asynmode == ASYN_CONNECT) {
+		swtitln();
 		clrprmpt();
 		swputs("  Attempting to connect to \n  ");
 		swputs(asynhost);
 		swputs(" ...");
-		CGA_Update();
+		Vid_Update();
 		commconnect(asynhost);
 		player = 1;
 	} else {
@@ -333,6 +341,7 @@ void init2asy()
 	ob->ob_owner = ob;
 	ob->ob_state = FLYING;
 	oobjects[ob->ob_index] = *ob;
+
 //	movmem(ob, &oobjects[ob->ob_index], sizeof(OBJECTS));
 
 	if (player)
@@ -346,6 +355,7 @@ void init2asy()
 //
 // $Log: $
 //
+// sdh 26/03/2002: changed CGA_ to Vid_
 // sdh 16/11/2001: TCPIP #define to disable TCP/IP support
 // sdh 29/10/2001: harrykeys
 // sdh 21/10/2001: rearranged file headers, added cvs tags

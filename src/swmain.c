@@ -33,7 +33,6 @@
 
 #define FPS 10
 
-
 // sdh 28/10/2001: game options
 
 BOOL conf_missiles = 0;             // allow missiles: replaces missok

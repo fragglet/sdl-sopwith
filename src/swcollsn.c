@@ -56,9 +56,9 @@ void swcollsn()
 	for (ob = topobj.ob_xnext; ob != &botobj; ob = ob->ob_xnext) {
 		prevx2 = prevx1 = ob->ob_x;
 
-		xmax = ob->ob_x + ob->ob_symwdt - 1;
+		xmax = ob->ob_x + ob->ob_newsym->w - 1;
 		ymax = ob->ob_y;
-		ymin = ymax - ob->ob_symhgt + 1;
+		ymin = ymax - ob->ob_newsym->h + 1;
 
 		for (obp = ob->ob_xnext;
 		     obp != &botobj && obp->ob_x <= xmax;
@@ -66,7 +66,7 @@ void swcollsn()
 			prevx2 = obp->ob_x;
 
 			if (obp->ob_y >= ymin
-			    && (obp->ob_y - obp->ob_symhgt + 1) <= ymax)
+			    && (obp->ob_y - obp->ob_newsym->h + 1) <= ymax)
 				colltest(ob, obp);
 		}
 
@@ -94,13 +94,114 @@ void swcollsn()
 	}
 }
 
+// use new collision detection code?
+#define NEW_COLLISION
 
-
+//#define COLL_DEBUG
 
 void colltest(OBJECTS * ob1, OBJECTS * ob2)
 {
+#ifdef NEW_COLLISION
+	int x, y;
+	int x1, y1, x2, y2;
+	int w, h;
+	unsigned char *data1, *data2;
+
+	if (ob1->ob_type == PLANE && ob1->ob_state >= FINISHED
+	    || ob2->ob_type == PLANE && ob2->ob_state >= FINISHED
+	    || ob1->ob_type == EXPLOSION && ob2->ob_type == EXPLOSION)
+		return;
+
+	// (x1, y1) are the coords of the area we are testing in ob1
+	// (x2, y2) are the coords of the area in ob2
+	// (w, h) is the size of the area
+
+	// x:
+
+	if (ob1->ob_x < ob2->ob_x) {
+		x1 = ob2->ob_x - ob1->ob_x;
+		x2 = 0;
+		w = ob1->ob_newsym->w - x1;
+		if (w > ob2->ob_newsym->w)
+			w = ob2->ob_newsym->w;
+	} else {
+		x1 = 0;
+		x2 = ob1->ob_x - ob2->ob_x;
+		w = ob2->ob_newsym->w - x2;
+		if (w > ob1->ob_newsym->w)
+			w = ob1->ob_newsym->w;
+	}
+
+	// no intersection?
+
+	if (w <= 0)     
+		return;
+
+	// y:
+
+	if (ob1->ob_y < ob2->ob_y) {
+		y1 = 0;
+		y2 = ob2->ob_y - ob1->ob_y;
+		h = ob2->ob_newsym->h - y2;
+		if (h > ob1->ob_newsym->h)
+			h = ob1->ob_newsym->h;
+	} else {
+		y1 = ob1->ob_y - ob2->ob_y;
+		y2 = 0;
+		h = ob1->ob_newsym->h - y1;
+		if (h > ob2->ob_newsym->h)
+			h = ob2->ob_newsym->h;
+	}
+
+	// no intersection?
+
+	if (h <= 0)
+		return;
+
+#ifdef COLL_DEBUG
+	fprintf(stderr,
+		"collision test: (%i, %i) at (%i, %i)/(%i, %i)\n",
+		w, h, x1, y1, x2, y2);
+
+	fprintf(stderr,
+		"info: (%i, %i)/(%i, %i)  (%i, %i)/(%i, %i)\n",
+		ob1->ob_x, ob1->ob_y, ob1->ob_newsym->w, ob1->ob_newsym->h,
+		ob2->ob_x, ob2->ob_y, ob2->ob_newsym->w, ob2->ob_newsym->h);
+#endif
+
+	data1 = ob1->ob_newsym->data + ob1->ob_newsym->w * y1 + x1;
+	data2 = ob2->ob_newsym->data + ob2->ob_newsym->w * y2 + x2;
+
+	for (y=0; y<h; ++y) {
+		unsigned char *d1 = data1, *d2 = data2;
+
+		for (x=0; x<w; ++x) {
+			if (*d1 && *d2) {
+
+				// a collision
+
+				if (killptr < 2*MAX_OBJS - 1) {
+					killed[killptr] = ob1;
+					killer[killptr++] = ob2;
+					killed[killptr] = ob2;
+					killer[killptr++] = ob1;
+				}
+				return; 
+			}
+
+			++d1; ++d2;
+		}
+
+		data1 += ob1->ob_newsym->w;
+		data2 += ob2->ob_newsym->w;
+	}
+
+#else
+	/* old collision code */
+
 	register OBJECTS *obt, *ob, *obp;
 	obtype_t otype, ttype;
+	int x, y;
 
 	ob = ob1;
 	obp = ob2;
@@ -117,31 +218,91 @@ void colltest(OBJECTS * ob1, OBJECTS * ob2)
 		obp = obt;
 	}
 
-	swputsym(15, 15, ob);
-	if (swputcol(obp->ob_x - ob->ob_x + 15,
-		     obp->ob_y - ob->ob_y + 15,
-		     obp)) 
+#ifdef COLL_DEBUG
+	printf("collision %i, %i - %i,%i: ", ob->ob_x, ob->ob_y,
+		obp->ob_x, obp->ob_y);
+#endif	
+
+	x = 16;
+	y = 15;
+
+	swputsym(x, y, ob);
+
+	x = obp->ob_x - ob->ob_x + x;
+	y = obp->ob_y - ob->ob_y + y;
+
+	if (swputcol(x, y, obp)) {
+
+#ifdef COLL_DEBUG
+		printf("yes\n");
+#endif
+
 		if (killptr < 2*MAX_OBJS - 1) {
 			killed[killptr] = ob;
 			killer[killptr++] = obp;
 			killed[killptr] = obp;
 			killer[killptr++] = ob;
 		}
+	}
+#ifdef COLL_DEBUG
+	else {
+		printf("no\n");
+
+	}
+#endif
+
 	swclrcol();
+#endif         /* end of old code */
+
 }
 
 
 
 void tstcrash(OBJECTS * obp)
 {
+#ifdef NEW_COLLISION
+	register sopsym_t *sym = obp->ob_newsym;
+	register int x, y;
+
+	for (x=0; x<sym->w; ++x) {
+		y = obp->ob_y - ground[x + obp->ob_x];
+
+		// out of range?
+
+		if (y >= sym->h)
+			continue; 
+
+		// check for collision at this point
+
+		if (y < 0 || sym->data[y * sym->w + x]) {
+
+			// collision!
+
+			if (killptr < 2 * MAX_OBJS) {
+				killed[killptr] = obp;
+				killer[killptr++] = NULL;
+			}
+
+			return;
+		}
+	}
+
+#else
+	// old collision code:
+
 	register OBJECTS *ob;
 	register int x, xmax, y;
 	register BOOL hit = FALSE;
 
 	ob = obp;
-	swputsym(15, 15, ob);
 
-	xmax = ob->ob_x + ob->ob_symwdt - 1;
+	// sdh 28/04/2002: make x at 16 so it is on a 4-pixel boundary
+	// (for sync between games using different drawing functions
+	// which lose precision)
+
+	swputsym(16, 15, ob);
+
+	xmax = ob->ob_x + ob->ob_newsym->w - 1;
 	for (x = ob->ob_x; x <= xmax; ++x) {
 
 		y = (int) ground[x] - ob->ob_y + 15;
@@ -153,7 +314,7 @@ void tstcrash(OBJECTS * obp)
 		if (y < 0)
 			continue;
 
-		hit = swpntcol(x - ob->ob_x + 15, y, 0x80);
+		hit = Vid_GetPixel(x - ob->ob_x + 16, y);
 		if (hit)
 			break;
 	}
@@ -163,6 +324,8 @@ void tstcrash(OBJECTS * obp)
 		killed[killptr] = ob;
 		killer[killptr++] = NULL;
 	}
+
+#endif /* end of old collision code */
 }
 
 
@@ -215,7 +378,7 @@ static void crater(OBJECTS * ob)
 	register int i, x, y, ymin, ymax;
 	int xmin, xmax;
 
-	xmin = ob->ob_x + (ob->ob_symwdt - 8) / 2;
+	xmin = ob->ob_x + (ob->ob_newsym->w - 8) / 2;
 	xmax = xmin + 7;
 
 	for (x = xmin, i = 0; x <= xmax; ++x, ++i) {
@@ -449,6 +612,10 @@ void dispd(int n, int size)
 
 void dispscore(OBJECTS * ob)
 {
+	setvdisp();
+
+	Vid_Box(0, 16, 48, 16, 0);
+	
 	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
 	swcolour(ob->ob_clr);
 	dispd(ob->ob_score, 6);
@@ -460,6 +627,10 @@ void dispscore(OBJECTS * ob)
 //
 // $Log: $
 //
+// sdh 28/06/2002: new collision detection code: look at the sprite data
+//                 rather than drawing to the screen. old code is still there
+//                 under a #define but will eventually be removed.
+// sdh 27/06/2002: move to new sopsym_t for symbols
 // sdh 28/10/2001: option to disable wounded planes
 // sdh 24/10/2001: fix score display, fix auxdisp buffer
 // sdh 21/10/2001: use new obtype_t and obstate_t

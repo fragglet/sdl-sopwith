@@ -163,24 +163,25 @@ void dispwobj(OBJECTS * obp)
 	ow = &wdisp[ob->ob_index];
 
 	if (ow->ow_xorplot)
-		swpntsym(ow->ow_x, ow->ow_y, ow->ow_xorplot - 1);
+		Vid_PlotPixel(ow->ow_x, ow->ow_y, ow->ow_xorplot - 1);
 
 	if (ob->ob_state >= FINISHED)
 		ow->ow_xorplot = 0;
 	else {
 		ow->ow_x = SCR_CENTR
-			   + (ob->ob_x + ob->ob_symwdt / 2) / WRLD_RSX;
-		ow->ow_y = (ob->ob_y - ob->ob_symhgt / 2) / WRLD_RSY;
+			   + (ob->ob_x + ob->ob_newsym->w / 2) / WRLD_RSX;
+		ow->ow_y = (ob->ob_y - ob->ob_newsym->h / 2) / WRLD_RSY;
 
-		oldplot = swpntcol(ow->ow_x,
-				   ow->ow_y,
-				   ob->ob_owner->ob_clr);
+		// sdh 27/03/02: use new functions
+
+		oldplot = Vid_GetPixel(ow->ow_x, ow->ow_y);
+		Vid_PlotPixel(ow->ow_x, ow->ow_y, ob->ob_owner->ob_clr);
 
 		if (oldplot == 0 || (oldplot & 0x0003) == 3) {
 			ow->ow_xorplot = oldplot + 1;
 			return;
 		}
-		swpntsym(ow->ow_x, ow->ow_y, oldplot);
+		Vid_PlotPixel(ow->ow_x, ow->ow_y, oldplot);
 		ow->ow_xorplot = 0;
 	}
 }
@@ -211,9 +212,9 @@ void dispwindshot()
 		return;
 
 	ob.ob_type = DUMMYTYPE;
-	ob.ob_symhgt = ob.ob_symwdt = 16;
+	//ob.ob_symhgt = ob.ob_symwdt = 16;
 	ob.ob_clr = 0;
-	ob.ob_newsym = swshtsym;
+	ob.ob_newsym = symbol_shotwin;
 
 	do {
 		randsd();
@@ -234,9 +235,9 @@ void dispsplatbird()
 		return;
 
 	ob.ob_type = DUMMYTYPE;
-	ob.ob_symhgt = ob.ob_symwdt = 32;
+	//ob.ob_symhgt = ob.ob_symwdt = 32;
 	ob.ob_clr = 2;
-	ob.ob_newsym = swsplsym;
+	ob.ob_newsym = symbol_birdsplat;
 
 	do {
 		randsd();
@@ -279,6 +280,8 @@ void dispoxsplat()
 //
 // $Log: $
 //
+// sdh 27/06/2002: move to new sopsym_t for symbols, 
+//                 remove symwdt and symhgt
 // sdh 28/10/2001: option to disable hud splats
 // sdh 21/10/2001: rearranged file headers, added cvs tags
 // sdh 21/10/2001: reformatted with indent, adjusted some code by hand

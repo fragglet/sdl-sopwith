@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "cgavideo.h"
+#include "video.h"
 
 #include "sw.h"
 #include "swconf.h"
@@ -74,8 +74,8 @@ confoption_t confoptions[] = {
     {"conf_wounded",      CONF_BOOL, {&conf_wounded},      "wounded planes"},
     {"conf_animals",      CONF_BOOL, {&conf_animals},      "oxen and birds"},
     {"conf_harrykeys",    CONF_BOOL, {&conf_harrykeys},    "harry keys mode"},
-    {"cga_fullscreen",    CONF_BOOL, {&cga_fullscreen},    "run fullscreen"},
-    {"cga_double_size",   CONF_BOOL, {&cga_double_size},   "scale window by 2x"},
+    {"vid_fullscreen",    CONF_BOOL, {&vid_fullscreen},    "run fullscreen"},
+    {"vid_double_size",   CONF_BOOL, {&vid_double_size},   "scale window by 2x"},
 };
 
 int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
@@ -280,7 +280,7 @@ void setconfig()
 		swposcur(1, 22);
 		swputs("   ESC - Exit Menu");
 
-		CGA_Update();
+		Vid_Update();
 
 		if (ctlbreak())
 			swend(NULL, NO);
@@ -304,9 +304,9 @@ void setconfig()
 
 			// reset the screen if we need to
 			
-			if (confoptions[i].value.b == &cga_fullscreen
-			    || confoptions[i].value.b == &cga_double_size) {
-				CGA_Reset();
+			if (confoptions[i].value.b == &vid_fullscreen
+			    || confoptions[i].value.b == &vid_double_size) {
+				Vid_Reset();
 			}
 			
 			continue;
@@ -329,6 +329,7 @@ void setconfig()
 //
 // $Log: $
 //
+// sdh 26/03/2002: change CGA_ to Vid_
 // sdh 10/11/2001: make confoptions globally available for gtk code to use
 //
 //-------------------------------------------------------------------------

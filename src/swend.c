@@ -129,9 +129,12 @@ void loser(OBJECTS * ob)
 
 	endsts[n] = LOSER;
 
+	// sdh 28/4/2002: change swposcur to center screen on 
+	// non-320 pixel wide screens
+
 	if (n == player) {
 		swcolour(0x82);
-		swposcur(16, 12);
+		swposcur((SCR_WDTH/16) - 4, 12);
 		swputs("THE END");
 		endcount = 20;
 	}

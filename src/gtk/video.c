@@ -12,15 +12,14 @@
 //
 //--------------------------------------------------------------------------
 //
-// SDL^H^H^HGtk Video Code
-//
-// This cleverly emulates a CGA display using SDL^H^H^HGtk routines
+// Gtk Video Code
 //
 // By Simon Howard
 //
 //-----------------------------------------------------------------------
 
-#include "cgavideo.h"
+#include "video.h"
+
 #include "sw.h"
 #include "swconf.h"
 #include "swmain.h"
@@ -29,12 +28,17 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 
-BOOL cga_fullscreen = FALSE;
-BOOL cga_double_size = TRUE;
+// use the vga (8 bit) drawing routines
+
+#include "vid_vga.c"
+
+BOOL vid_fullscreen = FALSE;
+BOOL vid_double_size = TRUE;
+
+static unsigned char *screenbuf;
 
 static int ctrlbreak = 0;
 static BOOL initted = 0;
-static char *vram;		// video ram
 static GtkWidget *window;
 static GdkImage *screen;
 static GtkWidget *screen_widget = NULL;
@@ -82,7 +86,7 @@ static void hide_callback(GtkWidget *widget, gpointer data)
 {
 	GtkWidget *data_widget = (GtkWidget *)data;
 	gtk_widget_hide(data_widget);
-puts("hide_callback");
+//puts("hide_callback");
 }
 
 static void delete_event(GtkWidget *widget, GdkEvent *event, gpointer data) {
@@ -92,8 +96,8 @@ static void delete_event(GtkWidget *widget, GdkEvent *event, gpointer data) {
 static void settings_bool_toggle(GtkWidget *widget, BOOL *b)
 {
 	*b = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) != 0;
-	if (b == &cga_fullscreen || b == &cga_double_size)
-		CGA_Reset();
+	if (b == &vid_fullscreen || b == &vid_double_size)
+		Vid_Reset();
 }
 
 static void settings_dialog()
@@ -157,6 +161,17 @@ static void settings_dialog()
 		gtk_widget_show(hbox);
 
 		vbox = GTK_DIALOG(window)->action_area;
+
+		// 29/6/2002: save button
+
+		button = gtk_button_new_with_label("Save Settings");
+		gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
+		gtk_signal_connect(GTK_OBJECT(button), "clicked",
+				   GTK_SIGNAL_FUNC(swsaveconf), NULL);
+		gtk_widget_show(button);
+		
+		// close button
+
 		button = gtk_button_new_with_label("Close");
 		gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
 		gtk_signal_connect(GTK_OBJECT(button), "clicked",
@@ -268,8 +283,6 @@ static GtkWidget *build_menus()
 static gint screen_context(GtkWidget *widget, GdkEvent *event)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
-		//GdkEventButton *bevent = (GdkEventButton *) event;
-
 		gtk_menu_popup(GTK_MENU(menubar), widget, NULL,
 			       NULL,
 			       NULL, 0, 0);
@@ -359,7 +372,7 @@ void get_gtk_events()
 // this is actually a simple bitfield
 // bit 0 is whether the button is currently down
 // bit 1 is whether the button has been pressed
-//       since the last call of CGA_GetGameKeys
+//       since the last call of Vid_GetGameKeys
 // in this way, every button press will have an effect:
 // if it is done based on what is currently down it is
 // possible to miss keypresses (if you press and release
@@ -387,9 +400,6 @@ static unsigned long getcolor(int r, int g, int b)
 				b2 = c->blue >> 8;
 			int diff = (r2-r)*(r2-r) + (g2-g)*(g2-g) + (b2-b)*(b2-b);
 			
-//			printf("%i, %i [%i, %i, %i]\n", i, diff,
-//			       r2, g2, b2);
-
 			if (!diff) {
 				return i;
 			}
@@ -399,12 +409,15 @@ static unsigned long getcolor(int r, int g, int b)
 				l = i;
 			}
 		}
+
+/*
 		printf("best: %i (%i)\n", l, best);
 		printf("[%i, %i, %i], [%i, %i, %i]\n", 
 		       r, g, b,
 		       colormap->colors[l].red,
 		       colormap->colors[l].green,
 		       colormap->colors[l].blue);
+*/
 
 	} else {
 		l = (r + g + b) / 3;
@@ -413,28 +426,14 @@ static unsigned long getcolor(int r, int g, int b)
 	return l;
 }
 
-
 inline int getpixel(int x, int y)
 {
-	register int c, mask;
-	register char *sptr;
-
-	sptr = vram + ((y) * 160)
-	    + ((x & 0xFFF0) >> 1)
-	    + ((x & 0x0008) >> 3);
-	mask = 0x80 >> (x &= 0x0007);
-
-	c = (*sptr & mask)
-	    | ((*(sptr + 2) & mask) << 1)
-	    | ((*(sptr + 4) & mask) << 2)
-	    | ((*(sptr + 6) & mask) << 3);
-
-	return (c >> (7 - x)) & 0xff;
+	return 0;
 }
 
 // 2x scale
 
-static void CGA_UpdateScaled()
+static void Vid_UpdateScaled()
 {
 	register int x, y;
 	register int pitch = screen->bpl / screen->bpp;
@@ -445,40 +444,56 @@ static void CGA_UpdateScaled()
 	// if it doesnt work i'm incredibly sorry
 
 	if (screen->bpp == 1) {
-		register char *pixels = (char *) screen->mem;
+		register unsigned char *pixels = (unsigned char *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
 
-		for (y = 0; y < 200; ++y) {
-			register char *p = pixels;
-			for (x = 0; x < 320; ++x) {
+		for (y=0; y<SCR_HGHT; ++y) {
+			register unsigned char *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x=0; x<SCR_WDTH; ++x) {
 				p[0] = p[1] = p[pitch] = p[pitch+1]
-					= colors[getpixel(x, y)];
+					= colors[*p2++];
 				p += 2;
 			}
-			pixels += pitch*2;
+
+			pixels += pitch << 1;
+			pixels2 += SCR_WDTH;
 		}
 	} else if(screen->bpp == 2) {
-		register short *pixels = (short *) screen->mem;
+		register unsigned short *pixels = 
+			(unsigned short *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
 
-		for (y = 0; y < 200; ++y) {
-			register short *p = pixels;
-			for (x = 0; x < 320; ++x) {
+		for (y=0; y<SCR_HGHT; ++y) {
+			register unsigned short *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x=0; x<SCR_WDTH; ++x) {
 				p[0] = p[1] = p[pitch] = p[pitch+1]
-					= colors[getpixel(x, y)];
+					= colors[*p2++];
 				p += 2;
 			}
-			pixels += pitch*2;
+
+			pixels += pitch << 1;
+			pixels2 += SCR_WDTH;
 		}
 	} else if(screen->bpp == 3) {
 
 		// 24-bit true color
 		// this is *UNTESTED*
 
-		register char *pixels = (char *) screen->mem;
+		register unsigned char *pixels = (unsigned char *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
 
-		for (y = 0; y < 200; ++y) {
-			register char *p = pixels;
-			for (x = 0; x < 320; ++x) {
-				int c = colors[getpixel(x, y)];
+		pitch *= 3;
+
+		for (y = 0; y < SCR_HGHT; ++y) {
+			register unsigned char *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x = 0; x < SCR_WDTH; ++x) {
+				int c = *p2++;
 				p[0] = p[3] = p[pitch] = p[pitch+3] = c & 0xff;
 				++p;
 				p[0] = p[3] = p[pitch] = p[pitch+3] 
@@ -489,24 +504,30 @@ static void CGA_UpdateScaled()
 				++p;
 				p += 3;
 			}
-			pixels += pitch * 6;
+			pixels += pitch << 1;
+			pixels2 += SCR_WDTH;
 		}
 	} else if(screen->bpp == 4) {
-		register long *pixels = (long *) screen->mem;
+		register unsigned long *pixels = (unsigned long *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
 
-		for (y = 0; y < 200; ++y) {
-			register long *p = pixels;
-			for (x = 0; x < 320; ++x) {
+		for (y = 0; y < SCR_HGHT; ++y) {
+			register unsigned long *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x = 0; x < SCR_WDTH; ++x) {
 				p[0] = p[1] = p[pitch] = p[pitch+1] 
-					= colors[getpixel(x, y)];
+					= colors[*p2++];
 				p += 2;
 			}
-			pixels += pitch * 2;
+
+			pixels += pitch << 1;
+			pixels2 += SCR_WDTH;
 		}
 	}
 }
 
-static void CGA_UpdateUnscaled()
+static void Vid_UpdateUnscaled()
 {
 	register int x, y;
 	register int pitch = screen->bpl / screen->bpp;
@@ -517,62 +538,87 @@ static void CGA_UpdateUnscaled()
 	// if it doesnt work i'm incredibly sorry
 
 	if (screen->bpp == 1) {
-		register char *pixels = (char *) screen->mem;
+		register unsigned char *pixels = 
+			(unsigned char *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
 
-		for (y = 0; y < 200; ++y) {
-			register char *p = pixels;
-			for (x = 0; x < 320; ++x) {
-				*p++ = colors[getpixel(x, y)];
-			}
+		for (y=0; y<SCR_HGHT; ++y) {
+			register unsigned char *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x=0; x<SCR_WDTH; ++x) 
+				*p++ = colors[*p2++];
+
 			pixels += pitch;
+			pixels2 += SCR_WDTH;
 		}
-	} else if(screen->bpp == 2) {
-		register short *pixels = (short *) screen->mem;
+	} else if (screen->bpp == 2) {
+		register unsigned short *pixels = 
+			(unsigned short *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
 
-		for (y = 0; y < 200; ++y) {
-			register short *p = pixels;
-			for (x = 0; x < 320; ++x) {
-				*p++ = colors[getpixel(x, y)];
-			}
+		for (y=0; y<SCR_HGHT; ++y) {
+			register unsigned short *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x=0; x<SCR_WDTH; ++x)
+				*p++ = colors[*p2++];
+			
 			pixels += pitch;
+			pixels2 += SCR_WDTH;
 		}
-	} else if(screen->bpp == 3) {
-		register char *pixels = (char *) screen->mem;
 
-		for (y = 0; y < 200; ++y) {
-			register char *p = pixels;
-			for (x = 0; x < 320; ++x) {
-				int c = colors[getpixel(x, y)];
+	}  else if(screen->bpp == 3) {
+
+		// untested:
+
+		register unsigned char *pixels = (unsigned char *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
+
+		pitch *= 3;
+
+		for (y = 0; y < SCR_HGHT; ++y) {
+			register unsigned char *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x = 0; x < SCR_WDTH; ++x) {
+				int c = colors[*p2++];
 				*p++ = c & 0xff;
 				*p++ = (c >> 8) & 0xff;
 				*p++ = (c >> 16) & 0xff;
 			}
-			pixels += pitch * 3;
+
+			pixels += pitch;
+			pixels2 += SCR_WDTH;
 		}
 	} else if(screen->bpp == 4) {
-		register long *pixels = (long *) screen->mem;
+		register unsigned long *pixels = (unsigned long *) screen->mem;
+		register unsigned char *pixels2 = screenbuf;
 
-		for (y = 0; y < 200; ++y) {
-			register long *p = pixels;
-			for (x = 0; x < 320; ++x) {
-				*p++ = colors[getpixel(x, y)];
-			}
+		for (y = 0; y < SCR_HGHT; ++y) {
+			register unsigned long *p = pixels;
+			register unsigned char *p2 = pixels2;
+
+			for (x = 0; x < SCR_WDTH; ++x)
+				*p++ = colors[*p2++];
+
 			pixels += pitch;
+			pixels2 += SCR_WDTH;
 		}
 	}
 }
 
-void CGA_Update()
+void Vid_Update()
 {
 	GdkRectangle area;
 
 	if (!initted)
-		CGA_Init();
+		Vid_Init();
 
-	if (cga_double_size)
-		CGA_UpdateScaled();
+	if (vid_double_size)
+		Vid_UpdateScaled();
 	else
-		CGA_UpdateUnscaled();
+		Vid_UpdateUnscaled();
 
 	// redraw screen
 
@@ -585,17 +631,12 @@ void CGA_Update()
 	get_gtk_events();
 }
 
-char *CGA_GetVRAM()
-{
-	return vram;
-}
-
 
 static void set_icon(char *icon_file)
 {
 }
 
-static void CGA_UnsetMode()
+static void Vid_UnsetMode()
 {
 	// destroy screen image object
 
@@ -612,41 +653,9 @@ static void init_colormap()
 		colors[n * 4 + 2] = getcolor(255, 0, 255);
 		colors[n * 4 + 3] = getcolor(255, 255, 255);
 	}
-
-/*
-  was in swgrpha.c:
-
-  0x000,                  //   0 = black    background
-  0x037,                  //   1 = blue     planes,targets,explosions
-  0x700,                  //   2 = red      planes,targets,explosions
-  0x777,                  //   3 = white    bullets
-  0x000,                  //   4
-  0x000,                  //   5
-  0x000,                  //   6
-  0x070,                  //   7 = green    ground 
-  0x000,                  //   8
-  0x433,                  //   9 = tan      oxen, birds 
-  0x420,                  //  10 = brown    oxen
-  0x320,                  //  11 = brown    bottom of ground display 
-  0x000,                  //  12
-  0x000,                  //  13
-  0x000,                  //  14
-  0x000                   //  15
-*/
-#if 0
-	colors[0] = getcolor(0, 0, 0);
-	colors[1] = getcolor(0, 0, 255);
-	colors[2] = getcolor(255, 0, 0);
-	colors[3] = getcolor(255, 255, 255);
-	colors[7] = getcolor(0, 255, 0);
-	colors[9] = getcolor(168, 0, 0);
-	colors[10] = getcolor(168, 84, 0);
-	colors[11] = getcolor(84, 42, 0);
-#endif
-
 }
 
-static void CGA_SetMode()
+static void Vid_SetMode()
 {
 	int w, h;
 	GdkVisual *visual;
@@ -657,7 +666,7 @@ static void CGA_SetMode()
 	w = SCR_WDTH;
 	h = SCR_HGHT;
 
-	if (cga_double_size) {
+	if (vid_double_size) {
 		w *= 2;
 		h *= 2;
 	}
@@ -669,6 +678,19 @@ static void CGA_SetMode()
 			       visual,
 			       w, h);
 
+	if (!screen) {
+		printf("Vid_Init: cant create screen\n");
+		exit(-1);
+	}
+
+	printf("mode: %ix%ix%i\n", w, h, screen->bpp * 8);
+
+	if (screen->bpp == 3) {
+		printf("ATTENTION: 24 bit colour mode is untested. If you see this message,\n"
+		       "please email me and let me know if it works or not! :)\n"
+		       "sdh300@ecs.soton.ac.uk\n");
+	}
+
 	if (screen_widget) {
 		gtk_image_set(GTK_IMAGE(screen_widget), 
 			      screen, NULL);
@@ -679,19 +701,20 @@ static void CGA_SetMode()
 
 }
 
-void CGA_Shutdown()
+void Vid_Shutdown()
 {
 	if (!initted)
 		return;
 
-	CGA_UnsetMode();
-	free(vram);
+	Vid_UnsetMode();
 	gdk_key_repeat_restore();
+
+	free(screenbuf);
 
 	initted = 0;
 }
 
-void CGA_Init()
+void Vid_Init()
 {
 	int xargc=1;
 	char **xargv;
@@ -699,6 +722,9 @@ void CGA_Init()
 
 	if (initted)
 		return;
+
+	// eww, we dont have the actual arguments
+	// so lets hack some together
 
 	xargv = malloc(sizeof(*xargv) * 2);
 	xargv[0] = "hello";
@@ -712,7 +738,7 @@ void CGA_Init()
 
 	gtk_window_set_policy(GTK_WINDOW(window), 0, 0, 1);
 	
-	CGA_SetMode();
+	Vid_SetMode();
 
 	gui = build_gui();
 
@@ -734,24 +760,25 @@ void CGA_Init()
 
 	// create screen mem buffer
 
-	vram = (char *) malloc(SCR_WDTH * SCR_HGHT);
+	vid_vram = screenbuf = malloc(SCR_WDTH * SCR_HGHT);
+	vid_pitch = SCR_WDTH;
 
 	initted = 1;
 
-	atexit(CGA_Shutdown);
+	atexit(Vid_Shutdown);
 }
 
-void CGA_Reset()
+void Vid_Reset()
 {
 	if (!initted)
 		return;
 
-	CGA_UnsetMode();
-	CGA_SetMode();
+	Vid_UnsetMode();
+	Vid_SetMode();
 
 	// need to redraw buffer to screen
 
-	CGA_Update();
+	Vid_Update();
 }
 
 static void getevents()
@@ -759,7 +786,7 @@ static void getevents()
 	get_gtk_events();
 }
 
-int CGA_GetKey()
+int Vid_GetKey()
 {
 	int l;
 
@@ -768,7 +795,7 @@ int CGA_GetKey()
 	return input_buffer_pop();
 }
 
-int CGA_GetGameKeys()
+int Vid_GetGameKeys()
 {
 	int i, c = 0;
 
@@ -816,22 +843,23 @@ int CGA_GetGameKeys()
 	return c;
 }
 
-BOOL CGA_GetCtrlBreak()
+BOOL Vid_GetCtrlBreak()
 {
 	getevents();
 	return ctrlbreak;
 }
 
-void CGA_ClearScreen()
-{
-	memset(vram, 0, 320 * 200 * 5);
-//      CGA_Update();
-}
 
 //-----------------------------------------------------------------------
 // 
 // $Log: $
 //
+// sdh 25/04/2002: rename vga_{pitch,vram} to vid_{pitch,vram}
+// sdh 26/03/2002: now using platform specific code for drawing stuff
+//                 (include "vid_vga.c")
+//                 faster blitting to screen
+//                 rename CGA_ to Vid_
+//                 rename file to video.c
 // sdh 17/11/2001: buffered input for keypresses
 //                 CGA_GetLastKey->CGA_GetKey
 // sdh 10/11/2001: Gtk+ Port

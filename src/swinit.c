@@ -21,9 +21,9 @@
 #include <string.h>
 #include <time.h>
 
-#include "cgavideo.h"
 #include "pcsound.h"
 #include "timer.h"
+#include "video.h"
 
 #include "sw.h"
 #include "swasynio.h"
@@ -144,18 +144,7 @@ void initseed()
 	srand(clock());
 	explseed = rand() % 65536;
 
-#ifdef IBMPC
-	while (!explseed) {
-		outportb(0x43, 0);
-		explseed = (0x00FF & inportb(0x40))
-		    | (0xFF00 & (inportb(0x40) << 8));
-	}
-#endif
-#ifdef ATARI
-	long trap14();
-
-	explseed = trap14(17);
-#endif
+	// sdh 28/4/2002: removed atari and ibm code
 }
 
 
@@ -191,9 +180,9 @@ static void dispgge(int x, int cury, int maxy, int clr)
 	if (cury > 9)
 		cury = 9;
 	for (y = 0; y <= cury; ++y)
-		swpntsym(x, y, clr);
+		Vid_PlotPixel(x, y, clr);
 	for (; y <= 9; ++y)
-		swpntsym(x, y, 0);
+		Vid_PlotPixel(x, y, 0);
 }
 
 // sdh 26/10/2001: merged guage functions into a single function
@@ -252,15 +241,15 @@ static void dispworld()
 		if ((++dx) == WRLD_RSX) {
 			maxh /= WRLD_RSY;
 			if (maxh == y)
-				swpntsym(sx, maxh, 7);
+				Vid_PlotPixel(sx, maxh, 7);
 			else if (maxh > y)
 				for (++y; y <= maxh; ++y)
-					swpntsym(sx, y, 7);
+					Vid_PlotPixel(sx, y, 7);
 			else
 				for (--y; y >= maxh; --y)
-					swpntsym(sx, y, 7);
+					Vid_PlotPixel(sx, y, 7);
 			y = maxh;
-			swpntsym(sx, 0, 11);
+			Vid_PlotPixel(sx, 0, 11);
 			++sx;
 			dx = maxh = 0;
 		}
@@ -270,16 +259,16 @@ static void dispworld()
 
 	maxh = MAX_Y / WRLD_RSY;
 	for (y = 0; y <= maxh; ++y) {
-		swpntsym(SCR_CENTR, y, 11);
-		swpntsym(sx, y, 11);
+		Vid_PlotPixel(SCR_CENTR, y, 11);
+		Vid_PlotPixel(sx, y, 11);
 	}
 
 	// border of status bar
 
 	for (x = 0; x < SCR_WDTH; ++x)
-		swpntsym(x, (SCR_MNSH + 2), 7);
+		Vid_PlotPixel(x, (SCR_MNSH + 2), 7);
 
-	CGA_Update();
+	Vid_Update();
 }
 
 
@@ -305,9 +294,9 @@ void initdisp(BOOL reset)
 	ob = &nobjects[player];
 	if (ghost) {
 		ghostob.ob_type = DUMMYTYPE;
-		ghostob.ob_symhgt = ghostob.ob_symwdt = 8;
+		//ghostob.ob_symhgt = ghostob.ob_symwdt = 8;
 		ghostob.ob_clr = ob->ob_clr;
-		ghostob.ob_newsym = swghtsym;
+		ghostob.ob_newsym = symbol_ghost;     // sdh 27/6/2002
 		swputsym(GHOSTX, 12, &ghostob);
 	} else {
 		// sdh 26/10/2001: merged guages into a single function
@@ -373,8 +362,9 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_angle = (ob->ob_orient) ? (ANGLES / 2) : 0;
 	ob->ob_target = ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = FALSE;
-	ob->ob_symhgt = SYM_HGHT;
-	ob->ob_symwdt = SYM_WDTH;
+	ob->ob_newsym = symbol_plane[ob->ob_orient][0]; // sdh 27/6/2002
+	//ob->ob_symhgt = SYM_HGHT;
+	//ob->ob_symwdt = SYM_WDTH;
 	ob->ob_athome = TRUE;
 	if (!obp || ob->ob_state == CRASHED
 	    || ob->ob_state == GHOSTCRASHED) {
@@ -528,7 +518,8 @@ void initshot(OBJECTS * obop, OBJECTS * targ)
 	ob->ob_life = BULLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_symhgt = ob->ob_symwdt = 1;
+	ob->ob_newsym = &symbol_pixel;                 // sdh 27/6/2002
+	//ob->ob_symhgt = ob->ob_symwdt = 1;
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveshot;
 	ob->ob_speed = 0;
@@ -573,7 +564,8 @@ void initbomb(OBJECTS * obop)
 	ob->ob_life = BOMBLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_symhgt = ob->ob_symwdt = 8;
+	ob->ob_newsym = symbol_bomb[0];           // sdh 27/6/2002
+	//ob->ob_symhgt = ob->ob_symwdt = 8;
 	ob->ob_drawf = dispbomb;
 	ob->ob_movef = movebomb;
 
@@ -613,7 +605,8 @@ void initmiss(OBJECTS * obop)
 	ob->ob_life = MISSLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_symhgt = ob->ob_symwdt = 8;
+	ob->ob_newsym = symbol_missile[0];           // sdh 27/6/2002
+	//ob->ob_symhgt = ob->ob_symwdt = 8;
 	ob->ob_drawf = dispmiss;
 	ob->ob_movef = movemiss;
 	ob->ob_target = obo->ob_mfiring;
@@ -662,7 +655,8 @@ void initburst(OBJECTS * obop)
 	ob->ob_life = BURSTLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_symhgt = ob->ob_symwdt = 8;
+	ob->ob_newsym = symbol_burst[0];             // sdh 27/6/2002
+	//ob->ob_symhgt = ob->ob_symwdt = 8;
 	ob->ob_drawf = dispburst;
 	ob->ob_movef = moveburst;
 
@@ -726,7 +720,8 @@ static void inittarg()
 		else
 			ob->ob_owner = &nobjects[i >= (MAX_TARG / 2)];
 		ob->ob_clr = ob->ob_owner->ob_clr;
-		ob->ob_symhgt = ob->ob_symwdt = 16;
+		ob->ob_newsym = symbol_targets[0];      // sdh 27/6/2002
+		//ob->ob_symhgt = ob->ob_symwdt = 16;
 		ob->ob_drawf = disptarg;
 		ob->ob_movef = movetarg;
 
@@ -746,8 +741,8 @@ void initexpl(OBJECTS * obop, int small)
 	BOOL mansym;
 	int orient;
 
-	obox = obo->ob_x + (obo->ob_symwdt / 2);
-	oboy = obo->ob_y + (obo->ob_symhgt / 2);
+	obox = obo->ob_x + (obo->ob_newsym->w / 2);
+	oboy = obo->ob_y + (obo->ob_newsym->h / 2);
 	obodx = obo->ob_dx >> 2;
 	obody = obo->ob_dy >> 2;
 	oboclr = obo->ob_clr;
@@ -792,7 +787,8 @@ void initexpl(OBJECTS * obop, int small)
 		ob->ob_lx = ob->ob_ly = ob->ob_hitcount = ob->ob_speed = 0;
 		ob->ob_owner = obo;
 		ob->ob_clr = oboclr;
-		ob->ob_symhgt = ob->ob_symwdt = 8;
+		ob->ob_newsym = symbol_debris[0];            // sdh 27/6/2002
+		//ob->ob_symhgt = ob->ob_symwdt = 8;
 		ob->ob_drawf = dispexpl;
 		ob->ob_movef = moveexpl;
 
@@ -822,7 +818,6 @@ void initsmok(OBJECTS * obop)
 	ob->ob_lx = ob->ob_ly = ob->ob_ldx = ob->ob_ldy = 0;
 	ob->ob_life = SMOKELIFE;
 	ob->ob_owner = obo;
-	ob->ob_symhgt = ob->ob_symwdt = 1;
 	ob->ob_drawf = NULL;
 	ob->ob_movef = movesmok;
 	ob->ob_clr = obo->ob_clr;
@@ -865,7 +860,8 @@ void initflck()
 		ob->ob_orient = 0;
 		ob->ob_life = FLOCKLIFE;
 		ob->ob_owner = ob;
-		ob->ob_symhgt = ob->ob_symwdt = 16;
+		ob->ob_newsym = symbol_flock[0];            // sdh 27/6/2002
+		//ob->ob_symhgt = ob->ob_symwdt = 16;
 		ob->ob_drawf = dispflck;
 		ob->ob_movef = moveflck;
 		ob->ob_clr = 9;
@@ -899,8 +895,9 @@ void initbird(OBJECTS * obop, int i)
 	    0;
 	ob->ob_life = BIRDLIFE;
 	ob->ob_owner = obo;
-	ob->ob_symhgt = 2;
-	ob->ob_symwdt = 4;
+	ob->ob_newsym = symbol_bird[0];                // sdh 27/6/2002
+	//ob->ob_symhgt = 2;
+	//ob->ob_symwdt = 4;
 	ob->ob_drawf = dispbird;
 	ob->ob_movef = movebird;
 	ob->ob_clr = obo->ob_clr;
@@ -938,8 +935,9 @@ void initoxen()
 		ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
 		    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
 		ob->ob_owner = ob;
-		ob->ob_symhgt = 16;
-		ob->ob_symwdt = 16;
+		//ob->ob_symhgt = 16;
+		//ob->ob_symwdt = 16;
+		ob->ob_newsym = symbol_ox[0];             // sdh 27/6/2002
 		ob->ob_drawf = NULL;
 		ob->ob_movef = moveox;
 		ob->ob_clr = 1;
@@ -965,6 +963,8 @@ void initgdep()
 
 void swinitlevel()
 {
+	printf("swinitlevel\n");
+
 	if (playmode == PLAYMODE_MULTIPLE)
 		init1mul(FALSE, 0);
 	else if (playmode == PLAYMODE_ASYNCH)
@@ -1015,8 +1015,6 @@ void swinitlevel()
 	initgdep();
 
 	inplay = TRUE;
-
-	swinitgrph();
 }
 
 void swrestart()
@@ -1034,7 +1032,7 @@ void swrestart()
 			dispguages(ob);
 			dispscore(ob);
 
-			CGA_Update();
+			Vid_Update();
 			
 			// sdh 27/10/2001: use new time code for delay
 
@@ -1112,9 +1110,9 @@ void swinit(int argc, char *argv[])
 		else if (!strcasecmp(argv[i], "-c"))
 			c = 1;
 		else if (!strcasecmp(argv[i], "-f"))
-			cga_fullscreen = 1;
+			vid_fullscreen = 1;
 		else if (!strcasecmp(argv[i], "-2"))
-			cga_double_size = 1;
+			vid_double_size = 1;
 		else if (!strcasecmp(argv[i], "-q"))
 			soundflg = 1;
 		else if (!strcasecmp(argv[i], "-x"))
@@ -1151,7 +1149,14 @@ void swinit(int argc, char *argv[])
 	movemax = 15;
 	initseed();
 
-	CGA_Init();		// init CGA driver
+	// sdh 27/6/2002: generate symbol objects
+
+	symbol_generate();
+
+	// initialise video
+
+	Vid_Init();
+	Vid_SetBuf();
 
 	// dont init speaker if started with -q (quiet)
 
@@ -1162,11 +1167,7 @@ void swinit(int argc, char *argv[])
 	initsndt();
 	initgrnd();           // needed for title screen 
 	
-	// set graphics mode
-	// this used to be in swtitln
-
-	swinitgrph();
-	setvdisp();
+	// sdh 26/03/2002: remove swinitgrph
 
 	// set playmode if we can, from command line options
 
@@ -1186,6 +1187,10 @@ void swinit(int argc, char *argv[])
 //
 // $Log: $
 //
+// sdh 27/06/2002: move symbols to new sopsym_t format,
+//                 remove references to symwdt, symhgt
+// sdh 27/03/2002: move old drawing functions to new ones (pntsym, pntcol)
+// sdh 26/03/2002: change CGA_ to Vid_
 // sdh 16/11/2001: TCPIP #define to disable TCP/IP support
 // sdh 16/11/2001: fix out of sync error
 // sdh 29/10/2001: load game options from config file

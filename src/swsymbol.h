@@ -19,40 +19,32 @@
 #ifndef __SWSYMBOL_H__
 #define __SWSYMBOL_H__
 
+typedef struct sopsym_s sopsym_t;
+
 #include "sw.h"
 
-#define BOMBBYTES       16              /*  Bytes in a bomb symbol          */
-#define BOMBANGS        8               /*  Number of bomb angles           */
-#define TARGBYTES       64              /*  Bytes in a target symbol        */
-#define TARGORIENTS     4               /*  Number of target types          */
-#define EXPLSYMS        8               /*  Number of explosion symbols     */
-#define EXPBYTES        16              /*  Bytes in an explosion symbol    */
-#define FLCKSYMS        2               /*  Number of flock symbols         */
-#define FLKBYTES        64              /*  Bytes in a flock symbol         */
-#define BIRDSYMS        2               /*  Number of bird symbols          */
-#define BRDBYTES        2               /*  Bytes in a bird symbol          */
-#define OXSYMS          2               /*  Number of ox symbols            */
-#define OXBYTES         64              /*  Bytes in an ox symbol           */
-#define GHSTBYTES       16              /*  Bytes in a ghost symbol         */
-#define SHOTBYTES       64              /*  Bytes in a shot window symbol   */
-#define SPLTBYTES       256             /*  Bytes in a splatted bird symbol */
-#define MISCBYTES       16              /*  Bytes in a missile symbol       */
-#define MISCANGS        16              /*  Number of missile angles        */
-#define BRSTBYTES       16              /*  Bytes in a starburst symbol     */
-#define BRSTSYMS        2               /*  Number of starburst symbols     */
+struct sopsym_s {
+	unsigned char *data;
+	int w, h;
+};
 
-extern char    swbmbsym[BOMBANGS][BOMBBYTES];
-extern char    swtrgsym[TARGORIENTS][TARGBYTES];
-extern char    swhtrsym[TARGBYTES] ;
-extern char    swexpsym[EXPLSYMS][EXPBYTES];
-extern char    swflksym[FLCKSYMS][FLKBYTES];
-extern char    swbrdsym[BIRDSYMS][BRDBYTES];
-extern char    swoxsym[OXSYMS][OXBYTES];
-extern char    swghtsym[GHSTBYTES];
-extern char    swshtsym[SHOTBYTES];
-extern char    swsplsym[SPLTBYTES];
-extern char    swmscsym[MISCANGS][MISCBYTES];
-extern char    swbstsym[BRSTSYMS][BRSTBYTES];
+extern sopsym_t *symbol_bomb[8];                 // swbmbsym
+extern sopsym_t *symbol_targets[4];              // swtrgsym
+extern sopsym_t *symbol_target_hit;              // swhtrsym
+extern sopsym_t *symbol_debris[8];               // swexpsym
+extern sopsym_t *symbol_flock[2];                // swflksym
+extern sopsym_t *symbol_bird[2];                 // swbrdsym
+extern sopsym_t *symbol_ox[2];                   // swoxsym
+extern sopsym_t *symbol_ghost;                   // swghtsym
+extern sopsym_t *symbol_shotwin;                 // swshtsym
+extern sopsym_t *symbol_birdsplat;               // swsplsym
+extern sopsym_t *symbol_missile[16];             // swmscsym
+extern sopsym_t *symbol_burst[2];                // swbstsym
+extern sopsym_t *symbol_plane[2][16];            // swplnsym
+extern sopsym_t *symbol_plane_hit[2];            // swhitsym
+extern sopsym_t *symbol_plane_win[4];            // swwinsym
+
+extern sopsym_t symbol_pixel;
 
 #endif
 
@@ -61,6 +53,8 @@ extern char    swbstsym[BRSTSYMS][BRSTBYTES];
 //
 // $Log: $
 //
+// sdh 27/06/2002: move plane symbol headers here
+// sdh 27/06/2002: add sopsym_t, sopsym_t sprite frame replacements
 // sdh 21/10/2001: moved plane sprite constants into here from sw.h
 // sdh 21/10/2001: added cvs tags
 // sdh 19/10/2001: added header

@@ -16,7 +16,7 @@
 //
 //---------------------------------------------------------------------------
 
-#include "cgavideo.h"
+#include "video.h"
 
 #include "sw.h"
 #include "swasynio.h"
@@ -31,7 +31,6 @@
 #include "swmove.h"
 #include "swnetio.h"
 #include "swobject.h"
-#include "swplanes.h"
 #include "swsound.h"
 #include "swsymbol.h"
 #include "swtitle.h"
@@ -216,7 +215,7 @@ BOOL moveplyr(OBJECTS * obp)
 			// sdh: use the cga (sdl) interface to
 			// read key status
 
-			multkey = CGA_GetGameKeys();
+			multkey = Vid_GetGameKeys();
 
 			if (conf_harrykeys && ob->ob_orient)
 				multkey ^= K_FLAPU | K_FLAPD;
@@ -445,7 +444,12 @@ BOOL movepln(OBJECTS * obp)
 	obstate_t state, newstate;
 	int x, y, stalled;
 	// int grv;
-	static char gravity[] = { 0, -1, -2, -3, -4, -3, -2, -1,
+
+	// sdh 28/4/2002: aargh! char is not neccesarily signed char,
+	// it seems. use int
+
+	static signed int gravity[] = { 
+		0, -1, -2, -3, -4, -3, -2, -1,
 		0, 1, 2, 3, 4, 3, 2, 1
 	};
 
@@ -635,13 +639,21 @@ BOOL movepln(OBJECTS * obp)
 	}
 
 	if (endstat == WINNER && plyrplane && goingsun)
-		ob->ob_newsym = swwinsym[endcount / 18];
+		ob->ob_newsym = symbol_plane_win[endcount / 18]; 
+	else if (ob->ob_state == FINISHED)
+		ob->ob_newsym = NULL;
+	else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0)
+		ob->ob_newsym = symbol_plane_hit[ob->ob_orient];
 	else
-		ob->ob_newsym = ob->ob_state == FINISHED
-		    ? NULL : ((ob->ob_state == FALLING
-			       && !ob->ob_dx && ob->ob_dy < 0)
-			      ? swhitsym[ob->ob_orient]
-			      : swplnsym[ob->ob_orient][ob->ob_angle]);
+		ob->ob_newsym = symbol_plane[ob->ob_orient][ob->ob_angle];
+
+	//ob->ob_newsym = 
+	//ob->ob_state == FINISHED ? NULL :
+	//((ob->ob_state == FALLING
+	//&& !ob->ob_dx && ob->ob_dy < 0)
+	//? swhitsym[ob->ob_orient]
+	//: swplnsym[ob->ob_orient][ob->ob_angle]);
+
 	movexy(ob, &x, &y);
 
 	if (x < 0)
@@ -725,7 +737,7 @@ BOOL moveshot(OBJECTS * obp)
 	}
 
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = (char *) 0x83;
+	ob->ob_newsym = &symbol_pixel;
 	return TRUE;
 }
 
@@ -764,7 +776,7 @@ BOOL movebomb(OBJECTS * obp)
 		return FALSE;
 	}
 
-	ob->ob_newsym = swbmbsym[symangle(ob)];
+	ob->ob_newsym = symbol_bomb[symangle(ob)]; 
 	insertx(ob, ob->ob_xnext);
 
 	if (y >= MAX_Y)
@@ -829,7 +841,7 @@ BOOL movemiss(OBJECTS * obp)
 		return FALSE;
 	}
 
-	ob->ob_newsym = swmscsym[ob->ob_angle];
+	ob->ob_newsym = symbol_missile[ob->ob_angle];
 	insertx(ob, ob->ob_xnext);
 
 	if (y >= MAX_Y)
@@ -865,7 +877,7 @@ BOOL moveburst(OBJECTS * obp)
 	}
 
 	ob->ob_owner->ob_target = ob;
-	ob->ob_newsym = swbstsym[ob->ob_life & 1];
+	ob->ob_newsym = symbol_burst[ob->ob_life & 1]; 
 	insertx(ob, ob->ob_xnext);
 
 	return y < MAX_Y;
@@ -897,9 +909,11 @@ BOOL movetarg(OBJECTS * obt)
 	if (--ob->ob_hitcount < 0)
 		ob->ob_hitcount = 0;
 
-	ob->ob_newsym = ob->ob_state == STANDING
-	    ? swtrgsym[ob->ob_orient]
-	    : swhtrsym;
+	if (ob->ob_state == STANDING) 
+		ob->ob_newsym = symbol_targets[ob->ob_orient];
+	else
+		ob->ob_newsym = symbol_target_hit;
+
 	return TRUE;
 }
 
@@ -946,7 +960,7 @@ BOOL moveexpl(OBJECTS * obp)
 	++ob->ob_hitcount;
 
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = swexpsym[ob->ob_orient];
+	ob->ob_newsym = symbol_debris[ob->ob_orient];
 
 	return y < MAX_Y;
 }
@@ -970,7 +984,8 @@ BOOL movesmok(OBJECTS * obp)
 		deallobj(ob);
 		return FALSE;
 	}
-	ob->ob_newsym = (char *) (0x80 + ob->ob_clr);
+	ob->ob_newsym = &symbol_pixel;
+	//(char *) (0x80 + ob->ob_clr);
 
 	return TRUE;
 }
@@ -1002,7 +1017,7 @@ BOOL moveflck(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = swflksym[ob->ob_orient];
+	ob->ob_newsym = symbol_flock[ob->ob_orient]; 
 	setvdisp();
 	dispwobj(ob);
 	return TRUE;
@@ -1034,7 +1049,7 @@ BOOL movebird(OBJECTS * obp)
 	movexy(ob, &x, &y);
 
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = swbrdsym[ob->ob_orient];
+	ob->ob_newsym = symbol_bird[ob->ob_orient];
 	if (y >= MAX_Y || y <= (int) ground[x]
 	    || x < 0 || x >= MAX_X) {
 		ob->ob_y -= ob->ob_dy;
@@ -1049,7 +1064,7 @@ BOOL movebird(OBJECTS * obp)
 
 BOOL moveox(OBJECTS * ob)
 {
-	ob->ob_newsym = swoxsym[ob->ob_state != STANDING];
+	ob->ob_newsym = symbol_ox[ob->ob_state != STANDING];
 	return TRUE;
 }
 
@@ -1158,6 +1173,8 @@ void deletex(OBJECTS * obp)
 //
 // $Log: $
 //
+// sdh 27/06/2002: move to new sopsym_t for symbols
+// sdh 26/03/2002: change CGA_ to Vid_
 // sdh 27/10/2001: fix refueling i broke with the guages change yesterday
 // sdh 26/10/2001: use new dispguages function
 // sdh 21/10/2001: use new obtype_t and obstate_t

@@ -20,23 +20,29 @@
 
 #include <SDL.h>
 
-#include "cgavideo.h"
+#include "video.h"
 #include "sw.h"
 
-BOOL cga_fullscreen = FALSE;
-BOOL cga_double_size = TRUE;
+#include "vid_vga.c"
 
-static char *vram;
+// lcd mode to emulate my old laptop i used to play sopwith on :)
+
+//#define LCD
+
+BOOL vid_fullscreen = FALSE;
+BOOL vid_double_size = TRUE;
+
 static int ctrlbreak = 0;
 static BOOL initted = 0;
 static SDL_Surface *screen;
+static SDL_Surface *screenbuf = NULL;        // draw into buffer in 2x mode
 static int colors[16];
 
 // which keys are currently down
 // this is actually a simple bitfield
 // bit 0 is whether the button is currently down
 // bit 1 is whether the button has been pressed
-//       since the last call of CGA_GetGameKeys
+//       since the last call of Vid_GetGameKeys
 // in this way, every button press will have an effect:
 // if it is done based on what is currently down it is
 // possible to miss keypresses (if you press and release
@@ -72,82 +78,51 @@ static int getcolor(int r, int g, int b)
 	return n;
 }
 
-inline int getpixel(int x, int y)
-{
-	register int c, mask;
-	register char *sptr;
-
-	sptr = vram + ((y) * 160)
-	    + ((x & 0xFFF0) >> 1)
-	    + ((x & 0x0008) >> 3);
-	mask = 0x80 >> (x &= 0x0007);
-
-	c = (*sptr & mask)
-	    | ((*(sptr + 2) & mask) << 1)
-	    | ((*(sptr + 4) & mask) << 2)
-	    | ((*(sptr + 6) & mask) << 3);
-
-	return (c >> (7 - x)) & 0xff;
-}
-
 // 2x scale
 
-static void CGA_UpdateScaled()
+static void Vid_UpdateScaled()
 {
 	register char *pixels = (char *) screen->pixels;
-	register int pitch = screen->pitch * 2;
-	register int x, y;
-
-	SDL_LockSurface(screen);
-
-	for (y = 0; y < 200; ++y) {
-		register char *p = pixels;
-
-		for (x = 0; x < 320; ) {
-			p[0] = p[1] = p[640] = p[641]
-			    = colors[getpixel(x, y)];
-			p += 2; ++x;
-		}
-
-		pixels += pitch;
-	}
-
-	SDL_UnlockSurface(screen);
-}
-
-static void CGA_UpdateUnscaled()
-{
-	register char *pixels = (char *) screen->pixels;
+	register char *pixels2 = (char *) screenbuf->pixels;
 	register int pitch = screen->pitch;
+	register int pitch2 = screenbuf->pitch;
 	register int x, y;
 
 	SDL_LockSurface(screen);
+	SDL_LockSurface(screenbuf);
 
-	for (y = 0; y < 200; ++y) {
-		
+	for (y = 0; y < SCR_HGHT; ++y) {
 		register char *p = pixels;
+		register char *p2 = pixels2;
 
-		for (x = 0; x < 320; ++x) {
-
-			*p++ = colors[getpixel(x, y)];
+		for (x=0; x<SCR_WDTH; ++x) {
+			p[0] = p[1] =  p[pitch] = p[pitch + 1] = *p2++;
+			p += 2;
 		}
 
-		pixels += pitch;
+		pixels += pitch * 2;
+		pixels2 += pitch2;
 	}
 
+	SDL_UnlockSurface(screenbuf);
 	SDL_UnlockSurface(screen);
 }
 
-void CGA_Update()
+void Vid_Update()
 {
 	if (!initted)
-		CGA_Init();
-	if (cga_double_size)
-		CGA_UpdateScaled();
-	else
- 		CGA_UpdateUnscaled();
+		Vid_Init();
+
+	SDL_UnlockSurface(screenbuf);
+
+	if (vid_double_size)
+		Vid_UpdateScaled();
+	else 
+		SDL_BlitSurface(screenbuf, NULL, screen, NULL);
 
 	SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+
+	SDL_LockSurface(screenbuf);
 }
 
 static void set_icon(char *icon_file)
@@ -195,22 +170,21 @@ static void set_icon(char *icon_file)
 	SDL_WM_SetIcon(icon, mask);
 }
 
-char *CGA_GetVRAM()
-{
-        return vram;
-}
 
-
-static void CGA_UnsetMode()
+static void Vid_UnsetMode()
 {
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-static void CGA_SetMode()
+static void Vid_SetMode()
 {
 	int n;
 	int w, h;
 	int flags = 0;
+	SDL_Color pal[5] = {
+		{0, 0, 0}, {0, 255, 255},
+      		{255, 0, 255}, {255, 255, 255},
+	};
 
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
@@ -222,15 +196,14 @@ static void CGA_SetMode()
 	w = SCR_WDTH;
 	h = SCR_HGHT;
 
-	if (cga_double_size) {
+	if (vid_double_size) {
 		w *= 2;
 		h *= 2;
 	}
 
 	flags = SDL_HWPALETTE;
-	if (cga_fullscreen)
+	if (vid_fullscreen)
 		flags |= SDL_FULLSCREEN;
-
 
 	screen = SDL_SetVideoMode(w, h, 8, flags);
 
@@ -247,91 +220,66 @@ static void CGA_SetMode()
 	for (n = 0; n < SDLK_LAST; ++n)
 		keysdown[n] = 0;
 
-	for (n = 0; n < 4; n++) {
-		colors[n * 4 + 0] = getcolor(0, 0, 0);
-		colors[n * 4 + 1] = getcolor(0, 255, 255);
-		colors[n * 4 + 2] = getcolor(255, 0, 255);
-		colors[n * 4 + 3] = getcolor(255, 255, 255);
-	}
-
-        for (n = 0; n < 4; n++) {
-                colors[n * 4 + 0] = getcolor(0, 0, 0);
-                colors[n * 4 + 1] = getcolor(0, 255, 255);
-                colors[n * 4 + 2] = getcolor(255, 0, 255);
-                colors[n * 4 + 3] = getcolor(255, 255, 255);
-        }
-
-/*
-  was in swgrpha.c:
-
-  0x000,                  //   0 = black    background
-  0x037,                  //   1 = blue     planes,targets,explosions
-  0x700,                  //   2 = red      planes,targets,explosions
-  0x777,                  //   3 = white    bullets
-  0x000,                  //   4
-  0x000,                  //   5
-  0x000,                  //   6
-  0x070,                  //   7 = green    ground 
-  0x000,                  //   8
-  0x433,                  //   9 = tan      oxen, birds 
-  0x420,                  //  10 = brown    oxen
-  0x320,                  //  11 = brown    bottom of ground display 
-  0x000,                  //  12
-  0x000,                  //  13
-  0x000,                  //  14
-  0x000                   //  15
-*/
-#if 0
-	colors[0] = getcolor(0, 0, 0);
-	colors[1] = getcolor(0, 0, 255);
-	colors[2] = getcolor(255, 0, 0);
-	colors[3] = getcolor(255, 255, 255);
-	colors[7] = getcolor(0, 255, 0);
-	colors[9] = getcolor(168, 0, 0);
-	colors[10] = getcolor(168, 84, 0);
-	colors[11] = getcolor(84, 42, 0);
+#ifdef LCD
+	pal[0].r = 213; pal[0].g = 226; pal[0].b = 138;
+	pal[1].r = 150; pal[1].g = 160; pal[1].b = 150;
+	pal[2].r = 120; pal[2].g = 120; pal[2].b = 160;
+	pal[3].r = 0;   pal[3].g = 20;  pal[3].b = 200;
 #endif
+
+	SDL_SetColors(screen, pal, 0, 4);
+
 	SDL_WM_SetCaption("SDL Sopwith", NULL);
+
+	SDL_SetColors(screenbuf, pal, 0, 4);		
+
+	SDL_LockSurface(screenbuf);
 }
 
-void CGA_Shutdown()
+void Vid_Shutdown()
 {
 	if (!initted)
 		return;
 
-	CGA_UnsetMode();
-	free(vram);
+	Vid_UnsetMode();
+
+	SDL_FreeSurface(screenbuf);
 
 	initted = 0;
 }
 
-void CGA_Init()
+void Vid_Init()
 {
 	if (initted)
 		return;
 
-	vram = (char *) malloc(SCR_WDTH * SCR_HGHT);
-
 	fflush(stdout);
 
-	CGA_SetMode();
+	screenbuf = SDL_CreateRGBSurface(0, SCR_WDTH, SCR_HGHT, 8,
+					 0, 0, 0, 0);
+	
+	vid_vram = screenbuf->pixels;
+	vid_pitch = screenbuf->pitch;
+
+
+	Vid_SetMode();
 
 	initted = 1;
 
-	atexit(CGA_Shutdown);
+	atexit(Vid_Shutdown);
 }
 
-void CGA_Reset()
+void Vid_Reset()
 {
 	if (!initted)
 		return;
 
-	CGA_UnsetMode();
-	CGA_SetMode();
+	Vid_UnsetMode();
+	Vid_SetMode();
 
 	// need to redraw buffer to screen
 
-	CGA_Update();
+	Vid_Update();
 }
 
 static int input_buffer[128];
@@ -382,8 +330,8 @@ static void getevents()
 				input_buffer_push(27);
 			} else if (event.key.keysym.sym == SDLK_RETURN) {
 				if(altdown) {
-					cga_fullscreen = !cga_fullscreen;
-					CGA_Reset();
+					vid_fullscreen = !vid_fullscreen;
+					Vid_Reset();
 				} else {
 					input_buffer_push('\n');
 				}
@@ -404,7 +352,7 @@ static void getevents()
 	}
 }
 
-int CGA_GetKey()
+int Vid_GetKey()
 {
 	int l;
 
@@ -413,7 +361,7 @@ int CGA_GetKey()
 	return input_buffer_pop();
 }
 
-int CGA_GetGameKeys()
+int Vid_GetGameKeys()
 {
 	int i, c = 0;
 
@@ -468,22 +416,20 @@ int CGA_GetGameKeys()
 	return c;
 }
 
-BOOL CGA_GetCtrlBreak()
+BOOL Vid_GetCtrlBreak()
 {
 	getevents();
 	return ctrlbreak;
-}
-
-void CGA_ClearScreen()
-{
-	//memset(vram, 0, 320 * 200 * 5);
-//      CGA_Update();
 }
 
 //-----------------------------------------------------------------------
 // 
 // $Log: $
 //
+// sdh 25/04/2002: rename vga_{pitch,vram} to vid_{pitch,vram}
+// sdh 26/03/2002: now using platform specific vga code for drawing stuff
+//                 (#include "vid_vga.c")
+//                 rename CGA_ to Vid_
 // sdh 17/11/2001: buffered input for keypresses, 
 //                 CGA_GetLastKey->CGA_GetKey
 // sdh 07/11/2001: add CGA_Reset

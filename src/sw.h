@@ -21,10 +21,11 @@
 #ifndef __SW_H__
 #define __SW_H__
 
-#include        "std.h"
-#include        <setjmp.h>
-#include        "swmach.h"
-#include 	"config.h"
+#include "std.h"
+#include <setjmp.h>
+#include "swmach.h"
+#include "swsymbol.h"
+#include "config.h"
 
 /*  Constants  */
 
@@ -39,9 +40,21 @@
 #define STALLCOUNT      6               /*  Moves between stalling plane adj*/
 #define TARGHITCOUNT    10              /*  Target hit count before explod'n*/
 
+#ifdef PSION
+
+// fill the screen on the revo
+
+#define SCR_WDTH        480             /*  Screen Width                    */
+
+#else
+
 #define SCR_WDTH        320             /*  Screen Width                    */
+
+#endif
+
 #define SCR_HGHT        200             /*  Screen Height                   */
-#define SCR_CENTR       152             /*  Centre column of screen         */
+
+#define SCR_CENTR       ((SCR_WDTH / 2) - 8) /*  Centre column of screen */
 #define SCR_SEGM        0xB800          /*  Screen Video segment            */
 #define SCR_ROFF        0x2000          /*  Screen odd rastor line offset   */
 #define SCR_LINW        80              /*  Screen line width in bytes      */
@@ -226,8 +239,8 @@ typedef struct obj {                            /*  Object list             */
         int            ob_updcount;
         int            ob_life;
         struct obj    *ob_owner;
-        int            ob_symhgt;
-        int            ob_symwdt;
+        //int            ob_symhgt;   // sdh 27/6/2002
+        //int            ob_symwdt;   // sdh 27/6/2002
         int            ob_bombing;
         int            ob_bombs;
         int            ob_clr;
@@ -240,13 +253,15 @@ typedef struct obj {                            /*  Object list             */
         int            ob_oldy;
         int            ob_drwflg;
         int            ob_delflg;
-        char          *ob_oldsym;
+        // char          *ob_oldsym;   // sdh 27/6/2002
+	sopsym_t      *ob_oldsym;
         void        ( *ob_drawf ) ();
         BOOL        ( *ob_movef ) ();
         struct obj    *ob_xnext;
         struct obj    *ob_xprev;
         int            ob_crashcnt;
-        char          *ob_newsym;
+        // char          *ob_newsym;   // sdh 27/6/2002
+	sopsym_t      *ob_newsym;
         int            ob_bdelay;
         int            ob_home;
         int            ob_hx[3], ob_hy[3];
@@ -326,6 +341,10 @@ static inline int SIN(int x) {
 //
 // $Log: $
 //
+// sdh 27/06/2002: remove ob_symwdt and ob_symhgt. use new sopsym_t for
+//                 sprites
+// sdh 20/04/2002: change SCR_CENTR to be dependent on SCR_WDTH
+//                 widescreen on revo(psion)
 // sdh 16/11/2001: TCPIP #define to disable TCP/IP support
 // sdh 21/10/2001: moved sound priorities into swsound.h
 // sdh 21/10/2001: moved plane sprite constants into appropriate headers
