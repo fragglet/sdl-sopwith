@@ -114,8 +114,13 @@ void asynput()
 
 	if (first)
 		first = FALSE;
-	else
+	else {
 		lastkey = CGA_GetGameKeys();
+		
+		if (conf_harrykeys && nobjects[player].ob_orient)
+			lastkey ^= K_FLAPU | K_FLAPD;
+	}
+
 	swflush();
 
 	sendshort(lastkey);
@@ -177,12 +182,16 @@ static void synchronize()
 	if (asynmode == ASYN_LISTEN) {
 		// send settings
 		sendshort(explseed);
-		sendshort(missok);
+		sendshort(conf_missiles);
+		sendshort(conf_wounded);
+		sendshort(conf_animals);
 	} else {
 		settimeout(1000);
 		explseed = readshort();
 		settimeout(1000);
-		missok = readshort();
+		conf_missiles = readshort() != 0;
+		conf_wounded = readshort() != 0;
+		conf_animals = readshort() != 0;
 	}
 }
 
@@ -251,6 +260,7 @@ void init2asy()
 //
 // $Log: $
 //
+// sdh 29/10/2001: harrykeys
 // sdh 21/10/2001: rearranged file headers, added cvs tags
 // sdh 21/10/2001: reformatted with indent, adjusted some code by hand
 //                 to make more readable

@@ -27,13 +27,24 @@
 #include "swinit.h"
 #include "swmove.h"
 #include "swsound.h"
+#include "swtitle.h"
 #include "swutil.h"
 
 // sdh: framerate control
 
 #define FPS 10
 
-int playmode;			/* Mode of play                     */
+
+// sdh 28/10/2001: game options
+
+BOOL conf_missiles = 0;             // allow missiles: replaces missok
+BOOL conf_solidground = 0;          // draw ground solid like in sopwith 1
+BOOL conf_hudsplats = 1;            // splatted birds etc
+BOOL conf_wounded = 1;              // enable wounded planes
+BOOL conf_animals = 1;              // birds and oxes
+BOOL conf_harrykeys = 0;            // plane rotation relative to screen
+
+playmode_t playmode;		/* Mode of play                     */
 GAMES *currgame;		/* Game parameters and current game */
 OBJECTS *targets[MAX_TARG + MAX_OXEN];	/* Status of targets array          */
 int numtarg[2];			/* Number of active targets by color */
@@ -47,8 +58,6 @@ int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
 MULTIO multiost;		/* Multiple player I/O buffer       */
-
-char auxdisp[0x8000];		/* Auxiliary display area           */
 
 int multkey;			/* Keystroke to be passed           */
 MULTIO *multbuff = &multiost;
@@ -72,7 +81,6 @@ BOOL ibmkeybd;			/* IBM-like keyboard being used     */
 BOOL inplay;			/* Game is in play                  */
 BOOL printflg = 0;		/* Print screen requested           */
 int koveride;			/* Keyboard override index number   */
-int missok;			/* Missiles supported               */
 
 int displx, disprx;		/* Display left and right           */
 int dispdx;			/* Display shift                    */
@@ -136,6 +144,13 @@ int main(int argc, char *argv[])
 	swinit(argc, argv);
 	setjmp(envrestart);
 
+	// sdh 28/10/2001: playmode is called from here now
+	// makes for a more coherent progression through the setup process
+
+	if (!playmode)
+		getmode();
+	swinitlevel();
+
 	nexttic = Timer_GetMS();
 
 	FOREVER {
@@ -185,6 +200,9 @@ int main(int argc, char *argv[])
 //
 // $Log: $
 //
+// sdh 29/10/2001: harrykeys
+// sdh 28/10/2001: conf_ game options
+// sdh 28/10/2001: moved auxdisp to swgrpha.c
 // sdh 21/10/2001: rearranged headers, added cvs tags
 // sdh 21/10/2001: reformatted with indent
 // sdh 19/10/2001: removed externs, these are now in headers

@@ -31,18 +31,15 @@ void swend(char *msg, BOOL update)
 	register char *closmsg = NULL;
 	char *multclos(), *asynclos();
 
-	set_type(savemode);
-	hires = FALSE;
-
 	sound(0, 0, NULL);
 	swsound();
 
 	if (repflag)
 		swreport();
 
-	if (playmode == MULTIPLE)
+	if (playmode == PLAYMODE_MULTIPLE)
 		closmsg = multclos(update);
-	else if (playmode == ASYNCH)
+	else if (playmode == PLAYMODE_ASYNCH)
 		closmsg = asynclos();
 
 	histend();
@@ -74,7 +71,7 @@ void endgame(int targclr)
 	register int winclr;
 	register OBJECTS *ob;
 
-	if ((playmode != MULTIPLE && playmode != ASYNCH)
+	if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
 	    || multbuff->mu_maxplyr == 1)
 		winclr = 1;
 	else {

@@ -23,11 +23,13 @@
 
 #include "cgavideo.h"
 #include "pcsound.h"
+#include "timer.h"
 
 #include "bmblib.h"
 #include "sw.h"
 #include "swasynio.h"
 #include "swcollsn.h"
+#include "swconf.h"
 #include "swdisp.h"
 #include "swend.h"
 #include "swinit.h"
@@ -49,7 +51,7 @@ static BOOL ghost;		/* ghost display flag             */
 
 static char helptxt[] =
 "\n"
-"SDL Sopwith v1.10\n"
+"SDL Sopwith " VERSION "\n"
 "Copyright (C) 1984-2000 David L. Clark\n"
 "Copyright (C) 2001 Simon Howard\n"
 "\n"
@@ -104,37 +106,7 @@ static void initwobj()
 }
 
 
-
-static void movedisp()
-{
-#ifdef IBMPC
-	swsetblk(0, SCR_SEGM, 0x1000, 0);
-	swsetblk(SCR_ROFF, SCR_SEGM, 0x1000, 0);
-	movblock(auxdisp, dsseg(), 0x1000, SCR_SEGM, 0x1000);
-	movblock(auxdisp + 0x1000, dsseg(), 0x3000, SCR_SEGM, 0x1000);
-#endif
-
-	setmem(vidram, 0x8000, 0);
-	movmem(auxdisp + 0x7000, vidram+0x7000, 0x1000);
-
-//      CGA_ClearScreen();
-	// int x, y;
-//	for (y = 20; y < SCR_HGHT; ++y)
-//		for (x = 0; x < SCR_WDTH; ++x)
-//			swpntsym(x, y, 0);
-
-//      dispworld();
-}
-
-
-
-
-static void clrdispa()
-{
-	setmem(auxdisp, sizeof(auxdisp), 0);
-}
-
-
+// sdh 28/10/2001: moved auxdisp graphic functions into swgrpha.c
 
 static void initobjs()
 {
@@ -196,7 +168,7 @@ static void initscore()
 	}
 
 	dispscore(&nobjects[0]);
-	if ((playmode == MULTIPLE || playmode == ASYNCH)
+	if ((playmode == PLAYMODE_MULTIPLE || playmode == PLAYMODE_ASYNCH)
 	    && multbuff->mu_maxplyr > 1)
 		dispscore(&nobjects[1]);
 }
@@ -220,54 +192,40 @@ static void dispgge(int x, int cury, int maxy, int clr)
 		swpntsym(x, y, 0);
 }
 
+// sdh 26/10/2001: merged guage functions into a single function
 
-
-
-void dispcgge(OBJECTS * ob)
+void dispguages(OBJECTS *ob)
 {
-	dispgge(CGUAGEX, maxcrash - ob->ob_crashcnt, maxcrash, ob->ob_clr);
+	int x = GUAGEX;
+	int sep = conf_missiles ? 3 : 5;
+
+	// crashes/lives
+
+	dispgge(x += sep, maxcrash - ob->ob_crashcnt, maxcrash, ob->ob_clr);
+
+	// fuel
+
+	dispgge(x += sep, ob->ob_life >> 4, MAXFUEL >> 4, ob->ob_clr);
+
+	// bombs
+
+	dispgge(x += sep, ob->ob_bombs, MAXBOMBS, 3 - ob->ob_clr);
+
+	// bullets
+
+ 	dispgge(x += sep, ob->ob_rounds, MAXROUNDS, 3);
+
+	if (conf_missiles) {
+
+		// missiles
+		
+		dispgge(x += sep, ob->ob_missiles, MAXMISSILES, ob->ob_clr);
+
+// starburst (flares)
+
+		dispgge(x += sep, ob->ob_bursts, MAXBURSTS, 3 - ob->ob_clr);
+	}
 }
-
-
-
-
-void dispfgge(OBJECTS * ob)
-{
-	dispgge(FGUAGEX, ob->ob_life >> 4, MAXFUEL >> 4, ob->ob_clr);
-}
-
-
-
-
-void dispbgge(OBJECTS * ob)
-{
-	dispgge(BGUAGEX, ob->ob_bombs, MAXBOMBS, 3 - ob->ob_clr);
-}
-
-
-
-
-void dispsgge(OBJECTS * ob)
-{
-	dispgge(SGUAGEX, ob->ob_rounds, MAXROUNDS, 3);
-}
-
-
-
-
-void dispmgge(OBJECTS * ob)
-{
-	dispgge(MGUAGEX, ob->ob_missiles, MAXMISSILES, ob->ob_clr);
-}
-
-
-
-
-void dispsbgge(OBJECTS * ob)
-{
-	dispgge(SBGUAGEX, ob->ob_bursts, MAXBURSTS, 3 - ob->ob_clr);
-}
-
 
 
 static void dispworld()
@@ -348,12 +306,9 @@ void initdisp(BOOL reset)
 		ghostob.ob_newsym = swghtsym;
 		swputsym(GHOSTX, 12, &ghostob);
 	} else {
-		dispfgge(ob);
-		dispbgge(ob);
-		dispmgge(ob);
-		dispsbgge(ob);
-		dispsgge(ob);
-		dispcgge(ob);
+		// sdh 26/10/2001: merged guages into a single function
+
+		dispguages(ob);
 	}
 	dispinit = TRUE;
 }
@@ -381,17 +336,19 @@ OBJECTS *initpln(OBJECTS * obp)
 		ob = obp;
 
 	switch (playmode) {
-	case SINGLE:
-	case NOVICE:
+	case PLAYMODE_SINGLE:
+	case PLAYMODE_NOVICE:
 		n = inits[ob->ob_index];
 		break;
-	case MULTIPLE:
-	case ASYNCH:
+	case PLAYMODE_MULTIPLE:
+	case PLAYMODE_ASYNCH:
 		n = initm[ob->ob_index];
 		break;
-	case COMPUTER:
+	case PLAYMODE_COMPUTER:
 		n = initc[ob->ob_index];
 		break;
+	default:
+		return NULL;
 	}
 
 	ob->ob_type = PLANE;
@@ -433,7 +390,7 @@ OBJECTS *initpln(OBJECTS * obp)
 		insertx(ob, ob->ob_xnext);
 	}
 
-	if ((playmode == MULTIPLE || playmode == ASYNCH)
+	if ((playmode == PLAYMODE_MULTIPLE || playmode == PLAYMODE_ASYNCH)
 	    && ob->ob_crashcnt >= maxcrash) {
 		ob->ob_state = GHOST;
 		if (ob->ob_index == player)
@@ -482,7 +439,7 @@ void initcomp(OBJECTS * obp)
 		ob->ob_drawf = dispcomp;
 		ob->ob_movef = movecomp;
 		ob->ob_clr = 2;
-		if (playmode != MULTIPLE && playmode != ASYNCH)
+		if (playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
 			ob->ob_owner = &nobjects[1];
 		else if (ob->ob_index == 1)
 			ob->ob_owner = ob;
@@ -490,7 +447,7 @@ void initcomp(OBJECTS * obp)
 			ob->ob_owner = ob - 2;
 		movmem(ob, &oobjects[ob->ob_index], sizeof(OBJECTS));
 	}
-	if (playmode == SINGLE || playmode == NOVICE) {
+	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
 		deletex(ob);
 	}
@@ -533,7 +490,7 @@ void initshot(OBJECTS * obop, OBJECTS * targ)
 		return;
 
 	obo = obop;
-	if (playmode != NOVICE)
+	if (playmode != PLAYMODE_NOVICE)
 		--obo->ob_rounds;
 
 	bspeed = BULSPEED + gamenum;
@@ -590,7 +547,7 @@ void initbomb(OBJECTS * obop)
 	if (!ob)
 		return;
 
-	if (playmode != NOVICE)
+	if (playmode != PLAYMODE_NOVICE)
 		--obo->ob_bombs;
 
 	obo->ob_bdelay = 10;
@@ -627,14 +584,14 @@ void initmiss(OBJECTS * obop)
 	register OBJECTS *ob, *obo = obop;
 	int angle, nspeed;
 
-	if (obo->ob_mdelay || !obo->ob_missiles || !missok)
+	if (obo->ob_mdelay || !obo->ob_missiles || !conf_missiles)
 		return;
 
 	ob = allocobj();
 	if (!ob)
 		return;
 
-	if (playmode != NOVICE)
+	if (playmode != PLAYMODE_NOVICE)
 		--obo->ob_missiles;
 
 	obo->ob_mdelay = 5;
@@ -670,7 +627,7 @@ void initburst(OBJECTS * obop)
 	register OBJECTS *ob, *obo = obop;
 	int angle;
 
-	if (obo->ob_bsdelay || !obo->ob_bursts || !missok)
+	if (obo->ob_bsdelay || !obo->ob_bursts || !conf_missiles)
 		return;
 
 	ob = allocobj();
@@ -679,7 +636,7 @@ void initburst(OBJECTS * obop)
 
 	ob->ob_bsdelay = 5;
 
-	if (playmode != NOVICE)
+	if (playmode != PLAYMODE_NOVICE)
 		--obo->ob_bursts;
 
 	ob->ob_type = STARBURST;
@@ -721,7 +678,7 @@ static void inittarg()
 	tx = currgame->gm_xtarg;
 	tt = currgame->gm_ttarg;
 
-	if ((playmode != MULTIPLE && playmode != ASYNCH)
+	if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
 	    || multbuff->mu_maxplyr == 1) {
 		numtarg[0] = 0;
 		numtarg[1] = MAX_TARG - 3;
@@ -756,7 +713,7 @@ static void inittarg()
 		ob->ob_orient = *tt;
 		ob->ob_life = i;
 
-		if ((playmode != MULTIPLE && playmode != ASYNCH)
+		if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
 		    || multbuff->mu_maxplyr == 1)
 			ob->ob_owner = 
 				&nobjects[(i < MAX_TARG / 2
@@ -883,7 +840,9 @@ void initflck()
 	register OBJECTS *ob;
 	register int i, j;
 
-	if (playmode == NOVICE)
+	// sdh 28/10/2001: option to disable animals
+
+	if (playmode == PLAYMODE_NOVICE || !conf_animals)
 		return;
 
 	for (i = 0; i < MAX_FLCK; ++i) {
@@ -944,7 +903,7 @@ void initbird(OBJECTS * obop, int i)
 	insertx(ob, obo);
 }
 
-// ox
+// oxen
 
 void initoxen()
 {
@@ -953,7 +912,9 @@ void initoxen()
 	static int iox[] = { 1376, 1608 };
 	static int ioy[] = { 80, 91 };
 
-	if (playmode == NOVICE) {
+	// sdh 28/10/2001: option to disable animals
+
+	if (playmode == PLAYMODE_NOVICE || !conf_animals) {
 		for (i = 0; i < MAX_OXEN; ++i)
 			targets[MAX_TARG + i] = NULL;
 		return;
@@ -996,43 +957,44 @@ void initgdep()
 	targrnge *= targrnge;
 }
 
+// sdh 27/10/2001: created
 
-
-
-void swrestart()
+void swinitlevel()
 {
-	register OBJECTS *ob;
-	register int tickwait, inc;
+	if (playmode == PLAYMODE_MULTIPLE)
+		init1mul(FALSE, 0);
+	else if (playmode == PLAYMODE_ASYNCH)
+		init1asy();
 
-	if (endsts[player] == WINNER) {
-		ob = &nobjects[player];
-		inc = 0;
-		while (ob->ob_crashcnt++ < maxcrash) {
-			ob->ob_score += (inc += 25);
-			setvdisp();
-			dispcgge(ob);
-			dispscore(ob);
-			intsoff();
-			tickwait = 5;
-			counttick = 0;
-			intson();
-			//while ( counttick < tickwait );
-		}
-		++gamenum;
-		savescore = ob->ob_score;
-	} else {
-		gamenum = 0;
-		savescore = 0;
-	}
+	splatox = splatbird = shothole = 0;
 
 	initsndt();
 	initgrnd();
 	initobjs();
-	initplyr(NULL);
-	initcomp(NULL);
-	initcomp(NULL);
-	initcomp(NULL);
+
+	if (keydelay == -1)
+		keydelay = 1;
+
+	if (playmode == PLAYMODE_MULTIPLE) {
+		maxcrash = MAXCRASH * 2;
+		init2mul();
+	} else if (playmode == PLAYMODE_ASYNCH) {
+		maxcrash = MAXCRASH * 2;
+		init2asy();
+	} else {
+		maxcrash = MAXCRASH;
+		currgame = &swgames[0];
+
+		// single player
+		
+		initplyr(NULL);
+		initcomp(NULL);
+		initcomp(NULL);
+		initcomp(NULL);
+	}
+
 	inittarg();
+
 	if (currgame->gm_specf)
 		(*currgame->gm_specf) ();
 
@@ -1040,6 +1002,44 @@ void swrestart()
 	initflck();
 	initoxen();
 	initgdep();
+
+	inplay = TRUE;
+
+	swinitgrph();
+}
+
+void swrestart()
+{
+	register OBJECTS *ob;
+	register int inc;
+	int time;
+		
+	if (endsts[player] == WINNER) {
+		ob = &nobjects[player];
+		inc = 0;
+		while (ob->ob_crashcnt++ < maxcrash) {
+			ob->ob_score += (inc += 25);
+			setvdisp();
+			dispguages(ob);
+			dispscore(ob);
+			
+			// sdh 27/10/2001: use new time code for delay
+
+			time = Timer_GetMS();
+			while(Timer_GetMS() < time + 200);
+		}
+		++gamenum;
+		savescore = ob->ob_score;
+	} else {
+		gamenum = 0;
+		savescore = 0;
+
+		// sh 28/10/2001: go back to the title screen
+
+		playmode = PLAYMODE_UNSET;
+	}
+
+	// sdh 27/10/2001: moved all level init stuff into swinitlevel
 
 	longjmp(envrestart, 0);
 }
@@ -1086,8 +1086,10 @@ void swinit(int argc, char *argv[])
 #endif
 
 	int i;
+	
+	// sdh 29/10/2001: load config from configuration file
 
-	cga_double_size = 0;
+	swloadconf();
 
 	for (i=1; i<argc; ++i) {
 		if (!strcasecmp(argv[i], "-n"))
@@ -1103,7 +1105,7 @@ void swinit(int argc, char *argv[])
 		else if (!strcasecmp(argv[i], "-q"))
 			soundflg = 1;
 		else if (!strcasecmp(argv[i], "-x"))
-			missok = 1;
+			conf_missiles = 1;
 		else if (!strcasecmp(argv[i], "-l")) {
 			a = 1;
 			asynmode = ASYN_LISTEN;
@@ -1141,70 +1143,37 @@ void swinit(int argc, char *argv[])
 
 	//        explseed = histinit( explseed );
 	initsndt();
-	intsoff();
+	initgrnd();           // needed for title screen 
+	
+	// set graphics mode
+	// this used to be in swtitln
+
+	swinitgrph();
 	setvdisp();
-	initgrnd();
-	swtitln();
-	intson();
 
-	playmode = COMPUTER;
+	// set playmode if we can, from command line options
 
-	if (modeset)
-		playmode = n ? NOVICE :
-			   s ? SINGLE :
-			   c ? COMPUTER :
-			   m ? MULTIPLE : ASYNCH;
-	else
-		getmode();
+	playmode = 
+		n ? PLAYMODE_NOVICE :
+		s ? PLAYMODE_SINGLE :
+		c ? PLAYMODE_COMPUTER :
+		m ? PLAYMODE_MULTIPLE :
+		a ? PLAYMODE_ASYNCH :
+		PLAYMODE_UNSET;
 
-	if (playmode == MULTIPLE || playmode == ASYNCH) {
-		maxcrash = MAXCRASH * 2;
-		if (playmode == MULTIPLE)
-			init1mul(reset, device);
-		else
-			init1asy();
-		initgrnd();
-		initobjs();
-		if (playmode == MULTIPLE)
-			init2mul();
-		else
-			init2asy();
-		inittarg();
-		if (currgame->gm_specf)
-			(*currgame->gm_specf) ();
-		initdisp(NO);
-		if (keydelay == -1)
-			keydelay = 1;
-	} else {
-		if (keydelay == -1)
-			keydelay = 1;
-		maxcrash = MAXCRASH;
-		currgame = &swgames[0];
-		clrprmpt();
-		initobjs();
-		initplyr(NULL);
-		initcomp(NULL);
-		initcomp(NULL);
-		initcomp(NULL);
-		inittarg();
-		if (currgame->gm_specf)
-			(*currgame->gm_specf) ();
-		initdisp(NO);
-	}
-
-	initflck();
-	initoxen();
-
-	initgdep();
-
-	inplay = TRUE;
+	// sdh 28/10/2001: moved getmode into swmain
+	// sdh 27/10/2001: moved all level init stuff into swinitlevel
 }
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
-//
+// sdh 29/10/2001: load game options from config file
+// sdh 28/10/2001: extra game options
+// sdh 28/10/2001: game init restructured: swinitlevel now initialises the
+//                 level, getmode is called from main
+// sdh 26/10/2001: merge guages into a single function
 // sdh 24/10/2001: fix auxdisp buffer
 // sdh 23/10/2001: fixed arguments help list and rewrote argument checking
 //                 to support new network features

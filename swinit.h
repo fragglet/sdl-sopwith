@@ -18,16 +18,12 @@
 #include "sw.h"
 
 extern void swinit(int argc, char *argv[]);
+extern void swinitlevel();
 extern void initseed();
 extern void swrestart();
 extern void initgdep();
 extern void initdisp(BOOL reset);
-extern void dispcgge(OBJECTS *ob);
-extern void dispfgge(OBJECTS *ob);
-extern void dispbgge(OBJECTS *ob);
-extern void dispsgge(OBJECTS *ob);
-extern void dispmgge(OBJECTS *ob);
-extern void dispsbgge(OBJECTS *ob);
+extern void dispguages(OBJECTS *ob); 
 extern void initcomp(OBJECTS *obp);
 extern void initplyr(OBJECTS *obp);
 extern OBJECTS *initpln(OBJECTS *obp);
@@ -48,6 +44,7 @@ extern void initoxen();
 //
 // $Log: $
 //
+// sdh 26/10/2001: merge guages into a single function
 // sdh 21/10/2001: added cvs tags
 // sdh 19/10/2001: added header
 //

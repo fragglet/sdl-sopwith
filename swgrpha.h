@@ -17,7 +17,10 @@
 
 #include "sw.h"
 
+#define VRAMSIZE 0x8000
+
 extern char *vidram;
+extern char auxdisp[VRAMSIZE];
 
 extern void swdisp();
 extern void swground();
@@ -27,14 +30,19 @@ extern int swputcol(int x, int y, OBJECTS *ob);
 //extern char    fill[];
 extern void swpntsym(int x, int y, int clr);
 extern int swpntcol(int x, int y, int clr);
-extern void drawpc(int x, int y, int clr, int *oldclr);
-extern void drawpm(int x, int y, int clr, int *oldclr);
-extern int get_type();
-extern void set_type(int type);
+
+extern void swinitgrph();
+extern void swshutdowngrph();
+
 extern void colorscreen(int color);
-extern void setvdisp();
+
 extern void setadisp();
-extern void screendump();
+extern void clrdispa();
+
+extern void setvdisp();
+extern void clrdispv();
+
+extern void movedisp();
 
 #endif
 

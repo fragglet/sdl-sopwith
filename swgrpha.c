@@ -29,8 +29,6 @@
 
 //#define SOLID_GROUND
 
-#define VRAMSIZE 32000
-
 static char *dispoff;		        /* Current display offset            */
 static int scrtype;		        /* Screen type                       */
 static GRNDTYPE grndsave[SCR_WDTH];	/* Saved ground buffer for last      */
@@ -62,6 +60,10 @@ static int palette[] = {        /* Colour palette                            */
 
 static char spcbirds[BIRDSYMS][BRDBYTES * 2];	/* Special bird symbol    */
 						/* colour video maps      */
+
+// sdh 28/10/2001: moved auxdisp here
+
+char    auxdisp[VRAMSIZE];
 
 
 /*---------------------------------------------------------------------------
@@ -129,7 +131,6 @@ static void dispgm(GRNDTYPE * gptr)
 
 
 
-
 static void dispgc(GRNDTYPE * gptr)
 {
 	register GRNDTYPE *g = gptr, gl, gc;
@@ -160,7 +161,49 @@ static void dispgc(GRNDTYPE * gptr)
 				*(sptr + 4) ^= gmask;
 			} while (--gl > gc);
 
-#ifdef SOLID_GROUND
+		if (!(gmask >>= 1)) {
+			gmask = 0x80;
+			if ((long) sptr & 1)
+				sptr += 7;
+			else
+				++sptr;
+		}
+	}
+}
+
+
+// sdh 28/10/2001: solid ground function
+
+static void dispgc_solid(GRNDTYPE * gptr)
+{
+	register GRNDTYPE *g = gptr, gl, gc;
+	register int gmask, i;
+	register char *sptr;
+
+	i = SCR_WDTH;
+	gl = *g;
+	gmask = 0x80;
+	sptr = dispoff + (SCR_HGHT - gl - 1) * 160;
+
+	while (i--) {
+		gc = *g++;
+		if (gl == gc) {
+			*sptr ^= gmask;
+			*(sptr + 2) ^= gmask;
+			*(sptr + 4) ^= gmask;
+		} else if (gl < gc)
+			do {
+				*(sptr -= 160) ^= gmask;
+				*(sptr + 2) ^= gmask;
+				*(sptr + 4) ^= gmask;
+			} while (++gl < gc);
+		else
+			do {
+				*(sptr += 160) ^= gmask;
+				*(sptr + 2) ^= gmask;
+				*(sptr + 4) ^= gmask;
+			} while (--gl > gc);
+
 
 		// sdh 21/10/2001: solid ground like in sopwith 1
 
@@ -173,7 +216,6 @@ static void dispgc(GRNDTYPE * gptr)
                                 sptr2[4] ^= gmask;
                         } while(--gl2 > 18);
                 }
-#endif
 
 		if (!(gmask >>= 1)) {
 			gmask = 0x80;
@@ -228,6 +270,108 @@ void swclrcol()
 			    = *(sptr + 4) = *(sptr + 5) = 0L;
 			sptr -= 40;
 		}
+	}
+}
+
+
+/*---------------------------------------------------------------------------
+
+        External calls to display a point of a specified colour at a
+        specified position.   The point request may or may not ask for
+        collision detection by returning the old colour of the point.
+
+        Different routines are used to display points on colour or
+        monochrome systems.
+
+---------------------------------------------------------------------------*/
+
+
+
+
+void swpntsym(int x, int y, int clr)
+{
+	(*drawpnt) (x, y, clr, NULL);
+}
+
+
+
+int swpntcol(int x, int y, int clr)
+{
+	int oldclr;
+
+	(*drawpnt) (x, y, clr, &oldclr);
+
+	return oldclr;
+}
+
+
+
+static void drawpc(int x, int y, int clr, int *oldclr)
+{
+	register int c, mask;
+	register char *sptr;
+
+	sptr = dispoff 
+	       + (SCR_HGHT - y - 1) * 160
+	       + ((x & 0xFFF0) >> 1)
+	       + ((x & 0x0008) >> 3);
+	x &= 0x0007;
+	mask = 0x80 >> x;
+
+	if (oldclr) {
+		c = (*sptr & mask)
+		    | ((*(sptr + 2) & mask) << 1)
+		    | ((*(sptr + 4) & mask) << 2)
+		    | ((*(sptr + 6) & mask) << 3);
+		*oldclr = (c >> (7 - x)) & 0x00FF;
+	}
+
+	c = clr << (7 - x);
+	if (clr & 0x0080) {
+		*sptr ^= (mask & c);
+		*(sptr + 2) ^= (mask & (c >> 1));
+		*(sptr + 4) ^= (mask & (c >> 2));
+		*(sptr + 6) ^= (mask & (c >> 3));
+	} else {
+		mask = ~mask;
+		*sptr &= mask;
+		*(sptr + 2) &= mask;
+		*(sptr + 4) &= mask;
+		*(sptr + 6) &= mask;
+
+		mask = ~mask;
+		*sptr |= (mask & c);
+		*(sptr + 2) |= (mask & (c >> 1));
+		*(sptr + 4) |= (mask & (c >> 2));
+		*(sptr + 6) |= (mask & (c >> 3));
+	}
+}
+
+
+
+
+
+static void drawpm(int x, int y, int clr, int *oldclr)
+{
+	register int c, mask;
+	register char *sptr;
+
+	sptr = dispoff + ((SCR_HGHT - y - 1) * 160) + (x >> 2);
+	x = (x & 0x0003) << 1;
+	mask = 0xC0 >> x;
+
+	if (oldclr)
+		*oldclr = ((*sptr & mask) >> (6 - x)) & 0x00FF;
+
+	c = clr << (6 - x);
+	if (clr & 0x0080) {
+		*sptr ^= (mask & c);
+		*(sptr + 80) ^= (mask & c);
+	} else {
+		*sptr &= ~mask;
+		*(sptr + 80) &= ~mask;
+		*sptr |= (mask & c);
+		*(sptr + 80) |= (mask & c);
 	}
 }
 
@@ -467,109 +611,6 @@ static void drawsc(OBJECTS * ob, int x, int y,
 }
 
 
-
-/*---------------------------------------------------------------------------
-
-        External calls to display a point of a specified colour at a
-        specified position.   The point request may or may not ask for
-        collision detection by returning the old colour of the point.
-
-        Different routines are used to display points on colour or
-        monochrome systems.
-
----------------------------------------------------------------------------*/
-
-
-
-
-void swpntsym(int x, int y, int clr)
-{
-	(*drawpnt) (x, y, clr, NULL);
-}
-
-
-
-int swpntcol(int x, int y, int clr)
-{
-	int oldclr;
-
-	(*drawpnt) (x, y, clr, &oldclr);
-
-	return oldclr;
-}
-
-
-
-void drawpc(int x, int y, int clr, int *oldclr)
-{
-	register int c, mask;
-	register char *sptr;
-
-	sptr = dispoff 
-	       + (SCR_HGHT - y - 1) * 160
-	       + ((x & 0xFFF0) >> 1)
-	       + ((x & 0x0008) >> 3);
-	x &= 0x0007;
-	mask = 0x80 >> x;
-
-	if (oldclr) {
-		c = (*sptr & mask)
-		    | ((*(sptr + 2) & mask) << 1)
-		    | ((*(sptr + 4) & mask) << 2)
-		    | ((*(sptr + 6) & mask) << 3);
-		*oldclr = (c >> (7 - x)) & 0x00FF;
-	}
-
-	c = clr << (7 - x);
-	if (clr & 0x0080) {
-		*sptr ^= (mask & c);
-		*(sptr + 2) ^= (mask & (c >> 1));
-		*(sptr + 4) ^= (mask & (c >> 2));
-		*(sptr + 6) ^= (mask & (c >> 3));
-	} else {
-		mask = ~mask;
-		*sptr &= mask;
-		*(sptr + 2) &= mask;
-		*(sptr + 4) &= mask;
-		*(sptr + 6) &= mask;
-
-		mask = ~mask;
-		*sptr |= (mask & c);
-		*(sptr + 2) |= (mask & (c >> 1));
-		*(sptr + 4) |= (mask & (c >> 2));
-		*(sptr + 6) |= (mask & (c >> 3));
-	}
-}
-
-
-
-
-
-void drawpm(int x, int y, int clr, int *oldclr)
-{
-	register int c, mask;
-	register char *sptr;
-
-	sptr = dispoff + ((SCR_HGHT - y - 1) * 160) + (x >> 2);
-	x = (x & 0x0003) << 1;
-	mask = 0xC0 >> x;
-
-	if (oldclr)
-		*oldclr = ((*sptr & mask) >> (6 - x)) & 0x00FF;
-
-	c = clr << (6 - x);
-	if (clr & 0x0080) {
-		*sptr ^= (mask & c);
-		*(sptr + 80) ^= (mask & c);
-	} else {
-		*sptr &= ~mask;
-		*(sptr + 80) &= ~mask;
-		*sptr |= (mask & c);
-		*(sptr + 80) |= (mask & c);
-	}
-}
-
-
 /*---------------------------------------------------------------------------
 
         Main display loop.   Delete and display all visible objects.
@@ -674,6 +715,13 @@ static void invert(char *symbol, int bytes)
 
 static void invertsymbols()
 {
+	// sdh 28/10/2001: dont invert more than once
+
+	static BOOL inverted = FALSE;
+
+	if (inverted)
+		return;
+
 	invert((char *) swplnsym, ORIENTS * ANGLES * SYMBYTES);
 	invert((char *) swhitsym, HITSYMS * SYMBYTES);
 	invert((char *) swbmbsym, BOMBANGS * BOMBBYTES);
@@ -689,6 +737,8 @@ static void invertsymbols()
 	invert((char *) swsplsym, SPLTBYTES);
 	invert((char *) swbstsym, BRSTSYMS * BRSTBYTES);
 	invert((char *) swmscsym, MISCANGS * MISCBYTES);
+
+	inverted = TRUE;
 }
 
 
@@ -705,21 +755,21 @@ static void invertsymbols()
 ---------------------------------------------------------------------------*/
 
 
+// sdh 28/10/2001: removed get_type and set_type, replaced with these
 
-
-int get_type()
+void swshutdowngrph()
 {
-//        return( scrtype = trap14( 4 ) );
-	return 0;
+	CGA_Shutdown();
 }
 
 // sdh: just set the res using the cga (sdl) calls
 
-void set_type(int type)
+void swinitgrph()
 {
 	CGA_Init();
+	vidram = CGA_GetVRAM();
 
-	dispg = dispgc;
+	dispg = conf_solidground ? dispgc_solid : dispgc;
 	drawpnt = drawpc;
 	drawsym = drawsc;
 	invertsymbols();
@@ -752,37 +802,18 @@ void set_type(int type)
 }
 
 // sdh: experiments into fixing splatted ox
+// color the screen all one color
 
 void colorscreen(int color)
 {
-	char *p;
-	int n = SCR_WDTH * SCR_HGHT / 2;
+	int x, y;
 
-	for (p = dispoff; p < dispoff + n;) {
-		if (color & 1) {
-			*p = ~*p;
-			*(p + 1) = ~*(p + 1);
+	for (y=19; y<SCR_HGHT; ++y) {
+		for (x=0; x<SCR_WDTH; ++x) {
+			swpntsym(x, y, color);
 		}
-		p += 2;
-//                if(color & 2) {
-//                        *p = ~*p;
-//                        *(p+1) = ~*(p+1);
-//                }
-		p += 2;
-		if (color & 4) {
-			*p = ~*p;
-			*(p + 1) = ~*(p + 1);
-		}
-		p += 2;
-//                if(color & 8) {
-//                        *p = ~*p;
-//                        *(p+1) = ~*(p+1);
-//                }
-		p += 2;
 	}
-
 }
-
 
 
 /*---------------------------------------------------------------------------
@@ -796,10 +827,6 @@ char *vidram = NULL;
 
 void setvdisp()
 {
-	if (!vidram) {
-		vidram = CGA_GetVRAM();
-	}
-
 	dispoff = vidram;
 }
 
@@ -807,15 +834,43 @@ void setadisp()
 {
 	static BOOL firstadisp = TRUE;
  
-	if(firstadisp) {
+	if (firstadisp) {
 		firstadisp = FALSE;
 		memset(auxdisp, 0, 0x8000);
 	}
 	dispoff = auxdisp;
+
 //      CGA_ClearScreen();
 //	dispoff = malloc(0x4000);
 //        dispoff = auxdisp - 0x4000;
 }
+
+// sdh 28/10/2001: moved various auxdisp functions here:
+
+void movedisp()
+{
+#ifdef IBMPC
+	swsetblk(0, SCR_SEGM, 0x1000, 0);
+	swsetblk(SCR_ROFF, SCR_SEGM, 0x1000, 0);
+	movblock(auxdisp, dsseg(), 0x1000, SCR_SEGM, 0x1000);
+	movblock(auxdisp + 0x1000, dsseg(), 0x3000, SCR_SEGM, 0x1000);
+#endif
+
+	setmem(vidram, 0x8000, 0);
+	movmem(auxdisp + 0x7000, vidram+0x7000, 0x1000);
+}
+
+
+void clrdispv()
+{
+	memset(vidram, 0, VRAMSIZE);
+}
+
+void clrdispa()
+{
+	memset(auxdisp, 0, VRAMSIZE);
+}
+
 
 // sdh: screenshot function
 
@@ -833,6 +888,8 @@ void screendump()
 //
 // $Log: $
 //
+// sdh 28/10/2001: get_type/set_type removed
+// sdh 28/10/2001: moved auxdisp and auxdisp functions here
 // sdh 24/10/2001: fix auxdisp buffer
 // sdh 21/10/2001: use new obtype_t and obstate_t
 // sdh 21/10/2001: rearranged headers, added cvs tags

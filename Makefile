@@ -11,6 +11,7 @@ OBJS =               	\
 	swasynio.o	\
 	swauto.o	\
 	swcollsn.o	\
+	swconf.o	\
 	swdisp.o	\
 	swend.o		\
 	swgames.o	\

@@ -171,19 +171,6 @@ void initsndt()
 }
 
 
-void sound(int type, int parm, OBJECTS * ob)
-{
-	if (type < soundtype) {
-		soundtype = type;
-		soundparm = parm;
-		soundobj = ob;
-	} else if (type == soundtype && parm < soundparm) {
-		soundparm = parm;
-		soundobj = ob;
-	}
-}
-
-
 void stopsound(OBJECTS * ob)
 {
 	TONETAB *tt = ob->ob_sound;
@@ -441,8 +428,6 @@ static void titlnote()
 }
 
 
-
-
 static void adjtitl()
 {
 	if (--titlticks >= 0)
@@ -535,21 +520,36 @@ void swsound()
 		lastobj = NULL;
 		break;
 
-	case S_TITLE:
-		titlline = 0;
-		titlplace = 0;
-		titlnote();
-		toneadj = NULL;
-		lastobj = NULL;
-		titleflg = TRUE;
-		break;
-
 	}
 
 	intson();
 	soundtype = soundparm = 32767;
 }
 
+
+void sound(int type, int parm, OBJECTS * ob)
+{
+	// sdh 28/10/2001: moved code for title music setup here
+	// if we are already playing the title music, ignore
+
+	if (type == S_TITLE) {
+		if (!titleflg) {
+			titlline = 0;
+			titlplace = 0;
+			titlnote();
+			toneadj = NULL;
+			lastobj = NULL;
+			titleflg = TRUE;
+		}
+	} else if (type < soundtype) {
+		soundtype = type;
+		soundparm = parm;
+		soundobj = ob;
+	} else if (type == soundtype && parm < soundparm) {
+		soundparm = parm;
+		soundobj = ob;
+	}
+}
 
 
 

@@ -136,7 +136,7 @@ BOOL movemult(OBJECTS * obp)
 	endstat = endsts[currobx = (ob = obp)->ob_index];
 
 	if (!dispcnt)
-		interpret(ob, (playmode == MULTIPLE) ? multget(ob)
+		interpret(ob, (playmode == PLAYMODE_MULTIPLE) ? multget(ob)
 			  : asynget(ob));
 	else {
 		ob->ob_flaps = 0;

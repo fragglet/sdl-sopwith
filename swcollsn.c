@@ -194,7 +194,7 @@ static void scoretarg(OBJECTS *obp, int score)
 	register OBJECTS *ob;
 
 	ob = obp;
-	if ((playmode != MULTIPLE && playmode != ASYNCH)
+	if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
 	    || multbuff->mu_maxplyr == 1) {
 		if (ob->ob_clr == 1)
 			nobjects[0].ob_score -= score;
@@ -351,13 +351,18 @@ void swkill(OBJECTS * ob1, OBJECTS * ob2)
 				else
 					++splatbird;
 			}
-			if (state == FLYING) {
-				ob->ob_state = WOUNDED;
-				return;
-			}
-			if (state == STALLED) {
-				ob->ob_state = WOUNDSTALL;
-				return;
+
+			// sdh 28/10/2001: option to disable wounded planes
+
+			if (conf_wounded) {
+				if (state == FLYING) {
+					ob->ob_state = WOUNDED;
+					return;
+				}
+				if (state == STALLED) {
+					ob->ob_state = WOUNDSTALL;
+					return;
+				}
 			}
 		} else {
 			initexpl(ob, 1);
@@ -412,20 +417,6 @@ void scorepln(OBJECTS * ob)
 }
 
 
-
-
-void dispscore(OBJECTS * obp)
-{
-	register OBJECTS *ob = obp;
-
-	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
-	swcolour(ob->ob_clr);
-	dispd(ob->ob_score, 6);
-}
-
-
-
-
 void dispd(int n, int size)
 {
 	register int i = 0;
@@ -456,10 +447,20 @@ void dispd(int n, int size)
 }
 
 
+void dispscore(OBJECTS * ob)
+{
+	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
+	swcolour(ob->ob_clr);
+	dispd(ob->ob_score, 6);
+}
+
+
+
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
+// sdh 28/10/2001: option to disable wounded planes
 // sdh 24/10/2001: fix score display, fix auxdisp buffer
 // sdh 21/10/2001: use new obtype_t and obstate_t
 // sdh 21/10/2001: rearranged file headers, added cvs tags

@@ -107,15 +107,22 @@ void Speaker_Off()
 	speaker_on = 0;
 }
 
+static int sound_initted = 0;
+
 void Speaker_Shutdown()
 {
+	if (!sound_initted)
+		return;
+
+	SDL_QuitSubSystem(SDL_INIT_AUDIO);
+
+	sound_initted = 0;
 }
 
 // initialise sound
 
 void Speaker_Init()
 {
-	static int sound_initted = 0;
 	static SDL_AudioSpec audiospec;
 
 	if (sound_initted)

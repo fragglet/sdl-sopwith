@@ -19,7 +19,14 @@
 
 #include "sw.h"
 
-extern int     playmode;
+extern BOOL conf_missiles;
+extern BOOL conf_solidground;
+extern BOOL conf_hudsplats;
+extern BOOL conf_wounded;
+extern BOOL conf_animals;
+extern BOOL conf_harrykeys;
+
+extern playmode_t playmode;
 extern GAMES   *currgame;
 extern OBJECTS *targets[MAX_TARG+MAX_OXEN];
 extern int     numtarg[2];
@@ -30,7 +37,6 @@ extern int     movetick, movemax;
 extern int     gamenum;
 extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
-extern char    auxdisp[0x8000];
 extern int     multkey;
 extern int     multtick;
 extern BOOL    hires;
@@ -44,7 +50,6 @@ extern BOOL    ibmkeybd;
 extern BOOL    inplay;
 extern BOOL    printflg;
 extern int     koveride;
-extern int     missok;
 extern int     displx, disprx;
 extern int     dispdx;
 extern BOOL    dispinit;
@@ -87,6 +92,8 @@ extern jmp_buf envrestart;
 //
 // $Log: $
 //
+// sdh 28/10/2001: conf_ game options
+// sdh 28/10/2001: moved auxdisp buffer to swgrpha.c
 // sdh 24/10/2001: fix auxdisp buffer
 // sdh 21/10/2001: added cvs tags
 // sdh 19/10/2001: added header

@@ -24,6 +24,8 @@
 #include "sw.h"
 #include "swgrpha.h"
 #include "swmisc.h"
+#include "swsound.h"
+#include "swtitle.h"
 
 // sdh: emulate text display
 
@@ -54,7 +56,7 @@ static inline void drawchar(int x, int y, int c)
 			} else {
 				swpntsym(x + x2,
 					 SCR_HGHT - (y + y2 -1 ),
-					 0);
+					 cur_color & 0x80);
 			}
 			m >>= 1;
 		}
@@ -143,7 +145,15 @@ void swposcur(int a, int b)
 
 int swgetc()
 {
-	return CGA_GetLastKey();
+	int i;
+
+	while(!(i = CGA_GetLastKey())) {
+		swsndupdate();
+		if (ctlbreak())
+			break;
+	}
+
+	return i;
 }
 
 void swflush()

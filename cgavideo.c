@@ -22,19 +22,30 @@
 
 #include <SDL.h>
 
-#include "sw.h"
 #include "cgavideo.h"
+#include "sw.h"
 
 BOOL cga_fullscreen = FALSE;
 BOOL cga_double_size = TRUE;
 
 static int ctrlbreak = 0;
 static BOOL initted = 0;
-static int keysdown[SDLK_LAST];
 static int lastkey;		// last key pressed
 static SDL_Surface *screen;
 static char *vram;		// video ram
 static int colors[16];
+
+// which keys are currently down
+// this is actually a simple bitfield
+// bit 0 is whether the button is currently down
+// bit 1 is whether the button has been pressed
+//       since the last call of CGA_GetGameKeys
+// in this way, every button press will have an effect:
+// if it is done based on what is currently down it is
+// possible to miss keypresses (if you press and release
+// a button fast enough)
+
+static int keysdown[SDLK_LAST];
 
 static int getcolor(int r, int g, int b)
 {
@@ -142,12 +153,59 @@ char *CGA_GetVRAM()
 	return vram;
 }
 
+
+static void set_icon(char *icon_file)
+{
+	unsigned char *pixels;
+	unsigned char *mask;
+	SDL_Surface *icon = SDL_LoadBMP(icon_file);
+	int mask_size;
+	int i;
+	int x, y;
+
+	if (!icon) {
+		fprintf(stderr,
+			"set_icon: cant load %s\n", icon_file);
+		return;
+	}
+
+	// generate mask from icon
+
+	mask_size = (icon->w * icon->h) / 8 + 1;
+
+	mask = (unsigned char *)malloc(mask_size);
+
+	pixels = (unsigned char *)icon->pixels;
+
+	i = 0;
+
+	for (y=0; y<icon->h; y++) {
+		for (x=0; x<icon->w; x++) {
+			if (i % 8) {
+				mask[i / 8] <<= 1;
+			} else {
+				mask[i / 8] = 0;
+			}
+
+			if (pixels[i]) 
+				mask[i / 8] |= 0x01;
+
+			++i;
+		}
+	}
+
+	// set icon
+
+	SDL_WM_SetIcon(icon, mask);
+}
+
 void CGA_Shutdown()
 {
 	if (!initted)
 		return;
 
-	SDL_Quit();
+	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	free(vram);
 
 	initted = 0;
 }
@@ -164,6 +222,9 @@ void CGA_Init()
 	vram = (char *) malloc(SCR_WDTH * SCR_HGHT);
 
 	SDL_Init(SDL_INIT_VIDEO);
+
+	set_icon("icon.bmp");
+
 
 	w = SCR_WDTH;
 	h = SCR_HGHT;
@@ -202,7 +263,17 @@ void CGA_Init()
 		colors[n * 4 + 2] = getcolor(255, 0, 255);
 		colors[n * 4 + 3] = getcolor(255, 255, 255);
 	}
+
+        for (n = 0; n < 4; n++) {
+                colors[n * 4 + 0] = getcolor(0, 0, 0);
+                colors[n * 4 + 1] = getcolor(0, 255, 255);
+                colors[n * 4 + 2] = getcolor(255, 0, 255);
+                colors[n * 4 + 3] = getcolor(255, 255, 255);
+        }
+
 /*
+  was in swgrpha.c:
+
   0x000,                  //   0 = black    background
   0x037,                  //   1 = blue     planes,targets,explosions
   0x700,                  //   2 = red      planes,targets,explosions
@@ -251,7 +322,7 @@ static void getevents()
 				 (event.key.keysym.sym == SDLK_c ||
 				  event.key.keysym.sym == SDLK_BREAK)) {
 				++ctrlbreak;
-				if(ctrlbreak >= 3) {
+				if (ctrlbreak >= 3) {
 					fprintf(stderr,
 						"user aborted with 3 ^C's\n");
 					exit(-1);
@@ -269,7 +340,7 @@ static void getevents()
 			if (event.key.keysym.sym == SDLK_LCTRL)
 				ctrldown = 0;
 			else
-				keysdown[event.key.keysym.sym] &= ~1;	
+				keysdown[event.key.keysym.sym] &= ~1;
 			break;
 		}
 	}
@@ -327,9 +398,10 @@ int CGA_GetGameKeys()
 		c |= K_BREAK;
 	}
 	
-	for(i=0; i<SDLK_LAST; ++i) {
-		if(keysdown[i] & 2 && !(keysdown[i] & 1))
-			keysdown[i] = 0;
+	for (i=0; i<SDLK_LAST; ++i) {
+		keysdown[i] &= ~2;
+//		if (keysdown[i] & 2 && !(keysdown[i] & 1))
+//			keysdown[i] = 0;
 	}
 
 	return c;

@@ -22,6 +22,7 @@
 
 #include "sw.h"
 #include "swasynio.h"
+#include "swconf.h"
 #include "swend.h"
 #include "swground.h"
 #include "swgrpha.h"
@@ -41,16 +42,19 @@ void swtitln()
 	OBJECTS ob;
 	register int i, h;
 
-	savemode = get_type();
-	set_type((hires) ? 6 : 4);
-
-	if (titleflg)
-		return;
-
 	tickmode = 1;
 
 	sound(S_TITLE, 0, NULL);
-	swsound();
+
+	// if solid_ground has been changed this needs to be called
+	// again
+	
+	swinitgrph(); 
+
+	// clear the screen
+
+	setvdisp();
+	clrdispv();
 
 /*---------------- Original BMB Version---------------*/
 #ifndef NET_TITLE
@@ -61,7 +65,7 @@ void swtitln()
 
 	swcolour(1);
 	swposcur(12, 8);
-	swputs("(Version 7.F15)");
+	swputs("(Version " VERSION ")");
 
 	swcolour(3);
 	swposcur(5, 11);
@@ -86,8 +90,7 @@ void swtitln()
 	swputs("S O P W I T H");
 
 	swposcur(13, 6);
-	swputs("Version ");
-	swputs("1.10");
+	swputs("Version " VERSION);
 
 	swcolour(3);
 	swposcur(1, 10);
@@ -108,8 +111,6 @@ void swtitln()
 	swputs("(c) Copyright 2001 Simon Howard");
 
 /*---------------- New Network Version-----------------*/
-
-	setvdisp();
 
 	displx = 700;
 	dispinit = TRUE;
@@ -145,11 +146,6 @@ void swtitln()
 		swputsym(30, h += 5, &ob);
 
 #endif				/* #ifndef NET_TITLE */
-
-	// sdh: need update to show the screen
-
-	CGA_Update();
-
 }
 
 void swtitlf()
@@ -163,22 +159,6 @@ void swtitlf()
 	tickmode = 0;
 }
 
-// sdh -- this function was called on a timed interrupt
-// in the original to keep the game moving and update
-// sounds. it is unused now
-
-void swtickc()
-{
-
-	++counttick;
-	/*--- DLC 96/12/27
-        ++movetick;
-        ----------------*/
-	movetick += 10;
-
-	soundadj();
-}
-
 
 //
 // menus
@@ -190,9 +170,7 @@ void swtickc()
 
 BOOL ctlbreak()
 {
-	BOOL l;
-	l = CGA_GetCtrlBreak();
-	return l;
+	return CGA_GetCtrlBreak();;
 }
 
 // clear bottom of screen
@@ -227,8 +205,8 @@ static BOOL getnet()
 {
 	FOREVER {
 		clrprmpt();
-		swputs("Key: L - Listen for Connection\n");
-		swputs("     C - Connect to Remote host\n");
+		swputs("Key: L - listen for connection\n");
+		swputs("     C - connect to remote host\n");
 
 		CGA_Update();
 
@@ -327,10 +305,10 @@ static BOOL getskill()
 			swend(NULL, NO);
 		switch (toupper(swgetc() & 0xff)) {
 		case 'N':
-			playmode = NOVICE;
+			playmode = PLAYMODE_NOVICE;
 			return 1;
 		case 'E':
-			playmode = SINGLE;
+			playmode = PLAYMODE_SINGLE;
 			return 1;
 		case 27:
 			return 0;
@@ -343,13 +321,14 @@ void getmode()
 	FOREVER {
 		char c;
 
+		swtitln();
+
 		clrprmpt();
 		swputs("Key: S - single player\r\n");
 		swputs("     C - single player against computer\r\n");
-		swputs("     N - Network Game\r\n");
-
+		swputs("     N - network game\r\n");
+		swputs("     O - game options\r\n");
 		CGA_Update();
-		swsndupdate();
 
 		if (ctlbreak())
 			swend(NULL, NO);
@@ -360,20 +339,16 @@ void getmode()
 		case 'S':
 			if (getskill())
 				return;
-		case 'M':
-				/*----- 2000/10/29 ----------
-				  if ( _systype == PCDOS ) {
-				  playmode = MULTIPLE;
-				  return;
-				  }
-				  ------- 2000/10/29 --------*/
+			break;
+		case 'O': 
+			setconfig();
 			break;
 		case 'C':
-			playmode = COMPUTER;
+			playmode = PLAYMODE_COMPUTER;
 			return;
 		case 'N':
 			if (getnet()) {
-				playmode = ASYNCH;
+				playmode = PLAYMODE_ASYNCH;
 				return;
 			}
 			break;
@@ -388,6 +363,10 @@ void getmode()
 //
 // $Log: $
 //
+// sdh 29/10/2001: moved options menu into swconf.c
+// sdh 29/10/2001: harrykeys
+// sdh 28/10/2001: rearranged title/menu stuff a bit
+//                 added options menu
 // sdh 21/10/2001: rearranged headers, added cvs tags
 // sdh 19/10/2001: moved all the menus here
 // sdh 19/10/2001: removed extern definitions, these are now in headers

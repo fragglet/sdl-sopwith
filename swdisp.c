@@ -63,10 +63,9 @@ void dispplyr(OBJECTS * ob)
 		dispwindshot();
 	if (splatbird)
 		dispsplatbird();
+        if (splatox)
+                dispoxsplat();
 
-	// sdh: splatted ox is currently broken
-//        if ( splatox )
-//                dispoxsplat();
 	plnsound(ob);
 }
 
@@ -206,6 +205,11 @@ void dispwindshot()
 {
 	OBJECTS ob;
 
+	// sdh 28/10/2001: option to disable hud splats
+
+	if (!conf_hudsplats)
+		return;
+
 	ob.ob_type = DUMMYTYPE;
 	ob.ob_symhgt = ob.ob_symwdt = 16;
 	ob.ob_clr = 0;
@@ -223,6 +227,11 @@ void dispwindshot()
 void dispsplatbird()
 {
 	OBJECTS ob;
+
+	// sdh 28/10/2001: option to disable hud splats
+
+	if (!conf_hudsplats)
+		return;
 
 	ob.ob_type = DUMMYTYPE;
 	ob.ob_symhgt = ob.ob_symwdt = 32;
@@ -244,6 +253,11 @@ void dispoxsplat()
 	register OBJECTS *ob;
 	register int i;
 
+	// sdh 28/10/2001: option to disable hud splats
+
+	if (!conf_hudsplats)
+		return;
+
 	colorscreen(2);
 
 	swsetblk(0, SCR_SEGM,
@@ -256,6 +270,8 @@ void dispoxsplat()
 	ob = nobjects;
 	for (i = 0; i < MAX_OBJS; ++i, ob++)
 		ob->ob_drwflg = ob->ob_delflg = 0;
+
+	dispinit = TRUE;
 }
 
 
@@ -263,6 +279,7 @@ void dispoxsplat()
 //
 // $Log: $
 //
+// sdh 28/10/2001: option to disable hud splats
 // sdh 21/10/2001: rearranged file headers, added cvs tags
 // sdh 21/10/2001: reformatted with indent, adjusted some code by hand
 //                 to make more readable

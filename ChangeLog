@@ -1,4 +1,25 @@
 
+v1.2.0 (4/11/2001)
+
+Added options menu, game options are saved to disk (sopwith.ini on
+Windows systems, ~/.sopwithrc on Unix). Game options:
+	* enable/disable missiles
+	* solid ground (draw as a block like sopwith 1)
+	* hud splats (option to disable)
+	* wounded planes (option to disable)
+	* animals (oxen and birds)
+	* harry keys (pull up/down keys are relative to screen, not plane)
+	* fullscreen/double scale video options
+	  (these were available before but required command line args)
+More sensible versioning system
+When you die, you are taken back to the menu rather than immediately
+restarting.
+Splatted oxen turn the screen pink (as in Authors Edition)
+Icon
+Code cleanup: lots of reordering of the initial setup and restart code
+Menu code is now all in swtitle.c (except the options menu which is in
+swconf.c)
+
 v1.10 (2x/10/2001)
 
 Networking! I have hacked in TCP/IP Networking based on the old asyncronous

@@ -27,6 +27,7 @@
 #include        "swmach.h"
 
 
+#define VERSION         "v1.2.0"
 /*  Constants  */
 
 #define MAX_X           3000            /*  Maximum X coordinate            */
@@ -56,12 +57,9 @@
 #define MINFLCKX        ( 0     + SCR_WDTH + 50 )  /*  Bird flock travel    */
 #define MAXFLCKX        ( MAX_X - SCR_WDTH - 50 )  /*    limits             */
 
-#define CGUAGEX         (SCR_CENTR - 25)/*  Crash, fuel, bomb, shot, missile*/
-#define FGUAGEX         (SCR_CENTR - 22)/*     and starburst guage          */
-#define BGUAGEX         (SCR_CENTR - 19)/*     X-coordinates                */
-#define SGUAGEX         (SCR_CENTR - 16)
-#define MGUAGEX         (SCR_CENTR - 13)
-#define SBGUAGEX        (SCR_CENTR - 10)
+// sdh 26/10/2001: merged guages, removed unneccesary coordinates
+
+#define GUAGEX          (SCR_CENTR - 25)  /* X co-ordinate of first guage */
 #define GHOSTX          (SCR_CENTR - 21)/*  Ghost face display x-coodinate  */
 
 #ifdef  IBMPC
@@ -81,11 +79,16 @@
 #define JRROMDOS        1
 #define JRROM           2
 
-#define SINGLE          0               /*  Playmodes                       */
-#define MULTIPLE        1
-#define COMPUTER        2
-#define ASYNCH          3
-#define NOVICE          4
+// sdh 28/10/2001: made into a type
+
+typedef enum {
+	PLAYMODE_UNSET = 0,
+	PLAYMODE_SINGLE,
+	PLAYMODE_MULTIPLE,
+	PLAYMODE_COMPUTER,
+	PLAYMODE_ASYNCH,
+	PLAYMODE_NOVICE
+} playmode_t;
 
 #define MAXROUNDS       200             /* Maximum number of rounds of shot */
 #define MAXBOMBS        5               /* Maximum number of bombs available*/

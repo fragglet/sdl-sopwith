@@ -58,10 +58,10 @@ void swmove()
 		ob->ob_delflg = ob->ob_drwflg;
 		ob->ob_oldsym = ob->ob_newsym;
 		ob->ob_drwflg = (*ob->ob_movef) (ob);
-		if ((playmode == MULTIPLE || playmode == ASYNCH)
+		if ((playmode == PLAYMODE_MULTIPLE || playmode == PLAYMODE_ASYNCH)
 		    && ob->ob_index == multbuff->mu_maxplyr
 		    && !dispcnt) {
-			if (playmode == MULTIPLE)
+			if (playmode == PLAYMODE_MULTIPLE)
 				multput();
 			else
 				asynput();
@@ -94,7 +94,7 @@ static void nearpln(OBJECTS * obp)
 
 		if (obt->ob_drawf == dispcomp)
 
-			if (playmode != COMPUTER
+			if (playmode != PLAYMODE_COMPUTER
 			    || (obx >= lcompter[i] && obx <= rcompter[i])) {
 				obc = compnear[i];
 				if (!obc
@@ -133,19 +133,24 @@ static int topup(int *counter, int max)
 static void refuel(OBJECTS * obp)
 {
 	register OBJECTS *ob;
+	BOOL topped_up;
 
 	ob = obp;
 	setvdisp();
-	if (topup(&ob->ob_life, MAXFUEL))
-		dispfgge(ob);
-	if (topup(&ob->ob_rounds, MAXROUNDS))
-		dispsgge(ob);
-	if (topup(&ob->ob_bombs, MAXBOMBS))
-		dispbgge(ob);
-	if (topup(&ob->ob_missiles, MAXMISSILES))
-		dispmgge(ob);
-	if (topup(&ob->ob_bursts, MAXBURSTS))
-		dispsbgge(ob);
+
+	// sdh 26/10/2001: top up stuff, if anything happens update 
+	// the guages (now a single function)
+	// sdh 27/10/2001: fix refueling in parallel (was a single
+	// set of ||'s and was being shortcircuited)
+
+	topped_up = topup(&ob->ob_life, MAXFUEL);
+	topped_up |= topup(&ob->ob_rounds, MAXROUNDS);
+	topped_up |= topup(&ob->ob_bombs, MAXBOMBS);
+	topped_up |= topup(&ob->ob_missiles, MAXMISSILES);
+	topped_up |= topup(&ob->ob_bursts, MAXBURSTS);
+
+	if (topped_up)
+		dispguages(ob);
 }
 
 
@@ -195,22 +200,26 @@ BOOL moveplyr(OBJECTS * obp)
 
 	if (endstat)
 		if (--endcount <= 0) {
-			if (playmode != MULTIPLE && playmode != ASYNCH
+			if (playmode != PLAYMODE_MULTIPLE
+			    && playmode != PLAYMODE_ASYNCH
 			    && !quit)
 				swrestart();
 			swend(NULL, YES);
 		}
 
 	if (!dispcnt) {
-		if (playmode == MULTIPLE)
+		if (playmode == PLAYMODE_MULTIPLE)
 			multkey = multget(ob);
-		else if (playmode == ASYNCH)
+		else if (playmode == PLAYMODE_ASYNCH)
 			multkey = asynget(ob);
 		else {
 			// sdh: use the cga (sdl) interface to
 			// read key status
 
 			multkey = CGA_GetGameKeys();
+
+			if (conf_harrykeys && ob->ob_orient)
+				multkey ^= K_FLAPU | K_FLAPD;
 		}
 		interpret(ob, multkey);
 	} else {
@@ -224,12 +233,13 @@ BOOL moveplyr(OBJECTS * obp)
 
 		// sdh: infinite lives in multiplayer mode
 
-		if (playmode != MULTIPLE && playmode != ASYNCH)
+		if (playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
 			++ob->ob_crashcnt;
 
 		if (endstat != WINNER
 		    && (ob->ob_life <= QUIT
-			|| (playmode != MULTIPLE && playmode != ASYNCH
+			|| (playmode != PLAYMODE_MULTIPLE 
+			    && playmode != PLAYMODE_ASYNCH
 			    && ob->ob_crashcnt >= MAXCRASH))) {
 			if (!endstat)
 				loser(ob);
@@ -257,14 +267,12 @@ BOOL moveplyr(OBJECTS * obp)
 
 	if (!ob->ob_athome) {
 		setvdisp();
-		if (ob->ob_firing)
-			dispsgge(ob);
-		if (ob->ob_bombing)
-			dispbgge(ob);
-		if (ob->ob_mfiring)
-			dispmgge(ob);
-		if (ob->ob_bfiring)
-			dispsbgge(ob);
+
+		// sdh 26/10/2001: guages are now a single function
+
+		if (ob->ob_firing || ob->ob_bombing 
+		    || ob->ob_mfiring || ob->ob_bfiring)
+			dispguages(ob);
 	}
 
 	return rc;
@@ -504,7 +512,7 @@ BOOL movepln(OBJECTS * obp)
 	case GHOST:
 		stalled = ob->ob_y >= MAX_Y;
 		if (stalled) {
-			if (playmode == NOVICE) {
+			if (playmode == PLAYMODE_NOVICE) {
 				ob->ob_angle = (3 * ANGLES / 4);
 				stalled = FALSE;
 			} else {
@@ -513,7 +521,7 @@ BOOL movepln(OBJECTS * obp)
 			}
 		}
 
-	      controlled:
+	     controlled:
 		if (goingsun && plyrplane)
 			break;
 
@@ -552,7 +560,7 @@ BOOL movepln(OBJECTS * obp)
 
 		if (!(countmove & 0x0003)) {
 			if (!stalled && nspeed < gminspeed
-			    && playmode != NOVICE) {
+			    && playmode != PLAYMODE_NOVICE) {
 				--nspeed;
 				update = TRUE;
 			} else {
@@ -576,7 +584,7 @@ BOOL movepln(OBJECTS * obp)
 					nspeed = 0;
 
 			else if (nspeed <= 0 && !stalled) {
-				if (playmode == NOVICE)
+				if (playmode == PLAYMODE_NOVICE)
 					nspeed = 1;
 				else {
 					stallpln(ob);
@@ -611,7 +619,10 @@ BOOL movepln(OBJECTS * obp)
 			    && ob->ob_speed >
 				(ob->ob_life % (MAXFUEL / 10))) {
 				setvdisp();
-				dispfgge(ob);
+
+				// sdh 26/10/2001: use new dispguages function
+
+				dispguages(ob); 
 			}
 			ob->ob_life -= ob->ob_speed;
 		}
@@ -1147,6 +1158,8 @@ void deletex(OBJECTS * obp)
 //
 // $Log: $
 //
+// sdh 27/10/2001: fix refueling i broke with the guages change yesterday
+// sdh 26/10/2001: use new dispguages function
 // sdh 21/10/2001: use new obtype_t and obstate_t
 // sdh 21/10/2001: reformatted with indent. edited some code by hand to
 //                 make it more readable
