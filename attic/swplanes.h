@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: $
+// $Id: swplanes.h 5 2003-02-14 19:02:36Z fraggle $
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001 Simon Howard
@@ -31,7 +31,10 @@ extern char    swwinsym[WINSIZES][WINBYTES];
 
 //---------------------------------------------------------------------------
 //
-// $Log: $
+// $Log$
+// Revision 1.1  2003/02/14 19:02:47  fraggle
+// Initial revision
+//
 //
 // sdh 21/10/2001: moved plane sprite constants into here from sw.h
 // sdh 21/10/2001: added cvs tags

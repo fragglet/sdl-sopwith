@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: $
+// $Id: swnetio.h 5 2003-02-14 19:02:36Z fraggle $
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2003 Simon Howard
@@ -54,7 +54,10 @@ extern void init2mul();
 
 //---------------------------------------------------------------------------
 //
-// $Log: $
+// $Log$
+// Revision 1.1  2003/02/14 19:03:31  fraggle
+// Initial revision
+//
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 21/10/2001: added cvs tags

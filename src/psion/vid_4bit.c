@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: $
+// $Id: vid_4bit.c 5 2003-02-14 19:02:36Z fraggle $
 //
 // Copyright(C) 2001-2003 Simon Howard
 //
@@ -322,7 +322,10 @@ void Vid_ClearBuf_Aux()
 
 //---------------------------------------------------------------------------
 //
-// $Log: $
+// $Log$
+// Revision 1.1  2003/02/14 19:03:39  fraggle
+// Initial revision
+//
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 27/7/2002: remove collision detection code

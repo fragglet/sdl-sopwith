@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: $
+// $Id: font.h 5 2003-02-14 19:02:36Z fraggle $
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of version 2 of the GNU General Public License
@@ -2597,7 +2597,10 @@ static unsigned char font_data[GFX_FONTDATAMAX] = {
 
 //-----------------------------------------------------------------------
 //
-// $Log: $
+// $Log$
+// Revision 1.1  2003/02/14 19:03:27  fraggle
+// Initial revision
+//
 //
 // sdh 21/10/2001: rearranged headers, added cvs tags
 //

@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: $
+// $Id: bmblib.c 5 2003-02-14 19:02:36Z fraggle $
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001 Simon Howard
@@ -197,7 +197,10 @@ void intsoff()
 
 //---------------------------------------------------------------------------
 //
-// $Log: $
+// $Log$
+// Revision 1.1  2003/02/14 19:02:45  fraggle
+// Initial revision
+//
 //
 // sdh 16/11/2001: movmem, setmem removed
 // sdh 21/20/2001: rearranged headers, added cvs tags

@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //--------------------------------------------------------------------------
 //
-// $Id: $
+// $Id: video.c 5 2003-02-14 19:02:36Z fraggle $
 //
 // Copyright(C) 2001-2003 Simon Howard
 //
@@ -858,7 +858,10 @@ BOOL Vid_GetCtrlBreak()
 
 //-----------------------------------------------------------------------
 // 
-// $Log: $
+// $Log$
+// Revision 1.1  2003/02/14 19:03:36  fraggle
+// Initial revision
+//
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 25/04/2002: rename vga_{pitch,vram} to vid_{pitch,vram}

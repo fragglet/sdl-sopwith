@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: $
+// $Id: swplanes.c 5 2003-02-14 19:02:36Z fraggle $
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001 Simon Howard
@@ -456,7 +456,10 @@ char    swwinsym[WINSIZES][WINBYTES] = {  /*  Win plane pixel array  */
 
 //---------------------------------------------------------------------------
 //
-// $Log: $
+// $Log$
+// Revision 1.1  2003/02/14 19:02:47  fraggle
+// Initial revision
+//
 //
 // sdh 21/10/2001: reformatted headers, added cvs tags
 // sdh 20/10/2001: added some missing {}'s to shut up compiler
