@@ -33,6 +33,12 @@
 #include "swsymbol.h"
 #include "config.h"
 
+#ifdef _MSC_VER
+#define inline __inline
+#define strcasecmp stricmp
+#define strncasecmp strnicmp
+#endif
+
 /*  Constants  */
 
 #define MAX_X           3000            /*  Maximum X coordinate            */
@@ -288,6 +294,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2003/06/16 02:03:50  fraggle
+// Pseudo-MSVC support..
+//
 // Revision 1.5  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

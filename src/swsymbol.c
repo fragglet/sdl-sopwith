@@ -1071,9 +1071,9 @@ sopsym_t *symbol_plane_win[4];            // swwinsym
 // special symbol for single pixel (bullets etc)
 
 sopsym_t symbol_pixel = {
-	data: NULL,
-	w: 1,
-	h: 1
+	NULL,
+	1,
+	1
 };
 
 // generate symbols from data
@@ -1115,8 +1115,11 @@ void symbol_generate()
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:21  fraggle
-// Initial revision
+// Revision 1.2  2003/06/16 02:03:50  fraggle
+// Pseudo-MSVC support..
+//
+// Revision 1.1.1.1  2003/02/14 19:03:21  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
