@@ -1050,32 +1050,6 @@ void swinit(int argc, char *argv[])
 	int modeset = 0, keyset;
 	int i;
 
-#if 0
-	// old getflags code
-	if (getflags(&argc, &argv,
-		       /*---- 96/12/27------
-                        "n&s&c&m&a&k&i&j&q&h*v*r&d*f*n*t#w&y#e&g#x&:",
-                        &n, &s, &c, &m, &a, &k, &ibmkeybd, &joystick, &soundflg,
-                        &histout, &histin, &reset, &device,
-                        &multfile, &cmndfile, &multtick, &hires, &keydelay,
-                        &repflag, &gamenum, &missok )
-                        ------ 96/12/27----*/
-			/*---- 99/01/24------
-                        "n&s&c&m&a&k&j&q&h*v*r&d*f*t#w&y#e&g#x&:",
-                        &n, &s, &c, &m, &a, &k, &joystick, &soundflg,
-                        &histout, &histin, &reset, &device,
-                        &multfile, &multtick, &hires, &keydelay,
-                        &repflag, &gamenum, &missok )
-                        ------ 99/01/24----*/
-		     "n&s&c&a&k&j&q&x&:",
-		     &n, &s, &c, &a, &k, &joystick, &soundflg,
-		     &missok) || ((modeset = n + s + c + a) > 1)
-	    || ((keyset = joystick + k) > 1)) {
-		disphelp(helptxt);
-		exit(1);
-	}
-#endif
-	
 	// sdh 29/10/2001: load config from configuration file
 
 	swloadconf();
@@ -1118,7 +1092,7 @@ void swinit(int argc, char *argv[])
 	}
 
 	modeset = n | s | c | a;
-	keyset = joystick + k;
+	keyset = k;
 
 	soundflg = !soundflg;
 	if (modeset && keyset)
@@ -1161,6 +1135,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.16  2004/10/15 22:28:39  fraggle
+// Remove some dead variables and code
+//
 // Revision 1.15  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //

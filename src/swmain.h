@@ -49,16 +49,12 @@ extern int     counttick, countmove;
 extern int     gamenum;
 extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
-extern BOOL    hires;
 extern BOOL    disppos;
 extern BOOL    titleflg;
 extern int     dispdbg;
 extern BOOL    soundflg;
 extern BOOL    repflag;
-extern BOOL    joystick;
-extern BOOL    ibmkeybd;
 extern BOOL    inplay;
-extern int     koveride;
 extern int     displx;
 extern OBJECTS *nobjects;
 extern OBJECTS oobjects[MAX_PLYR];
@@ -97,6 +93,9 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.12  2004/10/15 22:28:39  fraggle
+// Remove some dead variables and code
+//
 // Revision 1.11  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //

@@ -64,16 +64,12 @@ int gamenum;			/* Current game number              */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
-BOOL hires;			/* High res flag                    */
 BOOL disppos;			/* Display position flag            */
 BOOL titleflg;			/* Title flag                       */
 int dispdbg;			/* Debug value to display           */
 BOOL soundflg;			/* Sound flag                       */
 BOOL repflag;			/* Report statistics flag           */
-BOOL joystick;			/* Joystick being used              */
-BOOL ibmkeybd;			/* IBM-like keyboard being used     */
 BOOL inplay;			/* Game is in play                  */
-int koveride;			/* Keyboard override index number   */
 
 int displx;			/* Display left and right           */
 
@@ -231,6 +227,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.14  2004/10/15 22:28:39  fraggle
+// Remove some dead variables and code
+//
 // Revision 1.13  2004/10/15 22:21:51  fraggle
 // Remove debug messages
 //
