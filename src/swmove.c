@@ -54,7 +54,9 @@ void swmove()
 		deltop = delbot = NULL;
 	}
 
-	if (++dispcnt >= keydelay)
+	++dispcnt;
+
+	if (dispcnt >= keydelay)
 		dispcnt = 0;
 
 	ob = objtop;
@@ -68,8 +70,8 @@ void swmove()
 		}
 		ob = obn;
 	}
-	++countmove;
 
+	++countmove;
 }
 
 
@@ -77,7 +79,6 @@ static void nearpln(OBJECTS * obp)
 {
 	register OBJECTS *ob, *obt, *obc;
 	register int i, obx, obclr;
-	// register int r;
 
 	ob = obp;
 	obt = objtop + 1;
@@ -198,13 +199,15 @@ BOOL moveplyr(OBJECTS * obp)
 
 	endstat = endsts[player];
 
-	if (endstat)
-		if (--endcount <= 0) {
+	if (endstat) {
+		--endcount;
+		if (endcount <= 0) {
 			if (playmode != PLAYMODE_ASYNCH && !quit)
 				swrestart();
 			swend(NULL, YES);
 		}
-
+	}
+	
 	if (!dispcnt) {
 		if (playmode == PLAYMODE_ASYNCH)
 			multkey = asynget(ob);
@@ -383,7 +386,6 @@ void interpret(OBJECTS * obp, int key)
 BOOL movecomp(OBJECTS * obp)
 {
 	register OBJECTS *ob;
-//      int oldx;
 	int rc;
 
 	compplane = TRUE;
@@ -740,7 +742,10 @@ BOOL moveshot(OBJECTS * obp)
 
 	ob = obp;
 	deletex(ob);
-	if (!--ob->ob_life) {
+	
+	--ob->ob_life;
+
+	if (ob->ob_life <= 0) {
 		deallobj(ob);
 		return FALSE;
 	}
@@ -840,7 +845,10 @@ BOOL movemiss(OBJECTS * obp)
 				ob->ob_speed * SIN(angle));
 		}
 		movexy(ob, &x, &y);
-		if (!--ob->ob_life || y >= ((MAX_Y * 3) / 2)) {
+
+		--ob->ob_life;
+
+		if (ob->ob_life <= 0 || y >= ((MAX_Y * 3) / 2)) {
 			ob->ob_state = FALLING;
 			++ob->ob_life;
 		}
@@ -923,7 +931,9 @@ BOOL movetarg(OBJECTS * obt)
 	    && r < targrnge)
 		initshot(ob, ob->ob_firing = obp);
 
-	if (--ob->ob_hitcount < 0)
+	--ob->ob_hitcount;
+
+	if (ob->ob_hitcount < 0)
 		ob->ob_hitcount = 0;
 
 	if (ob->ob_state == STANDING) 
@@ -952,7 +962,9 @@ BOOL moveexpl(OBJECTS * obp)
 		return FALSE;
 	}
 
-	if (!--ob->ob_life) {
+	--ob->ob_life;
+
+	if (ob->ob_life <= 0) {
 		if (ob->ob_dy < 0) {
 			if (ob->ob_dx < 0)
 				++ob->ob_dx;
@@ -993,7 +1005,9 @@ BOOL movesmok(OBJECTS * obp)
 
 	state = ob->ob_owner->ob_state;
 
-	if (!--ob->ob_life
+	--ob->ob_life;
+
+	if (ob->ob_life <= 0
 	    || (state != FALLING
 		&& state != WOUNDED
 		&& state != WOUNDSTALL
@@ -1002,7 +1016,6 @@ BOOL movesmok(OBJECTS * obp)
 		return FALSE;
 	}
 	ob->ob_newsym = &symbol_pixel;
-	//(char *) (0x80 + ob->ob_clr);
 
 	return TRUE;
 }
@@ -1024,7 +1037,9 @@ BOOL moveflck(OBJECTS * obp)
 		return FALSE;
 	}
 
-	if (!--ob->ob_life) {
+	--ob->ob_life;
+
+	if (ob->ob_life <= 0) {
 		ob->ob_orient = !ob->ob_orient;
 		ob->ob_life = FLOCKLIFE;
 	}
@@ -1058,9 +1073,13 @@ BOOL movebird(OBJECTS * obp)
 		ob->ob_dy = -ob->ob_dy;
 		ob->ob_dx = (countmove & 7) - 4;
 		ob->ob_life = BIRDLIFE;
-	} else if (!--ob->ob_life) {
-		ob->ob_orient = !ob->ob_orient;
-		ob->ob_life = BIRDLIFE;
+	} else { 
+		--ob->ob_life;
+		
+		if (ob->ob_life <= 0) {
+			ob->ob_orient = !ob->ob_orient;
+			ob->ob_life = BIRDLIFE;
+		}
 	}
 
 	movexy(ob, &x, &y);
@@ -1169,6 +1188,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/04 17:02:37  fraggle
+// Remove some obfuscation and dead code
+//
 // Revision 1.4  2003/04/06 22:01:02  fraggle
 // Fix compile warnings
 //
