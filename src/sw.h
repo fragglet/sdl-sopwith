@@ -30,7 +30,6 @@
 
 #include "std.h"
 #include <setjmp.h>
-#include "swmach.h"
 #include "swsymbol.h"
 #include "config.h"
 
@@ -81,23 +80,6 @@
 
 #define GUAGEX          (SCR_CENTR - 25)  /* X co-ordinate of first guage */
 #define GHOSTX          (SCR_CENTR - 21)/*  Ghost face display x-coodinate  */
-
-#ifdef  IBMPC
-#define         PRINTINT        0x05    /* Shift print screen interrupt     */
-#define         BREAKINT        0x1B    /* Control break interrupt          */
-#define         CLOCKINT        0x1C    /* Clock interrupt                  */
-#define         KEYINT          0x09    /* Keyboard interrupt               */
-#endif
-#ifdef  ATARI
-#define         PRINTINT        0x05    /* Shift print screen interrupt     */
-#define         BREAKINT        0x05    /* Control break interrupt          */
-#define         CLOCKINT        0x100   /* Clock interrupt                  */
-#define         KEYINT          0x46    /* Keyboard interrupt               */
-#endif
-
-#define PCDOS           0               /*  Operating environments          */
-#define JRROMDOS        1
-#define JRROM           2
 
 // sdh 28/10/2001: made into a type
 
@@ -313,6 +295,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:48:34  fraggle
+// Remove archaic swmach.h and all IBMPC/ATARI #defines
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //

@@ -200,10 +200,7 @@ void soundoff()
 		// sdh: use the emulated sdl pc speaker code
 
 		Speaker_Off();
-#ifdef IBMPC
-		// old dos calls
-		outportb(PORTB, 0xFC & inportb(PORTB));
-#endif
+
 		lastfreq = 0;
 		dispdbg = 0;
 	}
@@ -221,17 +218,6 @@ static void tone(unsigned int freq)
 	// sdh: use the emulated sdl pc speaker code
 
 	Speaker_Output(freq);
-
-#ifdef IBMPC
-	// old dos system stuff
-
-	if (!lastfreq)
-		outportb(TIMER + 3, 0xB6);
-	outportb(TIMER + 2, freq & 0x00FF);
-	outportb(TIMER + 2, freq >> 8);
-	if (!lastfreq)
-		outportb(PORTB, 0x03 | inportb(PORTB));
-#endif
 
 	lastfreq = freq;
 	dispdbg = freq;
@@ -614,6 +600,9 @@ void swsndupdate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:48:35  fraggle
+// Remove archaic swmach.h and all IBMPC/ATARI #defines
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

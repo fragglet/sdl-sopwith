@@ -16,7 +16,7 @@ std.h       swconf.h    swgrpha.c   swmove.c    swsound.h   timer.h 	\
 sw.h        swdisp.c    swgrpha.h   swmove.h    swsymbol.c 		\
 swasynio.c  swdisp.h    swinit.c    swsymbol.h 		\
 swasynio.h  swend.c     swinit.h    swtitle.c 		\
-swauto.c    swend.h     swmach.h    swobject.c  swtitle.h 		\
+swauto.c    swend.h     swobject.c  swtitle.h 		\
 swauto.h    swgames.c   swmain.c    swobject.h  swutil.c		\
 video.c
 
