@@ -89,7 +89,8 @@ static int asynin()
 	register int c;
 
 	settimeout(500);
-	FOREVER {
+
+        for (;;) {
 		if ((c = commin()) >= 0)
 			return c;
 		if (ctlbreak())
@@ -287,7 +288,7 @@ static void tcploop_connect()
 
 	time = Timer_GetMS() + 1000;
 
-	FOREVER {
+        for (;;) {
 		int c;
 
 		if (ctlbreak()) {
@@ -390,6 +391,9 @@ void init2asy()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/04/05 22:55:11  fraggle
+// Remove the FOREVER macro and some unused stuff from std.h
+//
 // Revision 1.3  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

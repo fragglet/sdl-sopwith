@@ -191,7 +191,7 @@ static BOOL gethost()
 
 static BOOL getnet()
 {
-	FOREVER {
+	for (;;) {
 		clrprmpt();
 		swputs("Key: L - listen for connection\n");
 		swputs("     C - connect to remote host\n");
@@ -234,7 +234,7 @@ static void getkey()
         swputs( "     2 - Joystick with non-IBM Keyboard\r\n" );
         swputs( "     3 - IBM Keyboard only\r\n" );
         swputs( "     4 - Non-IBM keyboard only\r\n" );
-        FOREVER {
+        for (;;) {
                 if ( ctlbreak() )
                         swend( NULL, NO );
                 if ( ( ( key = swgetc() & 0x00FF ) < '1' )
@@ -251,7 +251,7 @@ static void getkey()
 
 	Vid_Update();
 
-	FOREVER {
+	for (;;) {
 		swsndupdate();
 		if (ctlbreak())
 			swend(NULL, NO);
@@ -273,7 +273,8 @@ int getgame()
 
 	clrprmpt();
 	swputs("         Key a game number");
-	FOREVER {
+
+	for (;;) {
 		if (ctlbreak())
 			swend(NULL, NO);
 		if (((game = (swgetc() & 0x00FF) - '0') >= 0)
@@ -286,7 +287,7 @@ int getgame()
 
 static BOOL getskill()
 {
-	FOREVER {
+	for (;;) {
 		clrprmpt();
 		swputs("Key: N - novice player\r\n");
 		swputs("     E - expert player\r\n");
@@ -311,7 +312,7 @@ static BOOL getskill()
 
 void getgamemode()
 {
-	FOREVER {
+	for (;;) {
 		char c;
 
 		swtitln();
@@ -358,8 +359,11 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:22  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:55:11  fraggle
+// Remove the FOREVER macro and some unused stuff from std.h
+//
+// Revision 1.1.1.1  2003/02/14 19:03:22  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

@@ -247,7 +247,7 @@ void swsaveconf()
 
 void setconfig()
 {
-	FOREVER {
+	for (;;) {
 		int i;
 		
 		clrdispv();
@@ -335,8 +335,11 @@ void setconfig()
 //-------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:10  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:55:11  fraggle
+// Remove the FOREVER macro and some unused stuff from std.h
+//
+// Revision 1.1.1.1  2003/02/14 19:03:10  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

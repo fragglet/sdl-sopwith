@@ -25,30 +25,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FOREVER  for (;;)
-
 // sdh 21/10/2001: moved BOOL here from sw.h, made into enum
+
 typedef enum {FALSE, TRUE} BOOL;
 enum {NO, YES};
-
-int strindex(char *str,int c);
-void movblock(unsigned int srcoff,unsigned int srcseg,
-              unsigned int destoff,unsigned int destseg,
-              unsigned int count);
-
-// sdh: these are standard c anyway: memcpy and memset
-// remove at some point
-
-void movmem(void *src,void *dest,unsigned count);
-void setmem(void *dest,unsigned count,int c);
 
 #endif
 
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:28  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:55:11  fraggle
+// Remove the FOREVER macro and some unused stuff from std.h
+//
+// Revision 1.1.1.1  2003/02/14 19:03:28  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

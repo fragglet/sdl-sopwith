@@ -258,7 +258,7 @@ void playnote()
 	dottednote = 2;
 	noteoctavefactor = 256;
 
-	FOREVER {
+	for (;;) {
 		if (!line && !place)
 			octavefactor = 256;
 
@@ -600,6 +600,9 @@ void swsndupdate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/04/05 22:55:11  fraggle
+// Remove the FOREVER macro and some unused stuff from std.h
+//
 // Revision 1.3  2003/04/05 22:48:35  fraggle
 // Remove archaic swmach.h and all IBMPC/ATARI #defines
 //

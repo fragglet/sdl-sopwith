@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 
 	nexttic = Timer_GetMS();
 
-	FOREVER {
+	for (;;) {
 
 		/*----- DLC 96/12/27 ------
                 while ( movetick < 2  );
@@ -191,6 +191,9 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:55:11  fraggle
+// Remove the FOREVER macro and some unused stuff from std.h
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //
