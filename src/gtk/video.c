@@ -148,13 +148,13 @@ static void settings_dialog()
 				gtk_box_pack_start(GTK_BOX(i % 2 ? vbox2 : vbox),
 						   widget, 
 						   TRUE, TRUE, 0);
+				gtk_toggle_button_set_active
+					(GTK_TOGGLE_BUTTON(widget),
+					 *confoptions[i].value.b);
 				gtk_signal_connect(GTK_OBJECT(widget),
 						   "toggled",
 						   GTK_SIGNAL_FUNC(settings_bool_toggle),
 						   confoptions[i].value.b);
-				gtk_toggle_button_set_active
-					(GTK_TOGGLE_BUTTON(widget),
-					 *confoptions[i].value.b);
 				gtk_widget_show(widget);
 			default:
 				break;
@@ -380,7 +380,14 @@ static GtkWidget *build_gui()
 	GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
 	menubar = build_menus();
 
+#if GTK_MAJOR_VERSION < 2
 	screen_widget = gtk_image_new(screen, NULL);
+#else
+	screen_widget = gtk_image_new();
+
+	gtk_image_set(GTK_IMAGE(screen_widget),
+		      screen, NULL);
+#endif
 
 	gtk_signal_connect_object(GTK_OBJECT(window),
 				  "button_press_event",
@@ -395,6 +402,7 @@ static GtkWidget *build_gui()
 
 	gtk_widget_show(menubar);
 	gtk_widget_show(screen_widget);
+	gtk_widget_show(vbox);
 
 	return vbox;
 }
@@ -664,6 +672,7 @@ void Vid_Update()
 	else
 		Vid_UpdateUnscaled();
 
+#if GTK_MAJOR_VERSION < 2
 	// redraw screen
 
 	area.x = area.y = 0;
@@ -671,6 +680,12 @@ void Vid_Update()
 	area.height = screen->height;
 
 	gtk_widget_draw(screen_widget, &area);
+#else
+	// this appears to work for gtk2, the above gtk1 code does
+	// not work for gtk2, parts of the screen dont get redrawn (??)
+
+	gtk_image_set(GTK_IMAGE(screen_widget), screen, NULL);
+#endif
 
 	get_gtk_events();
 }
@@ -853,6 +868,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.3  2003/03/26 14:11:52  fraggle
+// Gtk+ 2.0 support
+//
 // Revision 1.2  2003/03/26 13:53:29  fraggle
 // Allow control via arrow keys
 // Some code restructuring, system-independent video.c added
