@@ -1,7 +1,0 @@
-/m /v /c +
-\prog\lib\c0s.obj +
-sopwith.obj +
-sopasm.obj
-sopwith.exe
-sopwith.map
-\prog\lib\cs.lib
