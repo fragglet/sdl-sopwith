@@ -27,7 +27,6 @@
 extern void movexy(OBJECTS *ob, int *x, int *y);
 extern void setdxdy(OBJECTS *obj, int dx, int dy);
 extern void swsetblk();
-extern void swprint();
 extern void swgetjoy();
 extern void histend();
 
@@ -37,6 +36,9 @@ extern void histend();
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/04 16:02:55  fraggle
+// Remove broken printscreen function
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

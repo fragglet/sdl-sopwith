@@ -54,7 +54,6 @@ extern BOOL    repflag;
 extern BOOL    joystick;
 extern BOOL    ibmkeybd;
 extern BOOL    inplay;
-extern BOOL    printflg;
 extern int     koveride;
 extern int     displx, disprx;
 extern int     dispdx;
@@ -96,6 +95,9 @@ extern jmp_buf envrestart;
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/04 16:02:55  fraggle
+// Remove broken printscreen function
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //

@@ -73,7 +73,6 @@ BOOL repflag;			/* Report statistics flag           */
 BOOL joystick;			/* Joystick being used              */
 BOOL ibmkeybd;			/* IBM-like keyboard being used     */
 BOOL inplay;			/* Game is in play                  */
-BOOL printflg = 0;		/* Print screen requested           */
 int koveride;			/* Keyboard override index number   */
 
 int displx, disprx;		/* Display left and right           */
@@ -177,10 +176,6 @@ int main(int argc, char *argv[])
 		swdisp();
 		swgetjoy();
 		swcollsn();
-		if (printflg) {
-			printflg = FALSE;
-			swprint();
-		}
 		swsound();
 	}
 
@@ -191,6 +186,9 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/04 16:02:55  fraggle
+// Remove broken printscreen function
+//
 // Revision 1.3  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //

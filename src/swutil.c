@@ -60,11 +60,6 @@ void swsetblk()
 	// used by the splatted ox code to colour the screen. ?
 }
 
-void swprint()
-{
-	// print screen?
-}
-
 void swgetjoy()
 {
 	// joystick
@@ -79,8 +74,11 @@ void histend()
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:22  fraggle
-// Initial revision
+// Revision 1.2  2003/06/04 16:02:55  fraggle
+// Remove broken printscreen function
+//
+// Revision 1.1.1.1  2003/02/14 19:03:22  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
