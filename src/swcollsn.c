@@ -279,9 +279,13 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		initexpl(ob, 0);
 
 		scoretarg(ob, ob->ob_orient == 2 ? 200 : 100);
-		--numtarg[ob->ob_clr - 1];
-		if (numtarg[ob->ob_clr - 1] <= 0)
-			endgame(ob->ob_clr);
+
+		if (numtarg[ob->ob_clr - 1] > 0) {
+			--numtarg[ob->ob_clr - 1];
+			if (numtarg[ob->ob_clr - 1] <= 0)
+				endgame(ob->ob_clr);
+		}
+
 		return;
 
 	case PLANE:
@@ -492,6 +496,9 @@ void scorepln(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2004/10/20 18:12:57  fraggle
+// Fix incorrect endgames when numtargs < 0
+//
 // Revision 1.10  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //
