@@ -1,13 +1,33 @@
-This is my sopwith source as of 14/2/2003. There is more information in 
-other files:
 
-AUTHORS - People responsible for this
-COPYING - License information
-FAQ - Frequently asked questions about SDL Sopwith
-NEWS - Whats new, ChangeLog
-TODO - a sneak peek at possible future features
+  This is a port of the game "Sopwith", which was originally by 
+  BMB CompuScience Canada. The original author David L. Clark
+  has kindly released the sourcecode under the GNU GPL.
 
-If you like SDL Sopwith, email me and let me know!
+Features
 
-Simon Howard <sdh300@ecs.soton.ac.uk>
+     * Uses SDL, so will run on most modern operating systems
+     * (in progress) GNOME port
+     * Pseudo-functional networking
+     * PC speaker emulation!
+
+More Info
+
+  More information about sopwith is available in some of the files
+  included here:
+  
+     AUTHORS - People responsible for this
+     COPYING - License information (GNU GPL)
+     FAQ - Frequently asked questions about SDL Sopwith
+     NEWS - Whats new, ChangeLog
+     TODO - a sneak peek at possible future features
+
+  You can find lots of information about sopwith the game at:
+
+     http://www.sopwith.org/
+
+Feedback
+
+  If you like SDL Sopwith, email me and let me know!
+
+  Simon Howard <sdh300@ecs.soton.ac.uk>
 
