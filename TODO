@@ -7,8 +7,6 @@ Code Cleanup:
 	architecture, these are redundant now and should be removed.
 	Similarly there are function calls to control DOS interrupts
 	which also should be removed.
-	configure script needed
-	make install
 DOS Port? probably wouldnt be too hard infact
 Network:
 	Infinite lives?   -- kind of annoying once you die 5 times, thats it
@@ -16,7 +14,10 @@ Network:
 	course). Currently the network code wont send the next movement
 	until its received the next movement from the other player. As
 	a result any kind of lag will drastically kill the game speed.	
+	Network disconnect should bring you back to the title screen
 	> 2 Players, Teams
 	Extra game modes -- Capture the flag etc
+Bug: If you crash into the last building in a level, the level exit sequence
+runs with you inside the building rubble (!)
 Hi score table?
 

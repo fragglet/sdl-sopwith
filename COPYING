@@ -1,0 +1,11 @@
+All my modifications to the sopwith source are dual-licensed under the
+sopwith license and the GNU GPL - that is, you may consider them to be 
+under the sopwith license and treat them accordingly, but you may also
+use them in your own GPL'ed programs if you want. Note that this only
+Note that this only applies to those portions of the source that I 
+myself have wrote - the majority of the source is under the more
+restrictive Sopwith License.
+
+doc/GPL - GNU GPL
+doc/license.txt - The Sopwith License
+

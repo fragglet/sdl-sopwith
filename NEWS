@@ -13,7 +13,7 @@ was originally hacked from the line ground function, it is now practically
 rewriteen).
 Fixed out of sync netgames when starting a netgame after playing a
 single player game already.
-build now uses autoconf
+build now uses autoconf/automake
 Code cleanup: intson, intsoff calls removed, bmblib.[ch] removed from build
 	      Build process changed: SDL code moved into a seperate 
 	      subdirectory, Gtk+ code is in another directory. All the 

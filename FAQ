@@ -36,6 +36,11 @@ A. SDL Sopwith is based on the source to an enhanced "Authors Edition"
     * Splatted birds and cracks in the screen if you hit a bird or get
       shot. If you fly into an ox your screen goes pink.
 
+Q. Why is it called "SDL Sopwith" when there is now a Gtk+ port?
+A. I originally designed it to use only SDL, but out of interest/
+   boredom I decided to do a Gtk+ port. Suggestions for new names
+   are welcome :)
+
 Q. Does it have sound?
 A. Yes! Sound is done through an emulation of the PC Speaker using the
    digital output available on modern sound cards.
@@ -49,6 +54,18 @@ A. Yes! Classic sopwith had support for network as well, but it used a
    TCP/IP.  This means that you can play 2 player SDL Sopwith over a
    LAN with TCP/IP or even over the Internet. 
 
+Q. What is a 'TCP Loop'?
+A. In the ordinary networking mode, one client sets up in listen mode
+   and waits for the other client to connect. When it connects, the
+   game begins. However, this can be a problem if both clients are behind
+   firewalls which block incoming connections. A TCP Loop is a simple
+   server that relays data between all the clients connected to it. If 
+   you are both behind firewalls you can connect to a loop running on a
+   third machine that acts as a relay.
+
+   There is code for a simple loop on my site in the 'tools' directory:
+   http://fraggle.alkali.org/tools/loop.c
+
 Q. What platforms does it run on?
 A. I have only compiled it on Windows and Linux. However, as it uses 
    LibSDL for Video and Sound, it should compile "out of the box" on any
@@ -61,6 +78,22 @@ A. I have only compiled it on Windows and Linux. However, as it uses
 
    If you have any success compiling/running SDL on other platforms or
    compilers, please let me know!
+
+Q. What is SDL?
+A. LibSDL is a multimedia library designed for portability. Instead of
+   coding for a particular platform (such as windows, linux etc), you 
+   use the SDL interface. Your program can then run many different
+   platforms with only minor changes. There is more information at
+   http://www.libsdl.org/
+
+Q. What is Gtk+?
+A. Gtk+ is a C GUI toolkit originally designed for The GIMP, an open
+   source graphics program. It is now being used as the base for 
+   GNOME, an open source desktop environment, as well as many other
+   projects. There is more information at http://www.gtk.org/
+
+Q. Will you make a DOS port?
+A. Possibly.
 
 Q. What license is this released under?
 A. The sopwith source is released under a specially written, and 
