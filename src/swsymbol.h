@@ -59,8 +59,8 @@ extern sopsym_t symbol_pixel;
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:32  fraggle
-// Initial revision
+// Revision 1.1.1.1  2003/02/14 19:03:32  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

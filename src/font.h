@@ -2598,8 +2598,8 @@ static unsigned char font_data[GFX_FONTDATAMAX] = {
 //-----------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:27  fraggle
-// Initial revision
+// Revision 1.1.1.1  2003/02/14 19:03:27  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 21/10/2001: rearranged headers, added cvs tags

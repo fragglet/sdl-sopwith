@@ -46,8 +46,8 @@ void Timer_Init()
 //--------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:34  fraggle
-// Initial revision
+// Revision 1.1.1.1  2003/02/14 19:03:34  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
