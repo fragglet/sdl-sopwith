@@ -1,3 +1,10 @@
+v1.6.0
+
+Fixed bug with harry keys mode and returning to home from the left
+(thanks to Kodath duMatri)
+Fixed bullets being colored (instead of always white like they should be)
+Now totally under the GPL!
+
 v1.5.0
 
 Removed old redundant collision detection code

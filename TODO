@@ -1,14 +1,13 @@
 to do:
 
 Code Cleanup: 
-	Remove useless files: swutil.c, bmblib.c, swdeve.h
+	Remove useless files: swutil.c
 	Remove old MULTIPLE game mode? (swnetio.c). Looks pretty dead.
 	There are a lot of ifdefs left over to check for the
 	architecture, these are redundant now and should be removed.
 	Similarly there are function calls to control DOS interrupts
 	which also should be removed.
 DOS Port? probably wouldnt be too hard infact
-Finish Psion port
 Custom levels
 Network:
 	Infinite lives?   -- kind of annoying once you die 5 times, thats it
@@ -22,4 +21,5 @@ Network:
 Bug: If you crash into the last building in a level, the level exit sequence
 runs with you inside the building rubble (!)
 Hi score table?
+Port Gtk+ version to Gtk2
 

@@ -96,8 +96,6 @@ Q. Will you make a DOS port?
 A. Possibly.
 
 Q. What license is this released under?
-A. The sopwith source is released under a specially written, and 
-   unfortunately non-free, license. However, all my modifications to the
-   sopwith source are available dual licensed under the sopwith 
-   license and the GNU GPL.
+A. The original sopwith source code (as released by David L. Clark) was 
+   under a restrictive license, but is now totally under the GNU GPL!
 

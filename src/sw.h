@@ -4,11 +4,18 @@
 // $Id: $
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001 Simon Howard
+// Copyright(C) 2001-2003 Simon Howard
 //
-// All rights reserved except as specified in the file license.txt.
-// Distribution of this file without the license.txt file accompanying
-// is prohibited.
+// This program is free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the
+// Free Software Foundation; either version 2 of the License, or (at your
+// option) any later version. This program is distributed in the hope that
+// it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+// the GNU General Public License for more details. You should have
+// received a copy of the GNU General Public License along with this
+// program; if not, write to the Free Software Foundation, Inc., 59 Temple
+// Place - Suite 330, Boston, MA 02111-1307, USA.
 //
 //---------------------------------------------------------------------------
 //
@@ -343,6 +350,7 @@ static inline int SIN(int x) {
 //
 // $Log: $
 //
+// sdh 14/2/2003: change license header to GPL
 // sdh 27/07/2002: made some constants independent of screen width
 // sdh 27/06/2002: remove ob_symwdt and ob_symhgt. use new sopsym_t for
 //                 sprites

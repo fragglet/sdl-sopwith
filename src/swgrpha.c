@@ -4,11 +4,18 @@
 // $Id: $
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001 Simon Howard
+// Copyright(C) 2001-2003 Simon Howard
 //
-// All rights reserved except as specified in the file license.txt.
-// Distribution of this file without the license.txt file accompanying
-// is prohibited.
+// This program is free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the
+// Free Software Foundation; either version 2 of the License, or (at your
+// option) any later version. This program is distributed in the hope that
+// it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+// the GNU General Public License for more details. You should have
+// received a copy of the GNU General Public License along with this
+// program; if not, write to the Free Software Foundation, Inc., 59 Temple
+// Place - Suite 330, Boston, MA 02111-1307, USA.
 //
 //---------------------------------------------------------------------------
 //
@@ -104,6 +111,16 @@ void swground()
 
 // sdh 27/03/2002: remove swpntcol and swpntsym
 
+// sdh 14/2/2003: find the color of an object
+// always draw bullets white
+
+static inline int ob_color(OBJECTS *ob)
+{
+	if (ob->ob_type == SHOT)
+		return 3;
+	else
+		return ob->ob_clr;
+}
 
 
 /*---------------------------------------------------------------------------
@@ -121,7 +138,9 @@ void swground()
 
 void swputsym(int x, int y, OBJECTS * ob)
 {
-	Vid_DispSymbol(x, y, ob->ob_newsym, ob->ob_clr);
+	// sdh 14/2/2003: always draw bullets white
+
+	Vid_DispSymbol(x, y, ob->ob_newsym, ob_color(ob));
 }
 
 
@@ -137,6 +156,7 @@ void swputsym(int x, int y, OBJECTS * ob)
 ---------------------------------------------------------------------------*/
 
 
+// sdh 14/2/2003: always draw bullets white
 
 void swdisp()
 {
@@ -152,7 +172,8 @@ void swdisp()
 		    || (ob->ob_oldx + displx) != ob->ob_x) {
 			if (ob->ob_delflg)
 				Vid_DispSymbol(ob->ob_oldx, ob->ob_oldy,
-					       ob->ob_oldsym, ob->ob_clr);
+					       ob->ob_oldsym, 
+					       ob_color(ob));
 			if (!ob->ob_drwflg)
 				continue;
 			if (ob->ob_x < displx || ob->ob_x > disprx) {
@@ -164,7 +185,7 @@ void swdisp()
 			Vid_DispSymbol(ob->ob_oldx,
 				       ob->ob_oldy,
 				       ob->ob_newsym, 
-				       ob->ob_clr);
+				       ob_color(ob));
 		}
 
 		if (ob->ob_drawf)
@@ -174,7 +195,7 @@ void swdisp()
 	for (ob = deltop; ob; ob = ob->ob_next)
 		if (ob->ob_delflg)
 			Vid_DispSymbol(ob->ob_oldx, ob->ob_oldy,
-				       ob->ob_oldsym, ob->ob_clr);
+				       ob->ob_oldsym, ob_color(ob));
 
 	dispgrnd();
 
@@ -257,6 +278,8 @@ void screendump()
 //
 // $Log: $
 //
+// sdh 14/2/2003: change license header to GPL
+// 		  fix bullets being colored (should be white)
 // sdh 27/7/2002: removed old collision detection code
 // sdh 27/6/2002: move to new sopsym_t for symbols
 // sdh 26/03/2002: moved all drawing functions into platform specific 
