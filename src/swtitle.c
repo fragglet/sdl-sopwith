@@ -323,6 +323,7 @@ void getgamemode()
 		swputs("     N - network game\r\n");
 #endif
 		swputs("     O - game options\r\n");
+		swputs("     Q - quit game\r\n");
 		Vid_Update();
 
 		if (ctlbreak())
@@ -349,6 +350,9 @@ void getgamemode()
 			}
 			break;
 #endif
+		case 'Q':
+			exit(0);
+			break;
 		}
 	}
 }
@@ -357,6 +361,9 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/03/29 23:58:23  fraggle
+// Add a quit option to the main menu
+//
 // Revision 1.4  2003/06/08 03:41:42  fraggle
 // Remove auxdisp buffer totally, and all associated functions
 //
