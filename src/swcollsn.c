@@ -36,6 +36,7 @@
 #include "swmisc.h"
 #include "swmove.h"
 #include "swsound.h"
+#include "swsplat.h"
 
 static OBJECTS *killed[MAX_OBJS*2], *killer[MAX_OBJS*2];
 static int killptr;
@@ -316,9 +317,9 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		if (state == FALLING) {
 			if (ob->ob_index == player) {
 				if (ttype == SHOT)
-					++shothole;
+					swwindshot();
 				else if (ttype == BIRD || ttype == FLOCK)
-					++splatbird;
+					swsplatbird();
 			}
 			return;
 		}
@@ -327,11 +328,11 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		    || ttype == OX || ttype == FLOCK) {
 			if (ob->ob_index == player) {
 				if (ttype == SHOT)
-					++shothole;
+					swwindshot();
 				else if (ttype == OX)
-					++splatox;
+					swsplatox();
 				else
-					++splatbird;
+					swsplatbird();
 			}
 
 			// sdh 28/10/2001: option to disable wounded planes
@@ -529,6 +530,9 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2004/10/15 17:23:32  fraggle
+// Restore HUD splats
+//
 // Revision 1.6  2004/10/15 16:39:32  fraggle
 // Unobfuscate some parts
 //

@@ -109,10 +109,6 @@ int keydelay = -1;		/* Number of displays per keystroke */
 int dispcnt;			/* Displays to delay keyboard       */
 int endstat;			/* End of game status for curr. move */
 int maxcrash;			/* Maximum number of crashes        */
-int shothole;			/* Number of shot holes to display  */
-int splatbird;			/* Number of slatted bird symbols   */
-int splatox;			/* Display splatted ox              */
-int oxsplatted;			/* An ox has been splatted          */
 
 int sintab[ANGLES] = {		/* sine table of pi/8 increments    */
 	0, 98, 181, 237,	/*   multiplied by 256              */
@@ -182,6 +178,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2004/10/15 17:23:32  fraggle
+// Restore HUD splats
+//
 // Revision 1.9  2004/10/14 08:48:46  fraggle
 // Wrap the main function in system-specific code.  Remove g_argc/g_argv.
 // Fix crash when unable to initialise video subsystem.

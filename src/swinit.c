@@ -47,6 +47,7 @@
 #include "swmove.h"
 #include "swobject.h"
 #include "swsound.h"
+#include "swsplat.h"
 #include "swsymbol.h"
 #include "swtitle.h"
 #include "swutil.h"
@@ -284,7 +285,7 @@ void initdisp(BOOL reset)
 	OBJECTS *ob;
 	OBJECTS ghostob;
 
-	splatox = oxsplatted = 0;
+	swclearsplats();
 	if (!reset) {
 		swtitlf();
 		ghost = FALSE;
@@ -964,7 +965,7 @@ void swinitlevel()
 
 	// sdh: dont carry hud splats forward from previous games
 
-	splatox = splatbird = shothole = 0;
+	swclearsplats();
 
 	initsndt();
 	initgrnd();
@@ -1162,6 +1163,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2004/10/15 17:23:32  fraggle
+// Restore HUD splats
+//
 // Revision 1.10  2004/10/15 16:39:32  fraggle
 // Unobfuscate some parts
 //

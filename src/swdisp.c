@@ -178,106 +178,8 @@ void dispwobj(OBJECTS * obp)
 	}
 }
 
-#define SEED_START 74917777
-
-static unsigned long seed = SEED_START;
-
-static unsigned long randsd()
-{
-	seed *= countmove;
-	seed += 7491;
-
-	if (!seed)
-		seed = SEED_START;
-
-	return 0;
-}
-
-
-static void dispwindshot()
-{
-	OBJECTS ob;
-
-	// sdh 28/10/2001: option to disable hud splats
-
-	if (!conf_hudsplats)
-		return;
-
-	ob.ob_type = DUMMYTYPE;
-	//ob.ob_symhgt = ob.ob_symwdt = 16;
-	ob.ob_clr = 0;
-	ob.ob_newsym = symbol_shotwin;
-
-	do {
-		randsd();
-		swputsym((unsigned) (seed % (SCR_WDTH - 16)),
-			 (unsigned) (seed % (SCR_HGHT - 50)) + 50, &ob);
-		--shothole;
-	} while (shothole > 0);
-}
-
-
-
-static void dispsplatbird()
-{
-	OBJECTS ob;
-
-	// sdh 28/10/2001: option to disable hud splats
-
-	if (!conf_hudsplats)
-		return;
-
-	ob.ob_type = DUMMYTYPE;
-	//ob.ob_symhgt = ob.ob_symwdt = 32;
-	ob.ob_clr = 2;
-	ob.ob_newsym = symbol_birdsplat;
-
-	do {
-		randsd();
-		swputsym((unsigned) (seed % (SCR_WDTH - 32)),
-			 (unsigned) (seed % (SCR_HGHT - 60)) + 60, &ob);
-		--splatbird;
-	} while (splatbird > 0);
-}
-
-
-
-
-static void dispoxsplat()
-{
-	register OBJECTS *ob;
-	register int i;
-
-	// sdh 28/10/2001: option to disable hud splats
-
-	if (!conf_hudsplats)
-		return;
-
-	colorscreen(2);
-
-	swsetblk(0, SCR_SEGM,
-		 ((SCR_HGHT - SCR_MNSH - 2) >> 1) * SCR_LINW, 0xAA);
-	swsetblk(SCR_ROFF, SCR_SEGM,
-		 ((SCR_HGHT - SCR_MNSH - 3) >> 1) * SCR_LINW, 0xAA);
-	splatox = 0;
-	oxsplatted = 1;
-
-	ob = nobjects;
-	for (i = 0; i < MAX_OBJS; ++i, ob++)
-		ob->ob_drwflg = 0;
-
-	dispinit = TRUE;
-}
-
 void dispplyr(OBJECTS * ob)
 {
-	if (shothole)
-		dispwindshot();
-	if (splatbird)
-		dispsplatbird();
-        if (splatox)
-                dispoxsplat();
-
 	plnsound(ob);
 }
 
@@ -285,6 +187,9 @@ void dispplyr(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2004/10/15 17:23:32  fraggle
+// Restore HUD splats
+//
 // Revision 1.5  2004/10/15 16:39:32  fraggle
 // Unobfuscate some parts
 //

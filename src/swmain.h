@@ -79,10 +79,6 @@ extern int     keydelay;
 extern int     dispcnt;
 extern int     endstat;
 extern int     maxcrash;
-extern int     shothole;
-extern int     splatbird;
-extern int     splatox;
-extern int     oxsplatted;
 extern int     sintab[ANGLES];
 extern OLDWDISP wdisp[MAX_OBJS];
 extern jmp_buf envrestart;
@@ -95,6 +91,9 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2004/10/15 17:23:32  fraggle
+// Restore HUD splats
+//
 // Revision 1.8  2004/10/14 08:48:46  fraggle
 // Wrap the main function in system-specific code.  Remove g_argc/g_argv.
 // Fix crash when unable to initialise video subsystem.

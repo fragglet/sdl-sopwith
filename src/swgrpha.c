@@ -32,6 +32,7 @@
 #include "swground.h"
 #include "swgrpha.h"
 #include "swmain.h"
+#include "swsplat.h"
 #include "swsymbol.h"
 #include "swutil.h"
 
@@ -157,6 +158,11 @@ void swdisp()
 	dispscore(consoleplayer);
 	dispguages(consoleplayer);
 
+	// heads up splats
+	
+	if (conf_hudsplats)
+		swdispsplats();
+
 	// "the end"
 	
 	dispendmessage();
@@ -206,6 +212,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2004/10/15 17:23:32  fraggle
+// Restore HUD splats
+//
 // Revision 1.7  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //
