@@ -24,6 +24,11 @@
 
 #include "sw.h"
 
+// global argc/argv
+
+extern int g_argc;
+extern char **g_argv;
+
 extern void swinit(int argc, char *argv[]);
 extern void swinitlevel();
 extern void swrestart();
@@ -46,6 +51,9 @@ extern void initbird(OBJECTS *obop, int i);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/04 15:33:53  fraggle
+// Store global argc/argv for gtk_init
+//
 // Revision 1.2  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files

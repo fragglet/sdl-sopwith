@@ -1048,6 +1048,10 @@ void swrestart()
 	longjmp(envrestart, 0);
 }
 
+// global argv/argc
+
+int g_argc;
+char **g_argv;
 
 // init game
 
@@ -1061,6 +1065,11 @@ void swinit(int argc, char *argv[])
 	BOOL k = FALSE;
 	int modeset = 0, keyset;
 	char *device = "\0              ";
+
+	// store global argc/argv
+	
+	g_argc = argc;
+	g_argv = argv;
 
 #if 0
 	// old getflags code
@@ -1177,6 +1186,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/04 15:33:53  fraggle
+// Store global argc/argv for gtk_init
+//
 // Revision 1.3  2003/04/05 22:44:04  fraggle
 // Remove some useless functions from headers, make them static if they
 // are not used by other files
