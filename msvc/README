@@ -1,0 +1,12 @@
+These are some files which may help building using MSVC. I managed to
+get it to build under MSVC++.NET after a couple of minor alterations, 
+albeit with no networking support.
+
+If you want to try this, you will probably need to copy sopwith.vcproj
+to the parent directory, and add include paths to include the SDL 
+headers, and sopwith/src/ (some files in sopwith/src/sdl/ use files from
+the parent directory and expect it in the include path)
+
+I dont intend to really support MSVC. Its probably easier to just use
+MinGW/Cygwin.
+
