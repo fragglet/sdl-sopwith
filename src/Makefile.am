@@ -14,8 +14,8 @@ font.h      swcollsn.h  swground.c  swmisc.c    tcpcomm.c 	\
 pcsound.h   swconf.c    swground.h  swmisc.h    swsound.c   tcpcomm.h 	\
 std.h       swconf.h    swgrpha.c   swmove.c    swsound.h   timer.h 	\
 sw.h        swdisp.c    swgrpha.h   swmove.h    swsymbol.c 		\
-swasynio.c  swdisp.h    swinit.c    swnetio.c   swsymbol.h 		\
-swasynio.h  swend.c     swinit.h    swnetio.h   swtitle.c 		\
+swasynio.c  swdisp.h    swinit.c    swsymbol.h 		\
+swasynio.h  swend.c     swinit.h    swtitle.c 		\
 swauto.c    swend.h     swmach.h    swobject.c  swtitle.h 		\
 swauto.h    swgames.c   swmain.c    swobject.h  swutil.c		\
 video.c

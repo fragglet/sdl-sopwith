@@ -264,8 +264,7 @@ static void scoretarg(OBJECTS *obp, int score)
 	register OBJECTS *ob;
 
 	ob = obp;
-	if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
-	    || multbuff->mu_maxplyr == 1) {
+	if (playmode != PLAYMODE_ASYNCH) {
 		if (ob->ob_clr == 1)
 			nobjects[0].ob_score -= score;
 		else
@@ -533,8 +532,11 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:09  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:09  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

@@ -45,7 +45,6 @@ extern int     gamenum;
 extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
 extern int     multkey;
-extern int     multtick;
 extern BOOL    hires;
 extern BOOL    disppos;
 extern BOOL    titleflg;
@@ -88,7 +87,6 @@ extern int     splatbird;
 extern int     splatox;
 extern int     oxsplatted;
 extern int     sintab[ANGLES];
-extern MULTIO  *multbuff;
 extern OLDWDISP wdisp[MAX_OBJS];
 extern jmp_buf envrestart;
 
@@ -98,8 +96,11 @@ extern jmp_buf envrestart;
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:31  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:31  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

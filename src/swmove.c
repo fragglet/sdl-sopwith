@@ -36,7 +36,6 @@
 #include "swinit.h"
 #include "swmain.h"
 #include "swmove.h"
-#include "swnetio.h"
 #include "swobject.h"
 #include "swsound.h"
 #include "swsymbol.h"
@@ -64,13 +63,8 @@ void swmove()
 		ob->ob_delflg = ob->ob_drwflg;
 		ob->ob_oldsym = ob->ob_newsym;
 		ob->ob_drwflg = (*ob->ob_movef) (ob);
-		if ((playmode == PLAYMODE_MULTIPLE || playmode == PLAYMODE_ASYNCH)
-		    && ob->ob_index == multbuff->mu_maxplyr
-		    && !dispcnt) {
-			if (playmode == PLAYMODE_MULTIPLE)
-				multput();
-			else
-				asynput();
+		if (playmode == PLAYMODE_ASYNCH && !dispcnt) {
+			asynput();
 		}
 		ob = obn;
 	}
@@ -206,17 +200,13 @@ BOOL moveplyr(OBJECTS * obp)
 
 	if (endstat)
 		if (--endcount <= 0) {
-			if (playmode != PLAYMODE_MULTIPLE
-			    && playmode != PLAYMODE_ASYNCH
-			    && !quit)
+			if (playmode != PLAYMODE_ASYNCH && !quit)
 				swrestart();
 			swend(NULL, YES);
 		}
 
 	if (!dispcnt) {
-		if (playmode == PLAYMODE_MULTIPLE)
-			multkey = multget(ob);
-		else if (playmode == PLAYMODE_ASYNCH)
+		if (playmode == PLAYMODE_ASYNCH)
 			multkey = asynget(ob);
 		else {
 			// sdh: use the cga (sdl) interface to
@@ -242,13 +232,12 @@ BOOL moveplyr(OBJECTS * obp)
 
 		// sdh: infinite lives in multiplayer mode
 
-		if (playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
+		if (playmode != PLAYMODE_ASYNCH)
 			++ob->ob_crashcnt;
 
 		if (endstat != WINNER
 		    && (ob->ob_life <= QUIT
-			|| (playmode != PLAYMODE_MULTIPLE 
-			    && playmode != PLAYMODE_ASYNCH
+			|| (playmode != PLAYMODE_ASYNCH
 			    && ob->ob_crashcnt >= MAXCRASH))) {
 			if (!endstat)
 				loser(ob);
@@ -1182,8 +1171,11 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:15  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:15  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

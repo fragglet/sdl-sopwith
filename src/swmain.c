@@ -62,19 +62,8 @@ int gamenum;			/* Current game number              */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
-MULTIO multiost;		/* Multiple player I/O buffer       */
-
 int multkey;			/* Keystroke to be passed           */
-MULTIO *multbuff = &multiost;
 
-#ifdef  IBMPC
-unsigned multaddr = 0x3F2;	/* Multiple user diskette adapter   */
-#endif				/*   address                        */
-#ifdef  ATARI
-unsigned multaddr = 0;		/* Multiple user controller number  */
-#endif
-
-int multtick;			/* Multiple user tick delay         */
 BOOL hires;			/* High res flag                    */
 BOOL disppos;			/* Display position flag            */
 BOOL titleflg;			/* Title flag                       */
@@ -202,8 +191,11 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:14  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:14  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

@@ -45,7 +45,6 @@
 #include "swmain.h"
 #include "swmisc.h"
 #include "swmove.h"
-#include "swnetio.h"
 #include "swobject.h"
 #include "swsound.h"
 #include "swsymbol.h"
@@ -168,8 +167,7 @@ static void initscore()
 	}
 
 	dispscore(&nobjects[0]);
-	if ((playmode == PLAYMODE_MULTIPLE || playmode == PLAYMODE_ASYNCH)
-	    && multbuff->mu_maxplyr > 1)
+	if (playmode == PLAYMODE_ASYNCH)
 		dispscore(&nobjects[1]);
 }
 
@@ -340,7 +338,6 @@ OBJECTS *initpln(OBJECTS * obp)
 	case PLAYMODE_NOVICE:
 		n = inits[ob->ob_index];
 		break;
-	case PLAYMODE_MULTIPLE:
 	case PLAYMODE_ASYNCH:
 		n = initm[ob->ob_index];
 		break;
@@ -391,8 +388,7 @@ OBJECTS *initpln(OBJECTS * obp)
 		insertx(ob, ob->ob_xnext);
 	}
 
-	if ((playmode == PLAYMODE_MULTIPLE || playmode == PLAYMODE_ASYNCH)
-	    && ob->ob_crashcnt >= maxcrash) {
+	if (playmode == PLAYMODE_ASYNCH && ob->ob_crashcnt >= maxcrash) {
 		ob->ob_state = GHOST;
 		if (ob->ob_index == player)
 			ghost = TRUE;
@@ -440,7 +436,7 @@ void initcomp(OBJECTS * obp)
 		ob->ob_drawf = dispcomp;
 		ob->ob_movef = movecomp;
 		ob->ob_clr = 2;
-		if (playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
+		if (playmode != PLAYMODE_ASYNCH)
 			ob->ob_owner = &nobjects[1];
 		else if (ob->ob_index == 1)
 			ob->ob_owner = ob;
@@ -683,8 +679,7 @@ static void inittarg()
 	tx = currgame->gm_xtarg;
 	tt = currgame->gm_ttarg;
 
-	if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
-	    || multbuff->mu_maxplyr == 1) {
+	if (playmode != PLAYMODE_ASYNCH) {
 		numtarg[0] = 0;
 		numtarg[1] = MAX_TARG - 3;
 	} else {
@@ -718,8 +713,7 @@ static void inittarg()
 		ob->ob_orient = *tt;
 		ob->ob_life = i;
 
-		if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
-		    || multbuff->mu_maxplyr == 1)
+		if (playmode != PLAYMODE_ASYNCH)
 			ob->ob_owner = 
 				&nobjects[(i < MAX_TARG / 2
 					   && i > MAX_TARG / 2 - 4)
@@ -969,9 +963,7 @@ void initgdep()
 
 void swinitlevel()
 {
-	if (playmode == PLAYMODE_MULTIPLE)
-		init1mul(FALSE, 0);
-	else if (playmode == PLAYMODE_ASYNCH)
+	if (playmode == PLAYMODE_ASYNCH)
 		init1asy();
 
 	// sdh 16/11/2001: this needs to be reset with each new game
@@ -990,10 +982,7 @@ void swinitlevel()
 	if (keydelay == -1)
 		keydelay = 1;
 
-	if (playmode == PLAYMODE_MULTIPLE) {
-		maxcrash = MAXCRASH * 2;
-		init2mul();
-	} else if (playmode == PLAYMODE_ASYNCH) {
+	if (playmode == PLAYMODE_ASYNCH) {
 		maxcrash = MAXCRASH * 2;
 		init2asy();
 	} else {
@@ -1068,7 +1057,6 @@ void swinit(int argc, char *argv[])
 	BOOL n = FALSE;
 	BOOL s = FALSE;
 	BOOL c = FALSE;
-	BOOL m = FALSE;
 	BOOL a = FALSE;
 	BOOL k = FALSE;
 	int modeset = 0, keyset;
@@ -1093,7 +1081,7 @@ void swinit(int argc, char *argv[])
                         ------ 99/01/24----*/
 		     "n&s&c&a&k&j&q&x&:",
 		     &n, &s, &c, &a, &k, &joystick, &soundflg,
-		     &missok) || ((modeset = n + s + c + m + a) > 1)
+		     &missok) || ((modeset = n + s + c + a) > 1)
 	    || ((keyset = joystick + k) > 1)) {
 		disphelp(helptxt);
 		exit(1);
@@ -1179,7 +1167,6 @@ void swinit(int argc, char *argv[])
 		n ? PLAYMODE_NOVICE :
 		s ? PLAYMODE_SINGLE :
 		c ? PLAYMODE_COMPUTER :
-		m ? PLAYMODE_MULTIPLE :
 		a ? PLAYMODE_ASYNCH :
 		PLAYMODE_UNSET;
 
@@ -1190,8 +1177,11 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:13  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:13  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

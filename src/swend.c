@@ -43,9 +43,7 @@ void swend(char *msg, BOOL update)
 	if (repflag)
 		swreport();
 
-	if (playmode == PLAYMODE_MULTIPLE)
-		closmsg = multclos(update);
-	else if (playmode == PLAYMODE_ASYNCH)
+        if (playmode == PLAYMODE_ASYNCH)
 		closmsg = asynclos();
 
 	histend();
@@ -77,8 +75,7 @@ void endgame(int targclr)
 	register int winclr;
 	register OBJECTS *ob;
 
-	if ((playmode != PLAYMODE_MULTIPLE && playmode != PLAYMODE_ASYNCH)
-	    || multbuff->mu_maxplyr == 1)
+	if (playmode != PLAYMODE_ASYNCH)
 		winclr = 1;
 	else {
 		if ((objtop + 1)->ob_score == objtop->ob_score)
@@ -163,8 +160,11 @@ void swreport()
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:10  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:10  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

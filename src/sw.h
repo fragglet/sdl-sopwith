@@ -104,7 +104,6 @@
 typedef enum {
 	PLAYMODE_UNSET = 0,
 	PLAYMODE_SINGLE,
-	PLAYMODE_MULTIPLE,
 	PLAYMODE_COMPUTER,
 	PLAYMODE_ASYNCH,
 	PLAYMODE_NOVICE
@@ -209,11 +208,6 @@ typedef enum {
 
 #define K_ASYNACK       0x40
 
-
-#define COMM_FILE       "c:sopwith?.dta" /*  Multi user communications file  */
-#define COMM_CMD        "c:semaphor\0   "/*  Multi-user semaphor file        */
-
-
 // made these into typedefs rather than ugly #define macros
 
 typedef int BIOFD;
@@ -297,36 +291,6 @@ typedef struct {                                /*  Game structure          */
         int      gm_ttarg[MAX_TARG];
 }       GAMES;
 
-typedef struct {                                /*  Communications buffer   */
-        unsigned mu_maxplyr;
-        unsigned mu_numplyr;
-        unsigned mu_lstplyr;
-        unsigned mu_key[MAX_PLYR];
-        unsigned mu_state[MAX_PLYR];
-        unsigned mu_explseed;
-}       MULTIO;
-
-typedef struct {                                /*  Output message record   */
-        char     msgo_cmd;
-        char     msgo_port;
-        char     msgo_ssgnl;
-        char     msgo_rsgnl;
-        char     msgo_1fill[6];
-        MULTIO   msgo_buff;
-        char     msgo_2fill[1];
-}       MSGOUT;
-
-typedef struct {                                /*  Input message record    */
-        char     msgi_port;
-        char     msgi_1fill[2];
-        char     msgi_myport;
-        char     msgi_2fill[6];
-        MULTIO   msgi_buff;
-        char     msgi_3fill[1];
-}       MSGIN;
-
-
-
 typedef struct {                        /*  Old display parameters for    */
         int     ow_xorplot;             /*  each object                   */
         int     ow_x, ow_y;
@@ -349,8 +313,11 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:29  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:29  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

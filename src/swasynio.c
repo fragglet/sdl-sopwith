@@ -37,7 +37,6 @@
 #include "swinit.h"
 #include "swmain.h"
 #include "swmisc.h"
-#include "swnetio.h"
 #include "swsound.h"
 #include "swtitle.h"
 
@@ -45,6 +44,7 @@ asynmode_t asynmode;
 char asynhost[128];
 
 static int lastkey = 0;		/*  Always behind one character     */
+
 static int timeout_time;
 
 static void settimeout(int ms)
@@ -137,6 +137,36 @@ char *asynclos(BOOL update)
 {
 	commterm();
 	return NULL;
+}
+
+
+// this function is called by the multiplayer planes
+
+BOOL movemult(OBJECTS * obp)
+{
+	register OBJECTS *ob;
+
+	plyrplane = compplane = FALSE;
+
+	endstat = endsts[currobx = (ob = obp)->ob_index];
+
+	if (!dispcnt)
+		interpret(ob, asynget(ob));
+	else {
+		ob->ob_flaps = 0;
+		ob->ob_bombing = FALSE;
+	}
+
+	if ((ob->ob_state == CRASHED || ob->ob_state == GHOSTCRASHED)
+	    && ob->ob_hitcount <= 0) {
+		if (ob->ob_life > QUIT) {
+			// sdh 25/10/2001: infinite lives in multiplayer
+			//++ob->ob_crashcnt;
+			initpln(ob);
+		}
+	}
+
+	return movepln(ob);
 }
 
 #define PROTOHEADER "SDLSOPWITH" VERSION
@@ -327,7 +357,6 @@ void init1asy()
 	synchronize();
 
 	currgame = &swgames[0];
-	multbuff->mu_numplyr = multbuff->mu_maxplyr = 2;
 #endif
 }
 
@@ -361,8 +390,11 @@ void init2asy()
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:08  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:31:29  fraggle
+// Remove PLAYMODE_MULTIPLE and swnetio.c
+//
+// Revision 1.1.1.1  2003/02/14 19:03:08  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
