@@ -75,7 +75,7 @@ BOOL ibmkeybd;			/* IBM-like keyboard being used     */
 BOOL inplay;			/* Game is in play                  */
 int koveride;			/* Keyboard override index number   */
 
-int displx, disprx;		/* Display left and right           */
+int displx;			/* Display left and right           */
 int dispdx;			/* Display shift                    */
 BOOL dispinit;			/* Inialized display flag           */
 
@@ -186,6 +186,9 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/04 17:13:26  fraggle
+// Remove disprx, as it is implied from displx anyway.
+//
 // Revision 1.4  2003/06/04 16:02:55  fraggle
 // Remove broken printscreen function
 //

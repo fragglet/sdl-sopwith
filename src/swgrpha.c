@@ -164,6 +164,8 @@ void swdisp()
 
 	setvdisp();
 
+	// draw objects
+
 	for (ob = objtop; ob; ob = ob->ob_next) {
 		if (!(ob->ob_delflg && ob->ob_drwflg)
 		    || ob->ob_newsym->h == 1
@@ -176,7 +178,8 @@ void swdisp()
 					       ob_color(ob));
 			if (!ob->ob_drwflg)
 				continue;
-			if (ob->ob_x < displx || ob->ob_x > disprx) {
+			if (ob->ob_x < displx
+			 || ob->ob_x >= displx + SCR_WDTH) {
 				ob->ob_drwflg = 0;
 				continue;
 			}
@@ -263,6 +266,9 @@ void clrdispa()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/04 17:13:25  fraggle
+// Remove disprx, as it is implied from displx anyway.
+//
 // Revision 1.2  2003/06/04 15:59:09  fraggle
 // Remove broken screenshot function
 //

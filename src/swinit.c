@@ -419,7 +419,6 @@ void initplyr(OBJECTS * obp)
 	}
 
 	displx = ob->ob_x - SCR_CENTR;
-	disprx = displx + SCR_WDTH - 1;
 
 	swflush();
 }
@@ -1186,6 +1185,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/04 17:13:26  fraggle
+// Remove disprx, as it is implied from displx anyway.
+//
 // Revision 1.4  2003/06/04 15:33:53  fraggle
 // Store global argc/argv for gtk_init
 //

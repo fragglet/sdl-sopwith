@@ -263,7 +263,6 @@ BOOL moveplyr(OBJECTS * obp)
 	else {
 		dispdx = ob->ob_x - oldx;
 		displx += dispdx;
-		disprx += dispdx;
 	}
 
 	if (!ob->ob_athome) {
@@ -1188,6 +1187,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2003/06/04 17:13:26  fraggle
+// Remove disprx, as it is implied from displx anyway.
+//
 // Revision 1.5  2003/06/04 17:02:37  fraggle
 // Remove some obfuscation and dead code
 //
