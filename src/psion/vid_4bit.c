@@ -66,7 +66,7 @@ void Vid_DispGround(GRNDTYPE *gptr)
 	for(x=SCR_WDTH; x; ++p) {
 		if (oldy == *gptr) {
 			*p ^= 0xf;
-			p[vid_pitch] ^= 0xf;
+	//		p[vid_pitch] ^= 0xf;
 		} else if (oldy < *gptr) {
 			for(; oldy < *gptr; ++oldy) {
 				*p ^= 0xf;
@@ -83,7 +83,7 @@ void Vid_DispGround(GRNDTYPE *gptr)
 
 		if (oldy == *gptr) {
 			*p ^= 0xf0;
-			p[vid_pitch] ^= 0xf0;
+	//		p[vid_pitch] ^= 0xf0;
 		} else if (oldy < *gptr) {
 			for(; oldy < *gptr; ++oldy) {
 				*p ^= 0xf0;
@@ -323,8 +323,12 @@ void Vid_ClearBuf_Aux()
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:39  fraggle
-// Initial revision
+// Revision 1.2  2003/03/26 14:58:34  fraggle
+// devfs support
+// improved screen squishing for revo
+//
+// Revision 1.1.1.1  2003/02/14 19:03:39  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

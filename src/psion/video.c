@@ -42,6 +42,7 @@
 
 #define KB_DEV "/dev/tty"
 #define FB_DEV "/dev/fb0"
+#define FB_DEV_DEVFS "/dev/fb/0"
 
 // use the vga (8 bit) drawing routines
 
@@ -88,13 +89,19 @@ void Vid_Update()
 		// revo screen squishing
 
 		char *p1, *p2;
-		int y;
+		int y, x;
 
-		for (p1=scrbuf, p2=framebuffer+32 + ((fb_w - SCR_WDTH) / 4), 
-		     y=0;
-		     y < 200;
-		     y += 5, p1 += vid_pitch*5, p2 += vid_pitch << 2) 
-			memcpy(p2, p1, vid_pitch << 2);
+		p1 = scrbuf;
+		p2 = (framebuffer+32) + (fb_w - SCR_WDTH) / 4;
+
+		for (y=0; y<200; y += 5) {
+			memcpy(p2, p1, vid_pitch * 4);
+			p1 += vid_pitch * 4;
+			p2 += vid_pitch * 3;
+			for (x=0; x<vid_pitch; ++x) {
+				*p2++ &= *p1++;
+			}
+		}
 	}
 }
 
@@ -153,13 +160,20 @@ static void Vid_SetMode()
 {
 	struct fb_fix_screeninfo fixinfo;
 	struct fb_var_screeninfo varinfo;
+	char *device;
 
-        fb_fd = open(FB_DEV, O_RDWR);
+	device = FB_DEV;
+        fb_fd = open(device, O_RDWR);
 
-        if (fb_fd < 0) {
-                fprintf(stderr, "%s: cant open framebuffer\n", FB_DEV);
-                return;
-        }
+	if (fb_fd < 0) {
+		device = FB_DEV_DEVFS;
+		fb_fd = open(device, O_RDWR);
+
+		if (fb_fd < 0) {
+			fprintf(stderr, "cant open framebuffer\n");
+			exit(-1);
+		}
+	}
         
 	ioctl(fb_fd, KDSETMODE, KD_GRAPHICS);
         ioctl(fb_fd, FBIOGET_FSCREENINFO, &fixinfo);
@@ -167,21 +181,21 @@ static void Vid_SetMode()
 
 	if (varinfo.bits_per_pixel != 4) {
 		fprintf(stderr,
-			"%s: this is not a 4 bit framebuffer!\n", FB_DEV);
+			"%s: this is not a 4 bit framebuffer!\n", device);
 		exit(-1);
 	}
 
 	fb_w = varinfo.xres;
 	fb_h = varinfo.yres;
 
-        printf("%s: %ix%ix%i\n", FB_DEV, fb_w, fb_h, varinfo.bits_per_pixel);
+        printf("%s: %ix%ix%i\n", device, fb_w, fb_h, varinfo.bits_per_pixel);
 
 	framebuffer = mmap(NULL, fixinfo.smem_len,
 			   PROT_READ|PROT_WRITE, MAP_SHARED,
 			   fb_fd, 0);
 
 	if (framebuffer == MAP_FAILED) {
-		fprintf(stderr, "%s: cant mmap framebuffer\n", FB_DEV);
+		fprintf(stderr, "%s: cant mmap framebuffer\n", device);
 		exit(-1);
 	}
 
@@ -347,6 +361,10 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.3  2003/03/26 14:58:34  fraggle
+// devfs support
+// improved screen squishing for revo
+//
 // Revision 1.2  2003/03/26 14:29:50  fraggle
 // Move psion code to new key architecture
 //

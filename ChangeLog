@@ -3,6 +3,10 @@ Allow control via arrow keys, for people with "unusual" keyboard layouts
 Fix right-ctrl for ctrl-c (thanks to electricelf)
 Support Gtk+ 2.0
 
+Psion Port:
+	devfs support
+	improved screen squishing for revo
+
 v1.6.0
 
 Fixed bug with harry keys mode and returning to home from the left
