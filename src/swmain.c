@@ -166,6 +166,7 @@ static void new_move(void)
 	}
 }
 
+#if 0
 static void dump_cmds(void)
 {
 	printf("%i: %i, %i\n", countmove, 
@@ -173,6 +174,7 @@ static void dump_cmds(void)
 		latest_player_commands[1][countmove % MAX_NET_LAG]
 		);
 }
+#endif
 
 int swmain(int argc, char *argv[])
 {
@@ -210,7 +212,7 @@ int swmain(int argc, char *argv[])
 		/* if we have all the tic commands we need, we can move */
 
 		if (can_move()) {
-			dump_cmds();
+			//dump_cmds();
 			swmove();
 			swdisp();
 			swcollsn();
@@ -229,6 +231,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.13  2004/10/15 22:21:51  fraggle
+// Remove debug messages
+//
 // Revision 1.12  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //

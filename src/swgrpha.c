@@ -139,19 +139,10 @@ void swputsym(int x, int y, OBJECTS * ob)
 
 void swdisp()
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
+	int lag;
 
 	Vid_ClearBuf();
-
-	// calculate displx from the player position
-	// do sanity checks to make sure we never go out of range
-
-	displx = consoleplayer->ob_x - SCR_CENTR;
-
-	if (displx < 0)
-		displx = 0;
-	else if (displx >= MAX_X - SCR_WDTH)
-		displx = MAX_X - SCR_WDTH - 1;
 
 	// display the status bar
 
@@ -168,13 +159,35 @@ void swdisp()
 	
 	dispendmessage();
 
+	lag = latest_player_time[player] - countmove;
+
+	// calculate displx from the player position
+	// do sanity checks to make sure we never go out of range
+
+	displx = consoleplayer->ob_x - SCR_CENTR;
+
+	displx += consoleplayer->ob_dx * lag;
+
+	if (displx < 0)
+		displx = 0;
+	else if (displx >= MAX_X - SCR_WDTH)
+		displx = MAX_X - SCR_WDTH - 1;
+
 	// draw objects
 
 	for (ob = objtop; ob; ob = ob->ob_next) {
+		int x, y;
+
+		x = ob->ob_x;
+		y = ob->ob_y;
+
+		x += ob->ob_dx * lag;
+		y += ob->ob_dy * lag;
+
 		if (ob->ob_drwflg
-		 && ob->ob_x >= displx 
-		 && ob->ob_x < displx + SCR_WDTH) {
-			swputsym(ob->ob_x - displx, ob->ob_y, ob);
+		 && x >= displx 
+		 && x < displx + SCR_WDTH) {
+			swputsym(x - displx, y, ob);
 
 			if (ob->ob_drawf)
 				(*(ob->ob_drawf)) (ob);
@@ -212,6 +225,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.12  2004/10/15 22:21:51  fraggle
+// Remove debug messages
+//
 // Revision 1.11  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //
