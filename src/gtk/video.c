@@ -28,6 +28,7 @@
 
 #include "sw.h"
 #include "swconf.h"
+#include "swinit.h"
 #include "swmain.h"
 
 #include <gtk/gtk.h>
@@ -769,7 +770,6 @@ static void Vid_SetMode()
 	}
 
 	visual = gtk_widget_get_visual(window);
-//	visual->type = GDK_VISUAL_STATIC_GRAY;
 
 	screen = gdk_image_new(GDK_IMAGE_NORMAL,
 			       visual,
@@ -792,10 +792,6 @@ static void Vid_SetMode()
 		gtk_image_set(GTK_IMAGE(screen_widget), 
 			      screen, NULL);
 	}
-
-//	for (n = 0; n < SDLK_LAST; ++n)
-//		keysdown[n] = 0;
-
 }
 
 void Vid_Shutdown()
@@ -804,7 +800,6 @@ void Vid_Shutdown()
 		return;
 
 	Vid_UnsetMode();
-//	gdk_key_repeat_restore();
 
 	free(screenbuf);
 
@@ -813,8 +808,6 @@ void Vid_Shutdown()
 
 void Vid_Init()
 {
-	int xargc=1;
-	char **xargv;
 	GtkWidget *gui;
 	int i;
 
@@ -827,13 +820,9 @@ void Vid_Init()
 	// eww, we dont have the actual arguments
 	// so lets hack some together
 
-	xargv = malloc(sizeof(*xargv) * 2);
-	xargv[0] = "hello";
-	xargv[1] = NULL;
-
 	// set up gtk and build window
 
-	gtk_init(&xargc, &xargv);
+	gtk_init(&g_argc, &g_argv);
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -843,7 +832,6 @@ void Vid_Init()
 
 	gui = build_gui();
 
-//	gdk_key_repeat_disable();
 	gtk_container_add(GTK_CONTAINER(window), gui);
 
 	gtk_signal_connect(GTK_OBJECT(window), "destroy",
@@ -906,6 +894,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.5  2003/06/04 15:41:07  fraggle
+// Remove some dead code
+//
 // Revision 1.4  2003/05/26 20:07:15  fraggle
 // Pseudo GNOME HiG-ify
 // Remove Gtk+ 1.x support
