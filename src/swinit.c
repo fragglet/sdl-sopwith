@@ -1033,11 +1033,6 @@ void swrestart()
 	longjmp(envrestart, 0);
 }
 
-// global argv/argc
-
-int g_argc;
-char **g_argv;
-
 // init game
 
 void swinit(int argc, char *argv[])
@@ -1049,11 +1044,6 @@ void swinit(int argc, char *argv[])
 	BOOL k = FALSE;
 	int modeset = 0, keyset;
 	int i;
-
-	// store global argc/argv
-	
-	g_argc = argc;
-	g_argv = argv;
 
 #if 0
 	// old getflags code
@@ -1167,6 +1157,10 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2004/10/14 08:48:46  fraggle
+// Wrap the main function in system-specific code.  Remove g_argc/g_argv.
+// Fix crash when unable to initialise video subsystem.
+//
 // Revision 1.8  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

@@ -87,12 +87,18 @@ extern int     sintab[ANGLES];
 extern OLDWDISP wdisp[MAX_OBJS];
 extern jmp_buf envrestart;
 
+extern int swmain(int argc, char *argv[]);
+
 #endif
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2004/10/14 08:48:46  fraggle
+// Wrap the main function in system-specific code.  Remove g_argc/g_argv.
+// Fix crash when unable to initialise video subsystem.
+//
 // Revision 1.7  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

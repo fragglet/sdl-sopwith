@@ -224,7 +224,12 @@ static void Vid_SetMode()
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
 
-	SDL_Init(SDL_INIT_VIDEO);
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		printf("failed\n");
+		fprintf(stderr, "Unable to initialise video subsystem: %s\n",
+				SDL_GetError());
+		exit(-1);
+	}
 
 	srand(time(NULL));
 	set_icon(symbol_plane[rand() % 2][rand() % 16]);
@@ -246,7 +251,7 @@ static void Vid_SetMode()
 	if (screen) {
 		printf("initialised\n");
 	} else {
-		printf("failed\n");
+		printf("failed to set mode\n");
 		fprintf(stderr, "cant init SDL\n");
 		exit(-1);
 	}
@@ -435,6 +440,10 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.4  2004/10/14 08:48:46  fraggle
+// Wrap the main function in system-specific code.  Remove g_argc/g_argv.
+// Fix crash when unable to initialise video subsystem.
+//
 // Revision 1.3  2003/03/26 13:53:29  fraggle
 // Allow control via arrow keys
 // Some code restructuring, system-independent video.c added

@@ -24,11 +24,6 @@
 
 #include "sw.h"
 
-// global argc/argv
-
-extern int g_argc;
-extern char **g_argv;
-
 extern void swinit(int argc, char *argv[]);
 extern void swinitlevel();
 extern void swrestart();
@@ -53,6 +48,10 @@ extern void dispguages(OBJECTS *ob);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2004/10/14 08:48:46  fraggle
+// Wrap the main function in system-specific code.  Remove g_argc/g_argv.
+// Fix crash when unable to initialise video subsystem.
+//
 // Revision 1.4  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

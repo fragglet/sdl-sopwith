@@ -122,10 +122,9 @@ int sintab[ANGLES] = {		/* sine table of pi/8 increments    */
 };
 
 jmp_buf envrestart;		/* Restart environment for restart  */
-					/*  long jump.                      */
+				/*  long jump.                      */
 
-
-int main(int argc, char *argv[])
+int swmain(int argc, char *argv[])
 {
 	int nexttic;
 
@@ -183,6 +182,10 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2004/10/14 08:48:46  fraggle
+// Wrap the main function in system-specific code.  Remove g_argc/g_argv.
+// Fix crash when unable to initialise video subsystem.
+//
 // Revision 1.8  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

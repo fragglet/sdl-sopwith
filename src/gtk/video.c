@@ -800,9 +800,7 @@ void Vid_Init()
 	// eww, we dont have the actual arguments
 	// so lets hack some together
 
-	// set up gtk and build window
-
-	gtk_init(&g_argc, &g_argv);
+	// build window
 
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -874,6 +872,10 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.10  2004/10/14 08:48:46  fraggle
+// Wrap the main function in system-specific code.  Remove g_argc/g_argv.
+// Fix crash when unable to initialise video subsystem.
+//
 // Revision 1.9  2003/06/10 21:08:03  fraggle
 // Move email to zepler.net
 //
