@@ -64,23 +64,6 @@ static void plnsound(OBJECTS *obp)
 
 
 
-void dispplyr(OBJECTS * ob)
-{
-	if (shothole)
-		dispwindshot();
-	if (splatbird)
-		dispsplatbird();
-        if (splatox)
-                dispoxsplat();
-
-	plnsound(ob);
-}
-
-
-
-
-
-
 void dispbomb(OBJECTS * obp)
 {
 	register OBJECTS *ob = obp;
@@ -197,7 +180,7 @@ void dispwobj(OBJECTS * obp)
 
 static unsigned long seed = SEED_START;
 
-unsigned long randsd()
+static unsigned long randsd()
 {
 	seed *= countmove;
 	seed += 7491;
@@ -209,7 +192,7 @@ unsigned long randsd()
 }
 
 
-void dispwindshot()
+static void dispwindshot()
 {
 	OBJECTS ob;
 
@@ -232,7 +215,7 @@ void dispwindshot()
 
 
 
-void dispsplatbird()
+static void dispsplatbird()
 {
 	OBJECTS ob;
 
@@ -256,7 +239,7 @@ void dispsplatbird()
 
 
 
-void dispoxsplat()
+static void dispoxsplat()
 {
 	register OBJECTS *ob;
 	register int i;
@@ -282,12 +265,28 @@ void dispoxsplat()
 	dispinit = TRUE;
 }
 
+void dispplyr(OBJECTS * ob)
+{
+	if (shothole)
+		dispwindshot();
+	if (splatbird)
+		dispsplatbird();
+        if (splatox)
+                dispoxsplat();
+
+	plnsound(ob);
+}
+
 
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:10  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
+// Revision 1.1.1.1  2003/02/14 19:03:10  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

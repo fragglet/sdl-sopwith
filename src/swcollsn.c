@@ -44,62 +44,6 @@ static OBJECTS *collsno[MAX_PLYR];
 static int collptr;
 static int collxadj, collyadj;
 
-void swcollsn()
-{
-	register OBJECTS *ob, *obp, **obkd, **obkr;
-	register int xmax, ymin, ymax, i;
-	obtype_t otype;
-	int prevx1, prevx2;
-
-	collptr = killptr = 0;
-	collxadj = 2;
-	collyadj = 1;
-	if (countmove & 1) {
-		collxadj = -collxadj;
-		collyadj = -collyadj;
-	}
-	setadisp();
-	prevx1 = topobj.ob_x;
-	for (ob = topobj.ob_xnext; ob != &botobj; ob = ob->ob_xnext) {
-		prevx2 = prevx1 = ob->ob_x;
-
-		xmax = ob->ob_x + ob->ob_newsym->w - 1;
-		ymax = ob->ob_y;
-		ymin = ymax - ob->ob_newsym->h + 1;
-
-		for (obp = ob->ob_xnext;
-		     obp != &botobj && obp->ob_x <= xmax;
-		     obp = obp->ob_xnext) {
-			prevx2 = obp->ob_x;
-
-			if (obp->ob_y >= ymin
-			    && (obp->ob_y - obp->ob_newsym->h + 1) <= ymax)
-				colltest(ob, obp);
-		}
-
-		otype = ob->ob_type;
-
-		if ((otype == PLANE
-		     && ob->ob_state != FINISHED
-		     && ob->ob_state != WAITING
-		     && ob->ob_y < (ground[ob->ob_x + 8] + 24))
-		    || ((otype == BOMB || otype == MISSILE)
-			&& ob->ob_y < (ground[ob->ob_x + 4] + 12)))
-			tstcrash(ob);
-	}
-
-	obkd = killed;
-	obkr = killer;
-	for (i = 0; i < killptr; ++i, ++obkd, ++obkr)
-		swkill(*obkd, *obkr);
-
-	obkd = collsno;
-	for (i = 0; i < collptr; ++i, ++obkd) {
-		ob = *obkd;
-		ob->ob_dx = collsdx[i];
-		ob->ob_dy = collsdy[i];
-	}
-}
 
 // sdh 28/6/2002: new collision detection code done in memory rather
 //                than using the drawing functions
@@ -107,7 +51,7 @@ void swcollsn()
 
 //#define COLL_DEBUG
 
-void colltest(OBJECTS * ob1, OBJECTS * ob2)
+static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 {
 	int x, y;
 	int x1, y1, x2, y2;
@@ -204,39 +148,22 @@ void colltest(OBJECTS * ob1, OBJECTS * ob2)
 	}
 }
 
-
-
-void tstcrash(OBJECTS * obp)
+static void scoretarg(OBJECTS *obp, int score)
 {
-	register sopsym_t *sym = obp->ob_newsym;
-	register int x, y;
+	register OBJECTS *ob;
 
-	for (x=0; x<sym->w; ++x) {
-		y = obp->ob_y - ground[x + obp->ob_x];
-
-		// out of range?
-
-		if (y >= sym->h)
-			continue; 
-
-		// check for collision at this point
-
-		if (y < 0 || sym->data[y * sym->w + x]) {
-
-			// collision!
-
-			if (killptr < 2 * MAX_OBJS) {
-				killed[killptr] = obp;
-				killer[killptr++] = NULL;
-			}
-
-			return;
-		}
+	ob = obp;
+	if (playmode != PLAYMODE_ASYNCH) {
+		if (ob->ob_clr == 1)
+			nobjects[0].ob_score -= score;
+		else
+			nobjects[0].ob_score += score;
+		dispscore(&nobjects[0]);
+	} else {
+		nobjects[2 - ob->ob_clr].ob_score += score;
+		dispscore(&nobjects[2 - ob->ob_clr]);
 	}
 }
-
-
-static void scoretarg(OBJECTS * obp, int score);
 
 static BOOL scorepenalty(obtype_t ttype, OBJECTS * ob, int score)
 {
@@ -257,24 +184,6 @@ static BOOL scorepenalty(obtype_t ttype, OBJECTS * ob, int score)
 }
 
 
-
-
-static void scoretarg(OBJECTS *obp, int score)
-{
-	register OBJECTS *ob;
-
-	ob = obp;
-	if (playmode != PLAYMODE_ASYNCH) {
-		if (ob->ob_clr == 1)
-			nobjects[0].ob_score -= score;
-		else
-			nobjects[0].ob_score += score;
-		dispscore(&nobjects[0]);
-	} else {
-		nobjects[2 - ob->ob_clr].ob_score += score;
-		dispscore(&nobjects[2 - ob->ob_clr]);
-	}
-}
 
 
 static int crtdepth[8] = { 1, 2, 2, 3, 3, 2, 2, 1 };
@@ -300,10 +209,12 @@ static void crater(OBJECTS * ob)
 	forcdisp = TRUE;
 }
 
+
+
 // sdh -- renamed this to swkill to remove possible conflicts with
 // the unix kill() function
 
-void swkill(OBJECTS * ob1, OBJECTS * ob2)
+static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 {
 	register OBJECTS *ob, *obt;
 	register int i;
@@ -480,6 +391,93 @@ void swkill(OBJECTS * ob1, OBJECTS * ob2)
 }
 
 
+void swcollsn()
+{
+	register OBJECTS *ob, *obp, **obkd, **obkr;
+	register int xmax, ymin, ymax, i;
+	obtype_t otype;
+	int prevx1, prevx2;
+
+	collptr = killptr = 0;
+	collxadj = 2;
+	collyadj = 1;
+	if (countmove & 1) {
+		collxadj = -collxadj;
+		collyadj = -collyadj;
+	}
+	setadisp();
+	prevx1 = topobj.ob_x;
+	for (ob = topobj.ob_xnext; ob != &botobj; ob = ob->ob_xnext) {
+		prevx2 = prevx1 = ob->ob_x;
+
+		xmax = ob->ob_x + ob->ob_newsym->w - 1;
+		ymax = ob->ob_y;
+		ymin = ymax - ob->ob_newsym->h + 1;
+
+		for (obp = ob->ob_xnext;
+		     obp != &botobj && obp->ob_x <= xmax;
+		     obp = obp->ob_xnext) {
+			prevx2 = obp->ob_x;
+
+			if (obp->ob_y >= ymin
+			    && (obp->ob_y - obp->ob_newsym->h + 1) <= ymax)
+				colltest(ob, obp);
+		}
+
+		otype = ob->ob_type;
+
+		if ((otype == PLANE
+		     && ob->ob_state != FINISHED
+		     && ob->ob_state != WAITING
+		     && ob->ob_y < (ground[ob->ob_x + 8] + 24))
+		    || ((otype == BOMB || otype == MISSILE)
+			&& ob->ob_y < (ground[ob->ob_x + 4] + 12)))
+			tstcrash(ob);
+	}
+
+	obkd = killed;
+	obkr = killer;
+	for (i = 0; i < killptr; ++i, ++obkd, ++obkr)
+		swkill(*obkd, *obkr);
+
+	obkd = collsno;
+	for (i = 0; i < collptr; ++i, ++obkd) {
+		ob = *obkd;
+		ob->ob_dx = collsdx[i];
+		ob->ob_dy = collsdy[i];
+	}
+}
+
+void tstcrash(OBJECTS * obp)
+{
+	register sopsym_t *sym = obp->ob_newsym;
+	register int x, y;
+
+	for (x=0; x<sym->w; ++x) {
+		y = obp->ob_y - ground[x + obp->ob_x];
+
+		// out of range?
+
+		if (y >= sym->h)
+			continue; 
+
+		// check for collision at this point
+
+		if (y < 0 || sym->data[y * sym->w + x]) {
+
+			// collision!
+
+			if (killptr < 2 * MAX_OBJS) {
+				killed[killptr] = obp;
+				killer[killptr++] = NULL;
+			}
+
+			return;
+		}
+	}
+}
+
+
 void scorepln(OBJECTS * ob)
 {
 	scoretarg(ob, 50);
@@ -532,6 +530,10 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //

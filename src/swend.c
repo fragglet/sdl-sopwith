@@ -32,6 +32,15 @@
 #include "swsound.h"
 #include "swutil.h"
 
+
+static void swreport()
+{
+	puts("\r\nEnd of game statictics\r\n\r\n");
+	puts("Objects used: ");
+	dispd(((int) objsmax - (int) objtop + 1) / sizeof(OBJECTS), 0);
+	puts("\r\n");
+}
+
 void swend(char *msg, BOOL update)
 {
 	register char *closmsg = NULL;
@@ -147,19 +156,13 @@ void loser(OBJECTS * ob)
 
 
 
-void swreport()
-{
-	puts("\r\nEnd of game statictics\r\n\r\n");
-	puts("Objects used: ");
-	dispd(((int) objsmax - (int) objtop + 1) / sizeof(OBJECTS), 0);
-	puts("\r\n");
-}
-
-
-
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //

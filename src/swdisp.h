@@ -35,10 +35,6 @@ extern void disptarg(OBJECTS *ob);
 extern void dispflck(OBJECTS *ob);
 extern void dispbird(OBJECTS *ob);
 extern void dispwobj(OBJECTS *obp);
-extern unsigned long   randsd();
-extern void dispwindshot();
-extern void dispsplatbird();
-extern void dispoxsplat();
 
 #endif
 
@@ -46,8 +42,12 @@ extern void dispoxsplat();
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:30  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
+// Revision 1.1.1.1  2003/02/14 19:03:30  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

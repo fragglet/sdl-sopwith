@@ -32,7 +32,6 @@ extern void swputsym(int x, int y, OBJECTS *ob);
 //extern char    fill[];
 
 extern void swinitgrph();
-extern void swshutdowngrph();
 
 extern void colorscreen(int color);
 
@@ -50,8 +49,12 @@ extern void movedisp();
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:30  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
+// Revision 1.1.1.1  2003/02/14 19:03:30  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

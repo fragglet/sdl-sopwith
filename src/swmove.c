@@ -1110,7 +1110,7 @@ BOOL hitpln(OBJECTS * obp)
 
 
 
-BOOL stallpln(OBJECTS * obp)
+static BOOL stallpln(OBJECTS * obp)
 {
 	register OBJECTS *ob;
 
@@ -1171,6 +1171,10 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //

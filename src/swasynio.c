@@ -319,7 +319,7 @@ static void tcploop_connect()
 
 // setup connection
 
-void asyninit()
+static void asyninit()
 {
 	if (asynmode == ASYN_TCPLOOP) {
 		tcploop_connect();
@@ -390,6 +390,10 @@ void init2asy()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //

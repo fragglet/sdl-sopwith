@@ -145,7 +145,7 @@ static void initgrnd()
 	memcpy(ground, orground, sizeof(GRNDTYPE) * MAX_X);
 }
 
-void initseed()
+static void initseed()
 {
 	srand(clock());
 	explseed = rand() % 65536;
@@ -830,7 +830,7 @@ void initsmok(OBJECTS * obop)
 
 // birds
 
-void initflck()
+static void initflck()
 {
 	static int ifx[] =
 		{ MINFLCKX, MINFLCKX + 1000, MAXFLCKX - 1000, MAXFLCKX };
@@ -906,7 +906,7 @@ void initbird(OBJECTS * obop, int i)
 
 // oxen
 
-void initoxen()
+static void initoxen()
 {
 	OBJECTS *ob;
 	int i;
@@ -948,7 +948,7 @@ void initoxen()
 
 
 
-void initgdep()
+static void initgdep()
 {
 	gmaxspeed = MAX_SPEED + gamenum;
 	gminspeed = MIN_SPEED + gamenum;
@@ -1177,6 +1177,10 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
 // Revision 1.2  2003/04/05 22:31:29  fraggle
 // Remove PLAYMODE_MULTIPLE and swnetio.c
 //

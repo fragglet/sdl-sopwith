@@ -26,9 +26,7 @@
 
 extern void swinit(int argc, char *argv[]);
 extern void swinitlevel();
-extern void initseed();
 extern void swrestart();
-extern void initgdep();
 extern void initdisp(BOOL reset);
 extern void dispguages(OBJECTS *ob); 
 extern void initcomp(OBJECTS *obp);
@@ -40,9 +38,7 @@ extern void initmiss(OBJECTS *obop);
 extern void initburst(OBJECTS *obop);
 extern void initexpl(OBJECTS *obop, int small);
 extern void initsmok(OBJECTS *obop);
-extern void initflck();
 extern void initbird(OBJECTS *obop, int i);
-extern void initoxen();
 
 #endif
 
@@ -50,8 +46,12 @@ extern void initoxen();
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:31  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
+// Revision 1.1.1.1  2003/02/14 19:03:31  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

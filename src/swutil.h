@@ -26,7 +26,6 @@
 
 extern void movexy(OBJECTS *ob, int *x, int *y);
 extern void setdxdy(OBJECTS *obj, int dx, int dy);
-extern void trap14();
 extern void swsetblk();
 extern void swprint();
 extern void swgetjoy();
@@ -38,8 +37,12 @@ extern void histend();
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:33  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
+// Revision 1.1.1.1  2003/02/14 19:03:33  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

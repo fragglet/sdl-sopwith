@@ -25,9 +25,7 @@
 #include "sw.h"
 
 extern void swauto(OBJECTS *ob);
-extern void attack(OBJECTS *obp, OBJECTS *obt);
 extern int gohome(OBJECTS *obpt);
-extern int shoot(OBJECTS *obt);
 extern int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway);
 extern int range(int x, int y, int ax, int ay);
 
@@ -37,8 +35,12 @@ extern int range(int x, int y, int ax, int ay);
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:29  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
+// Revision 1.1.1.1  2003/02/14 19:03:29  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

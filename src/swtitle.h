@@ -30,7 +30,6 @@ extern void getgamemode();
 extern int getgame();
 extern void swtitln();
 extern void swtitlf();
-extern void swtickc();
 
 #endif
 
@@ -38,8 +37,12 @@ extern void swtickc();
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:33  fraggle
-// Initial revision
+// Revision 1.2  2003/04/05 22:44:04  fraggle
+// Remove some useless functions from headers, make them static if they
+// are not used by other files
+//
+// Revision 1.1.1.1  2003/02/14 19:03:33  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
