@@ -9,7 +9,7 @@ EXTRA_PROGRAMS = sopwith gtksopwith psopwith
 CFLAGS = @CFLAGS@ -I..
 
 COMMON_SRC =       \
-cgavideo.h  swcollsn.c  swgames.h   swmain.h    swutil.h 	\
+video.h	    swcollsn.c  swgames.h   swmain.h    swutil.h 	\
 font.h      swcollsn.h  swground.c  swmisc.c    tcpcomm.c 	\
 pcsound.h   swconf.c    swground.h  swmisc.h    swsound.c   tcpcomm.h 	\
 std.h       swconf.h    swgrpha.c   swmove.c    swsound.h   timer.h 	\
@@ -17,7 +17,8 @@ sw.h        swdisp.c    swgrpha.h   swmove.h    swsymbol.c 		\
 swasynio.c  swdisp.h    swinit.c    swnetio.c   swsymbol.h 		\
 swasynio.h  swend.c     swinit.h    swnetio.h   swtitle.c 		\
 swauto.c    swend.h     swmach.h    swobject.c  swtitle.h 		\
-swauto.h    swgames.c   swmain.c    swobject.h  swutil.c
+swauto.h    swgames.c   swmain.c    swobject.h  swutil.c		\
+video.c
 
 sopwith_SOURCES = $(COMMON_SRC)
 sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@

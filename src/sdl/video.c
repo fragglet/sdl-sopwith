@@ -54,18 +54,6 @@ static SDL_Surface *screen;
 static SDL_Surface *screenbuf = NULL;        // draw into buffer in 2x mode
 static int colors[16];
 
-// which keys are currently down
-// this is actually a simple bitfield
-// bit 0 is whether the button is currently down
-// bit 1 is whether the button has been pressed
-//       since the last call of Vid_GetGameKeys
-// in this way, every button press will have an effect:
-// if it is done based on what is currently down it is
-// possible to miss keypresses (if you press and release
-// a button fast enough)
-
-static int keysdown[SDLK_LAST];
-
 static int getcolor(int r, int g, int b)
 {
 	SDL_Palette *pal = screen->format->palette;
@@ -265,7 +253,7 @@ static void Vid_SetMode()
 
 	SDL_EnableUNICODE(1);
 
-	for (n = 0; n < SDLK_LAST; ++n)
+	for (n = 0; n < NUM_KEYS; ++n)
 		keysdown[n] = 0;
 
 	SDL_WM_SetCaption("SDL Sopwith", NULL);
@@ -343,10 +331,44 @@ static int input_buffer_pop()
 	return c;
 }
 
+static sopkey_t translate_key(int sdl_key)
+{
+	switch (sdl_key) {
+	case SDLK_LEFT:
+	case SDLK_COMMA:
+		return KEY_PULLUP;
+	case SDLK_RIGHT:
+	case SDLK_SLASH:
+		return KEY_PULLDOWN;
+	case SDLK_DOWN:
+	case SDLK_PERIOD:
+		return KEY_FLIP;
+	case SDLK_x:
+		return KEY_ACCEL;
+	case SDLK_z:
+		return KEY_DECEL;
+	case SDLK_b:
+		return KEY_BOMB;
+	case SDLK_SPACE:
+		return KEY_FIRE;
+	case SDLK_h:
+		return KEY_HOME;
+	case SDLK_v:
+		return KEY_MISSILE;
+	case SDLK_c:
+		return KEY_STARBURST;
+	case SDLK_s:
+		return KEY_SOUND;
+	default:
+		return KEY_UNKNOWN;
+	}
+}
+
 static void getevents()
 {
 	SDL_Event event;
 	static BOOL ctrldown = 0, altdown = 0;
+	sopkey_t translated;
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
@@ -376,15 +398,20 @@ static void getevents()
  			} else {
 				input_buffer_push(event.key.keysym.unicode & 0x7f);
 			}
-			keysdown[event.key.keysym.sym] |= 3;
+			translated = translate_key(event.key.keysym.sym);
+			if (translated)
+				keysdown[translated] |= 3;
 			break;
 		case SDL_KEYUP:
 			if (event.key.keysym.sym == SDLK_LALT)
 				altdown = 0;
 			else if (event.key.keysym.sym == SDLK_LCTRL || event.key.keysym.sym == SDLK_RCTRL)
 				ctrldown = 0;
-			else
-				keysdown[event.key.keysym.sym] &= ~1;
+			else {
+				translated = translate_key(event.key.keysym.sym);
+				if (translated)
+					keysdown[translated] &= ~1;
+			}
 			break;
 		}
 	}
@@ -399,61 +426,6 @@ int Vid_GetKey()
 	return input_buffer_pop();
 }
 
-int Vid_GetGameKeys()
-{
-	int i, c = 0;
-
-	getevents();
-
-	while (input_buffer_pop());
-
-	if (keysdown[SDLK_PERIOD]) {
-		keysdown[SDLK_PERIOD] = 0;
-		c |= K_FLIP;
-	}
-	if (keysdown[SDLK_COMMA])
-		c |= K_FLAPU;
-	if (keysdown[SDLK_SLASH])
-		c |= K_FLAPD;
-	if (keysdown[SDLK_x]) {
-		keysdown[SDLK_x] = 0;
-		c |= K_ACCEL;
-	}
-	if (keysdown[SDLK_z]) {
-		keysdown[SDLK_z] = 0;
-		c |= K_DEACC;
-	}
-	if (keysdown[SDLK_s]) {
-		keysdown[SDLK_s] = 0;
-		c |= K_SOUND;
-	}
-	if (keysdown[SDLK_b])
-		c |= K_BOMB;
-	if (keysdown[SDLK_SPACE])
-		c |= K_SHOT;
-	if (keysdown[SDLK_h])
-		c |= K_HOME;
-	if (keysdown[SDLK_v]) {
-		keysdown[SDLK_v] = 0;
-		c |= K_MISSILE;
-	}
-	if (keysdown[SDLK_c]) {
-		keysdown[SDLK_c] = 0;
-		c |= K_STARBURST;
-	}
-	if (ctrlbreak) {
-		c |= K_BREAK;
-	}
-	
-	for (i=0; i<SDLK_LAST; ++i) {
-		keysdown[i] &= ~2;
-//		if (keysdown[i] & 2 && !(keysdown[i] & 1))
-//			keysdown[i] = 0;
-	}
-
-	return c;
-}
-
 BOOL Vid_GetCtrlBreak()
 {
 	getevents();
@@ -463,6 +435,10 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.3  2003/03/26 13:53:29  fraggle
+// Allow control via arrow keys
+// Some code restructuring, system-independent video.c added
+//
 // Revision 1.2  2003/03/26 12:02:38  fraggle
 // Apply patch from David B. Harris (ElectricElf) for right ctrl key and
 // documentation

@@ -50,7 +50,6 @@ static GdkImage *screen;
 static GtkWidget *screen_widget = NULL;
 static GtkWidget *menubar;
 static int colors[16];
-static int keysdown[0xff];
 
 //============================================================================
 //
@@ -297,19 +296,55 @@ static gint screen_context(GtkWidget *widget, GdkEvent *event)
 	return 0;
 }
 
+static sopkey_t translate_key(int gdk_key)
+{
+	switch (gdk_key) {
+	case GDK_Down:
+	case GDK_period:
+		return KEY_FLIP;
+	case GDK_Left:
+	case GDK_comma:
+		return KEY_PULLUP;
+	case GDK_Right:
+	case GDK_slash:
+		return KEY_PULLDOWN;
+	case GDK_x:
+		return KEY_ACCEL;
+	case GDK_z:
+		return KEY_DECEL;
+	case GDK_b:
+		return KEY_BOMB;
+	case GDK_space:
+		return KEY_FIRE;
+	case GDK_h:
+		return KEY_HOME;
+	case GDK_v:
+		return KEY_MISSILE;
+	case GDK_c:
+		return KEY_STARBURST;
+	case GDK_s:
+		return KEY_SOUND;
+	default:
+		return KEY_UNKNOWN;
+	}
+}
+
 static gint key_snooper(GtkWidget *widget,
 			GdkEventKey *event,
 			gpointer func_data)
 {
 	int key = event->keyval;
 	static BOOL ctrldown = FALSE;
+	sopkey_t translated;
 
 	if (key >= GDK_A && key <= GDK_Z) 
 		key += GDK_a - GDK_A;
 
 	if (event->type == GDK_KEY_PRESS) {
-		if (key >= 0 && key < 0xff)
-			keysdown[key] |= 3;
+		translated = translate_key(key);
+
+		if (translated)
+			keysdown[translated] |= 3;
 		
 		if (key == GDK_c && ctrldown) {
 			++ctrlbreak;
@@ -328,8 +363,11 @@ static gint key_snooper(GtkWidget *widget,
 		else
 			input_buffer_push(key);
 	} else if (event->type == GDK_KEY_RELEASE) {
-		if (key >= 0 && key < 0xff)
-			keysdown[key] &= ~1;
+		translated = translate_key(key);
+
+		if (translated)
+			keysdown[translated] &= ~1;
+
 		if(key == GDK_Control_L)
 			ctrldown = FALSE;
 	}
@@ -725,9 +763,13 @@ void Vid_Init()
 	int xargc=1;
 	char **xargv;
 	GtkWidget *gui;
+	int i;
 
 	if (initted)
 		return;
+
+	for (i=0; i<NUM_KEYS; ++i)
+		keysdown[i] = 0;
 
 	// eww, we dont have the actual arguments
 	// so lets hack some together
@@ -801,54 +843,6 @@ int Vid_GetKey()
 	return input_buffer_pop();
 }
 
-int Vid_GetGameKeys()
-{
-	int i, c = 0;
-
-	getevents();
-
-	while (input_buffer_pop());
-
-	if (keysdown[GDK_period]) {
-		keysdown[GDK_period] = 0;
-		c |= K_FLIP;
-	}
-	if (keysdown[GDK_comma])
-		c |= K_FLAPU;
-	if (keysdown[GDK_slash])
-		c |= K_FLAPD;
-	if (keysdown[GDK_x]) {
-		keysdown[GDK_x] = 0;
-		c |= K_ACCEL;
-	}
-	if (keysdown[GDK_z]) {
-		keysdown[GDK_z] = 0;
-		c |= K_DEACC;
-	}
-	if (keysdown[GDK_b])
-		c |= K_BOMB;
-	if (keysdown[GDK_space])
-		c |= K_SHOT;
-	if (keysdown[GDK_h])
-		c |= K_HOME;
-	if (keysdown[GDK_v]) {
-		keysdown[GDK_v] = 0;
-		c |= K_MISSILE;
-	}
-	if (keysdown[GDK_c]) {
-		keysdown[GDK_c] = 0;
-		c |= K_STARBURST;
-	}
-	if (ctrlbreak) {
-		c |= K_BREAK;
-	}
-	
-	for (i=0; i<0xff; ++i) {
-		keysdown[i] &= ~2;
-	}
-	return c;
-}
-
 BOOL Vid_GetCtrlBreak()
 {
 	getevents();
@@ -859,8 +853,12 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
-// Revision 1.1  2003/02/14 19:03:36  fraggle
-// Initial revision
+// Revision 1.2  2003/03/26 13:53:29  fraggle
+// Allow control via arrow keys
+// Some code restructuring, system-independent video.c added
+//
+// Revision 1.1.1.1  2003/02/14 19:03:36  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
@@ -877,3 +875,4 @@ BOOL Vid_GetCtrlBreak()
 // sdh 21/10/2001: added cvs tags
 //
 //-----------------------------------------------------------------------
+

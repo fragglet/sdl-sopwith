@@ -22,4 +22,5 @@ Bug: If you crash into the last building in a level, the level exit sequence
 runs with you inside the building rubble (!)
 Hi score table?
 Port Gtk+ version to Gtk2
+Reconfigurable keys
 

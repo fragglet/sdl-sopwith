@@ -28,6 +28,34 @@
 
 #include "sw.h"
 
+typedef enum {
+	KEY_UNKNOWN,
+	KEY_PULLUP,
+	KEY_PULLDOWN,
+	KEY_FLIP,
+	KEY_BOMB,
+	KEY_FIRE,
+	KEY_HOME,
+	KEY_MISSILE,
+	KEY_STARBURST,
+	KEY_ACCEL,
+	KEY_DECEL,
+	KEY_SOUND,
+	NUM_KEYS,
+} sopkey_t;
+
+// which keys are currently down
+// this is actually a simple bitfield
+// bit 0 is whether the button is currently down
+// bit 1 is whether the button has been pressed
+//       since the last call of Vid_GetGameKeys
+// in this way, every button press will have an effect:
+// if it is done based on what is currently down it is
+// possible to miss keypresses (if you press and release
+// a button fast enough)
+
+extern int keysdown[NUM_KEYS];
+
 extern BOOL vid_fullscreen;         // fullscreen
 extern BOOL vid_double_size;        // x2 scale
 
@@ -93,8 +121,12 @@ void Vid_CopyBuf();
 //-----------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:34  fraggle
-// Initial revision
+// Revision 1.2  2003/03/26 13:53:29  fraggle
+// Allow control via arrow keys
+// Some code restructuring, system-independent video.c added
+//
+// Revision 1.1.1.1  2003/02/14 19:03:34  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
