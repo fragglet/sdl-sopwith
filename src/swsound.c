@@ -48,6 +48,8 @@ static unsigned expltone;		/*  Current explosion tone          */
 static int explticks;			/*  Ticks until note change         */
 static int exploctv;			/*  Octave                          */
 
+//#define SOPWITH1_TUNE
+
 #ifdef SOPWITH1_TUNE
 static char      *expltune[7] = {
         ">e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d1/",

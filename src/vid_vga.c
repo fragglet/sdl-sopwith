@@ -153,8 +153,10 @@ int Vid_GetPixel(int x, int y)
 
 ---------------------------------------------------------------------------*/
 
+// sdh 27/7/2002: removed collision detection, this is now done
+// independently of the drawing code (retcode)
 
-void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
+void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {
 	unsigned char *sptr = dispoff + (SCR_HGHT-1 - y) * vid_pitch + x;
 	unsigned char *data = symbol->data;
@@ -163,8 +165,6 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
 	int wrap = x - SCR_WDTH + w; 
 
 	if (w == 1 && h == 1) {
-		if (retcode)
-			*retcode = Vid_GetPixel(x, y);
 		Vid_XorPixel(x, y, clr);
 		return;
 	}
@@ -185,13 +185,8 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
 			for (x1=0; x1<w; ++x1, ++sptr2) {
 				int i = *data++;
 
-				if (i) {
-					if (retcode && *sptr2) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
+				if (i)
 					*sptr2 ^= i ^ 3;
-				}
 			}
 			data += wrap;
 			sptr += vid_pitch;
@@ -202,13 +197,8 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
 			for (x1=0; x1<w; ++x1, ++sptr2) {
 				unsigned int i = *data++;
 
-				if (i) {
-					if (retcode && *sptr2) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
+				if (i)
 					*sptr2 ^= i;
-				}
 			}
 			data += wrap;
 			sptr += vid_pitch;
@@ -274,6 +264,7 @@ void Vid_ClearBuf_Aux()
 //
 // $Log: $
 //
+// sdh 27/7/2002: remove collision detection code
 // sdh 27/6/2002: move to new sopsym_t for symbols
 // sdh 25/04/2002: rename vga_{pitch,vram} to vid_{pitch,vram}
 // sdh 26/03/2002: split off platform specific drawing functions here

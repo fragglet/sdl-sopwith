@@ -57,8 +57,6 @@ void Vid_DispGround(GRNDTYPE *gptr)
 	int oldy = *gptr;
 	int x;
 
-	Vid_DispGround_Solid(gptr); return;
-
 	for(x=SCR_WDTH; x; ++p) {
 		if (oldy == *gptr) {
 			*p ^= 0xf;
@@ -140,12 +138,13 @@ void Vid_PlotPixel(int x, int y, int clr)
 {
 	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 
+	clr = ~clr & 0x3;
+	clr |= clr << 2;
+
 	if (x & 1) {
-		*s &= 0xf;
-		*s |= (~clr & 0x3) << 6;
+		*s = (*s & 0xf) | (clr << 4);
 	} else {
-		*s &= 0xf0;
-		*s |= (~clr & 0x3) << 2;
+		*s = (*s & 0xf0) | clr;
 	}
 }
 
@@ -153,10 +152,13 @@ void Vid_XorPixel(int x, int y, int clr)
 {
 	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 
+	clr &= 0x3;
+	clr |= clr << 2;
+
 	if (x & 1)
-		*s ^= (clr & 0x3) << 6;
+		*s ^= clr << 4;
 	else
-		*s ^= (clr & 0x3) << 2;
+		*s ^= clr;
 }
 
 int Vid_GetPixel(int x, int y)
@@ -181,16 +183,16 @@ int Vid_GetPixel(int x, int y)
 ---------------------------------------------------------------------------*/
 
 // sdh 28/6/2002: move to new sopsym_t for sprites
+// sdh 27/7/2002: removed collision detection code, this is now done
+// independently of the drawing code (retcode)
 
-void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
+void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {
 	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
 	unsigned char *data = symbol->data;
 	int w, h;
 
 	if (symbol->h == 1 && symbol->w == 1) {
-		if (retcode)
-			*retcode = Vid_GetPixel(x, y);
 		Vid_XorPixel(x, y, clr);
 		return;
 	}
@@ -208,54 +210,18 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
 		for (y=0; y<h; ++y) {
 			unsigned char *s2 = s;
 	
-			for (x=0; x<w; x += 4) {
+			for (x=0; x<w; x += 2) {
 				int i;
 
 				i = *data++;
        
-				if (i) {
-					if (retcode && (~*s2 & 0xc)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= (i ^ 3) << 2;
-				}
+				if (i)
+					*s2 ^= (i | (i << 2)) ^ 0xf;
 
 				i = *data++;
 	
-				if (i) {
-					if (retcode && (~*s2 & 0xc0)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= (i ^ 3) << 6;
-				}
-	
-				++s2;
-	
-				i = *data++;
-	
-				if (i) {
-					if (retcode && (~*s2 & 0xc)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= (i ^ 3) << 2;
-				}
-	
-				i = *data++;
-	
-				if (i) {
-					if (retcode && (~*s2 & 0xc0)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= (i ^ 3) << 6;
-				}
+				if (i)
+					*s2 ^= ((i << 6) | (i << 4)) ^ 0xf0;
 	
 				++s2;
 			}
@@ -269,54 +235,18 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
 		for (y=0; y<h; ++y) {
 			unsigned char *s2 = s;
 
-			for (x=0; x<w; x += 4) {
+			for (x=0; x<w; x += 2) {
 				int i;
 	
 				i = *data++;
 	
-				if (i) {
-					if (retcode && (~*s2 & 0xc)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= i << 2;
-				}
+				if (i)
+					*s2 ^= (i << 2) | i;
 	
 				i = *data++;
 	
-				if (i) {
-					if (retcode && (~*s2 & 0xc0)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= i << 6;
-				}
-	
-				++s2;
-	
-				i = *data++;
-	
-				if (i) {
-					if (retcode && (~*s2 & 0xc)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= i << 2;
-				}
-	
-				i = *data++;
-	
-				if (i) {
-					if (retcode && (~*s2 & 0xc0)) {
-						*retcode = TRUE;
-						retcode = NULL;
-					}
-	
-					*s2 ^= i << 6;
-				}
+				if (i)
+					*s2 ^= (i << 6) | (i << 4);
 	
 				++s2;
 			}
@@ -330,6 +260,14 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr, int *retcode)
 
 void Vid_Box(int x, int y, int w, int h, int c)
 {
+	unsigned char *s = dispoff + (SCR_HGHT-1-y) * vid_pitch + (x >> 1);
+	
+	c = ~c & 0x3;
+	c |= (c << 6) | (c << 4) | (c << 2);
+	w >>= 1;
+
+	for (; h >= 0; --h, s += vid_pitch)
+		memset(s, c, w);
 }
 
 /*---------------------------------------------------------------------------
@@ -356,7 +294,7 @@ void Vid_SetBuf_Aux()
 
 void Vid_CopyBuf()
 {
-	memset(vid_vram, 0xcc, VRAMSIZE);
+	memset(vid_vram, 0xff, VRAMSIZE);
 	memcpy(vid_vram + ((SCR_HGHT-SBAR_HGHT) * vid_pitch), 
 	       auxdisp + ((SCR_HGHT-SBAR_HGHT) * vid_pitch), 
 	       SBAR_HGHT*vid_pitch);
@@ -365,7 +303,7 @@ void Vid_CopyBuf()
 
 void Vid_ClearBuf()
 {
-	memset(vid_vram, 0xcc, VRAMSIZE);
+	memset(vid_vram, 0xff, VRAMSIZE);
 }
 
 void Vid_ClearBuf_Aux()
@@ -373,13 +311,15 @@ void Vid_ClearBuf_Aux()
 	if (!auxdisp)
 		auxdisp = malloc(VRAMSIZE);
 
-	memset(auxdisp, 0xcc, VRAMSIZE);
+	memset(auxdisp, 0xff, VRAMSIZE);
 }
 
 //---------------------------------------------------------------------------
 //
 // $Log: $
 //
+// sdh 27/7/2002: remove collision detection code
+// sdh 28/6/2002: move to sopsym_t for sprites
 // sdh 25/04/2002: rename vid4_{pitch,vram} to vid_{pitch,vram}
 // sdh 20/04/2002: psion framebuffer port
 // sdh 26/03/2002: split off platform specific drawing functions here

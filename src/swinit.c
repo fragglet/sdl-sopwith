@@ -826,16 +826,15 @@ void initsmok(OBJECTS * obop)
 
 
 
-static int ifx[] =
-    { MINFLCKX, MINFLCKX + 1000, MAXFLCKX - 1000, MAXFLCKX };
-static int ify[] = { MAX_Y - 1, MAX_Y - 1, MAX_Y - 1, MAX_Y - 1 };
-static int ifdx[] = { 2, 2, -2, -2 };
-
 
 // birds
 
 void initflck()
 {
+	static int ifx[] =
+		{ MINFLCKX, MINFLCKX + 1000, MAXFLCKX - 1000, MAXFLCKX };
+	static int ify[] = { MAX_Y - 1, MAX_Y - 1, MAX_Y - 1, MAX_Y - 1 };
+	static int ifdx[] = { 2, 2, -2, -2 };
 	OBJECTS *ob;
 	int i, j;
 
@@ -963,8 +962,6 @@ void initgdep()
 
 void swinitlevel()
 {
-	printf("swinitlevel\n");
-
 	if (playmode == PLAYMODE_MULTIPLE)
 		init1mul(FALSE, 0);
 	else if (playmode == PLAYMODE_ASYNCH)

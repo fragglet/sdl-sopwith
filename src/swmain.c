@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 	// makes for a more coherent progression through the setup process
 
 	if (!playmode)
-		getmode();
+		getgamemode();
 	swinitlevel();
 
 	nexttic = Timer_GetMS();

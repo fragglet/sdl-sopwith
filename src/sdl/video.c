@@ -29,6 +29,16 @@
 
 //#define LCD
 
+static SDL_Color cga_pal[] = {
+#ifdef LCD
+	{213, 226, 138}, {150, 160, 150}, 
+	{120, 120, 160}, {0, 20, 200},
+#else
+	{0, 0, 0}, {0, 255, 255},
+	{255, 0, 255}, {255, 255, 255},
+#endif
+};
+
 BOOL vid_fullscreen = FALSE;
 BOOL vid_double_size = TRUE;
 
@@ -78,6 +88,37 @@ static int getcolor(int r, int g, int b)
 	return n;
 }
 
+// convert a sopsym_t into a surface
+
+SDL_Surface *surface_from_sopsym(sopsym_t *sym)
+{
+	SDL_Surface *surface = SDL_CreateRGBSurface(0, sym->w, sym->h, 8,
+						    0, 0, 0, 0);
+	char *p1, *p2;
+	int y;
+
+	if (!surface)
+		return NULL;
+
+	// set palette
+	
+	SDL_SetColors(surface, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));	
+
+	SDL_LockSurface(surface);
+
+	p1 = sym->data;
+	p2 = (unsigned char *) surface->pixels;
+
+	// copy data from symbol into surface
+
+	for (y=0; y<sym->h; ++y, p1 += sym->w, p2 += surface->pitch)
+		memcpy(p2, p1, sym->w);
+
+	SDL_UnlockSurface(surface);
+
+	return surface;
+}
+
 // 2x scale
 
 static void Vid_UpdateScaled()
@@ -125,26 +166,25 @@ void Vid_Update()
 	SDL_LockSurface(screenbuf);
 }
 
-static void set_icon(char *icon_file)
+static void set_icon(sopsym_t *sym)
 {
 	unsigned char *pixels;
 	unsigned char *mask;
-	SDL_Surface *icon = SDL_LoadBMP(icon_file);
+	SDL_Surface *icon = surface_from_sopsym(sym);
 	int mask_size;
 	int i;
 	int x, y;
 
-	if (!icon) {
-		fprintf(stderr,
-			"set_icon: cant load %s\n", icon_file);
+	if (!icon)
 		return;
-	}
 
 	// generate mask from icon
 
 	mask_size = (icon->w * icon->h) / 8 + 1;
 
 	mask = (unsigned char *)malloc(mask_size);
+
+	SDL_LockSurface(icon);
 
 	pixels = (unsigned char *)icon->pixels;
 
@@ -165,9 +205,14 @@ static void set_icon(char *icon_file)
 		}
 	}
 
+	SDL_UnlockSurface(icon);
+
 	// set icon
 
 	SDL_WM_SetIcon(icon, mask);
+
+	SDL_FreeSurface(icon);
+	free(mask);
 }
 
 
@@ -181,17 +226,14 @@ static void Vid_SetMode()
 	int n;
 	int w, h;
 	int flags = 0;
-	SDL_Color pal[5] = {
-		{0, 0, 0}, {0, 255, 255},
-      		{255, 0, 255}, {255, 255, 255},
-	};
 
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
 
 	SDL_Init(SDL_INIT_VIDEO);
 
-	set_icon("icon.bmp");
+	srand(time(NULL));
+	set_icon(symbol_plane[rand() % 2][rand() % 16]);
 
 	w = SCR_WDTH;
 	h = SCR_HGHT;
@@ -220,20 +262,10 @@ static void Vid_SetMode()
 	for (n = 0; n < SDLK_LAST; ++n)
 		keysdown[n] = 0;
 
-#ifdef LCD
-	pal[0].r = 213; pal[0].g = 226; pal[0].b = 138;
-	pal[1].r = 150; pal[1].g = 160; pal[1].b = 150;
-	pal[2].r = 120; pal[2].g = 120; pal[2].b = 160;
-	pal[3].r = 0;   pal[3].g = 20;  pal[3].b = 200;
-#endif
-
-	SDL_SetColors(screen, pal, 0, 4);
-
 	SDL_WM_SetCaption("SDL Sopwith", NULL);
 
-	SDL_SetColors(screenbuf, pal, 0, 4);		
-
-	SDL_LockSurface(screenbuf);
+	SDL_SetColors(screen, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
+	SDL_SetColors(screenbuf, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
 }
 
 void Vid_Shutdown()
@@ -256,17 +288,17 @@ void Vid_Init()
 	fflush(stdout);
 
 	screenbuf = SDL_CreateRGBSurface(0, SCR_WDTH, SCR_HGHT, 8,
-					 0, 0, 0, 0);
-	
+					 0, 0, 0, 0);	
 	vid_vram = screenbuf->pixels;
 	vid_pitch = screenbuf->pitch;
-
 
 	Vid_SetMode();
 
 	initted = 1;
 
 	atexit(Vid_Shutdown);
+
+	SDL_LockSurface(screenbuf);
 }
 
 void Vid_Reset()

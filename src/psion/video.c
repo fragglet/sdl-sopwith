@@ -14,12 +14,17 @@
 //
 // Psion Framebuffer Video code
 //
+// Some parts of this are from picogui. Thanks scanline :P
+//
 //-----------------------------------------------------------------------
 
 #include <fcntl.h>
 #include <linux/fb.h>
 #include <linux/kd.h>
+#include <linux/vt.h>
 #include <sys/mman.h>
+#include <signal.h>
+#include <termios.h>
 
 #include "video.h"
 
@@ -27,6 +32,9 @@
 #include "swconf.h"
 #include "swmain.h"
 
+#define SIGVT SIGUSR1
+
+#define KB_DEV "/dev/tty"
 #define FB_DEV "/dev/fb0"
 
 // use the vga (8 bit) drawing routines
@@ -38,45 +46,20 @@ BOOL vid_double_size = TRUE;
 
 static unsigned char *screenbuf;
 
-static int fb_fd; 			// framebuffer filedescriptor
+static int fb_fd; 			// framebuffer file descriptor
 static int fb_w, fb_h;
+static BOOL fb_enabled = TRUE;
 static unsigned char *framebuffer;	// mmaped framebuffer
 static unsigned char *scrbuf;		// screen buffer
 
+static int kb_fd;                       // keyboard file descriptor
+static struct termios kb_oldtio;
+
 static int ctrlbreak = 0;
-static BOOL initted = 0;
 static int colors[16];
 static int keysdown[0xff];
 
-//============================================================================
-//
-// input buffer
-//
-//============================================================================
-
-static int input_buffer[128];
-static int input_buffer_head=0, input_buffer_tail=0;
-
-static void input_buffer_push(int c)
-{
-	input_buffer[input_buffer_tail++] = c;
-	input_buffer_tail %= sizeof(input_buffer) / sizeof(*input_buffer);
-}
-
-static int input_buffer_pop()
-{
-	int c;
-
-	if (input_buffer_head == input_buffer_tail)
-		return 0;
-
-	c = input_buffer[input_buffer_head++];
-
-	input_buffer_head %= sizeof(input_buffer) / sizeof(*input_buffer);
-
-	return c;
-}
-
+static BOOL in_vid_mode = 0;
 
 //============================================================================
 //
@@ -105,6 +88,9 @@ static unsigned long getcolor(int r, int g, int b)
 
 void Vid_Update()
 {
+	if (!fb_enabled)
+		return;
+
 	if (scrbuf) {
 		// revo screen squishing
 
@@ -119,14 +105,55 @@ void Vid_Update()
 	}
 }
 
-static void set_icon(char *icon_file)
+static int fbdev_getvt(void) {
+	struct vt_stat stat;
+	ioctl(kb_fd, VT_GETSTATE, &stat);
+	return stat.v_active;
+}
+
+static void toggle_fb_enabled()
 {
+	fb_enabled = !fb_enabled;
+
+	if (fb_enabled) {
+		ioctl(kb_fd, VT_RELDISP, VT_ACKACQ);
+		if (in_vid_mode)
+			Vid_Update();
+
+	} else {
+		ioctl(kb_fd, VT_RELDISP, 1);
+	}
 }
 
 static void Vid_UnsetMode()
 {
+	if (!in_vid_mode)
+		return;
+
+	in_vid_mode = 0;
+
+	// text mode
+
+	ioctl(kb_fd, KDSETMODE, KD_TEXT);
+
+	// this is uberlame.
+	// switch to the next console and back again, this will 
+	// redraw the console
+	{
+		int n = fbdev_getvt();
+		ioctl(kb_fd, VT_ACTIVATE, n+1);
+		ioctl(kb_fd, VT_ACTIVATE, n);
+	}
+
+	// shutdown screen
+
 	munmap(framebuffer, fb_fd);
 	close(fb_fd);
+
+	// shutdown keyboard
+
+	tcsetattr(kb_fd, TCSAFLUSH, &kb_oldtio);
+	close(kb_fd);
 }
 
 static void Vid_SetMode()
@@ -137,35 +164,31 @@ static void Vid_SetMode()
         fb_fd = open(FB_DEV, O_RDWR);
 
         if (fb_fd < 0) {
-                printf("%s: cant open framebuffer\n", FB_DEV);
+                fprintf(stderr, "%s: cant open framebuffer\n", FB_DEV);
                 return;
         }
         
 	ioctl(fb_fd, KDSETMODE, KD_GRAPHICS);
-
         ioctl(fb_fd, FBIOGET_FSCREENINFO, &fixinfo);
         ioctl(fb_fd, FBIOGET_VSCREENINFO, &varinfo);
 
 	if (varinfo.bits_per_pixel != 4) {
-		printf("%s: this is not a 4 bit framebuffer!\n", FB_DEV);
+		fprintf(stderr,
+			"%s: this is not a 4 bit framebuffer!\n", FB_DEV);
 		exit(-1);
 	}
 
 	fb_w = varinfo.xres;
 	fb_h = varinfo.yres;
 
-        printf("%s: %ix%ix%i\n", 
-		FB_DEV, fb_w, fb_h,
-                varinfo.bits_per_pixel);
-	printf("pitch: %i\n", fixinfo.line_length);
-	printf("smem_start: %i\n", fixinfo.smem_start);
+        printf("%s: %ix%ix%i\n", FB_DEV, fb_w, fb_h, varinfo.bits_per_pixel);
 
 	framebuffer = mmap(NULL, fixinfo.smem_len,
 			   PROT_READ|PROT_WRITE, MAP_SHARED,
 			   fb_fd, 0);
 
 	if (framebuffer == MAP_FAILED) {
-		printf("%s: cant mmap framebuffer\n", FB_DEV);
+		fprintf(stderr, "%s: cant mmap framebuffer\n", FB_DEV);
 		exit(-1);
 	}
 
@@ -187,23 +210,66 @@ static void Vid_SetMode()
 	} else {
 		printf("screen is not big enough\n");
 	}
+
+	// open keyboard
+
+	kb_fd = open(KB_DEV, O_NONBLOCK);
+
+	if (kb_fd < 0) {
+		fprintf(stderr, "%s: cant open\n", KB_DEV);
+		exit(-1);
+	}
+
+	// save attributes, turn off console echo
+
+	if (tcgetattr(kb_fd, &kb_oldtio) < 0) {
+		printf("%s: cant get attributes\n", KB_DEV);
+		exit(-1);
+	} else {
+		struct termios new_tio;
+
+		new_tio = kb_oldtio;
+		new_tio.c_lflag &= ~(ECHO|ICANON|IEXTEN|ISIG);
+		new_tio.c_iflag &= ~(ICRNL|INPCK|ISTRIP|IXON|BRKINT);
+		new_tio.c_cflag &= ~(CSIZE|PARENB);
+
+		tcsetattr(kb_fd, TCSAFLUSH, &new_tio);
+	}
+
+	ioctl(kb_fd, KDSETMODE, KD_GRAPHICS);
+
+	{
+		struct vt_mode mode;
+		
+		// notify us of vt changes
+		ioctl(kb_fd, VT_GETMODE, &mode);
+		mode.mode = VT_PROCESS;
+		mode.relsig = SIGVT;
+		mode.acqsig = SIGVT;
+		ioctl(kb_fd, VT_SETMODE, &mode);
+
+		fb_enabled = TRUE;
+	}
+
+	in_vid_mode = TRUE;
 }
 
 void Vid_Shutdown()
 {
-	Vid_UnsetMode();
+	if (in_vid_mode)
+		Vid_UnsetMode();
 }
 
 void Vid_Init()
 {
 	Vid_SetMode();
+
+	signal(SIGVT, toggle_fb_enabled);
+	atexit(Vid_Shutdown);
 }
 
 void Vid_Reset()
 {
-	if (!initted)
-		return;
-
 	Vid_UnsetMode();
 	Vid_SetMode();
 
@@ -212,72 +278,85 @@ void Vid_Reset()
 	Vid_Update();
 }
 
-void getevents()
+static inline int getkey()
 {
+	unsigned char c;
+
+	if (read(kb_fd, &c, 1) <= 0)
+		return -1;
+
+	if (c == 0x3) {            // ctrl c
+		ctrlbreak++;
+		if (ctrlbreak >= 3) {
+			printf("User aborted with 3 ^C's\n");
+			exit(-1);
+		}
+		return -1;
+	}
+
+	return c;
 }
 
 int Vid_GetKey()
 {
-	int l;
+	int c = getkey();
 
-	getevents();
-
-	return input_buffer_pop();
+	return c < 0 ? 0 : c;
 }
 
 int Vid_GetGameKeys()
 {
-	int i, c = 0;
+	unsigned int cmd = 0;
+	int c;
 
-	getevents();
+	while ((c = getkey()) >= 0) {
+		switch (tolower(c)) {
+			// use j,k and l because of the keyboard layout
+		case 'k': 
+			cmd |= K_FLIP;
+			break;
+		case 'j':
+			cmd |= K_FLAPU;
+			break;
+		case 'l':
+			cmd |= K_FLAPD;
+			break;
+		case 'x':
+			cmd |= K_ACCEL;
+			break;
+		case 'z':
+			cmd |= K_DEACC;
+			break;
+		case 'b':
+			cmd |= K_BOMB;
+			break;
+		case ' ':
+			cmd |= K_SHOT;
+			break;
+		case 'h':
+			cmd |= K_HOME;
+			break;
+		case 'v':
+			cmd |= K_MISSILE;
+			break;
+		case 'c':
+			cmd |= K_STARBURST;
+			break;
+		default: 
+			break;			
+		}
+	}
 
-	while (input_buffer_pop());
-/*
-	if (keysdown[GDK_period]) {
-		keysdown[GDK_period] = 0;
-		c |= K_FLIP;
-	}
-	if (keysdown[GDK_comma])
-		c |= K_FLAPU;
-	if (keysdown[GDK_slash])
-		c |= K_FLAPD;
-	if (keysdown[GDK_x]) {
-		keysdown[GDK_x] = 0;
-		c |= K_ACCEL;
-	}
-	if (keysdown[GDK_z]) {
-		keysdown[GDK_z] = 0;
-		c |= K_DEACC;
-	}
-	if (keysdown[GDK_b])
-		c |= K_BOMB;
-	if (keysdown[GDK_space])
-		c |= K_SHOT;
-	if (keysdown[GDK_h])
-		c |= K_HOME;
-	if (keysdown[GDK_v]) {
-		keysdown[GDK_v] = 0;
-		c |= K_MISSILE;
-	}
-	if (keysdown[GDK_c]) {
-		keysdown[GDK_c] = 0;
-		c |= K_STARBURST;
-	}
-*/
 	if (ctrlbreak) {
-		c |= K_BREAK;
+		cmd |= K_BREAK;
 	}
-	
-	for (i=0; i<0xff; ++i) {
-		keysdown[i] &= ~2;
-	}
-	return c;
+
+	return cmd;
 }
 
 BOOL Vid_GetCtrlBreak()
 {
-	getevents();
-	return ctrlbreak;
+	return ctrlbreak > 0;
 }
 
 

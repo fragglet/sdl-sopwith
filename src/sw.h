@@ -62,11 +62,13 @@
 #define SCR_MXSH        75              /*  Maximum line number to shift    */
 #define SCR_LIMIT       180             /*  Screen shift limits             */
 
-#define WRLD_RSX        (MAX_X / SCR_WDTH * 2 + 1) /*  World display X and  */
+// sdh 27/7/2002: make these independent of the screen width
+
+#define WRLD_RSX        (MAX_X / 320 * 2 + 1) /*  World display X and  */
 #define WRLD_RSY        (MAX_Y / SCR_MNSH + 1)     /*  Y divisors           */
 
-#define MINFLCKX        ( 0     + SCR_WDTH + 50 )  /*  Bird flock travel    */
-#define MAXFLCKX        ( MAX_X - SCR_WDTH - 50 )  /*    limits             */
+#define MINFLCKX        370 			  /*  Bird flock travel    */
+#define MAXFLCKX        (MAX_X - 370)             /*  limits */
 
 // sdh 26/10/2001: merged guages, removed unneccesary coordinates
 
@@ -341,6 +343,7 @@ static inline int SIN(int x) {
 //
 // $Log: $
 //
+// sdh 27/07/2002: made some constants independent of screen width
 // sdh 27/06/2002: remove ob_symwdt and ob_symhgt. use new sopsym_t for
 //                 sprites
 // sdh 20/04/2002: change SCR_CENTR to be dependent on SCR_WDTH

@@ -58,7 +58,7 @@ extern int Vid_GetPixel(int x, int y);
 // draw a symbol
 
 extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
-			   int clr, int *retcode);
+			   int clr);
 
 // draw to the screen
 
@@ -87,8 +87,9 @@ void Vid_CopyBuf();
 //
 // $Log: $
 //
+// sdh 27/07/2002: removed retcode from Vid_DispSymbol
 // sdh 28/06/2002: remove redundant object reference from dispsymbol
-// sdh 27/6/2002: move to new sopsym_t for symbols
+// sdh 27/06/2002: move to new sopsym_t for symbols
 // sdh 27/03/2002: split disppixel to several functions
 // sdh 26/03/2002: add drawing function, rename video.h
 // sdh 21/10/2001: added cvs tags

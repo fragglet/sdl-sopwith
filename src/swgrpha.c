@@ -86,22 +86,7 @@ void swground()
 }
 
 
-
-/*---------------------------------------------------------------------------
-
-        Clear the collision detection portion of auxiliary video ram
-
----------------------------------------------------------------------------*/
-
-
-
-void swclrcol()
-{
-	// sdh 27/6/2002: move to use Vid_Box
-
-	Vid_Box(0, 16, 48, 16, 0);
-}
-
+// sdh 27/7/2002: removed clrcol
 
 /*---------------------------------------------------------------------------
 
@@ -136,19 +121,11 @@ void swclrcol()
 
 void swputsym(int x, int y, OBJECTS * ob)
 {
-	Vid_DispSymbol(x, y, ob->ob_newsym, ob->ob_clr, NULL);
+	Vid_DispSymbol(x, y, ob->ob_newsym, ob->ob_clr);
 }
 
 
-
-int swputcol(int x, int y, OBJECTS * ob)
-{
-	int retcode = FALSE;
-
-	Vid_DispSymbol(x, y, ob->ob_newsym, ob->ob_clr, &retcode);
-
-	return retcode;
-}
+// sdh 27/7/2002: removed putcol
 
 
 
@@ -175,8 +152,7 @@ void swdisp()
 		    || (ob->ob_oldx + displx) != ob->ob_x) {
 			if (ob->ob_delflg)
 				Vid_DispSymbol(ob->ob_oldx, ob->ob_oldy,
-					       ob->ob_oldsym, ob->ob_clr,
-					       NULL);
+					       ob->ob_oldsym, ob->ob_clr);
 			if (!ob->ob_drwflg)
 				continue;
 			if (ob->ob_x < displx || ob->ob_x > disprx) {
@@ -188,7 +164,7 @@ void swdisp()
 			Vid_DispSymbol(ob->ob_oldx,
 				       ob->ob_oldy,
 				       ob->ob_newsym, 
-				       ob->ob_clr, NULL);
+				       ob->ob_clr);
 		}
 
 		if (ob->ob_drawf)
@@ -198,7 +174,7 @@ void swdisp()
 	for (ob = deltop; ob; ob = ob->ob_next)
 		if (ob->ob_delflg)
 			Vid_DispSymbol(ob->ob_oldx, ob->ob_oldy,
-				       ob->ob_oldsym, ob->ob_clr, NULL);
+				       ob->ob_oldsym, ob->ob_clr);
 
 	dispgrnd();
 
@@ -281,6 +257,7 @@ void screendump()
 //
 // $Log: $
 //
+// sdh 27/7/2002: removed old collision detection code
 // sdh 27/6/2002: move to new sopsym_t for symbols
 // sdh 26/03/2002: moved all drawing functions into platform specific 
 //                 files

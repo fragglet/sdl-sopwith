@@ -7,6 +7,6 @@ AUX_DIST_GEN =                          \
 
 MAINTAINERCLEANFILES =  $(AUX_DIST_GEN)
 docdir=$(prefix)/share/doc/@PACKAGE@
-SUBDIRS=src
+SUBDIRS=src doc
 
 blah:

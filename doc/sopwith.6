@@ -1,0 +1,97 @@
+.TH sopwith 6
+
+.SH NAME
+sopwith \- classic aerial combat shoot em up game
+
+.SH SYNOPSIS
+.B sopwith 
+[ \-n | \-s | \-c | \-l | \-j \fIhost\fR ] [-f] [-2] [-x] [-q]
+
+.SH DESCRIPTION
+Sopwith is a classic 1980s shoot 'em up originally developed by BMB
+CompuScience. This modern port is a derivative of the original source
+code released by its original author, David L. Clark. This port can
+run using the LibSDL and Gtk+ libraries to display on screen. Features
+include emulation of the original PC speaker sound effects using digital
+sound output, working networking and various extra features that were
+included by the author in the released sources.
+
+.SH CONTROLS
+The standard controls are as follows:
+.TP 
+comma
+pull up
+.TP
+slash
+pull down
+.TP
+period
+flip plane
+.TP
+Z
+decrease speed
+.TP
+X
+increase speed
+.TP
+space
+fire machine gun
+.TP
+B
+drop bomb
+.TP
+H
+autopilot plane to home base
+.TP
+C
+launch flare
+.TP
+V
+fire missile
+
+.SH OPTIONS
+.TP
+\-n
+Start a single player game in novice mode
+.TP
+\-s
+Start a single player in expert mode
+.TP
+\-c
+Start a single player vs. computer game
+.TP
+\-l
+Start a network game listening for a network connection
+.TP
+\-j \fIhost\fR
+Start a network game, connecting to another listening host as specified
+by \fIhost\fR
+.TP
+\-f
+Start in full screen mode if possible.
+.TP
+\-2
+Double-size the display window
+.TP
+\-x
+Enable missiles
+.TP
+\-q
+Turn off sound (quiet)
+
+.SH AUTHORS
+Originally written by David L. Clark for BMB Compuscience
+.br
+Modern SDL/Gtk+ port By Simon Howard
+
+.SH HISTORY
+Sopwith was originally designed as a demonstration game for the Imaginet
+Networking System developed by BMB CompuScience of Canada. The system
+failed to become popular but Sopwith became a popular game for the IBM
+PC and compatibles. A sequel "Sopwith 2" was actually a newer version
+rather than a different game, but included many extra features, such
+as Oxen and birds. Sopwith was also ported to the Atari. The 
+original author, David L. Clark, later created Sopwith - The Author's
+Edition with several extra features including missiles. This version of
+sopwith is based on the source for the Authors Edition.
+

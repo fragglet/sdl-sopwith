@@ -19,7 +19,7 @@
 
 extern void clrprmpt();
 extern BOOL ctlbreak();
-extern void getmode();
+extern void getgamemode();
 extern int getgame();
 extern void swtitln();
 extern void swtitlf();

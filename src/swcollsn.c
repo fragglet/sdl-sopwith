@@ -94,14 +94,14 @@ void swcollsn()
 	}
 }
 
-// use new collision detection code?
-#define NEW_COLLISION
+// sdh 28/6/2002: new collision detection code done in memory rather
+//                than using the drawing functions
+// sdh 27/7/2002: removed old collision detection code
 
 //#define COLL_DEBUG
 
 void colltest(OBJECTS * ob1, OBJECTS * ob2)
 {
-#ifdef NEW_COLLISION
 	int x, y;
 	int x1, y1, x2, y2;
 	int w, h;
@@ -195,72 +195,12 @@ void colltest(OBJECTS * ob1, OBJECTS * ob2)
 		data1 += ob1->ob_newsym->w;
 		data2 += ob2->ob_newsym->w;
 	}
-
-#else
-	/* old collision code */
-
-	register OBJECTS *obt, *ob, *obp;
-	obtype_t otype, ttype;
-	int x, y;
-
-	ob = ob1;
-	obp = ob2;
-	otype = ob->ob_type;
-	ttype = obp->ob_type;
-	if ((otype == PLANE && ob->ob_state >= FINISHED)
-	    || (ttype == PLANE && obp->ob_state >= FINISHED)
-	    || (otype == EXPLOSION && ttype == EXPLOSION))
-		return;
-
-	if (ob->ob_y < obp->ob_y) {
-		obt = ob;
-		ob = obp;
-		obp = obt;
-	}
-
-#ifdef COLL_DEBUG
-	printf("collision %i, %i - %i,%i: ", ob->ob_x, ob->ob_y,
-		obp->ob_x, obp->ob_y);
-#endif	
-
-	x = 16;
-	y = 15;
-
-	swputsym(x, y, ob);
-
-	x = obp->ob_x - ob->ob_x + x;
-	y = obp->ob_y - ob->ob_y + y;
-
-	if (swputcol(x, y, obp)) {
-
-#ifdef COLL_DEBUG
-		printf("yes\n");
-#endif
-
-		if (killptr < 2*MAX_OBJS - 1) {
-			killed[killptr] = ob;
-			killer[killptr++] = obp;
-			killed[killptr] = obp;
-			killer[killptr++] = ob;
-		}
-	}
-#ifdef COLL_DEBUG
-	else {
-		printf("no\n");
-
-	}
-#endif
-
-	swclrcol();
-#endif         /* end of old code */
-
 }
 
 
 
 void tstcrash(OBJECTS * obp)
 {
-#ifdef NEW_COLLISION
 	register sopsym_t *sym = obp->ob_newsym;
 	register int x, y;
 
@@ -286,46 +226,6 @@ void tstcrash(OBJECTS * obp)
 			return;
 		}
 	}
-
-#else
-	// old collision code:
-
-	register OBJECTS *ob;
-	register int x, xmax, y;
-	register BOOL hit = FALSE;
-
-	ob = obp;
-
-	// sdh 28/04/2002: make x at 16 so it is on a 4-pixel boundary
-	// (for sync between games using different drawing functions
-	// which lose precision)
-
-	swputsym(16, 15, ob);
-
-	xmax = ob->ob_x + ob->ob_newsym->w - 1;
-	for (x = ob->ob_x; x <= xmax; ++x) {
-
-		y = (int) ground[x] - ob->ob_y + 15;
-
-		if (y > 15) {
-			hit = TRUE;
-			break;
-		}
-		if (y < 0)
-			continue;
-
-		hit = Vid_GetPixel(x - ob->ob_x + 16, y);
-		if (hit)
-			break;
-	}
-	swclrcol();
-
-	if (hit && killptr < (MAX_OBJS << 1)) {
-		killed[killptr] = ob;
-		killer[killptr++] = NULL;
-	}
-
-#endif /* end of old collision code */
 }
 
 
@@ -627,6 +527,7 @@ void dispscore(OBJECTS * ob)
 //
 // $Log: $
 //
+// sdh 28/07/2002: removed old collision detection code
 // sdh 28/06/2002: new collision detection code: look at the sprite data
 //                 rather than drawing to the screen. old code is still there
 //                 under a #define but will eventually be removed.

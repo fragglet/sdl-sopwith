@@ -707,7 +707,7 @@ void Vid_Shutdown()
 		return;
 
 	Vid_UnsetMode();
-	gdk_key_repeat_restore();
+//	gdk_key_repeat_restore();
 
 	free(screenbuf);
 
@@ -742,7 +742,7 @@ void Vid_Init()
 
 	gui = build_gui();
 
-	gdk_key_repeat_disable();
+//	gdk_key_repeat_disable();
 	gtk_container_add(GTK_CONTAINER(window), gui);
 
 	gtk_signal_connect(GTK_OBJECT(window), "destroy",

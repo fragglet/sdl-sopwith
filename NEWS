@@ -1,3 +1,18 @@
+v1.5.0
+
+Removed old redundant collision detection code
+PsiLinux port: 	Keyboard code added, video code improved. This port is now
+		playable!
+Fixed gtk+ port turning off key repeat
+Fixed SDL version drawing a blank screen on changing video modes
+Fixed consistency failure with flocks between clients with different screen
+	widths
+renamed "getmode" to "getgamemode" to avoid conflicts with standard unix
+function (thanks to Edwin Groothuis)
+SDL Icon is now set from the internal sprite table, not from an external
+file (no more "icon.bmp not found" errors)
+Added manual page
+
 v1.4.0 (29/06/2002)
 
 Start of PsiLinux port (for Psion Revo/5MX)
