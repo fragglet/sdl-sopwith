@@ -155,7 +155,7 @@ void swdisp()
 
 	// display the status bar
 
-	dispworld();
+	dispmap();
 	dispscore(consoleplayer);
 	dispguages(consoleplayer);
 
@@ -213,6 +213,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.9  2004/10/15 17:52:32  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.

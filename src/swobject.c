@@ -47,9 +47,14 @@ OBJECTS *allocobj()
 
 	ob->ob_sound = NULL;
 	ob->ob_drwflg = 0;
+	ob->ob_onmap = FALSE;
+
 	if (ob > objsmax)
 		objsmax = ob;
-	return (objbot = ob);
+
+	objbot = ob;
+
+	return ob;
 }
 
 
@@ -85,6 +90,9 @@ void deallobj(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.2  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

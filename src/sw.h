@@ -238,7 +238,8 @@ typedef struct obj {                            /*  Object list             */
         struct obj    *ob_next;
         struct obj    *ob_prev;
         int            ob_index;
-        int            ob_drwflg;
+        BOOL           ob_drwflg;
+        BOOL           ob_onmap;
         void        ( *ob_drawf ) ();
         BOOL        ( *ob_movef ) ();
         struct obj    *ob_xnext;
@@ -272,11 +273,6 @@ typedef struct {                                /*  Game structure          */
         int      gm_ttarg[MAX_TARG];
 }       GAMES;
 
-typedef struct {                        /*  Old display parameters for    */
-        int     ow_xorplot;             /*  each object                   */
-        int     ow_x, ow_y;
-}       OLDWDISP;
-
 // sdh: made these into inline functions rather than ugly #define macros
 
 extern int sintab[];
@@ -294,6 +290,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.6  2003/06/16 02:03:50  fraggle
 // Pseudo-MSVC support..
 //

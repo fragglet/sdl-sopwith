@@ -672,7 +672,6 @@ BOOL movepln(OBJECTS * obp)
 		    || ob->ob_state == WOUNDED
 		    || ob->ob_state == WOUNDSTALL)
 			initsmok(ob);
-		dispwobj(ob);
 		return plyrplane || ob->ob_state < FINISHED;
 	}
 
@@ -744,7 +743,6 @@ BOOL movebomb(OBJECTS * obp)
 	if (ob->ob_life < 0) {
 		deallobj(ob);
 		ob->ob_state = FINISHED;
-		dispwobj(ob);
 		return FALSE;
 	}
 
@@ -759,7 +757,6 @@ BOOL movebomb(OBJECTS * obp)
 		deallobj(ob);
 		stopsound(ob);
 		ob->ob_state = FINISHED;
-		dispwobj(ob);
 		return FALSE;
 	}
 
@@ -769,7 +766,6 @@ BOOL movebomb(OBJECTS * obp)
 	if (y >= MAX_Y)
 		return FALSE;
 
-	dispwobj(ob);
 	return TRUE;
 }
 
@@ -788,7 +784,6 @@ BOOL movemiss(OBJECTS * obp)
 	if (ob->ob_life < 0) {
 		deallobj(ob);
 		ob->ob_state = FINISHED;
-		dispwobj(ob);
 		return FALSE;
 	}
 
@@ -824,7 +819,6 @@ BOOL movemiss(OBJECTS * obp)
 	if (y < 0 || x < 0 || x >= MAX_X) {
 		deallobj(ob);
 		ob->ob_state = FINISHED;
-		dispwobj(ob);
 		return FALSE;
 	}
 
@@ -834,7 +828,6 @@ BOOL movemiss(OBJECTS * obp)
 	if (y >= MAX_Y)
 		return FALSE;
 
-	dispwobj(ob);
 	return TRUE;
 }
 
@@ -992,7 +985,6 @@ BOOL moveflck(OBJECTS * obp)
 	deletex(ob);
 
 	if (ob->ob_life == -1) {
-		dispwobj(ob);
 		deallobj(ob);
 		return FALSE;
 	}
@@ -1010,7 +1002,6 @@ BOOL moveflck(OBJECTS * obp)
 	movexy(ob, &x, &y);
 	insertx(ob, ob->ob_xnext);
 	ob->ob_newsym = symbol_flock[ob->ob_orient]; 
-	dispwobj(ob);
 	return TRUE;
 }
 
@@ -1147,6 +1138,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.12  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.11  2004/10/15 16:39:32  fraggle
 // Unobfuscate some parts
 //

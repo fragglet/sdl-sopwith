@@ -144,41 +144,6 @@ void dispbird(OBJECTS * ob)
 }
 
 
-
-void dispwobj(OBJECTS * obp)
-{
-	register OBJECTS *ob;
-	register OLDWDISP *ow;
-//      int               ox, oy;
-	int oldplot;
-
-	ob = obp;
-	ow = &wdisp[ob->ob_index];
-
-	if (ow->ow_xorplot)
-		Vid_PlotPixel(ow->ow_x, ow->ow_y, ow->ow_xorplot - 1);
-
-	if (ob->ob_state >= FINISHED)
-		ow->ow_xorplot = 0;
-	else {
-		ow->ow_x = SCR_CENTR
-			   + (ob->ob_x + ob->ob_newsym->w / 2) / WRLD_RSX;
-		ow->ow_y = (ob->ob_y - ob->ob_newsym->h / 2) / WRLD_RSY;
-
-		// sdh 27/03/02: use new functions
-
-		oldplot = Vid_GetPixel(ow->ow_x, ow->ow_y);
-		Vid_PlotPixel(ow->ow_x, ow->ow_y, ob->ob_owner->ob_clr);
-
-		if (oldplot == 0 || (oldplot & 0x0003) == 3) {
-			ow->ow_xorplot = oldplot + 1;
-			return;
-		}
-		Vid_PlotPixel(ow->ow_x, ow->ow_y, oldplot);
-		ow->ow_xorplot = 0;
-	}
-}
-
 void dispplyr(OBJECTS * ob)
 {
 	plnsound(ob);
@@ -196,6 +161,9 @@ void dispscore(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.7  2004/10/15 17:52:31  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.

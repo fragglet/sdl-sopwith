@@ -278,8 +278,6 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		ob->ob_state = FINISHED;
 		initexpl(ob, 0);
 
-		dispwobj(ob);
-
 		scoretarg(ob, ob->ob_orient == 2 ? 200 : 100);
 		if (!--numtarg[ob->ob_clr - 1])
 			endgame(ob->ob_clr);
@@ -493,6 +491,9 @@ void scorepln(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.8  2004/10/15 17:52:31  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.

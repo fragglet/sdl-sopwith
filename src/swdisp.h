@@ -34,7 +34,6 @@ extern void dispmult(OBJECTS *ob);
 extern void disptarg(OBJECTS *ob);
 extern void dispflck(OBJECTS *ob);
 extern void dispbird(OBJECTS *ob);
-extern void dispwobj(OBJECTS *obp);
 
 extern void dispscore(OBJECTS *obp);
 
@@ -44,6 +43,9 @@ extern void dispscore(OBJECTS *obp);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.3  2004/10/15 17:52:31  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.

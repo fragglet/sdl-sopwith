@@ -95,26 +95,6 @@ static char helptxt[] =
 //"        -p#:  overrides asynchronous port 1 as the asynchrounous port\n"
 //"                  to use\n"
 
-static void initwobj()
-{
-	int x;
-	OBJECTS *ob;
-	OLDWDISP *ow;
-
-	ow = wdisp;
-	ob = nobjects;
-	for (x = 0; x < MAX_OBJS; ++x, ow++, ob++)
-		ow->ow_xorplot = ob->ob_drwflg = 0;
-
-	for (x = 0; x < MAX_TARG; ++x) {
-		ob = targets[x];
-		if (ob && ob->ob_state != FINISHED)
-			dispwobj(ob);
-	}
-
-}
-
-
 // sdh 28/10/2001: moved auxdisp graphic functions into swgrpha.c
 
 static void initobjs()
@@ -227,8 +207,24 @@ void dispguages(OBJECTS *ob)
 	}
 }
 
+static void dispmapobjects()
+{
+	OBJECTS *ob;
 
-void dispworld()
+	for (ob=objtop; ob; ob=ob->ob_next) {
+		if (ob->ob_onmap) {
+			int x, y;
+
+			x = SCR_CENTR 
+			  + ((ob->ob_x + (ob->ob_newsym->w / 2)) / WRLD_RSX);
+			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY); 
+
+			Vid_PlotPixel(x, y, ob->ob_clr);
+		}
+	}
+}
+
+void dispmap()
 {
 	int x, y, dx, maxh, sx;
 
@@ -272,6 +268,8 @@ void dispworld()
 		Vid_PlotPixel(sx, y, 11);
 	}
 
+	dispmapobjects();
+
 	// border of status bar
 
 	for (x = 0; x < SCR_WDTH; ++x)
@@ -290,7 +288,6 @@ void initdisp(BOOL reset)
 		swtitlf();
 		ghost = FALSE;
 	}
-	initwobj();
 	initscore();
 
 	ob = &nobjects[player];
@@ -364,6 +361,8 @@ OBJECTS *initpln(OBJECTS * obp)
 	//ob->ob_symhgt = SYM_HGHT;
 	//ob->ob_symwdt = SYM_WDTH;
 	ob->ob_athome = TRUE;
+	ob->ob_onmap = TRUE;
+
 	if (!obp || ob->ob_state == CRASHED
 	    || ob->ob_state == GHOSTCRASHED) {
 		ob->ob_rounds = MAXROUNDS;
@@ -544,6 +543,7 @@ void initbomb(OBJECTS * obop)
 	ob->ob_state = FALLING;
 	ob->ob_dx = obo->ob_dx;
 	ob->ob_dy = obo->ob_dy;
+	ob->ob_onmap = TRUE;
 
 	if (obo->ob_orient)
 		angle = (obo->ob_angle + (ANGLES / 4)) % ANGLES;
@@ -604,6 +604,7 @@ void initmiss(OBJECTS * obop)
 	ob->ob_movef = movemiss;
 	ob->ob_target = obo->ob_mfiring;
 	ob->ob_orient = ob->ob_accel = ob->ob_flaps = 0;
+	ob->ob_onmap = TRUE;
 
 	insertx(ob, obo);
 
@@ -715,6 +716,7 @@ static void inittarg()
 		//ob->ob_symhgt = ob->ob_symwdt = 16;
 		ob->ob_drawf = disptarg;
 		ob->ob_movef = movetarg;
+		ob->ob_onmap = TRUE;
 
 		insertx(ob, &topobj);
 	}
@@ -855,6 +857,7 @@ static void initflck()
 		ob->ob_drawf = dispflck;
 		ob->ob_movef = moveflck;
 		ob->ob_clr = 9;
+		ob->ob_onmap = TRUE;
 		insertx(ob, &topobj);
 		for (j = 0; j < MAX_BIRD; ++j)
 			initbird(ob, 1);
@@ -1161,6 +1164,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.14  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.13  2004/10/15 18:06:16  fraggle
 // Fix copyright notice
 //

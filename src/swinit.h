@@ -39,7 +39,7 @@ extern void initexpl(OBJECTS *obop, int small);
 extern void initsmok(OBJECTS *obop);
 extern void initbird(OBJECTS *obop, int i);
 
-extern void dispworld();
+extern void dispmap();
 extern void dispguages(OBJECTS *ob); 
 
 #endif
@@ -48,6 +48,9 @@ extern void dispguages(OBJECTS *ob);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2004/10/15 18:51:24  fraggle
+// Fix the map. Rename dispworld to dispmap as this is what it really does.
+//
 // Revision 1.5  2004/10/14 08:48:46  fraggle
 // Wrap the main function in system-specific code.  Remove g_argc/g_argv.
 // Fix crash when unable to initialise video subsystem.
