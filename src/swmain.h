@@ -80,7 +80,6 @@ extern int     dispcnt;
 extern int     endstat;
 extern int     maxcrash;
 extern int     sintab[ANGLES];
-extern OLDWDISP wdisp[MAX_OBJS];
 extern jmp_buf envrestart;
 
 extern int swmain(int argc, char *argv[]);
@@ -91,6 +90,9 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2004/10/15 18:57:14  fraggle
+// Remove redundant wdisp variable
+//
 // Revision 1.9  2004/10/15 17:23:32  fraggle
 // Restore HUD splats
 //

@@ -99,7 +99,6 @@ int player;			/* Pointer to player's object       */
 int currobx;			/* Current object index             */
 BOOL plyrplane;			/* Current object is player flag    */
 BOOL compplane;			/* Current object is a comp plane   */
-OLDWDISP wdisp[MAX_OBJS];	/* World display status             */
 BOOL goingsun;			/* Going to the sun flag            */
 BOOL forcdisp;			/* Force display of ground          */
 char *histin, *histout;		/* History input and output files   */
@@ -178,6 +177,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2004/10/15 18:57:14  fraggle
+// Remove redundant wdisp variable
+//
 // Revision 1.10  2004/10/15 17:23:32  fraggle
 // Restore HUD splats
 //
