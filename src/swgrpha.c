@@ -159,14 +159,14 @@ void swdisp()
 	
 	dispendmessage();
 
-	lag = latest_player_time[player] - countmove;
+//	lag = latest_player_time[player] - countmove;
 
 	// calculate displx from the player position
 	// do sanity checks to make sure we never go out of range
 
 	displx = consoleplayer->ob_x - SCR_CENTR;
 
-	displx += consoleplayer->ob_dx * lag;
+//	displx += consoleplayer->ob_dx * lag;
 
 	if (displx < 0)
 		displx = 0;
@@ -181,8 +181,8 @@ void swdisp()
 		x = ob->ob_x;
 		y = ob->ob_y;
 
-		x += ob->ob_dx * lag;
-		y += ob->ob_dy * lag;
+//		x += ob->ob_dx * lag;
+//		y += ob->ob_dy * lag;
 
 		if (ob->ob_drwflg
 		 && x >= displx 
@@ -225,6 +225,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.13  2004/10/15 22:27:52  fraggle
+// Remove attempt at movement prediction
+//
 // Revision 1.12  2004/10/15 22:21:51  fraggle
 // Remove debug messages
 //
