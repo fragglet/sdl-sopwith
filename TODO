@@ -1,25 +1,37 @@
-to do:
+To Do
+-----
 
 Code Cleanup: 
 	Remove useless files: swutil.c
-	Remove old MULTIPLE game mode? (swnetio.c). Looks pretty dead.
-	There are a lot of ifdefs left over to check for the
-	architecture, these are redundant now and should be removed.
-	Similarly there are function calls to control DOS interrupts
-	which also should be removed.
-DOS Port? probably wouldnt be too hard infact
-Custom levels
+	Restructure display to be state based - avoids all the horrible crap
+		with longjmp at the moment
+	Remove the XOR'ing mess - just draw the entire screen each time.
+		Computers are fast enough that we dont need to do this 
+		any more :)
 Network:
-	Infinite lives?   -- kind of annoying once you die 5 times, thats it
-	Keep sending even when we are waiting for data (up to a point of 
-	course). Currently the network code wont send the next movement
-	until its received the next movement from the other player. As
-	a result any kind of lag will drastically kill the game speed.	
+	Ability to abort server
 	Network disconnect should bring you back to the title screen
+		Also on failure to connect
+	Keep sending even when we are waiting for data (up to a point of 
+		course). Currently the network code wont send the next 
+		movement until its received the next movement from the 
+		other player. As a result any kind of lag will drastically 
+		kill the game speed.	
 	> 2 Players, Teams
 	Extra game modes -- Capture the flag etc
+Finish GNOME port
+	Add GConf support
+	Fix starting network games from the menus
+Remove "save settings" in settings menu - just save the changes anyway
+
 Bug: If you crash into the last building in a level, the level exit sequence
-runs with you inside the building rubble (!)
+	runs with you inside the building rubble (!)
+
+Ideas
+-----
+
+Custom levels
+DOS Port? probably wouldnt be too hard infact
 Hi score table?
 Reconfigurable keys
 
