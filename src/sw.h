@@ -192,8 +192,6 @@ typedef enum {
 
 // made these into typedefs rather than ugly #define macros
 
-typedef int BIOFD;
-
                                         /*  Internal representation of ground */
                                         /*  due to non-implementation of      */
                                         /*  unsigned char on ATARI            */
@@ -295,6 +293,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2003/06/04 15:49:05  fraggle
+// Removed and unused #define
+//
 // Revision 1.3  2003/04/05 22:48:34  fraggle
 // Remove archaic swmach.h and all IBMPC/ATARI #defines
 //
