@@ -1,0 +1,386 @@
+This file gives the correspondances between Dave Clark's identifier names and
+Andrew Jenner's, along with the file each identifier is defined in.
+
+This isn't finished yet. Now you've seen the format, you can help if you want
+to - send Andrew Jenner an email at amj25@cam.ac.uk first to avoid duplication
+of work.
+
+The file _intc.c will not be mentioned here since different methods of
+controlling interrupts are used in Andrew's version.
+
+
+DLC file    DLC name     DLC type AMJ file    AMJ name          AMJ type
+std.h       NULL         macro    stdlib.h    NULL              macro
+std.h       FALSE        macro    def.h       FALSE             macro
+std.h       TRUE         macro    def.h       TRUE              macro
+std.h       NO           macro    def.h       FALSE             macro
+std.h       YES          macro    def.h       TRUE              macro
+std.h       FOREVER      macro                for (;;)
+sw.h        MAX_X        macro                3000
+sw.h        MAX_Y        macro                200
+sw.h        MIN_SPEED    macro                4
+sw.h        MAX_SPEED    macro                8
+sw.h        MAX_THROTTLE macro                4
+sw.h        MAXCRCOUNT   macro                10
+sw.h        FALLCOUNT    macro                10
+sw.h        STALLCOUNT   macro                6
+sw.h        TARGHITCOUNT macro                10
+sw.h        SCR_WDTH     macro                320
+sw.h        SCR_HGHT     macro                200
+sw.h        SCR_CENTR    macro                152
+sw.h        SCR_SEGM     macro                0xb800
+sw.h        SCR_ROFF     macro                0x2000
+sw.h        SCR_LINW     macro                80
+sw.h        SCR_MNSH     macro
+sw.h        SCR_MXSH     macro
+sw.h        SCR_LIMIT    macro                180
+sw.h        WRLD_RSX     macro                19
+sw.h        WRLD_RSY     macro                13
+sw.h        MINFLCKX     macro                370
+sw.h        MAXFLCKX     macro                2630
+sw.h        CGUAGEX      macro
+sw.h        FGUAGEX      macro
+sw.h        BGUAGEX      macro
+sw.h        SGUAGEX      macro
+sw.h        MGUAGEX      macro
+sw.h        SBGUAGEX     macro
+sw.h        GHOSTX       macro
+sw.h        PRINTINT     macro
+sw.h        BREAKINT     macro
+sw.h        CLOCKINT     macro
+sw.h        KEYINT       macro
+sw.h        HITSYMS      macro
+sw.h        ANGLES       macro                16
+sw.h        ORIENTS      macro                2
+sw.h        SYMBYTES     macro
+sw.h        WINSIZES     macro                4
+sw.h        WINBYTES     macro
+sw.h        SYM_WDTH     macro                16
+sw.h        SYM_HGHT     macro                16
+sw.h        BOMBBYTES    macro
+sw.h        BOMBANGS     macro                8
+sw.h        TARGBYTES    macro
+sw.h        TARGORIENTS  macro                4
+sw.h        EXPLSYMS     macro                8
+sw.h        EXPBYTES     macro
+sw.h        FLCKSYMS     macro                2
+sw.h        FLKBYTES     macro
+sw.h        BIRDSYMS     macro                2
+sw.h        BRDBYTES     macro
+sw.h        OXSYMS       macro                2
+sw.h        OXBYTES      macro
+sw.h        GHSTBYTES    macro
+sw.h        SHOTBYTES    macro
+sw.h        SPLTBYTES    macro
+sw.h        MISCBYTES    macro
+sw.h        MISCANGS     macro                16
+sw.h        BRSTBYTES    macro
+sw.h        BRSTSYMS     macro                2
+sw.h        PCDOS        macro
+sw.h        JRROMDOS     macro
+sw.h        JRROM        macro
+sw.h        SINGLE       macro    def.h       GAME_SINGLE       macro
+sw.h        MULTIPLE     macro    def.h       GAME_MULTIPLE     macro
+sw.h        COMPUTER     macro    def.h       GAME_COMPUTER     macro
+sw.h        ASYNCH       macro    def.h       GAME_ASYNCH       macro
+sw.h        NOVICE       macro
+sw.h        MAXROUNDS    macro                200
+sw.h        MAXBOMBS     macro                5
+sw.h        MAXMISSILES  macro
+sw.h        MAXBURSTS    macro
+sw.h        MAXFUEL      macro                9000
+sw.h        MAXCRUSH     macro                5
+sw.h        MAX_PLYR     macro                4
+sw.h        MAX_TARG     macro                20
+sw.h        MAX_OBJS     macro                100
+sw.h        MAX_FLCK     macro                4
+sw.h        MAX_BIRD     macro                1
+sw.h        MAX_GAME     macro
+sw.h        MAX_OXEN     macro                2
+sw.h        BULSPEED     macro                10
+sw.h        BULLIFE      macro                10
+sw.h        BOMBLIFE     macro                5
+sw.h        MISSLIFE     macro
+sw.h        BURSTLIFE    macro
+sw.h        EXPLLIFE     macro                3
+sw.h        SMOKELIFE    macro                10
+sw.h        BIRDLIFE     macro                4
+sw.h        FLOCKLIFE    macro                5
+sw.h        WAITING      macro    def.h       STATUS_UNKNOWN    macro
+sw.h        FLYING       macro    def.h       STATUS_NORMAL     macro
+sw.h        HIT          macro
+sw.h        CRASHED      macro    def.h       STATUS_DEAD       macro
+sw.h        FALLING      macro    def.h       STATUS_FALLING    macro
+sw.h        STANDING     macro    def.h       STATUS_INTACT     macro
+sw.h        STALLED      macro    def.h       STATUS_SPINNING   macro
+sw.h        REBUILING    macro
+sw.h        WOUNDED      macro
+sw.h        WOUNDSTALL   macro
+sw.h        FINISHED     macro    def.h       STATUS_ELIMINATED macro
+sw.h        GHOST        macro    def.h       STATUS_ELIMNORM   macro
+sw.h        GHOSTCRASHED macro    def.h       STATUS_ELIMDEAD   macro
+sw.h        GHOSTSTALLED macro    def.h       STATUS_ELIMSPIN   macro
+            0            macro    def.h       FINALE_NONE       macro
+sw.h        WINNER       macro    def.h       FINALE_WON        macro
+sw.h        LOSER        macro    def.h       FINALE_LOST       macro
+sw.h        GROUND       macro    def.h       OBJ_NONE          macro
+sw.h        PLANE        macro    def.h       OBJ_PLANE         macro
+sw.h        BOMB         macro    def.h       OBJ_BOMB          macro
+sw.h        SHOT         macro    def.h       OBJ_BULLET        macro
+sw.h        TARGET       macro    def.h       OBJ_BUILDING      macro
+sw.h        EXPLOSION    macro    def.h       OBJ_SHRAPNEL      macro
+sw.h        SMOKE        macro    def.h       OBJ_SMOKE         macro
+sw.h        FLOCK        macro    def.h       OBJ_FLOCK         macro
+sw.h        BIRD         macro    def.h       OBJ_BIRD          macro
+sw.h        OX           macro    def.h       OBJ_COW           macro
+sw.h        MISSILE      macro
+sw.h        STARBURST    macro
+sw.h        DUMMYTYPE    macro
+sw.h        NEAR         macro
+sw.h        NEARAPPROACH macro                200
+sw.h        CLOSE        macro                32
+sw.h        DEADON       macro                16
+sw.h        HOME         macro                16
+sw.h        SAFERESET    macro                32
+sw.h        QUIT         macro                -5000
+            0            macro    def.h       SOUND_NONE        macro
+sw.h        S_TITLE      macro    def.h       SOUND_TUNE        macro
+sw.h        S_EXPLOSION  macro    def.h       SOUND_SHRAPNEL    macro
+sw.h        S_BOMB       macro    def.h       SOUND_BOMB        macro
+sw.h        S_SHOT       macro    def.h       SOUND_FIRING      macro
+sw.h        S_FALLING    macro    def.h       SOUND_FALLING     macro
+sw.h        S_HIT        macro    def.h       SOUND_STUTTER     macro
+sw.h        S_PLANE      macro    def.h       SOUND_ENGINE      macro
+            0x7fff       macro    def.h       SOUND_NONE        macro
+sw.h        K_ACCEL      macro    def.h       KEY_ACCEL         macro
+sw.h        K_DEACC      macro    def.h       KEY_BRAKE         macro
+sw.h        K_FLAPU      macro    def.h       KEY_CLIMB         macro
+sw.h        K_FLAPD      macro    def.h       KEY_DESCEND       macro
+sw.h        K_FLIP       macro    def.h       KEY_FLIP          macro
+sw.h        K_SHOT       macro    def.h       KEY_FIRE          macro
+sw.h        K_BOMB       macro    def.h       KEY_BOMB          macro
+sw.h        K_HOME       macro    def.h       KEY_HOME          macro
+sw.h        K_SOUND      macro    def.h       KEY_SOUND         macro
+sw.h        K_BREAK      macro    def.h       KEY_BREAK         macro
+sw.h        K_MISSILE    macro
+sw.h        K_STARBURST  macro
+sw.h        K_ASYNACK    macro
+sw.h        COMM_FILE    macro
+sw.h        COMM_CMD     macro
+sw.h        tt           struct   sopwith?.c  snd               struct
+sw.h        TONETAB      type     sopwith?.c  snd               type
+sw.h        obj          struct   sopwith?.c  object            struct
+sw.h        OBJECTS      type     sopwith?.c  object            type
+sw.h        GAMES        type     sopwith?.c  landscape         type
+sw.h        MULTIO       type
+sw.h        MSGOUT       type
+sw.h        MSGIN        type
+sw.h        OLDWDISP     type
+sw.h        COS(x)       macro    def.h       fsin(r,a)         macro
+sw.h        SIN(x)       macro    def.h       fcos(r,a)         macro
+sw.h        BOOL         macro    def.h       bool              type
+sw.h        BIOFD        macro
+sw.h        GRNDTYPE     macro                unsigned char     type
+
+
+sw.h        unsigned TONETAB.tt_tone     sopwith?.c  int snd.t2v
+sw.h        unsigned TONETAB.tt_chng     sopwith?.c  int snd.deltat2v
+sw.h        TONETAB* TONETAB.tt_next     sopwith?.c  snd* snd.next
+sw.h        TONETAB* TONETAB.tt_prev     sopwith?.c  snd* snd.prev
+sw.h        int OBJECTS.ob_state         sopwith?.c  int object.status
+sw.h        int OBJECTS.ob_x             sopwith?.c  int object.x
+sw.h        int OBJECTS.ob_y             sopwith?.c  int object.y
+sw.h        int OBJECTS.ob_dx            sopwith?.c  int object.xv
+sw.h        int OBJECTS.ob_dy            sopwith?.c  int object.yv
+sw.h        int OBJECTS.ob_angle         sopwith?.c  int object.rotation
+sw.h        int OBJECTS.ob_orient        sopwith?.c  bool object.inverted
+sw.h        int OBJECTS.ob_orient        sopwith?.c  int object.kind
+sw.h        int OBJECTS.ob_speed         sopwith?.c  int object.speed
+sw.h        int OBJECTS.ob_accel         sopwith?.c  int object.deltav
+sw.h        int OBJECTS.ob_flaps         sopwith?.c  int object.deltarot
+sw.h        OBJECTS* OBJECTS.ob_firing   sopwith?.c  bool object.firing
+sw.h        int OBJECTS.ob_score         sopwith?.c  int object.score
+sw.h        int OBJECTS.ob_rounds        sopwith?.c  int object.ammo
+sw.h        int OBJECTS.ob_hitcount
+sw.h        int OBJECTS.ob_updcount      sopwith?.c  int object.counter
+sw.h        int OBJECTS.ob_life          sopwith?.c  int object.fuel
+sw.h        OBJECTS* OBJECTS.ob_owner    sopwith?.c  object* object.source
+sw.h        int OBJECTS.ob_symhgt        sopwith?.c  int object.height
+sw.h        int OBJECTS.ob_symwdt        sopwith?.c  int object.width
+sw.h        int OBJECTS.ob_bombing       sopwith?.c  bool object.bombing
+sw.h        int OBJECTS.ob_bombs         sopwith?.c  int object.bombs
+sw.h        int OBJECTS.ob_clr           sopwith?.c  int object.colour
+sw.h        int OBJECTS.ob_lx            sopwith?.c  unsigned int object.xfrac
+sw.h        int OBJECTS.ob_ly            sopwith?.c  unsigned int object.yfrac
+sw.h        int OBJECTS.ob_ldx           sopwith?.c  unsigned int object.xvfrac
+sw.h        int OBJECTS.ob_ldy           sopwith?.c  unsigned int object.yvfrac
+sw.h        OBJECTS* OBJECTS.ob_next     sopwith?.c  object* object.next
+sw.h        OBJECTS* OBJECTS.ob_prev     sopwith?.c  object* object.prev
+sw.h        int OBJECTS.ob_index         sopwith?.c  int object.index
+sw.h        int OBJECTS.ob_oldx          sopwith?.c  int object.oldx
+sw.h        int OBJECTS.ob_oldy          sopwith?.c  int object.oldy
+sw.h        int OBJECTS.ob_drwflg        sopwith?.c  bool object.onscreen
+sw.h        int OBJECTS.ob_delflg        sopwith?.c  bool object.oldonscreen
+sw.h        char* OBJECTS.ob_oldsym      sopwith?.c  unsigned char* object.oldsprite
+sw.h        int (*OBJECTS.ob_drawf)()    sopwith?.c  void (*object.soundfunc)()
+sw.h        int (*OBJECTS.ob_movef)()    sopwith?.c  bool (*object.updatefunc)()
+sw.h        OBJECTS* OBJECTS.ob_xnext    sopwith?.c  object* object.nextx
+sw.h        OBJECTS* OBJECTS.ob_xprev    sopwith?.c  object* object.prevx
+sw.h        int OBJECTS.ob_crashcnt      sopwith?.c  int object.deaths
+sw.h        char* OBJECTS.ob_newsym      sopwith?.c  unsigned char* object.sprite
+sw.h        int OBJECTS.ob_bdelay        sopwith?.c  int object.bombtime
+sw.h        int OBJECTS.ob_home          sopwith?.c  bool object.homing
+sw.h        int OBJECTS.ob_hx[3]
+sw.h        int OBJECTS.ob_hy[3]
+sw.h        int OBJECTS.ob_type          sopwith?.c  int object.type
+sw.h        OBJECTS* OBJECTS.ob_dnext
+sw.h        int OBJECTS.ob_athome        sopwith?.c  bool object.ishome
+sw.h        TONETAB* OBJECTS.ob_sound    sopwith?.c  snd* object.sndp
+sw.h        int OBJECTS.ob_missiles
+sw.h        OBJECTS* OBJECTS.ob_mfiring
+sw.h        int OBJECTS.ob_mdelay
+sw.h        OBJECTS* OBJECTS.ob_target
+sw.h        int OBJECTS.ob_bursts
+sw.h        int OBJECTS.ob_bfiring
+sw.h        int OBJECTS.ob_bsdelay
+sw.h        int GAMES.gm_x[8]            sopwith?.c  int* landscape.planeposes
+sw.h        int GAMES.gm_orient[8]       sopwith?.c  bool* landscape.planeflip
+sw.h        unsigned (*GAMES.gm_randf)()
+sw.h        unsigned GAMES.gm_rseed
+sw.h        unsigned (*GAMES.gm_specf)()
+sw.h        int GAMES.gm_xtarg[20]       sopwith?.c  int* landscape.buildingpositions
+sw.h        int GAMES.gm_ttarg[20]       sopwith?.c  int* landscape.buildingtypes
+sw.h        unsigned MULTIO.mu_maxplyr
+sw.h        unsigned MULTIO.mu_numplyr
+sw.h        unsigned MULTIO.mu_lstplyr
+sw.h        unsigned MULTIO.mu_key
+sw.h        unsigned MULTIO.mu_state
+sw.h        unsigned MULTIO.mu_explseed
+sw.h        char MSGOUT.msgo_cmd
+sw.h        char MSGOUT.msgo_port
+sw.h        char MSGOUT.msgo_ssgnl
+sw.h        char MSGOUT.msgo_rsgnl
+sw.h        char MSGOUT.msgo_1fill[6]
+sw.h        MULTIO MSGOUT.msgo_buff
+sw.h        char MSGOUT.msgo_2fill[1]
+sw.h        char MSGIN.msgi_port
+sw.h        char MSGIN.msgi_1fill[2]
+sw.h        char MSGIN.msgi_myport
+sw.h        char MSGIN.msgi_2fill[6]
+sw.h        MULTIO MSGIN.msgi_buff
+sw.h        char MSGIN.msgi_3fill[1]
+sw.h        int OLDWDISP.ow_xorplot
+sw.h        int OLDWDISP.ow_x
+sw.h        int OLDWDISP.ow_y
+swmain.c    int playmode                 sopwith?.c  int gamemode
+swmain.c    GAMES* currgame              sopwith?.c  landscape* world
+swmain.c    OBJECTS* targets[22]         sopwith?.c  object* buildings[20]
+swmain.c    int numtarg[2]               sopwith?.c  int buildingc[2]
+swmain.c    int savemode
+swmain.c    int tickmode
+swmain.c    int counttick
+swmain.c    int countmove
+swmain.c    int movetick
+swmain.c    int movemax
+swmain.c    int gamenum                  sopwith?.c  int level
+swmain.c    int gmaxspeed
+swmain.c    int gminspeed
+swmain.c    int targrnge                 sopwith?.c  int radarrange2
+swmain.c    MULTIO multiost
+swmain.c    char auxdisp[0x2000]         sopwith?.c  unsigned char scrbuf[0x2000]
+swmain.c    int multkey
+swmain.c    MULTIO *multbuff
+swmain.c    unsigned multaddr
+swmain.c    int multtick
+swmain.c    BOOL hires                   sopwith?.c  bool hiresflag
+swmain.c    BOOL disppos
+swmain.c    BOOL titleflg                sopwith?.c  bool notitlesflag
+swmain.c    int dispdbg
+swmain.c    BOOL soundflg                sopwith?.c  bool soundflag
+swmain.c    BOOL repflag                 sopwith?.c  bool statsflag
+swmain.c    BOOL joystick                sopwith?.c  bool joyrequested
+swmain.c    BOOL ibmkeybd                sopwith?.c  bool ibmkeyboard
+swmain.c    BOOL inplay
+swmain.c    BOOL printflg
+swmain.c    int koveride
+swmain.c    int missok
+swmain.c    int displx                   sopwith?.c  int scnleft
+swmain.c    int disprx                   sopwith?.c  int scnright
+swmain.c    int dispdx                   sopwith?.c  int pixtoscroll
+swmain.c    BOOL dispinit                sopwith?.c  bool groundnotdrawn
+swmain.c    OBJECTS* drawlist            sopwith?.c  object* objects
+swmain.c    OBJECTS* nobjects
+swmain.c    OBJECTS oobjects[4]          sopwith?.c  object homes[4]
+swmain.c    OBJECTS* objbot              sopwith?.c  object* lastobject
+swmain.c    OBJECTS* objtop              sopwith?.c  object* firstobject
+swmain.c    OBJECTS* objfree             sopwith?.c  object* nextobject
+swmain.c    OBJECTS* deltop              sopwith?.c  object* firstdeleted
+swmain.c    OBJECTS* delbot              sopwith?.c  object* lastdeleted
+swmain.c    OBJECTS topobj               sopwith?.c  object objleft
+swmain.c    OBJECTS botobj               sopwith?.c  object objright
+swmain.c    OBJECTS* compnear[4]         sopwith?.c  object* attackees[4]
+swmain.c    int lcompter[4]              sopwith?.c  int regionleft[4]
+swmain.c    int rcompter[4]              sopwith?.c  int regionright[4]
+swmain.c    OBJECTS* objsmax             sopwith?.c  object* maxobjectp
+swmain.c    int endsts[4]                sopwith?.c  int finaleflags[4]
+swmain.c    int endcount                 sopwith?.c  int finaletime
+swmain.c    int player                   sopwith?.c  int lastplane
+swmain.c    int currobx                  sopwith?.c  int planeindex
+swmain.c    BOOL plyrplane               sopwith?.c  bool planeisplayer
+swmain.c    BOOL compplane               sopwith?.c  bool planeisenemy
+swmain.c    OLDWDISP wdisp[100]          sopwith?.c  mapobject mapobjects[100]
+swmain.c    BOOL goingsun                sopwith?.c  bool finaleflying
+swmain.c    BOOL forcdisp                sopwith?.c  bool cratertobedrawn
+swmain.c    char* histin                 sopwith?.c  char* playbackfilename
+swmain.c    char* histout                sopwith?.c  char* recordfilename
+swmain.c    unsigned explseed            sopwith?.c  int randno
+swmain.c    int keydelay                 sopwith?.c  int latency
+swmain.c    int dispcnt                  sopwith?.c  int latencycount
+swmain.c    int endstat                  sopwith?.c  int finaleflag
+swmain.c    int maxcrash                 sopwith?.c  int maxlives
+swmain.c    int shothole
+swmain.c    int splatbird
+swmain.c    int splatox
+swmain.c    int oxsplatted
+swmain.c    int sintab[16]               sopwith?.c  int sine[16]
+swmain.c    jmp_buf envrestart           sopwith?.c  jmp_buf startjbuf
+swmain.c    main(int argc,char* argv[])  sopwith?.c  void main(int argc,char* argv[])
+swmain.c    int main.argc                sopwith?.c  int main.argc
+swmain.c    char* main.argv[]            sopwith?.c  char* main.argv[]
+swmisc.c    puts(char* sp)               sopwith?.c  void printstr(char* str)
+swmisc.c    register char puts.s
+swgames.c   GAMES swgames[1]             sopwith?.c  landscape worlds[1]
+                                         sopwith?.c  int worldplaneposes[8]
+                                         sopwith?.c  bool worldplaneflip[8]
+                                         sopwith?.c  int worldbuildingpositions[20]
+                                         sopwith?.c  int worldbuildingtypes[20]
+swground.c  GRNDTYPE orground[3000]      ground.c    unsigned char ground[3000]
+                                         ground.c    unsigned char loground[3000]
+swground.c  GRNDTYPE ground[3000]        sopwith?.c  unsigned char workingground[3000]
+swplanes.c  char swplnsym[2][16][64]     sprites.c   unsigned char planesprites[2][2][16][64]
+swplanes.c  char swhitsym[2][64]         sprites.c   unsigned char fallingsprites[2][64]
+swplanes.c  char swwinsym[4][64]         sprites.c   unsigned char finalesprites[2][4][64]
+swsymbol.c  char swbmbsym[8][16]         sprites.c   unsigned char bombsprites[2][8][16]
+swsymbol.c  char swtrgsym[4][64]         sprites.c   unsigned char buildingsprites[2][4][64]
+swsymbol.c  char swhtrsym[64]            sprites.c   unsigned char debrissprites[2][64]
+swsymbol.c  char swexpsym[8][16]         sprites.c   unsigned char shrapnelsprites[8][16]
+swsymbol.c  char swflksym[2][64]         sprites.c   unsigned char flocksprites[2][64]
+swsymbol.c  char swbrdsym[2][2]          sprites.c   unsigned char birdsprites[2][2]
+swsymbol.c  char swoxsym[2][64]          sprites.c   unsigned char cowsprites[2][64]
+swsymbol.c  char swghtsym[16]
+swsymbol.c  char swshtsym[64]
+swsymbol.c  char swsplsym[256]
+swsymbol.c  char swmscsym[16][16]
+swsymbol.c  char swbstsym[2][16]
+swtitle.c   swtitln()                    sopwith?.c  void titles(void)
+swtitle.c   OBJECTS swtitln.ob
+swtitle.c   register int swtitln.i
+swtitle.c   register int swtitln.h
+swtitle.c   swtitlf()
+swtitle.c   swtickc()
+swobject.c  OBJECTS* allocobj()          sopwith?.c  object* newobject(void)
+swobject.c  register OBJECTS* ob         sopwith?.c  object* newobj
+swobject.c  deallobj(OBJECTS* obp)       sopwith?.c  void deleteobject(object* obj)
+swobject.c  register OBJECTS* ob
+swobject.c  register OBJECTS* obb        sopwith?.c  object* other
+

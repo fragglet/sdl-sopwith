@@ -1,0 +1,44 @@
+    License agreement for Sopwith
+    -----------------------------
+
+    The authors make no warranty or representation, either express or
+    implied, with respect to this software, its quality, accuracy,
+    merchantability, or fitness for a particular purpose. This software
+    is provided "as is", and you, its user, assume the entire risk as
+    to its quality and accuracy.
+
+    This software is copyright (C) 1984-2000 David L. Clark. All rights
+    reserved except as specified below.
+
+    Permission is hereby granted to use, copy and modify this software
+    (or portions thereof) for any purpose, without fee, subject to the
+    following distribution conditions.
+
+    Permission is hereby granted to distribute this software (or
+    portions thereof, or modified versions thereof) subject to these
+    conditions:
+
+    * The copyright message which appears on screen when the game is
+      run must continue to appear intact in any modified versions
+      (where applicable).
+
+    * You must cause any modified source code files to carry prominent
+      notices stating that you changed the files and the date of any
+      change. The copyright message at the top of each source file must
+      remain intact.
+
+    * You must distribute this license unchanged with the software.
+
+    * You must distribute the source code which was used to compile the
+      version of the software you distribute, or provide an internet
+      address where this source code can be downloaded without charge.
+      If you do not have permission to distribute all this source code
+      (for example, because part of it is licenced under an incompatible
+      license) you may not distribute the program at all.
+
+    * No money may be charged for the software. If the software is
+      distributed as part of a collection of software then you may
+      charge for the collection but must make it clear that the software
+      is available for free and provide an internet address (accessible
+      to people who have not bought the collection) where the software
+      can be downloaded without charge.

@@ -1,0 +1,7 @@
+/m /v /c +
+\prog\lib\c0s.obj +
+sopwith2.obj +
+sopasm.obj
+sopwith2.exe
+sopwith2.map
+\prog\lib\cs.lib
