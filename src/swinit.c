@@ -1064,6 +1064,7 @@ void swinit(int argc, char *argv[])
 	BOOL k = FALSE;
 	int modeset = 0, keyset;
 	char *device = "\0              ";
+	int i;
 
 	// store global argc/argv
 	
@@ -1095,8 +1096,6 @@ void swinit(int argc, char *argv[])
 		exit(1);
 	}
 #endif
-
-	int i;
 	
 	// sdh 29/10/2001: load config from configuration file
 
@@ -1185,6 +1184,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5.2.1  2003/06/08 17:08:17  fraggle
+// Fix variable declared in wrong place
+//
 // Revision 1.5  2003/06/04 17:13:26  fraggle
 // Remove disprx, as it is implied from displx anyway.
 //
