@@ -1,3 +1,25 @@
+
+Allow control via arrow keys, for people with "unusual" keyboard layouts
+Fix right-ctrl for ctrl-c (thanks to electricelf)
+Support Gtk+ 2.0 and some GNOME HiGification
+
+Psion Port:
+	devfs support
+	improved screen squishing for revo
+Code cleanup:
+	Removed a load of redundant code including the last remnants of
+		the old Imaginet code. Also some archaic stuff like the 
+		ATARI/IBMPC defines
+	Some of the keyboard code moved out into a system-independent
+		module.
+
+v1.6.0
+
+Fixed bug with harry keys mode and returning to home from the left
+(thanks to Kodath duMatri)
+Fixed bullets being colored (instead of always white like they should be)
+Now totally under the GPL!
+
 v1.5.0
 
 Removed old redundant collision detection code
