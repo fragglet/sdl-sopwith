@@ -63,7 +63,6 @@ static struct termios kb_oldtio;
 
 static int ctrlbreak = 0;
 static int colors[16];
-static int keysdown[0xff];
 
 static BOOL in_vid_mode = 0;
 
@@ -73,18 +72,6 @@ static BOOL in_vid_mode = 0;
 //
 //============================================================================
 
-
-// which keys are currently down
-// this is actually a simple bitfield
-// bit 0 is whether the button is currently down
-// bit 1 is whether the button has been pressed
-//       since the last call of Vid_GetGameKeys
-// in this way, every button press will have an effect:
-// if it is done based on what is currently down it is
-// possible to miss keypresses (if you press and release
-// a button fast enough)
-
-//static int keysdown[SDLK_LAST];
 
 static unsigned long getcolor(int r, int g, int b)
 {
@@ -284,12 +271,53 @@ void Vid_Reset()
 	Vid_Update();
 }
 
+static inline sopkey_t translate_key(int c)
+{
+	switch (tolower(c)) {
+		// use j,k and l because of the keyboard layout
+	case 'k': 
+		return KEY_FLIP;
+	case 'j':
+		return KEY_PULLUP;
+	case 'l':
+		return KEY_PULLDOWN;
+	case 'x':
+		return KEY_ACCEL;
+	case 'z':
+		return KEY_DECEL;
+	case 'b':
+		return KEY_BOMB;
+	case ' ':
+		return KEY_FIRE;
+	case 'h':
+		return KEY_HOME;
+	case 'v':
+		return KEY_MISSILE;
+	case 'c':
+		return KEY_STARBURST;
+	case 's':
+		return KEY_SOUND;
+	default: 
+		return KEY_UNKNOWN;
+	}
+}
+
 static inline int getkey()
 {
 	unsigned char c;
+	sopkey_t translated;
 
 	if (read(kb_fd, &c, 1) <= 0)
 		return -1;
+
+	translated = translate_key(c);
+
+	// we dont actually know if a key is down or not,
+	// only if it has been pressed since last run of 
+	// Vid_GetGameKeys, so set the second bit only
+	
+	if (translated)
+		keysdown[translated] |= 2;
 
 	if (c == 0x3) {            // ctrl c
 		ctrlbreak++;
@@ -310,56 +338,6 @@ int Vid_GetKey()
 	return c < 0 ? 0 : c;
 }
 
-int Vid_GetGameKeys()
-{
-	unsigned int cmd = 0;
-	int c;
-
-	while ((c = getkey()) >= 0) {
-		switch (tolower(c)) {
-			// use j,k and l because of the keyboard layout
-		case 'k': 
-			cmd |= K_FLIP;
-			break;
-		case 'j':
-			cmd |= K_FLAPU;
-			break;
-		case 'l':
-			cmd |= K_FLAPD;
-			break;
-		case 'x':
-			cmd |= K_ACCEL;
-			break;
-		case 'z':
-			cmd |= K_DEACC;
-			break;
-		case 'b':
-			cmd |= K_BOMB;
-			break;
-		case ' ':
-			cmd |= K_SHOT;
-			break;
-		case 'h':
-			cmd |= K_HOME;
-			break;
-		case 'v':
-			cmd |= K_MISSILE;
-			break;
-		case 'c':
-			cmd |= K_STARBURST;
-			break;
-		default: 
-			break;			
-		}
-	}
-
-	if (ctrlbreak) {
-		cmd |= K_BREAK;
-	}
-
-	return cmd;
-}
-
 BOOL Vid_GetCtrlBreak()
 {
 	return ctrlbreak > 0;
@@ -369,8 +347,11 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
-// Revision 1.1  2003/02/14 19:03:38  fraggle
-// Initial revision
+// Revision 1.2  2003/03/26 14:29:50  fraggle
+// Move psion code to new key architecture
+//
+// Revision 1.1.1.1  2003/02/14 19:03:38  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
@@ -388,3 +369,4 @@ BOOL Vid_GetCtrlBreak()
 // sdh 21/10/2001: added cvs tags
 //
 //-----------------------------------------------------------------------
+
