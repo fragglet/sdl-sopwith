@@ -260,25 +260,14 @@ void clrdispa()
 	Vid_ClearBuf_Aux();
 }
 
-/*
-// sdh: screenshot function
-
-void screendump()
-{
-	FILE *fs = fopen("screendump.bin", "wb");
-	printf("screendump\n");
-
-	fwrite(dispoff, VRAMSIZE, 1, fs);
-
-	fclose(fs);
-}
-*/
-
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:12  fraggle
-// Initial revision
+// Revision 1.2  2003/06/04 15:59:09  fraggle
+// Remove broken screenshot function
+//
+// Revision 1.1.1.1  2003/02/14 19:03:12  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL
