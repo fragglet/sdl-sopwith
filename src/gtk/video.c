@@ -3,7 +3,7 @@
 //
 // $Id$
 //
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2004 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -230,7 +230,7 @@ static GtkWidget *build_about_window()
 		"Copyright(C) 1984, 1985, 1987 "
 		"BMB Compuscience Canada Ltd.\n"
 		"Copyright(C) 1984-2000 David L. Clark\n"
-		"Copyright(C) 2001-2003 Simon Howard"
+		"Copyright(C) 2001-2004 Simon Howard"
 		"</span>");
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->vbox),
@@ -872,6 +872,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.11  2004/10/15 18:06:17  fraggle
+// Fix copyright notice
+//
 // Revision 1.10  2004/10/14 08:48:46  fraggle
 // Wrap the main function in system-specific code.  Remove g_argc/g_argv.
 // Fix crash when unable to initialise video subsystem.

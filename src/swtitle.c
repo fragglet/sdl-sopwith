@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2004 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -111,7 +111,7 @@ void swtitln()
 
 	swcolour(3);
 	swposcur(1+X_OFFSET/8, 13);
-	swputs("(c) Copyright 2001-2003 Simon Howard");
+	swputs("(c) Copyright 2001-2004 Simon Howard");
 
 /*---------------- New Network Version-----------------*/
 
@@ -361,6 +361,9 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2004/10/15 18:06:16  fraggle
+// Fix copyright notice
+//
 // Revision 1.6  2004/10/15 17:52:32  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.
