@@ -77,7 +77,6 @@ BOOL inplay;			/* Game is in play                  */
 int koveride;			/* Keyboard override index number   */
 
 int displx;			/* Display left and right           */
-int dispdx;			/* Display shift                    */
 BOOL dispinit;			/* Inialized display flag           */
 
 OBJECTS *nobjects;		/* Objects list.                    */
@@ -186,6 +185,10 @@ int main(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2003/06/08 02:48:45  fraggle
+// Remove dispdx, always calculated displx from the current player position
+// and do proper edge-of-level bounds checking
+//
 // Revision 1.6  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

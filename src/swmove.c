@@ -251,13 +251,6 @@ BOOL moveplyr(OBJECTS * obp)
 	oldx = ob->ob_x;
 	rc = movepln(ob);
 
-	if (oldx <= SCR_LIMIT || oldx >= (MAX_X - SCR_LIMIT))
-		dispdx = 0;
-	else {
-		dispdx = ob->ob_x - oldx;
-		displx += dispdx;
-	}
-
 	return rc;
 }
 
@@ -1170,6 +1163,10 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2003/06/08 02:48:45  fraggle
+// Remove dispdx, always calculated displx from the current player position
+// and do proper edge-of-level bounds checking
+//
 // Revision 1.7  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

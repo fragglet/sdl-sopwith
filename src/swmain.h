@@ -57,7 +57,6 @@ extern BOOL    ibmkeybd;
 extern BOOL    inplay;
 extern int     koveride;
 extern int     displx;
-extern int     dispdx;
 extern BOOL    dispinit;
 extern OBJECTS *nobjects;
 extern OBJECTS oobjects[MAX_PLYR];
@@ -95,6 +94,10 @@ extern jmp_buf envrestart;
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2003/06/08 02:48:45  fraggle
+// Remove dispdx, always calculated displx from the current player position
+// and do proper edge-of-level bounds checking
+//
 // Revision 1.5  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

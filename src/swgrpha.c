@@ -33,9 +33,6 @@
 #include "swsymbol.h"
 #include "swutil.h"
 
-static GRNDTYPE grndsave[SCR_WDTH];   // saved ground buffer
-
-
 /*---------------------------------------------------------------------------
 
         Update display of ground.   Delete previous display of ground by
@@ -48,30 +45,6 @@ static GRNDTYPE grndsave[SCR_WDTH];   // saved ground buffer
 
 static void dispgrnd()
 {
-	/*
-	{
-		static int clrgrndsave = 0;
-		if (!clrgrndsave) {
-			memset(grndsave, 0, sizeof(grndsave));
-			clrgrndsave = 1;
-		}
-	}
-
-	if (!dispinit) {
-		if (!(dispdx || forcdisp))
-			return;
-		if (conf_solidground)
-			Vid_DispGround_Solid(grndsave);
-		else 
-			Vid_DispGround(grndsave);
-	}
-
-	// sdh 16/10/2001: removed movmem
-
-	memcpy(grndsave, ground+displx, SCR_WDTH * sizeof(GRNDTYPE));
-
-	*/
-
 	if (conf_solidground)
 		Vid_DispGround_Solid(ground + displx);
 	else 
@@ -168,7 +141,15 @@ void swdisp()
 	setvdisp();
 	clrdispv();
 
+	// calculate displx from the player position
+	// do sanity checks to make sure we never go out of range
+
 	displx = consoleplayer->ob_x - SCR_CENTR;
+
+	if (displx < 0)
+		displx = 0;
+	else if (displx >= MAX_X - SCR_WDTH)
+		displx = MAX_X - SCR_WDTH - 1;
 
 	// display the status bar
 
@@ -259,6 +240,10 @@ void clrdispa()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2003/06/08 02:48:45  fraggle
+// Remove dispdx, always calculated displx from the current player position
+// and do proper edge-of-level bounds checking
+//
 // Revision 1.4  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //
