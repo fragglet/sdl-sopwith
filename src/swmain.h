@@ -68,7 +68,6 @@ extern int     endcount;
 extern int     player;
 extern BOOL    plyrplane;
 extern BOOL    compplane;
-extern BOOL    goingsun;
 extern BOOL    forcdisp;
 extern char    *histin, *histout;
 extern unsigned explseed;
@@ -91,6 +90,9 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.14  2004/10/25 19:58:06  fraggle
+// Remove 'goingsun' global variable
+//
 // Revision 1.13  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //

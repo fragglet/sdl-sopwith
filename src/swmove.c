@@ -502,7 +502,7 @@ BOOL movepln(OBJECTS * obp)
 		}
 
 	     controlled:
-		if (goingsun && plyrplane)
+		if (ob->ob_goingsun)
 			break;
 
 		if (ob->ob_life <= 0 && !ob->ob_athome
@@ -606,7 +606,7 @@ BOOL movepln(OBJECTS * obp)
 		break;
 	}
 
-	if (endstat == WINNER && plyrplane && goingsun)
+	if (ob->ob_endsts == WINNER && ob->ob_goingsun)
 		ob->ob_newsym = symbol_plane_win[endcount / 18]; 
 	else if (ob->ob_state == FINISHED)
 		ob->ob_newsym = NULL;
@@ -1121,6 +1121,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.15  2004/10/25 19:58:06  fraggle
+// Remove 'goingsun' global variable
+//
 // Revision 1.14  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //

@@ -390,7 +390,6 @@ void initplyr(OBJECTS * obp)
 		ob->ob_clr = ob->ob_index % 2 + 1;
 		ob->ob_owner = ob;
 		oobjects[ob->ob_index] = *ob;  // sdh 16/11: removed movmem
-		goingsun = FALSE;
 		endcount = 0;
 
 		ob->ob_plrnum = num_players;
@@ -1135,6 +1134,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.18  2004/10/25 19:58:06  fraggle
+// Remove 'goingsun' global variable
+//
 // Revision 1.17  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //

@@ -120,14 +120,14 @@ void winner(OBJECTS * obp)
 	register OBJECTS *ob = obp;
 
 	ob->ob_endsts = WINNER;
+	ob->ob_goingsun = TRUE;
+	ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = 0;
+	ob->ob_state = FLYING;
+	ob->ob_life = MAXFUEL;
+	ob->ob_speed = MIN_SPEED;
 
 	if (ob == consoleplayer) {
 		endcount = 72;
-		goingsun = TRUE;
-		ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = 0;
-		ob->ob_state = FLYING;
-		ob->ob_life = MAXFUEL;
-		ob->ob_speed = MIN_SPEED;
 	}
 }
 
@@ -158,6 +158,9 @@ void dispendmessage()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2004/10/25 19:58:06  fraggle
+// Remove 'goingsun' global variable
+//
 // Revision 1.6  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //

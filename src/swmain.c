@@ -93,7 +93,6 @@ int endcount;
 int player;			/* Pointer to player's object       */
 BOOL plyrplane;			/* Current object is player flag    */
 BOOL compplane;			/* Current object is a comp plane   */
-BOOL goingsun;			/* Going to the sun flag            */
 BOOL forcdisp;			/* Force display of ground          */
 char *histin, *histout;		/* History input and output files   */
 unsigned explseed;		/* random seed for explosion        */
@@ -225,6 +224,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.16  2004/10/25 19:58:06  fraggle
+// Remove 'goingsun' global variable
+//
 // Revision 1.15  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //

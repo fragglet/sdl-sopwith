@@ -79,7 +79,7 @@
 #define WRLD_RSX        (MAX_X / 320 * 2 + 1) /*  World display X and  */
 #define WRLD_RSY        (MAX_Y / SCR_MNSH + 1)     /*  Y divisors           */
 
-#define MINFLCKX        370 			  /*  Bird flock travel    */
+#define MINFLCKX        370                           /*  Bird flock travel    */
 #define MAXFLCKX        (MAX_X - 370)             /*  limits */
 
 // sdh 26/10/2001: merged guages, removed unneccesary coordinates
@@ -90,11 +90,11 @@
 // sdh 28/10/2001: made into a type
 
 typedef enum {
-	PLAYMODE_UNSET = 0,
-	PLAYMODE_SINGLE,
-	PLAYMODE_COMPUTER,
-	PLAYMODE_ASYNCH,
-	PLAYMODE_NOVICE
+        PLAYMODE_UNSET = 0,
+        PLAYMODE_SINGLE,
+        PLAYMODE_COMPUTER,
+        PLAYMODE_ASYNCH,
+        PLAYMODE_NOVICE
 } playmode_t;
 
 #define MAXROUNDS       200             /* Maximum number of rounds of shot */
@@ -130,47 +130,47 @@ typedef enum {
 #define FLOCKLIFE       5               /* Moves between flop flaps        */
 
 typedef enum {               /*  Player states  */
-	WAITING = 0,
-	FLYING ,
-	HIT,
-	CRASHED,
-	FALLING,
-	STANDING,
-	STALLED,
-	REBUILDING,
-	WOUNDED,
-	WOUNDSTALL,
+        WAITING = 0,
+        FLYING ,
+        HIT,
+        CRASHED,
+        FALLING,
+        STANDING,
+        STALLED,
+        REBUILDING,
+        WOUNDED,
+        WOUNDSTALL,
 
-	FINISHED = 91,
-	GHOST,
-	GHOSTCRASHED,
-	GHOSTSTALLED,
+        FINISHED = 91,
+        GHOST,
+        GHOSTCRASHED,
+        GHOSTSTALLED,
 } obstate_t;
 
 // sdh 21/10/2001: made this an enum
 
 typedef enum {
-	PLAYING,
-	WINNER,
-	LOSER
+        PLAYING,
+        WINNER,
+        LOSER
 } obendstatus_t;
 
 // sdh 21/10/2001: converted object types to an enum
 
 typedef enum {
-	GROUND = 0,
-	PLANE,
-	BOMB,
-	SHOT,
-	TARGET,
-	EXPLOSION,
-	SMOKE,
-	FLOCK,
-	BIRD,
-	OX,
-	MISSILE,
-	STARBURST,
-	DUMMYTYPE = 99,
+        GROUND = 0,
+        PLANE,
+        BOMB,
+        SHOT,
+        TARGET,
+        EXPLOSION,
+        SMOKE,
+        FLOCK,
+        BIRD,
+        OX,
+        MISSILE,
+        STARBURST,
+        DUMMYTYPE = 99,
 } obtype_t;
 
 #define NEAR            ( 150 * 150 )   /* Computer control distances        */
@@ -214,7 +214,7 @@ struct tt {                     /*  Continuous tone table entry    */
 typedef struct tt TONETAB;
 
 typedef struct obj {                            /*  Object list             */
-	obstate_t      ob_state;
+        obstate_t      ob_state;
         int            ob_x, ob_y;
         int            ob_dx, ob_dy;
         int            ob_angle;
@@ -247,7 +247,7 @@ typedef struct obj {                            /*  Object list             */
         struct obj    *ob_xprev;
         int            ob_crashcnt;
         // char          *ob_newsym;   // sdh 27/6/2002
-	sopsym_t      *ob_newsym;
+        sopsym_t      *ob_newsym;
         int            ob_bdelay;
         int            ob_home;
         int            ob_hx[3], ob_hy[3];
@@ -262,8 +262,9 @@ typedef struct obj {                            /*  Object list             */
         int            ob_bursts;
         int            ob_bfiring;
         int            ob_bsdelay;
-	int            ob_plrnum;
-	obendstatus_t  ob_endsts;
+        int            ob_plrnum;
+        obendstatus_t  ob_endsts;
+        BOOL           ob_goingsun;
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */
@@ -281,11 +282,11 @@ typedef struct {                                /*  Game structure          */
 extern int sintab[];
 
 static inline int COS(int x) {
-	return sintab[(x+(ANGLES/4)) % ANGLES];
+        return sintab[(x+(ANGLES/4)) % ANGLES];
 }
 
 static inline int SIN(int x) {
-	return sintab[x % ANGLES];
+        return sintab[x % ANGLES];
 }
 
 #endif
@@ -293,6 +294,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2004/10/25 19:58:06  fraggle
+// Remove 'goingsun' global variable
+//
 // Revision 1.9  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //
