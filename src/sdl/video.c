@@ -265,6 +265,7 @@ static void Vid_SetMode()
 
 	SDL_SetColors(screen, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
 	SDL_SetColors(screenbuf, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
+	SDL_ShowCursor(0);
 }
 
 void Vid_Shutdown()
@@ -440,6 +441,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.5  2004/10/15 17:30:58  fraggle
+// Always hide the cursor.
+//
 // Revision 1.4  2004/10/14 08:48:46  fraggle
 // Wrap the main function in system-specific code.  Remove g_argc/g_argv.
 // Fix crash when unable to initialise video subsystem.
