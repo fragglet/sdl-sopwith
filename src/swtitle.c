@@ -113,7 +113,7 @@ void swtitln()
 
 	swcolour(3);
 	swposcur(1+X_OFFSET/8, 13);
-	swputs("(c) Copyright 2001 Simon Howard");
+	swputs("(c) Copyright 2001-2003 Simon Howard");
 
 /*---------------- New Network Version-----------------*/
 
@@ -359,6 +359,9 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2003/06/04 15:43:39  fraggle
+// Fix year range in copyright
+//
 // Revision 1.2  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //
