@@ -79,7 +79,7 @@ static  char     *expltune[7] = {
 };
 #endif
 
-static BOOL titleflg;		/* Playing title tune               */
+//static BOOL titleflg;		/* Playing title tune               */
 static int titlplace;		/*  Place in title tune;            */
 static int titlline;		/* Line in title tune               */
 static unsigned titltone;	/*  Current title tone              */
@@ -613,6 +613,9 @@ void swsndupdate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2005/04/28 14:52:47  fraggle
+// Fix compilation under gcc 4.0
+//
 // Revision 1.5  2004/10/15 16:39:32  fraggle
 // Unobfuscate some parts
 //

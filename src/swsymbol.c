@@ -1022,7 +1022,7 @@ static char swbstsym[BRSTSYMS][BRSTBYTES] = {
 // rather than packing 4 pixels into one byte as in the original data.
 // this simplifies various stuff such as collision detection. 
 
-static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h)
+static sopsym_t *sopsym_from_data(char *data, int w, int h)
 {
 	sopsym_t *sym = malloc(sizeof(*sym));
 	unsigned char *d, *s;
@@ -1034,7 +1034,7 @@ static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h)
 
 	// decode the symbol data
 
-	for (d=data, s=sym->data, y=0; y<h; ++y) {
+	for (d=(unsigned char *) data, s=sym->data, y=0; y<h; ++y) {
 
 		// all symbols are multiples of 4 wide
 		// so this should be ok
@@ -1112,6 +1112,9 @@ void symbol_generate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2005/04/28 14:52:48  fraggle
+// Fix compilation under gcc 4.0
+//
 // Revision 1.3  2004/10/15 16:39:32  fraggle
 // Unobfuscate some parts
 //

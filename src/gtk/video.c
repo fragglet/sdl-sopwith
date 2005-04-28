@@ -31,6 +31,7 @@
 #include "swinit.h"
 #include "swmain.h"
 
+#include <string.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
@@ -872,6 +873,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.12  2005/04/28 14:52:55  fraggle
+// Fix compilation under gcc 4.0
+//
 // Revision 1.11  2004/10/15 18:06:17  fraggle
 // Fix copyright notice
 //

@@ -24,6 +24,7 @@
 
 #include "video.h"
 
+#include <string.h>
 #include "sw.h"
 #include "swdisp.h"
 #include "swground.h"
@@ -228,6 +229,9 @@ void Vid_ClearBuf()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2005/04/28 14:52:55  fraggle
+// Fix compilation under gcc 4.0
+//
 // Revision 1.2  2003/06/08 03:41:42  fraggle
 // Remove auxdisp buffer totally, and all associated functions
 //

@@ -88,7 +88,7 @@ SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
 	SDL_Surface *surface = SDL_CreateRGBSurface(0, sym->w, sym->h, 8,
 						    0, 0, 0, 0);
-	char *p1, *p2;
+	unsigned char *p1, *p2;
 	int y;
 
 	if (!surface)
@@ -441,6 +441,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.6  2005/04/28 14:52:55  fraggle
+// Fix compilation under gcc 4.0
+//
 // Revision 1.5  2004/10/15 17:30:58  fraggle
 // Always hide the cursor.
 //

@@ -91,7 +91,7 @@ void commconnect(char *host)
 
 	tcp_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	if (tcp_sock < -1) {
+	if (tcp_sock < 0) {
 		fprintf(stderr,
 			"commconnect: cant create socket: %s\n",
 			strerror(errno));
@@ -124,7 +124,7 @@ void commlisten()
 {
 #ifdef TCPIP
 	struct sockaddr_in in;
-	int in_size;
+	size_t in_size;
 
 	// create socket
 
@@ -274,6 +274,9 @@ void commterm()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2005/04/28 14:52:55  fraggle
+// Fix compilation under gcc 4.0
+//
 // Revision 1.2  2003/04/05 22:55:11  fraggle
 // Remove the FOREVER macro and some unused stuff from std.h
 //
