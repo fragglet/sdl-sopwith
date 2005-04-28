@@ -1,3 +1,6 @@
+
+Fix computer planes not shooting when tailing the player's plane.
+
 v1.7.1
 
 Fix some compilation errors due to an error in swinit.c

@@ -266,7 +266,10 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		i = shoot(obt);
 
 		if (i) {
-			if (ob->ob_missiles && i == 2)
+                        // cr 2005-04-28: Resort to MG if
+                        //       missiles are disabled
+
+			if (ob->ob_missiles && conf_missiles && i == 2) 
 				ob->ob_mfiring = obt->ob_athome ? ob : obt;
 			else
 				ob->ob_firing = obt;
@@ -421,6 +424,9 @@ int range(int x, int y, int ax, int ay)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2005/04/28 10:42:48  fraggle
+// Fix computer planes not firing when tailing player plane
+//
 // Revision 1.3  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //
