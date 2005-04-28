@@ -63,20 +63,21 @@ static char helptxt[] =
 "\n"
 "Usage:  sopwith [options]\n"
 "The options are:\n"
-"        -n :  novice single player\n"
-"        -s :  single player\n"
-"        -c :  single player against computer\n"
-"        -x :  enable missiles\n"
-"        -q :  begin game with sound off\n"
+"        -n    :  novice single player\n"
+"        -s    :  single player\n"
+"        -c    :  single player against computer\n"
+"        -x    :  enable missiles\n"
+"        -q    :  begin game with sound off\n"
+"        -d<n> :  start at level <n> (default: 0)\n"
 "\n"
 "Video:\n"
-"        -f :  fullscreen\n"
-"        -2 :  double scale window\n"
+"        -f    :  fullscreen\n"
+"        -2    :  double scale window\n"
 "\n"
 #ifdef TCPIP
 "Networking: \n"
-"        -l :  listen for connection\n"
-" -j <host> :  connect to a listening host\n"
+"        -l    :  listen for connection\n"
+" -j <host>    :  connect to a listening host\n"
 #endif
 ;
 
@@ -1024,7 +1025,7 @@ void swrestart()
 		++gamenum;
 		savescore = ob->ob_score;
 	} else {
-		gamenum = 0;
+		gamenum = initial_gamenum;
 		savescore = 0;
 
 		// sh 28/10/2001: go back to the title screen
@@ -1068,6 +1069,12 @@ void swinit(int argc, char *argv[])
 			soundflg = 1;
 		else if (!strcasecmp(argv[i], "-x"))
 			conf_missiles = 1;
+		else if (!strncasecmp(argv[i], "-d", 2)) {	
+                        /* cr 2005-04-28: Start at higher level */
+
+			initial_gamenum = atoi(argv[i] + 2);
+			gamenum = initial_gamenum;
+		}
 		else 
 #ifdef TCPIP
 			if (!strcasecmp(argv[i], "-l")) {
@@ -1134,6 +1141,12 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.20  2005/04/28 10:54:25  fraggle
+// -d option to specify start level
+//  (Thanks to Christoph Reichenbach <creichen@machine.cs.colorado.edu>)
+// Thanks also to Christoph for the plane chasing patch (I forgot to include
+// his name in the commit message)
+//
 // Revision 1.19  2004/10/25 20:02:11  fraggle
 // Fix spelling error: guage -> gauge
 //

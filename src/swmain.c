@@ -60,7 +60,8 @@ int savemode;			/* Saved PC display mode            */
 int tickmode;			/* Tick action to be performed      */
 int counttick, countmove;	/* Performance counters             */
 
-int gamenum;			/* Current game number              */
+int gamenum = 0;		/* Current game number              */
+int initial_gamenum = 0;	/* Initial game number (user spec.) */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
@@ -224,6 +225,12 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.18  2005/04/28 10:54:33  fraggle
+// -d option to specify start level
+//  (Thanks to Christoph Reichenbach <creichen@machine.cs.colorado.edu>)
+// Thanks also to Christoph for the plane chasing patch (I forgot to include
+// his name in the commit message)
+//
 // Revision 1.17  2004/10/26 06:54:41  fraggle
 // Default options which behave like Sopwith II
 //

@@ -1,6 +1,8 @@
 
 Fix computer planes not shooting when tailing the player's plane.
     (thanks to Christoph Reichenbach)
+Add -d option to specify level to start on.
+    (thanks to Christoph Reichenbach)
 
 v1.7.1
 

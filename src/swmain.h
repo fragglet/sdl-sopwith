@@ -47,6 +47,7 @@ extern int     savemode;
 extern int     tickmode;
 extern int     counttick, countmove;
 extern int     gamenum;
+extern int     initial_gamenum;
 extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
 extern BOOL    disppos;
@@ -90,6 +91,12 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.15  2005/04/28 10:54:33  fraggle
+// -d option to specify start level
+//  (Thanks to Christoph Reichenbach <creichen@machine.cs.colorado.edu>)
+// Thanks also to Christoph for the plane chasing patch (I forgot to include
+// his name in the commit message)
+//
 // Revision 1.14  2004/10/25 19:58:06  fraggle
 // Remove 'goingsun' global variable
 //
