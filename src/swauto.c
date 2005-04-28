@@ -328,31 +328,31 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 
 
 
-int gohome(OBJECTS *obpt)
+int gohome(OBJECTS *ob)
 {
-	register OBJECTS *ob, *obp = obpt;
+        OBJECTS *original_ob;
 
-	if (obp->ob_athome)
+	if (ob->ob_athome)
 		return 0;
 
-	ob = obpt;
+	original_ob = &oobjects[ob->ob_index];
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	if (abs(obp->ob_x - ob->ob_x) < HOME
-	    && abs(obp->ob_y - ob->ob_y) < HOME) {
+	if (abs(ob->ob_x - original_ob->ob_x) < HOME
+         && abs(ob->ob_y - original_ob->ob_y) < HOME) {
 		if (plyrplane) {
-			initplyr(obp);
+			initplyr(ob);
 			initdisp(YES);
 		} else if (compplane) {
-			initcomp(obp);
+			initcomp(ob);
 		} else {
-			initpln(obp);
+			initpln(ob);
 		}
 		return 0;
 	}
 	goinghome = TRUE;
 
-	return aim(obp, ob->ob_x, ob->ob_y, NULL, NO);
+	return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
 }
 
 
@@ -424,6 +424,9 @@ int range(int x, int y, int ax, int ay)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2005/04/28 18:24:41  fraggle
+// Fix 'home' key
+//
 // Revision 1.4  2005/04/28 10:42:48  fraggle
 // Fix computer planes not firing when tailing player plane
 //
