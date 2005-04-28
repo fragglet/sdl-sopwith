@@ -31,7 +31,6 @@
 #include "swutil.h"
 
 static BOOL correction;		/*  Course correction flag        */
-static BOOL goinghome;		/*  Going home flag               */
 static OBJECTS obs;		/*  Saved computer object         */
 static int courseadj;		/*  Course adjustment             */
 
@@ -350,7 +349,6 @@ int gohome(OBJECTS *ob)
 		}
 		return 0;
 	}
-	goinghome = TRUE;
 
 	return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
 }
@@ -363,7 +361,7 @@ static void cruise(OBJECTS *ob)
 	register int orgx;
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	orgx = ob->ob_x;
+	orgx = oobjects[ob->ob_index].ob_x;
 	aim(ob, courseadj +
 		(orgx < (MAX_X / 3) ? (MAX_X / 3) :
 		 orgx > (2 * MAX_X / 3) ? (2 * MAX_X / 3) : orgx),
@@ -387,8 +385,6 @@ void attack(OBJECTS *obp, OBJECTS *obt)
 
 void swauto(OBJECTS *ob)
 {
-	goinghome = FALSE;
-
 	if (compnear[ob->ob_index])
 		attack(ob, compnear[ob->ob_index]);
 	else if (!ob->ob_athome)
@@ -424,6 +420,10 @@ int range(int x, int y, int ax, int ay)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2005/04/28 18:32:59  fraggle
+// Fix bug with oobjects
+// Remove unused "goinghome" flag
+//
 // Revision 1.5  2005/04/28 18:24:41  fraggle
 // Fix 'home' key
 //
