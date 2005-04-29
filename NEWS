@@ -13,6 +13,8 @@ Bug fixes:
 
 Restructuring:
 * Rewritten graphics code
+* Major internal restructuring: removal of obsolete code, removal of 
+  some global variables
 
 v1.7.1
 
