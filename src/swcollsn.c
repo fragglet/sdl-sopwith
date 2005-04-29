@@ -184,7 +184,6 @@ static void scoretarg(OBJECTS *obp, int score)
 		ob->ob_score.score -= score;
 	else
 		ob->ob_score.score += score;
-	dispscore(ob);
 }
 
 
@@ -617,6 +616,9 @@ void scorepln(OBJECTS * ob, obtype_t type)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.17  2005/04/29 18:57:12  fraggle
+// Move dispscore and medal drawing code into swstbar.c
+//
 // Revision 1.16  2005/04/29 11:20:27  fraggle
 // Remove ghost planes.  Split off status bar code into a separate file.
 //

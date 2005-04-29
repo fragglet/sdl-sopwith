@@ -34,14 +34,15 @@ extern void disptarg(OBJECTS *ob);
 extern void dispflck(OBJECTS *ob);
 extern void dispbird(OBJECTS *ob);
 
-extern void dispscore(OBJECTS *obp);
-
 #endif
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2005/04/29 18:57:12  fraggle
+// Move dispscore and medal drawing code into swstbar.c
+//
 // Revision 1.5  2004/10/15 21:30:58  fraggle
 // Improve multiplayer
 //

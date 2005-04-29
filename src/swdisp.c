@@ -131,52 +131,12 @@ void dispplyr(OBJECTS * ob)
 	plnsound(ob);
 }
 
-void dispribbonrow (int *ribbonid, int ribbons_nr, int y)
-{
-	int i;
-	int offset = 50 + ((3 - ribbons_nr) * 4);
-
-	for (i = 0; i < ribbons_nr; i++) {
-		int ribbon_id = ribbonid[i];
-
-		Vid_DispSymbol(offset, y, symbol_ribbon[ribbon_id], 0);
-		offset += 8;
-	}
-}
-
-void dispscore(OBJECTS * ob)
-{
-	static const int medal_widths[3] = {10, 8, 8};
-	static const int medal_offsets[3] = {0, -1, -1};
-	int medal_offset = 50;
-	int i;
-
-	Vid_Box(0, 16, 48 + 32, 16, 0);
-	
-	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
-	swcolour(ob->ob_clr);
-	swdispd(ob->ob_score.score, 6);
-
-	if (conf_medals) {
-		for (i = 0; i < ob->ob_score.medals_nr; i++) {
-			int medal_id = ob->ob_score.medalslist[i];
-
-			Vid_DispSymbol(medal_offset + medal_offsets[medal_id], 11, symbol_medal[medal_id], 0);
-			medal_offset += medal_widths[medal_id];
-		}
-
-		if (ob->ob_score.ribbons_nr <= 3)
-			dispribbonrow(ob->ob_score.ribbons, ob->ob_score.ribbons_nr, 15);
-		else {
-			dispribbonrow(ob->ob_score.ribbons, 3, 16);
-			dispribbonrow(ob->ob_score.ribbons + 3, ob->ob_score.ribbons_nr - 3, 14);
-		}
-	}
-}
- 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.11  2005/04/29 18:57:12  fraggle
+// Move dispscore and medal drawing code into swstbar.c
+//
 // Revision 1.10  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>
