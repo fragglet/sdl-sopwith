@@ -125,13 +125,29 @@ int latest_player_commands[MAX_PLYR][MAX_NET_LAG];
 int latest_player_time[MAX_PLYR];
 int num_players;
 
+/* Time each player command in the buffer was created.
+ * We store this to calculate the lag between the player command
+ * being created and the command being executed. */
+
+int player_command_time[MAX_NET_LAG];
+
+/* Skip time.  This is used to keep players in sync.
+ * Each player waits a slight bit longer than they would normally
+ * (ie. in a single player game): the amount equal to skip_time here.
+ * skip_time is generated from the lag players experience.
+ * This means that lagged players wait a bit to "catch up" with the
+ * others, keeping the game in sync.
+ */
+
+int skip_time;
+
 /* possibly advance the game */
 
 static int can_move(void)
 {
 	int i;
 	int lowtic = countmove + MAX_NET_LAG;
-	
+
 	/* we can only advance the game if latest_player_time for all
 	 * players is > countmove. */
 
@@ -143,16 +159,50 @@ static int can_move(void)
 	return lowtic > countmove;
 }
 
+/* Calculate lag between the controls and the game */
+
+static void calculate_lag(void)
+{
+        int lag = Timer_GetMS() - player_command_time[countmove % MAX_NET_LAG];
+        int compensation;
+
+        // only make a small adjustment based on the lag, so as not
+        // to affect the playability.  however, over a long period
+        // this should have the desired effect.
+ 
+        compensation = lag / 100;
+
+        // bound the compensation applied; responds to network traffic
+        // spikes
+
+        if (compensation < -5)
+                compensation = -5;
+        else if (compensation > 5)
+                compensation = 5;
+
+        skip_time += compensation;
+
+        printf("lag: %ims\n", lag);
+}
+
 static void new_move(void)
 {
 	int multkey;
+        int tictime;
 
 	/* generate a new move command and save it */
 
 	multkey = Vid_GetGameKeys();
 
-	latest_player_commands[player][latest_player_time[player] % MAX_NET_LAG] = multkey;
+        /* tictime is the game time of the command we are creating */
+
+        tictime = latest_player_time[player];
+	latest_player_commands[player][tictime % MAX_NET_LAG] = multkey;
 	++latest_player_time[player];
+
+        /* Save the current time for lag calculation */
+
+        player_command_time[tictime % MAX_NET_LAG] = Timer_GetMS();
 
 	/* if this is a multiplayer game, send the command */
 
@@ -188,17 +238,26 @@ int swmain(int argc, char *argv[])
 	swinitlevel();
 
 	nexttic = Timer_GetMS();
+        skip_time = 0;
 
 	for (;;) {
+                int nowtime;
 
 		/* generate a new move command periodically
 		 * and send to other players if neccessary */
 
-		if (Timer_GetMS() > nexttic
+                nowtime = Timer_GetMS();
+
+		if (nowtime > nexttic
 		 && latest_player_time[player] - countmove < MAX_NET_LAG) {
 
 			new_move();
-			nexttic += 1000 / FPS;
+			nexttic = nowtime + (1000 / FPS);
+
+                        // wait a bit longer to compensate for lag
+
+                        nexttic += skip_time;
+                        skip_time = 0;
 		}
 
 		asynupdate();
@@ -207,6 +266,7 @@ int swmain(int argc, char *argv[])
 		/* if we have all the tic commands we need, we can move */
 
 		if (can_move()) {
+                        calculate_lag();
 			//dump_cmds();
 			swmove();
 			swdisp();
@@ -226,6 +286,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.20  2005/04/29 18:42:26  fraggle
+// Auto-adjust network sends based on lag
+//
 // Revision 1.19  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>
