@@ -336,6 +336,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	}
 
 	ob->ob_state = FLYING;
+        ob->ob_goingsun = FALSE;
 
 	return ob;
 }
@@ -1110,6 +1111,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.24  2005/04/29 18:01:20  fraggle
+// Fix bug where unable to fly after reaching second level
+//
 // Revision 1.23  2005/04/29 17:18:29  fraggle
 // Dont display nonexistant planes on the map
 //
