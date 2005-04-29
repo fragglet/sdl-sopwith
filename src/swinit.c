@@ -915,6 +915,11 @@ void swinitlevel()
 {
 	int i;
 
+        // clear out any waiting keys. this stops, eg. 's' on the
+        // menu from toggling sound once the game starts
+
+        Vid_GetGameKeys();
+
 	if (playmode == PLAYMODE_ASYNCH)
 		init1asy();
 
@@ -1111,6 +1116,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.26  2005/04/29 19:58:01  fraggle
+// Stop 's' on the menu toggling sound when the game starts
+//
 // Revision 1.25  2005/04/29 19:25:28  fraggle
 // Update copyright to 2005
 //
