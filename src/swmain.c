@@ -252,7 +252,16 @@ int swmain(int argc, char *argv[])
 		 && latest_player_time[player] - countmove < MAX_NET_LAG) {
 
 			new_move();
-			nexttic = nowtime + (1000 / FPS);
+
+                        /* Be accurate (exact amount between tics);
+                         * However, if a large spike occurs between tics,
+                         * catch up immediately.
+                         */
+
+                        if (nowtime - nexttic > 1000)
+                                nexttic = nowtime + (1000/FPS);
+                        else
+			        nexttic += (1000 / FPS);
 
                         // wait a bit longer to compensate for lag
 
@@ -286,6 +295,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.21  2005/04/29 18:50:02  fraggle
+// Respond better to spikes
+//
 // Revision 1.20  2005/04/29 18:42:26  fraggle
 // Auto-adjust network sends based on lag
 //
