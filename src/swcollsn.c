@@ -307,6 +307,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		}
 
 		ob->ob_state = FINISHED;
+		ob->ob_onmap = FALSE;
 		initexpl(ob, 0);
 
 		blast_target(ob, ttype);
@@ -616,6 +617,9 @@ void scorepln(OBJECTS * ob, obtype_t type)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.15  2005/04/29 10:31:10  fraggle
+// Remove destroyed objects from the map
+//
 // Revision 1.14  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>
