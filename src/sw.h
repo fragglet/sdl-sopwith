@@ -213,6 +213,40 @@ struct tt {                     /*  Continuous tone table entry    */
 
 typedef struct tt TONETAB;
 
+#define MEDAL_ID_PURPLEHEART 0
+#define MEDAL_ID_COMPETENCE 1
+#define MEDAL_ID_VALOUR 2
+
+#define RIBBON_ID_ACE 0
+#define RIBBON_ID_TOPACE 1
+#define RIBBON_ID_PERFECT 2
+#define RIBBON_ID_SERVICE 3
+#define RIBBON_ID_COMPETENCE2 4
+#define RIBBON_ID_PREVALOUR 5
+
+typedef struct {
+	int		score;
+	int		planekills;	/* # of planes shot down with this plane */
+	int		valour;		/* Points for valourous conduct */
+	int		killscore;	/* Competence count */
+	int		landings;	/* Landings with nontrivial competence */
+	int		medals_nr;	/* Awarded # of medals */
+	int		medalslist[3];	/* Medal display order */
+	int		ribbons_nr;	/* Awarded # of ribbons */
+	int		ribbons[6];	/* Ribbon display order */
+	unsigned int	medals;		/* See below */
+} score_t;
+
+#define MEDAL_PURPLEHEART	(1<<0)	/* Returned when damaged */
+#define MEDAL_ACE		(1<<1)	/* Five plane kills, returned to base */
+#define MEDAL_TOPACE		(1<<2)	/* 25 plane kills, returned to base */
+#define MEDAL_PERFECT		(1<<3)  /* Finished one stage with full planes */
+#define MEDAL_SERVICE		(1<<4)  /* Returned three times after doing some damage */
+#define MEDAL_COMPETENCE	(1<<5)	/* Dealt nontrivial amount of damage to the enemy */
+#define MEDAL_COMPETENCE2	(1<<6)	/* 2nd Competence medal (ribbon) */
+#define MEDAL_PREVALOUR		(1<<7)	/* A ribbon awarded about half-way towards MEDAL_VALOUR */
+#define MEDAL_VALOUR		(1<<8)	/* The Iron Cross / Victoria Cross for getting enough valour points */
+
 typedef struct obj {                            /*  Object list             */
         obstate_t      ob_state;
         int            ob_x, ob_y;
@@ -223,7 +257,6 @@ typedef struct obj {                            /*  Object list             */
         int            ob_accel;
         int            ob_flaps;
         struct obj    *ob_firing;
-        int            ob_score;
         int            ob_rounds;
         int            ob_hitcount;
         int            ob_updcount;
@@ -265,6 +298,8 @@ typedef struct obj {                            /*  Object list             */
         int            ob_plrnum;
         obendstatus_t  ob_endsts;
         BOOL           ob_goingsun;
+	score_t	       ob_score;
+	score_t	       ob_lastscore;
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */
@@ -275,6 +310,8 @@ typedef struct {                                /*  Game structure          */
         int      ( *gm_specf ) ();
         int      gm_xtarg[MAX_TARG];
         int      gm_ttarg[MAX_TARG];
+	int     *gm_planes;
+	int     *gm_mult_planes;
 }       GAMES;
 
 // sdh: made these into inline functions rather than ugly #define macros
@@ -294,6 +331,10 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.12  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.11  2004/10/25 20:02:11  fraggle
 // Fix spelling error: guage -> gauge
 //

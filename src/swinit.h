@@ -23,7 +23,6 @@
 #define __SWINIT_H__
 
 #include "sw.h"
-
 extern void swinit(int argc, char *argv[]);
 extern void swinitlevel();
 extern void swrestart();
@@ -48,6 +47,10 @@ extern void dispgauges(OBJECTS *ob);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.7  2004/10/25 20:02:11  fraggle
 // Fix spelling error: guage -> gauge
 //

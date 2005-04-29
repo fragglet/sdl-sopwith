@@ -510,7 +510,7 @@ BOOL movepln(OBJECTS * obp)
 			|| state == WOUNDED
 			|| state == WOUNDSTALL)) {
 			hitpln(ob);
-			scorepln(ob);
+			scorepln(ob, GROUND);
 			return movepln(ob);
 		}
 
@@ -596,6 +596,8 @@ BOOL movepln(OBJECTS * obp)
 		}
 
 		if (!compplane) {
+			ob->ob_life -= ob->ob_speed;
+		} else if (ob->ob_life > 100) { /* Just for statistics */
 			ob->ob_life -= ob->ob_speed;
 		}
 
@@ -1121,6 +1123,10 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.17  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.16  2004/10/25 20:02:11  fraggle
 // Fix spelling error: guage -> gauge
 //

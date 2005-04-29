@@ -87,12 +87,12 @@ void endgame(int targclr)
 	if (playmode != PLAYMODE_ASYNCH)
 		winclr = 1;
 	else {
-		if ((objtop + 1)->ob_score == objtop->ob_score)
+		if ((objtop + 1)->ob_score.score == objtop->ob_score.score)
 			winclr = 3 - targclr;
 		else
 			winclr =
-			    ((objtop + 1)->ob_score >
-			     objtop->ob_score) + 1;
+			    ((objtop + 1)->ob_score.score >
+			     objtop->ob_score.score) + 1;
 	}
 
 	ob = objtop;
@@ -158,6 +158,10 @@ void dispendmessage()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.7  2004/10/25 19:58:06  fraggle
 // Remove 'goingsun' global variable
 //

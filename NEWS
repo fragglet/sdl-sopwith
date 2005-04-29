@@ -4,6 +4,7 @@ following:
 * Fix computer planes not shooting when tailing the player's plane.
 * Add -d option to specify level to start on.
 * Fix planes crashing into their own bullets
+* Medals feature to reward players 
 
 v1.7.1
 

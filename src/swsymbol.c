@@ -49,6 +49,10 @@
 #define MISCANGS        16              /*  Number of missile angles        */
 #define BRSTBYTES       16              /*  Bytes in a starburst symbol     */
 #define BRSTSYMS        2               /*  Number of starburst symbols     */
+#define MEDALBYTES	24		/*  Bytes in a medal		    */
+#define MEDALSYMS	3		/*  Number of medals		    */
+#define RIBBONBYTES	4		/*  Bytes in a ribbon		    */
+#define RIBBONSYMS	6		/*  Number of ribbons		    */
 
 #define HITSYMS         2               /*  Number of hit symbols per plane */
 #define SYMBYTES        64              /*  Bytes in a symbol               */
@@ -1016,6 +1020,111 @@ static char swbstsym[BRSTSYMS][BRSTBYTES] = {
 	}
 };
 
+static unsigned char swmedalsym[MEDALSYMS][MEDALBYTES] = {
+/* Medal symbols based on the following templates:
+08
+. . 3 3 3 3 . .
+. . 1 1 1 1 . .
+. . 1 1 1 1 . .
+. . 1 1 1 1 . .
+. . 1 1 1 1 . .
+. . . 1 1 . . .
+. 2 2 . . 2 2 .
+2 3 3 2 2 2 2 2
+2 3 2 2 2 2 2 2
+. 2 2 2 2 2 2 .
+. . 2 2 2 2 . .
+. . . 2 2 . . .
+
+08
+. . 3 3 3 3 . .
+. . 1 1 1 1 . .
+. . 1 1 1 1 . .
+. . 1 1 1 1 . .
+. . 1 1 1 1 . .
+. . . 1 1 . . .
+. . . 1 1 . . .
+. . . . . . . .
+. . . 3 3 . . .
+. . 3 2 3 3 . .
+. . 3 2 2 3 . .
+. . . 3 3 . . .
+
+08
+. . 3 3 3 3 . .
+. . 2 2 2 2 . .
+. . 2 2 2 2 . .
+. . 2 2 2 2 . .
+. . . 2 2 . . .
+. . . . . . . .
+. . . 3 3 . . .
+. . . 1 1 . . .
+. 3 1 3 1 1 3 .
+. 3 1 1 1 1 3 .
+. . . 1 1 . . .
+. . . 3 3 . . .
+
+*/
+	{
+	  0x0f, 0xf0,
+	  0x05, 0x50,
+	  0x05, 0x50,
+	  0x05, 0x50,
+	  0x05, 0x50,
+	  0x01, 0x40,
+	  0x28, 0x28,
+	  0xbe, 0xaa,
+	  0xba, 0xaa,
+	  0x2a, 0xa8,
+	  0x0a, 0xa0,
+	  0x02, 0x80
+	},
+	{
+	  0x0f, 0xf0,
+	  0x05, 0x50,
+	  0x05, 0x50,
+	  0x05, 0x50,
+	  0x05, 0x50,
+	  0x01, 0x40,
+	  0x01, 0x40,
+	  0x00, 0x00,
+	  0x03, 0xc0,
+	  0x0e, 0xf0,
+	  0x0e, 0xb0,
+	  0x03, 0xc0
+	},
+	{
+	  0x0f, 0xf0,
+	  0x0a, 0xa0,
+	  0x0a, 0xa0,
+	  0x0a, 0xa0,
+	  0x02, 0x80,
+	  0x00, 0x00,
+	  0x03, 0xc0,
+	  0x01, 0x40,
+	  0x37, 0x5c,
+	  0x35, 0x5c,
+	  0x01, 0x40,
+	  0x03, 0xc0
+	}
+};
+
+static unsigned char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
+	/* Actual width: 7 pixels */
+	{ 0x57, 0x54,
+	  0x57, 0x54 }, /* CCCWCCC : ACE */
+	{ 0x5d, 0xd4,
+	  0x5d, 0xd4 }, /* CCWCWCC : TOPACE */
+	{ 0xef, 0xec,
+	  0xef, 0xec }, /* WMWWWMW : PERFECT */
+	{ 0xd5, 0x5c,
+	  0xd5, 0x5c }, /* WCCCCCW : SERVICE */
+	{ 0xda, 0x9c,
+	  0xda, 0x9c }, /* WCMMMCW : COMPETENCE2 */
+	{ 0xaf, 0xe8,
+	  0xaf, 0xe8 }	/* MMWWWMM : PREVALOUR */
+};
+
 // sdh 27/6/2002: create a sopsym_t structure from the original 
 // raw sprite data.
 // the data in sopsym_t's is in a simpler one-byte-per-pixel format
@@ -1067,6 +1176,8 @@ sopsym_t *symbol_burst[2];                // swbstsym
 sopsym_t *symbol_plane[2][16];            // swplnsym
 sopsym_t *symbol_plane_hit[2];            // swhitsym
 sopsym_t *symbol_plane_win[4];            // swwinsym
+sopsym_t *symbol_medal[3];		  // swmedalsym
+sopsym_t *symbol_ribbon[6];		  // swribbonsym
 
 // special symbol for single pixel (bullets etc)
 
@@ -1100,6 +1211,8 @@ void symbol_generate()
 	sopsyms_from_data(swplnsym[1], 16, 16, symbol_plane[1]);
 	sopsyms_from_data(swhitsym, 16, 16, symbol_plane_hit);
 	sopsyms_from_data(swwinsym, 16, 16, symbol_plane_win);
+	sopsyms_from_data(swmedalsym, 8, 12, symbol_medal);
+	sopsyms_from_data(swribbonsym, 8, 2, symbol_ribbon);
 
 	symbol_target_hit = sopsym_from_data(swhtrsym, 16, 16);
 	symbol_ghost = sopsym_from_data(swghtsym, 8, 8);
@@ -1112,6 +1225,10 @@ void symbol_generate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.4  2005/04/28 14:52:48  fraggle
 // Fix compilation under gcc 4.0
 //

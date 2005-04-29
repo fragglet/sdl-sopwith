@@ -50,6 +50,8 @@ extern sopsym_t *symbol_burst[2];                // swbstsym
 extern sopsym_t *symbol_plane[2][16];            // swplnsym
 extern sopsym_t *symbol_plane_hit[2];            // swhitsym
 extern sopsym_t *symbol_plane_win[4];            // swwinsym
+extern sopsym_t *symbol_medal[3];		  // swmedalsym
+extern sopsym_t *symbol_ribbon[6];		  // swribbonsym
 
 extern sopsym_t symbol_pixel;
 
@@ -61,6 +63,10 @@ extern void symbol_generate();
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.2  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

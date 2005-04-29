@@ -81,6 +81,7 @@ confoption_t confoptions[] = {
     {"conf_wounded",      CONF_BOOL, {&conf_wounded},      "wounded planes"},
     {"conf_animals",      CONF_BOOL, {&conf_animals},      "oxen and birds"},
     {"conf_harrykeys",    CONF_BOOL, {&conf_harrykeys},    "harry keys mode"},
+    {"conf_medals",	  CONF_BOOL, {&conf_medals},	   "medals"},
     {"vid_fullscreen",    CONF_BOOL, {&vid_fullscreen},    "run fullscreen"},
     {"vid_double_size",   CONF_BOOL, {&vid_double_size},   "scale window by 2x"},
 };
@@ -331,6 +332,10 @@ void setconfig()
 //-------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.5  2004/10/15 17:52:31  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.

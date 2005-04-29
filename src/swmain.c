@@ -50,6 +50,7 @@ BOOL conf_hudsplats = 0;            // splatted birds etc
 BOOL conf_wounded = 0;              // enable wounded planes
 BOOL conf_animals = 1;              // birds and oxes
 BOOL conf_harrykeys = 0;            // plane rotation relative to screen
+BOOL conf_medals = 0;
 
 playmode_t playmode;		/* Mode of play                     */
 GAMES *currgame;		/* Game parameters and current game */
@@ -225,6 +226,10 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.19  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.18  2005/04/28 10:54:33  fraggle
 // -d option to specify start level
 //  (Thanks to Christoph Reichenbach <creichen@machine.cs.colorado.edu>)

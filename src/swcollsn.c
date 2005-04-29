@@ -154,21 +154,37 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 }
 
 
-static void scoretarg(OBJECTS *obp, int score)
+static OBJECTS *
+get_score_obj(OBJECTS *obp, int *reverse)
+/* Determine the object that receives a score if 'obp' is destriyed, and whether the score
+** should be subtracted rather than added (iff reverse nonzero) */
 {
 	register OBJECTS *ob;
+	OBJECTS *retval;
+	*reverse = 0;
 
 	ob = obp;
 	if (playmode != PLAYMODE_ASYNCH) {
+		retval = &nobjects[0];
 		if (ob->ob_clr == 1)
-			nobjects[0].ob_score -= score;
-		else
-			nobjects[0].ob_score += score;
-		dispscore(&nobjects[0]);
-	} else {
-		nobjects[2 - ob->ob_clr].ob_score += score;
-		dispscore(&nobjects[2 - ob->ob_clr]);
-	}
+			*reverse = 1;
+	} else
+		retval = &nobjects[2 - ob->ob_clr];
+
+	return retval;
+}
+
+static void scoretarg(OBJECTS *obp, int score)
+{
+	register OBJECTS *ob;
+	int reverse_score;
+
+	ob = get_score_obj(obp, &reverse_score);
+	if (reverse_score)
+		ob->ob_score.score -= score;
+	else
+		ob->ob_score.score += score;
+	dispscore(ob);
 }
 
 
@@ -228,6 +244,8 @@ is_young_shot(OBJECTS *ob)
 
 // sdh -- renamed this to swkill to remove possible conflicts with
 // the unix kill() function
+
+void blast_target(OBJECTS *ob, obtype_t type);
 
 static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 {
@@ -291,6 +309,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		ob->ob_state = FINISHED;
 		initexpl(ob, 0);
 
+		blast_target(ob, ttype);
 		scoretarg(ob, ob->ob_orient == 2 ? 200 : 100);
 
 		if (numtarg[ob->ob_clr - 1] > 0) {
@@ -325,7 +344,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 				initexpl(ob, 1);
 				crater(ob);
 			} else if (state < FINISHED) {
-				scorepln(ob);
+				scorepln(ob, ttype);
 				initexpl(ob, 1);
 				crater(ob);
 			}
@@ -386,7 +405,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		}
 
 		hitpln(ob);
-		scorepln(ob);
+		scorepln(ob, ttype);
 		return;
 
 	case BIRD:
@@ -505,15 +524,102 @@ void tstcrash(OBJECTS * obp)
 }
 
 
-void scorepln(OBJECTS * ob)
+/* Determine valour factor */
+
+int compute_valour(OBJECTS *ob)
 {
+	int reverse;
+	OBJECTS *so = get_score_obj(ob, &reverse);
+	int n, x_home;
+	int distance;
+	int valour = 0;
+	int fuelfraction;
+
+	if (reverse)
+		return 0;
+
+	switch (playmode) {
+	case PLAYMODE_SINGLE:
+	case PLAYMODE_NOVICE:
+	case PLAYMODE_COMPUTER:
+		n = currgame->gm_planes[so->ob_index];
+		break;
+	case PLAYMODE_ASYNCH:
+		n = currgame->gm_mult_planes[so->ob_index];
+		break;
+	default:
+		return 0;
+	}
+
+	x_home = currgame->gm_x[n];
+
+	distance = abs(x_home - so->ob_x);
+
+	if (distance < 500)
+		valour = 0;
+	else
+		valour = (distance - 500) / 350;
+
+	if (ob->ob_life > 0)
+		fuelfraction = (MAXFUEL / ob->ob_life);
+	else
+		fuelfraction = 1000;
+
+	if (fuelfraction > 9)
+		valour++;
+
+	if (so->ob_state == WOUNDED
+	    || so->ob_state == WOUNDSTALL)
+		valour = (valour + 1) * 3;
+	else
+		valour *= 2;
+
+	return valour;
+}
+
+void blast_target(OBJECTS *ob, obtype_t type)
+{
+	int reverse;
+	OBJECTS *so = get_score_obj(ob, &reverse);
+
+	if (reverse)
+		return;
+
+	if (type == BOMB || type == SHOT || type == MISSILE || type == PLANE) {
+		so->ob_score.killscore += 4;
+		so->ob_score.valour += 3 * compute_valour (ob);
+	}
+}
+
+void scorepln(OBJECTS * ob, obtype_t type)
+{
+	int had_taken_off = ob->ob_life < (MAXFUEL - (MAXFUEL / 100));
+
 	scoretarg(ob, 50);
+
+	if (type == BOMB || type == SHOT || type == MISSILE || type == PLANE) {
+		int reverse;
+		OBJECTS *scobj = get_score_obj(ob, &reverse);
+		if (!reverse) {
+			if (had_taken_off) {
+				if (type != PLANE)
+					scobj->ob_score.planekills++;
+				scobj->ob_score.valour += 4 * (2 + compute_valour (ob));
+			}
+
+			scobj->ob_score.killscore += 3;
+		}
+	}
 }
 
 
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.14  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.13  2005/04/29 09:13:25  fraggle
 // Fix planes running into their own bullets
 // (From Christoph Reichenbach <creichen@gmail.com>)

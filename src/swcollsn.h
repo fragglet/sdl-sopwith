@@ -26,7 +26,7 @@
 
 extern void swcollsn();
 extern void tstcrash(OBJECTS *obp);
-extern void scorepln(OBJECTS *ob);
+extern void scorepln(OBJECTS *ob, obtype_t type);
 
 #endif
 
@@ -34,6 +34,10 @@ extern void scorepln(OBJECTS *ob);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.3  2004/10/15 17:52:31  fraggle
 // Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
 // accurately describes what the file does.

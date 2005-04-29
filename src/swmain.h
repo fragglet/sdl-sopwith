@@ -37,6 +37,7 @@ extern BOOL conf_hudsplats;
 extern BOOL conf_wounded;
 extern BOOL conf_animals;
 extern BOOL conf_harrykeys;
+extern BOOL conf_medals;
 
 extern OBJECTS *consoleplayer;
 extern playmode_t playmode;
@@ -91,6 +92,10 @@ extern int swmain(int argc, char *argv[]);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.16  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.15  2005/04/28 10:54:33  fraggle
 // -d option to specify start level
 //  (Thanks to Christoph Reichenbach <creichen@machine.cs.colorado.edu>)

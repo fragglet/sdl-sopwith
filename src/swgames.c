@@ -27,6 +27,8 @@
 #include "sw.h"
 #include "swgames.h"
 
+static int planes[]      = { 0, 7, 1, 6 };
+static int mult_planes[] = { 0, 7, 3, 4, 2, 5, 1, 6 };
 
 GAMES swgames[1] = {
 	{
@@ -47,14 +49,20 @@ GAMES swgames[1] = {
 			3, 0, 2, 1, 1,
 			3, 3, 0, 0, 1
 		},
+		planes,
+		mult_planes,
 	}
 };
 
 //---------------------------------------------------------------------------
 //
 // $Log$
-// Revision 1.1  2003/02/14 19:03:10  fraggle
-// Initial revision
+// Revision 1.2  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
+// Revision 1.1.1.1  2003/02/14 19:03:10  fraggle
+// Initial Sourceforge CVS import
 //
 //
 // sdh 14/2/2003: change license header to GPL

@@ -52,7 +52,8 @@
 #include "swtitle.h"
 #include "swutil.h"
 
-static int savescore;		/* save players score on restart  */
+static int have_savescore = 0;
+static score_t savescore;		/* save players score on restart  */
 static BOOL ghost;		/* ghost display flag             */
 
 static char helptxt[] =
@@ -293,9 +294,116 @@ void initdisp(BOOL reset)
 //
 
 
-static int inits[2] = { 0, 7 };
-static int initc[4] = { 0, 7, 1, 6 };
-static int initm[8] = { 0, 7, 3, 4, 2, 5, 1, 6 };
+void
+initplanescore (score_t *score)
+{
+	score->planekills = 0;
+	score->medals = 0x0000;
+	score->valour = 0;
+	score->killscore = 0;
+	score->landings = 0;
+	score->medals_nr = 0;
+	score->ribbons_nr = 0;
+}
+
+#define SERVICE_KILLSCORE 5
+#define COMPETENCE_KILLSCORE 25
+#define VALOUR_PRELIMIT 175
+#define VALOUR_LIMIT 250
+
+void
+give_medal (OBJECTS *ob, int medal_id)
+{
+	ob->ob_score.medalslist[ob->ob_score.medals_nr++] = medal_id;
+}
+
+void
+give_ribbon (OBJECTS *ob, int ribbon_id)
+{
+	ob->ob_score.ribbons[ob->ob_score.ribbons_nr++] = ribbon_id;
+}
+
+void
+get_awards (OBJECTS *ob)
+{
+	score_t *lsc = &ob->ob_lastscore;
+	score_t *sc = &ob->ob_score;
+
+	if (!(lsc->medals & MEDAL_PURPLEHEART)) {
+		if (ob->ob_state == WOUNDED
+		    || ob->ob_state == WOUNDSTALL) {
+			sc->medals |= MEDAL_PURPLEHEART;
+			give_medal(ob, MEDAL_ID_PURPLEHEART);
+		}
+	}
+
+	if (!(lsc->medals & MEDAL_ACE)) {
+		if (sc->planekills >= 5) {
+			sc->medals |= MEDAL_ACE;
+			give_ribbon(ob, RIBBON_ID_ACE);
+		}
+	}
+
+	if (!(lsc->medals & MEDAL_TOPACE)) {
+		if (sc->planekills >= 25) {
+			sc->medals |= MEDAL_TOPACE;
+			give_ribbon(ob, RIBBON_ID_TOPACE);
+		}
+	}
+
+	if (!(lsc->medals & MEDAL_SERVICE)) {
+		if (sc->killscore >= SERVICE_KILLSCORE)
+			sc->landings++;
+
+		if (sc->landings >= 3) {
+			sc->medals |= MEDAL_SERVICE;
+			give_ribbon(ob, RIBBON_ID_SERVICE);
+		}
+	}
+
+	if (sc->killscore >= COMPETENCE_KILLSCORE) {
+		if (!(lsc->medals & MEDAL_COMPETENCE)) {
+			sc->medals |= MEDAL_COMPETENCE;
+			give_medal(ob, MEDAL_ID_COMPETENCE);
+		} else if (!(lsc->medals & MEDAL_COMPETENCE2)) {
+			sc->medals |= MEDAL_COMPETENCE2;
+			give_ribbon(ob, RIBBON_ID_COMPETENCE2);
+		}
+	}
+
+	if (!(lsc->medals & MEDAL_PREVALOUR)) {
+		if (sc->valour >= VALOUR_PRELIMIT) {
+			sc->medals |= MEDAL_PREVALOUR;
+			give_ribbon(ob, RIBBON_ID_PREVALOUR);
+		}
+	}
+
+	if (!(lsc->medals & MEDAL_VALOUR)) {
+		if (sc->valour >= VALOUR_LIMIT) {
+			sc->medals |= MEDAL_VALOUR;
+			give_medal(ob, MEDAL_ID_VALOUR);
+		}
+	}
+
+	sc->killscore = 0;
+	ob->ob_lastscore = ob->ob_score;
+}
+
+void
+get_endlevel (OBJECTS *ob)
+{
+	score_t *sc = &ob->ob_score;
+	score_t *lsc = &ob->ob_lastscore;
+
+	get_awards(ob);
+
+	if (!(lsc->medals & MEDAL_PERFECT)) {
+		if (ob->ob_crashcnt == 0) {
+			sc->medals |= MEDAL_PERFECT;
+			give_ribbon(ob, RIBBON_ID_PERFECT);
+		}
+	}
+}
 
 // plane
 
@@ -312,16 +420,21 @@ OBJECTS *initpln(OBJECTS * obp)
 	switch (playmode) {
 	case PLAYMODE_SINGLE:
 	case PLAYMODE_NOVICE:
-		n = inits[ob->ob_index];
+	case PLAYMODE_COMPUTER:
+		n = currgame->gm_planes[ob->ob_index];
 		break;
 	case PLAYMODE_ASYNCH:
-		n = initm[ob->ob_index];
-		break;
-	case PLAYMODE_COMPUTER:
-		n = initc[ob->ob_index];
+		n = currgame->gm_mult_planes[ob->ob_index];
 		break;
 	default:
 		return NULL;
+	}
+
+	if (!(!obp || ob->ob_state == CRASHED
+	      || ob->ob_state == GHOSTCRASHED)
+	    && (!ob->ob_athome)) {
+		/* Just returned home */
+		get_awards(ob);
 	}
 
 	ob->ob_type = PLANE;
@@ -350,14 +463,17 @@ OBJECTS *initpln(OBJECTS * obp)
 
 	if (!obp || ob->ob_state == CRASHED
 	    || ob->ob_state == GHOSTCRASHED) {
+		/* New plane */
 		ob->ob_rounds = MAXROUNDS;
 		ob->ob_bombs = MAXBOMBS;
 		ob->ob_missiles = MAXMISSILES;
 		ob->ob_bursts = MAXBURSTS;
 		ob->ob_life = MAXFUEL;
+		initplanescore(&ob->ob_score);
+		initplanescore(&ob->ob_lastscore);
 	}
 	if (!obp) {
-		ob->ob_score = ob->ob_updcount = ob->ob_crashcnt = 0;
+		ob->ob_score.score = ob->ob_updcount = ob->ob_crashcnt = 0;
 		ob->ob_endsts = PLAYING;
 		compnear[ob->ob_index] = NULL;
 		insertx(ob, &topobj);
@@ -1010,10 +1126,13 @@ void swrestart()
 	if (consoleplayer->ob_endsts == WINNER) {
 		ob = &nobjects[player];
 		inc = 0;
+
+		get_endlevel(ob);
+
 		while (ob->ob_crashcnt < maxcrash) {
 			++ob->ob_crashcnt;
 			inc += 25;
-			ob->ob_score += inc;
+			ob->ob_score.score += inc;
 
 			Vid_Update();
 			
@@ -1024,9 +1143,10 @@ void swrestart()
 		}
 		++gamenum;
 		savescore = ob->ob_score;
+		have_savescore = 1;
 	} else {
 		gamenum = initial_gamenum;
-		savescore = 0;
+		have_savescore = 0;
 
 		// sh 28/10/2001: go back to the title screen
 
@@ -1141,6 +1261,10 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.21  2005/04/29 10:10:12  fraggle
+// "Medals" feature
+// By Christoph Reichenbach <creichen@gmail.com>
+//
 // Revision 1.20  2005/04/28 10:54:25  fraggle
 // -d option to specify start level
 //  (Thanks to Christoph Reichenbach <creichen@machine.cs.colorado.edu>)
