@@ -75,15 +75,15 @@ static char *get_config_file()
 }
 
 confoption_t confoptions[] = {
-    {"conf_missiles",     CONF_BOOL, {&conf_missiles},     "missiles"},
-    {"conf_solidground",  CONF_BOOL, {&conf_solidground},  "solid ground"},
+    {"conf_missiles",     CONF_BOOL, {&conf_missiles},     "Missiles"},
+    {"conf_solidground",  CONF_BOOL, {&conf_solidground},  "Solid ground"},
     {"conf_hudsplats",    CONF_BOOL, {&conf_hudsplats},    "HUD splats"},
-    {"conf_wounded",      CONF_BOOL, {&conf_wounded},      "wounded planes"},
-    {"conf_animals",      CONF_BOOL, {&conf_animals},      "oxen and birds"},
-    {"conf_harrykeys",    CONF_BOOL, {&conf_harrykeys},    "harry keys mode"},
-    {"conf_medals",	  CONF_BOOL, {&conf_medals},	   "medals"},
-    {"vid_fullscreen",    CONF_BOOL, {&vid_fullscreen},    "run fullscreen"},
-    {"vid_double_size",   CONF_BOOL, {&vid_double_size},   "scale window by 2x"},
+    {"conf_wounded",      CONF_BOOL, {&conf_wounded},      "Wounded planes"},
+    {"conf_animals",      CONF_BOOL, {&conf_animals},      "Oxen and birds"},
+    {"conf_harrykeys",    CONF_BOOL, {&conf_harrykeys},    "Harry keys mode"},
+    {"conf_medals",	  CONF_BOOL, {&conf_medals},	   "Medals"},
+    {"vid_fullscreen",    CONF_BOOL, {&vid_fullscreen},    "Run fullscreen"},
+    {"vid_double_size",   CONF_BOOL, {&vid_double_size},   "Scale window by 2x"},
 };
 
 int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
@@ -332,6 +332,9 @@ void setconfig()
 //-------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2005/04/29 19:00:48  fraggle
+// Capitalise first letter of config descriptions
+//
 // Revision 1.6  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>
