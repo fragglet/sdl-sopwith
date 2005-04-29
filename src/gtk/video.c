@@ -3,7 +3,7 @@
 //
 // $Id$
 //
-// Copyright(C) 2001-2004 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -231,7 +231,7 @@ static GtkWidget *build_about_window()
 		"Copyright(C) 1984, 1985, 1987 "
 		"BMB Compuscience Canada Ltd.\n"
 		"Copyright(C) 1984-2000 David L. Clark\n"
-		"Copyright(C) 2001-2004 Simon Howard"
+		"Copyright(C) 2001-2005 Simon Howard"
 		"</span>");
 
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(window)->vbox),
@@ -873,6 +873,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.13  2005/04/29 19:25:29  fraggle
+// Update copyright to 2005
+//
 // Revision 1.12  2005/04/28 14:52:55  fraggle
 // Fix compilation under gcc 4.0
 //

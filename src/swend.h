@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -36,6 +36,9 @@ extern void dispendmessage();
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.3  2003/06/08 02:39:25  fraggle
 // Initial code to remove XOR based drawing
 //

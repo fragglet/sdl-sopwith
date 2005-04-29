@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -41,6 +41,9 @@ extern void asynupdate(void);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.5  2004/10/20 18:56:11  fraggle
 // Remove prototype for removed function
 //

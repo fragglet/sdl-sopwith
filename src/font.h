@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 2001 A. Schiffler
-// Copyright(C) 2001-2004 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -2602,6 +2602,9 @@ static unsigned char font_data[GFX_FONTDATAMAX] = {
 //-----------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.3  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.2  2004/10/14 08:56:40  fraggle
 // font.h is under the LGPL; fix license and copyright info
 //

@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -106,6 +106,9 @@ void Vid_ClearBuf();
 //-----------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.4  2003/06/08 18:41:01  fraggle
 // Merge changes from 1.7.0 -> 1.7.1 into HEAD
 //

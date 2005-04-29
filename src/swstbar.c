@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the

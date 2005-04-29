@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -59,7 +59,7 @@ static char helptxt[] =
 "\n"
 "SDL Sopwith " VERSION "\n"
 "Copyright (C) 1984-2000 David L. Clark\n"
-"Copyright (C) 2001-2004 Simon Howard\n"
+"Copyright (C) 2001-2005 Simon Howard\n"
 "\n"
 "Usage:  sopwith [options]\n"
 "The options are:\n"
@@ -1111,6 +1111,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.25  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.24  2005/04/29 18:01:20  fraggle
 // Fix bug where unable to fly after reaching second level
 //

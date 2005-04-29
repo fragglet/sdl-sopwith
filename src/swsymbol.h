@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -62,6 +62,9 @@ extern void symbol_generate();
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.5  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.4  2005/04/29 11:20:35  fraggle
 // Remove ghost planes.  Split off status bar code into a separate file.
 //

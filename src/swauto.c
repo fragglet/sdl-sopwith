@@ -4,7 +4,7 @@
 // $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -420,6 +420,9 @@ int range(int x, int y, int ax, int ay)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.7  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.6  2005/04/28 18:32:59  fraggle
 // Fix bug with oobjects
 // Remove unused "goinghome" flag

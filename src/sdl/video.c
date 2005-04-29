@@ -3,7 +3,7 @@
 //
 // $Id$
 //
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -441,6 +441,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.7  2005/04/29 19:25:29  fraggle
+// Update copyright to 2005
+//
 // Revision 1.6  2005/04/28 14:52:55  fraggle
 // Fix compilation under gcc 4.0
 //

@@ -3,7 +3,7 @@
 //
 // $Id$
 //
-// Copyright(C) 2001-2003 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -361,6 +361,9 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.4  2005/04/29 19:25:29  fraggle
+// Update copyright to 2005
+//
 // Revision 1.3  2003/03/26 14:58:34  fraggle
 // devfs support
 // improved screen squishing for revo

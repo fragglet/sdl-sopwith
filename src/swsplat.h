@@ -3,7 +3,7 @@
 //
 // $Id$
 //
-// Copyright(C) 2001-2004 Simon Howard
+// Copyright(C) 2001-2005 Simon Howard
 //
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the
@@ -37,6 +37,9 @@ extern void swwindshot(void);
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.2  2005/04/29 19:25:28  fraggle
+// Update copyright to 2005
+//
 // Revision 1.1  2004/10/15 17:23:32  fraggle
 // Restore HUD splats
 //
