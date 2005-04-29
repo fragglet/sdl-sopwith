@@ -182,7 +182,7 @@ static void calculate_lag(void)
 
         skip_time += compensation;
 
-        printf("lag: %ims\n", lag);
+//        printf("lag: %ims\n", lag);
 }
 
 static void new_move(void)
@@ -295,6 +295,9 @@ int swmain(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.22  2005/04/29 19:00:17  fraggle
+// Remove debug message
+//
 // Revision 1.21  2005/04/29 18:50:02  fraggle
 // Respond better to spikes
 //
