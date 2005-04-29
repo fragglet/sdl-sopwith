@@ -216,6 +216,14 @@ static void crater(OBJECTS * ob)
 	forcdisp = TRUE;
 }
 
+/* Determine whether the parameter is a shot and hasn't moved very much yet;
+** Used to avoid having planes hitting themselves */
+
+static int
+is_young_shot(OBJECTS *ob)
+{
+	return (ob && ob->ob_type == SHOT && ob->ob_life >= BULLIFE - 1);
+}
 
 
 // sdh -- renamed this to swkill to remove possible conflicts with
@@ -247,7 +255,12 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		return;
 
 	case SHOT:
-		ob->ob_life = 1;
+                /* cr 2005-04-28: Don't stop the shot if it just 
+		 * launched from its presumed originator */
+
+		if (!(obt && obt->ob_type == PLANE
+		      && is_young_shot(ob)))
+			ob->ob_life = 1;
 		return;
 
 	case STARBURST:
@@ -290,6 +303,11 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 
 	case PLANE:
 		state = ob->ob_state;
+
+                /* cr 2005-04-28: Avoid having planes hit themselves */
+
+		if (is_young_shot(obt))
+			return;	
 
 		if (state == CRASHED || state == GHOSTCRASHED)
 			return;
@@ -496,6 +514,10 @@ void scorepln(OBJECTS * ob)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.13  2005/04/29 09:13:25  fraggle
+// Fix planes running into their own bullets
+// (From Christoph Reichenbach <creichen@gmail.com>)
+//
 // Revision 1.12  2004/10/20 19:00:01  fraggle
 // Remove currobx, endsts variables
 //
