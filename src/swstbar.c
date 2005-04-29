@@ -45,7 +45,7 @@ static void dispgge(int x, int cury, int maxy, int clr)
 
 static void dispgauges(OBJECTS *ob)
 {
-	int x = GUAGEX;
+	int x = GAUGEX;
 	int sep = conf_missiles ? 3 : 5;
 
 	// crashes/lives

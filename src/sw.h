@@ -84,7 +84,7 @@
 
 // sdh 26/10/2001: merged gauges, removed unneccesary coordinates
 
-#define GUAGEX          (SCR_CENTR - 25)  /* X co-ordinate of first gauge */
+#define GAUGEX          (SCR_CENTR - 25)  /* X co-ordinate of first gauge */
 
 // sdh 28/10/2001: made into a type
 
@@ -327,6 +327,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.14  2005/04/29 17:20:05  fraggle
+// Fix spelling error: guage -> gauge
+//
 // Revision 1.13  2005/04/29 11:20:26  fraggle
 // Remove ghost planes.  Split off status bar code into a separate file.
 //
