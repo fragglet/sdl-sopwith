@@ -350,7 +350,12 @@ int gohome(OBJECTS *ob)
 		return 0;
 	}
 
-	return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
+        /* When wounded, only move every other tic */
+
+        if (ob->ob_state == WOUNDED && (countmove & 1))
+                return 0;
+        else
+                return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
 }
 
 
@@ -420,6 +425,9 @@ int range(int x, int y, int ax, int ay)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2005/04/29 19:33:54  fraggle
+// Move slowly when wounded and using autopilot
+//
 // Revision 1.7  2005/04/29 19:25:28  fraggle
 // Update copyright to 2005
 //
