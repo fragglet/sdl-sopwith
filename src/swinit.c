@@ -390,6 +390,7 @@ void initcomp(OBJECTS * obp)
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
+                ob->ob_onmap = FALSE;
 		deletex(ob);
 	}
 }
@@ -1109,6 +1110,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.23  2005/04/29 17:18:29  fraggle
+// Dont display nonexistant planes on the map
+//
 // Revision 1.22  2005/04/29 11:20:28  fraggle
 // Remove ghost planes.  Split off status bar code into a separate file.
 //
