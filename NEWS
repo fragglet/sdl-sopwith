@@ -1,10 +1,18 @@
 
-Thanks to Christoph Reichenbach <creichen@gmail.com> for the 
-following:
-* Fix computer planes not shooting when tailing the player's plane.
-* Add -d option to specify level to start on.
-* Fix planes crashing into their own bullets
-* Medals feature to reward players 
+Features in this version:
+* Vastly superior network performance
+* -d option to specify level to start on.
+    (Thanks Christoph Reichenbach <creichen@gmail.com>)
+* Medals feature to reward players (creichen)
+
+Bug fixes:
+* Fix computer planes which trail the player without shooting (creichen).
+* Fix computer planes not shooting when tailing the player's plane (creichen).
+* Fix planes crashing into their own bullets (creichen).
+* Fix players able to turn quickly when wounded and using the autopilot.
+
+Restructuring:
+* Rewritten graphics code
 
 v1.7.1
 
