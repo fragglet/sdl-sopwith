@@ -54,7 +54,6 @@
 
 static int have_savescore = 0;
 static score_t savescore;		/* save players score on restart  */
-static BOOL ghost;		/* ghost display flag             */
 
 static char helptxt[] =
 "\n"
@@ -137,154 +136,11 @@ static void initseed()
 	// sdh 28/4/2002: removed atari and ibm code
 }
 
-
-
-//
-// status bar code
-//
-
-
-
-static void dispgge(int x, int cury, int maxy, int clr)
-{
-	int y;
-
-	if (ghost)
-		return;
-
-	cury = cury * 10 / maxy - 1;
-	if (cury > 9)
-		cury = 9;
-	for (y = 0; y <= cury; ++y)
-		Vid_PlotPixel(x, y, clr);
-	for (; y <= 9; ++y)
-		Vid_PlotPixel(x, y, 0);
-}
-
-// sdh 26/10/2001: merged gauge functions into a single function
-
-void dispgauges(OBJECTS *ob)
-{
-	int x = GUAGEX;
-	int sep = conf_missiles ? 3 : 5;
-
-	// crashes/lives
-
-	dispgge(x += sep, maxcrash - ob->ob_crashcnt, maxcrash, ob->ob_clr);
-
-	// fuel
-
-	dispgge(x += sep, ob->ob_life >> 4, MAXFUEL >> 4, ob->ob_clr);
-
-	// bombs
-
-	dispgge(x += sep, ob->ob_bombs, MAXBOMBS, 3 - ob->ob_clr);
-
-	// bullets
-
- 	dispgge(x += sep, ob->ob_rounds, MAXROUNDS, 3);
-
-	if (conf_missiles) {
-
-		// missiles
-		
-		dispgge(x += sep, ob->ob_missiles, MAXMISSILES, ob->ob_clr);
-
-// starburst (flares)
-
-		dispgge(x += sep, ob->ob_bursts, MAXBURSTS, 3 - ob->ob_clr);
-	}
-}
-
-static void dispmapobjects()
-{
-	OBJECTS *ob;
-
-	for (ob=objtop; ob; ob=ob->ob_next) {
-		if (ob->ob_onmap) {
-			int x, y;
-
-			x = SCR_CENTR 
-			  + ((ob->ob_x + (ob->ob_newsym->w / 2)) / WRLD_RSX);
-			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY); 
-
-			Vid_PlotPixel(x, y, ob->ob_clr);
-		}
-	}
-}
-
-void dispmap()
-{
-	int x, y, dx, maxh, sx;
-
-	dx = 0;
-	sx = SCR_CENTR;
-
-	maxh = 0;
-	y = 0;
-
-	// draw ground
-
-	for (x = 0; x < MAX_X; ++x) {
-
-		if (ground[x] > maxh)
-			maxh = ground[x];
-
-		++dx;
-
-		if (dx == WRLD_RSX) {
-			maxh /= WRLD_RSY;
-			if (maxh == y)
-				Vid_PlotPixel(sx, maxh, 7);
-			else if (maxh > y)
-				for (++y; y <= maxh; ++y)
-					Vid_PlotPixel(sx, y, 7);
-			else
-				for (--y; y >= maxh; --y)
-					Vid_PlotPixel(sx, y, 7);
-			y = maxh;
-			Vid_PlotPixel(sx, 0, 11);
-			++sx;
-			dx = maxh = 0;
-		}
-	}
-
-	// map border
-
-	maxh = MAX_Y / WRLD_RSY;
-	for (y = 0; y <= maxh; ++y) {
-		Vid_PlotPixel(SCR_CENTR, y, 11);
-		Vid_PlotPixel(sx, y, 11);
-	}
-
-	dispmapobjects();
-
-	// border of status bar
-
-	for (x = 0; x < SCR_WDTH; ++x)
-		Vid_PlotPixel(x, (SCR_MNSH + 2), 7);
-}
-
-
-
 void initdisp(BOOL reset)
 {
-	OBJECTS *ob;
-	OBJECTS ghostob;
-
 	swclearsplats();
 	if (!reset) {
 		swtitlf();
-		ghost = FALSE;
-	}
-
-	ob = &nobjects[player];
-	if (ghost) {
-		ghostob.ob_type = DUMMYTYPE;
-		//ghostob.ob_symhgt = ghostob.ob_symwdt = 8;
-		ghostob.ob_clr = ob->ob_clr;
-		ghostob.ob_newsym = symbol_ghost;     // sdh 27/6/2002
-		swputsym(GHOSTX, 12, &ghostob);
 	}
 }
 
@@ -430,9 +286,7 @@ OBJECTS *initpln(OBJECTS * obp)
 		return NULL;
 	}
 
-	if (!(!obp || ob->ob_state == CRASHED
-	      || ob->ob_state == GHOSTCRASHED)
-	    && (!ob->ob_athome)) {
+	if (obp && ob->ob_state != CRASHED && !ob->ob_athome) {
 		/* Just returned home */
 		get_awards(ob);
 	}
@@ -461,8 +315,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_athome = TRUE;
 	ob->ob_onmap = TRUE;
 
-	if (!obp || ob->ob_state == CRASHED
-	    || ob->ob_state == GHOSTCRASHED) {
+	if (!obp || ob->ob_state == CRASHED) {
 		/* New plane */
 		ob->ob_rounds = MAXROUNDS;
 		ob->ob_bombs = MAXBOMBS;
@@ -482,14 +335,9 @@ OBJECTS *initpln(OBJECTS * obp)
 		insertx(ob, ob->ob_xnext);
 	}
 
-	if (playmode == PLAYMODE_ASYNCH && ob->ob_crashcnt >= maxcrash) {
-		ob->ob_state = GHOST;
-		if (ob->ob_index == player)
-			ghost = TRUE;
-	} else
-		ob->ob_state = FLYING;
+	ob->ob_state = FLYING;
 
-	return (ob);
+	return ob;
 }
 
 
@@ -1261,6 +1109,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.22  2005/04/29 11:20:28  fraggle
+// Remove ghost planes.  Split off status bar code into a separate file.
+//
 // Revision 1.21  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>

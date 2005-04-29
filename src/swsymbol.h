@@ -42,7 +42,6 @@ extern sopsym_t *symbol_debris[8];               // swexpsym
 extern sopsym_t *symbol_flock[2];                // swflksym
 extern sopsym_t *symbol_bird[2];                 // swbrdsym
 extern sopsym_t *symbol_ox[2];                   // swoxsym
-extern sopsym_t *symbol_ghost;                   // swghtsym
 extern sopsym_t *symbol_shotwin;                 // swshtsym
 extern sopsym_t *symbol_birdsplat;               // swsplsym
 extern sopsym_t *symbol_missile[16];             // swmscsym
@@ -63,6 +62,9 @@ extern void symbol_generate();
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.4  2005/04/29 11:20:35  fraggle
+// Remove ghost planes.  Split off status bar code into a separate file.
+//
 // Revision 1.3  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>

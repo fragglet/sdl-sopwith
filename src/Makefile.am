@@ -18,7 +18,7 @@ swasynio.c  swdisp.h    swinit.c    swsymbol.h 				\
 swasynio.h  swend.c     swinit.h    swtitle.c 				\
 swauto.c    swend.h     swobject.c  swtitle.h 				\
 swauto.h    swgames.c   swmain.c    swobject.h  swutil.c		\
-swsplat.c   swsplat.h							\
+swsplat.c   swsplat.h	swstbar.c   swstbar.h                           \
 video.c
 
 sopwith_SOURCES = $(COMMON_SRC)

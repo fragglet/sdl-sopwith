@@ -42,7 +42,6 @@
 #define BRDBYTES        2               /*  Bytes in a bird symbol          */
 #define OXSYMS          2               /*  Number of ox symbols            */
 #define OXBYTES         64              /*  Bytes in an ox symbol           */
-#define GHSTBYTES       16              /*  Bytes in a ghost symbol         */
 #define SHOTBYTES       64              /*  Bytes in a shot window symbol   */
 #define SPLTBYTES       256             /*  Bytes in a splatted bird symbol */
 #define MISCBYTES       16              /*  Bytes in a missile symbol       */
@@ -802,23 +801,6 @@ static char swoxsym[OXSYMS][OXBYTES] = {
 	},
 };
 
-static char swghtsym[GHSTBYTES] = {
-
-/*  ghost symbol based on the following template file:
-08
-0 0 1 1 1 1 0 0
-0 1 1 1 1 1 1 0
-1 1 2 1 1 2 1 1
-1 2 2 2 2 2 2 1
-1 1 2 1 1 2 1 1
-1 1 1 1 1 1 1 1
-1 2 2 2 2 2 2 1
-1 1 1 1 1 1 1 1
-*/
-       0x5 , 0x50, 0x15, 0x54, 0x59, 0x65, 0x6A, 0xA9, 0x59, 0x65,
-       0x55, 0x55, 0x6A, 0xA9, 0x55, 0x55
-};
-
 static char swshtsym[SHOTBYTES] = {
 
 /*  shot window symbol based on the following template file:
@@ -1168,7 +1150,6 @@ sopsym_t *symbol_debris[8];               // swexpsym
 sopsym_t *symbol_flock[2];                // swflksym
 sopsym_t *symbol_bird[2];                 // swbrdsym
 sopsym_t *symbol_ox[2];                   // swoxsym
-sopsym_t *symbol_ghost;                   // swghtsym
 sopsym_t *symbol_shotwin;                 // swshtsym
 sopsym_t *symbol_birdsplat;               // swsplsym
 sopsym_t *symbol_missile[16];             // swmscsym
@@ -1215,7 +1196,6 @@ void symbol_generate()
 	sopsyms_from_data(swribbonsym, 8, 2, symbol_ribbon);
 
 	symbol_target_hit = sopsym_from_data(swhtrsym, 16, 16);
-	symbol_ghost = sopsym_from_data(swghtsym, 8, 8);
 	symbol_shotwin = sopsym_from_data(swshtsym, 16, 16);
 	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32);
 }
@@ -1225,6 +1205,9 @@ void symbol_generate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.6  2005/04/29 11:20:35  fraggle
+// Remove ghost planes.  Split off status bar code into a separate file.
+//
 // Revision 1.5  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>

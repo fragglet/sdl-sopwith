@@ -329,7 +329,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		if (is_young_shot(obt))
 			return;	
 
-		if (state == CRASHED || state == GHOSTCRASHED)
+		if (state == CRASHED)
 			return;
 
 		if (ob->ob_endsts == WINNER)
@@ -617,6 +617,9 @@ void scorepln(OBJECTS * ob, obtype_t type)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.16  2005/04/29 11:20:27  fraggle
+// Remove ghost planes.  Split off status bar code into a separate file.
+//
 // Revision 1.15  2005/04/29 10:31:10  fraggle
 // Remove destroyed objects from the map
 //

@@ -209,8 +209,7 @@ BOOL moveplyr(OBJECTS * obp)
 		ob->ob_mfiring = NULL;
 	}*/
 
-	if ((ob->ob_state == CRASHED || ob->ob_state == GHOSTCRASHED)
-	    && ob->ob_hitcount <= 0) {
+	if (ob->ob_state == CRASHED && ob->ob_hitcount <= 0) {
 
 		// sdh: infinite lives in multiplayer mode
 
@@ -256,9 +255,7 @@ void interpret(OBJECTS * obp, int key)
 	    && state != STALLED
 	    && state != FALLING
 	    && state != WOUNDED
-	    && state != WOUNDSTALL
-	    && state != GHOST
-	    && state != GHOSTSTALLED)
+	    && state != WOUNDSTALL)
 		return;
 
 	if (state != FALLING) {
@@ -272,8 +269,7 @@ void interpret(OBJECTS * obp, int key)
 			ob->ob_life = QUIT;
 			ob->ob_home = FALSE;
 			if (ob->ob_athome) {
-				ob->ob_state = state = 
-				    state >= FINISHED ? GHOSTCRASHED : CRASHED;
+				ob->ob_state = state = CRASHED;
 				ob->ob_hitcount = 0;
 			}
 			if (plyrplane)
@@ -281,8 +277,7 @@ void interpret(OBJECTS * obp, int key)
 		}
 
 		if (key & K_HOME)
-			if (state == FLYING || state == GHOST 
-			    || state == WOUNDED)
+			if (state == FLYING || state == WOUNDED)
 				ob->ob_home = TRUE;
 	}
 
@@ -404,7 +399,6 @@ static BOOL stallpln(OBJECTS * obp)
 	ob->ob_dy = 0;
 	ob->ob_hitcount = STALLCOUNT;
 	ob->ob_state = 
-		ob->ob_state >= GHOST ? GHOSTSTALLED :
 		ob->ob_state == WOUNDED ? WOUNDSTALL : STALLED;
 	ob->ob_athome = FALSE;
 
@@ -437,7 +431,6 @@ BOOL movepln(OBJECTS * obp)
 		return FALSE;
 
 	case CRASHED:
-	case GHOSTCRASHED:
 		--ob->ob_hitcount;
 		break;
 
@@ -473,10 +466,6 @@ BOOL movepln(OBJECTS * obp)
 		newstate = FLYING;
 		goto commonstall;
 
-	case GHOSTSTALLED:
-		newstate = GHOST;
-		goto commonstall;
-
 	case WOUNDSTALL:
 		newstate = WOUNDED;
 
@@ -489,7 +478,6 @@ BOOL movepln(OBJECTS * obp)
 
 	case FLYING:
 	case WOUNDED:
-	case GHOST:
 		stalled = ob->ob_y >= MAX_Y;
 		if (stalled) {
 			if (playmode == PLAYMODE_NOVICE) {
@@ -1053,7 +1041,7 @@ BOOL crashpln(OBJECTS * obp)
 	else
 		ob->ob_angle = (ob->ob_angle + ANGLES - 2) % ANGLES;
 
-	ob->ob_state = ob->ob_state >= GHOST ? GHOSTCRASHED : CRASHED;
+	ob->ob_state = CRASHED;
 	ob->ob_athome = FALSE;
 	ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = ob->ob_speed = 0;
 
@@ -1123,6 +1111,9 @@ void deletex(OBJECTS * obp)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.18  2005/04/29 11:20:35  fraggle
+// Remove ghost planes.  Split off status bar code into a separate file.
+//
 // Revision 1.17  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>

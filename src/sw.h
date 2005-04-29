@@ -85,7 +85,6 @@
 // sdh 26/10/2001: merged gauges, removed unneccesary coordinates
 
 #define GUAGEX          (SCR_CENTR - 25)  /* X co-ordinate of first gauge */
-#define GHOSTX          (SCR_CENTR - 21)/*  Ghost face display x-coodinate  */
 
 // sdh 28/10/2001: made into a type
 
@@ -142,9 +141,6 @@ typedef enum {               /*  Player states  */
         WOUNDSTALL,
 
         FINISHED = 91,
-        GHOST,
-        GHOSTCRASHED,
-        GHOSTSTALLED,
 } obstate_t;
 
 // sdh 21/10/2001: made this an enum
@@ -331,6 +327,9 @@ static inline int SIN(int x) {
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.13  2005/04/29 11:20:26  fraggle
+// Remove ghost planes.  Split off status bar code into a separate file.
+//
 // Revision 1.12  2005/04/29 10:10:12  fraggle
 // "Medals" feature
 // By Christoph Reichenbach <creichen@gmail.com>

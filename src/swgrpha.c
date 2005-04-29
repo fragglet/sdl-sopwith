@@ -34,6 +34,7 @@
 #include "swinit.h"
 #include "swmain.h"
 #include "swsplat.h"
+#include "swstbar.h"
 #include "swsymbol.h"
 #include "swutil.h"
 
@@ -146,9 +147,7 @@ void swdisp()
 
 	// display the status bar
 
-	dispmap();
-	dispscore(consoleplayer);
-	dispgauges(consoleplayer);
+	dispstatusbar();
 
 	// heads up splats
 	
@@ -225,6 +224,9 @@ void colorscreen(int color)
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.15  2005/04/29 11:20:28  fraggle
+// Remove ghost planes.  Split off status bar code into a separate file.
+//
 // Revision 1.14  2004/10/25 20:02:11  fraggle
 // Fix spelling error: guage -> gauge
 //
