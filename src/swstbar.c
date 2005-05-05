@@ -70,7 +70,7 @@ static void dispscore(OBJECTS * ob)
 {
 	Vid_Box(0, 16, 48 + 32, 16, 0);
 	
-	swposcur((ob->ob_clr - 1) * 7 + 2, 24);
+	swposcur(2, 24);
 	swcolour(ob->ob_clr);
 	swdispd(ob->ob_score.score, 6);
 }
@@ -97,15 +97,15 @@ static void dispgauges(OBJECTS *ob)
 
 	// crashes/lives
 
-	dispgge(x += sep, maxcrash - ob->ob_crashcnt, maxcrash, ob->ob_clr);
+	dispgge(x += sep, maxcrash - ob->ob_crashcnt, maxcrash, 1);
 
 	// fuel
 
-	dispgge(x += sep, ob->ob_life >> 4, MAXFUEL >> 4, ob->ob_clr);
+	dispgge(x += sep, ob->ob_life >> 4, MAXFUEL >> 4, 1);
 
 	// bombs
 
-	dispgge(x += sep, ob->ob_bombs, MAXBOMBS, 3 - ob->ob_clr);
+	dispgge(x += sep, ob->ob_bombs, MAXBOMBS, 2);
 
 	// bullets
 
@@ -115,11 +115,11 @@ static void dispgauges(OBJECTS *ob)
 
 		// missiles
 		
-		dispgge(x += sep, ob->ob_missiles, MAXMISSILES, ob->ob_clr);
+		dispgge(x += sep, ob->ob_missiles, MAXMISSILES, 1);
 
-// starburst (flares)
+                // starburst (flares)
 
-		dispgge(x += sep, ob->ob_bursts, MAXBURSTS, 3 - ob->ob_clr);
+		dispgge(x += sep, ob->ob_bursts, MAXBURSTS, 2);
 	}
 }
 
