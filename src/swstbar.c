@@ -135,7 +135,8 @@ static void dispmapobjects()
 			  + ((ob->ob_x + (ob->ob_newsym->w / 2)) / WRLD_RSX);
 			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY); 
 
-			Vid_PlotPixel(x, y, ob->ob_clr);
+                        if (y < SCR_MNSH-1) 
+    			        Vid_PlotPixel(x, y, ob->ob_clr);
 		}
 	}
 }
