@@ -151,7 +151,7 @@ void asynupdate(void)
 	}
 }
 
-#define PROTOHEADER "SDLSOPWITH" VERSION
+#define PROTOHEADER PACKAGE_STRING
 
 static void synchronize()
 {
@@ -351,6 +351,9 @@ void init2asy()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2005/05/29 19:46:10  fraggle
+// Fix up autotools build. Fix "make dist".
+//
 // Revision 1.9  2005/04/29 19:25:28  fraggle
 // Update copyright to 2005
 //

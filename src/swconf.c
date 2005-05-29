@@ -215,7 +215,7 @@ void swsaveconf()
 	}
 
 	fprintf(fs, "# sopwith config file\n");
-	fprintf(fs, "# created by SDL Sopwith " VERSION "\n");
+	fprintf(fs, "# created by " PACKAGE_STRING "\n");
 	fprintf(fs, "\n");
 	
 	for (i=0; i<num_confoptions; ++i) {
@@ -332,6 +332,9 @@ void setconfig()
 //-------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.9  2005/05/29 19:46:10  fraggle
+// Fix up autotools build. Fix "make dist".
+//
 // Revision 1.8  2005/04/29 19:25:28  fraggle
 // Update copyright to 2005
 //

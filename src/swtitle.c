@@ -68,7 +68,7 @@ void swtitln()
 
 	swcolour(1);
 	swposcur(12+X_OFFSET/8, 8);
-	swputs("(Version " VERSION ")");
+	swputs("(Version " PACKAGE_VERSION ")");
 
 	swcolour(3);
 	swposcur(5+X_OFFSET/8, 11);
@@ -93,7 +93,7 @@ void swtitln()
 	swputs("S O P W I T H");
 
 	swposcur(13+X_OFFSET/8, 6);
-	swputs("Version " VERSION);
+	swputs("Version " PACKAGE_VERSION);
 
 	swcolour(3);
 	swposcur(1+X_OFFSET/8, 10);
@@ -360,6 +360,9 @@ void getgamemode()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.10  2005/05/29 19:46:10  fraggle
+// Fix up autotools build. Fix "make dist".
+//
 // Revision 1.9  2005/04/29 19:25:28  fraggle
 // Update copyright to 2005
 //

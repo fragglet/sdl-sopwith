@@ -1,4 +1,4 @@
-CFLAGS=@CFLAGS@ @SDL_CFLAGS@ -I..
+CFLAGS=@CFLAGS@ -I..
 
 noinst_LIBRARIES = libpsopwith.a
 

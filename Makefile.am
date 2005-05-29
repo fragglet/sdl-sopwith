@@ -5,7 +5,10 @@ AUX_DIST_GEN =                          \
         $(ac_aux_dir)/missing           \
         $(ac_aux_dir)/mkinstalldirs
 
+EXTRA_DIST = $(AUX_DIST_GEN) msvc
+
 MAINTAINERCLEANFILES =  $(AUX_DIST_GEN)
+
 docdir=$(prefix)/share/doc/@PACKAGE@
 SUBDIRS=src doc
 

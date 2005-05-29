@@ -1,14 +1,17 @@
 bindir=$(prefix)/bin
 
 SUBDIRS = @SOPWITH_SUBDIRS@
-EXTRA_SUBDIRS = sdl gtk psion
+EXTRA_SUBDIRS = sdl gtk psion 
+DIST_SUBDIRS = $(EXTRA_SUBDIRS)
 
 bin_PROGRAMS = @SOPWITH_BINS@
 EXTRA_PROGRAMS = sopwith gtksopwith psopwith
 
+EXTRA_DIST=dos
+
 CFLAGS = @CFLAGS@ -I..
 
-COMMON_SRC =       \
+COMMON_SOURCES =       \
 video.h	    swcollsn.c  swgames.h   swmain.h    swutil.h 		\
 font.h      swcollsn.h  swground.c  swtext.c    tcpcomm.c 		\
 pcsound.h   swconf.c    swground.h  swtext.h    swsound.c   tcpcomm.h 	\
@@ -21,12 +24,20 @@ swauto.h    swgames.c   swmain.c    swobject.h  swutil.c		\
 swsplat.c   swsplat.h	swstbar.c   swstbar.h                           \
 video.c
 
-sopwith_SOURCES = $(COMMON_SRC)
+EXTRA_DIST=vid_vga.c
+
+# SDL build
+
+sopwith_SOURCES = $(COMMON_SOURCES) 
 sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@
 
-gtksopwith_SOURCES = $(COMMON_SRC)
+# Gtk+ build
+
+gtksopwith_SOURCES = $(COMMON_SOURCES)
 gtksopwith_LDADD = gtk/libgtksopwith.a @GTK_LIBS@
 
-psopwith_SOURCES = $(COMMON_SRC)
+# Psion build
+
+psopwith_SOURCES = $(COMMON_SOURCES)
 psopwith_LDADD = psion/libpsopwith.a
 

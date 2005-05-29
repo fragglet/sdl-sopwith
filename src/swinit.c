@@ -57,7 +57,7 @@ static score_t savescore;		/* save players score on restart  */
 
 static char helptxt[] =
 "\n"
-"SDL Sopwith " VERSION "\n"
+PACKAGE_STRING "\n"
 "Copyright (C) 1984-2000 David L. Clark\n"
 "Copyright (C) 2001-2005 Simon Howard\n"
 "\n"
@@ -1116,6 +1116,9 @@ void swinit(int argc, char *argv[])
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.27  2005/05/29 19:46:10  fraggle
+// Fix up autotools build. Fix "make dist".
+//
 // Revision 1.26  2005/04/29 19:58:01  fraggle
 // Stop 's' on the menu toggling sound when the game starts
 //
