@@ -5,7 +5,11 @@ AUX_DIST_GEN =                          \
         $(ac_aux_dir)/missing           \
         $(ac_aux_dir)/mkinstalldirs
 
-EXTRA_DIST = $(AUX_DIST_GEN) msvc
+# extra distributed MSVC build files
+MSVC_DIST= \
+	msvc/README  msvc/config.h msvc/sopwith.vcproj
+
+EXTRA_DIST = $(AUX_DIST_GEN) $(MSVC_DIST)
 
 MAINTAINERCLEANFILES =  $(AUX_DIST_GEN)
 
