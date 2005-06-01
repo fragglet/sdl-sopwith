@@ -44,12 +44,11 @@
 #define FB_DEV "/dev/fb0"
 #define FB_DEV_DEVFS "/dev/fb/0"
 
-// use the vga (8 bit) drawing routines
-
-#include "vid_4bit.c"
-
 BOOL vid_fullscreen = FALSE;
 BOOL vid_double_size = TRUE;
+
+extern unsigned char *vid_vram;
+extern unsigned int vid_pitch;          // line length in bytes(not pixels)
 
 static unsigned char *screenbuf;
 
@@ -361,6 +360,11 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.5  2005/06/01 10:17:26  fraggle
+// Don't #include files with drawing functions.
+// Include README files for psion and gtk ports.
+// Remove unnecessary include parameter.
+//
 // Revision 1.4  2005/04/29 19:25:29  fraggle
 // Update copyright to 2005
 //

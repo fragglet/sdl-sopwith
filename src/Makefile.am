@@ -7,7 +7,7 @@ DIST_SUBDIRS = $(EXTRA_SUBDIRS)
 bin_PROGRAMS = @SOPWITH_BINS@
 EXTRA_PROGRAMS = sopwith gtksopwith psopwith
 
-CFLAGS = @CFLAGS@ -I..
+CFLAGS = @CFLAGS@ 
 
 COMMON_SOURCES =       \
 video.h	    swcollsn.c  swgames.h   swmain.h    swutil.h 		\
@@ -26,16 +26,16 @@ video.c
 
 DOS_SOURCES = dos/Makefile  dos/pcsound.c  dos/README  dos/timer.c
 
-EXTRA_DIST=vid_vga.c $(DOS_SOURCES)
+EXTRA_DIST=$(DOS_SOURCES)
 
 # SDL build
 
-sopwith_SOURCES = $(COMMON_SOURCES) 
+sopwith_SOURCES = $(COMMON_SOURCES) vid_vga.c
 sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@
 
 # Gtk+ build
 
-gtksopwith_SOURCES = $(COMMON_SOURCES)
+gtksopwith_SOURCES = $(COMMON_SOURCES) vid_vga.c
 gtksopwith_LDADD = gtk/libgtksopwith.a @GTK_LIBS@
 
 # Psion build

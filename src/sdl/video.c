@@ -24,12 +24,11 @@
 //
 //-----------------------------------------------------------------------
 
+#include <string.h>
 #include <SDL.h>
 
 #include "video.h"
 #include "sw.h"
-
-#include "vid_vga.c"
 
 // lcd mode to emulate my old laptop i used to play sopwith on :)
 
@@ -47,6 +46,9 @@ static SDL_Color cga_pal[] = {
 
 BOOL vid_fullscreen = FALSE;
 BOOL vid_double_size = TRUE;
+
+extern unsigned char *vid_vram;
+extern unsigned int vid_pitch;
 
 static int ctrlbreak = 0;
 static BOOL initted = 0;
@@ -441,6 +443,11 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.8  2005/06/01 10:17:26  fraggle
+// Don't #include files with drawing functions.
+// Include README files for psion and gtk ports.
+// Remove unnecessary include parameter.
+//
 // Revision 1.7  2005/04/29 19:25:29  fraggle
 // Update copyright to 2005
 //

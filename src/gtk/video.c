@@ -36,12 +36,11 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 
-// use the vga (8 bit) drawing routines
-
-#include "vid_vga.c"
-
 BOOL vid_fullscreen = FALSE;
 BOOL vid_double_size = TRUE;
+
+extern unsigned char *vid_vram;
+extern unsigned int vid_pitch;
 
 static unsigned char *screenbuf;
 
@@ -873,6 +872,11 @@ BOOL Vid_GetCtrlBreak()
 //-----------------------------------------------------------------------
 // 
 // $Log$
+// Revision 1.14  2005/06/01 10:17:26  fraggle
+// Don't #include files with drawing functions.
+// Include README files for psion and gtk ports.
+// Remove unnecessary include parameter.
+//
 // Revision 1.13  2005/04/29 19:25:29  fraggle
 // Update copyright to 2005
 //
