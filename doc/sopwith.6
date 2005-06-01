@@ -8,13 +8,13 @@ sopwith \- classic aerial combat shoot em up game
 [ \-n | \-s | \-c | \-l | \-j \fIhost\fR ] [-f] [-2] [-x] [-q]
 
 .SH DESCRIPTION
-Sopwith is a classic 1980s shoot 'em up originally developed by BMB
-CompuScience. This modern port is a derivative of the original source
-code released by its original author, David L. Clark. This port can
-run using the LibSDL and Gtk+ libraries to display on screen. Features
-include emulation of the original PC speaker sound effects using digital
-sound output, working networking and various extra features that were
-included by the author in the released sources.
+Sopwith is a modern port of the classic 1980s shoot 'em up game of the
+same name.
+The game has a World War I theme.  The object of Sopwith is to destroy 
+all enemy targets with a somewhat limited airforce.
+
+It can be played both in single player and multiplayer mode over 
+a TCP/IP network.
 
 .SH CONTROLS
 The standard controls are as follows:
@@ -85,19 +85,49 @@ Turn off sound (quiet)
 \-d<n>
 Start at difficulty level n (default is 0)
 
+.SH MEDALS
+
+If the "medals" game option is turned on, the player is rewarded with medals
+for the following:
+
+.IP \(bu
+Shooting down 5 planes
+.IP \(bu
+Shooting down 25 planes (difficult!)
+.IP \(bu
+Three successful raids
+.IP \(bu
+Finishing a level with no planes lost
+.IP \(bu
+Gaining 25 points in a single flight, where 3 points are awarded per plane
+and 4 per building
+.IP \(bu
+As above, a second time
+.IP \(bu
+Returning to base after having been damaged
+.IP \(bu
+Gaining a certain amount of points for destroyed planes and buildings; the
+points depend on whether the player was damaged at that point in time, and
+how far away the destroyed object was from the player's base
+.IP \(bu
+As above, but a few more points
+.PP
+
+All medals and counters for these are reset once a plane is destroyed.
+
 .SH AUTHORS
 Originally written by David L. Clark for BMB Compuscience
 .br
 Modern SDL/Gtk+ port By Simon Howard
 
 .SH HISTORY
-Sopwith was originally designed as a demonstration game for the Imaginet
-Networking System developed by BMB CompuScience of Canada. The system
+Sopwith was originally developed by BMB Compuscience of Canada as a 
+demonstration game for their Imaginet Networking System. The system
 failed to become popular but Sopwith became a popular game for the IBM
 PC and compatibles. A sequel "Sopwith 2" was actually a newer version
 rather than a different game, but included many extra features, such
 as Oxen and birds. Sopwith was also ported to the Atari. The 
-original author, David L. Clark, later created Sopwith - The Author's
+original author, David L. Clark, later created Sopwith - The Network
 Edition with several extra features including missiles. This version of
-sopwith is based on the source for the Authors Edition.
+sopwith is based on the released source code to the Network Edition.
 

@@ -1,6 +1,6 @@
 docdir=$(prefix)/share/doc/@PACKAGE@
 man_MANS=sopwith.6
-doc_DATA=dlcvsamj.txt keys.txt origdoc.txt readme.txt medals.txt
+doc_DATA=origdoc.txt 
 
 EXTRA_DIST=$(man_MANS) $(doc_DATA)
 
