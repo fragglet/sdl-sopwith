@@ -3,20 +3,12 @@ To Do
 
 Code Cleanup: 
 	Remove useless files: swutil.c
-	Restructure display to be state based - avoids all the horrible crap
+	Restructure game to be state based - avoids all the horrible crap
 		with longjmp at the moment
-	Remove the XOR'ing mess - just draw the entire screen each time.
-		Computers are fast enough that we dont need to do this 
-		any more :)
 Network:
 	Ability to abort server
 	Network disconnect should bring you back to the title screen
 		Also on failure to connect
-	Keep sending even when we are waiting for data (up to a point of 
-		course). Currently the network code wont send the next 
-		movement until its received the next movement from the 
-		other player. As a result any kind of lag will drastically 
-		kill the game speed.	
 	> 2 Players, Teams
 	Extra game modes -- Capture the flag etc
 Finish GNOME port
