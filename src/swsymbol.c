@@ -1002,7 +1002,7 @@ static char swbstsym[BRSTSYMS][BRSTBYTES] = {
 	}
 };
 
-static unsigned char swmedalsym[MEDALSYMS][MEDALBYTES] = {
+static char swmedalsym[MEDALSYMS][MEDALBYTES] = {
 /* Medal symbols based on the following templates:
 08
 . . 3 3 3 3 . .
@@ -1091,7 +1091,7 @@ static unsigned char swmedalsym[MEDALSYMS][MEDALBYTES] = {
 	}
 };
 
-static unsigned char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
+static char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
 	/* Actual width: 7 pixels */
 	{ 0x57, 0x54,
 	  0x57, 0x54 }, /* CCCWCCC : ACE */
@@ -1205,6 +1205,9 @@ void symbol_generate()
 //---------------------------------------------------------------------------
 //
 // $Log$
+// Revision 1.8  2005/06/01 10:10:40  fraggle
+// Fix medal symbol warnings
+//
 // Revision 1.7  2005/04/29 19:25:28  fraggle
 // Update copyright to 2005
 //
