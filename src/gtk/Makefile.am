@@ -1,4 +1,4 @@
-CFLAGS=@CFLAGS@ @GTK_CFLAGS@ -I..
+AM_CFLAGS=@CFLAGS@ @GTK_CFLAGS@ -I..
 
 noinst_LIBRARIES = libgtksopwith.a
 

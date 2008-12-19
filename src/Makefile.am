@@ -7,8 +7,6 @@ DIST_SUBDIRS = $(EXTRA_SUBDIRS)
 bin_PROGRAMS = @SOPWITH_BINS@
 EXTRA_PROGRAMS = sopwith gtksopwith psopwith
 
-CFLAGS = @CFLAGS@ 
-
 COMMON_SOURCES =       \
 video.h	    swcollsn.c  swgames.h   swmain.h    swutil.h 		\
 font.h      swcollsn.h  swground.c  swtext.c    tcpcomm.c 		\
@@ -24,9 +22,9 @@ video.c
 
 # include dos port sources in distribution
 
-DOS_SOURCES = dos/Makefile  dos/pcsound.c  dos/README  dos/timer.c
+DOS_FILES = dos/Makefile  dos/pcsound.c  dos/README  dos/timer.c
 
-EXTRA_DIST=$(DOS_SOURCES)
+EXTRA_DIST=$(DOS_FILES)
 
 # SDL build
 

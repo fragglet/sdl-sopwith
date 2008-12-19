@@ -6,6 +6,8 @@ dnl optimisations
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
+AM_INIT_AUTOMAKE(AC_PACKAGE_TARNAME,AC_PACKAGE_VERSION)
+
 dnl check for cc
 
 AC_PROG_CC
@@ -41,8 +43,6 @@ case "$target" in
 	;;
 esac
 
-AM_INIT_AUTOMAKE(AC_PACKAGE_TARNAME,AC_PACKAGE_VERSION)
-
 AM_CONFIG_HEADER(config.h:config.hin)
 
 dnl install programs
@@ -76,7 +76,6 @@ AC_CHECK_HEADER(netinet/ip.h, [
     AC_DEFINE(TCPIP, 1, [TCPIP multiplayer support])
 ],,)
 
-AC_CONFIG_AUX_DIR(autotools)
 AC_SUBST(ac_aux_dir)
 
 dnl generate Makefiles

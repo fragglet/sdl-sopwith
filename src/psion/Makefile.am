@@ -1,4 +1,4 @@
-CFLAGS=@CFLAGS@ -I..
+AM_CFLAGS=@CFLAGS@ -I..
 
 noinst_LIBRARIES = libpsopwith.a
 
