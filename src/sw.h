@@ -52,18 +52,7 @@
 #define STALLCOUNT      6               /*  Moves between stalling plane adj*/
 #define TARGHITCOUNT    10              /*  Target hit count before explod'n*/
 
-#ifdef PSION
-
-// fill the screen on the revo
-
-#define SCR_WDTH        480             /*  Screen Width                    */
-
-#else
-
 #define SCR_WDTH        320             /*  Screen Width                    */
-
-#endif
-
 #define SCR_HGHT        200             /*  Screen Height                   */
 
 #define SCR_CENTR       ((SCR_WDTH / 2) - 8) /*  Centre column of screen */

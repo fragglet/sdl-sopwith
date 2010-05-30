@@ -13,22 +13,6 @@ dnl check for cc
 AC_PROG_CC
 AC_PROG_RANLIB
 
-AC_ARG_ENABLE(psion, [  --enable-psion	  Compile for Psion Linux], [
-	psiprefix=arm-uclibc
-
-	echo "*** psion hack: using $psiprefix as prefix for compile utils"
-
-	target=$psiprefix
-	CC="${psiprefix}-gcc"
-	LD="${psiprefix}-ld"
-	AR="${psiprefix}-ar"
-	NM="${psiprefix}-nm"
-	RANLIB="${psiprefix}-ranlib"
-	SOPWITH_BINS=psopwith
-	SOPWITH_SUBDIRS=psion
-	CFLAGS="$CFLAGS -DPSION"
-])
-
 dnl network libraries
 
 case "$target" in
@@ -84,7 +68,6 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 src/gtk/Makefile
-src/psion/Makefile
 src/sdl/Makefile
 doc/Makefile
 ])
