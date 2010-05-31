@@ -1,3 +1,10 @@
+v1.7.2
+
+Cleaned up some compile errors from gcc 4.4.1 on Ubuntu.
+Added -g command line option. -g and a number, such as -g2
+will start the game on difficulty level 2. Normally the
+game starts at zero.
+
 v1.7.1
 
 Fix some compilation errors due to an error in swinit.c

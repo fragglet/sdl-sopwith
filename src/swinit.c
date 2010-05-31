@@ -53,6 +53,7 @@
 
 static int savescore;		/* save players score on restart  */
 static BOOL ghost;		/* ghost display flag             */
+static starting_level = 0;
 
 static char helptxt[] =
 "\n"
@@ -67,6 +68,7 @@ static char helptxt[] =
 "        -c :  single player against computer\n"
 "        -x :  enable missiles\n"
 "        -q :  begin game with sound off\n"
+"        -g#:  start at level #\n"
 "\n"
 "Video:\n"
 "        -f :  fullscreen\n"
@@ -1034,7 +1036,8 @@ void swrestart()
 		++gamenum;
 		savescore = ob->ob_score;
 	} else {
-		gamenum = 0;
+		// gamenum = 0;
+                gamenum = starting_level;
 		savescore = 0;
 
 		// sh 28/10/2001: go back to the title screen
@@ -1108,6 +1111,11 @@ void swinit(int argc, char *argv[])
 			c = 1;
 		else if (!strcasecmp(argv[i], "-f"))
 			vid_fullscreen = 1;
+                else if (!strncasecmp(argv[i], "-g", 2))
+                {
+                    sscanf(& (argv[i][2]), "%d", &starting_level);
+                    gamenum = starting_level;
+                }
 		else if (!strcasecmp(argv[i], "-2"))
 			vid_double_size = 1;
 		else if (!strcasecmp(argv[i], "-q"))
