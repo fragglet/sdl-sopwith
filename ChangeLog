@@ -1,9 +1,43 @@
+v1.7.3
+
+Added range check patch to avoid crashes when plan or missile is close to
+the edge of the map. Patch was provided by Mikko Vartianinen.
+(Closes Debian bugs 224518 and 258751.)
+
+Mouse pointer no longer appears over Sopwith window.
+(Closes Debian bug 187930.)
+
+Depreciated gtk branch, updated configure/makefile scripts.
+
+Sound is now turned off by default. Sound can be turned on using
+the -p flag from the command line.
+
+Fixed socket check in tcpcomm.c (error returns -1, not less than -2).
+
+When AI plane is chasing the player's plane, the AI plane will now shoot
+if it is in position. (swauto.c)
+
+When the player's plane is damaged, the auto-pilot is less
+manouverable, just like the player's controls. (swauto.c)
+
+Holding down the X or Z keys now causes the player's plane to
+constantly speed up or slow down. Previously, the key had
+to be rapidly tapped to change speed.
+(Fixes Debian bug 188301.)
+
+Updated title screen to show exit message.
+
+Fixed compiler warning in swconf.c
+
+
 v1.7.2
 
 Cleaned up some compile errors from gcc 4.4.1 on Ubuntu.
+(Closes Debian bug 582399.)
+
 Added -g command line option. -g and a number, such as -g2
 will start the game on difficulty level 2. Normally the
-game starts at zero.
+game starts at zero. (Closes Debian bug 582398.)
 
 
 v1.7.1

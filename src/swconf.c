@@ -130,7 +130,7 @@ void swloadconf()
 		char *p;
 		int i;
 		
-		fgets(inbuf, sizeof(inbuf)-1, fs);
+		p = fgets(inbuf, sizeof(inbuf)-1, fs);
 		++line;
 		
 		// comments

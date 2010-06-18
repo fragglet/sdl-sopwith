@@ -91,7 +91,8 @@ void commconnect(char *host)
 
 	tcp_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	if (tcp_sock < -1) {
+	if (tcp_sock < 0) 
+        {
 		fprintf(stderr,
 			"commconnect: cant create socket: %s\n",
 			strerror(errno));
@@ -124,7 +125,7 @@ void commlisten()
 {
 #ifdef TCPIP
 	struct sockaddr_in in;
-	int in_size;
+	size_t in_size;
 
 	// create socket
 

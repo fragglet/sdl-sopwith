@@ -1,3 +1,9 @@
+v1.7.3
+
+Fixed most outstanding bugs reported in Debian. Fixed some
+compiler warnings. Added intructions for exiting the program on
+the title page. Sound is now disabled by default.
+
 v1.7.2
 
 Cleaned up some compile errors from gcc 4.4.1 on Ubuntu.

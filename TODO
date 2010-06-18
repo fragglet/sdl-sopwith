@@ -1,6 +1,10 @@
 To Do
 -----
 
+Bugs:
+	#188298 - Make oil tank explosions bigger.
+
+
 Code Cleanup: 
 	Remove useless files: swutil.c
 	Restructure display to be state based - avoids all the horrible crap
@@ -19,19 +23,13 @@ Network:
 		kill the game speed.	
 	> 2 Players, Teams
 	Extra game modes -- Capture the flag etc
-Finish GNOME port
-	Add GConf support
-	Fix starting network games from the menus
 
-Bug: If you crash into the last building in a level, the level exit sequence
-	runs with you inside the building rubble (!)
 
 Ideas
 -----
 
 Custom levels
-DOS Port? probably wouldnt be too hard infact
-Hi score table?
+High score table?
 Reconfigurable keys
-Safe base
+Safe base?
 

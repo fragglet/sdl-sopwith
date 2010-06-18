@@ -325,6 +325,7 @@ void getgamemode()
 		swputs("     N - network game\r\n");
 #endif
 		swputs("     O - game options\r\n");
+                swputs("     Press CTRL-C to exit");
 		Vid_Update();
 
 		if (ctlbreak())

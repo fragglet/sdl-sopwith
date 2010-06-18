@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <SDL.h>
 
 #include "pcsound.h"
 #include "timer.h"
@@ -67,7 +68,8 @@ static char helptxt[] =
 "        -s :  single player\n"
 "        -c :  single player against computer\n"
 "        -x :  enable missiles\n"
-"        -q :  begin game with sound off\n"
+"        -q :  begin game with sound off (default)\n"
+"        -p :  turn sound on\n"
 "        -g#:  start at level #\n"
 "\n"
 "Video:\n"
@@ -1037,6 +1039,7 @@ void swrestart()
 		savescore = ob->ob_score;
 	} else {
 		// gamenum = 0;
+                // allow variable start level -- Jesse
                 gamenum = starting_level;
 		savescore = 0;
 
@@ -1100,6 +1103,7 @@ void swinit(int argc, char *argv[])
 	
 	// sdh 29/10/2001: load config from configuration file
 
+        soundflg = 1;      // assume off by default
 	swloadconf();
 
 	for (i=1; i<argc; ++i) {
@@ -1120,6 +1124,8 @@ void swinit(int argc, char *argv[])
 			vid_double_size = 1;
 		else if (!strcasecmp(argv[i], "-q"))
 			soundflg = 1;
+                else if (!strcasecmp(argv[i], "-p"))
+                        soundflg = 0;
 		else if (!strcasecmp(argv[i], "-x"))
 			conf_missiles = 1;
 		else 
@@ -1185,6 +1191,9 @@ void swinit(int argc, char *argv[])
 
 	// sdh 28/10/2001: moved getmode into swmain
 	// sdh 27/10/2001: moved all level init stuff into swinitlevel
+
+        // make mouse disappear
+        SDL_ShowCursor(SDL_DISABLE);
 }
 
 //---------------------------------------------------------------------------

@@ -80,6 +80,7 @@ static  char     *expltune[7] = {
 #endif
 
 // static BOOL titleflg;		/* Playing title tune               */
+// Fix compile error -- Jesse
 extern BOOL titleflg;
 static int titlplace;		/*  Place in title tune;            */
 static int titlline;		/* Line in title tune               */

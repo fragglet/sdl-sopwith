@@ -31,7 +31,7 @@
 #include "swutil.h"
 
 static BOOL correction;		/*  Course correction flag        */
-static BOOL goinghome;		/*  Going home flag               */
+// static BOOL goinghome;		/*  Going home flag               */
 static OBJECTS obs;		/*  Saved computer object         */
 static int courseadj;		/*  Course adjustment             */
 
@@ -266,7 +266,8 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		i = shoot(obt);
 
 		if (i) {
-			if (ob->ob_missiles && i == 2)
+			// if (ob->ob_missiles && i == 2)
+                        if (ob->ob_missiles && conf_missiles && i == 2)
 				ob->ob_mfiring = obt->ob_athome ? ob : obt;
 			else
 				ob->ob_firing = obt;
@@ -325,31 +326,37 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 
 
 
-int gohome(OBJECTS *obpt)
+int gohome(OBJECTS *ob)
 {
-	register OBJECTS *ob, *obp = obpt;
+	// register OBJECTS *ob, *obp = obpt;
+        OBJECTS *original_ob;
 
-	if (obp->ob_athome)
+	if (ob->ob_athome)
 		return 0;
 
-	ob = &oobjects[currobx];
-
+	// ob = &oobjects[currobx];
+        original_ob = &oobjects[ob->ob_index];
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	if (abs(obp->ob_x - ob->ob_x) < HOME
-	    && abs(obp->ob_y - ob->ob_y) < HOME) {
+	if (abs(ob->ob_x - original_ob->ob_x) < HOME
+	    && abs(ob->ob_y - original_ob->ob_y) < HOME) {
 		if (plyrplane) {
-			initplyr(obp);
+			initplyr(ob);
 			initdisp(YES);
 		} else if (compplane) {
-			initcomp(obp);
+			initcomp(ob);
 		} else {
-			initpln(obp);
+			initpln(ob);
 		}
 		return 0;
 	}
-	goinghome = TRUE;
+	// goinghome = TRUE;
 
-	return aim(obp, ob->ob_x, ob->ob_y, NULL, NO);
+	// return aim(obp, ob->ob_x, ob->ob_y, NULL, NO);
+        // reduce movements when damaged
+        if (ob->ob_state == WOUNDED && (countmove & 1) )
+             return 0;
+        else
+             return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
 }
 
 
@@ -384,14 +391,16 @@ void attack(OBJECTS *obp, OBJECTS *obt)
 
 void swauto(OBJECTS *ob)
 {
-	goinghome = FALSE;
+	// goinghome = FALSE;
 
-	if (compnear[currobx])
-		attack(ob, compnear[currobx]);
+	// if (compnear[currobx])
+	// 	attack(ob, compnear[currobx]);
+        if (compnear[ob->ob_index])
+                attack(ob, compnear[ob->ob_index]);
 	else if (!ob->ob_athome)
 		cruise(ob);
 
-	compnear[currobx] = NULL;
+	compnear[ob->ob_index] = NULL;
 }
 
 
