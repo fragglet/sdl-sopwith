@@ -37,7 +37,8 @@ static void swreport()
 {
 	puts("\r\nEnd of game statictics\r\n\r\n");
 	puts("Objects used: ");
-	dispd(((int) objsmax - (int) objtop + 1) / sizeof(OBJECTS), 0);
+	// dispd(((int) objsmax - (int) objtop + 1) / sizeof(OBJECTS), 0);
+        dispd( (int) (objsmax - objtop + 1) / sizeof(OBJECTS), 0);
 	puts("\r\n");
 }
 

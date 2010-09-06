@@ -54,8 +54,8 @@
 
 static int savescore;		/* save players score on restart  */
 static BOOL ghost;		/* ghost display flag             */
-static starting_level = 0;
-static conf_explosions = 1;
+static int starting_level = 0;
+static int conf_explosions = 1;
 
 static char helptxt[] =
 "\n"

@@ -38,14 +38,14 @@
 
 #define VRAMSIZE (SCR_HGHT * vid_pitch)
 
-static char *dispoff = NULL;           // current display offset
+static unsigned char *dispoff = NULL;     // current display offset
 
 unsigned char *vid_vram;
 unsigned int vid_pitch;
 
 // sdh 28/10/2001: moved auxdisp here
 
-char *auxdisp = NULL;
+unsigned char *auxdisp = NULL;
 
 /*---------------------------------------------------------------------------
 

@@ -125,7 +125,8 @@ void commlisten()
 {
 #ifdef TCPIP
 	struct sockaddr_in in;
-	size_t in_size;
+	// size_t in_size;
+        socklen_t in_size;
 
 	// create socket
 

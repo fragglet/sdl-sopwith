@@ -1,3 +1,13 @@
+v1.7.5
+Cleaned up code to avoid compile warnings. Sopwith now
+builds cleanly using Clang 3.0 and GCC 4.6.
+
+Added custom keys option. Controls can be altered by
+adjusting the values in the ~/.sopwith/keys file. On
+Windows this file should be located in the user's profile
+under "AppData/Local/.sopwith/keys".
+
+
 v1.7.4
 Added man page patch from Ken to update documentation.
 
