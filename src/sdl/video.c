@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 
 #include <SDL.h>
+#include <time.h>
 
 #include "video.h"
 #include "sw.h"

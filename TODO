@@ -2,8 +2,6 @@ To Do
 -----
 
 Bugs:
-	#188298 - Make oil tank explosions bigger.
-
 
 Code Cleanup: 
 	Remove useless files: swutil.c

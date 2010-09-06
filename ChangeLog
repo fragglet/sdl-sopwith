@@ -1,3 +1,19 @@
+v1.7.4
+Added man page patch from Ken to update documentation.
+
+Added include statements in vid_vga.c and sdl/video.c to bring
+us in line with Debian's patches. Update provided by Ken.
+
+Applied patch to swasynio.c to correct spelling errors. Patch
+supplies by Ken from the Debian project.
+
+Oil tank explosions should be a little more intense now. These
+larger/faster explosions can be turned off at the command line
+by using the "-e" flag.
+(Closes Debian bug 188298.)
+
+
+
 v1.7.3
 
 Added range check patch to avoid crashes when plan or missile is close to

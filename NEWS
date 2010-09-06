@@ -1,3 +1,12 @@
+v1.7.4
+
+Brought game into compliance with Debian patches. Fixed
+errors in documentation. (Thanks to Ken from the Debian project
+for helping with these items.)
+Added slightly more intense explosions to oil tanks. This new
+feature can be turned off from the command line with the "-e" flag.
+
+
 v1.7.3
 
 Fixed most outstanding bugs reported in Debian. Fixed some

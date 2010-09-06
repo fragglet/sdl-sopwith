@@ -55,6 +55,7 @@
 static int savescore;		/* save players score on restart  */
 static BOOL ghost;		/* ghost display flag             */
 static starting_level = 0;
+static conf_explosions = 1;
 
 static char helptxt[] =
 "\n"
@@ -71,6 +72,7 @@ static char helptxt[] =
 "        -q :  begin game with sound off (default)\n"
 "        -p :  turn sound on\n"
 "        -g#:  start at level #\n"
+"        -e :  turn off big explosions\n"
 "\n"
 "Video:\n"
 "        -f :  fullscreen\n"
@@ -754,7 +756,12 @@ void initexpl(OBJECTS * obop, int small)
 	obotype = obo->ob_type;
 	if (obotype == TARGET && obo->ob_orient == 2) {
 		ic = 1;
-		speed = gminspeed;
+                // adding in option here for large oil tank explosions 
+                // - Jesse
+                if (conf_explosions)
+                   speed = gminspeed * 4 / 3;
+                else
+		   speed = gminspeed;
 	} else {
 		ic = small ? 6 : 2;
 		speed = gminspeed >> ((explseed & 7) != 7);
@@ -1128,6 +1135,8 @@ void swinit(int argc, char *argv[])
                         soundflg = 0;
 		else if (!strcasecmp(argv[i], "-x"))
 			conf_missiles = 1;
+                else if (!strcasecmp(argv[i], "-e"))
+                        conf_explosions = 0;
 		else 
 #ifdef TCPIP
 			if (!strcasecmp(argv[i], "-l")) {
