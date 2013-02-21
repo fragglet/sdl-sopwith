@@ -1179,7 +1179,6 @@ void swinit(int argc, char *argv[])
 	Vid_SetBuf();
 
 	// dont init speaker if started with -q (quiet)
-
 	if (soundflg)
 		Speaker_Init();		// init pc speaker
 

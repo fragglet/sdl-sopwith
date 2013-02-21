@@ -66,7 +66,7 @@ BOOL hires;			/* High res flag                    */
 BOOL disppos;			/* Display position flag            */
 BOOL titleflg;			/* Title flag                       */
 int dispdbg;			/* Debug value to display           */
-BOOL soundflg;			/* Sound flag                       */
+BOOL soundflg = 0;		/* Sound flag                       */
 BOOL repflag = FALSE;		/* Report statistics flag           */
 BOOL joystick;			/* Joystick being used              */
 BOOL ibmkeybd;			/* IBM-like keyboard being used     */

@@ -1,3 +1,12 @@
+v1.8.1
+Corrected initialization error would would
+prevent sound from playing at start-up.
+Updated documentation to include command line
+flags for playing music (-p) and starting
+Sopwith in quiet mode (-q).
+Thanks to John Corrado for pointing out this bug.
+
+
 v1.8.0
 Most distributions are moving to GTK-3, sopwith's legacy code uses
 GTK-2. Dropping GTK support in favour of SDL.
