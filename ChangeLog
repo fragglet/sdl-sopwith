@@ -1,3 +1,11 @@
+v1.8.2
+Added SDL_CFLAGS flag to src/Makefile to bring us
+in line with FreeBSD patches.
+Updated copyright notice on help screen.
+Removed compiler optimiations to avoid crashes when game is
+built using versions of GCC newer than 4.6.
+
+
 v1.8.1
 Corrected initialization error would would
 prevent sound from playing at start-up.

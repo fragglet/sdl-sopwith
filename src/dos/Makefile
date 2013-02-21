@@ -4,7 +4,7 @@ OBJS=			\
 	timer.o
 CC=gcc
 LD=ld
-CFLAGS=-g -I.. -Wall -O2
+CFLAGS=-g -I.. -Wall 
 LDFLAGS=
 EXE=sopwith
 

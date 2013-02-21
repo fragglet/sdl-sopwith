@@ -62,6 +62,7 @@ static char helptxt[] =
 "SDL Sopwith " VERSION "\n"
 "Copyright (C) 1984-2000 David L. Clark\n"
 "Copyright (C) 2001 Simon Howard\n"
+"Copyright (C) 2012 Jesse Smith\n"
 "\n"
 "Usage:  sopwith [options]\n"
 "The options are:\n"
