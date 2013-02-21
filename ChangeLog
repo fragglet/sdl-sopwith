@@ -1,3 +1,14 @@
+v1.8.0
+Most distributions are moving to GTK-3, sopwith's legacy code uses
+GTK-2. Dropping GTK support in favour of SDL.
+Modified configure scrit.
+
+Patched crash caused by failure to find a suitable video device.
+Modified src/sdl/video.c to add new check.
+
+Fixed configure warings related to datarootdir variable.
+
+
 v1.7.5
 Cleaned up code to avoid compile warnings. Sopwith now
 builds cleanly using Clang 3.0 and GCC 4.6.

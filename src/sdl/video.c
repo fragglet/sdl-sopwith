@@ -364,12 +364,17 @@ static void Vid_SetMode()
 	int n;
 	int w, h;
 	int flags = 0;
+        int status;
 
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
 
-	SDL_Init(SDL_INIT_VIDEO);
-
+	status = SDL_Init(SDL_INIT_VIDEO);
+        if (status == -1)
+        {
+          fprintf(stderr, "Unable to locate video device. Exiting.\n");
+          exit(1);
+        }
 	srand(time(NULL));
 	set_icon(symbol_plane[rand() % 2][rand() % 16]);
 
