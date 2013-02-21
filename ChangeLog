@@ -1,3 +1,20 @@
+v1.8.3
+The function asynclos() in swasynio.c includes a parameter
+which is never used. Calling functions do not bother passing
+a parameter. To avoid undefined behaviour the definition of
+aynclos() has been fixed.
+Thanks for Michael Tautchnig for reporitng this bug.
+Closes Debian bug #748172.
+
+Updated manual page to provide current default keys and
+mention the location of the custom keys file
+(~/.sopwith/keys)
+
+Removed stray object files from tarball.
+Added rule to makefile "tarball" which performs more
+complete clean-up and makes tarball in parent directory.
+
+
 v1.8.2
 Added SDL_CFLAGS flag to src/Makefile to bring us
 in line with FreeBSD patches.
