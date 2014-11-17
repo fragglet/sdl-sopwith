@@ -324,7 +324,8 @@ void initdisp(BOOL reset)
 //
 
 
-static int inits[2] = { 0, 7 };
+// static int inits[2] = { 0, 7 };
+static int inits[4] = { 0, 7, 1, 6 };
 static int initc[4] = { 0, 7, 1, 6 };
 static int initm[8] = { 0, 7, 3, 4, 2, 5, 1, 6 };
 

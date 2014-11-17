@@ -39,6 +39,8 @@
 
 #include "vid_vga.c"
 
+#include <string.>
+
 BOOL vid_fullscreen = FALSE;
 BOOL vid_double_size = TRUE;
 
@@ -579,11 +581,11 @@ static void Vid_UpdateScaled()
 			pixels2 += SCR_WDTH;
 		}
 	} else if(screen->bpp == 4) {
-		register unsigned long *pixels = (unsigned long *) screen->mem;
+		register unsigned int *pixels = (unsigned int *) screen->mem;
 		register unsigned char *pixels2 = screenbuf;
 
 		for (y = 0; y < SCR_HGHT; ++y) {
-			register unsigned long *p = pixels;
+			register unsigned int *p = pixels;
 			register unsigned char *p2 = pixels2;
 
 			for (x = 0; x < SCR_WDTH; ++x) {
@@ -663,11 +665,11 @@ static void Vid_UpdateUnscaled()
 			pixels2 += SCR_WDTH;
 		}
 	} else if(screen->bpp == 4) {
-		register unsigned long *pixels = (unsigned long *) screen->mem;
+		register unsigned int *pixels = (unsigned int *) screen->mem;
 		register unsigned char *pixels2 = screenbuf;
 
 		for (y = 0; y < SCR_HGHT; ++y) {
-			register unsigned long *p = pixels;
+			register unsigned int *p = pixels;
 			register unsigned char *p2 = pixels2;
 
 			for (x = 0; x < SCR_WDTH; ++x)

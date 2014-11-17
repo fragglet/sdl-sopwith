@@ -1,3 +1,13 @@
+v1.8.4
+Updated man page (doc/sopwith.6) to match Debian's manual page.
+Provided by Kenneth Pronovici.
+
+Applied patches from Adrian Reber to bring
+Sopwith up to date with bug fixes provided by Fedora.
+This should avoid crash on start-up problems and makes
+compiling more robust.
+
+
 v1.8.3
 The function asynclos() in swasynio.c includes a parameter
 which is never used. Calling functions do not bother passing

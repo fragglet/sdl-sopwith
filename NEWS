@@ -1,3 +1,8 @@
+v1.8.4
+Updated manual page to match Debian's.
+Applied all known fixes from Debian and Fedora.
+
+
 v1.8.0
 
 Dropped support for GTK-2 as toolkit is being obsolete.
