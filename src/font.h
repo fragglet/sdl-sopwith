@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: font.h 5 2003-02-14 19:02:36Z fraggle $
+// $Id$
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of version 2 of the GNU General Public License

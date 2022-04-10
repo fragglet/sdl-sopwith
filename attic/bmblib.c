@@ -1,7 +1,7 @@
 // Emacs style mode select -*- C++ -*-
 //---------------------------------------------------------------------------
 //
-// $Id: bmblib.c 5 2003-02-14 19:02:36Z fraggle $
+// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001 Simon Howard
