@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd"> 
+
+<html>
+
+<!--#include virtual="header" -->
+
+<h2>Screenshots</h2>
+
+<img src="sshot/title.png">
+<p> Title Screen </p>
+
+<img src="sshot/runway.png">
+<p> Sitting on the runway in single player mode </p>
+
+<img src="sshot/gtk.png">
+<p> The Gtk+ Port</p>
+
+<img src="sshot/multi.png">
+<p> Multiplayer mode </p>
+
+<img src="sshot/revo.png">
+<p> I recently bought a Psion Revo Palmtop, and decided to port
+sopwith to it. The screen is a bit squished as it only has 160
+lines (and sopwith is designed to run on a 320x200 screen). I
+have expanded the field of view to fill the entire screen.
+I am in the process of building a linux distribution for the 
+Revo. You can find more about this
+<a href="http://fraggle.alkali.org/stuffage/revol/">here</a>.
+</p>
+
+<img src="sshot/sopwith5.png">
+<img src="sshot/sopwith6.png">
+<p> The Psilinux port is now almost complete. I wrote the keyboard
+code and improved the graphic code a bit.
+</p>
+
+<img src="sshot/sopwith_flux.png"><img src="sshot/sopwith_metacity.png">
+<p>Sopwith running under linux in the 
+<a href="http://fluxbox.sf.net/">Fluxbox</a> and 
+<a href="http://people.redhat.com/~hp/metacity/">Metacity</a> window 
+managers.</p>
+
+<hr>
+<!--#include virtual="footer" -->
+
+</html>

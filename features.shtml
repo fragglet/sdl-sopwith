@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd"> 
+
+<html>
+
+<!--#include virtual="header" -->
+
+<h2> Features </h2>
+
+<ul>
+<li> Modern native application - will run under Windows, GNU/Linux, 
+     FreeBSD, BeOS and probably most modern operating systems supported by
+     <a href="http://www.libsdl.org/">LibSDL</a>
+<li> Working sound (emulated PC speaker through the sound card output)
+<li> Working Multiplayer
+<li> More configurable than the original (options from Sopwith 2/
+     The authors edition can be turned off)
+<li> Vastly cleaned up and portable code
+</ul>
+
+<hr>
+<!--#include virtual="footer" -->
+
+</html>

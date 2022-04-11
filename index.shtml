@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd"> 
+
+<html>
+<!--#include virtual="header" -->
+
+<img align="right" src="sopattack.png">
+
+<p>
+This is a port of the classic computer game "Sopwith" to run on modern
+computers and operating systems. It is named "SDL Sopwith" as it was
+originally based only on the <a href="http://www.libsdl.org/">LibSDL</a>
+graphics library. There is now also a port to <a href="http://www.gtk.org/">
+Gtk+</a>, the widget library used by <a href="http://www.gnome.org/">GNOME</a>.
+While the game reamins much the same as it did twenty years ago, small changes
+and optional features have been added to give the player more flexibility
+and challenges.
+</p>
+
+<p>
+This is based on the original sopwith code, which is 
+<a href="http://www.davidlclark.com/">available</a> as 
+<a href="http://www.gnu.org/philosophy/free-sw.html">Free Software</a>
+under  <a href="http://www.fsf.org/licenses/gpl.html">
+The GNU General Public License</a>!
+</p>
+
+<hr>
+<a href="http://www.opensource.org/"><img align="right" border="0" src="open_source_button.png" width="88" height="31"></a>
+<a href="http://sourceforge.net/">
+<img align="right" border="0" src="http://sourceforge.net/sflogo.php?group_id=61157&type=1"></a>
+
+<!--#include virtual="footer" -->
+
+</html>
