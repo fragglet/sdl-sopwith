@@ -6,7 +6,6 @@
 Features
 
      * Uses SDL, so will run on most modern operating systems
-     * (in progress) GNOME port
      * Pseudo-functional networking
      * PC speaker emulation!
 

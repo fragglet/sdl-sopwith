@@ -36,11 +36,6 @@ A. SDL Sopwith is based on the source to an enhanced "Authors Edition"
     * Splatted birds and cracks in the screen if you hit a bird or get
       shot. If you fly into an ox your screen goes pink.
 
-Q. Why is it called "SDL Sopwith" when there is now a Gtk+ port?
-A. I originally designed it to use only SDL, but out of interest/
-   boredom I decided to do a Gtk+ port. Suggestions for new names
-   are welcome :)
-
 Q. Does it have sound?
 A. Yes! Sound is done through an emulation of the PC Speaker using the
    digital output available on modern sound cards.
@@ -85,15 +80,6 @@ A. LibSDL is a multimedia library designed for portability. Instead of
    use the SDL interface. Your program can then run many different
    platforms with only minor changes. There is more information at
    http://www.libsdl.org/
-
-Q. What is Gtk+?
-A. Gtk+ is a C GUI toolkit originally designed for The GIMP, an open
-   source graphics program. It is now being used as the base for 
-   GNOME, an open source desktop environment, as well as many other
-   projects. There is more information at http://www.gtk.org/
-
-Q. Will you make a DOS port?
-A. Possibly.
 
 Q. What license is this released under?
 A. The original sopwith source code (as released by David L. Clark) was 

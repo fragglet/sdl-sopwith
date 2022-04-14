@@ -1,11 +1,7 @@
 bindir=$(prefix)/bin
 
-SUBDIRS = @SOPWITH_SUBDIRS@
-EXTRA_SUBDIRS = sdl gtk
-DIST_SUBDIRS = $(EXTRA_SUBDIRS)
-
-bin_PROGRAMS = @SOPWITH_BINS@
-EXTRA_PROGRAMS = sopwith gtksopwith
+SUBDIRS = sdl
+bin_PROGRAMS = sopwith
 
 COMMON_SOURCES =       \
 video.h	    swcollsn.c  swgames.h   swmain.h    swutil.h 		\
@@ -30,9 +26,4 @@ EXTRA_DIST=$(DOS_FILES)
 
 sopwith_SOURCES = $(COMMON_SOURCES) vid_vga.c
 sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@
-
-# Gtk+ build
-
-gtksopwith_SOURCES = $(COMMON_SOURCES) vid_vga.c
-gtksopwith_LDADD = gtk/libgtksopwith.a @GTK_LIBS@
 

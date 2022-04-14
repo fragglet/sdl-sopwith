@@ -64,7 +64,6 @@ dnl generate Makefiles
 AC_OUTPUT([
 Makefile
 src/Makefile
-src/gtk/Makefile
 src/sdl/Makefile
 doc/Makefile
 ])
