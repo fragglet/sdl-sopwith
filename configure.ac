@@ -11,7 +11,7 @@ dnl optimisations
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([1.8.0 foreign])
 
 dnl check for cc
 

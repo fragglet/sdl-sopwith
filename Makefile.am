@@ -9,7 +9,11 @@ AUX_DIST_GEN =                          \
 MSVC_DIST= \
 	msvc/README  msvc/config.h msvc/sopwith.vcproj
 
-EXTRA_DIST = $(AUX_DIST_GEN) $(MSVC_DIST)
+DOC_FILES=                              \
+        COPYING.md                      \
+        README.md
+
+EXTRA_DIST = $(AUX_DIST_GEN) $(MSVC_DIST) $(DOC_FILES)
 
 MAINTAINERCLEANFILES =  $(AUX_DIST_GEN)
 
