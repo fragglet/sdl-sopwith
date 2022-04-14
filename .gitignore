@@ -1,0 +1,15 @@
+.gitignore
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+autotools
+config.h
+config.hin
+config.log
+config.status
+configure
+.deps
+*.a
+*.o
+stamp-h1
