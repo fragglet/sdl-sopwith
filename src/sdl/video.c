@@ -365,6 +365,7 @@ static void Vid_SetMode()
 	int n;
 	int w, h;
 	int flags = 0;
+        int status;
 
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
@@ -375,7 +376,6 @@ static void Vid_SetMode()
 				SDL_GetError());
 		exit(-1);
 	}
-
 	srand(time(NULL));
 	set_icon(symbol_plane[rand() % 2][rand() % 16]);
 

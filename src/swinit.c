@@ -62,6 +62,7 @@ static char helptxt[] =
 PACKAGE_STRING "\n"
 "Copyright (C) 1984-2000 David L. Clark\n"
 "Copyright (C) 2001-2005 Simon Howard\n"
+"Copyright (C) 2012 Jesse Smith\n"
 "\n"
 "Usage:  sopwith [options]\n"
 "The options are:\n"
@@ -1105,7 +1106,6 @@ void swinit(int argc, char *argv[])
 	Vid_Init();
 
 	// dont init speaker if started with -q (quiet)
-
 	if (soundflg)
 		Speaker_Init();		// init pc speaker
 

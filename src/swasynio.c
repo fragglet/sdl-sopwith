@@ -257,7 +257,7 @@ static void tcploop_connect()
 			} else {
 				fprintf(stderr, 
 					"tcploop_connect: invalid"
-					"char recieved\n");
+					"char received\n");
 				exit(-1);
 			}
 		}
@@ -284,7 +284,7 @@ static void tcploop_connect()
 			} else {
 				fprintf(stderr, 
 					"tcploop_connect: invalid"
-					"char recieved\n");
+					"char received\n");
 				exit(-1);
 			}
 		}

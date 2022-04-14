@@ -16,6 +16,14 @@ Restructuring:
 * Major internal restructuring: removal of obsolete code, removal of 
   some global variables
 
+v1.8.0
+
+Dropped support for GTK-2 as toolkit is being obsolete.
+Tidied up configurating script.
+Fixed program crash when video display is not available.
+(Thanks to Denis M from the Gentoo team for reporting this bug
+and testing the patch.)
+
 v1.7.4
 
 Brought game into compliance with Debian patches. Fixed

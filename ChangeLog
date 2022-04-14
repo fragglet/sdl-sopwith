@@ -1,3 +1,31 @@
+v1.8.2
+Added SDL_CFLAGS flag to src/Makefile to bring us
+in line with FreeBSD patches.
+Updated copyright notice on help screen.
+Removed compiler optimiations to avoid crashes when game is
+built using versions of GCC newer than 4.6.
+
+
+v1.8.1
+Corrected initialization error would would
+prevent sound from playing at start-up.
+Updated documentation to include command line
+flags for playing music (-p) and starting
+Sopwith in quiet mode (-q).
+Thanks to John Corrado for pointing out this bug.
+
+
+v1.8.0
+Most distributions are moving to GTK-3, sopwith's legacy code uses
+GTK-2. Dropping GTK support in favour of SDL.
+Modified configure scrit.
+
+Patched crash caused by failure to find a suitable video device.
+Modified src/sdl/video.c to add new check.
+
+Fixed configure warings related to datarootdir variable.
+
+
 v1.7.5
 Cleaned up code to avoid compile warnings. Sopwith now
 builds cleanly using Clang 3.0 and GCC 4.6.
