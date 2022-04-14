@@ -44,8 +44,6 @@
 asynmode_t asynmode;
 char asynhost[128];
 
-static int lastkey = 0;		/*  Always behind one character     */
-
 #define TIMEOUT_LEN_MS 5000 	/* time out after 5 seconds */
 
 static int timeout_time;
@@ -102,23 +100,6 @@ static int readshort()
 
 	return i;
 }
-
-static int asynin()
-{
-	register int c;
-
-	settimeout();
-
-        for (;;) {
-		if ((c = commin()) >= 0)
-			return c;
-		if (ctlbreak())
-			swend(NULL, NO);
-		if (timeout())
-			return -1;
-	}
-}
-
 
 void asynput(int movekey)
 {

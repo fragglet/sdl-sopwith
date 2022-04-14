@@ -196,7 +196,7 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 	dx = x - ax;
 
 	if (abs(dx) > 160) {
-		if (ob->ob_dx && (dx < 0 == ob->ob_dx < 0)) {
+		if (ob->ob_dx && (dx < 0) == (ob->ob_dx < 0)) {
 			if (!ob->ob_hitcount)
 				ob->ob_hitcount = (y > (MAX_Y - 50)) ? 2 : 1;
 			return (aim(ob, x, ob->ob_hitcount == 1

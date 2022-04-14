@@ -171,7 +171,6 @@ static int symangle(OBJECTS * ob)
 BOOL moveplyr(OBJECTS * obp)
 {
 	register OBJECTS *ob;
-	register BOOL rc;
 	int multkey;
 
 	compplane = FALSE;

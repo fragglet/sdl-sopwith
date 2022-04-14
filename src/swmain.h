@@ -77,7 +77,6 @@ extern int     keydelay;
 extern int     dispcnt;
 extern int     endstat;
 extern int     maxcrash;
-extern int     sintab[ANGLES];
 extern jmp_buf envrestart;
 
 extern int latest_player_commands[MAX_PLYR][MAX_NET_LAG];

@@ -301,7 +301,7 @@ typedef struct {                                /*  Game structure          */
 
 // sdh: made these into inline functions rather than ugly #define macros
 
-extern int sintab[];
+extern int sintab[ANGLES];
 
 static inline int COS(int x) {
         return sintab[(x+(ANGLES/4)) % ANGLES];

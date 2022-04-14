@@ -27,6 +27,7 @@
 
 #include "swground.h"
 #include "swmain.h"
+#include "swtext.h"
 
 static void dispribbonrow (int *ribbonid, int ribbons_nr, int y)
 {

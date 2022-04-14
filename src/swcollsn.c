@@ -441,7 +441,6 @@ void swcollsn()
 	register OBJECTS *ob, *obp, **obkd, **obkr;
 	register int xmax, ymin, ymax, i;
 	obtype_t otype;
-	int prevx1, prevx2;
 
 	collptr = killptr = 0;
 	collxadj = 2;
@@ -451,10 +450,7 @@ void swcollsn()
 		collyadj = -collyadj;
 	}
 
-	prevx1 = topobj.ob_x;
 	for (ob = topobj.ob_xnext; ob != &botobj; ob = ob->ob_xnext) {
-		prevx2 = prevx1 = ob->ob_x;
-
 		xmax = ob->ob_x + ob->ob_newsym->w - 1;
 		ymax = ob->ob_y;
 		ymin = ymax - ob->ob_newsym->h + 1;
@@ -462,7 +458,6 @@ void swcollsn()
 		for (obp = ob->ob_xnext;
 		     obp != &botobj && obp->ob_x <= xmax;
 		     obp = obp->ob_xnext) {
-			prevx2 = obp->ob_x;
 
 			if (obp->ob_y >= ymin
 			    && (obp->ob_y - obp->ob_newsym->h + 1) <= ymax)

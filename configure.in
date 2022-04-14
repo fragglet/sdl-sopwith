@@ -11,12 +11,18 @@ dnl optimisations
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE(AC_PACKAGE_TARNAME,AC_PACKAGE_VERSION)
+AM_INIT_AUTOMAKE
 
 dnl check for cc
 
 AC_PROG_CC
 AC_PROG_RANLIB
+
+if test "$GCC" = "yes"
+then
+        WARNINGS="-Wall -Wdeclaration-after-statement -Wredundant-decls"
+        CFLAGS="-O$OPT_LEVEL -g $WARNINGS $orig_CFLAGS"
+fi
 
 dnl network libraries
 

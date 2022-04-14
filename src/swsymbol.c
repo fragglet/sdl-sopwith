@@ -801,7 +801,7 @@ static unsigned char swoxsym[OXSYMS][OXBYTES] = {
 	},
 };
 
-static char swshtsym[SHOTBYTES] = {
+static unsigned char swshtsym[SHOTBYTES] = {
 
 /*  shot window symbol based on the following template file:
 16
@@ -1002,7 +1002,7 @@ static unsigned char swbstsym[BRSTSYMS][BRSTBYTES] = {
 	}
 };
 
-static char swmedalsym[MEDALSYMS][MEDALBYTES] = {
+static unsigned char swmedalsym[MEDALSYMS][MEDALBYTES] = {
 /* Medal symbols based on the following templates:
 08
 . . 3 3 3 3 . .
@@ -1091,7 +1091,7 @@ static char swmedalsym[MEDALSYMS][MEDALBYTES] = {
 	}
 };
 
-static char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
+static unsigned char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
 	/* Actual width: 7 pixels */
 	{ 0x57, 0x54,
 	  0x57, 0x54 }, /* CCCWCCC : ACE */
@@ -1113,7 +1113,7 @@ static char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
 // rather than packing 4 pixels into one byte as in the original data.
 // this simplifies various stuff such as collision detection. 
 
-static sopsym_t *sopsym_from_data(char *data, int w, int h)
+static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h)
 {
 	sopsym_t *sym = malloc(sizeof(*sym));
 	unsigned char *d, *s;

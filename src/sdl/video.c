@@ -25,6 +25,7 @@
 //-----------------------------------------------------------------------
 
 #include <string.h>
+#include <time.h>
 #include <SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,35 +64,6 @@ static int ctrlbreak = 0;
 static BOOL initted = 0;
 static SDL_Surface *screen;
 static SDL_Surface *screenbuf = NULL;        // draw into buffer in 2x mode
-static int colors[16];
-
-static int getcolor(int r, int g, int b)
-{
-	SDL_Palette *pal = screen->format->palette;
-	int i;
-	int nearest = 0xffff, n = 0;
-
-	for (i = 0; i < pal->ncolors; ++i) {
-		int diff =
-		    (r - pal->colors[i].r) * (r - pal->colors[i].r) +
-		    (g - pal->colors[i].g) * (g - pal->colors[i].g) +
-		    (b - pal->colors[i].b) * (b - pal->colors[i].b);
-
-//              printf("%i, %i, %i\n",
-//                     pal->colors[i].r, pal->colors[i].g,
-//                     pal->colors[i].b);
-
-		if (!diff)
-			return i;
-
-		if (diff < nearest) {
-			nearest = diff;
-			n = i;
-		}
-	}
-
-	return n;
-}
 
 // convert a sopsym_t into a surface
 
@@ -365,7 +337,6 @@ static void Vid_SetMode()
 	int n;
 	int w, h;
 	int flags = 0;
-        int status;
 
 	printf("CGA Screen Emulation\n");
 	printf("init screen: ");
@@ -603,8 +574,6 @@ static void getevents()
 
 int Vid_GetKey()
 {
-	int l;
-
 	getevents();
 	
 	return input_buffer_pop();

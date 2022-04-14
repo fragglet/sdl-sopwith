@@ -379,7 +379,6 @@ void initplyr(OBJECTS * obp)
 void initcomp(OBJECTS * obp)
 {
 	OBJECTS *ob;
-	OBJECTS *initpln();
 
 	ob = initpln(obp);
 	if (!obp) {

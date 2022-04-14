@@ -26,6 +26,7 @@
 #include <stdio.h>
 
 #include "timer.h"
+#include "video.h"
 
 #include "sw.h"
 #include "swasynio.h"

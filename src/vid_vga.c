@@ -91,9 +91,7 @@ void Vid_DispGround_Solid(GRNDTYPE * gptr)
 	register GRNDTYPE *g = gptr;
 	register unsigned char *sptr;
 	register int x, y;
-	register int gc, gl;
-
-	gl = *g;
+	register int gc;
 
 	for (x=0, g = gptr; x<SCR_WDTH; ++x) {
 		gc = *g++;

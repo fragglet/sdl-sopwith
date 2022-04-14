@@ -29,6 +29,7 @@
 
 #include "sw.h"
 #include "swdisp.h"
+#include "swend.h"
 #include "swground.h"
 #include "swgrpha.h"
 #include "swinit.h"
@@ -141,7 +142,6 @@ void swputsym(int x, int y, OBJECTS * ob)
 void swdisp()
 {
 	OBJECTS *ob;
-	int lag;
 
 	Vid_ClearBuf();
 
