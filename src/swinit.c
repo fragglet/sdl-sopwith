@@ -54,6 +54,8 @@
 
 static int have_savescore = 0;
 static score_t savescore;		/* save players score on restart  */
+static int starting_level = 0;
+static int conf_explosions = 1;
 
 static char helptxt[] =
 "\n"
@@ -63,12 +65,14 @@ PACKAGE_STRING "\n"
 "\n"
 "Usage:  sopwith [options]\n"
 "The options are:\n"
-"        -n    :  novice single player\n"
-"        -s    :  single player\n"
-"        -c    :  single player against computer\n"
-"        -x    :  enable missiles\n"
-"        -q    :  begin game with sound off\n"
-"        -d<n> :  start at level <n> (default: 0)\n"
+"        -n :  novice single player\n"
+"        -s :  single player\n"
+"        -c :  single player against computer\n"
+"        -x :  enable missiles\n"
+"        -q :  begin game with sound off (default)\n"
+"        -p :  turn sound on\n"
+"        -g#:  start at level #\n"
+"        -e :  turn off big explosions\n"
 "\n"
 "Video:\n"
 "        -f    :  fullscreen\n"
@@ -700,7 +704,12 @@ void initexpl(OBJECTS * obop, int small)
 	obotype = obo->ob_type;
 	if (obotype == TARGET && obo->ob_orient == 2) {
 		ic = 1;
-		speed = gminspeed;
+                // adding in option here for large oil tank explosions 
+                // - Jesse
+                if (conf_explosions)
+                   speed = gminspeed * 4 / 3;
+                else
+		   speed = gminspeed;
 	} else {
 		ic = small ? 6 : 2;
 		speed = gminspeed >> ((explseed & 7) != 7);
@@ -1000,7 +1009,9 @@ void swrestart()
 		savescore = ob->ob_score;
 		have_savescore = 1;
 	} else {
-		gamenum = initial_gamenum;
+		// gamenum = 0;
+                // allow variable start level -- Jesse
+                gamenum = starting_level;
 		have_savescore = 0;
 
 		// sh 28/10/2001: go back to the title screen
@@ -1027,6 +1038,7 @@ void swinit(int argc, char *argv[])
 
 	// sdh 29/10/2001: load config from configuration file
 
+        soundflg = 1;      // assume off by default
 	swloadconf();
 
 	for (i=1; i<argc; ++i) {
@@ -1038,18 +1050,21 @@ void swinit(int argc, char *argv[])
 			c = 1;
 		else if (!strcasecmp(argv[i], "-f"))
 			vid_fullscreen = 1;
+                else if (!strncasecmp(argv[i], "-g", 2))
+                {
+                    sscanf(& (argv[i][2]), "%d", &starting_level);
+                    gamenum = starting_level;
+                }
 		else if (!strcasecmp(argv[i], "-2"))
 			vid_double_size = 1;
 		else if (!strcasecmp(argv[i], "-q"))
 			soundflg = 1;
+                else if (!strcasecmp(argv[i], "-p"))
+                        soundflg = 0;
 		else if (!strcasecmp(argv[i], "-x"))
 			conf_missiles = 1;
-		else if (!strncasecmp(argv[i], "-d", 2)) {	
-                        /* cr 2005-04-28: Start at higher level */
-
-			initial_gamenum = atoi(argv[i] + 2);
-			gamenum = initial_gamenum;
-		}
+                else if (!strcasecmp(argv[i], "-e"))
+                        conf_explosions = 0;
 		else 
 #ifdef TCPIP
 			if (!strcasecmp(argv[i], "-l")) {

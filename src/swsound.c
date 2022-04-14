@@ -79,7 +79,6 @@ static  char     *expltune[7] = {
 };
 #endif
 
-//static BOOL titleflg;		/* Playing title tune               */
 static int titlplace;		/*  Place in title tune;            */
 static int titlline;		/* Line in title tune               */
 static unsigned titltone;	/*  Current title tone              */

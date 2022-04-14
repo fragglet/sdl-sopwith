@@ -16,6 +16,28 @@ Restructuring:
 * Major internal restructuring: removal of obsolete code, removal of 
   some global variables
 
+v1.7.4
+
+Brought game into compliance with Debian patches. Fixed
+errors in documentation. (Thanks to Ken from the Debian project
+for helping with these items.)
+Added slightly more intense explosions to oil tanks. This new
+feature can be turned off from the command line with the "-e" flag.
+
+
+v1.7.3
+
+Fixed most outstanding bugs reported in Debian. Fixed some
+compiler warnings. Added intructions for exiting the program on
+the title page. Sound is now disabled by default.
+
+v1.7.2
+
+Cleaned up some compile errors from gcc 4.4.1 on Ubuntu.
+Added -g command line option. -g and a number, such as -g2
+will start the game on difficulty level 2. Normally the
+game starts at zero.
+
 v1.7.1
 
 Fix some compilation errors due to an error in swinit.c

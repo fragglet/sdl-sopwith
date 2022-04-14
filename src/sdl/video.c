@@ -26,6 +26,12 @@
 
 #include <string.h>
 #include <SDL.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "video.h"
 #include "sw.h"
@@ -49,6 +55,9 @@ BOOL vid_double_size = TRUE;
 
 extern unsigned char *vid_vram;
 extern unsigned int vid_pitch;
+
+BOOL use_custom_keys = FALSE;
+char custom_keys[NUM_KEYS];
 
 static int ctrlbreak = 0;
 static BOOL initted = 0;
@@ -214,8 +223,142 @@ static void set_icon(sopsym_t *sym)
 
 static void Vid_UnsetMode()
 {
-	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
+
+
+
+/* This function attempts to load custom
+key definitions from a text file, located at
+~/.sopwith/keys
+The function returns TRUE if keys are found and
+loaded. It returns FALSE if keys are not loaded.
+Keys are saved in the custom_keys array.
+*/
+BOOL Load_Custom_Keys()
+{
+   FILE *key_file;
+   char *file_path;
+   int index;
+   char *home_dir;
+   char line[256], *status;
+
+   // get file path
+   #ifndef WIN32
+   home_dir = getenv("HOME");
+   #else
+   home_dir = getenv("AppData");
+   #endif
+   file_path = (char *) calloc( strlen(home_dir) + 64, sizeof(char));
+   if (! file_path)
+     return FALSE;
+   sprintf(file_path, "%s/.sopwith/keys", home_dir);
+   
+   // try to open key file
+   key_file = fopen(file_path, "r");
+   if (key_file)
+   {
+     // set all keys to be their defaults in case
+     // something goes wrong
+     for (index = 0; index < NUM_KEYS; index++)
+         custom_keys[index] = index;
+ 
+      // load keys from the file
+      status = fgets(line, 256, key_file); 
+      while (status)
+      {
+         if (! strncmp(line, "pullup", 6) )
+            sscanf(& (line[7]), "%c", &custom_keys[KEY_PULLUP]);
+         else if (! strncmp(line, "pulldown", 8) )
+            sscanf(& (line[9]), "%c", &custom_keys[KEY_PULLDOWN]);
+         else if (! strncmp(line, "pulldown", 8) )
+            sscanf(& (line[9]), "%c", &custom_keys[KEY_PULLDOWN]);
+         else if (! strncmp(line, "flip", 4) )
+            sscanf(& (line[5]), "%c", &custom_keys[KEY_FLIP]);
+         else if (! strncmp(line, "bomb", 4) )
+            sscanf(& (line[5]), "%c", &custom_keys[KEY_BOMB]);
+         else if (! strncmp(line, "fire", 4) )
+            sscanf(& (line[5]), "%c", &custom_keys[KEY_FIRE]);
+         else if (! strncmp(line, "home", 4) )
+            sscanf(& (line[5]), "%c", &custom_keys[KEY_HOME]);
+         else if (! strncmp(line, "missile", 7) )
+            sscanf(& (line[8]), "%c", &custom_keys[KEY_MISSILE]);
+         else if (! strncmp(line, "starburst", 9) )
+            sscanf(& (line[10]), "%c", &custom_keys[KEY_STARBURST]);
+         else if (! strncmp(line, "accel", 5) )
+            sscanf(& (line[6]), "%c", &custom_keys[KEY_ACCEL]);
+         else if (! strncmp(line, "decel", 5) )
+            sscanf(& (line[6]), "%c", &custom_keys[KEY_DECEL]);
+         else if (! strncmp(line, "sound", 5) )
+            sscanf(& (line[6]), "%c", &custom_keys[KEY_SOUND]);
+         status = fgets(line, 256, key_file);
+      }
+      // close file
+      fclose(key_file);
+   }   // end of we opened thefile
+   free(file_path);
+
+   /* debug stuff 
+   for (index = 0; index < NUM_KEYS; index++)
+      printf("%d %c\n", index, custom_keys[index]);
+   */
+   return TRUE;   
+}
+
+
+/*
+This function creates a custom key file in our
+home directory.
+*/
+void Create_Custom_File()
+{
+   char *path_to_file;
+   FILE *key_file;
+   char *home_dir;
+  
+   #ifndef WIN32
+   home_dir = getenv("HOME");
+   #else
+   home_dir = getenv("AppData");
+   #endif
+   path_to_file = (char *) calloc( strlen(home_dir) + 64, sizeof(char));
+   if (! path_to_file)
+      return;
+   // check to see if file already exists
+   sprintf(path_to_file, "%s/.sopwith/keys", home_dir);
+   key_file = fopen(path_to_file, "r");
+   if (key_file)
+   {
+       fclose(key_file);
+       free(path_to_file);
+       return;
+   }
+   sprintf(path_to_file, "%s/.sopwith", home_dir);
+   #ifndef WIN32
+   mkdir(path_to_file, 0700);
+   #else
+   mkdir(path_to_file);
+   #endif
+   // create file
+   sprintf(path_to_file, "%s/.sopwith/keys", home_dir);
+   key_file = fopen(path_to_file, "w");
+   if (key_file)
+   {
+      fprintf(key_file, "pullup ,\n");
+      fprintf(key_file, "pulldown /\n");
+      fprintf(key_file, "flip . \n");
+      fprintf(key_file, "bomb b\n");
+      fprintf(key_file, "fire  \n");
+      fprintf(key_file, "home h\n");
+      fprintf(key_file, "missile m\n");
+      fprintf(key_file, "starburst v\n");
+      fprintf(key_file, "accel x\n");
+      fprintf(key_file, "decel z\n");
+      fprintf(key_file, "sound s\n");
+      fclose(key_file);
+   }
+}
+
 
 static void Vid_SetMode()
 {
@@ -268,6 +411,11 @@ static void Vid_SetMode()
 	SDL_SetColors(screen, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
 	SDL_SetColors(screenbuf, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
 	SDL_ShowCursor(0);
+
+        // create custom key file
+        Create_Custom_File();
+        // load custom keys
+        use_custom_keys = Load_Custom_Keys();
 }
 
 void Vid_Shutdown()
@@ -339,8 +487,36 @@ static int input_buffer_pop()
 	return c;
 }
 
+
+/*
+This function is called when we have loaded custom key mapping.
+It passes back our key to translate_key.
+*/
+sopkey_t translate_custom_key(int the_key)
+{
+   char my_key;
+   int index, found;
+   index = found = 0;
+   my_key = (char) the_key;
+
+   while ( (index < NUM_KEYS) && (! found) )
+   {
+      if (my_key == custom_keys[index])
+         found = 1;
+      else
+         index++;
+   }
+   if (found)
+       return index;
+   else
+      return KEY_UNKNOWN;
+}
+
+
 static sopkey_t translate_key(int sdl_key)
 {
+        if (use_custom_keys)
+          return translate_custom_key(sdl_key);
 	switch (sdl_key) {
 	case SDLK_LEFT:
 	case SDLK_COMMA:

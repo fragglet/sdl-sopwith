@@ -22,9 +22,9 @@
 //
 //---------------------------------------------------------------------------
 
-#include "video.h"
-
 #include <string.h>
+
+#include "video.h"
 #include "sw.h"
 #include "swdisp.h"
 #include "swground.h"
