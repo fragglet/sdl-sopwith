@@ -5,7 +5,7 @@ sopwith \- classic aerial combat shoot em up game
 
 .SH SYNOPSIS
 .B sopwith 
-[ \-n | \-s | \-c | \-l | \-j \fIhost\fR ] [-f] [-2] [-x] [-q]
+[ \-n | \-s | \-c | \-l | \-j \fIhost\fR ] [\-f] [\-g\fIlevel\fR] [\-2] [\-x] [\-q] [\-p] [\-e]
 
 .SH DESCRIPTION
 Sopwith is a modern port of the classic 1980s shoot 'em up game of the
@@ -16,16 +16,23 @@ all enemy targets with a somewhat limited airforce.
 It can be played both in single player and multiplayer mode over 
 a TCP/IP network.
 
+.SH AUDIO
+As of version 1.7.3, audio is disabled by default.  Audio can be enabled
+using the \-p switch.  Once you're in the game, you will also have to
+use the S key to turn on sound effects.
+
 .SH CONTROLS
+The keys for controlling the player's plane are defined
+in the file ~/.sopwith/keys.
 The standard controls are as follows:
 .TP 
-comma/left arrow
+comma
 pull up
 .TP
-slash/right arrow
+slash
 pull down
 .TP
-period/down arrow
+period
 flip plane
 .TP
 Z
@@ -43,14 +50,20 @@ drop bomb
 H
 autopilot plane to home base
 .TP
-C
-launch flare
-.TP
 V
-fire missile
+launch starburst/flare (if missiles are enabled with \-x)
+.TP
+M
+fire missile (if missiles are enabled with \-x)
+.TP
+S
+turn on sound effects (if sound is enabled with \-p)
 .TP
 Ctrl+C
 quit
+.TP
+Ctrl+C Ctrl+C Ctrl+C
+quit immediately
 
 .SH OPTIONS
 .TP
@@ -73,8 +86,12 @@ by \fIhost\fR
 \-f
 Start in full screen mode if possible.
 .TP
+\-g\fIlevel\fR
+Start the game on the indicated difficulty level.  For instance, use \-g2 to start
+the game on level 2.  The default is level 0.
+.TP
 \-2
-Double-size the display window
+Double\-size the display window
 .TP
 \-x
 Enable missiles

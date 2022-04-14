@@ -125,7 +125,7 @@ void asynput(int movekey)
 	sendshort(movekey);
 }
 
-char *asynclos(BOOL update)
+char *asynclos()
 {
 	commterm();
 	return NULL;

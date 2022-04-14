@@ -16,6 +16,46 @@ Restructuring:
 * Major internal restructuring: removal of obsolete code, removal of 
   some global variables
 
+v1.8.4
+Updated man page (doc/sopwith.6) to match Debian's manual page.
+Provided by Kenneth Pronovici.
+
+Applied patches from Adrian Reber to bring
+Sopwith up to date with bug fixes provided by Fedora.
+This should avoid crash on start-up problems and makes
+compiling more robust.
+
+v1.8.3
+The function asynclos() in swasynio.c includes a parameter
+which is never used. Calling functions do not bother passing
+a parameter. To avoid undefined behaviour the definition of
+aynclos() has been fixed.
+Thanks for Michael Tautchnig for reporitng this bug.
+Closes Debian bug #748172.
+
+Updated manual page to provide current default keys and
+mention the location of the custom keys file
+(~/.sopwith/keys)
+
+Removed stray object files from tarball.
+Added rule to makefile "tarball" which performs more
+complete clean-up and makes tarball in parent directory.
+
+v1.8.2
+Added SDL_CFLAGS flag to src/Makefile to bring us
+in line with FreeBSD patches.
+Updated copyright notice on help screen.
+Removed compiler optimiations to avoid crashes when game is
+built using versions of GCC newer than 4.6.
+
+v1.8.1
+Corrected initialization error would would
+prevent sound from playing at start-up.
+Updated documentation to include command line
+flags for playing music (-p) and starting
+Sopwith in quiet mode (-q).
+Thanks to John Corrado for pointing out this bug.
+
 v1.8.0
 
 Dropped support for GTK-2 as toolkit is being obsolete.
@@ -31,7 +71,6 @@ errors in documentation. (Thanks to Ken from the Debian project
 for helping with these items.)
 Added slightly more intense explosions to oil tanks. This new
 feature can be turned off from the command line with the "-e" flag.
-
 
 v1.7.3
 
