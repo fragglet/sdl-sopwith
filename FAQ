@@ -59,7 +59,7 @@ A. In the ordinary networking mode, one client sets up in listen mode
    third machine that acts as a relay.
 
    There is code for a simple loop on my site in the 'tools' directory:
-   http://fraggle.alkali.org/tools/loop.c
+   <https://soulsphere.org/tools/loop.c>
 
 Q. What platforms does it run on?
 A. I have only compiled it on Windows and Linux. However, as it uses 

@@ -28,5 +28,5 @@ You can find lots of information about sopwith the game at:
 
 If you like SDL Sopwith, email me and let me know!
 
-Simon Howard <sdh300@zepler.net>
+Simon Howard <fraggle@gmail.com>
 
