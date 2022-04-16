@@ -87,9 +87,9 @@ void swputc(char c)
 	}
 }
 
-void swputs(char *sp)
+void swputs(const char *sp)
 {
-	register char *s;
+	const char *s;
 
 	for (s = sp; *s; ++s) {
 		swputc(*s);

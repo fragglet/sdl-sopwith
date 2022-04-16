@@ -25,7 +25,7 @@
 #include "sw.h"
 
 extern void swputc(char c);
-extern void swputs( char *sp );
+extern void swputs(const char *sp );
 extern void swgets(char *s, int max);
 extern void swcolour(int a);
 extern void swposcur(int a, int b);
