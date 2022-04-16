@@ -46,16 +46,12 @@ static char config_file[] = "sopwith.ini";
 static char config_file[] = ".sopwithrc";
 #endif
 
-// get the location of the configuration file
-
-static char *get_config_file()
+static char *get_config_filename()
 {
 #ifdef _WIN32
 	// this should probably be saved in the registry,
 	// but pfft, whatever
-	
 	return config_file;
-
 #else
 	if (getenv("HOME")) {
 		static char *namebuf = NULL;
@@ -63,10 +59,10 @@ static char *get_config_file()
 		if (!namebuf) {
 			namebuf = malloc(strlen(config_file)
 					 + strlen(getenv("HOME")) + 5);
-			
+
 			sprintf(namebuf, "%s/%s", getenv("HOME"), config_file);
 		}
-		
+
 		return namebuf;
 	} else {
 		return config_file;
@@ -88,17 +84,74 @@ confoption_t confoptions[] = {
 
 int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
 
-// clean up a string
-
 static void chomp(char *s)
 {
 	char *p;
-
-	for (p=s; isspace(*p); ++p);
-	strcpy(s, p);
-
-	for (p=s+strlen(s)-1; isspace(*p) && p > s; --p)
+	for (p=s+strlen(s)-1; isspace(*p) && p > s; --p) {
 		*p = '\0';
+	}
+}
+
+static confoption_t *confoption_by_name(char *name)
+{
+	int i;
+
+	for (i=0; i<num_confoptions; ++i) {
+		if (!strcasecmp(name, confoptions[i].name)) {
+			return &confoptions[i];
+		}
+	}
+
+	return NULL;
+}
+
+static void parse_config_line(char *config_file, int lineno, char *line)
+{
+	char *name, *value, *p;
+	confoption_t *opt;
+
+	p = line;
+	chomp(p);
+
+	// skip whitespace and discard comments.
+	while (*p != '\0' && isspace(*p)) {
+		++p;
+	}
+	if (*p == '#') {
+		return;
+	}
+	if (*p == '\0') {
+		return;
+	}
+
+	name = p;
+	for (; *p != '\0' && !isspace(*p); ++p);
+
+	if (*p == '\0') {
+		fprintf(stderr, "swloadconf: %s:%d: malformed line: no value\n",
+		        config_file, lineno);
+		return;
+	}
+
+	*p++ = '\0';
+	for (; isspace(*p); ++p);
+	value = p;
+
+	opt = confoption_by_name(name);
+	if (opt == NULL) {
+		fprintf(stderr,
+		        "swloadconf: %s:%d: unknown config option '%s'\n",
+		        config_file, lineno, name);
+		return;
+	}
+
+	switch (opt->type) {
+		case CONF_BOOL:
+			*opt->value.b = atoi(value) != 0;
+			break;
+		default:
+			break;
+	}
 }
 
 //
@@ -109,85 +162,24 @@ static void chomp(char *s)
 
 void swloadconf()
 {
-	char *config_file = get_config_file();
+	char *config_file = get_config_filename();
 	FILE *fs;
-	int line = 0;
+	char inbuf[128];
+	int lineno = 0;
 
 	fs = fopen(config_file, "r");
 
-	// doesnt exist, or we cant open it for
-	// some reason
-	
-	if (!fs) {
-		fprintf(stderr,
-			"swloadconf: cant open %s: %s\n",
-			config_file,
-			strerror(errno));
+	if (fs == NULL) {
+		fprintf(stderr, "swloadconf: failed to open %s: %s\n",
+		        config_file, strerror(errno));
 		return;
 	}
-	
-	while(!feof(fs)) {
-		char inbuf[128];
-		char *p;
-		int i;
-		
-		p = fgets(inbuf, sizeof(inbuf)-1, fs);
-		++line;
-		
-		// comments
 
-		p = strchr(inbuf, '#');
-		if (p)
-			*p = '\0';
-		
-		// clean up string
-
-		chomp(inbuf);
-
-		if (!strlen(inbuf))
-			continue;
-
-		for (p=inbuf; *p && !isspace(*p); ++p);
-
-		if (!*p) {
-			fprintf(stderr,
-				"swloadconf: line %i of %s is malformed\n",
-				line, config_file);
-			continue;
-		}
-
-		*p++ = '\0';
-		for (; isspace(*p); ++p);
-
-		// now, inbuf = variable name
-		//      p = value
-
-		for (i=0; i<num_confoptions; ++i) {
-			if (strcasecmp(inbuf, confoptions[i].name))
-				continue;
-
-			// found option
-
-			switch(confoptions[i].type) {
-			case CONF_BOOL:
-				*confoptions[i].value.b = atoi(p) != 0;
-				break;
-			default:
-				break;
-			}
-
-			break;
-		}
-
-		if (i >= num_confoptions)
-			fprintf(stderr,
-				"swloadconf: unknown configuration option "
-				"'%s' on "
-				"line %i of %s\n",
-				inbuf, line, config_file);
+	while (!feof(fs)) {
+		fgets(inbuf, sizeof(inbuf), fs);
+		++lineno;
+		parse_config_line(config_file, lineno, inbuf);
 	}
-
-	// all done
 
 	fclose(fs);
 }
@@ -200,41 +192,31 @@ void swloadconf()
 
 void swsaveconf()
 {
-	char *config_file = get_config_file();
+	char *config_file = get_config_filename();
 	FILE *fs;
 	int i;
 
 	fs = fopen(config_file, "w");
 
-	if (!fs) {
-		fprintf(stderr,
-			"swsaveconf: cant open %s for writing: %s\n",
-			config_file,
-			strerror(errno));
+	if (fs == NULL) {
+		fprintf(stderr, "swsaveconf: failed to open %s: %s\n",
+		        config_file, strerror(errno));
 		return;
 	}
 
-	fprintf(fs, "# sopwith config file\n");
-	fprintf(fs, "# created by " PACKAGE_STRING "\n");
-	fprintf(fs, "\n");
-	
+	fprintf(fs, "# sopwith config file\n"
+	            "# created by " PACKAGE_STRING "\n\n");
+
 	for (i=0; i<num_confoptions; ++i) {
-		int n;
-
-		fprintf(fs, "%s", confoptions[i].name);
-
-		for (n=3-strlen(confoptions[i].name)/8; n > 0; --n)
-			fprintf(fs, "\t");
-		
+		fprintf(fs, "%-20s", confoptions[i].name);
 		switch (confoptions[i].type) {
 		case CONF_BOOL:
-			fprintf(fs, "%i", *confoptions[i].value.b);
+			fprintf(fs, "%d", *confoptions[i].value.b);
 			break;
 		default:
-			fprintf(fs, "xyzzy!");
+			fprintf(fs, "?");
+			break;
 		}
-
-		fprintf(fs, "\t# %s\n", confoptions[i].description);
 	}
 
 	fprintf(fs, "\n\n");
