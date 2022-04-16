@@ -41,11 +41,7 @@ typedef struct
 		BOOL *b;
 		int *i;
 	} value;
-	char *description;
 } confoption_t;
-
-extern confoption_t confoptions[];
-extern int num_confoptions;
 
 extern void swloadconf();
 extern void swsaveconf();

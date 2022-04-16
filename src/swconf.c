@@ -70,31 +70,27 @@ static char *get_config_filename()
 #endif
 }
 
-int key_accelerate, key_decelerate, key_home;
-int key_pullup, key_pulldown, key_flip;
-int key_fire, key_dropbomb, key_missile, key_starburst;
+static confoption_t confoptions[] = {
+	{"conf_missiles",    CONF_BOOL, {&conf_missiles}},
+	{"conf_solidground", CONF_BOOL, {&conf_solidground}},
+	{"conf_hudsplats",   CONF_BOOL, {&conf_hudsplats}},
+	{"conf_wounded",     CONF_BOOL, {&conf_wounded}},
+	{"conf_animals",     CONF_BOOL, {&conf_animals}},
+	{"conf_harrykeys",   CONF_BOOL, {&conf_harrykeys}},
+	{"conf_medals",	     CONF_BOOL, {&conf_medals}},
+	{"vid_fullscreen",   CONF_BOOL, {&vid_fullscreen}},
+	{"vid_double_size",  CONF_BOOL, {&vid_double_size}},
 
-confoption_t confoptions[] = {
-    {"conf_missiles",     CONF_BOOL, {&conf_missiles},    "Missiles"},
-    {"conf_solidground",  CONF_BOOL, {&conf_solidground}, "Solid ground"},
-    {"conf_hudsplats",    CONF_BOOL, {&conf_hudsplats},   "HUD splats"},
-    {"conf_wounded",      CONF_BOOL, {&conf_wounded},     "Wounded planes"},
-    {"conf_animals",      CONF_BOOL, {&conf_animals},     "Oxen and birds"},
-    {"conf_harrykeys",    CONF_BOOL, {&conf_harrykeys},   "Harry keys mode"},
-    {"conf_medals",	  CONF_BOOL, {&conf_medals},	  "Medals"},
-    {"vid_fullscreen",    CONF_BOOL, {&vid_fullscreen},   "Run fullscreen"},
-    {"vid_double_size",   CONF_BOOL, {&vid_double_size},  "Scale window by 2x"},
-
-    {"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}, "Accelerate"},
-    {"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}, "Decelerate"},
-    {"key_pullup",     CONF_KEY, {&keybindings[KEY_PULLUP]}, "Pull up"},
-    {"key_pulldown",   CONF_KEY, {&keybindings[KEY_PULLDOWN]}, "Pull down"},
-    {"key_flip",       CONF_KEY, {&keybindings[KEY_FLIP]}, "Flip"},
-    {"key_fire",       CONF_KEY, {&keybindings[KEY_FIRE]}, "Fire machine gun"},
-    {"key_dropbomb",   CONF_KEY, {&keybindings[KEY_BOMB]}, "Drop bomb"},
-    {"key_home",       CONF_KEY, {&keybindings[KEY_HOME]}, "Navigate home"},
-    {"key_missile",    CONF_KEY, {&keybindings[KEY_MISSILE]}, "Fire missile"},
-    {"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}, "Starburst"},
+	{"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}},
+	{"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}},
+	{"key_pullup",     CONF_KEY, {&keybindings[KEY_PULLUP]}},
+	{"key_pulldown",   CONF_KEY, {&keybindings[KEY_PULLDOWN]}},
+	{"key_flip",       CONF_KEY, {&keybindings[KEY_FLIP]}},
+	{"key_fire",       CONF_KEY, {&keybindings[KEY_FIRE]}},
+	{"key_dropbomb",   CONF_KEY, {&keybindings[KEY_BOMB]}},
+	{"key_home",       CONF_KEY, {&keybindings[KEY_HOME]}},
+	{"key_missile",    CONF_KEY, {&keybindings[KEY_MISSILE]}},
+	{"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}},
 };
 
 int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
@@ -250,93 +246,184 @@ void swsaveconf()
 	fclose(fs);
 }
 
+struct menuitem {
+	char *config_name;
+	char *description;
+};
 
-// sdh 28/10/2001: options menu
-// sdh 29/10/2001: moved here
+static const char menukeys[] = "1234567890ABCDEFGHIJKL";
 
-void setconfig()
+static void drawmenu(char *title, struct menuitem *menu)
 {
-	for (;;) {
-		int i;
-		
-		Vid_ClearBuf();
+	int i, keynum, said_key = 0;
+	Vid_ClearBuf();
 
-		swcolour(2);
-		swposcur(15, 2);
-		swputs("OPTIONS");
-		
-		swcolour(3);
+	swcolour(2);
+	swposcur(19 - strlen(title) / 2, 2);
+	swputs(title);
 
-		for (i=0; i<num_confoptions; ++i) {
-			char buf[40];
-			if (confoptions[i].type == CONF_KEY) {
-				continue;
-			}
-			sprintf(buf,
-				"%s %i - %s:",
-				i ? "    " : "Key:",
-				i+1, confoptions[i].description);
+	swcolour(3);
 
-			swposcur(1, 5+i);
-			swputs(buf);
+	for (i=0, keynum=0; menu[i].config_name != NULL; ++i) {
+		confoption_t *opt;
+		char *suffix;
+		char buf[40];
+		int key;
 
-			swposcur(35, 5+i);
-			switch (confoptions[i].type) {
-			case CONF_BOOL:
-				swputs(*confoptions[i].value.b ? "on" : "off");
-				break;
-			default:
-				break;
-			}
+		if (strlen(menu[i].config_name) == 0) {
+			continue;
 		}
 
-		swcolour(1);
-		
-		swposcur(1, 22);
-		swputs("   ESC - Exit Menu");
+		if (menu[i].config_name[0] == '>') {
+			key = menu[i].config_name[1];
+			swcolour(1);
+			suffix = " >>>";
+		} else {
+			key = menukeys[keynum];
+			++keynum;
+			suffix = ":";
 
-		Vid_Update();
+			if (!said_key) {
+				swposcur(1, 5+i);
+				swputs("Key:");
+				said_key = 1;
+			}
+		}
+		sprintf(buf, "%c - %s%s",
+			key, menu[i].description, suffix);
 
-		if (ctlbreak())
+		swposcur(6, 5+i);
+		swputs(buf);
+		swcolour(3);
+
+		swposcur(32, 5+i);
+		opt = confoption_by_name(menu[i].config_name);
+		if (opt == NULL) {
+			continue;
+		}
+		switch (opt->type) {
+		case CONF_BOOL:
+			swputs(*opt->value.b ? "on" : "off");
+			break;
+		case CONF_KEY:
+			swputs(Vid_KeyName(*opt->value.i));
+			break;
+		default:
+			break;
+		}
+	}
+
+	swcolour(1);
+
+	swposcur(1, 22);
+	swputs("   ESC - Exit Menu");
+
+	Vid_Update();
+}
+
+static struct menuitem *menuitem_for_key(struct menuitem *menu, int key)
+{
+	int i, keynum;
+
+	for (i=0, keynum=0; menu[i].config_name != NULL; ++i) {
+		int itemkey;
+		if (strlen(menu[i].config_name) == 0) {
+			continue;
+		} else if (menu[i].config_name[0] == '>') {
+			itemkey = menu[i].config_name[1];
+		} else {
+			itemkey = menukeys[keynum];
+			++keynum;
+		}
+		if (key == itemkey) {
+			return &menu[i];
+		}
+	}
+
+	return NULL;
+}
+
+static void runmenu(char *title, struct menuitem *menu)
+{
+	struct menuitem *pressed;
+	int key;
+
+	for (;;) {
+		drawmenu(title, menu);
+
+		if (ctlbreak()) {
 			swend(NULL, NO);
+		}
 
-		i = toupper(swgetc() & 0xff);
+		key = toupper(swgetc() & 0xff);
 
 		// check if a number has been pressed for a menu option
-		
-		if (i >= '1' && i <= '9') {
+		pressed = menuitem_for_key(menu, key);
 
-			i -= '1';
-
-			switch (confoptions[i].type) {
+		if (pressed != NULL) {
+			confoption_t *opt =
+				confoption_by_name(pressed->config_name);
+			if (opt == NULL) {
+				continue;
+			}
+			switch (opt->type) {
 			case CONF_BOOL:
-				*confoptions[i].value.b
-					= !*confoptions[i].value.b;
+				*opt->value.b = !*opt->value.b;
 				break;
 			default:
 				break;
 			}
 
 			// reset the screen if we need to
-			
-			if (confoptions[i].value.b == &vid_fullscreen
-			    || confoptions[i].value.b == &vid_double_size) {
+			if (opt->value.b == &vid_fullscreen
+			 || opt->value.b == &vid_double_size) {
 				Vid_Reset();
 			}
 
 			swsaveconf();
-			
-			continue;
 		}
 
 		// other keys
-		
-		switch(i) {
+
+		switch(key) {
 		case 27:
 			return;
 		}
 	}
-		
+}
+
+struct menuitem keys_menu[] = {
+	{"key_accelerate", "Accelerate"},
+	{"key_decelerate", "Decelerate"},
+	{"key_pullup",     "Pull up"},
+	{"key_pulldown",   "Pull down"},
+	{"key_flip",       "Flip"},
+	{"key_fire",       "Fire machine gun"},
+	{"key_dropbomb",   "Drop bomb"},
+	{"key_home",       "Navigate home"},
+	{"key_missile",    "Fire missile"},
+	{"key_starburst",  "Starburst"},
+	{NULL},
+};
+
+struct menuitem options_menu[] = {
+	{"vid_fullscreen",    "Run fullscreen"},
+	{"vid_double_size",   "Scale window by 2x"},
+	{"conf_missiles",     "Missiles"},
+	{"conf_solidground",  "Solid ground"},
+	{"conf_hudsplats",    "HUD splats"},
+	{"conf_wounded",      "Wounded planes"},
+	{"conf_animals",      "Oxen and birds"},
+	{"conf_harrykeys",    "Harry keys mode"},
+	{"conf_medals",	      "Medals"},
+	{"",                  ""},
+	{">K",                "Key bindings"},
+	{NULL},
+};
+
+void setconfig()
+{
+	runmenu("OPTIONS", options_menu);
 }
 
 //-------------------------------------------------------------------------
