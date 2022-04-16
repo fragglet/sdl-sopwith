@@ -56,6 +56,7 @@ typedef enum {
 // a button fast enough)
 
 extern int keysdown[NUM_KEYS];
+extern int keybindings[NUM_KEYS];
 
 extern BOOL vid_fullscreen;         // fullscreen
 extern BOOL vid_double_size;        // x2 scale
@@ -101,6 +102,9 @@ extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
 // clear screen
 
 void Vid_ClearBuf();
+
+int Vid_KeyFromName(const char *value);
+const char *Vid_KeyName(int key);
 
 #endif
 

@@ -33,7 +33,8 @@ typedef struct
 	char *name;
 	enum {
 		CONF_BOOL,
-		CONF_INT
+		CONF_INT,
+		CONF_KEY,
 	} type;
 	union {
 		void *v;

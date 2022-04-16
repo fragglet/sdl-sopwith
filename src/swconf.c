@@ -70,16 +70,31 @@ static char *get_config_filename()
 #endif
 }
 
+int key_accelerate, key_decelerate, key_home;
+int key_pullup, key_pulldown, key_flip;
+int key_fire, key_dropbomb, key_missile, key_starburst;
+
 confoption_t confoptions[] = {
-    {"conf_missiles",     CONF_BOOL, {&conf_missiles},     "Missiles"},
-    {"conf_solidground",  CONF_BOOL, {&conf_solidground},  "Solid ground"},
-    {"conf_hudsplats",    CONF_BOOL, {&conf_hudsplats},    "HUD splats"},
-    {"conf_wounded",      CONF_BOOL, {&conf_wounded},      "Wounded planes"},
-    {"conf_animals",      CONF_BOOL, {&conf_animals},      "Oxen and birds"},
-    {"conf_harrykeys",    CONF_BOOL, {&conf_harrykeys},    "Harry keys mode"},
-    {"conf_medals",	  CONF_BOOL, {&conf_medals},	   "Medals"},
-    {"vid_fullscreen",    CONF_BOOL, {&vid_fullscreen},    "Run fullscreen"},
-    {"vid_double_size",   CONF_BOOL, {&vid_double_size},   "Scale window by 2x"},
+    {"conf_missiles",     CONF_BOOL, {&conf_missiles},    "Missiles"},
+    {"conf_solidground",  CONF_BOOL, {&conf_solidground}, "Solid ground"},
+    {"conf_hudsplats",    CONF_BOOL, {&conf_hudsplats},   "HUD splats"},
+    {"conf_wounded",      CONF_BOOL, {&conf_wounded},     "Wounded planes"},
+    {"conf_animals",      CONF_BOOL, {&conf_animals},     "Oxen and birds"},
+    {"conf_harrykeys",    CONF_BOOL, {&conf_harrykeys},   "Harry keys mode"},
+    {"conf_medals",	  CONF_BOOL, {&conf_medals},	  "Medals"},
+    {"vid_fullscreen",    CONF_BOOL, {&vid_fullscreen},   "Run fullscreen"},
+    {"vid_double_size",   CONF_BOOL, {&vid_double_size},  "Scale window by 2x"},
+
+    {"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}, "Accelerate"},
+    {"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}, "Decelerate"},
+    {"key_pullup",     CONF_KEY, {&keybindings[KEY_PULLUP]}, "Pull up"},
+    {"key_pulldown",   CONF_KEY, {&keybindings[KEY_PULLDOWN]}, "Pull down"},
+    {"key_flip",       CONF_KEY, {&keybindings[KEY_FLIP]}, "Flip"},
+    {"key_fire",       CONF_KEY, {&keybindings[KEY_FIRE]}, "Fire machine gun"},
+    {"key_dropbomb",   CONF_KEY, {&keybindings[KEY_BOMB]}, "Drop bomb"},
+    {"key_home",       CONF_KEY, {&keybindings[KEY_HOME]}, "Navigate home"},
+    {"key_missile",    CONF_KEY, {&keybindings[KEY_MISSILE]}, "Fire missile"},
+    {"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}, "Starburst"},
 };
 
 int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
@@ -108,6 +123,7 @@ static confoption_t *confoption_by_name(char *name)
 static void parse_config_line(char *config_file, int lineno, char *line)
 {
 	char *name, *value, *p;
+	int key;
 	confoption_t *opt;
 
 	p = line;
@@ -148,6 +164,12 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 	switch (opt->type) {
 		case CONF_BOOL:
 			*opt->value.b = atoi(value) != 0;
+			break;
+		case CONF_KEY:
+			key = Vid_KeyFromName(value);
+			if (key != 0) {
+				*opt->value.i = key;
+			}
 			break;
 		default:
 			break;
@@ -213,10 +235,14 @@ void swsaveconf()
 		case CONF_BOOL:
 			fprintf(fs, "%d", *confoptions[i].value.b);
 			break;
+		case CONF_KEY:
+			fprintf(fs, "%s", Vid_KeyName(*confoptions[i].value.i));
+			break;
 		default:
 			fprintf(fs, "?");
 			break;
 		}
+		fprintf(fs, "\n");
 	}
 
 	fprintf(fs, "\n\n");
@@ -243,7 +269,9 @@ void setconfig()
 
 		for (i=0; i<num_confoptions; ++i) {
 			char buf[40];
-			
+			if (confoptions[i].type == CONF_KEY) {
+				continue;
+			}
 			sprintf(buf,
 				"%s %i - %s:",
 				i ? "    " : "Key:",
