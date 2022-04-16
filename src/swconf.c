@@ -343,9 +343,13 @@ static struct menuitem *menuitem_for_key(struct menuitem *menu, int key)
 	return NULL;
 }
 
-static void runmenu(char *title, struct menuitem *menu)
+// Present the given menu to the user. Returns zero if escape was pushed
+// to exit the menu, or if a >jump item was chosen, it returns the key
+// binding associated with it.
+static int runmenu(char *title, struct menuitem *menu)
 {
 	struct menuitem *pressed;
+	confoption_t *opt;
 	int key;
 
 	for (;;) {
@@ -356,39 +360,39 @@ static void runmenu(char *title, struct menuitem *menu)
 		}
 
 		key = toupper(swgetc() & 0xff);
+		if (key == 27) {
+			return 0;
+		}
 
 		// check if a number has been pressed for a menu option
 		pressed = menuitem_for_key(menu, key);
-
-		if (pressed != NULL) {
-			confoption_t *opt =
-				confoption_by_name(pressed->config_name);
-			if (opt == NULL) {
-				continue;
-			}
-			switch (opt->type) {
-			case CONF_BOOL:
-				*opt->value.b = !*opt->value.b;
-				break;
-			default:
-				break;
-			}
-
-			// reset the screen if we need to
-			if (opt->value.b == &vid_fullscreen
-			 || opt->value.b == &vid_double_size) {
-				Vid_Reset();
-			}
-
-			swsaveconf();
+		if (pressed == NULL) {
+			continue;
 		}
 
-		// other keys
-
-		switch(key) {
-		case 27:
-			return;
+		if (pressed->config_name[0] == '>') {
+			return pressed->config_name[1];
 		}
+
+		opt = confoption_by_name(pressed->config_name);
+		if (opt == NULL) {
+			continue;
+		}
+		switch (opt->type) {
+		case CONF_BOOL:
+			*opt->value.b = !*opt->value.b;
+			break;
+		default:
+			break;
+		}
+
+		// reset the screen if we need to
+		if (opt->value.b == &vid_fullscreen
+		 || opt->value.b == &vid_double_size) {
+			Vid_Reset();
+		}
+
+		swsaveconf();
 	}
 }
 
