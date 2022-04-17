@@ -37,7 +37,7 @@ static void swreport()
 {
 	puts("\nEnd of game statistics\n");
 	puts("Objects used: ");
-	printf("%d\n", ((int) objsmax - (int) objtop + 1) / sizeof(OBJECTS));
+	printf("%ld\n", ((long) objsmax - (long) objtop + 1) / sizeof(OBJECTS));
 	puts("\n");
 }
 

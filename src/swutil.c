@@ -31,7 +31,7 @@
 
 void movexy(OBJECTS * ob, int *x, int *y)
 {
-	long pos;
+	long pos = 0;
 	//long vel;
 //      pos = (((long) (ob->ob_x)) << 16) + ob->ob_lx;
 //      vel = (((long) (ob->ob_dx)) << 16) + ob->ob_ldx;
