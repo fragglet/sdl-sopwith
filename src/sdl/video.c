@@ -308,29 +308,33 @@ void Vid_Reset()
 	Vid_Update();
 }
 
-static int input_buffer[128];
-static int input_buffer_head=0, input_buffer_tail=0;
+#define INPUT_BUFFER_LEN 32
+static SDL_keysym input_buffer[INPUT_BUFFER_LEN];
+static int input_buffer_head = 0, input_buffer_tail = 0;
 
-static void input_buffer_push(int c)
+static void input_buffer_push(SDL_keysym c)
 {
-	input_buffer[input_buffer_tail++] = c;
-	input_buffer_tail %= sizeof(input_buffer) / sizeof(*input_buffer);
+	int tail_next = (input_buffer_tail + 1) % INPUT_BUFFER_LEN;
+	if (tail_next == input_buffer_head) {
+		return;
+	}
+	input_buffer[input_buffer_tail] = c;
+	input_buffer_tail = tail_next;
 }
 
-static int input_buffer_pop()
+static SDL_keysym input_buffer_pop()
 {
-	int c;
+	SDL_keysym result;
 
-	if (input_buffer_head == input_buffer_tail)
-		return 0;
+	if (input_buffer_head == input_buffer_tail) {
+		result.sym = SDLK_UNKNOWN;
+		return result;
+	}
 
-	c = input_buffer[input_buffer_head++];
-
-	input_buffer_head %= sizeof(input_buffer) / sizeof(*input_buffer);
-
-	return c;
+	result = input_buffer[input_buffer_head];
+	input_buffer_head = (input_buffer_head + 1) % INPUT_BUFFER_LEN;
+	return result;
 }
-
 
 static sopkey_t translate_key(int sdl_key)
 {
@@ -354,44 +358,44 @@ static void getevents()
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_KEYDOWN:
-			if (event.key.keysym.sym == SDLK_LALT)
+			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 1;
-			else if (event.key.keysym.sym == SDLK_LCTRL || event.key.keysym.sym == SDLK_RCTRL)
+			} else if (event.key.keysym.sym == SDLK_LCTRL
+			        || event.key.keysym.sym == SDLK_RCTRL) {
 				ctrldown = 1;
-			else if (ctrldown &&
-				 (event.key.keysym.sym == SDLK_c ||
-				  event.key.keysym.sym == SDLK_BREAK)) {
+			} else if (ctrldown &&
+			           (event.key.keysym.sym == SDLK_c ||
+			            event.key.keysym.sym == SDLK_BREAK)) {
 				++ctrlbreak;
 				if (ctrlbreak >= 3) {
 					fprintf(stderr,
 						"user aborted with 3 ^C's\n");
 					exit(-1);
 				}
-			} else if (event.key.keysym.sym == SDLK_ESCAPE) {
-				input_buffer_push(27);
 			} else if (event.key.keysym.sym == SDLK_RETURN) {
-				if(altdown) {
+				if (altdown) {
 					vid_fullscreen = !vid_fullscreen;
 					Vid_Reset();
-				} else {
-					input_buffer_push('\n');
+					continue;
 				}
- 			} else {
-				input_buffer_push(event.key.keysym.unicode & 0x7f);
 			}
+			input_buffer_push(event.key.keysym);
 			translated = translate_key(event.key.keysym.sym);
-			if (translated)
+			if (translated != KEY_UNKNOWN) {
 				keysdown[translated] |= 3;
+			}
 			break;
 		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_LALT)
+			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 0;
-			else if (event.key.keysym.sym == SDLK_LCTRL || event.key.keysym.sym == SDLK_RCTRL)
+			} else if (event.key.keysym.sym == SDLK_LCTRL
+			        || event.key.keysym.sym == SDLK_RCTRL) {
 				ctrldown = 0;
-			else {
+			} else {
 				translated = translate_key(event.key.keysym.sym);
-				if (translated)
+				if (translated != KEY_UNKNOWN) {
 					keysdown[translated] &= ~1;
+				}
 			}
 			break;
 		}
@@ -400,9 +404,28 @@ static void getevents()
 
 int Vid_GetKey()
 {
+	SDL_keysym k;
 	getevents();
-	
-	return input_buffer_pop();
+	k = input_buffer_pop();
+	return k.sym;
+}
+
+int Vid_GetChar()
+{
+	SDL_keysym k;
+	// Not all keypresses wil have a character associated with them.
+	do {
+		getevents();
+		k = input_buffer_pop();
+		if (k.sym == SDLK_UNKNOWN) {
+			return 0;
+		}
+	} while (k.unicode == 0);
+
+	if (k.unicode == '\r') {
+		k.unicode = '\n';
+	}
+	return k.unicode;
 }
 
 BOOL Vid_GetCtrlBreak()

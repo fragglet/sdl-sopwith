@@ -76,6 +76,7 @@ extern BOOL Vid_GetCtrlBreak();
 // keyboard functions
 
 extern int Vid_GetKey();
+extern int Vid_GetChar();
 extern int Vid_GetGameKeys();
 
 // drawing routines

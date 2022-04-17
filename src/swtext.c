@@ -183,7 +183,7 @@ int swgetc()
 {
 	int i;
 
-	while(!(i = Vid_GetKey())) {
+	while(!(i = Vid_GetChar())) {
 
 		// sdh 15/11/2001: dont thrash the processor while 
 		// waiting for a key press
