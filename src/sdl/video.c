@@ -434,18 +434,6 @@ BOOL Vid_GetCtrlBreak()
 	return ctrlbreak;
 }
 
-int Vid_KeyFromName(const char *value)
-{
-	int i;
-	// Braindead, but there's no better way to do this in SDL1.
-	for (i = 0; i < SDLK_LAST; ++i) {
-		if (!strcmp(SDL_GetKeyName(i), value)) {
-			return i;
-		}
-	}
-	return 0;
-}
-
 const char *Vid_KeyName(int key)
 {
 	return SDL_GetKeyName(key);

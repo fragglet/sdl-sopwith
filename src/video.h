@@ -78,6 +78,7 @@ extern BOOL Vid_GetCtrlBreak();
 extern int Vid_GetKey();
 extern int Vid_GetChar();
 extern int Vid_GetGameKeys();
+extern const char *Vid_KeyName(int key);
 
 // drawing routines
 
@@ -103,9 +104,6 @@ extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
 // clear screen
 
 void Vid_ClearBuf();
-
-int Vid_KeyFromName(const char *value);
-const char *Vid_KeyName(int key);
 
 #endif
 

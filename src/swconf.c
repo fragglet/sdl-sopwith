@@ -164,8 +164,7 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 			*opt->value.b = atoi(value) != 0;
 			break;
 		case CONF_KEY:
-			key = Vid_KeyFromName(value);
-			if (key != 0) {
+			if (sscanf(value, "%d", &key) == 1) {
 				*opt->value.i = key;
 			}
 			break;
@@ -234,7 +233,7 @@ void swsaveconf()
 			fprintf(fs, "%d", *confoptions[i].value.b);
 			break;
 		case CONF_KEY:
-			fprintf(fs, "%s", Vid_KeyName(*confoptions[i].value.i));
+			fprintf(fs, "%d", *confoptions[i].value.i);
 			break;
 		default:
 			fprintf(fs, "?");
