@@ -30,12 +30,14 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "timer.h"
 #include "video.h"
 
 #include "sw.h"
 #include "swconf.h"
 #include "swend.h"
 #include "swgrpha.h"
+#include "swsound.h"
 #include "swtext.h"
 #include "swtitle.h"
 #include "swmain.h"
@@ -253,6 +255,47 @@ struct menuitem {
 
 static const char menukeys[] = "1234567890ABCDEFGHIJKL";
 
+static void change_key_binding(struct menuitem *item)
+{
+	confoption_t *opt;
+	int key;
+
+	Vid_ClearBuf();
+
+	swcolour(3);
+	swposcur(10, 5);
+	swputs("Press the new key for: ");
+
+	swcolour(2);
+	swposcur(14, 7);
+	swputs(item->description);
+
+	swcolour(1);
+	swposcur(1, 22);
+	swputs("   ESC - Cancel");
+
+	Vid_Update();
+
+	while ((key = Vid_GetKey()) == 0) {
+		Timer_Sleep(100);
+
+		swsndupdate();
+		if (ctlbreak()) {
+			return;
+		}
+	}
+
+	if (key == 27) {
+		return;
+	}
+
+	opt = confoption_by_name(item->config_name);
+	if (opt == NULL) {
+		return;
+	}
+	*opt->value.i = key;
+}
+
 static void drawmenu(char *title, struct menuitem *menu)
 {
 	int i, keynum, said_key = 0;
@@ -382,6 +425,9 @@ static int runmenu(char *title, struct menuitem *menu)
 		case CONF_BOOL:
 			*opt->value.b = !*opt->value.b;
 			break;
+		case CONF_KEY:
+			change_key_binding(pressed);
+			break;
 		default:
 			break;
 		}
@@ -427,7 +473,15 @@ struct menuitem options_menu[] = {
 
 void setconfig()
 {
-	runmenu("OPTIONS", options_menu);
+	for (;;) {
+		switch (runmenu("OPTIONS", options_menu)) {
+			case 0:
+				return;
+			case 'K':
+				runmenu("OPTIONS > KEY BINDINGS", keys_menu);
+				break;
+		}
+	}
 }
 
 //-------------------------------------------------------------------------
