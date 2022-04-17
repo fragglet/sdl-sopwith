@@ -1,5 +1,4 @@
 .gitignore
-INSTALL
 Makefile
 Makefile.in
 aclocal.m4

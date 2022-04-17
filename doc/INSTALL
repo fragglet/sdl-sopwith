@@ -1,0 +1,64 @@
+Build or Install Sopwith
+========================
+
+Sopwith can be installed using the following instructions.
+
+
+Installing from package manager
+===============================
+
+On Debian-based systems run 
+
+     sudo apt update
+     sudo apt install sopwith 
+
+
+Acquiring source code
+=====================
+
+The latest source code for Sopwith can be downloaded from GitHub at
+https://github.com/fragglet/sdl-sopwith
+
+This can be done by using git
+
+     https://github.com/fragglet/sdl-sopwith.git
+
+Alternative the source code can be downloaded as an archive from
+
+     https://github.com/fragglet/sdl-sopwith/releases
+
+Releases can be unpacked using the command
+
+     tar xf sopwith-X.Y.Z.tar.gz
+
+Where X Y Z are the latest version numbers. 
+
+
+Building from source
+====================
+
+Sopwith requires minimal dependencies and can usually be built with
+just the following items: A C compiler, build system (make) and autoconf tools.
+
+On Debian (and related Linux distributions) it is possible to build sopwith using
+the following commands
+
+    sudo apt install libsdl1.2-dev dh-autoreconf autogen build-essential
+
+Then, in the sopwith top-level source code directory (sdl-sopwith) run
+
+   
+Then, in the sopwith top-level source code directory (sdl-sopwith) run
+
+    ./autogen.sh
+    make
+
+Optionally you can then either run a local copy of Sopwith using:
+
+    src/sopwith
+
+Or install the program by running
+
+    sudo make install
+
+
