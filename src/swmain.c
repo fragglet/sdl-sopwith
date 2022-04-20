@@ -49,9 +49,9 @@ BOOL conf_missiles = 0;             // allow missiles: replaces missok
 BOOL conf_solidground = 0;          // draw ground solid like in sopwith 1
 BOOL conf_hudsplats = 0;            // splatted birds etc
 BOOL conf_wounded = 0;              // enable wounded planes
-BOOL conf_animals = 1;              // birds and oxes
+BOOL conf_animals = 1;              // birds and oxen
 BOOL conf_harrykeys = 0;            // plane rotation relative to screen
-BOOL conf_medals = 0;
+BOOL conf_medals = 1;
 
 playmode_t playmode;		/* Mode of play                     */
 GAMES *currgame;		/* Game parameters and current game */
