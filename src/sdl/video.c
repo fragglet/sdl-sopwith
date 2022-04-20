@@ -216,12 +216,8 @@ static void Vid_SetMode()
 	int w, h;
 	int flags = 0;
 
-	printf("CGA Screen Emulation\n");
-	printf("init screen: ");
-
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		printf("failed\n");
-		fprintf(stderr, "Unable to initialise video subsystem: %s\n",
+		fprintf(stderr, "Unable to initialize video subsystem: %s\n",
 				SDL_GetError());
 		exit(-1);
 	}
@@ -242,11 +238,9 @@ static void Vid_SetMode()
 
 	screen = SDL_SetVideoMode(w, h, 8, flags);
 
-	if (screen) {
-		printf("initialised\n");
-	} else {
-		printf("failed to set mode\n");
-		fprintf(stderr, "cant init SDL\n");
+	if (screen == NULL) {
+		fprintf(stderr, "Failed to initialize SDL: %s\n",
+		        SDL_GetError());
 		exit(-1);
 	}
 

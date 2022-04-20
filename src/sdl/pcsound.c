@@ -142,18 +142,13 @@ void Speaker_Init()
 	audiospec.channels = 1;
 	audiospec.callback = &snd_callback;
 
-	printf("PC Speaker Emulation\n");
-	printf("init sound: ");
 	fflush(stdout);
 
 	if (SDL_OpenAudio(&audiospec, NULL) < 0) {
-		printf("failed\n");
-		fprintf(stderr, "error: cant init sound, %s\n",
+		fprintf(stderr, "Failed to initialize sound: %s\n",
 			SDL_GetError());
 		return;
 	}
-
-	printf("initialised\n");
 
 	sound_initted = 1;
 
