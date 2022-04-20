@@ -9,6 +9,8 @@ config.hin
 config.log
 config.status
 configure
+src/sopwith
+src/sopwith.exe
 .deps
 *.a
 *.o
