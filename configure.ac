@@ -39,6 +39,7 @@ case "$target" in
 esac
 
 AM_CONFIG_HEADER(config.h:config.hin)
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl install programs
 
