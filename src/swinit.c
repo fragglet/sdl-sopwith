@@ -60,9 +60,10 @@ static int conf_explosions = 1;
 static char helptxt[] =
 "\n"
 PACKAGE_STRING "\n"
+"Copyright (C) 1984, 1985, 1987 BMB Compuscience\n"
 "Copyright (C) 1984-2000 David L. Clark\n"
-"Copyright (C) 2001-2005 Simon Howard\n"
-"Copyright (C) 2012 Jesse Smith\n"
+"Copyright (C) 2001-2022 Simon Howard, Jesse Smith\n"
+"Licensed under the GNU GPL v2.\n"
 "\n"
 "Usage:  sopwith [options]\n"
 "The options are:\n"
