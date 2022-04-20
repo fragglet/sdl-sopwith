@@ -338,7 +338,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 		swputs(buf);
 		swcolour(3);
 
-		swposcur(32, 5+i);
+		swposcur(28, 5+i);
 		opt = confoption_by_name(menu[i].config_name);
 		if (opt == NULL) {
 			continue;
@@ -457,14 +457,14 @@ struct menuitem keys_menu[] = {
 
 struct menuitem options_menu[] = {
 	{"vid_fullscreen",    "Run fullscreen"},
-	{"vid_double_size",   "Scale window by 2x"},
-	{"conf_missiles",     "Missiles"},
+	{"vid_double_size",   "Scale window 2x"},
 	{"conf_solidground",  "Solid ground"},
 	{"conf_hudsplats",    "HUD splats"},
+	{"conf_missiles",     "Missiles"},
 	{"conf_wounded",      "Wounded planes"},
 	{"conf_animals",      "Oxen and birds"},
-	{"conf_harrykeys",    "Harry keys mode"},
 	{"conf_medals",	      "Medals"},
+	{"conf_harrykeys",    "Harry keys mode"},
 	{"",                  ""},
 	{">K",                "Key bindings"},
 	{NULL},
