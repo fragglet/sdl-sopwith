@@ -70,7 +70,6 @@ PACKAGE_STRING "\n"
 "        -n :  novice single player\n"
 "        -s :  single player\n"
 "        -c :  single player against computer\n"
-"        -x :  enable missiles\n"
 "        -q :  begin game with sound off (default)\n"
 "        -p :  turn sound on\n"
 "        -g#:  start at level #\n"
@@ -1062,8 +1061,6 @@ void swinit(int argc, char *argv[])
 			soundflg = 1;
                 else if (!strcasecmp(argv[i], "-p"))
                         soundflg = 0;
-		else if (!strcasecmp(argv[i], "-x"))
-			conf_missiles = 1;
                 else if (!strcasecmp(argv[i], "-e"))
                         conf_explosions = 0;
 		else 
