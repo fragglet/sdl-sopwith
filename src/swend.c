@@ -43,7 +43,7 @@ static void swreport()
 
 void swend(char *msg, BOOL update)
 {
-	register char *closmsg = NULL;
+	char *closmsg = NULL;
 	char *multclos(), *asynclos();
 
 	sound(0, 0, NULL);
@@ -81,8 +81,8 @@ void swend(char *msg, BOOL update)
 
 void endgame(int targclr)
 {
-	register int winclr;
-	register OBJECTS *ob;
+	int winclr;
+	OBJECTS *ob;
 
 	if (playmode != PLAYMODE_ASYNCH)
 		winclr = 1;
@@ -117,7 +117,7 @@ void endgame(int targclr)
 
 void winner(OBJECTS * obp)
 {
-	register OBJECTS *ob = obp;
+	OBJECTS *ob = obp;
 
 	ob->ob_endsts = WINNER;
 	ob->ob_goingsun = TRUE;

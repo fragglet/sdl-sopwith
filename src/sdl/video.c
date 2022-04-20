@@ -112,18 +112,18 @@ SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 
 static void Vid_UpdateScaled()
 {
-	register char *pixels = (char *) screen->pixels;
-	register char *pixels2 = (char *) screenbuf->pixels;
-	register int pitch = screen->pitch;
-	register int pitch2 = screenbuf->pitch;
-	register int x, y;
+	char *pixels = (char *) screen->pixels;
+	char *pixels2 = (char *) screenbuf->pixels;
+	int pitch = screen->pitch;
+	int pitch2 = screenbuf->pitch;
+	int x, y;
 
 	SDL_LockSurface(screen);
 	SDL_LockSurface(screenbuf);
 
 	for (y = 0; y < SCR_HGHT; ++y) {
-		register char *p = pixels;
-		register char *p2 = pixels2;
+		char *p = pixels;
+		char *p2 = pixels2;
 
 		for (x=0; x<SCR_WDTH; ++x) {
 			p[0] = p[1] =  p[pitch] = p[pitch + 1] = *p2++;

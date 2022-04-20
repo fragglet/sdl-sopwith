@@ -40,7 +40,7 @@ int shoot(OBJECTS *obt)
 	int obx, oby, obtx, obty;
 	int nspeed, nangle;
 	int rprev;
-	register int r, i;
+	int r, i;
 
 	obsp = obs;
 	obtsp = *obt;
@@ -109,7 +109,7 @@ static void cleartargs()
 
 static void testtargs(int x, int y)
 {
-	register int i, xl, xr;
+	int i, xl, xr;
 
 	xl = x - 32 - gmaxspeed;
 	xr = x + 32 + gmaxspeed;
@@ -139,8 +139,8 @@ static void testtargs(int x, int y)
 
 static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
 {
-	register OBJECTS *ob;
-	register int i, xl, xr, xt, yt;
+	OBJECTS *ob;
+	int i, xl, xr, xt, yt;
 
 	if (alt > 50)
 		return FALSE;
@@ -172,8 +172,8 @@ static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
 
 int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 {
-	register OBJECTS *ob;
-	register int r, rmin, i, n=0;
+	OBJECTS *ob;
+	int r, rmin, i, n=0;
 	int x, y, dx, dy, nx, ny;
 	int nangle, nspeed;
 	static int cflaps[3] = { 0, -1, 1 };
@@ -363,7 +363,7 @@ int gohome(OBJECTS *ob)
 
 static void cruise(OBJECTS *ob)
 {
-	register int orgx;
+	int orgx;
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
 	orgx = oobjects[ob->ob_index].ob_x;
@@ -375,7 +375,7 @@ static void cruise(OBJECTS *ob)
 
 void attack(OBJECTS *obp, OBJECTS *obt)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
 	ob = obt;
@@ -401,8 +401,8 @@ void swauto(OBJECTS *ob)
 
 int range(int x, int y, int ax, int ay)
 {
-	register int dx, dy;
-	register int t;
+	int dx, dy;
+	int t;
 
 	dy = abs(y - ay);
 	dy += dy >> 1;

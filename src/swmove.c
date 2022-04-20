@@ -46,7 +46,7 @@ static BOOL quit;
 
 void swmove()
 {
-	register OBJECTS *ob, *obn;
+	OBJECTS *ob, *obn;
 
 	if (deltop) {
 		delbot->ob_next = objfree;
@@ -72,8 +72,8 @@ void swmove()
 
 static void nearpln(OBJECTS * obp)
 {
-	register OBJECTS *ob, *obt, *obc;
-	register int i, obx, obclr;
+	OBJECTS *ob, *obt, *obc;
+	int i, obx, obclr;
 
 	ob = obp;
 	obt = objtop + 1;
@@ -142,7 +142,7 @@ static void refuel(OBJECTS * obp)
 
 static int symangle(OBJECTS * ob)
 {
-	register int dx, dy;
+	int dx, dy;
 
 	dx = ob->ob_dx;
 	dy = ob->ob_dy;
@@ -170,7 +170,7 @@ static int symangle(OBJECTS * ob)
 
 BOOL moveplyr(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int multkey;
 
 	compplane = FALSE;
@@ -240,8 +240,8 @@ BOOL moveplyr(OBJECTS * obp)
 
 void interpret(OBJECTS * obp, int key)
 {
-	register OBJECTS *ob;
-	register obstate_t state;
+	OBJECTS *ob;
+	obstate_t state;
 
 	ob = obp;
 	ob->ob_flaps = 0;
@@ -337,7 +337,7 @@ void interpret(OBJECTS * obp, int key)
 
 BOOL movecomp(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int rc;
 
 	compplane = TRUE;
@@ -389,7 +389,7 @@ BOOL movecomp(OBJECTS * obp)
 
 static BOOL stallpln(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 
 	ob = obp;
 	ob->ob_ldx = ob->ob_ldy = ob->ob_orient = ob->ob_dx = 0;
@@ -408,8 +408,8 @@ static BOOL stallpln(OBJECTS * obp)
 
 BOOL movepln(OBJECTS * obp)
 {
-	register OBJECTS *ob = obp;
-	register int nangle, nspeed, limit, update;
+	OBJECTS *ob = obp;
+	int nangle, nspeed, limit, update;
 	obstate_t state, newstate;
 	int x, y, stalled;
 	// int grv;
@@ -654,7 +654,7 @@ BOOL movepln(OBJECTS * obp)
 
 static void adjustfall(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 
 	ob = obp;
 	
@@ -675,7 +675,7 @@ static void adjustfall(OBJECTS * obp)
 
 BOOL moveshot(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int x, y;
 
 	ob = obp;
@@ -705,7 +705,7 @@ BOOL moveshot(OBJECTS * obp)
 
 BOOL movebomb(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int x, y;
 
 	ob = obp;
@@ -745,7 +745,7 @@ BOOL movebomb(OBJECTS * obp)
 
 BOOL movemiss(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int x, y, angle;
 	OBJECTS *obt;
 
@@ -807,7 +807,7 @@ BOOL movemiss(OBJECTS * obp)
 
 BOOL moveburst(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int x, y;
 
 	ob = obp;
@@ -840,7 +840,7 @@ BOOL moveburst(OBJECTS * obp)
 BOOL movetarg(OBJECTS * obt)
 {
 	int r;
-	register OBJECTS *obp, *ob;
+	OBJECTS *obp, *ob;
 
 	ob = obt;
 	obp = objtop;
@@ -874,9 +874,9 @@ BOOL movetarg(OBJECTS * obt)
 
 BOOL moveexpl(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int x, y;
-	register int orient;
+	int orient;
 
 	ob = obp;
 	orient = ob->ob_orient;
@@ -924,8 +924,8 @@ BOOL moveexpl(OBJECTS * obp)
 
 BOOL movesmok(OBJECTS * obp)
 {
-	register OBJECTS *ob;
-	register obstate_t state;
+	OBJECTS *ob;
+	obstate_t state;
 
 	ob = obp;
 
@@ -950,7 +950,7 @@ BOOL movesmok(OBJECTS * obp)
 
 BOOL moveflck(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int x, y;
 
 	ob = obp;
@@ -981,7 +981,7 @@ BOOL moveflck(OBJECTS * obp)
 
 BOOL movebird(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 	int x, y;
 
 	ob = obp;
@@ -1031,7 +1031,7 @@ BOOL moveox(OBJECTS * ob)
 
 BOOL crashpln(OBJECTS * obp)
 {
-	register OBJECTS *ob, *obo;
+	OBJECTS *ob, *obo;
 
 	ob = obp;
 
@@ -1056,7 +1056,7 @@ BOOL crashpln(OBJECTS * obp)
 
 BOOL hitpln(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 
 	ob = obp;
 	ob->ob_ldx = ob->ob_ldy = 0;
@@ -1072,8 +1072,8 @@ BOOL hitpln(OBJECTS * obp)
 
 BOOL insertx(OBJECTS * ob, OBJECTS * obp)
 {
-	register OBJECTS *obs;
-	register int obx;
+	OBJECTS *obs;
+	int obx;
 
 	obs = obp;
 	obx = ob->ob_x;
@@ -1098,7 +1098,7 @@ BOOL insertx(OBJECTS * ob, OBJECTS * obp)
 
 void deletex(OBJECTS * obp)
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 
 	ob = obp;
 	ob->ob_xnext->ob_xprev = ob->ob_xprev;

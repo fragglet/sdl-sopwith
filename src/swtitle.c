@@ -231,7 +231,7 @@ static BOOL getnet()
 #if 0
 static void getkey()
 {
-	register char key;
+	char key;
 
 	/*----------------97/12/27--------------
         clrprmpt();
@@ -274,7 +274,7 @@ static void getkey()
 
 int getgame()
 {
-	register int game;
+	int game;
 
 	clrprmpt();
 	swputs("         Key a game number");

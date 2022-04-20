@@ -126,7 +126,7 @@ static unsigned int swrand(unsigned int modulo)
 
 static TONETAB *allocton()
 {
-	register TONETAB *tt;
+	TONETAB *tt;
 
 	if (!freetone)
 		return 0;
@@ -149,8 +149,8 @@ static TONETAB *allocton()
 
 static void deallton(TONETAB * ttp)
 {
-	register TONETAB *tt = ttp;
-	register TONETAB *ttb = tt->tt_prev;
+	TONETAB *tt = ttp;
+	TONETAB *ttb = tt->tt_prev;
 
 	if (ttb)
 		ttb->tt_next = tt->tt_next;
@@ -170,8 +170,8 @@ static void deallton(TONETAB * ttp)
 
 void initsndt()
 {
-	register TONETAB *tt;
-	register int i;
+	TONETAB *tt;
+	int i;
 
 	for (i = 0, tt = tonetab; i < (SNDSIZE - 1); ++i, ++tt)
 		tt->tt_next = tt + 1;
@@ -359,7 +359,7 @@ void playnote()
 
 static void adjcont()
 {
-	register TONETAB *tt = lastobj->ob_sound;
+	TONETAB *tt = lastobj->ob_sound;
 
 	if (tt)
 		tone(tt->tt_tone + tt->tt_chng * soundticks);
@@ -453,7 +453,7 @@ static void soundadj()
 
 void swsound()
 {
-	register TONETAB *tt;
+	TONETAB *tt;
 
 	tt = frsttone;
 	while (tt) {
@@ -551,8 +551,8 @@ void sound(int type, int parm, OBJECTS * ob)
 
 void initsound(OBJECTS * obp, int type)
 {
-	register OBJECTS *ob;
-	register TONETAB *tt;
+	OBJECTS *ob;
+	TONETAB *tt;
 
 	if ((ob = obp)->ob_sound)
 		return;

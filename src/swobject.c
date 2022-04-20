@@ -29,7 +29,7 @@
 
 OBJECTS *allocobj()
 {
-	register OBJECTS *ob;
+	OBJECTS *ob;
 
 	if (!objfree)
 		return NULL;
@@ -61,8 +61,8 @@ OBJECTS *allocobj()
 
 void deallobj(OBJECTS * obp)
 {
-	register OBJECTS *ob=obp;
-	register OBJECTS *obb = ob->ob_prev;
+	OBJECTS *ob=obp;
+	OBJECTS *obb = ob->ob_prev;
 
 	if (obb)
 		obb->ob_next = ob->ob_next;
