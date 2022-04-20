@@ -450,8 +450,6 @@ struct menuitem keys_menu[] = {
 	{"key_fire",       "Fire machine gun"},
 	{"key_dropbomb",   "Drop bomb"},
 	{"key_home",       "Navigate home"},
-	{"key_missile",    "Fire missile"},
-	{"key_starburst",  "Starburst"},
 	{NULL},
 };
 
@@ -460,7 +458,6 @@ struct menuitem options_menu[] = {
 	{"vid_double_size",   "Scale window 2x"},
 	{"conf_solidground",  "Solid ground"},
 	{"conf_hudsplats",    "HUD splats"},
-	{"conf_missiles",     "Missiles"},
 	{"conf_wounded",      "Wounded planes"},
 	{"conf_animals",      "Oxen and birds"},
 	{"conf_medals",	      "Medals"},
