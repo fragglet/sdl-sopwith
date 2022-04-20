@@ -78,7 +78,7 @@ void swtitln()
 	swposcur(6+X_OFFSET/8, 12);
 	swputs("BMB ");
 	swcolour(3);
-	swputs("Compuscience Canada Ltd.");
+	swputs("Compuscience");
 #else
 /*------------------ Original BMB Version---------------*/
 
@@ -96,39 +96,47 @@ void swtitln()
 	swputs("Version " PACKAGE_VERSION);
 
 	swcolour(3);
-	swposcur(1+X_OFFSET/8, 10);
-	swputs("(c) Copyright 1984, 1985, 1987");
+	swposcur(0+X_OFFSET/8, 9);
+	swputs("(c) 1984, 1985, 1987 ");
 
 	swcolour(1);
-	swposcur(5+X_OFFSET/8, 11);
 	swputs("BMB ");
 	swcolour(3);
-	swputs("Compuscience Canada Ltd.");
+	swputs("Compuscience");
 
 	swcolour(3);
-	swposcur(1+X_OFFSET/8, 12);
-	swputs("(c) Copyright 1984-2000 David L. Clark");
+	swposcur(0+X_OFFSET/8, 10);
+	swputs("(c) 1984-2000 David L. Clark");
 
 	swcolour(3);
-	swposcur(1+X_OFFSET/8, 13);
-	swputs("(c) Copyright 2001-2005 Simon Howard");
+	swposcur(0+X_OFFSET/8, 11);
+	swputs("(c) 2001-2022 Simon Howard, Jesse Smith");
+
+	swcolour(3);
+	swposcur(0+X_OFFSET/8, 12);
+	swputs("    Distributed under the ");
+	swcolour(1);
+	swputs("GNU");
+	swcolour(3);
+	swputs(" GPL");
 
 /*---------------- New Network Version-----------------*/
 
-	displx = 700-X_OFFSET;
+	displx = 507-X_OFFSET;
 	swground();
 
 	// sdh 28/06/2002: cleared this up a lot, no more 
 	// creating objects etc
 
-	Vid_DispSymbol(260+X_OFFSET, 180, symbol_plane[0][0], 1);
-	Vid_DispSymbol(50+X_OFFSET, 180, symbol_plane_win[3], 1);
-	Vid_DispSymbol(100+X_OFFSET, ground[800] + 16, symbol_ox[0], 1);
-	Vid_DispSymbol(234+X_OFFSET, ground[934] + 16, symbol_targets[3], 2);
-	Vid_DispSymbol(20+X_OFFSET, 160, symbol_plane_hit[0], 1);
+	Vid_DispSymbol(40+X_OFFSET, 180, symbol_plane[0][0], 1);
+	//Vid_DispSymbol(110+X_OFFSET, 70, symbol_plane_win[3], 1);
+	Vid_DispSymbol(130+X_OFFSET, 80, symbol_plane[1][7], 2);
+	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16, symbol_targets[3], 2);
+	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, symbol_ox[0], 1);
+	Vid_DispSymbol(270+X_OFFSET, 160, symbol_plane_hit[0], 2);
 
 	for (i = 9, h=150; i; --i, h += 5)
-		Vid_PlotPixel(30+X_OFFSET, h, 3);
+		Vid_PlotPixel(280+X_OFFSET, h, 3);
 
 #endif				/* #ifndef NET_TITLE */
 }
