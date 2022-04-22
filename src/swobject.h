@@ -24,7 +24,7 @@
 
 #include "sw.h"
 
-extern OBJECTS *allocobj();
+extern OBJECTS *allocobj(void);
 extern void deallobj(OBJECTS *obp);
 
 #endif

@@ -99,7 +99,7 @@ void Speaker_Output(unsigned short count)
 
 // turn speaker on
 
-void Speaker_On()
+void Speaker_On(void)
 {
 	speaker_on = 1;
 	if (!current_freq)	// sanity check
@@ -108,14 +108,14 @@ void Speaker_On()
 
 // turn sound off
 
-void Speaker_Off()
+void Speaker_Off(void)
 {
 	speaker_on = 0;
 }
 
 static int sound_initted = 0;
 
-void Speaker_Shutdown()
+void Speaker_Shutdown(void)
 {
 	if (!sound_initted)
 		return;
@@ -127,7 +127,7 @@ void Speaker_Shutdown()
 
 // initialise sound
 
-void Speaker_Init()
+void Speaker_Init(void)
 {
 	static SDL_AudioSpec audiospec;
 

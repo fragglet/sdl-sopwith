@@ -31,7 +31,7 @@
 
 // get time in milliseconds
 
-int Timer_GetMS()
+int Timer_GetMS(void)
 {
 	return SDL_GetTicks();
 }
@@ -41,7 +41,7 @@ void Timer_Sleep(int usec)
 	SDL_Delay(usec);
 }
 
-void Timer_Init()
+void Timer_Init(void)
 {
 	SDL_Init(SDL_INIT_TIMER);
 }

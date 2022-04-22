@@ -63,21 +63,21 @@ extern BOOL vid_double_size;        // x2 scale
 
 // init/shutdown
 
-extern void Vid_Init();
-extern void Vid_Shutdown();
-extern void Vid_Reset();
+extern void Vid_Init(void);
+extern void Vid_Shutdown(void);
+extern void Vid_Reset(void);
 
 // update screen
 
-extern void Vid_Update();
+extern void Vid_Update(void);
 
-extern BOOL Vid_GetCtrlBreak();
+extern BOOL Vid_GetCtrlBreak(void);
 
 // keyboard functions
 
-extern int Vid_GetKey();
-extern int Vid_GetChar();
-extern int Vid_GetGameKeys();
+extern int Vid_GetKey(void);
+extern int Vid_GetChar(void);
+extern int Vid_GetGameKeys(void);
 extern const char *Vid_KeyName(int key);
 
 // drawing routines
@@ -103,7 +103,7 @@ extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
 
 // clear screen
 
-void Vid_ClearBuf();
+void Vid_ClearBuf(void);
 
 #endif
 

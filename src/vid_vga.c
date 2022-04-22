@@ -219,7 +219,7 @@ void Vid_Box(int x, int y, int w, int h, int c)
 // Clear screen
 //
 
-void Vid_ClearBuf()
+void Vid_ClearBuf(void)
 {
 	memset(vid_vram, 0, VRAMSIZE);
 }

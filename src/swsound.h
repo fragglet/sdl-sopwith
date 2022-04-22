@@ -32,15 +32,15 @@
 #define S_HIT           50
 #define S_PLANE         60
 
-extern void initsndt();
+extern void initsndt(void);
 extern void sound(int type, int parm, OBJECTS *ob);
-extern void swsound();
+extern void swsound(void);
 extern void initsound(OBJECTS *obp, int type);
 extern void stopsound(OBJECTS *ob);
 extern OBJECTS *ob;
 extern unsigned freq;
 extern unsigned  modulo;
-extern void swsndupdate();
+extern void swsndupdate(void);
 
 #endif
 

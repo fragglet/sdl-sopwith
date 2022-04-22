@@ -27,7 +27,7 @@
 #include "swmain.h"
 #include "swobject.h"
 
-OBJECTS *allocobj()
+OBJECTS *allocobj(void)
 {
 	OBJECTS *ob;
 

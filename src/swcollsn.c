@@ -436,7 +436,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 }
 
 
-void swcollsn()
+void swcollsn(void)
 {
 	OBJECTS *ob, *obp, **obkd, **obkr;
 	int xmax, ymin, ymax, i;

@@ -49,7 +49,7 @@
 
 ---------------------------------------------------------------------------*/
 
-static void dispgrnd()
+static void dispgrnd(void)
 {
 	if (conf_solidground)
 		Vid_DispGround_Solid(ground + displx);
@@ -68,7 +68,7 @@ static void dispgrnd()
 
 
 
-void swground()
+void swground(void)
 {
 	dispgrnd();
 }
@@ -139,7 +139,7 @@ void swputsym(int x, int y, OBJECTS * ob)
 
 // sdh 14/2/2003: always draw bullets white
 
-void swdisp()
+void swdisp(void)
 {
 	OBJECTS *ob;
 

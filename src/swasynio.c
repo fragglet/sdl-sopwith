@@ -48,12 +48,12 @@ char asynhost[128];
 
 static int timeout_time;
 
-static void settimeout()
+static void settimeout(void)
 {
 	timeout_time = Timer_GetMS() + TIMEOUT_LEN_MS;
 }
 
-static BOOL timeout()
+static BOOL timeout(void)
 {
 	return Timer_GetMS() >= timeout_time;
 }
@@ -64,7 +64,7 @@ static inline void sendshort(int s)
 	commout((s >> 8) & 0xff);
 }
 
-static inline int try_readshort()
+static inline int try_readshort(void)
 {
 	int s, t;
 
@@ -85,7 +85,7 @@ static inline int try_readshort()
 	return (t << 8) + s;
 }
 
-static int readshort()
+static int readshort(void)
 {
 	int i;
 
@@ -106,7 +106,7 @@ void asynput(int movekey)
 	sendshort(movekey);
 }
 
-char *asynclos()
+char *asynclos(void)
 {
 	commterm();
 	return NULL;
@@ -134,7 +134,7 @@ void asynupdate(void)
 
 #define PROTOHEADER PACKAGE_STRING
 
-static void synchronize()
+static void synchronize(void)
 {
 	// check for header
 
@@ -153,7 +153,7 @@ static void synchronize()
 
 	snprintf(buf, sizeof(PROTOHEADER) + 5, PROTOHEADER "%d", !player);
 
-	settimeout(2000);
+	settimeout();
 
 	for (p = buf; *p;) {
 		int c;
@@ -201,7 +201,7 @@ static void synchronize()
 
 // setup tcp loop
 
-static void tcploop_connect()
+static void tcploop_connect(void)
 {
 	int time;
 
@@ -280,7 +280,7 @@ static void tcploop_connect()
 
 // setup connection
 
-static void asyninit()
+static void asyninit(void)
 {
 	if (asynmode == ASYN_TCPLOOP) {
 		tcploop_connect();
@@ -306,7 +306,7 @@ static void asyninit()
 	}
 }
 
-void init1asy()
+void init1asy(void)
 {
 #ifndef TCPIP
 	fprintf(stderr, "TCP/IP support not compiled into binary!\n");
@@ -323,7 +323,7 @@ void init1asy()
 
 
 
-void init2asy()
+void init2asy(void)
 {
 	initplyr(NULL);
 	initplyr(NULL);

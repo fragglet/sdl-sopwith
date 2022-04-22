@@ -45,7 +45,7 @@
 
 #define NET_TITLE
 
-void swtitln()
+void swtitln(void)
 {
 	int i, h;
 
@@ -141,7 +141,7 @@ void swtitln()
 #endif				/* #ifndef NET_TITLE */
 }
 
-void swtitlf()
+void swtitlf(void)
 {
 
 	if (titleflg)
@@ -161,14 +161,14 @@ void swtitlf()
 // rename to swmenus.c?
 //
 
-BOOL ctlbreak()
+BOOL ctlbreak(void)
 {
 	return Vid_GetCtrlBreak();
 }
 
 // clear bottom of screen
 
-void clrprmpt()
+void clrprmpt(void)
 {
 	// sdh: generic clear
 
@@ -182,7 +182,7 @@ void clrprmpt()
 	swposcur(0, 20);
 }
 
-static BOOL gethost()
+static BOOL gethost(void)
 {
 	clrprmpt();
 
@@ -194,7 +194,7 @@ static BOOL gethost()
 
 // network menu
 
-static BOOL getnet()
+static BOOL getnet(void)
 {
 	for (;;) {
 		clrprmpt();
@@ -229,7 +229,7 @@ static BOOL getnet()
 
 // controller menu (unused)
 #if 0
-static void getkey()
+static void getkey(void)
 {
 	char key;
 
@@ -272,7 +272,7 @@ static void getkey()
 
 // game menu for multiplayer (unused)
 
-int getgame()
+int getgame(void)
 {
 	int game;
 
@@ -290,7 +290,7 @@ int getgame()
 
 // sdh: get single player skill level
 
-static BOOL getskill()
+static BOOL getskill(void)
 {
 	for (;;) {
 		clrprmpt();
@@ -315,7 +315,7 @@ static BOOL getskill()
 	}
 }
 
-void getgamemode()
+void getgamemode(void)
 {
 	for (;;) {
 		char c;

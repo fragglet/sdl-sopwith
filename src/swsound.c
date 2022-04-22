@@ -124,7 +124,7 @@ static unsigned int swrand(unsigned int modulo)
 }
 
 
-static TONETAB *allocton()
+static TONETAB *allocton(void)
 {
 	TONETAB *tt;
 
@@ -168,7 +168,7 @@ static void deallton(TONETAB * ttp)
 
 
 
-void initsndt()
+void initsndt(void)
 {
 	TONETAB *tt;
 	int i;
@@ -197,7 +197,7 @@ void stopsound(OBJECTS * ob)
 
 
 
-void soundoff()
+void soundoff(void)
 {
 	if (lastfreq) {
 
@@ -238,7 +238,7 @@ static void tone(unsigned int freq)
 #define DOT         '.'
 #define REST        'R'
 
-void playnote()
+void playnote(void)
 {
 
 	static int noteindex[] = { 0, 2, 3, 5, 7, 8, 10 };
@@ -357,7 +357,7 @@ void playnote()
 }
 
 
-static void adjcont()
+static void adjcont(void)
 {
 	TONETAB *tt = lastobj->ob_sound;
 
@@ -368,7 +368,7 @@ static void adjcont()
 
 
 
-static void adjshot()
+static void adjshot(void)
 {
 	static unsigned savefreq;
 
@@ -381,7 +381,7 @@ static void adjshot()
 }
 
 
-static void explnote()
+static void explnote(void)
 {
 	line = explline;
 	place = explplace;
@@ -396,7 +396,7 @@ static void explnote()
 }
 
 
-static void adjexpl()
+static void adjexpl(void)
 {
 	--explticks;
 
@@ -407,7 +407,7 @@ static void adjexpl()
 }
 
 
-static void titlnote()
+static void titlnote(void)
 {
 	line = titlline;
 	place = titlplace;
@@ -424,7 +424,7 @@ static void titlnote()
 }
 
 
-static void adjtitl()
+static void adjtitl(void)
 {
 	--titlticks;
 
@@ -434,7 +434,7 @@ static void adjtitl()
 }
 
 
-static void soundadj()
+static void soundadj(void)
 {
 
 	++soundticks;
@@ -451,7 +451,7 @@ static void soundadj()
 
 
 
-void swsound()
+void swsound(void)
 {
 	TONETAB *tt;
 
@@ -599,7 +599,7 @@ void initsound(OBJECTS * obp, int type)
 
 static int lastclock = 0;
 
-void swsndupdate()
+void swsndupdate(void)
 {
 	int thisclock = Timer_GetMS();
 

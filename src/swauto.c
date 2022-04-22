@@ -102,7 +102,7 @@ int shoot(OBJECTS *obt)
 
 static int tl, tr;
 
-static void cleartargs()
+static void cleartargs(void)
 {
 	tl = -2;
 }

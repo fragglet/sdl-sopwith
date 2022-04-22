@@ -120,7 +120,7 @@ void commconnect(char *host)
 
 // open a socket and listen until a connection is established
 
-void commlisten()
+void commlisten(void)
 {
 #ifdef TCPIP
 	struct sockaddr_in in;
@@ -206,7 +206,7 @@ void commlisten()
 
 // read a byte from socket
 
-int commin()
+int commin(void)
 {
 #ifdef TCPIP
 	unsigned char c;
@@ -256,7 +256,7 @@ void commout(unsigned char i)
 
 // disconnect
 
-void commterm()
+void commterm(void)
 {
 #ifdef TCPIP
 	if (tcp_sock > 0) {

@@ -29,8 +29,8 @@ extern void swputs(const char *sp );
 extern void swgets(char *s, int max);
 extern void swcolour(int a);
 extern void swposcur(int a, int b);
-extern int swgetc();
-extern void swflush();
+extern int swgetc(void);
+extern void swflush(void);
 extern void swdispd(int n, int size);
 
 #endif

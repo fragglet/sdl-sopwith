@@ -69,7 +69,7 @@ void swdispsplats(void)
 
 static unsigned long seed = SEED_START;
 
-static unsigned long randsd()
+static unsigned long randsd(void)
 {
 	seed *= countmove;
 	seed += 7491;

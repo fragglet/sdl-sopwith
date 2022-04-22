@@ -60,17 +60,17 @@ void setdxdy(OBJECTS * obj, int dx, int dy)
 	obj->ob_ldy = dy << 8;
 }
 
-void swsetblk()
+void swsetblk(void)
 {
 	// used by the splatted ox code to colour the screen. ?
 }
 
-void swgetjoy()
+void swgetjoy(void)
 {
 	// joystick
 }
 
-void histend()
+void histend(void)
 {
 	// demos?
 }

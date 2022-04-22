@@ -44,7 +44,7 @@
 
 static BOOL quit;
 
-void swmove()
+void swmove(void)
 {
 	OBJECTS *ob, *obn;
 

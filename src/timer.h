@@ -30,8 +30,8 @@
 #ifndef __TIMER_H__
 #define __TIMER_H__
 
-extern void Timer_Init();
-extern int Timer_GetMS();
+extern void Timer_Init(void);
+extern int Timer_GetMS(void);
 extern void Timer_Sleep(int usec);
 
 #endif

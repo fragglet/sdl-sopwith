@@ -48,7 +48,7 @@ static char config_file[] = "sopwith.ini";
 static char config_file[] = ".sopwithrc";
 #endif
 
-static char *get_config_filename()
+static char *get_config_filename(void)
 {
 #ifdef _WIN32
 	// this should probably be saved in the registry,
@@ -181,7 +181,7 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 // ugly but it works
 //
 
-void swloadconf()
+void swloadconf(void)
 {
 	char *config_file = get_config_filename();
 	FILE *fs;
@@ -211,7 +211,7 @@ void swloadconf()
 // save config file
 //
 
-void swsaveconf()
+void swsaveconf(void)
 {
 	char *config_file = get_config_filename();
 	FILE *fs;
@@ -469,7 +469,7 @@ struct menuitem options_menu[] = {
 	{NULL},
 };
 
-void setconfig()
+void setconfig(void)
 {
 	for (;;) {
 		switch (runmenu("OPTIONS", options_menu)) {

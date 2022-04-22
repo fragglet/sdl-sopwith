@@ -26,12 +26,12 @@
 
 extern char *vidram;
 
-extern void swdisp();
-extern void swground();
+extern void swdisp(void);
+extern void swground(void);
 extern void swputsym(int x, int y, OBJECTS *ob);
 //extern char    fill[];
 
-extern void swinitgrph();
+extern void swinitgrph(void);
 
 extern void colorscreen(int color);
 

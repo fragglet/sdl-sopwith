@@ -33,7 +33,7 @@
 #include "swutil.h"
 
 
-static void swreport()
+static void swreport(void)
 {
 	puts("\nEnd of game statistics\n");
 	puts("Objects used: ");
@@ -144,7 +144,7 @@ void loser(OBJECTS * ob)
 	}
 }
 
-void dispendmessage()
+void dispendmessage(void)
 {
 	if (consoleplayer->ob_endsts != PLAYING) {
 		swcolour(0x82);

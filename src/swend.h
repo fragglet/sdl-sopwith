@@ -28,7 +28,7 @@ extern void swend(char *msg, BOOL update);
 extern void endgame(int targclr);
 extern void winner(OBJECTS *obp);
 extern void loser(OBJECTS *ob);
-extern void dispendmessage();
+extern void dispendmessage(void);
 
 #endif
 

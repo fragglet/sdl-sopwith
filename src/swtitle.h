@@ -24,12 +24,12 @@
 
 #include "sw.h"
 
-extern void clrprmpt();
-extern BOOL ctlbreak();
-extern void getgamemode();
-extern int getgame();
-extern void swtitln();
-extern void swtitlf();
+extern void clrprmpt(void);
+extern BOOL ctlbreak(void);
+extern void getgamemode(void);
+extern int getgame(void);
+extern void swtitln(void);
+extern void swtitlf(void);
 
 #endif
 

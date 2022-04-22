@@ -1178,7 +1178,7 @@ sopsym_t symbol_pixel = {
              (out)[_i] = sopsym_from_data((data)[_i], (w), (h));        \
         }
 
-void symbol_generate()
+void symbol_generate(void)
 {
 	sopsyms_from_data(swbmbsym, 8, 8, symbol_bomb);
 	sopsyms_from_data(swtrgsym, 16, 16, symbol_targets);

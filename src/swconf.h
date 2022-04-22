@@ -43,9 +43,9 @@ typedef struct
 	} value;
 } confoption_t;
 
-extern void swloadconf();
-extern void swsaveconf();
-extern void setconfig();          // config menu
+extern void swloadconf(void);
+extern void swsaveconf(void);
+extern void setconfig(void);          // config menu
 
 #endif
 

@@ -26,7 +26,7 @@
 
 int keysdown[NUM_KEYS];
 
-int Vid_GetGameKeys()
+int Vid_GetGameKeys(void)
 {
 	int i, c = 0;
 

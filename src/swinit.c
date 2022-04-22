@@ -103,7 +103,7 @@ PACKAGE_STRING "\n"
 
 // sdh 28/10/2001: moved auxdisp graphic functions into swgrpha.c
 
-static void initobjs()
+static void initobjs(void)
 {
 	OBJECTS *ob;
 	int i;
@@ -126,14 +126,14 @@ static void initobjs()
 }
 
 
-static void initgrnd()
+static void initgrnd(void)
 {
 	// sdh 16/11/200; removed movmem
 
 	memcpy(ground, orground, sizeof(GRNDTYPE) * MAX_X);
 }
 
-static void initseed()
+static void initseed(void)
 {
 	srand(clock());
 	explseed = rand() % 65536;
@@ -621,7 +621,7 @@ void initburst(OBJECTS * obop)
 
 // building/target
 
-static void inittarg()
+static void inittarg(void)
 {
 	OBJECTS *ob;
 	int x, i;
@@ -788,7 +788,7 @@ void initsmok(OBJECTS * obop)
 
 // birds
 
-static void initflck()
+static void initflck(void)
 {
 	static int ifx[] =
 		{ MINFLCKX, MINFLCKX + 1000, MAXFLCKX - 1000, MAXFLCKX };
@@ -865,7 +865,7 @@ void initbird(OBJECTS * obop, int i)
 
 // oxen
 
-static void initoxen()
+static void initoxen(void)
 {
 	OBJECTS *ob;
 	int i;
@@ -907,7 +907,7 @@ static void initoxen()
 
 
 
-static void initgdep()
+static void initgdep(void)
 {
 	gmaxspeed = MAX_SPEED + gamenum;
 	gminspeed = MIN_SPEED + gamenum;
@@ -920,7 +920,7 @@ static void initgdep()
 
 // sdh 27/10/2001: created
 
-void swinitlevel()
+void swinitlevel(void)
 {
 	int i;
 
@@ -981,7 +981,7 @@ void swinitlevel()
 		latest_player_time[i] = 0;
 }
 
-void swrestart()
+void swrestart(void)
 {
 	OBJECTS *ob;
 	int inc;

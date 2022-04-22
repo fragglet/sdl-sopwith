@@ -110,7 +110,7 @@ SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 
 // 2x scale
 
-static void Vid_UpdateScaled()
+static void Vid_UpdateScaled(void)
 {
 	char *pixels = (char *) screen->pixels;
 	char *pixels2 = (char *) screenbuf->pixels;
@@ -138,7 +138,7 @@ static void Vid_UpdateScaled()
 	SDL_UnlockSurface(screen);
 }
 
-void Vid_Update()
+void Vid_Update(void)
 {
 	if (!initted)
 		Vid_Init();
@@ -205,12 +205,12 @@ static void set_icon(sopsym_t *sym)
 }
 
 
-static void Vid_UnsetMode()
+static void Vid_UnsetMode(void)
 {
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-static void Vid_SetMode()
+static void Vid_SetMode(void)
 {
 	int n;
 	int w, h;
@@ -256,7 +256,7 @@ static void Vid_SetMode()
 	SDL_ShowCursor(0);
 }
 
-void Vid_Shutdown()
+void Vid_Shutdown(void)
 {
 	if (!initted)
 		return;
@@ -268,7 +268,7 @@ void Vid_Shutdown()
 	initted = 0;
 }
 
-void Vid_Init()
+void Vid_Init(void)
 {
 	if (initted)
 		return;
@@ -289,7 +289,7 @@ void Vid_Init()
 	SDL_LockSurface(screenbuf);
 }
 
-void Vid_Reset()
+void Vid_Reset(void)
 {
 	if (!initted)
 		return;
@@ -316,7 +316,7 @@ static void input_buffer_push(SDL_keysym c)
 	input_buffer_tail = tail_next;
 }
 
-static SDL_keysym input_buffer_pop()
+static SDL_keysym input_buffer_pop(void)
 {
 	SDL_keysym result;
 
@@ -343,7 +343,7 @@ static sopkey_t translate_key(int sdl_key)
 	return KEY_UNKNOWN;
 }
 
-static void getevents()
+static void getevents(void)
 {
 	SDL_Event event;
 	static BOOL ctrldown = 0, altdown = 0;
@@ -396,7 +396,7 @@ static void getevents()
 	}
 }
 
-int Vid_GetKey()
+int Vid_GetKey(void)
 {
 	SDL_keysym k;
 	getevents();
@@ -404,7 +404,7 @@ int Vid_GetKey()
 	return k.sym;
 }
 
-int Vid_GetChar()
+int Vid_GetChar(void)
 {
 	SDL_keysym k;
 	// Not all keypresses wil have a character associated with them.
@@ -422,7 +422,7 @@ int Vid_GetChar()
 	return k.unicode;
 }
 
-BOOL Vid_GetCtrlBreak()
+BOOL Vid_GetCtrlBreak(void)
 {
 	getevents();
 	return ctrlbreak;

@@ -259,8 +259,8 @@ typedef struct obj {                            /*  Object list             */
         int            ob_index;
         BOOL           ob_drwflg;
         BOOL           ob_onmap;
-        void        ( *ob_drawf ) ();
-        BOOL        ( *ob_movef ) ();
+        void        ( *ob_drawf ) (struct obj *);
+        BOOL        ( *ob_movef ) (struct obj *);
         struct obj    *ob_xnext;
         struct obj    *ob_xprev;
         int            ob_crashcnt;
@@ -290,9 +290,9 @@ typedef struct obj {                            /*  Object list             */
 typedef struct {                                /*  Game structure          */
         int      gm_x[MAX_PLYR*2];
         int      gm_orient[MAX_PLYR*2];
-        unsigned ( *gm_randf ) ();
+        unsigned ( *gm_randf ) (void);
         unsigned gm_rseed;
-        int      ( *gm_specf ) ();
+        int      ( *gm_specf ) (void);
         int      gm_xtarg[MAX_TARG];
         int      gm_ttarg[MAX_TARG];
 	int     *gm_planes;

@@ -26,7 +26,7 @@
 #ifndef __SWSOUND_H__
 #define __SWSOUND_H__
 
-extern void dispstatusbar();
+extern void dispstatusbar(void);
 
 #endif
 

@@ -27,12 +27,12 @@
 #define __TCPCOMM_H__
 
 extern void commconnect(char *host);
-extern void commlisten();
+extern void commlisten(void);
 
-extern int commin();
+extern int commin(void);
 extern void commout(unsigned char c);
 
-extern void commterm();
+extern void commterm(void);
 
 #endif /* __TCPCOMM_H__ */
 

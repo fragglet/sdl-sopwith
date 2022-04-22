@@ -30,15 +30,15 @@
 // Initialise and Shut down
 //
 
-void Speaker_Init();
-void Speaker_Shutdown();
+void Speaker_Init(void);
+void Speaker_Shutdown(void);
 
 //
 // Turn speaker on and off
 //
 
-void Speaker_On();
-void Speaker_Off();
+void Speaker_On(void);
+void Speaker_Off(void);
 
 // 
 // Play a particular tone to the speaker

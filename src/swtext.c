@@ -179,7 +179,7 @@ void swdispd(int n, int size)
 		swputc(' ');
 }
 
-int swgetc()
+int swgetc(void)
 {
 	int i;
 

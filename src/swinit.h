@@ -24,8 +24,8 @@
 
 #include "sw.h"
 extern void swinit(int argc, char *argv[]);
-extern void swinitlevel();
-extern void swrestart();
+extern void swinitlevel(void);
+extern void swrestart(void);
 extern void initdisp(BOOL reset);
 extern void initcomp(OBJECTS *obp);
 extern void initplyr(OBJECTS *obp);
@@ -38,7 +38,7 @@ extern void initexpl(OBJECTS *obop, int small);
 extern void initsmok(OBJECTS *obop);
 extern void initbird(OBJECTS *obop, int i);
 
-extern void dispmap();
+extern void dispmap(void);
 extern void dispgauges(OBJECTS *ob); 
 
 #endif

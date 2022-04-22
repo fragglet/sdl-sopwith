@@ -124,7 +124,7 @@ static void dispgauges(OBJECTS *ob)
 	}
 }
 
-static void dispmapobjects()
+static void dispmapobjects(void)
 {
 	OBJECTS *ob;
 
@@ -142,7 +142,7 @@ static void dispmapobjects()
 	}
 }
 
-static void dispmap()
+static void dispmap(void)
 {
 	int x, y, dx, maxh, sx;
 

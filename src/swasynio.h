@@ -30,9 +30,9 @@ extern asynmode_t asynmode;
 extern char asynhost[128];
 
 extern void asynput(int movekey);
-extern char *asynclos();
-extern void init1asy();
-extern void init2asy();
+extern char *asynclos(void);
+extern void init1asy(void);
+extern void init2asy(void);
 extern void asynupdate(void);
 
 #endif

@@ -24,7 +24,7 @@
 
 #include "sw.h"
 
-extern void swcollsn();
+extern void swcollsn(void);
 extern void tstcrash(OBJECTS *obp);
 extern void scorepln(OBJECTS *ob, obtype_t type);
 

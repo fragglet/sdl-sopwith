@@ -54,7 +54,7 @@ extern sopsym_t *symbol_ribbon[6];		  // swribbonsym
 
 extern sopsym_t symbol_pixel;
 
-extern void symbol_generate();
+extern void symbol_generate(void);
 
 #endif
 

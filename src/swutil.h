@@ -26,9 +26,9 @@
 
 extern void movexy(OBJECTS *ob, int *x, int *y);
 extern void setdxdy(OBJECTS *obj, int dx, int dy);
-extern void swsetblk();
-extern void swgetjoy();
-extern void histend();
+extern void swsetblk(void);
+extern void swgetjoy(void);
+extern void histend(void);
 
 #endif
 

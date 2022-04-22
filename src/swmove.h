@@ -24,7 +24,7 @@
 
 #include "sw.h"
 
-extern void swmove();
+extern void swmove(void);
 extern BOOL moveplyr(OBJECTS *obp);
 extern void interpret(OBJECTS *obp, int key);
 extern BOOL movecomp(OBJECTS *obp);
