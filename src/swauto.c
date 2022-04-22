@@ -45,7 +45,7 @@ int shoot(OBJECTS *obt)
 	obsp = obs;
 	obtsp = *obt;
 	nspeed = obsp.ob_speed + BULSPEED;
-	setdxdy(&obsp, 
+	setdxdy(&obsp,
 		nspeed * COS(obsp.ob_angle),
 		nspeed * SIN(obsp.ob_angle));
 	obsp.ob_x += SYM_WDTH / 2;
@@ -67,7 +67,7 @@ int shoot(OBJECTS *obt)
 				else
 					nangle += r;
 				nangle = (nangle + ANGLES) % ANGLES;
-				setdxdy(&obtsp, 
+				setdxdy(&obtsp,
 					nspeed * COS(nangle),
 					nspeed * SIN(nangle));
 			}
@@ -115,7 +115,7 @@ static void testtargs(int x, int y)
 	if (tl == -1)
 		return;
 
-	for (; i < MAX_TARG + MAX_OXEN 
+	for (; i < MAX_TARG + MAX_OXEN
 	       && targets[i]
 	       && targets[i]->ob_x < xr; ++i);
 
@@ -124,7 +124,7 @@ static void testtargs(int x, int y)
 
 
 
-// sdh: changed to tstcrash2 to stop conflicts with the other 
+// sdh: changed to tstcrash2 to stop conflicts with the other
 // function with the same name in swcollsn.c
 
 static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
@@ -195,8 +195,8 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		ob->ob_hitcount = 0;
 		return (aim(ob, x + (dx < 0 ? 150 : -150),
 			    (y + 100 > MAX_Y - 50 - courseadj)
-		 		? MAX_Y - 50 - courseadj 
-				: y + 100, 
+			        ? MAX_Y - 50 - courseadj
+			        : y + 100,
 			    NULL, YES));
 	} else {
 		if (!longway)
@@ -208,7 +208,7 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		correction = dy = y - ay;
 
 		if (correction && abs(dy) < 6) {
-			if (dy < 0) 
+			if (dy < 0)
 				++y;
 			else
 				--y;
@@ -443,7 +443,7 @@ int range(int x, int y, int ax, int ay)
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 21/10/2001: rearranged file headers, added cvs tags
-// sdh 21/10/2001: reformatted with indent, adjusted some code by 
+// sdh 21/10/2001: reformatted with indent, adjusted some code by
 // 		   hand to make more readable
 // sdh 19/10/2001: removed all externs, this is now in headers
 // 		   some static functions shuffled around to shut

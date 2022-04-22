@@ -351,7 +351,7 @@ void playnote(void)
 	}
 #ifdef SOPWITH1_TUNE
 	tunedura = duration * 0.7;
-#else 
+#else
 	tunedura = duration;
 #endif
 }
@@ -640,7 +640,7 @@ void swsndupdate(void)
 // sdh 21/10/2001: rearranged headers, added cvs tags
 // sdh 21/10/2001: reformatted with indent. adjusted some code by hand
 //                 to make more readable
-// sdh 20/10/2001: added #define to use sopwith 1 theme (extracted from 
+// sdh 20/10/2001: added #define to use sopwith 1 theme (extracted from
 //                 hexdump of sopwith1.exe)
 // sdh 19/10/2001: removed externs (now in headers)
 //                 shuffled some functions round to shut up compiler

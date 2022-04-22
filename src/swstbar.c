@@ -52,17 +52,17 @@ static void dispmedals(OBJECTS *ob)
 	for (i = 0; i < ob->ob_score.medals_nr; i++) {
 		int medal_id = ob->ob_score.medalslist[i];
 
-		Vid_DispSymbol(medal_offset + medal_offsets[medal_id], 
+		Vid_DispSymbol(medal_offset + medal_offsets[medal_id],
 		               11, symbol_medal[medal_id], 0);
 		medal_offset += medal_widths[medal_id];
 	}
 
 	if (ob->ob_score.ribbons_nr <= 3) {
-		dispribbonrow(ob->ob_score.ribbons, 
+		dispribbonrow(ob->ob_score.ribbons,
 		              ob->ob_score.ribbons_nr, 15);
 	} else {
 		dispribbonrow(ob->ob_score.ribbons, 3, 16);
-		dispribbonrow(ob->ob_score.ribbons + 3, 
+		dispribbonrow(ob->ob_score.ribbons + 3,
 		              ob->ob_score.ribbons_nr - 3, 14);
 	}
 }
@@ -75,7 +75,7 @@ static void dispscore(OBJECTS * ob)
 	swcolour(ob->ob_clr);
 	swdispd(ob->ob_score.score, 6);
 }
- 
+
 static void dispgge(int x, int cury, int maxy, int clr)
 {
 	int y;
@@ -132,11 +132,11 @@ static void dispmapobjects(void)
 		if (ob->ob_onmap) {
 			int x, y;
 
-			x = SCR_CENTR 
+			x = SCR_CENTR
 			  + ((ob->ob_x + (ob->ob_newsym->w / 2)) / WRLD_RSX);
-			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY); 
+			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY);
 
-			if (y < SCR_MNSH-1) 
+			if (y < SCR_MNSH-1)
 				Vid_PlotPixel(x, y, ob->ob_clr);
 		}
 	}

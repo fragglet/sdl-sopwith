@@ -87,7 +87,7 @@ void commconnect(char *host)
 	tcp_sock = SDLNet_TCP_Connect(&addr);
 
 	if (!tcp_sock) {
-		fprintf(stderr, 
+		fprintf(stderr,
 			"commconnect: cant connect to host (%s)\n",
 			SDLNet_GetError());
 		exit(-1);
@@ -129,7 +129,7 @@ void commlisten(void)
 
 	for (;;) {
 		if (ctlbreak()) {
-			fprintf(stderr, 
+			fprintf(stderr,
 				"commlisten: user aborted connect\n");
 			exit(-1);
 		}
@@ -166,7 +166,7 @@ void commlisten(void)
 
 	if (!tcp_sock) {
 		fprintf(stderr, "commlisten: error in accepting "
-			"connection: %s\n", 
+			"connection: %s\n",
 			SDLNet_GetError());
 
 		exit(-1);

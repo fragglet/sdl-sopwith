@@ -117,7 +117,7 @@ jmp_buf envrestart;		/* Restart environment for restart  */
 
 /* player commands */
 
-/* buffer of player commands, loops round. 
+/* buffer of player commands, loops round.
  * latest_player_commands[plr][latest_player_time[plr] % MAX_NET_LAG] is the
  * very latest command for plr.
  */
@@ -170,7 +170,7 @@ static void calculate_lag(void)
 	// only make a small adjustment based on the lag, so as not
 	// to affect the playability.  however, over a long period
 	// this should have the desired effect.
- 
+
 	compensation = lag / 100;
 
 	// bound the compensation applied; responds to network traffic
@@ -215,7 +215,7 @@ static void new_move(void)
 #if 0
 static void dump_cmds(void)
 {
-	printf("%i: %i, %i\n", countmove, 
+	printf("%i: %i, %i\n", countmove,
 		latest_player_commands[0][countmove % MAX_NET_LAG],
 		latest_player_commands[1][countmove % MAX_NET_LAG]
 		);
@@ -284,7 +284,7 @@ int swmain(int argc, char *argv[])
 			swsound();
 		}
 
-		// sdh 15/11/2001: dont thrash the 
+		// sdh 15/11/2001: dont thrash the
 		// processor while waiting
 		Timer_Sleep(10);
 	}

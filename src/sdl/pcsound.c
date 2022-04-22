@@ -179,7 +179,7 @@ void Speaker_Sound(int freq, int duration)
 }
 
 //-----------------------------------------------------------------------
-// 
+//
 // $Log$
 // Revision 1.2  2005/04/29 19:25:29  fraggle
 // Update copyright to 2005

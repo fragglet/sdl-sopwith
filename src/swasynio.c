@@ -217,7 +217,7 @@ static void tcploop_connect(void)
 	swputs("  Connected, waiting for other player\n");
 	Vid_Update();
 
-	// for the first 5 seconds, listen to see if theres another player 
+	// for the first 5 seconds, listen to see if theres another player
 	// there
 
 	for (time = Timer_GetMS() + 5000; Timer_GetMS() < time; ) {
@@ -236,7 +236,7 @@ static void tcploop_connect(void)
 				player = 1;
 				return;
 			} else {
-				fprintf(stderr, 
+				fprintf(stderr,
 					"tcploop_connect: invalid"
 					"char received\n");
 				exit(-1);
@@ -263,7 +263,7 @@ static void tcploop_connect(void)
 				player = 0;
 				return;
 			} else {
-				fprintf(stderr, 
+				fprintf(stderr,
 					"tcploop_connect: invalid"
 					"char received\n");
 				exit(-1);

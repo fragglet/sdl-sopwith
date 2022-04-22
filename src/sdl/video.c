@@ -43,7 +43,7 @@
 
 static SDL_Color cga_pal[] = {
 #ifdef LCD
-	{213, 226, 138}, {150, 160, 150}, 
+	{213, 226, 138}, {150, 160, 150},
 	{120, 120, 160}, {0, 20, 200},
 #else
 	{0, 0, 0}, {0, 255, 255},
@@ -147,7 +147,7 @@ void Vid_Update(void)
 
 	if (vid_double_size)
 		Vid_UpdateScaled();
-	else 
+	else
 		SDL_BlitSurface(screenbuf, NULL, screen, NULL);
 
 	SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
@@ -187,7 +187,7 @@ static void set_icon(sopsym_t *sym)
 				mask[i / 8] = 0;
 			}
 
-			if (pixels[i]) 
+			if (pixels[i])
 				mask[i / 8] |= 0x01;
 
 			++i;
@@ -434,7 +434,7 @@ const char *Vid_KeyName(int key)
 }
 
 //-----------------------------------------------------------------------
-// 
+//
 // $Log$
 // Revision 1.8  2005/06/01 10:17:26  fraggle
 // Don't #include files with drawing functions.
@@ -471,7 +471,7 @@ const char *Vid_KeyName(int key)
 // sdh 26/03/2002: now using platform specific vga code for drawing stuff
 //                 (#include "vid_vga.c")
 //                 rename CGA_ to Vid_
-// sdh 17/11/2001: buffered input for keypresses, 
+// sdh 17/11/2001: buffered input for keypresses,
 //                 CGA_GetLastKey->CGA_GetKey
 // sdh 07/11/2001: add CGA_Reset
 // sdh 21/10/2001: added cvs tags

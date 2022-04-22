@@ -185,7 +185,7 @@ int swgetc(void)
 
 	while(!(i = Vid_GetChar())) {
 
-		// sdh 15/11/2001: dont thrash the processor while 
+		// sdh 15/11/2001: dont thrash the processor while
 		// waiting for a key press
 
 		Timer_Sleep(100);

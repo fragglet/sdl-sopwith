@@ -136,7 +136,7 @@ void loser(OBJECTS * ob)
 {
 	ob->ob_endsts = LOSER;
 
-	// sdh 28/4/2002: change swposcur to center screen on 
+	// sdh 28/4/2002: change swposcur to center screen on
 	// non-320 pixel wide screens
 
 	if (ob == consoleplayer) {

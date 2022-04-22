@@ -53,7 +53,7 @@ static void dispgrnd(void)
 {
 	if (conf_solidground)
 		Vid_DispGround_Solid(ground + displx);
-	else 
+	else
 		Vid_DispGround(ground + displx);
 }
 
@@ -184,7 +184,7 @@ void swdisp(void)
 //		y += ob->ob_dy * lag;
 
 		if (ob->ob_drwflg
-		 && x >= displx 
+		 && x >= displx
 		 && x < displx + SCR_WDTH) {
 			swputsym(x - displx, y, ob);
 
@@ -282,7 +282,7 @@ void colorscreen(int color)
 // 		  fix bullets being colored (should be white)
 // sdh 27/7/2002: removed old collision detection code
 // sdh 27/6/2002: move to new sopsym_t for symbols
-// sdh 26/03/2002: moved all drawing functions into platform specific 
+// sdh 26/03/2002: moved all drawing functions into platform specific
 //                 files
 //                 change CGA_ to Vid_
 // sdh 28/10/2001: get_type/set_type removed

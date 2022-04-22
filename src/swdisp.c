@@ -178,7 +178,7 @@ void dispplyr(OBJECTS * ob)
 //
 //
 // sdh 14/2/2003: change license header to GPL
-// sdh 27/06/2002: move to new sopsym_t for symbols, 
+// sdh 27/06/2002: move to new sopsym_t for symbols,
 //                 remove symwdt and symhgt
 // sdh 28/10/2001: option to disable hud splats
 // sdh 21/10/2001: rearranged file headers, added cvs tags

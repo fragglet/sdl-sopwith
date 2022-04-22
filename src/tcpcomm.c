@@ -171,7 +171,7 @@ void commlisten(void)
 
 	for (;;) {
 		if (ctlbreak()) {
-			fprintf(stderr, 
+			fprintf(stderr,
 				"commlisten: user aborted connect\n");
 			exit(-1);
 		}

@@ -666,7 +666,7 @@ static void inittarg(void)
 		ob->ob_life = i;
 
 		if (playmode != PLAYMODE_ASYNCH)
-			ob->ob_owner = 
+			ob->ob_owner =
 				&nobjects[(i < MAX_TARG / 2
 					   && i > MAX_TARG / 2 - 4)
 						? 0 : 1];
@@ -704,7 +704,7 @@ void initexpl(OBJECTS * obop, int small)
 	obotype = obo->ob_type;
 	if (obotype == TARGET && obo->ob_orient == 2) {
 		ic = 1;
-		// adding in option here for large oil tank explosions 
+		// adding in option here for large oil tank explosions
 		// - Jesse
 		if (conf_explosions)
 			speed = gminspeed * 4 / 3;
@@ -714,7 +714,7 @@ void initexpl(OBJECTS * obop, int small)
 		ic = small ? 6 : 2;
 		speed = gminspeed >> ((explseed & 7) != 7);
 	}
-	mansym = obotype == PLANE 
+	mansym = obotype == PLANE
 		 && (obo->ob_state == FLYING || obo->ob_state == WOUNDED);
 
 	for (i = 1; i <= 15; i += ic) {
@@ -1108,13 +1108,13 @@ void swinit(int argc, char *argv[])
 
 	//        explseed = histinit( explseed );
 	initsndt();
-	initgrnd();           // needed for title screen 
+	initgrnd();           // needed for title screen
 	
 	// sdh 26/03/2002: remove swinitgrph
 
 	// set playmode if we can, from command line options
 
-	playmode = 
+	playmode =
 		n ? PLAYMODE_NOVICE :
 		s ? PLAYMODE_SINGLE :
 		c ? PLAYMODE_COMPUTER :

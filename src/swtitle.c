@@ -125,7 +125,7 @@ void swtitln(void)
 	displx = 507-X_OFFSET;
 	swground();
 
-	// sdh 28/06/2002: cleared this up a lot, no more 
+	// sdh 28/06/2002: cleared this up a lot, no more
 	// creating objects etc
 
 	Vid_DispSymbol(40+X_OFFSET, 180, symbol_plane[0][0], 1);
@@ -343,7 +343,7 @@ void getgamemode(void)
 			if (getskill())
 				return;
 			break;
-		case 'O': 
+		case 'O':
 			setconfig();
 			break;
 		case 'C':

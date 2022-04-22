@@ -88,7 +88,7 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 
 	// no intersection?
 
-	if (w <= 0)     
+	if (w <= 0)
 		return;
 
 	// y:
@@ -142,7 +142,7 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 					killer[killptr] = ob1;
 					++killptr;
 				}
-				return; 
+				return;
 			}
 
 			++d1; ++d2;
@@ -272,7 +272,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		return;
 
 	case SHOT:
-		/* cr 2005-04-28: Don't stop the shot if it just 
+		/* cr 2005-04-28: Don't stop the shot if it just
 		 * launched from its presumed originator */
 
 		if (!(obt && obt->ob_type == PLANE
@@ -499,7 +499,7 @@ void tstcrash(OBJECTS * obp)
 		// out of range?
 
 		if (y >= sym->h)
-			continue; 
+			continue;
 
 		// check for collision at this point
 

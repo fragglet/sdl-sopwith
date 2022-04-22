@@ -26,7 +26,7 @@
 
 #include "sw.h"
 
-/* maximum number of tics before the game stops sending commands over 
+/* maximum number of tics before the game stops sending commands over
  * the network */
 
 #define MAX_NET_LAG 12

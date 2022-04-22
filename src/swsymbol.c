@@ -27,7 +27,7 @@
 #include "swsymbol.h"
 
 // sdh 28/6/2002: these are from swsymbol.h
-// some of this is probably kind of redundant seeing as the data is 
+// some of this is probably kind of redundant seeing as the data is
 // all static now
 
 #define BOMBBYTES       16              /*  Bytes in a bomb symbol          */
@@ -1107,11 +1107,11 @@ static unsigned char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
 	  0xaf, 0xe8 }	/* MMWWWMM : PREVALOUR */
 };
 
-// sdh 27/6/2002: create a sopsym_t structure from the original 
+// sdh 27/6/2002: create a sopsym_t structure from the original
 // raw sprite data.
 // the data in sopsym_t's is in a simpler one-byte-per-pixel format
 // rather than packing 4 pixels into one byte as in the original data.
-// this simplifies various stuff such as collision detection. 
+// this simplifies various stuff such as collision detection.
 
 static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h)
 {
@@ -1233,8 +1233,8 @@ void symbol_generate(void)
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 28/06/2002: move plane sprites here, drop swplanes.c
-//                 original sprite data (char sw*) made static 
-// sdh 27/06/2002: add code to generate new sopsym_t objects from the 
+//                 original sprite data (char sw*) made static
+// sdh 27/06/2002: add code to generate new sopsym_t objects from the
 //                 original sprite data
 // sdh 21/10/2001: reformatted headers, added cvs tags
 // sdh 20/10/2001: added some missing {}'s to shut up compiler

@@ -126,7 +126,7 @@ static void refuel(OBJECTS * obp)
 
 	ob = obp;
 
-	// sdh 26/10/2001: top up stuff, if anything happens update 
+	// sdh 26/10/2001: top up stuff, if anything happens update
 	// the gauges (now a single function)
 	// sdh 27/10/2001: fix refueling in parallel (was a single
 	// set of ||'s and was being shortcircuited)
@@ -397,7 +397,7 @@ static BOOL stallpln(OBJECTS * obp)
 	ob->ob_speed = 0;
 	ob->ob_dy = 0;
 	ob->ob_hitcount = STALLCOUNT;
-	ob->ob_state = 
+	ob->ob_state =
 		ob->ob_state == WOUNDED ? WOUNDSTALL : STALLED;
 	ob->ob_athome = FALSE;
 
@@ -417,7 +417,7 @@ BOOL movepln(OBJECTS * obp)
 	// sdh 28/4/2002: aargh! char is not neccesarily signed char,
 	// it seems. use int
 
-	static signed int gravity[] = { 
+	static signed int gravity[] = {
 		0, -1, -2, -3, -4, -3, -2, -1,
 		0, 1, 2, 3, 4, 3, 2, 1
 	};
@@ -596,7 +596,7 @@ BOOL movepln(OBJECTS * obp)
 	}
 
 	if (ob->ob_endsts == WINNER && ob->ob_goingsun)
-		ob->ob_newsym = symbol_plane_win[endcount / 18]; 
+		ob->ob_newsym = symbol_plane_win[endcount / 18];
 	else if (ob->ob_state == FINISHED)
 		ob->ob_newsym = NULL;
 	else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0)
@@ -604,7 +604,7 @@ BOOL movepln(OBJECTS * obp)
 	else
 		ob->ob_newsym = symbol_plane[ob->ob_orient][ob->ob_angle];
 
-	//ob->ob_newsym = 
+	//ob->ob_newsym =
 	//ob->ob_state == FINISHED ? NULL :
 	//((ob->ob_state == FALLING
 	//&& !ob->ob_dx && ob->ob_dy < 0)
@@ -732,7 +732,7 @@ BOOL movebomb(OBJECTS * obp)
 		return FALSE;
 	}
 
-	ob->ob_newsym = symbol_bomb[symangle(ob)]; 
+	ob->ob_newsym = symbol_bomb[symangle(ob)];
 	insertx(ob, ob->ob_xnext);
 
 	if (y >= MAX_Y)
@@ -770,7 +770,7 @@ BOOL movemiss(OBJECTS * obp)
 			    =
 			    (ob->ob_angle + ob->ob_flaps +
 			     ANGLES) % ANGLES;
-			setdxdy(ob, 
+			setdxdy(ob,
 				ob->ob_speed * COS(angle),
 				ob->ob_speed * SIN(angle));
 		}
@@ -828,7 +828,7 @@ BOOL moveburst(OBJECTS * obp)
 	}
 
 	ob->ob_owner->ob_target = ob;
-	ob->ob_newsym = symbol_burst[ob->ob_life & 1]; 
+	ob->ob_newsym = symbol_burst[ob->ob_life & 1];
 	insertx(ob, ob->ob_xnext);
 
 	return y < MAX_Y;
@@ -845,7 +845,7 @@ BOOL movetarg(OBJECTS * obt)
 	ob = obt;
 	obp = objtop;
 	ob->ob_firing = NULL;
-	if (gamenum 
+	if (gamenum
 	    && ob->ob_state == STANDING
 	    && (obp->ob_state == FLYING
 		|| obp->ob_state == STALLED
@@ -862,7 +862,7 @@ BOOL movetarg(OBJECTS * obt)
 	if (ob->ob_hitcount < 0)
 		ob->ob_hitcount = 0;
 
-	if (ob->ob_state == STANDING) 
+	if (ob->ob_state == STANDING)
 		ob->ob_newsym = symbol_targets[ob->ob_orient];
 	else
 		ob->ob_newsym = symbol_target_hit;
@@ -973,7 +973,7 @@ BOOL moveflck(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = symbol_flock[ob->ob_orient]; 
+	ob->ob_newsym = symbol_flock[ob->ob_orient];
 	return TRUE;
 }
 
@@ -995,7 +995,7 @@ BOOL movebird(OBJECTS * obp)
 		ob->ob_dy = -ob->ob_dy;
 		ob->ob_dx = (countmove & 7) - 4;
 		ob->ob_life = BIRDLIFE;
-	} else { 
+	} else {
 		--ob->ob_life;
 		
 		if (ob->ob_life <= 0) {
