@@ -78,11 +78,11 @@
 // sdh 28/10/2001: made into a type
 
 typedef enum {
-        PLAYMODE_UNSET = 0,
-        PLAYMODE_SINGLE,
-        PLAYMODE_COMPUTER,
-        PLAYMODE_ASYNCH,
-        PLAYMODE_NOVICE
+	PLAYMODE_UNSET = 0,
+	PLAYMODE_SINGLE,
+	PLAYMODE_COMPUTER,
+	PLAYMODE_ASYNCH,
+	PLAYMODE_NOVICE
 } playmode_t;
 
 #define MAXROUNDS       200             /* Maximum number of rounds of shot */
@@ -118,44 +118,44 @@ typedef enum {
 #define FLOCKLIFE       5               /* Moves between flop flaps        */
 
 typedef enum {               /*  Player states  */
-        WAITING = 0,
-        FLYING ,
-        HIT,
-        CRASHED,
-        FALLING,
-        STANDING,
-        STALLED,
-        REBUILDING,
-        WOUNDED,
-        WOUNDSTALL,
+	WAITING = 0,
+	FLYING ,
+	HIT,
+	CRASHED,
+	FALLING,
+	STANDING,
+	STALLED,
+	REBUILDING,
+	WOUNDED,
+	WOUNDSTALL,
 
-        FINISHED = 91,
+	FINISHED = 91,
 } obstate_t;
 
 // sdh 21/10/2001: made this an enum
 
 typedef enum {
-        PLAYING,
-        WINNER,
-        LOSER
+	PLAYING,
+	WINNER,
+	LOSER
 } obendstatus_t;
 
 // sdh 21/10/2001: converted object types to an enum
 
 typedef enum {
-        GROUND = 0,
-        PLANE,
-        BOMB,
-        SHOT,
-        TARGET,
-        EXPLOSION,
-        SMOKE,
-        FLOCK,
-        BIRD,
-        OX,
-        MISSILE,
-        STARBURST,
-        DUMMYTYPE = 99,
+	GROUND = 0,
+	PLANE,
+	BOMB,
+	SHOT,
+	TARGET,
+	EXPLOSION,
+	SMOKE,
+	FLOCK,
+	BIRD,
+	OX,
+	MISSILE,
+	STARBURST,
+	DUMMYTYPE = 99,
 } obtype_t;
 
 #define NEAR            ( 150 * 150 )   /* Computer control distances        */
@@ -190,10 +190,10 @@ typedef enum {
 typedef  unsigned int GRNDTYPE;
 
 struct tt {                     /*  Continuous tone table entry    */
-        unsigned  tt_tone;
-        unsigned  tt_chng;
-        struct tt *tt_next;
-        struct tt *tt_prev;
+	unsigned  tt_tone;
+	unsigned  tt_chng;
+	struct tt *tt_next;
+	struct tt *tt_prev;
 };
 
 typedef struct tt TONETAB;
@@ -233,68 +233,68 @@ typedef struct {
 #define MEDAL_VALOUR		(1<<8)	/* The Iron Cross / Victoria Cross for getting enough valour points */
 
 typedef struct obj {                            /*  Object list             */
-        obstate_t      ob_state;
-        int            ob_x, ob_y;
-        int            ob_dx, ob_dy;
-        int            ob_angle;
-        int            ob_orient;
-        int            ob_speed;
-        int            ob_accel;
-        int            ob_flaps;
-        struct obj    *ob_firing;
-        int            ob_rounds;
-        int            ob_hitcount;
-        int            ob_updcount;
-        int            ob_life;
-        struct obj    *ob_owner;
-        //int            ob_symhgt;   // sdh 27/6/2002
-        //int            ob_symwdt;   // sdh 27/6/2002
-        int            ob_bombing;
-        int            ob_bombs;
-        int            ob_clr;
-        int            ob_lx, ob_ly;
-        int            ob_ldx, ob_ldy;
-        struct obj    *ob_next;
-        struct obj    *ob_prev;
-        int            ob_index;
-        BOOL           ob_drwflg;
-        BOOL           ob_onmap;
-        void        ( *ob_drawf ) (struct obj *);
-        BOOL        ( *ob_movef ) (struct obj *);
-        struct obj    *ob_xnext;
-        struct obj    *ob_xprev;
-        int            ob_crashcnt;
-        // char          *ob_newsym;   // sdh 27/6/2002
-        sopsym_t      *ob_newsym;
-        int            ob_bdelay;
-        int            ob_home;
-        int            ob_hx[3], ob_hy[3];
-        obtype_t       ob_type;
-        struct obj    *ob_dnext;
-        int            ob_athome;
-        struct tt     *ob_sound;
-        int            ob_missiles;
-        struct obj    *ob_mfiring;
-        int            ob_mdelay;
-        struct obj    *ob_target;
-        int            ob_bursts;
-        int            ob_bfiring;
-        int            ob_bsdelay;
-        int            ob_plrnum;
-        obendstatus_t  ob_endsts;
-        BOOL           ob_goingsun;
+	obstate_t      ob_state;
+	int            ob_x, ob_y;
+	int            ob_dx, ob_dy;
+	int            ob_angle;
+	int            ob_orient;
+	int            ob_speed;
+	int            ob_accel;
+	int            ob_flaps;
+	struct obj    *ob_firing;
+	int            ob_rounds;
+	int            ob_hitcount;
+	int            ob_updcount;
+	int            ob_life;
+	struct obj    *ob_owner;
+	//int            ob_symhgt;   // sdh 27/6/2002
+	//int            ob_symwdt;   // sdh 27/6/2002
+	int            ob_bombing;
+	int            ob_bombs;
+	int            ob_clr;
+	int            ob_lx, ob_ly;
+	int            ob_ldx, ob_ldy;
+	struct obj    *ob_next;
+	struct obj    *ob_prev;
+	int            ob_index;
+	BOOL           ob_drwflg;
+	BOOL           ob_onmap;
+	void        ( *ob_drawf ) (struct obj *);
+	BOOL        ( *ob_movef ) (struct obj *);
+	struct obj    *ob_xnext;
+	struct obj    *ob_xprev;
+	int            ob_crashcnt;
+	// char          *ob_newsym;   // sdh 27/6/2002
+	sopsym_t      *ob_newsym;
+	int            ob_bdelay;
+	int            ob_home;
+	int            ob_hx[3], ob_hy[3];
+	obtype_t       ob_type;
+	struct obj    *ob_dnext;
+	int            ob_athome;
+	struct tt     *ob_sound;
+	int            ob_missiles;
+	struct obj    *ob_mfiring;
+	int            ob_mdelay;
+	struct obj    *ob_target;
+	int            ob_bursts;
+	int            ob_bfiring;
+	int            ob_bsdelay;
+	int            ob_plrnum;
+	obendstatus_t  ob_endsts;
+	BOOL           ob_goingsun;
 	score_t	       ob_score;
 	score_t	       ob_lastscore;
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */
-        int      gm_x[MAX_PLYR*2];
-        int      gm_orient[MAX_PLYR*2];
-        unsigned ( *gm_randf ) (void);
-        unsigned gm_rseed;
-        int      ( *gm_specf ) (void);
-        int      gm_xtarg[MAX_TARG];
-        int      gm_ttarg[MAX_TARG];
+	int      gm_x[MAX_PLYR*2];
+	int      gm_orient[MAX_PLYR*2];
+	unsigned ( *gm_randf ) (void);
+	unsigned gm_rseed;
+	int      ( *gm_specf ) (void);
+	int      gm_xtarg[MAX_TARG];
+	int      gm_ttarg[MAX_TARG];
 	int     *gm_planes;
 	int     *gm_mult_planes;
 }       GAMES;
@@ -304,11 +304,11 @@ typedef struct {                                /*  Game structure          */
 extern int sintab[ANGLES];
 
 static inline int COS(int x) {
-        return sintab[(x+(ANGLES/4)) % ANGLES];
+	return sintab[(x+(ANGLES/4)) % ANGLES];
 }
 
 static inline int SIN(int x) {
-        return sintab[x % ANGLES];
+	return sintab[x % ANGLES];
 }
 
 #endif

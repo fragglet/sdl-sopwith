@@ -248,7 +248,7 @@ static void tcploop_connect(void)
 
 	time = Timer_GetMS() + 1000;
 
-        for (;;) {
+	for (;;) {
 		int c;
 
 		if (ctlbreak()) {

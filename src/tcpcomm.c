@@ -73,7 +73,7 @@ void commconnect(char *host)
 			realhost = host;
 		}
 	}
-       
+
 	// resolve name
 
 	hent = gethostbyname(realhost);
@@ -124,7 +124,7 @@ void commlisten(void)
 {
 #ifdef TCPIP
 	struct sockaddr_in in;
-        socklen_t in_size;
+	socklen_t in_size;
 
 	// create socket
 

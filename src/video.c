@@ -46,12 +46,12 @@ int Vid_GetGameKeys(void)
 	if (keysdown[KEY_PULLDOWN])
 		c |= K_FLAPD;
 	if (keysdown[KEY_ACCEL]) {
-                // smooth acceleration -- Jesse
+		// smooth acceleration -- Jesse
 		// keysdown[KEY_ACCEL] = 0;
 		c |= K_ACCEL;
 	}
 	if (keysdown[KEY_DECEL]) {
-                // smooth deacceleration -- Jesse
+		// smooth deacceleration -- Jesse
 		// keysdown[KEY_DECEL] = 0;
 		c |= K_DEACC;
 	}

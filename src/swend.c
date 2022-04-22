@@ -52,7 +52,7 @@ void swend(char *msg, BOOL update)
 	if (repflag)
 		swreport();
 
-        if (playmode == PLAYMODE_ASYNCH)
+	if (playmode == PLAYMODE_ASYNCH)
 		closmsg = asynclos();
 
 	histend();

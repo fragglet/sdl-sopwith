@@ -90,16 +90,6 @@ int shoot(OBJECTS *obt)
 
 
 
-/*  sdh -- this is standard c
-
-
-    abs( x )
-    int     x;
-    {
-    return( ( x < 0 ) ? -x : x );
-    }
-*/
-
 static int tl, tr;
 
 static void cleartargs(void)
@@ -265,10 +255,10 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		i = shoot(obt);
 
 		if (i) {
-                        // cr 2005-04-28: Resort to MG if
-                        //       missiles are disabled
+			// cr 2005-04-28: Resort to MG if
+			//       missiles are disabled
 
-			if (ob->ob_missiles && conf_missiles && i == 2) 
+			if (ob->ob_missiles && conf_missiles && i == 2)
 				ob->ob_mfiring = obt->ob_athome ? ob : obt;
 			else
 				ob->ob_firing = obt;
@@ -329,7 +319,7 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 
 int gohome(OBJECTS *ob)
 {
-        OBJECTS *original_ob;
+	OBJECTS *original_ob;
 
 	if (ob->ob_athome)
 		return 0;
@@ -338,7 +328,7 @@ int gohome(OBJECTS *ob)
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
 	if (abs(ob->ob_x - original_ob->ob_x) < HOME
-         && abs(ob->ob_y - original_ob->ob_y) < HOME) {
+	 && abs(ob->ob_y - original_ob->ob_y) < HOME) {
 		if (plyrplane) {
 			initplyr(ob);
 			initdisp(YES);
@@ -350,12 +340,12 @@ int gohome(OBJECTS *ob)
 		return 0;
 	}
 
-        /* When wounded, only move every other tic */
+	/* When wounded, only move every other tic */
 
-        if (ob->ob_state == WOUNDED && (countmove & 1))
-                return 0;
-        else
-                return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
+	if (ob->ob_state == WOUNDED && (countmove & 1))
+		return 0;
+	else
+		return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
 }
 
 

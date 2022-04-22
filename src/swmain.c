@@ -164,24 +164,24 @@ static int can_move(void)
 
 static void calculate_lag(void)
 {
-        int lag = Timer_GetMS() - player_command_time[countmove % MAX_NET_LAG];
-        int compensation;
+	int lag = Timer_GetMS() - player_command_time[countmove % MAX_NET_LAG];
+	int compensation;
 
-        // only make a small adjustment based on the lag, so as not
-        // to affect the playability.  however, over a long period
-        // this should have the desired effect.
+	// only make a small adjustment based on the lag, so as not
+	// to affect the playability.  however, over a long period
+	// this should have the desired effect.
  
-        compensation = lag / 100;
+	compensation = lag / 100;
 
-        // bound the compensation applied; responds to network traffic
-        // spikes
+	// bound the compensation applied; responds to network traffic
+	// spikes
 
-        if (compensation < -5)
-                compensation = -5;
-        else if (compensation > 5)
-                compensation = 5;
+	if (compensation < -5)
+		compensation = -5;
+	else if (compensation > 5)
+		compensation = 5;
 
-        skip_time += compensation;
+	skip_time += compensation;
 
 //        printf("lag: %ims\n", lag);
 }
@@ -189,21 +189,21 @@ static void calculate_lag(void)
 static void new_move(void)
 {
 	int multkey;
-        int tictime;
+	int tictime;
 
 	/* generate a new move command and save it */
 
 	multkey = Vid_GetGameKeys();
 
-        /* tictime is the game time of the command we are creating */
+	/* tictime is the game time of the command we are creating */
 
-        tictime = latest_player_time[player];
+	tictime = latest_player_time[player];
 	latest_player_commands[player][tictime % MAX_NET_LAG] = multkey;
 	++latest_player_time[player];
 
-        /* Save the current time for lag calculation */
+	/* Save the current time for lag calculation */
 
-        player_command_time[tictime % MAX_NET_LAG] = Timer_GetMS();
+	player_command_time[tictime % MAX_NET_LAG] = Timer_GetMS();
 
 	/* if this is a multiplayer game, send the command */
 
@@ -239,35 +239,35 @@ int swmain(int argc, char *argv[])
 	swinitlevel();
 
 	nexttic = Timer_GetMS();
-        skip_time = 0;
+	skip_time = 0;
 
 	for (;;) {
-                int nowtime;
+		int nowtime;
 
 		/* generate a new move command periodically
 		 * and send to other players if neccessary */
 
-                nowtime = Timer_GetMS();
+		nowtime = Timer_GetMS();
 
 		if (nowtime > nexttic
 		 && latest_player_time[player] - countmove < MAX_NET_LAG) {
 
 			new_move();
 
-                        /* Be accurate (exact amount between tics);
-                         * However, if a large spike occurs between tics,
-                         * catch up immediately.
-                         */
+			/* Be accurate (exact amount between tics);
+			 * However, if a large spike occurs between tics,
+			 * catch up immediately.
+			 */
 
-                        if (nowtime - nexttic > 1000)
-                                nexttic = nowtime + (1000/FPS);
-                        else
-			        nexttic += (1000 / FPS);
+			if (nowtime - nexttic > 1000)
+				nexttic = nowtime + (1000/FPS);
+			else
+				nexttic += (1000 / FPS);
 
-                        // wait a bit longer to compensate for lag
+			// wait a bit longer to compensate for lag
 
-                        nexttic += skip_time;
-                        skip_time = 0;
+			nexttic += skip_time;
+			skip_time = 0;
 		}
 
 		asynupdate();
@@ -276,7 +276,7 @@ int swmain(int argc, char *argv[])
 		/* if we have all the tic commands we need, we can move */
 
 		if (can_move()) {
-                        calculate_lag();
+			calculate_lag();
 			//dump_cmds();
 			swmove();
 			swdisp();

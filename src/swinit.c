@@ -341,7 +341,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	}
 
 	ob->ob_state = FLYING;
-        ob->ob_goingsun = FALSE;
+	ob->ob_goingsun = FALSE;
 
 	return ob;
 }
@@ -395,7 +395,7 @@ void initcomp(OBJECTS * obp)
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
-                ob->ob_onmap = FALSE;
+		ob->ob_onmap = FALSE;
 		deletex(ob);
 	}
 }
@@ -704,12 +704,12 @@ void initexpl(OBJECTS * obop, int small)
 	obotype = obo->ob_type;
 	if (obotype == TARGET && obo->ob_orient == 2) {
 		ic = 1;
-                // adding in option here for large oil tank explosions 
-                // - Jesse
-                if (conf_explosions)
-                   speed = gminspeed * 4 / 3;
-                else
-		   speed = gminspeed;
+		// adding in option here for large oil tank explosions 
+		// - Jesse
+		if (conf_explosions)
+			speed = gminspeed * 4 / 3;
+		else
+			speed = gminspeed;
 	} else {
 		ic = small ? 6 : 2;
 		speed = gminspeed >> ((explseed & 7) != 7);
@@ -924,10 +924,10 @@ void swinitlevel(void)
 {
 	int i;
 
-        // clear out any waiting keys. this stops, eg. 's' on the
-        // menu from toggling sound once the game starts
+	// clear out any waiting keys. this stops, eg. 's' on the
+	// menu from toggling sound once the game starts
 
-        Vid_GetGameKeys();
+	Vid_GetGameKeys();
 
 	if (playmode == PLAYMODE_ASYNCH)
 		init1asy();
@@ -1010,8 +1010,8 @@ void swrestart(void)
 		have_savescore = 1;
 	} else {
 		// gamenum = 0;
-                // allow variable start level -- Jesse
-                gamenum = starting_level;
+		// allow variable start level -- Jesse
+		gamenum = starting_level;
 		have_savescore = 0;
 
 		// sh 28/10/2001: go back to the title screen
@@ -1038,7 +1038,7 @@ void swinit(int argc, char *argv[])
 
 	// sdh 29/10/2001: load config from configuration file
 
-        soundflg = 1;      // assume off by default
+	soundflg = 1;      // assume off by default
 	swloadconf();
 
 	for (i=1; i<argc; ++i) {
@@ -1050,19 +1050,19 @@ void swinit(int argc, char *argv[])
 			c = 1;
 		else if (!strcasecmp(argv[i], "-f"))
 			vid_fullscreen = 1;
-                else if (!strncasecmp(argv[i], "-g", 2))
-                {
-                    sscanf(& (argv[i][2]), "%d", &starting_level);
-                    gamenum = starting_level;
-                }
+		else if (!strncasecmp(argv[i], "-g", 2))
+		{
+			sscanf(& (argv[i][2]), "%d", &starting_level);
+			gamenum = starting_level;
+		}
 		else if (!strcasecmp(argv[i], "-2"))
 			vid_double_size = 1;
 		else if (!strcasecmp(argv[i], "-q"))
 			soundflg = 1;
-                else if (!strcasecmp(argv[i], "-p"))
-                        soundflg = 0;
-                else if (!strcasecmp(argv[i], "-e"))
-                        conf_explosions = 0;
+		else if (!strcasecmp(argv[i], "-p"))
+			soundflg = 0;
+		else if (!strcasecmp(argv[i], "-e"))
+			conf_explosions = 0;
 		else
 #ifdef TCPIP
 		if (!strcasecmp(argv[i], "-l")) {

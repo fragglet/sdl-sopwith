@@ -272,7 +272,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		return;
 
 	case SHOT:
-                /* cr 2005-04-28: Don't stop the shot if it just 
+		/* cr 2005-04-28: Don't stop the shot if it just 
 		 * launched from its presumed originator */
 
 		if (!(obt && obt->ob_type == PLANE
@@ -323,7 +323,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 	case PLANE:
 		state = ob->ob_state;
 
-                /* cr 2005-04-28: Avoid having planes hit themselves */
+		/* cr 2005-04-28: Avoid having planes hit themselves */
 
 		if (is_young_shot(obt))
 			return;	
