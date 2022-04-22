@@ -51,7 +51,7 @@ AM_PATH_SDL(1.1.3)
 
 dnl check for TCPIP support
 
-AC_CHECK_HEADER(netinet/ip.h, [
+AC_CHECK_HEADER(netinet/in.h, [
     AC_DEFINE(TCPIP, 1, [TCPIP multiplayer support])
 ],,)
 
