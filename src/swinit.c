@@ -1063,21 +1063,21 @@ void swinit(int argc, char *argv[])
                         soundflg = 0;
                 else if (!strcasecmp(argv[i], "-e"))
                         conf_explosions = 0;
-		else 
+		else
 #ifdef TCPIP
-			if (!strcasecmp(argv[i], "-l")) {
+		if (!strcasecmp(argv[i], "-l")) {
 			a = 1;
 			asynmode = ASYN_LISTEN;
 		} else if (!strcasecmp(argv[i], "-j")) {
-			if (++i < argc) {
-				a = 1;
-				asynmode = ASYN_CONNECT;
-				strcpy(asynhost, argv[i]);
-			} else {
+			if (i + 1 >= argc) {
 				fprintf(stderr, "insufficient arguments to -j\n");
 				exit(-1);
 			}
-		} else 
+			a = 1;
+			asynmode = ASYN_CONNECT;
+			++i;
+			snprintf(asynhost, sizeof(asynhost), "%s", argv[i]);
+		} else
 #endif
 		{
 			puts(helptxt);

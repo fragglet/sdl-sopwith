@@ -55,20 +55,22 @@ static char *get_config_filename()
 	// but pfft, whatever
 	return config_file;
 #else
-	if (getenv("HOME")) {
-		static char *namebuf = NULL;
+	static char *namebuf = NULL;
+	char *homedir = getenv("HOME");
+	size_t buflen;
 
-		if (!namebuf) {
-			namebuf = malloc(strlen(config_file)
-					 + strlen(getenv("HOME")) + 5);
-
-			sprintf(namebuf, "%s/%s", getenv("HOME"), config_file);
-		}
-
-		return namebuf;
-	} else {
+	if (homedir == NULL) {
 		return config_file;
 	}
+
+	if (namebuf == NULL) {
+		buflen = strlen(config_file) + strlen(getenv("HOME")) + 5;
+		namebuf = malloc(buflen);
+
+		snprintf(namebuf, buflen, "%s/%s", getenv("HOME"), config_file);
+	}
+
+	return namebuf;
 #endif
 }
 
@@ -331,8 +333,8 @@ static void drawmenu(char *title, struct menuitem *menu)
 				said_key = 1;
 			}
 		}
-		sprintf(buf, "%c - %s%s",
-			key, menu[i].description, suffix);
+		snprintf(buf, sizeof(buf), "%c - %s%s",
+		         key, menu[i].description, suffix);
 
 		swposcur(6, 5+i);
 		swputs(buf);

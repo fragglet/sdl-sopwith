@@ -144,14 +144,14 @@ static void synchronize()
 	char *p;
 
 	buf = malloc(sizeof(PROTOHEADER) + 5);
-	sprintf(buf, PROTOHEADER "%i", player);
+	snprintf(buf, sizeof(PROTOHEADER) + 5, PROTOHEADER "%d", player);
 
 	for (p = buf; *p; ++p)
 		commout(*p);
 
 	// now listen for response
 
-	sprintf(buf, PROTOHEADER "%i", !player);
+	snprintf(buf, sizeof(PROTOHEADER) + 5, PROTOHEADER "%d", !player);
 
 	settimeout(2000);
 
