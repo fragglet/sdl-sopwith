@@ -86,23 +86,6 @@ PACKAGE_STRING "\n"
 #endif
 ;
 
-// old options
-// "        -m :  multiple players on a network\n"
-//"        -a :  2 players over asynchrounous communications line\n"
-//"              (Only one of -n, -s, -c, -a may be specified)\n"
-//"        -k :  keyboard only\n"
-//"        -j :  joystick and keyboard\n"
-//"              (Only one of -k and -j  may be specified)\n"
-////        "        -i :  IBM PC keyboard\n"
-//  "        -r :  resets the multiuser communications file after an abnormal"
-//  "                  end of a game"
-//  "        -d*:  overrides the default drive C as the device containing the"
-//  "                  communications file"
-//"        -p#:  overrides asynchronous port 1 as the asynchrounous port\n"
-//"                  to use\n"
-
-// sdh 28/10/2001: moved auxdisp graphic functions into swgrpha.c
-
 static void initobjs(void)
 {
 	OBJECTS *ob;
@@ -128,8 +111,6 @@ static void initobjs(void)
 
 static void initgrnd(void)
 {
-	// sdh 16/11/200; removed movmem
-
 	memcpy(ground, orground, sizeof(GRNDTYPE) * MAX_X);
 }
 
@@ -137,8 +118,6 @@ static void initseed(void)
 {
 	srand(clock());
 	explseed = rand() % 65536;
-
-	// sdh 28/4/2002: removed atari and ibm code
 }
 
 void initdisp(BOOL reset)
@@ -314,9 +293,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_angle = (ob->ob_orient) ? (ANGLES / 2) : 0;
 	ob->ob_target = ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = FALSE;
-	ob->ob_newsym = symbol_plane[ob->ob_orient][0]; // sdh 27/6/2002
-	//ob->ob_symhgt = SYM_HGHT;
-	//ob->ob_symwdt = SYM_WDTH;
+	ob->ob_newsym = symbol_plane[ob->ob_orient][0];
 	ob->ob_athome = TRUE;
 	ob->ob_onmap = TRUE;
 
@@ -360,7 +337,7 @@ void initplyr(OBJECTS * obp)
 		ob->ob_movef = moveplyr;
 		ob->ob_clr = ob->ob_index % 2 + 1;
 		ob->ob_owner = ob;
-		oobjects[ob->ob_index] = *ob;  // sdh 16/11: removed movmem
+		oobjects[ob->ob_index] = *ob;
 		endcount = 0;
 
 		ob->ob_plrnum = num_players;
@@ -391,7 +368,7 @@ void initcomp(OBJECTS * obp)
 			ob->ob_owner = ob;
 		else
 			ob->ob_owner = ob - 2;
-		oobjects[ob->ob_index] = *ob;  // sdh 16/11: removed movmem
+		oobjects[ob->ob_index] = *ob;
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
@@ -471,8 +448,7 @@ void initshot(OBJECTS * obop, OBJECTS * targ)
 	ob->ob_life = BULLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_newsym = &symbol_pixel;                 // sdh 27/6/2002
-	//ob->ob_symhgt = ob->ob_symwdt = 1;
+	ob->ob_newsym = &symbol_pixel;
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveshot;
 	ob->ob_speed = 0;
@@ -518,8 +494,7 @@ void initbomb(OBJECTS * obop)
 	ob->ob_life = BOMBLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_newsym = symbol_bomb[0];           // sdh 27/6/2002
-	//ob->ob_symhgt = ob->ob_symwdt = 8;
+	ob->ob_newsym = symbol_bomb[0];
 	ob->ob_drawf = dispbomb;
 	ob->ob_movef = movebomb;
 
@@ -559,8 +534,7 @@ void initmiss(OBJECTS * obop)
 	ob->ob_life = MISSLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_newsym = symbol_missile[0];           // sdh 27/6/2002
-	//ob->ob_symhgt = ob->ob_symwdt = 8;
+	ob->ob_newsym = symbol_missile[0];
 	ob->ob_drawf = dispmiss;
 	ob->ob_movef = movemiss;
 	ob->ob_target = obo->ob_mfiring;
@@ -610,8 +584,7 @@ void initburst(OBJECTS * obop)
 	ob->ob_life = BURSTLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_newsym = symbol_burst[0];             // sdh 27/6/2002
-	//ob->ob_symhgt = ob->ob_symwdt = 8;
+	ob->ob_newsym = symbol_burst[0];
 	ob->ob_drawf = dispburst;
 	ob->ob_movef = moveburst;
 
@@ -673,8 +646,7 @@ static void inittarg(void)
 		else
 			ob->ob_owner = &nobjects[i >= (MAX_TARG / 2)];
 		ob->ob_clr = ob->ob_owner->ob_clr;
-		ob->ob_newsym = symbol_targets[0];      // sdh 27/6/2002
-		//ob->ob_symhgt = ob->ob_symwdt = 16;
+		ob->ob_newsym = symbol_targets[0];
 		ob->ob_drawf = disptarg;
 		ob->ob_movef = movetarg;
 		ob->ob_onmap = TRUE;
@@ -746,8 +718,7 @@ void initexpl(OBJECTS * obop, int small)
 		ob->ob_lx = ob->ob_ly = ob->ob_hitcount = ob->ob_speed = 0;
 		ob->ob_owner = obo;
 		ob->ob_clr = oboclr;
-		ob->ob_newsym = symbol_debris[0];            // sdh 27/6/2002
-		//ob->ob_symhgt = ob->ob_symwdt = 8;
+		ob->ob_newsym = symbol_debris[0];
 		ob->ob_drawf = dispexpl;
 		ob->ob_movef = moveexpl;
 
@@ -797,8 +768,6 @@ static void initflck(void)
 	OBJECTS *ob;
 	int i, j;
 
-	// sdh 28/10/2001: option to disable animals
-
 	if (playmode == PLAYMODE_NOVICE || !conf_animals)
 		return;
 
@@ -818,8 +787,7 @@ static void initflck(void)
 		ob->ob_orient = 0;
 		ob->ob_life = FLOCKLIFE;
 		ob->ob_owner = ob;
-		ob->ob_newsym = symbol_flock[0];            // sdh 27/6/2002
-		//ob->ob_symhgt = ob->ob_symwdt = 16;
+		ob->ob_newsym = symbol_flock[0];
 		ob->ob_drawf = dispflck;
 		ob->ob_movef = moveflck;
 		ob->ob_clr = 9;
@@ -854,9 +822,7 @@ void initbird(OBJECTS * obop, int i)
 	    0;
 	ob->ob_life = BIRDLIFE;
 	ob->ob_owner = obo;
-	ob->ob_newsym = symbol_bird[0];                // sdh 27/6/2002
-	//ob->ob_symhgt = 2;
-	//ob->ob_symwdt = 4;
+	ob->ob_newsym = symbol_bird[0];
 	ob->ob_drawf = dispbird;
 	ob->ob_movef = movebird;
 	ob->ob_clr = obo->ob_clr;
@@ -871,8 +837,6 @@ static void initoxen(void)
 	int i;
 	static int iox[] = { 1376, 1608 };
 	static int ioy[] = { 80, 91 };
-
-	// sdh 28/10/2001: option to disable animals
 
 	if (playmode == PLAYMODE_NOVICE || !conf_animals) {
 		for (i = 0; i < MAX_OXEN; ++i)
@@ -894,9 +858,7 @@ static void initoxen(void)
 		ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
 		    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
 		ob->ob_owner = ob;
-		//ob->ob_symhgt = 16;
-		//ob->ob_symwdt = 16;
-		ob->ob_newsym = symbol_ox[0];             // sdh 27/6/2002
+		ob->ob_newsym = symbol_ox[0];
 		ob->ob_drawf = NULL;
 		ob->ob_movef = moveox;
 		ob->ob_clr = 1;
@@ -918,8 +880,6 @@ static void initgdep(void)
 	targrnge *= targrnge;
 }
 
-// sdh 27/10/2001: created
-
 void swinitlevel(void)
 {
 	int i;
@@ -931,8 +891,6 @@ void swinitlevel(void)
 
 	if (playmode == PLAYMODE_ASYNCH)
 		init1asy();
-
-	// sdh: dont carry hud splats forward from previous games
 
 	swclearsplats();
 
@@ -1000,8 +958,6 @@ void swrestart(void)
 
 			Vid_Update();
 			
-			// sdh 27/10/2001: use new time code for delay
-
 			time = Timer_GetMS();
 			while (Timer_GetMS() < time + 200);
 		}
@@ -1019,8 +975,6 @@ void swrestart(void)
 		playmode = PLAYMODE_UNSET;
 	}
 
-	// sdh 27/10/2001: moved all level init stuff into swinitlevel
-
 	longjmp(envrestart, 0);
 }
 
@@ -1035,8 +989,6 @@ void swinit(int argc, char *argv[])
 	BOOL k = FALSE;
 	int modeset = 0, keyset;
 	int i;
-
-	// sdh 29/10/2001: load config from configuration file
 
 	soundflg = 1;      // assume off by default
 	swloadconf();
@@ -1110,8 +1062,6 @@ void swinit(int argc, char *argv[])
 	initsndt();
 	initgrnd();           // needed for title screen
 	
-	// sdh 26/03/2002: remove swinitgrph
-
 	// set playmode if we can, from command line options
 
 	playmode =
@@ -1120,9 +1070,6 @@ void swinit(int argc, char *argv[])
 		c ? PLAYMODE_COMPUTER :
 		a ? PLAYMODE_ASYNCH :
 		PLAYMODE_UNSET;
-
-	// sdh 28/10/2001: moved getmode into swmain
-	// sdh 27/10/2001: moved all level init stuff into swinitlevel
 }
 
 //---------------------------------------------------------------------------

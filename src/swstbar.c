@@ -89,37 +89,29 @@ static void dispgge(int x, int cury, int maxy, int clr)
 		Vid_PlotPixel(x, y, 0);
 }
 
-// sdh 26/10/2001: merged gauge functions into a single function
-
 static void dispgauges(OBJECTS *ob)
 {
 	int x = GAUGEX;
 	int sep = conf_missiles ? 3 : 5;
 
 	// crashes/lives
-
 	dispgge(x += sep, maxcrash - ob->ob_crashcnt, maxcrash, 1);
 
 	// fuel
-
 	dispgge(x += sep, ob->ob_life >> 4, MAXFUEL >> 4, 1);
 
 	// bombs
-
 	dispgge(x += sep, ob->ob_bombs, MAXBOMBS, 2);
 
 	// bullets
-
  	dispgge(x += sep, ob->ob_rounds, MAXROUNDS, 3);
 
 	if (conf_missiles) {
 
 		// missiles
-		
 		dispgge(x += sep, ob->ob_missiles, MAXMISSILES, 1);
 
 		// starburst (flares)
-
 		dispgge(x += sep, ob->ob_bursts, MAXBURSTS, 2);
 	}
 }

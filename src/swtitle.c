@@ -53,10 +53,7 @@ void swtitln(void)
 
 	sound(S_TITLE, 0, NULL);
 
-	// sdh 26/03/2002: remove swinitgrph call
-
 	// clear the screen
-
 	Vid_ClearBuf();
 
 /*---------------- Original BMB Version---------------*/
@@ -125,9 +122,6 @@ void swtitln(void)
 	displx = 507-X_OFFSET;
 	swground();
 
-	// sdh 28/06/2002: cleared this up a lot, no more
-	// creating objects etc
-
 	Vid_DispSymbol(40+X_OFFSET, 180, symbol_plane[0][0], 1);
 	//Vid_DispSymbol(110+X_OFFSET, 70, symbol_plane_win[3], 1);
 	Vid_DispSymbol(130+X_OFFSET, 80, symbol_plane[1][7], 2);
@@ -156,10 +150,6 @@ void swtitlf(void)
 //
 // menus
 //
-// sdh 19/10/2001: moved all the menus into swtitle.c,
-// I think they belong here anyway
-// rename to swmenus.c?
-//
 
 BOOL ctlbreak(void)
 {
@@ -170,8 +160,6 @@ BOOL ctlbreak(void)
 
 void clrprmpt(void)
 {
-	// sdh: generic clear
-
 	int x, y;
 
 	for (y = 0; y <= 43; ++y)

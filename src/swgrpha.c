@@ -74,8 +74,6 @@ void swground(void)
 }
 
 
-// sdh 27/7/2002: removed clrcol
-
 /*---------------------------------------------------------------------------
 
         External calls to display a point of a specified colour at a
@@ -89,8 +87,6 @@ void swground(void)
 
 
 
-
-// sdh 27/03/2002: remove swpntcol and swpntsym
 
 // sdh 14/2/2003: find the color of an object
 // always draw bullets white
@@ -119,14 +115,8 @@ static inline int ob_color(OBJECTS *ob)
 
 void swputsym(int x, int y, OBJECTS * ob)
 {
-	// sdh 14/2/2003: always draw bullets white
-
 	Vid_DispSymbol(x, y, ob->ob_newsym, ob_color(ob));
 }
-
-
-// sdh 27/7/2002: removed putcol
-
 
 
 /*---------------------------------------------------------------------------
@@ -136,8 +126,6 @@ void swputsym(int x, int y, OBJECTS * ob)
 
 ---------------------------------------------------------------------------*/
 
-
-// sdh 14/2/2003: always draw bullets white
 
 void swdisp(void)
 {
@@ -203,12 +191,6 @@ void swdisp(void)
 	Vid_Update();
 }
 
-
-// sdh 26/3/02: removed mode setting stuff (done in platform specific
-// code now)
-
-// sdh: experiments into fixing splatted ox
-// color the screen all one color
 
 void colorscreen(int color)
 {

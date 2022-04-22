@@ -23,8 +23,6 @@
 //
 //---------------------------------------------------------------------------
 
-// sdh: #ifndef to catch multiple includes
-
 #ifndef __SW_H__
 #define __SW_H__
 
@@ -71,11 +69,7 @@
 #define MINFLCKX        370                           /*  Bird flock travel    */
 #define MAXFLCKX        (MAX_X - 370)             /*  limits */
 
-// sdh 26/10/2001: merged gauges, removed unneccesary coordinates
-
 #define GAUGEX          (SCR_CENTR - 25)  /* X co-ordinate of first gauge */
-
-// sdh 28/10/2001: made into a type
 
 typedef enum {
 	PLAYMODE_UNSET = 0,
@@ -132,15 +126,11 @@ typedef enum {               /*  Player states  */
 	FINISHED = 91,
 } obstate_t;
 
-// sdh 21/10/2001: made this an enum
-
 typedef enum {
 	PLAYING,
 	WINNER,
 	LOSER
 } obendstatus_t;
-
-// sdh 21/10/2001: converted object types to an enum
 
 typedef enum {
 	GROUND = 0,
@@ -247,8 +237,6 @@ typedef struct obj {                            /*  Object list             */
 	int            ob_updcount;
 	int            ob_life;
 	struct obj    *ob_owner;
-	//int            ob_symhgt;   // sdh 27/6/2002
-	//int            ob_symwdt;   // sdh 27/6/2002
 	int            ob_bombing;
 	int            ob_bombs;
 	int            ob_clr;
@@ -264,7 +252,6 @@ typedef struct obj {                            /*  Object list             */
 	struct obj    *ob_xnext;
 	struct obj    *ob_xprev;
 	int            ob_crashcnt;
-	// char          *ob_newsym;   // sdh 27/6/2002
 	sopsym_t      *ob_newsym;
 	int            ob_bdelay;
 	int            ob_home;
@@ -298,8 +285,6 @@ typedef struct {                                /*  Game structure          */
 	int     *gm_planes;
 	int     *gm_mult_planes;
 }       GAMES;
-
-// sdh: made these into inline functions rather than ugly #define macros
 
 extern int sintab[ANGLES];
 

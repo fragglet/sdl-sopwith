@@ -25,8 +25,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// sdh 21/10/2001: moved BOOL here from sw.h, made into enum
-
 typedef enum {FALSE, TRUE} BOOL;
 enum {NO, YES};
 

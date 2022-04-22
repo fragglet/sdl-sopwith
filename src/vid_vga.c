@@ -152,9 +152,6 @@ int Vid_GetPixel(int x, int y)
 
 ---------------------------------------------------------------------------*/
 
-// sdh 27/7/2002: removed collision detection, this is now done
-// independently of the drawing code (retcode)
-
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {
 	unsigned char *sptr = vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;

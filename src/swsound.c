@@ -201,8 +201,6 @@ void soundoff(void)
 {
 	if (lastfreq) {
 
-		// sdh: use the emulated sdl pc speaker code
-
 		Speaker_Off();
 
 		lastfreq = 0;
@@ -218,8 +216,6 @@ static void tone(unsigned int freq)
 
 	if (lastfreq == freq)
 		return;
-
-	// sdh: use the emulated sdl pc speaker code
 
 	Speaker_Output(freq);
 
@@ -335,9 +331,6 @@ void playnote(void)
 			index -= 12;
 			noteoctavefactor *= 2;
 		}
-
-		// sdh: soundmul and sounddiv were asm functions. i cant
-		// read x86 asm so i have to guess
 
 		freq = notefreq[index];
 		freq *= octavefactor;
@@ -525,7 +518,6 @@ void swsound(void)
 
 void sound(int type, int parm, OBJECTS * ob)
 {
-	// sdh 28/10/2001: moved code for title music setup here
 	// if we are already playing the title music, ignore
 
 	if (type == S_TITLE) {

@@ -48,10 +48,6 @@ static int collptr;
 static int collxadj, collyadj;
 
 
-// sdh 28/6/2002: new collision detection code done in memory rather
-//                than using the drawing functions
-// sdh 27/7/2002: removed old collision detection code
-
 //#define COLL_DEBUG
 
 static void colltest(OBJECTS * ob1, OBJECTS * ob2)
@@ -241,9 +237,6 @@ is_young_shot(OBJECTS *ob)
 }
 
 
-// sdh -- renamed this to swkill to remove possible conflicts with
-// the unix kill() function
-
 void blast_target(OBJECTS *ob, obtype_t type);
 
 static void swkill(OBJECTS * ob1, OBJECTS * ob2)
@@ -376,8 +369,6 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 				else
 					swsplatbird();
 			}
-
-			// sdh 28/10/2001: option to disable wounded planes
 
 			if (conf_wounded) {
 				if (state == FLYING) {

@@ -124,9 +124,6 @@ static void testtargs(int x, int y)
 
 
 
-// sdh: changed to tstcrash2 to stop conflicts with the other
-// function with the same name in swcollsn.c
-
 static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
 {
 	OBJECTS *ob;
@@ -225,8 +222,6 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		}
 	}
 
-	// sdh 16/11/2001: removed movmem
-
 	obs = *ob;
 
 	nspeed = obs.ob_speed + 1;
@@ -246,7 +241,6 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		calt[i] = ny - orground[nx + 8];
 		ccrash[i] = tstcrash2(ob, nx, ny, calt[i]);
 
-		// sdh 16/11/2001: removed movmem
 		obs = *ob;
 	}
 

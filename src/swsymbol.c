@@ -26,10 +26,6 @@
 #include "sw.h"
 #include "swsymbol.h"
 
-// sdh 28/6/2002: these are from swsymbol.h
-// some of this is probably kind of redundant seeing as the data is
-// all static now
-
 #define BOMBBYTES       16              /*  Bytes in a bomb symbol          */
 #define BOMBANGS        8               /*  Number of bomb angles           */
 #define TARGBYTES       64              /*  Bytes in a target symbol        */
@@ -57,8 +53,6 @@
 #define SYMBYTES        64              /*  Bytes in a symbol               */
 #define WINSIZES        4               /*  Number of winner plane sizes    */
 #define WINBYTES        64              /*  Bytes in a winner symbol        */
-
-// sdh 28/6/2002: moved planes here
 
 static unsigned char swplnsym[ORIENTS][ANGLES][SYMBYTES] = {
 

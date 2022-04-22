@@ -51,8 +51,6 @@ static inline void drawchar(int x, int y, int c)
 
 	p = font_data + c * 8;
 
-	// sdh 27/03/02: use new drawing functions
-
 	for (y2 = 0; y2 < 8; ++y2) {
 		int m = 0x80;
 
@@ -72,8 +70,6 @@ static inline void drawchar(int x, int y, int c)
 	}
 }
 
-
-// sdh 17/10/01: moved swputc here and made functional
 
 void swputc(char c)
 {
@@ -95,9 +91,6 @@ void swputs(const char *sp)
 		swputc(*s);
 	}
 }
-
-// sdh 17/10/01: added swgets to read input (for reading hostnames
-// in net connect)
 
 void swgets(char *s, int max)
 {
@@ -158,8 +151,6 @@ void swdispd(int n, int size)
 	int d, t;
 	BOOL first = TRUE;
 
-	// sdh 24/10/2001: make sure we use the main video buffer
-
 	if (n < 0) {
 		n = -n;
 		swputc('-');
@@ -187,7 +178,6 @@ int swgetc(void)
 
 		// sdh 15/11/2001: dont thrash the processor while
 		// waiting for a key press
-
 		Timer_Sleep(100);
 
 		swsndupdate();

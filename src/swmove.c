@@ -85,9 +85,6 @@ static void nearpln(OBJECTS * obp)
 		if (obclr == obt->ob_owner->ob_clr)
 			continue;
 
-		// sdh: removed use of "equal" function to compare
-		// function pointers (why???)
-
 		if (obt->ob_drawf == dispcomp)
 
 			if (playmode != PLAYMODE_COMPUTER
@@ -412,10 +409,6 @@ BOOL movepln(OBJECTS * obp)
 	int nangle, nspeed, limit, update;
 	obstate_t state, newstate;
 	int x, y, stalled;
-	// int grv;
-
-	// sdh 28/4/2002: aargh! char is not neccesarily signed char,
-	// it seems. use int
 
 	static signed int gravity[] = {
 		0, -1, -2, -3, -4, -3, -2, -1,
