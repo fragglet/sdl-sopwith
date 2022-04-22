@@ -1,10 +1,10 @@
-AC_INIT(SDL Sopwith, 1.99.0, fraggle@gmail.com, sdl_sopwith)
+AC_INIT([SDL Sopwith],[1.99.0],[fraggle@gmail.com],[sdl_sopwith])
 AC_CONFIG_AUX_DIR(autotools)
 
 VERSION=$CONFIG_VERSION
 AC_SUBST(VERSION)
 
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 
 dnl optimisations
 
@@ -38,7 +38,7 @@ case "$target" in
 	;;
 esac
 
-AM_CONFIG_HEADER(config.h:config.hin)
+AC_CONFIG_HEADERS([config.h:config.hin])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl install programs
@@ -47,16 +47,7 @@ AC_PROG_INSTALL
 
 dnl libraries
 
-AM_PATH_SDL(1.1.3, [
-	echo "Building SDL version."
-	SOPWITH_BINS="$SOPWITH_BINS sopwith"
-	SOPWITH_SUBDIRS="$SOPWITH_SUBDIRS sdl"
-],[
-	echo "Not building SDL version."
-])
-
-AC_SUBST(SOPWITH_BINS)
-AC_SUBST(SOPWITH_SUBDIRS)
+AM_PATH_SDL(1.1.3)
 
 dnl check for TCPIP support
 
@@ -68,10 +59,11 @@ AC_SUBST(ac_aux_dir)
 
 dnl generate Makefiles
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 src/Makefile
 src/sdl/Makefile
 doc/Makefile
 ])
+AC_OUTPUT
 
