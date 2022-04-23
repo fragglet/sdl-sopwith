@@ -1,8 +1,6 @@
 
 Features in this version:
 * Vastly superior network performance
-* -d option to specify level to start on.
-    (Thanks Christoph Reichenbach <creichen@gmail.com>)
 * Medals feature to reward players (creichen)
 
 Bug fixes:
@@ -10,10 +8,11 @@ Bug fixes:
 * Fix computer planes not shooting when tailing the player's plane (creichen).
 * Fix planes crashing into their own bullets (creichen).
 * Fix players able to turn quickly when wounded and using the autopilot.
+* Damaged ground persisting to the title screen even after the game has ended.
 
 Restructuring:
 * Rewritten graphics code
-* Major internal restructuring: removal of obsolete code, removal of 
+* Major internal restructuring: removal of obsolete code, removal of
   some global variables
 
 v1.8.4

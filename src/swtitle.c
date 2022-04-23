@@ -119,6 +119,7 @@ void swtitln(void)
 
 /*---------------- New Network Version-----------------*/
 
+	memcpy(ground, orground, sizeof(GRNDTYPE) * MAX_X);
 	displx = 507-X_OFFSET;
 	swground();
 
