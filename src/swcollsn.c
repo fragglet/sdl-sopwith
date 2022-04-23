@@ -58,9 +58,10 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 	unsigned char *data1, *data2;
 
 	if ((ob1->ob_type == PLANE && ob1->ob_state >= FINISHED)
-	    || (ob2->ob_type == PLANE && ob2->ob_state >= FINISHED)
-	    || (ob1->ob_type == EXPLOSION && ob2->ob_type == EXPLOSION))
+	 || (ob2->ob_type == PLANE && ob2->ob_state >= FINISHED)
+	 || (ob1->ob_type == EXPLOSION && ob2->ob_type == EXPLOSION)) {
 		return;
+	}
 
 	// (x1, y1) are the coords of the area we are testing in ob1
 	// (x2, y2) are the coords of the area in ob2
@@ -72,20 +73,23 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 		x1 = ob2->ob_x - ob1->ob_x;
 		x2 = 0;
 		w = ob1->ob_newsym->w - x1;
-		if (w > ob2->ob_newsym->w)
+		if (w > ob2->ob_newsym->w) {
 			w = ob2->ob_newsym->w;
+		}
 	} else {
 		x1 = 0;
 		x2 = ob1->ob_x - ob2->ob_x;
 		w = ob2->ob_newsym->w - x2;
-		if (w > ob1->ob_newsym->w)
+		if (w > ob1->ob_newsym->w) {
 			w = ob1->ob_newsym->w;
+		}
 	}
 
 	// no intersection?
 
-	if (w <= 0)
+	if (w <= 0) {
 		return;
+	}
 
 	// y:
 
@@ -93,20 +97,23 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 		y1 = 0;
 		y2 = ob2->ob_y - ob1->ob_y;
 		h = ob2->ob_newsym->h - y2;
-		if (h > ob1->ob_newsym->h)
+		if (h > ob1->ob_newsym->h) {
 			h = ob1->ob_newsym->h;
+		}
 	} else {
 		y1 = ob1->ob_y - ob2->ob_y;
 		y2 = 0;
 		h = ob1->ob_newsym->h - y1;
-		if (h > ob2->ob_newsym->h)
+		if (h > ob2->ob_newsym->h) {
 			h = ob2->ob_newsym->h;
+		}
 	}
 
 	// no intersection?
 
-	if (h <= 0)
+	if (h <= 0) {
 		return;
+	}
 
 #ifdef COLL_DEBUG
 	fprintf(stderr,
@@ -162,8 +169,9 @@ get_score_obj(OBJECTS *obp, int *reverse)
 	ob = obp;
 	if (playmode != PLAYMODE_ASYNCH) {
 		retval = &nobjects[0];
-		if (ob->ob_clr == 1)
+		if (ob->ob_clr == 1) {
 			*reverse = 1;
+		}
 	} else
 		retval = &nobjects[2 - ob->ob_clr];
 
@@ -176,10 +184,11 @@ static void scoretarg(OBJECTS *obp, int score)
 	int reverse_score;
 
 	ob = get_score_obj(obp, &reverse_score);
-	if (reverse_score)
+	if (reverse_score) {
 		ob->ob_score.score -= score;
-	else
+	} else {
 		ob->ob_score.score += score;
+	}
 }
 
 
@@ -218,10 +227,12 @@ static void crater(OBJECTS * ob)
 		ymax = ground[x];
 		ymin = ymax - crtdepth[i] +1;
 		y = orground[x] - 20;
-		if (y < 20)
+		if (y < 20) {
 			y = 20;
-		if (ymin <= y)
+		}
+		if (ymin <= y) {
 			ymin = y + 1;
+		}
 		ground[x] = ymin - 1;
 	}
 	forcdisp = TRUE;
@@ -249,9 +260,9 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 	ob = ob1;
 	obt = ob2;
 	ttype = obt ? obt->ob_type : GROUND;
-	if ((ttype == BIRD || ttype == FLOCK)
-	    && ob->ob_type != PLANE)
+	if ((ttype == BIRD || ttype == FLOCK) && ob->ob_type != PLANE) {
 		return;
+	}
 
 	switch (ob->ob_type) {
 
@@ -259,8 +270,9 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 	case MISSILE:
 		initexpl(ob, 0);
 		ob->ob_life = -1;
-		if (!obt)
+		if (!obt) {
 			crater(ob);
+		}
 		stopsound(ob);
 		return;
 
@@ -268,14 +280,15 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		/* cr 2005-04-28: Don't stop the shot if it just
 		 * launched from its presumed originator */
 
-		if (!(obt && obt->ob_type == PLANE
-		      && is_young_shot(ob)))
+		if (!(obt && obt->ob_type == PLANE && is_young_shot(ob))) {
 			ob->ob_life = 1;
+		}
 		return;
 
 	case STARBURST:
-		if (ttype == MISSILE || ttype == BOMB || !obt)
+		if (ttype == MISSILE || ttype == BOMB || !obt) {
 			ob->ob_life = 1;
+		}
 		return;
 
 	case EXPLOSION:
@@ -286,16 +299,18 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		return;
 
 	case TARGET:
-		if (ob->ob_state != STANDING)
+		if (ob->ob_state != STANDING) {
 			return;
-		if (ttype == EXPLOSION || ttype == STARBURST)
+		}
+		if (ttype == EXPLOSION || ttype == STARBURST) {
 			return;
+		}
 
 		if (ttype == SHOT) {
 			ob->ob_hitcount += TARGHITCOUNT;
-			if (ob->ob_hitcount
-			    <= (TARGHITCOUNT * (gamenum + 1)))
-			return;
+			if (ob->ob_hitcount <= (TARGHITCOUNT * (gamenum + 1))) {
+				return;
+			}
 		}
 
 		ob->ob_state = FINISHED;
@@ -307,8 +322,9 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 
 		if (numtarg[ob->ob_clr - 1] > 0) {
 			--numtarg[ob->ob_clr - 1];
-			if (numtarg[ob->ob_clr - 1] <= 0)
+			if (numtarg[ob->ob_clr - 1] <= 0) {
 				endgame(ob->ob_clr);
+			}
 		}
 
 		return;
@@ -318,18 +334,22 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 
 		/* cr 2005-04-28: Avoid having planes hit themselves */
 
-		if (is_young_shot(obt))
+		if (is_young_shot(obt)) {
 			return;	
+		}
 
-		if (state == CRASHED)
+		if (state == CRASHED) {
 			return;
+		}
 
-		if (ob->ob_endsts == WINNER)
+		if (ob->ob_endsts == WINNER) {
 			return;
+		}
 
 		if (ttype == STARBURST
-		    || (ttype == BIRD && ob->ob_athome))
+		    || (ttype == BIRD && ob->ob_athome)) {
 			return;
+		}
 
 		if (!obt) {
 			if (state == FALLING) {
@@ -346,15 +366,17 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 			return;
 		}
 
-		if (state >= FINISHED)
+		if (state >= FINISHED) {
 			return;
+		}
 
 		if (state == FALLING) {
 			if (ob->ob_index == player) {
-				if (ttype == SHOT)
+				if (ttype == SHOT) {
 					swwindshot();
-				else if (ttype == BIRD || ttype == FLOCK)
+				} else if (ttype == BIRD || ttype == FLOCK) {
 					swsplatbird();
+				}
 			}
 			return;
 		}
@@ -362,12 +384,13 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		if (ttype == SHOT || ttype == BIRD
 		    || ttype == OX || ttype == FLOCK) {
 			if (ob->ob_index == player) {
-				if (ttype == SHOT)
+				if (ttype == SHOT) {
 					swwindshot();
-				else if (ttype == OX)
+				} else if (ttype == OX) {
 					swsplatox();
-				else
+				} else {
 					swsplatbird();
+				}
 			}
 
 			if (conf_wounded) {
@@ -414,10 +437,12 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		return;
 
 	case OX:
-		if (ob->ob_state != STANDING)
+		if (ob->ob_state != STANDING) {
 			return;
-		if (ttype == EXPLOSION || ttype == STARBURST)
+		}
+		if (ttype == EXPLOSION || ttype == STARBURST) {
 			return;
+		}
 		scorepenalty(ttype, obt, 200);
 		ob->ob_state = FINISHED;
 		return;
@@ -451,8 +476,9 @@ void swcollsn(void)
 		     obp = obp->ob_xnext) {
 
 			if (obp->ob_y >= ymin
-			    && (obp->ob_y - obp->ob_newsym->h + 1) <= ymax)
+			    && (obp->ob_y - obp->ob_newsym->h + 1) <= ymax) {
 				colltest(ob, obp);
+			}
 		}
 
 		otype = ob->ob_type;
@@ -462,8 +488,9 @@ void swcollsn(void)
 		     && ob->ob_state != WAITING
 		     && ob->ob_y < (ground[ob->ob_x + 8] + 24))
 		    || ((otype == BOMB || otype == MISSILE)
-			&& ob->ob_y < (ground[ob->ob_x + 4] + 12)))
+			&& ob->ob_y < (ground[ob->ob_x + 4] + 12))) {
 			tstcrash(ob);
+		}
 	}
 
 	obkd = killed;
@@ -489,8 +516,9 @@ void tstcrash(OBJECTS * obp)
 
 		// out of range?
 
-		if (y >= sym->h)
+		if (y >= sym->h) {
 			continue;
+		}
 
 		// check for collision at this point
 
@@ -521,8 +549,9 @@ int compute_valour(OBJECTS *ob)
 	int valour = 0;
 	int fuelfraction;
 
-	if (reverse)
+	if (reverse) {
 		return 0;
+	}
 
 	switch (playmode) {
 	case PLAYMODE_SINGLE:
@@ -541,24 +570,28 @@ int compute_valour(OBJECTS *ob)
 
 	distance = abs(x_home - so->ob_x);
 
-	if (distance < 500)
+	if (distance < 500) {
 		valour = 0;
-	else
+	} else {
 		valour = (distance - 500) / 350;
+	}
 
-	if (ob->ob_life > 0)
+	if (ob->ob_life > 0) {
 		fuelfraction = (MAXFUEL / ob->ob_life);
-	else
+	} else {
 		fuelfraction = 1000;
+	}
 
-	if (fuelfraction > 9)
+	if (fuelfraction > 9) {
 		valour++;
+	}
 
 	if (so->ob_state == WOUNDED
-	    || so->ob_state == WOUNDSTALL)
+	    || so->ob_state == WOUNDSTALL) {
 		valour = (valour + 1) * 3;
-	else
+	} else {
 		valour *= 2;
+	}
 
 	return valour;
 }
@@ -568,8 +601,9 @@ void blast_target(OBJECTS *ob, obtype_t type)
 	int reverse;
 	OBJECTS *so = get_score_obj(ob, &reverse);
 
-	if (reverse)
+	if (reverse) {
 		return;
+	}
 
 	if (type == BOMB || type == SHOT || type == MISSILE || type == PLANE) {
 		so->ob_score.killscore += 4;

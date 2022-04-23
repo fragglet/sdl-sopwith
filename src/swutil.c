@@ -37,8 +37,12 @@ void movexy(OBJECTS * ob, int *x, int *y)
 //      vel = (((long) (ob->ob_dx)) << 16) + ob->ob_ldx;
 
 	// Adding this to avoid range errors -- Jesse
-	if (pos >= ((MAX_X - 10) << 16)) pos = (MAX_X - 10) << 16;
-	if (pos < 0) pos = 0;
+	if (pos >= ((MAX_X - 10) << 16)) {
+		pos = (MAX_X - 10) << 16;
+	}
+	if (pos < 0) {
+		pos = 0;
+	}
 
 	pos = (ob->ob_x + ob->ob_dx) << 16;
 	ob->ob_x = (short) (pos >> 16);

@@ -153,8 +153,9 @@ static int can_move(void)
 	 * players is > countmove. */
 
 	for (i=0; i<num_players; ++i) {
-		if (latest_player_time[i] < lowtic)
+		if (latest_player_time[i] < lowtic) {
 			lowtic = latest_player_time[i];
+		}
 	}
 
 	return lowtic > countmove;
@@ -176,10 +177,11 @@ static void calculate_lag(void)
 	// bound the compensation applied; responds to network traffic
 	// spikes
 
-	if (compensation < -5)
+	if (compensation < -5) {
 		compensation = -5;
-	else if (compensation > 5)
+	} else if (compensation > 5) {
 		compensation = 5;
+	}
 
 	skip_time += compensation;
 
@@ -234,8 +236,9 @@ int swmain(int argc, char *argv[])
 	// sdh 28/10/2001: playmode is called from here now
 	// makes for a more coherent progression through the setup process
 
-	if (!playmode)
+	if (!playmode) {
 		getgamemode();
+	}
 	swinitlevel();
 
 	nexttic = Timer_GetMS();
@@ -245,7 +248,7 @@ int swmain(int argc, char *argv[])
 		int nowtime;
 
 		/* generate a new move command periodically
-		 * and send to other players if neccessary */
+		 * and send to other players if necessary */
 
 		nowtime = Timer_GetMS();
 
@@ -259,10 +262,11 @@ int swmain(int argc, char *argv[])
 			 * catch up immediately.
 			 */
 
-			if (nowtime - nexttic > 1000)
+			if (nowtime - nexttic > 1000) {
 				nexttic = nowtime + (1000/FPS);
-			else
+			} else {
 				nexttic += (1000 / FPS);
+			}
 
 			// wait a bit longer to compensate for lag
 

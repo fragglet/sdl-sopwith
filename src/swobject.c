@@ -31,8 +31,9 @@ OBJECTS *allocobj(void)
 {
 	OBJECTS *ob;
 
-	if (!objfree)
+	if (!objfree) {
 		return NULL;
+	}
 
 	ob = objfree;
 	objfree = ob->ob_next;
@@ -40,17 +41,19 @@ OBJECTS *allocobj(void)
 	ob->ob_next = NULL;
 	ob->ob_prev = objbot;
 
-	if (objbot)
+	if (objbot) {
 		objbot->ob_next = ob;
-	else
+	} else {
 		objtop = ob;
+	}
 
 	ob->ob_sound = NULL;
 	ob->ob_drwflg = 0;
 	ob->ob_onmap = FALSE;
 
-	if (ob > objsmax)
+	if (ob > objsmax) {
 		objsmax = ob;
+	}
 
 	objbot = ob;
 
@@ -64,23 +67,26 @@ void deallobj(OBJECTS * obp)
 	OBJECTS *ob=obp;
 	OBJECTS *obb = ob->ob_prev;
 
-	if (obb)
+	if (obb) {
 		obb->ob_next = ob->ob_next;
-	else
+	} else {
 		objtop = ob->ob_next;
+	}
 
 	obb = ob->ob_next;
 
-	if (obb)
+	if (obb) {
 		obb->ob_prev = ob->ob_prev;
-	else
+	} else {
 		objbot = ob->ob_prev;
+	}
 
 	ob->ob_next = 0;
-	if (delbot)
+	if (delbot) {
 		delbot->ob_next = ob;
-	else
+	} else {
 		deltop = ob;
+	}
 
 	delbot = ob;
 

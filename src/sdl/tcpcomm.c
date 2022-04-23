@@ -69,8 +69,9 @@ void commconnect(char *host)
 
 	result = SDLNet_ResolveHost(SDLNET_ANY, &addr, realhost, port);
 	
-	if (realhost != host)
+	if (realhost != host) {
 		free(realhost);
+	}
 
 	if (result) {
 		fprintf(stderr,
@@ -188,8 +189,9 @@ int commin(void)
 
 	// lost connection
 
-	if (!tcp_sock)
+	if (!tcp_sock) {
 		return -1;
+	}
 
 	// read
 
@@ -214,8 +216,9 @@ int commin(void)
 void commout(unsigned char i)
 {
 #ifdef TCPIP
-	if (tcp_sock < 0)
+	if (tcp_sock < 0) {
 		return;
+	}
 
 	if (!SDLNet_TCP_Send(tcp_sock, &i, 1)) {
 		fprintf(stderr,

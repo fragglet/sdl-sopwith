@@ -172,8 +172,9 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 		wrap = 0;
 	}
 
-	if (h > y + 1)
+	if (h > y + 1) {
 		h = y + 1;
+	}
 
 	if (clr == 2) {
 		for (y1=0; y1<h; ++y1) {
@@ -181,8 +182,9 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 			for (x1=0; x1<w; ++x1, ++sptr2) {
 				int i = *data++;
 
-				if (i)
+				if (i) {
 					*sptr2 ^= i ^ 3;
+				}
 			}
 			data += wrap;
 			sptr += vid_pitch;
@@ -193,8 +195,9 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 			for (x1=0; x1<w; ++x1, ++sptr2) {
 				unsigned int i = *data++;
 
-				if (i)
+				if (i) {
 					*sptr2 ^= i;
+				}
 			}
 			data += wrap;
 			sptr += vid_pitch;

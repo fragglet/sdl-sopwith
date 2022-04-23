@@ -86,8 +86,9 @@ SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 	unsigned char *p1, *p2;
 	int y;
 
-	if (!surface)
+	if (!surface) {
 		return NULL;
+	}
 
 	// set palette
 	
@@ -140,15 +141,17 @@ static void Vid_UpdateScaled(void)
 
 void Vid_Update(void)
 {
-	if (!initted)
+	if (!initted) {
 		Vid_Init();
+	}
 
 	SDL_UnlockSurface(screenbuf);
 
-	if (vid_double_size)
+	if (vid_double_size) {
 		Vid_UpdateScaled();
-	else
+	} else {
 		SDL_BlitSurface(screenbuf, NULL, screen, NULL);
+	}
 
 	SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
 
@@ -164,8 +167,9 @@ static void set_icon(sopsym_t *sym)
 	int i;
 	int x, y;
 
-	if (!icon)
+	if (!icon) {
 		return;
+	}
 
 	// generate mask from icon
 
@@ -187,8 +191,9 @@ static void set_icon(sopsym_t *sym)
 				mask[i / 8] = 0;
 			}
 
-			if (pixels[i])
+			if (pixels[i]) {
 				mask[i / 8] |= 0x01;
+			}
 
 			++i;
 		}
@@ -233,8 +238,9 @@ static void Vid_SetMode(void)
 	}
 
 	flags = SDL_HWPALETTE;
-	if (vid_fullscreen)
+	if (vid_fullscreen) {
 		flags |= SDL_FULLSCREEN;
+	}
 
 	screen = SDL_SetVideoMode(w, h, 8, flags);
 
@@ -258,8 +264,9 @@ static void Vid_SetMode(void)
 
 void Vid_Shutdown(void)
 {
-	if (!initted)
+	if (!initted) {
 		return;
+	}
 
 	Vid_UnsetMode();
 
@@ -270,8 +277,9 @@ void Vid_Shutdown(void)
 
 void Vid_Init(void)
 {
-	if (initted)
+	if (initted) {
 		return;
+	}
 
 	fflush(stdout);
 
@@ -291,8 +299,9 @@ void Vid_Init(void)
 
 void Vid_Reset(void)
 {
-	if (!initted)
+	if (!initted) {
 		return;
+	}
 
 	Vid_UnsetMode();
 	Vid_SetMode();

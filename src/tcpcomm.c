@@ -78,8 +78,9 @@ void commconnect(char *host)
 
 	hent = gethostbyname(realhost);
 
-	if (realhost != host)
+	if (realhost != host) {
 		free(realhost);
+	}
 
 	if (!hent) {
 		fprintf(stderr,
@@ -214,8 +215,9 @@ int commin(void)
 
 	// lost connection
 
-	if (tcp_sock < 0)
+	if (tcp_sock < 0) {
 		return -1;
+	}
 
 	// read
 
@@ -243,8 +245,9 @@ int commin(void)
 void commout(unsigned char i)
 {
 #ifdef TCPIP
-	if (tcp_sock < 0)
+	if (tcp_sock < 0) {
 		return;
+	}
 
 	if (!write(tcp_sock, &i, 1)) {
 		fprintf(stderr,

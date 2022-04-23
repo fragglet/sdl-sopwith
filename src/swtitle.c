@@ -138,8 +138,9 @@ void swtitln(void)
 void swtitlf(void)
 {
 
-	if (titleflg)
+	if (titleflg) {
 		return;
+	}
 
 	sound(0, 0, NULL);
 	swsound();
@@ -194,8 +195,9 @@ static BOOL getnet(void)
 
 		swsndupdate();
 
-		if (ctlbreak())
+		if (ctlbreak()) {
 			swend(NULL, NO);
+		}
 
 		switch (toupper(swgetc() & 0xff)) {
 		case 'L':
@@ -268,11 +270,13 @@ int getgame(void)
 	swputs("         Key a game number");
 
 	for (;;) {
-		if (ctlbreak())
+		if (ctlbreak()) {
 			swend(NULL, NO);
+		}
 		if (((game = (swgetc() & 0x00FF) - '0') >= 0)
-		    && (game <= MAX_GAME))
+		    && (game <= MAX_GAME)) {
 			return (game);
+		}
 	}
 }
 
@@ -288,8 +292,9 @@ static BOOL getskill(void)
 		Vid_Update();
 
 		swsndupdate();
-		if (ctlbreak())
+		if (ctlbreak()) {
 			swend(NULL, NO);
+		}
 		switch (toupper(swgetc() & 0xff)) {
 		case 'N':
 			playmode = PLAYMODE_NOVICE;
@@ -321,15 +326,17 @@ void getgamemode(void)
 		swputs("     Q - quit game\n");
 		Vid_Update();
 
-		if (ctlbreak())
+		if (ctlbreak()) {
 			swend(NULL, NO);
+		}
 
 		c = toupper(swgetc() & 0xff);
 
 		switch (c) {
 		case 'S':
-			if (getskill())
+			if (getskill()) {
 				return;
+			}
 			break;
 		case 'O':
 			setconfig();

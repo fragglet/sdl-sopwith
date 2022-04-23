@@ -81,12 +81,15 @@ static void dispgge(int x, int cury, int maxy, int clr)
 	int y;
 
 	cury = cury * 10 / maxy - 1;
-	if (cury > 9)
+	if (cury > 9) {
 		cury = 9;
-	for (y = 0; y <= cury; ++y)
+	}
+	for (y = 0; y <= cury; ++y) {
 		Vid_PlotPixel(x, y, clr);
-	for (; y <= 9; ++y)
+	}
+	for (; y <= 9; ++y) {
 		Vid_PlotPixel(x, y, 0);
+	}
 }
 
 static void dispgauges(OBJECTS *ob)
@@ -128,8 +131,9 @@ static void dispmapobjects(void)
 			  + ((ob->ob_x + (ob->ob_newsym->w / 2)) / WRLD_RSX);
 			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY);
 
-			if (y < SCR_MNSH-1)
+			if (y < SCR_MNSH-1) {
 				Vid_PlotPixel(x, y, ob->ob_clr);
+			}
 		}
 	}
 }
@@ -148,21 +152,25 @@ static void dispmap(void)
 
 	for (x = 0; x < MAX_X; ++x) {
 
-		if (ground[x] > maxh)
+		if (ground[x] > maxh) {
 			maxh = ground[x];
+		}
 
 		++dx;
 
 		if (dx == WRLD_RSX) {
 			maxh /= WRLD_RSY;
-			if (maxh == y)
+			if (maxh == y) {
 				Vid_PlotPixel(sx, maxh, 7);
-			else if (maxh > y)
-				for (++y; y <= maxh; ++y)
+			} else if (maxh > y) {
+				for (++y; y <= maxh; ++y) {
 					Vid_PlotPixel(sx, y, 7);
-			else
-				for (--y; y >= maxh; --y)
+				}
+			} else {
+				for (--y; y >= maxh; --y) {
 					Vid_PlotPixel(sx, y, 7);
+				}
+			}
 			y = maxh;
 			Vid_PlotPixel(sx, 0, 11);
 			++sx;
@@ -182,8 +190,9 @@ static void dispmap(void)
 
 	// border of status bar
 
-	for (x = 0; x < SCR_WDTH; ++x)
+	for (x = 0; x < SCR_WDTH; ++x) {
 		Vid_PlotPixel(x, (SCR_MNSH + 2), 7);
+	}
 }
 
 

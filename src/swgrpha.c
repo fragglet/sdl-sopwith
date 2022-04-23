@@ -176,8 +176,9 @@ void swdisp(void)
 		 && x < displx + SCR_WDTH) {
 			swputsym(x - displx, y, ob);
 
-			if (ob->ob_drawf)
+			if (ob->ob_drawf) {
 				(*(ob->ob_drawf)) (ob);
+			}
 		}
 	}
 

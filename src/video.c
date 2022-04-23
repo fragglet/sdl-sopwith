@@ -41,10 +41,12 @@ int Vid_GetGameKeys(void)
 		keysdown[KEY_FLIP] = 0;
 		c |= K_FLIP;
 	}
-	if (keysdown[KEY_PULLUP])
+	if (keysdown[KEY_PULLUP]) {
 		c |= K_FLAPU;
-	if (keysdown[KEY_PULLDOWN])
+	}
+	if (keysdown[KEY_PULLDOWN]) {
 		c |= K_FLAPD;
+	}
 	if (keysdown[KEY_ACCEL]) {
 		// smooth acceleration -- Jesse
 		// keysdown[KEY_ACCEL] = 0;
@@ -59,12 +61,15 @@ int Vid_GetGameKeys(void)
 		keysdown[KEY_SOUND] = 0;
 		c |= K_SOUND;
 	}
-	if (keysdown[KEY_BOMB])
+	if (keysdown[KEY_BOMB]) {
 		c |= K_BOMB;
-	if (keysdown[KEY_FIRE])
+	}
+	if (keysdown[KEY_FIRE]) {
 		c |= K_SHOT;
-	if (keysdown[KEY_HOME])
+	}
+	if (keysdown[KEY_HOME]) {
 		c |= K_HOME;
+	}
 	if (keysdown[KEY_MISSILE]) {
 		keysdown[KEY_MISSILE] = 0;
 		c |= K_MISSILE;

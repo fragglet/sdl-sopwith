@@ -70,8 +70,9 @@ static inline int try_readshort(void)
 
 	s = commin();
 
-	if (s < 0)
+	if (s < 0) {
 		return -1;
+	}
 
 	settimeout();
 
@@ -146,8 +147,9 @@ static void synchronize(void)
 	buf = malloc(sizeof(PROTOHEADER) + 5);
 	snprintf(buf, sizeof(PROTOHEADER) + 5, PROTOHEADER "%d", player);
 
-	for (p = buf; *p; ++p)
+	for (p = buf; *p; ++p) {
 		commout(*p);
+	}
 
 	// now listen for response
 

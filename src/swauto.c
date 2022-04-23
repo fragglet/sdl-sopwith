@@ -80,8 +80,9 @@ int shoot(OBJECTS *obt)
 		if (obx >= obtx
 		    && obx <= (obtx + SYM_WDTH - 1)
 		    && oby <= obty
-		    && oby >= (obty - SYM_HGHT + 1))
+		    && oby >= (obty - SYM_HGHT + 1)) {
 			return 1 + (i > (BULLIFE / 3));
+		}
 
 	}
 
@@ -106,14 +107,16 @@ static void testtargs(int x, int y)
 
 	tl = -1;
 	tr = 0;
-	for (i = 0; i < (MAX_TARG + MAX_OXEN); ++i)
+	for (i = 0; i < (MAX_TARG + MAX_OXEN); ++i) {
 		if (targets[i] && targets[i]->ob_x >= xl) {
 			tl = i;
 			break;
 		}
+	}
 
-	if (tl == -1)
+	if (tl == -1) {
 		return;
+	}
 
 	for (; i < MAX_TARG + MAX_OXEN
 	       && targets[i]
@@ -129,15 +132,18 @@ static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
 	OBJECTS *ob;
 	int i, xl, xr, xt, yt;
 
-	if (alt > 50)
+	if (alt > 50) {
 		return FALSE;
+	}
 
-	if (alt < 22)
+	if (alt < 22) {
 		return TRUE;
+	}
 
 	ob = obp;
-	if (tl == -2)
+	if (tl == -2) {
 		testtargs(ob->ob_x, ob->ob_y);
+	}
 
 	xl = x - 32;
 	xr = x + 32;
@@ -146,13 +152,16 @@ static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
 		ob = targets[i];
 		xt = ob->ob_x;
 
-		if (xt < xl)
+		if (xt < xl) {
 			continue;
-		if (xt > xr)
+		}
+		if (xt > xr) {
 			return FALSE;
+		}
 		yt = ob->ob_y + (ob->ob_state == STANDING ? 16 : 8);
-		if (y <= yt)
+		if (y <= yt) {
 			return TRUE;
+		}
 	}
 	return FALSE;
 }
@@ -184,8 +193,9 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 
 	if (abs(dx) > 160) {
 		if (ob->ob_dx && (dx < 0) == (ob->ob_dx < 0)) {
-			if (!ob->ob_hitcount)
+			if (!ob->ob_hitcount) {
 				ob->ob_hitcount = (y > (MAX_Y - 50)) ? 2 : 1;
+			}
 			return (aim(ob, x, ob->ob_hitcount == 1
 				    ? (y + 25) : (y - 25), NULL, YES));
 		}
@@ -196,8 +206,9 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 			        : y + 100,
 			    NULL, YES));
 	} else {
-		if (!longway)
+		if (!longway) {
 			ob->ob_hitcount = 0;
+		}
 	}
 
 	if (ob->ob_speed) {
@@ -205,18 +216,20 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		correction = dy = y - ay;
 
 		if (correction && abs(dy) < 6) {
-			if (dy < 0)
+			if (dy < 0) {
 				++y;
-			else
+			} else {
 				--y;
+			}
 			ob->ob_y = y;
 		} else {
 			correction = dx;
 			if (correction && abs(dx) < 6) {
-				if (dx < 0)
+				if (dx < 0) {
 					++x;
-				else
+				} else {
 					--x;
+				}
 				ob->ob_x = x;
 			}
 		}
@@ -225,10 +238,11 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 	obs = *ob;
 
 	nspeed = obs.ob_speed + 1;
-	if (nspeed > gmaxspeed && obs.ob_type == PLANE)
+	if (nspeed > gmaxspeed && obs.ob_type == PLANE) {
 		nspeed = gmaxspeed;
-	else if (nspeed < gminspeed)
+	} else if (nspeed < gminspeed) {
 		nspeed = gminspeed;
+	}
 
 	cleartargs();
 	for (i = 0; i < 3; ++i) {
@@ -252,10 +266,11 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 			// cr 2005-04-28: Resort to MG if
 			//       missiles are disabled
 
-			if (ob->ob_missiles && conf_missiles && i == 2)
+			if (ob->ob_missiles && conf_missiles && i == 2) {
 				ob->ob_mfiring = obt->ob_athome ? ob : obt;
-			else
+			} else {
 				ob->ob_firing = obt;
+			}
 		}
 	}
 
@@ -279,12 +294,14 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 		}
 	}
 
-	if (ob->ob_speed < gminspeed)
+	if (ob->ob_speed < gminspeed) {
 		ob->ob_accel = MAX_THROTTLE;
+	}
 
 	if (rmin == -32767) {
-		if (ob->ob_accel)
+		if (ob->ob_accel) {
 			--ob->ob_accel;
+		}
 
 		n = 0;
 
@@ -294,18 +311,21 @@ int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
 			dy = calt[1];
 			n = 1;
 		}
-		if (calt[2] > dy)
+		if (calt[2] > dy) {
 			n = 2;
+		}
 	} else {
-		if (ob->ob_accel < MAX_THROTTLE)
+		if (ob->ob_accel < MAX_THROTTLE) {
 			++ob->ob_accel;
+		}
 	}
 
 	ob->ob_flaps = cflaps[n];
-	if (ob->ob_type == PLANE && !ob->ob_flaps)
-		if (ob->ob_speed)
+	if (ob->ob_type == PLANE && !ob->ob_flaps) {
+		if (ob->ob_speed) {
 			ob->ob_orient = ob->ob_dx < 0;
-
+		}
+	}
 	return 0;
 }
 
@@ -315,8 +335,9 @@ int gohome(OBJECTS *ob)
 {
 	OBJECTS *original_ob;
 
-	if (ob->ob_athome)
+	if (ob->ob_athome) {
 		return 0;
+	}
 
 	original_ob = &oobjects[ob->ob_index];
 
@@ -336,10 +357,11 @@ int gohome(OBJECTS *ob)
 
 	/* When wounded, only move every other tic */
 
-	if (ob->ob_state == WOUNDED && (countmove & 1))
+	if (ob->ob_state == WOUNDED && (countmove & 1)) {
 		return 0;
-	else
+	} else {
 		return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
+	}
 }
 
 
@@ -363,21 +385,23 @@ void attack(OBJECTS *obp, OBJECTS *obt)
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
 	ob = obt;
-	if (ob->ob_speed)
+	if (ob->ob_speed) {
 		aim(obp,
 		    ob->ob_x - ((CLOSE * COS(ob->ob_angle)) >> 8),
 		    ob->ob_y - ((CLOSE * SIN(ob->ob_angle)) >> 8), ob, NO);
-	else
+	} else {
 		aim(obp, ob->ob_x, ob->ob_y + 4, ob, NO);
+	}
 }
 
 
 void swauto(OBJECTS *ob)
 {
-	if (compnear[ob->ob_index])
+	if (compnear[ob->ob_index]) {
 		attack(ob, compnear[ob->ob_index]);
-	else if (!ob->ob_athome)
+	} else if (!ob->ob_athome) {
 		cruise(ob);
+	}
 
 	compnear[ob->ob_index] = NULL;
 }
@@ -392,8 +416,9 @@ int range(int x, int y, int ax, int ay)
 	dy += dy >> 1;
 	dx = abs(x - ax);
 
-	if (dx < 125 && dy < 125)
+	if (dx < 125 && dy < 125) {
 		return dx * dx + dy * dy;
+	}
 
 	if (dx < dy) {
 		t = dx;

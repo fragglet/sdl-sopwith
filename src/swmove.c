@@ -56,8 +56,9 @@ void swmove(void)
 
 	++dispcnt;
 
-	if (dispcnt >= keydelay)
+	if (dispcnt >= keydelay) {
 		dispcnt = 0;
+	}
 
 	ob = objtop;
 	while (ob) {
@@ -82,19 +83,21 @@ static void nearpln(OBJECTS * obp)
 	obclr = ob->ob_owner->ob_clr;
 
 	for (i = 1; obt->ob_type == PLANE; ++i, ++obt) {
-		if (obclr == obt->ob_owner->ob_clr)
+		if (obclr == obt->ob_owner->ob_clr) {
 			continue;
+		}
 
-		if (obt->ob_drawf == dispcomp)
+		if (obt->ob_drawf == dispcomp) {
 
 			if (playmode != PLAYMODE_COMPUTER
 			    || (obx >= lcompter[i] && obx <= rcompter[i])) {
 				obc = compnear[i];
-				if (!obc
-				    || abs(obx - obt->ob_x)
-					< abs(obc->ob_x - obt->ob_x))
+				if (!obc || abs(obx - obt->ob_x)
+				          < abs(obc->ob_x - obt->ob_x)) {
 					compnear[i] = ob;
+				}
 			}
+		}
 	}
 }
 
@@ -103,8 +106,9 @@ static void nearpln(OBJECTS * obp)
 
 static void topup(int *counter, int max)
 {
-	if (*counter == max)
+	if (*counter == max) {
 		return;
+	}
 	if (max < 20) {
 		if (!(countmove % 20)) {
 			++*counter;
@@ -112,8 +116,9 @@ static void topup(int *counter, int max)
 	} else {
 		*counter += max / 100;
 	}
-	if (*counter > max)
+	if (*counter > max) {
 		*counter = max;
+	}
 }
 
 
@@ -143,26 +148,29 @@ static int symangle(OBJECTS * ob)
 
 	dx = ob->ob_dx;
 	dy = ob->ob_dy;
-	if (dx == 0)
-		if (dy < 0)
+	if (dx == 0) {
+		if (dy < 0) {
 			return 6;
-		else if (dy > 0)
+		} else if (dy > 0) {
 			return 2;
-		else
+		} else {
 			return 6;
-	else if (dx > 0)
-		if (dy < 0)
+		}
+	} else if (dx > 0) {
+		if (dy < 0) {
 			return 7;
-		else if (dy > 0)
+		} else if (dy > 0) {
 			return 1;
-		else
+		} else {
 			return 0;
-	else if (dy < 0)
+		}
+	} else if (dy < 0) {
 		return 5;
-	else if (dy > 0)
+	} else if (dy > 0) {
 		return 3;
-	else
+	} else {
 		return 4;
+	}
 }
 
 BOOL moveplyr(OBJECTS * obp)
@@ -180,8 +188,9 @@ BOOL moveplyr(OBJECTS * obp)
 	if (endstat) {
 		--endcount;
 		if (endcount <= 0) {
-			if (playmode != PLAYMODE_ASYNCH && !quit)
+			if (playmode != PLAYMODE_ASYNCH && !quit) {
 				swrestart();
+			}
 			swend(NULL, YES);
 		}
 	}
@@ -192,9 +201,11 @@ BOOL moveplyr(OBJECTS * obp)
 
 	// Thanks to Kodath duMatri for fixing this :)
 
-	if (conf_harrykeys && ob->ob_orient)
-		if(multkey & (K_FLAPU | K_FLAPD))
+	if (conf_harrykeys && ob->ob_orient) {
+		if (multkey & (K_FLAPU | K_FLAPD)) {
 			multkey ^= K_FLAPU | K_FLAPD;
+		}
+	}
 
 	interpret(ob, multkey);
 
@@ -209,21 +220,24 @@ BOOL moveplyr(OBJECTS * obp)
 
 		// sdh: infinite lives in multiplayer mode
 
-		if (playmode != PLAYMODE_ASYNCH)
+		if (playmode != PLAYMODE_ASYNCH) {
 			++ob->ob_crashcnt;
+		}
 
 		if (endstat != WINNER
 		    && (ob->ob_life <= QUIT
-			|| (playmode != PLAYMODE_ASYNCH
-			    && ob->ob_crashcnt >= MAXCRASH))) {
-			if (!endstat)
+		     || (playmode != PLAYMODE_ASYNCH
+		         && ob->ob_crashcnt >= MAXCRASH))) {
+			if (!endstat) {
 				loser(ob);
+			}
 		} else {
 			initplyr(ob);
 			initdisp(YES);
 			if (endstat == WINNER) {
-				if (ctlbreak())
+				if (ctlbreak()) {
 					swend(NULL, YES);
+				}
 				winner(ob);
 			}
 		}
@@ -251,13 +265,15 @@ void interpret(OBJECTS * obp, int key)
 	    && state != STALLED
 	    && state != FALLING
 	    && state != WOUNDED
-	    && state != WOUNDSTALL)
+	    && state != WOUNDSTALL) {
 		return;
+	}
 
 	if (state != FALLING) {
 		if (endstat) {
-			if (endstat == LOSER && plyrplane)
+			if (endstat == LOSER && plyrplane) {
 				gohome(ob);
+			}
 			return;
 		}
 
@@ -268,13 +284,16 @@ void interpret(OBJECTS * obp, int key)
 				ob->ob_state = state = CRASHED;
 				ob->ob_hitcount = 0;
 			}
-			if (plyrplane)
+			if (plyrplane) {
 				quit = TRUE;
+			}
 		}
 
-		if (key & K_HOME)
-			if (state == FLYING || state == WOUNDED)
+		if (key & K_HOME) {
+			if (state == FLYING || state == WOUNDED) {
 				ob->ob_home = TRUE;
+			}
+		}
 	}
 
 	if ((countmove & 1)
@@ -295,31 +314,37 @@ void interpret(OBJECTS * obp, int key)
 		}
 
 		if (key & K_DEACC) {
-			if (ob->ob_accel)
+			if (ob->ob_accel) {
 				--ob->ob_accel;
+			}
 			ob->ob_home = FALSE;
 		}
 
 		if (key & K_ACCEL) {
-			if (ob->ob_accel < MAX_THROTTLE)
+			if (ob->ob_accel < MAX_THROTTLE) {
 				++ob->ob_accel;
+			}
 			ob->ob_home = FALSE;
 		}
 	}
 
-	if ((key & K_SHOT) && state < FINISHED)
+	if ((key & K_SHOT) && state < FINISHED) {
 		ob->ob_firing = ob;
+	}
 
-	if ((key & K_MISSILE) && state < FINISHED)
+	if ((key & K_MISSILE) && state < FINISHED) {
 		ob->ob_mfiring = ob;
+	}
 
-	if ((key & K_BOMB) && state < FINISHED)
+	if ((key & K_BOMB) && state < FINISHED) {
 		ob->ob_bombing = TRUE;
+	}
 
-	if ((key & K_STARBURST) && state < FINISHED)
+	if ((key & K_STARBURST) && state < FINISHED) {
 		ob->ob_bfiring = TRUE;
+	}
 
-	if (key & K_SOUND)
+	if (key & K_SOUND) {
 		if (plyrplane) {
 			if (soundflg) {
 				sound(0, 0, NULL);
@@ -327,9 +352,11 @@ void interpret(OBJECTS * obp, int key)
 			}
 			soundflg = !soundflg;
 		}
+	}
 
-	if (ob->ob_home)
+	if (ob->ob_home) {
 		gohome(ob);
+	}
 }
 
 BOOL movecomp(OBJECTS * obp)
@@ -347,15 +374,17 @@ BOOL movecomp(OBJECTS * obp)
 
 	endstat = ob->ob_endsts;
 
-	if (!dispcnt)
+	if (!dispcnt) {
 		ob->ob_firing = NULL;
+	}
 
 	switch (ob->ob_state) {
 
 	case WOUNDED:
 	case WOUNDSTALL:
-		if (countmove & 1)
+		if (countmove & 1) {
 			break;
+		}
 
 	case FLYING:
 	case STALLED:
@@ -363,14 +392,16 @@ BOOL movecomp(OBJECTS * obp)
 			gohome(ob);
 			break;
 		}
-		if (!dispcnt)
+		if (!dispcnt) {
 			swauto(ob);
+		}
 		break;
 
 	case CRASHED:
 		ob->ob_firing = NULL;
-		if (ob->ob_hitcount <= 0 && !endstat)
+		if (ob->ob_hitcount <= 0 && !endstat) {
 			initcomp(ob);
+		}
 		break;
 
 	default:
@@ -429,29 +460,33 @@ BOOL movepln(OBJECTS * obp)
 	case FALLING:
 		ob->ob_hitcount -= 2;
 		if ((ob->ob_dy < 0) && ob->ob_dx) {
-			if (ob->ob_orient ^ (ob->ob_dx < 0))
+			if (ob->ob_orient ^ (ob->ob_dx < 0)) {
 				ob->ob_hitcount -= ob->ob_flaps;
-			else
+			} else {
 				ob->ob_hitcount += ob->ob_flaps;
+			}
 		}
 
 		if (ob->ob_hitcount <= 0) {
 			if (ob->ob_dy < 0) {
-				if (ob->ob_dx < 0)
+				if (ob->ob_dx < 0) {
 					++ob->ob_dx;
-				else if (ob->ob_dx > 0)
+				} else if (ob->ob_dx > 0) {
 					--ob->ob_dx;
-				else
+				} else {
 					ob->ob_orient = !ob->ob_orient;
+				}
 			}
 
-			if (ob->ob_dy > -10)
+			if (ob->ob_dy > -10) {
 				--ob->ob_dy;
+			}
 			ob->ob_hitcount = FALLCOUNT;
 		}
 		ob->ob_angle = symangle(ob) * 2;
-		if (ob->ob_dy <= 0)
+		if (ob->ob_dy <= 0) {
 			initsound(ob, S_FALLING);
+		}
 		break;
 
 	case STALLED:
@@ -464,8 +499,9 @@ BOOL movepln(OBJECTS * obp)
 	      commonstall:
 		stalled = ob->ob_angle != (3 * ANGLES / 4)
 			|| ob->ob_speed < gminspeed;
-		if (!stalled)
+		if (!stalled) {
 			ob->ob_state = state = newstate;
+		}
 		goto controlled;
 
 	case FLYING:
@@ -482,8 +518,9 @@ BOOL movepln(OBJECTS * obp)
 		}
 
 	     controlled:
-		if (ob->ob_goingsun)
+		if (ob->ob_goingsun) {
 			break;
+		}
 
 		if (ob->ob_life <= 0 && !ob->ob_athome
 		    && (state == FLYING || state == STALLED
@@ -494,27 +531,32 @@ BOOL movepln(OBJECTS * obp)
 			return movepln(ob);
 		}
 
-		if (ob->ob_firing)
+		if (ob->ob_firing) {
 			initshot(ob, NULL);
+		}
 
-		if (ob->ob_bombing)
+		if (ob->ob_bombing) {
 			initbomb(ob);
+		}
 
-		if (ob->ob_mfiring)
+		if (ob->ob_mfiring) {
 			initmiss(ob);
+		}
 
-		if (ob->ob_bfiring)
+		if (ob->ob_bfiring) {
 			initburst(ob);
+		}
 
 		nangle = ob->ob_angle;
 		nspeed = ob->ob_speed;
 		update = ob->ob_flaps;
 
 		if (update) {
-			if (ob->ob_orient)
+			if (ob->ob_orient) {
 				nangle -= update;
-			else
+			} else {
 				nangle += update;
+			}
 			nangle = (nangle + ANGLES) % ANGLES;
 		}
 
@@ -537,16 +579,17 @@ BOOL movepln(OBJECTS * obp)
 		}
 
 		if (update) {
-			if (ob->ob_athome)
-				if (ob->ob_accel || ob->ob_flaps)
+			if (ob->ob_athome) {
+				if (ob->ob_accel || ob->ob_flaps) {
 					nspeed = gminspeed;
-				else
+				} else {
 					nspeed = 0;
+				}
 
-			else if (nspeed <= 0 && !stalled) {
-				if (playmode == PLAYMODE_NOVICE)
+			} else if (nspeed <= 0 && !stalled) {
+				if (playmode == PLAYMODE_NOVICE) {
 					nspeed = 1;
-				else {
+				} else {
 					stallpln(ob);
 					return movepln(ob);
 				}
@@ -558,18 +601,19 @@ BOOL movepln(OBJECTS * obp)
 			if (stalled) {
 				ob->ob_dx = ob->ob_ldx = ob->ob_ldy = 0;
 				ob->ob_dy = -nspeed;
-			} else
+			} else {
 				setdxdy(ob,
-					nspeed * COS(nangle),
-					nspeed * SIN(nangle));
+				        nspeed * COS(nangle),
+				        nspeed * SIN(nangle));
+			}
 		}
 
 		if (stalled) {
 			--ob->ob_hitcount;
 			if (ob->ob_hitcount <= 0) {
 				ob->ob_orient = !ob->ob_orient;
-				ob->ob_angle = ((3 * ANGLES / 2)
-						- ob->ob_angle)
+				ob->ob_angle =
+				    ((3 * ANGLES / 2) - ob->ob_angle)
 				    % ANGLES;
 				ob->ob_hitcount = STALLCOUNT;
 			}
@@ -581,21 +625,23 @@ BOOL movepln(OBJECTS * obp)
 			ob->ob_life -= ob->ob_speed;
 		}
 
-		if (ob->ob_speed)
+		if (ob->ob_speed) {
 			ob->ob_athome = FALSE;
+		}
 		break;
 	default:
 		break;
 	}
 
-	if (ob->ob_endsts == WINNER && ob->ob_goingsun)
+	if (ob->ob_endsts == WINNER && ob->ob_goingsun) {
 		ob->ob_newsym = symbol_plane_win[endcount / 18];
-	else if (ob->ob_state == FINISHED)
+	} else if (ob->ob_state == FINISHED) {
 		ob->ob_newsym = NULL;
-	else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0)
+	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0) {
 		ob->ob_newsym = symbol_plane_hit[ob->ob_orient];
-	else
+	} else {
 		ob->ob_newsym = symbol_plane[ob->ob_orient][ob->ob_angle];
+	}
 
 	//ob->ob_newsym =
 	//ob->ob_state == FINISHED ? NULL :
@@ -606,37 +652,44 @@ BOOL movepln(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 
-	if (x < 0)
+	if (x < 0) {
 		x = ob->ob_x = 0;
-	else if (x >= (MAX_X - 16))
+	} else if (x >= (MAX_X - 16)) {
 		x = ob->ob_x = MAX_X - 16;
+	}
 
 	if (!compplane
 	    && (ob->ob_state == FLYING
 		|| ob->ob_state == STALLED
 		|| ob->ob_state == WOUNDED
 		|| ob->ob_state == WOUNDSTALL)
-	    && consoleplayer->ob_endsts == PLAYING)
+	    && consoleplayer->ob_endsts == PLAYING) {
 		nearpln(ob);
+	}
 
 	deletex(ob);
 	insertx(ob, ob->ob_xnext);
 
-	if (ob->ob_bdelay)
+	if (ob->ob_bdelay) {
 		--ob->ob_bdelay;
-	if (ob->ob_mdelay)
+	}
+	if (ob->ob_mdelay) {
 		--ob->ob_mdelay;
-	if (ob->ob_bsdelay)
+	}
+	if (ob->ob_bsdelay) {
 		--ob->ob_bsdelay;
+	}
 
-	if (!compplane && ob->ob_athome && ob->ob_state == FLYING)
+	if (!compplane && ob->ob_athome && ob->ob_state == FLYING) {
 		refuel(ob);
+	}
 
 	if (y < MAX_Y && y >= 0) {
 		if (ob->ob_state == FALLING
 		    || ob->ob_state == WOUNDED
-		    || ob->ob_state == WOUNDSTALL)
+		    || ob->ob_state == WOUNDSTALL) {
 			initsmok(ob);
+		}
 		return plyrplane || ob->ob_state < FINISHED;
 	}
 
@@ -654,13 +707,15 @@ static void adjustfall(OBJECTS * obp)
 	--ob->ob_life;
 	if (ob->ob_life <= 0) {
 		if (ob->ob_dy < 0) {
-			if (ob->ob_dx < 0)
+			if (ob->ob_dx < 0) {
 				++ob->ob_dx;
-			else if (ob->ob_dx > 0)
+			} else if (ob->ob_dx > 0) {
 				--ob->ob_dx;
+			}
 		}
-		if (ob->ob_dy > -10)
+		if (ob->ob_dy > -10) {
 			--ob->ob_dy;
+		}
 		ob->ob_life = BOMBLIFE;
 	}
 }
@@ -713,8 +768,9 @@ BOOL movebomb(OBJECTS * obp)
 
 	adjustfall(ob);
 
-	if (ob->ob_dy <= 0)
+	if (ob->ob_dy <= 0) {
 		initsound(ob, S_BOMB);
+	}
 
 	movexy(ob, &x, &y);
 
@@ -728,8 +784,9 @@ BOOL movebomb(OBJECTS * obp)
 	ob->ob_newsym = symbol_bomb[symangle(ob)];
 	insertx(ob, ob->ob_xnext);
 
-	if (y >= MAX_Y)
+	if (y >= MAX_Y) {
 		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -756,8 +813,9 @@ BOOL movemiss(OBJECTS * obp)
 		obt = ob->ob_target;
 
 		if (obt != ob->ob_owner && (ob->ob_life & 1)) {
-			if (obt->ob_target)
+			if (obt->ob_target) {
 				obt = obt->ob_target;
+			}
 			aim(ob, obt->ob_x, obt->ob_y, NULL, NO);
 			angle = ob->ob_angle
 			    =
@@ -790,8 +848,9 @@ BOOL movemiss(OBJECTS * obp)
 	ob->ob_newsym = symbol_missile[ob->ob_angle];
 	insertx(ob, ob->ob_xnext);
 
-	if (y >= MAX_Y)
+	if (y >= MAX_Y) {
 		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -847,18 +906,21 @@ BOOL movetarg(OBJECTS * obt)
 	    && ob->ob_clr != obp->ob_clr
 	    && (gamenum > 1 || (countmove & 0x0001))
 	    && ((r = range(ob->ob_x, ob->ob_y, obp->ob_x, obp->ob_y)) > 0)
-	    && r < targrnge)
+	    && r < targrnge) {
 		initshot(ob, ob->ob_firing = obp);
+	}
 
 	--ob->ob_hitcount;
 
-	if (ob->ob_hitcount < 0)
+	if (ob->ob_hitcount < 0) {
 		ob->ob_hitcount = 0;
+	}
 
-	if (ob->ob_state == STANDING)
+	if (ob->ob_state == STANDING) {
 		ob->ob_newsym = symbol_targets[ob->ob_orient];
-	else
+	} else {
 		ob->ob_newsym = symbol_target_hit;
+	}
 
 	return TRUE;
 }
@@ -875,8 +937,9 @@ BOOL moveexpl(OBJECTS * obp)
 	orient = ob->ob_orient;
 	deletex(ob);
 	if (ob->ob_life < 0) {
-		if (orient)
+		if (orient) {
 			stopsound(ob);
+		}
 		deallobj(ob);
 		return FALSE;
 	}
@@ -885,23 +948,26 @@ BOOL moveexpl(OBJECTS * obp)
 
 	if (ob->ob_life <= 0) {
 		if (ob->ob_dy < 0) {
-			if (ob->ob_dx < 0)
+			if (ob->ob_dx < 0) {
 				++ob->ob_dx;
-			else if (ob->ob_dx > 0)
+			} else if (ob->ob_dx > 0) {
 				--ob->ob_dx;
+			}
 		}
 		if ((ob->ob_orient && ob->ob_dy > -10)
-		    || (!ob->ob_orient && ob->ob_dy > -gminspeed))
+		 || (!ob->ob_orient && ob->ob_dy > -gminspeed)) {
 			--ob->ob_dy;
+		}
 		ob->ob_life = EXPLLIFE;
 	}
 
 	movexy(ob, &x, &y);
 
 	if (y <= (int) ground[x]
-	    || x < 0 || x >= MAX_X) {
-		if (orient)
+	 || x < 0 || x >= MAX_X) {
+		if (orient) {
 			stopsound(ob);
+		}
 		deallobj(ob);
 		return (FALSE);
 	}
@@ -927,10 +993,10 @@ BOOL movesmok(OBJECTS * obp)
 	--ob->ob_life;
 
 	if (ob->ob_life <= 0
-	    || (state != FALLING
-		&& state != WOUNDED
-		&& state != WOUNDSTALL
-		&& state != CRASHED)) {
+	 || (state != FALLING
+	  && state != WOUNDED
+	  && state != WOUNDSTALL
+	  && state != CRASHED)) {
 		deallobj(ob);
 		return FALSE;
 	}
@@ -961,8 +1027,9 @@ BOOL moveflck(OBJECTS * obp)
 		ob->ob_life = FLOCKLIFE;
 	}
 
-	if (ob->ob_x < MINFLCKX || ob->ob_x > MAXFLCKX)
+	if (ob->ob_x < MINFLCKX || ob->ob_x > MAXFLCKX) {
 		ob->ob_dx = -ob->ob_dx;
+	}
 
 	movexy(ob, &x, &y);
 	insertx(ob, ob->ob_xnext);
@@ -1028,10 +1095,11 @@ BOOL crashpln(OBJECTS * obp)
 
 	ob = obp;
 
-	if (ob->ob_dx < 0)
+	if (ob->ob_dx < 0) {
 		ob->ob_angle = (ob->ob_angle + 2) % ANGLES;
-	else
+	} else {
 		ob->ob_angle = (ob->ob_angle + ANGLES - 2) % ANGLES;
+	}
 
 	ob->ob_state = CRASHED;
 	ob->ob_athome = FALSE;
@@ -1070,13 +1138,14 @@ BOOL insertx(OBJECTS * ob, OBJECTS * obp)
 
 	obs = obp;
 	obx = ob->ob_x;
-	if (obx < obs->ob_x)
+	if (obx < obs->ob_x) {
 		do {
 			obs = obs->ob_xprev;
 		} while (obx < obs->ob_x);
-	else {
-		while (obx >= obs->ob_x)
+	} else {
+		while (obx >= obs->ob_x) {
 			obs = obs->ob_xnext;
+		}
 		obs = obs->ob_xprev;
 	}
 	ob->ob_xnext = obs->ob_xnext;

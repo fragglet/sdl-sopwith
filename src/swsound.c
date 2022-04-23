@@ -114,8 +114,9 @@ static unsigned int swrand(unsigned int modulo)
 	static int i = 0;
 	int result;
 
-	if (i >= 50)
+	if (i >= 50) {
 		i = 0;
+	}
 
 	result = seed[i] % modulo;
 	++i;
@@ -128,8 +129,9 @@ static TONETAB *allocton(void)
 {
 	TONETAB *tt;
 
-	if (!freetone)
+	if (!freetone) {
 		return 0;
+	}
 
 	tt = freetone;
 	freetone = tt->tt_next;
@@ -137,8 +139,9 @@ static TONETAB *allocton(void)
 	tt->tt_next = frsttone;
 	tt->tt_prev = NULL;
 
-	if (frsttone)
+	if (frsttone) {
 		frsttone->tt_prev = tt;
+	}
 
 	frsttone = tt;
 
@@ -152,15 +155,17 @@ static void deallton(TONETAB * ttp)
 	TONETAB *tt = ttp;
 	TONETAB *ttb = tt->tt_prev;
 
-	if (ttb)
+	if (ttb) {
 		ttb->tt_next = tt->tt_next;
-	else
+	} else {
 		frsttone = tt->tt_next;
+	}
 
 	ttb = tt->tt_next;
 
-	if (ttb)
+	if (ttb) {
 		ttb->tt_prev = tt->tt_prev;
+	}
 
 	tt->tt_next = freetone;
 	freetone = tt;
@@ -173,8 +178,9 @@ void initsndt(void)
 	TONETAB *tt;
 	int i;
 
-	for (i = 0, tt = tonetab; i < (SNDSIZE - 1); ++i, ++tt)
+	for (i = 0, tt = tonetab; i < (SNDSIZE - 1); ++i, ++tt) {
 		tt->tt_next = tt + 1;
+	}
 	tt->tt_next = NULL;
 	frsttone = NULL;
 	freetone = tonetab;
@@ -185,13 +191,15 @@ void stopsound(OBJECTS * ob)
 {
 	TONETAB *tt = ob->ob_sound;
 
-	if (!tt)
+	if (!tt) {
 		return;
+	}
 
-	if (ob->ob_type == EXPLOSION)
+	if (ob->ob_type == EXPLOSION) {
 		--numexpls;
-	else
+	} else {
 		deallton(tt);
+	}
 	ob->ob_sound = NULL;
 }
 
@@ -211,11 +219,13 @@ void soundoff(void)
 
 static void tone(unsigned int freq)
 {
-	if (!soundflg)
+	if (!soundflg) {
 		return;
+	}
 
-	if (lastfreq == freq)
+	if (lastfreq == freq) {
 		return;
+	}
 
 	Speaker_Output(freq);
 
@@ -259,8 +269,9 @@ void playnote(void)
 	noteoctavefactor = 256;
 
 	for (;;) {
-		if (!line && !place)
+		if (!line && !place) {
 			octavefactor = 256;
+		}
 
 		charatplace = toupper(tune[line][place]);
 		++place;
@@ -273,19 +284,21 @@ void playnote(void)
 				line = 0;
 			}
 
-			if (firstplace)
+			if (firstplace) {
 				continue;
+			}
 			break;
 		}
 		firstplace = FALSE;
-		if (charatplace == NOTEEND)
+		if (charatplace == NOTEEND) {
 			break;
+		}
 
 		test = isalpha(charatplace);
 		if (test) {
 			index = *(noteindex + (charatplace - 'A'));
 			noteletter = charatplace;
-		} else
+		} else {
 			switch (charatplace) {
 			case UPOCTAVE:
 				octavefactor <<= 1;
@@ -310,13 +323,14 @@ void playnote(void)
 				}
 				break;
 			}
-
+		}
 	}
 
 	durstring[durplace] = '\0';
 	duration = atoi(durstring);
-	if (duration <= 0)
+	if (duration <= 0) {
 		duration = 4;
+	}
 	duration = (1440 * dottednote / (60 * duration)) / 2;
 
 	if (noteletter == REST) {
@@ -354,8 +368,9 @@ static void adjcont(void)
 {
 	TONETAB *tt = lastobj->ob_sound;
 
-	if (tt)
+	if (tt) {
 		tone(tt->tt_tone + tt->tt_chng * soundticks);
+	}
 }
 
 
@@ -365,9 +380,9 @@ static void adjshot(void)
 {
 	static unsigned savefreq;
 
-	if (lastfreq == 0xF000)
+	if (lastfreq == 0xF000) {
 		tone(savefreq);
-	else {
+	} else {
 		savefreq = lastfreq;
 		tone(0xF000);
 	}
@@ -393,8 +408,9 @@ static void adjexpl(void)
 {
 	--explticks;
 
-	if (explticks >= 0)
+	if (explticks >= 0) {
 		return;
+	}
 
 	explnote();
 }
@@ -421,8 +437,9 @@ static void adjtitl(void)
 {
 	--titlticks;
 
-	if (titlticks >= 0)
+	if (titlticks >= 0) {
 		return;
+	}
 	titlnote();
 }
 
@@ -432,14 +449,17 @@ static void soundadj(void)
 
 	++soundticks;
 
-	if (lastfreq && toneadj)
+	if (lastfreq && toneadj) {
 		(*toneadj) ();
+	}
 
-	if (numexpls)
+	if (numexpls) {
 		adjexpl();
+	}
 
-	if (titleflg)
+	if (titleflg) {
 		adjtitl();
+	}
 }
 
 
@@ -468,25 +488,28 @@ void swsound(void)
 		break;
 
 	case S_PLANE:
-		if (soundparm)
+		if (soundparm) {
 			tone(0xF000 + soundparm * 0x1000);
-		else
+		} else {
 			tone(0xD000);
+		}
 		lastobj = NULL;
 		toneadj = NULL;
 		break;
 
 	case S_BOMB:
-		if (soundobj == lastobj)
+		if (soundobj == lastobj) {
 			break;
+		}
 		toneadj = adjcont;
 		lastobj = soundobj;
 		adjcont();
 		break;
 
 	case S_FALLING:
-		if (soundobj == lastobj)
+		if (soundobj == lastobj) {
 			break;
+		}
 		toneadj = adjcont;
 		lastobj = soundobj;
 		adjcont();
@@ -546,8 +569,9 @@ void initsound(OBJECTS * obp, int type)
 	OBJECTS *ob;
 	TONETAB *tt;
 
-	if ((ob = obp)->ob_sound)
+	if ((ob = obp)->ob_sound) {
 		return;
+	}
 
 	if (ob->ob_type == EXPLOSION) {
 		if (++numexpls == 1) {

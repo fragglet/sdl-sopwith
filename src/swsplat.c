@@ -51,8 +51,9 @@ void swdispsplats(void)
 {
 	int i;
 	
-	if (oxsplatted)
+	if (oxsplatted) {
 		colorscreen(2);
+	}
 
 	for (i=0; i<num_splats; ++i) {
 		OBJECTS ob;
@@ -74,8 +75,9 @@ static unsigned long randsd(void)
 	seed *= countmove;
 	seed += 7491;
 
-	if (!seed)
+	if (!seed) {
 		seed = SEED_START;
+	}
 
 	return 0;
 }

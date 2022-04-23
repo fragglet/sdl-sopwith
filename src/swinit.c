@@ -192,8 +192,9 @@ get_awards (OBJECTS *ob)
 	}
 
 	if (!(lsc->medals & MEDAL_SERVICE)) {
-		if (sc->killscore >= SERVICE_KILLSCORE)
+		if (sc->killscore >= SERVICE_KILLSCORE) {
 			sc->landings++;
+		}
 
 		if (sc->landings >= 3) {
 			sc->medals |= MEDAL_SERVICE;
@@ -252,10 +253,11 @@ OBJECTS *initpln(OBJECTS * obp)
 	OBJECTS *ob;
 	int x, height, minx, maxx, n;
 
-	if (!obp)
+	if (!obp) {
 		ob = allocobj();
-	else
+	} else {
 		ob = obp;
+	}
 
 	switch (playmode) {
 	case PLAYMODE_SINGLE:
@@ -281,9 +283,11 @@ OBJECTS *initpln(OBJECTS * obp)
 	minx = ob->ob_x;
 	maxx = ob->ob_x + 20;
 	height = 0;
-	for (x = minx; x <= maxx; ++x)
-		if (ground[x] > height)
+	for (x = minx; x <= maxx; ++x) {
+		if (ground[x] > height) {
 			height = ground[x];
+		}
+	}
 	ob->ob_y = height + 13;
 	ob->ob_lx = ob->ob_ly = ob->ob_speed = ob->ob_flaps = ob->ob_accel
 	    = ob->ob_hitcount = ob->ob_bdelay = ob->ob_mdelay
@@ -346,8 +350,9 @@ void initplyr(OBJECTS * obp)
 		/* todo: save pointers to all player planes
 		 * and turn consoleplayer into a macro */
 
-		if (ob->ob_plrnum == player)
+		if (ob->ob_plrnum == player) {
 			consoleplayer = ob;
+		}
 	}
 }
 
@@ -362,12 +367,13 @@ void initcomp(OBJECTS * obp)
 		ob->ob_drawf = dispcomp;
 		ob->ob_movef = movecomp;
 		ob->ob_clr = 2;
-		if (playmode != PLAYMODE_ASYNCH)
+		if (playmode != PLAYMODE_ASYNCH) {
 			ob->ob_owner = &nobjects[1];
-		else if (ob->ob_index == 1)
+		} else if (ob->ob_index == 1) {
 			ob->ob_owner = ob;
-		else
+		} else {
 			ob->ob_owner = ob - 2;
+		}
 		oobjects[ob->ob_index] = *ob;
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
@@ -386,8 +392,9 @@ static int isrange(int x, int y, int ax, int ay)
 	dy += dy >> 1;
 	dx = abs(x - ax);
 
-	if (dx > 100 || dy > 100)
+	if (dx > 100 || dy > 100) {
 		return -1;
+	}
 
 	if (dx < dy) {
 		t = dx;
@@ -405,17 +412,20 @@ void initshot(OBJECTS * obop, OBJECTS * targ)
 	OBJECTS *ob, *obo = obop;
 	int nangle, nspeed, dx, dy, r, bspeed, x, y;
 
-	if (!targ && !compplane && !obo->ob_rounds)
+	if (!targ && !compplane && !obo->ob_rounds) {
 		return;
+	}
 
 	ob = allocobj();
 
-	if (!ob)
+	if (!ob) {
 		return;
+	}
 
 	obo = obop;
-	if (playmode != PLAYMODE_NOVICE)
+	if (playmode != PLAYMODE_NOVICE) {
 		--obo->ob_rounds;
+	}
 
 	bspeed = BULSPEED + gamenum;
 
@@ -464,15 +474,18 @@ void initbomb(OBJECTS * obop)
 	OBJECTS *ob, *obo = obop;
 	int angle;
 
-	if ((!compplane && !obo->ob_bombs) || obo->ob_bdelay)
+	if ((!compplane && !obo->ob_bombs) || obo->ob_bdelay) {
 		return;
+	}
 
 	ob = allocobj();
-	if (!ob)
+	if (!ob) {
 		return;
+	}
 
-	if (playmode != PLAYMODE_NOVICE)
+	if (playmode != PLAYMODE_NOVICE) {
 		--obo->ob_bombs;
+	}
 
 	obo->ob_bdelay = 10;
 
@@ -482,10 +495,11 @@ void initbomb(OBJECTS * obop)
 	ob->ob_dy = obo->ob_dy;
 	ob->ob_onmap = TRUE;
 
-	if (obo->ob_orient)
+	if (obo->ob_orient) {
 		angle = (obo->ob_angle + (ANGLES / 4)) % ANGLES;
-	else
+	} else {
 		angle = (obo->ob_angle + (3 * ANGLES / 4)) % ANGLES;
+	}
 
 	ob->ob_x = obo->ob_x + ((COS(angle) * 10) >> 8) + 4;
 	ob->ob_y = obo->ob_y + ((SIN(angle) * 10) >> 8) - 4;
@@ -509,15 +523,18 @@ void initmiss(OBJECTS * obop)
 	OBJECTS *ob, *obo = obop;
 	int angle, nspeed;
 
-	if (obo->ob_mdelay || !obo->ob_missiles || !conf_missiles)
+	if (obo->ob_mdelay || !obo->ob_missiles || !conf_missiles) {
 		return;
+	}
 
 	ob = allocobj();
-	if (!ob)
+	if (!ob) {
 		return;
+	}
 
-	if (playmode != PLAYMODE_NOVICE)
+	if (playmode != PLAYMODE_NOVICE) {
 		--obo->ob_missiles;
+	}
 
 	obo->ob_mdelay = 5;
 
@@ -553,25 +570,29 @@ void initburst(OBJECTS * obop)
 	OBJECTS *ob, *obo = obop;
 	int angle;
 
-	if (obo->ob_bsdelay || !obo->ob_bursts || !conf_missiles)
+	if (obo->ob_bsdelay || !obo->ob_bursts || !conf_missiles) {
 		return;
+	}
 
 	ob = allocobj();
-	if (!ob)
+	if (!ob) {
 		return;
+	}
 
 	ob->ob_bsdelay = 5;
 
-	if (playmode != PLAYMODE_NOVICE)
+	if (playmode != PLAYMODE_NOVICE) {
 		--obo->ob_bursts;
+	}
 
 	ob->ob_type = STARBURST;
 	ob->ob_state = FALLING;
 
-	if (obo->ob_orient)
+	if (obo->ob_orient) {
 		angle = (obo->ob_angle + (3 * ANGLES / 8)) % ANGLES;
-	else
+	} else {
 		angle = (obo->ob_angle + (5 * ANGLES / 8)) % ANGLES;
+	}
 
 	setdxdy(ob, gminspeed * COS(angle), gminspeed * SIN(angle));
 	ob->ob_dx += obo->ob_dx;
@@ -618,15 +639,18 @@ static void inittarg(void)
 		minh = 999;
 		maxh = 0;
 		for (x = minx; x <= maxx; ++x) {
-			if (ground[x] > maxh)
+			if (ground[x] > maxh) {
 				maxh = ground[x];
-			if (ground[x] < minh)
+			}
+			if (ground[x] < minh) {
 				minh = ground[x];
+			}
 		}
 		aveh = (minh + maxh) / 2;
 
-		while ((ob->ob_y = aveh + 16) >= MAX_Y)
+		while ((ob->ob_y = aveh + 16) >= MAX_Y) {
 			--aveh;
+		}
 
 		for (x = minx; x <= maxx; ++x)
 			ground[x] = aveh;
@@ -638,13 +662,14 @@ static void inittarg(void)
 		ob->ob_orient = *tt;
 		ob->ob_life = i;
 
-		if (playmode != PLAYMODE_ASYNCH)
+		if (playmode != PLAYMODE_ASYNCH) {
 			ob->ob_owner =
 				&nobjects[(i < MAX_TARG / 2
 					   && i > MAX_TARG / 2 - 4)
 						? 0 : 1];
-		else
+		} else {
 			ob->ob_owner = &nobjects[i >= (MAX_TARG / 2)];
+		}
 		ob->ob_clr = ob->ob_owner->ob_clr;
 		ob->ob_newsym = symbol_targets[0];
 		ob->ob_drawf = disptarg;
@@ -678,10 +703,11 @@ void initexpl(OBJECTS * obop, int small)
 		ic = 1;
 		// adding in option here for large oil tank explosions
 		// - Jesse
-		if (conf_explosions)
+		if (conf_explosions) {
 			speed = gminspeed * 4 / 3;
-		else
+		} else {
 			speed = gminspeed;
+		}
 	} else {
 		ic = small ? 6 : 2;
 		speed = gminspeed >> ((explseed & 7) != 7);
@@ -691,8 +717,9 @@ void initexpl(OBJECTS * obop, int small)
 
 	for (i = 1; i <= 15; i += ic) {
 		ob = allocobj();
-		if (!ob)
+		if (!ob) {
 			return;
+		}
 
 		ob->ob_type = EXPLOSION;
 
@@ -704,8 +731,9 @@ void initexpl(OBJECTS * obop, int small)
 		ob->ob_y = oboy + ob->ob_dy;
 		explseed *= ob->ob_x * ob->ob_y;
 		explseed += 7491;
-		if (!explseed)
+		if (!explseed) {
 			explseed = 74917777;
+		}
 
 		ob->ob_life = EXPLLIFE;
 		orient = ob->ob_orient = (explseed & 0x01C0) >> 6;
@@ -722,8 +750,9 @@ void initexpl(OBJECTS * obop, int small)
 		ob->ob_drawf = dispexpl;
 		ob->ob_movef = moveexpl;
 
-		if (orient)
+		if (orient) {
 			initsound(ob, S_EXPLOSION);
+		}
 
 		insertx(ob, obo);
 	}
@@ -736,8 +765,9 @@ void initsmok(OBJECTS * obop)
 	OBJECTS *ob, *obo=obop;
 
 	ob = allocobj();
-	if (!ob)
+	if (!ob) {
 		return;
+	}
 
 	ob->ob_type = SMOKE;
 
@@ -768,14 +798,16 @@ static void initflck(void)
 	OBJECTS *ob;
 	int i, j;
 
-	if (playmode == PLAYMODE_NOVICE || !conf_animals)
+	if (playmode == PLAYMODE_NOVICE || !conf_animals) {
 		return;
+	}
 
 	for (i = 0; i < MAX_FLCK; ++i) {
 
 		ob = allocobj();
-		if (!ob)
+		if (!ob) {
 			return;
+		}
 
 		ob->ob_type = FLOCK;
 		ob->ob_state = FLYING;
@@ -809,8 +841,9 @@ void initbird(OBJECTS * obop, int i)
 	static int ibdy[] = { -1, -2, -1, -2, -1, -2, -1, -2 };
 
 	ob = allocobj();
-	if (!ob)
+	if (!ob) {
 		return;
+	}
 
 	ob->ob_type = BIRD;
 
@@ -846,8 +879,9 @@ static void initoxen(void)
 
 	for (i = 0; i < MAX_OXEN; ++i) {
 		ob = allocobj();
-		if (!ob)
+		if (!ob) {
 			return;
+		}
 
 		targets[MAX_TARG + i] = ob;
 
@@ -875,8 +909,9 @@ static void initgdep(void)
 	gminspeed = MIN_SPEED + gamenum;
 
 	targrnge = 150;
-	if (gamenum < 6)
+	if (gamenum < 6) {
 		targrnge -= 15 * (6 - gamenum);
+	}
 	targrnge *= targrnge;
 }
 
@@ -889,8 +924,9 @@ void swinitlevel(void)
 
 	Vid_GetGameKeys();
 
-	if (playmode == PLAYMODE_ASYNCH)
+	if (playmode == PLAYMODE_ASYNCH) {
 		init1asy();
+	}
 
 	swclearsplats();
 
@@ -900,8 +936,9 @@ void swinitlevel(void)
 
 	num_players = 0;
 
-	if (keydelay == -1)
+	if (keydelay == -1) {
 		keydelay = 1;
+	}
 
 	if (playmode == PLAYMODE_ASYNCH) {
 		maxcrash = MAXCRASH * 2;
@@ -920,8 +957,9 @@ void swinitlevel(void)
 
 	inittarg();
 
-	if (currgame->gm_specf)
+	if (currgame->gm_specf) {
 		(*currgame->gm_specf) ();
+	}
 
 	initdisp(NO);
 	initflck();
@@ -994,28 +1032,26 @@ void swinit(int argc, char *argv[])
 	swloadconf();
 
 	for (i=1; i<argc; ++i) {
-		if (!strcasecmp(argv[i], "-n"))
+		if (!strcasecmp(argv[i], "-n")) {
 			n = 1;
-		else if (!strcasecmp(argv[i], "-s"))
+		} else if (!strcasecmp(argv[i], "-s")) {
 			s = 1;
-		else if (!strcasecmp(argv[i], "-c"))
+		} else if (!strcasecmp(argv[i], "-c")) {
 			c = 1;
-		else if (!strcasecmp(argv[i], "-f"))
+		} else if (!strcasecmp(argv[i], "-f")) {
 			vid_fullscreen = 1;
-		else if (!strncasecmp(argv[i], "-g", 2))
-		{
+		} else if (!strncasecmp(argv[i], "-g", 2)) {
 			sscanf(& (argv[i][2]), "%d", &starting_level);
 			gamenum = starting_level;
-		}
-		else if (!strcasecmp(argv[i], "-2"))
+		} else if (!strcasecmp(argv[i], "-2")) {
 			vid_double_size = 1;
-		else if (!strcasecmp(argv[i], "-q"))
+		} else if (!strcasecmp(argv[i], "-q")) {
 			soundflg = 1;
-		else if (!strcasecmp(argv[i], "-p"))
+		} else if (!strcasecmp(argv[i], "-p")) {
 			soundflg = 0;
-		else if (!strcasecmp(argv[i], "-e"))
+		} else if (!strcasecmp(argv[i], "-e")) {
 			conf_explosions = 0;
-		else
+		} else
 #ifdef TCPIP
 		if (!strcasecmp(argv[i], "-l")) {
 			a = 1;
@@ -1041,8 +1077,9 @@ void swinit(int argc, char *argv[])
 	keyset = k;
 
 	soundflg = !soundflg;
-	if (modeset && keyset)
+	if (modeset && keyset) {
 		titleflg = TRUE;
+	}
 
 	initseed();
 
@@ -1055,8 +1092,9 @@ void swinit(int argc, char *argv[])
 	Vid_Init();
 
 	// dont init speaker if started with -q (quiet)
-	if (soundflg)
+	if (soundflg) {
 		Speaker_Init();		// init pc speaker
+	}
 
 	//        explseed = histinit( explseed );
 	initsndt();

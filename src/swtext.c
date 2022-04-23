@@ -46,8 +46,9 @@ static inline void drawchar(int x, int y, int c)
 	unsigned char *p;
 	int x2, y2;
 
-	if (c < 0 || c >= 256)
+	if (c < 0 || c >= 256) {
 		return;
+	}
 
 	p = font_data + c * 8;
 
@@ -166,8 +167,9 @@ void swdispd(int n, int size)
 	}
 	swputc(n + '0');
 	++i;
-	while (++i <= size)
+	while (++i <= size) {
 		swputc(' ');
+	}
 }
 
 int swgetc(void)
