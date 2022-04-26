@@ -74,35 +74,64 @@ int keybindings[NUM_KEYS] = {
 
 static int ctrlbreak = 0;
 static BOOL initted = 0;
+static SDL_Window *window;
 static SDL_Surface *screen;
-static SDL_Surface *screenbuf = NULL;        // draw into buffer in 2x mode
+static uint32_t pixel_format;
+static SDL_Renderer *renderer;
+
+// Maximum number of pixels to use for intermediate scale buffer.
+static int max_scaling_buffer_pixels = 16000000;
+
+// These are (1) the 320x200x8 paletted buffer that we draw to (i.e. the one
+// that holds vid_vram), (2) the 320x200x32 RGBA intermediate buffer that
+// we blit the former buffer to, (3) the intermediate 320x200 texture that we
+// load the RGBA buffer to and that we render into another texture (4) which
+// is upscaled by an integer factor UPSCALE using "nearest" scaling and which
+// in turn is finally rendered to screen using "linear" scaling.
+static SDL_Surface *screenbuf = NULL;
+static SDL_Surface *argbbuffer = NULL;
+static SDL_Texture *texture = NULL;
+static SDL_Texture *texture_upscaled = NULL;
+
 
 // convert a sopsym_t into a surface
 
 SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
-	SDL_Surface *surface = SDL_CreateRGBSurface(0, sym->w, sym->h, 8,
-						    0, 0, 0, 0);
-	unsigned char *p1, *p2;
-	int y;
+	SDL_Surface *surface = SDL_CreateRGBSurface(
+		0, sym->w, sym->h, 32,
+		0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+
+	unsigned char *src;
+	uint32_t *dst;
+	int x, y;
 
 	if (!surface) {
 		return NULL;
 	}
 
 	// set palette
-	
-	SDL_SetColors(surface, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));	
 
 	SDL_LockSurface(surface);
 
-	p1 = sym->data;
-	p2 = (unsigned char *) surface->pixels;
+	src = sym->data;
 
 	// copy data from symbol into surface
 
-	for (y=0; y<sym->h; ++y, p1 += sym->w, p2 += surface->pitch)
-		memcpy(p2, p1, sym->w);
+	for (y = 0; y < sym->h; ++y, src += sym->w) {
+		dst = (uint32_t *) ((uint8_t *) surface->pixels +
+		                    y * surface->pitch);
+		for (x = 0; x < sym->w; ++x) {
+			SDL_Color *p;
+			if (src[x] == 0) {
+				dst[x] = 0;
+				continue;
+			}
+			p = &cga_pal[src[x]];
+			dst[x] = (p->r << 24) | (p->g << 16)
+			       | (p->b << 8) | 0xff;
+		}
+	}
 
 	SDL_UnlockSurface(surface);
 
@@ -111,49 +140,37 @@ SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 
 // 2x scale
 
-static void Vid_UpdateScaled(void)
-{
-	char *pixels = (char *) screen->pixels;
-	char *pixels2 = (char *) screenbuf->pixels;
-	int pitch = screen->pitch;
-	int pitch2 = screenbuf->pitch;
-	int x, y;
-
-	SDL_LockSurface(screen);
-	SDL_LockSurface(screenbuf);
-
-	for (y = 0; y < SCR_HGHT; ++y) {
-		char *p = pixels;
-		char *p2 = pixels2;
-
-		for (x=0; x<SCR_WDTH; ++x) {
-			p[0] = p[1] =  p[pitch] = p[pitch + 1] = *p2++;
-			p += 2;
-		}
-
-		pixels += pitch * 2;
-		pixels2 += pitch2;
-	}
-
-	SDL_UnlockSurface(screenbuf);
-	SDL_UnlockSurface(screen);
-}
-
 void Vid_Update(void)
 {
+	static SDL_Rect blit_rect = { 0, 0, SCR_WDTH, SCR_HGHT };
+
 	if (!initted) {
 		Vid_Init();
 	}
 
 	SDL_UnlockSurface(screenbuf);
 
-	if (vid_double_size) {
-		Vid_UpdateScaled();
-	} else {
-		SDL_BlitSurface(screenbuf, NULL, screen, NULL);
-	}
+	// Blit from the paletted 8-bit screen buffer to the intermediate
+	// 32-bit RGBA buffer that we can load into the texture.
+	SDL_LowerBlit(screenbuf, &blit_rect, argbbuffer, &blit_rect);
 
-	SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+	// Update intermediate texture with the contents of the RGBA buffer.
+	SDL_UpdateTexture(texture, NULL, argbbuffer->pixels, argbbuffer->pitch);
+
+	// Make sure the pillarboxes are kept clear each frame.
+	SDL_RenderClear(renderer);
+
+	// Render this intermediate texture into the upscaled texture
+	// using "nearest" integer scaling.
+	SDL_SetRenderTarget(renderer, texture_upscaled);
+	SDL_RenderCopy(renderer, texture, NULL, NULL);
+
+	// Finally, render this upscaled texture to screen using linear scaling.
+	SDL_SetRenderTarget(renderer, NULL);
+	SDL_RenderCopy(renderer, texture_upscaled, NULL, NULL);
+
+	// Draw!
+	SDL_RenderPresent(renderer);
 
 	SDL_LockSurface(screenbuf);
 }
@@ -203,15 +220,146 @@ static void set_icon(sopsym_t *sym)
 
 	// set icon
 
-	SDL_WM_SetIcon(icon, mask);
+	SDL_SetWindowIcon(window, icon);
 
 	SDL_FreeSurface(icon);
 	free(mask);
 }
 
+static void LimitTextureSize(int *w_upscale, int *h_upscale)
+{
+	SDL_RendererInfo rinfo;
+	int orig_w, orig_h;
+
+	orig_w = *w_upscale;
+	orig_h = *h_upscale;
+
+	// Query renderer and limit to maximum texture dimensions of hardware:
+	if (SDL_GetRendererInfo(renderer, &rinfo) != 0) {
+		fprintf(stderr, "CreateUpscaledTexture: SDL_GetRendererInfo() "
+		                "call failed: %s\n", SDL_GetError());
+		exit(1);
+	}
+
+	while (*w_upscale * SCR_WDTH > rinfo.max_texture_width) {
+		--*w_upscale;
+	}
+	while (*h_upscale * SCR_HGHT > rinfo.max_texture_height) {
+		--*h_upscale;
+	}
+
+	if ((*w_upscale < 1 && rinfo.max_texture_width > 0)
+	 || (*h_upscale < 1 && rinfo.max_texture_height > 0)) {
+		fprintf(stderr, "CreateUpscaledTexture: Can't create a "
+		                "texture big enough for the whole screen! "
+		                "Maximum texture size %dx%d\n",
+		        rinfo.max_texture_width, rinfo.max_texture_height);
+		exit(1);
+	}
+
+	// We limit the amount of texture memory used for the intermediate buffer,
+	// since beyond a certain point there are diminishing returns. Also,
+	// depending on the hardware there may be performance problems with very
+	// huge textures, so the user can use this to reduce the maximum texture
+	// size if desired.
+	if (max_scaling_buffer_pixels < SCR_WDTH * SCR_HGHT) {
+		fprintf(stderr, "CreateUpscaledTexture: max_scaling_buffer_"
+		                "pixels too small to create a texture buffer:"
+		                " %d < %d\n", max_scaling_buffer_pixels,
+		                SCR_WDTH * SCR_HGHT);
+		exit(1);
+	}
+
+	while (*w_upscale * *h_upscale * SCR_WDTH * SCR_HGHT
+	       > max_scaling_buffer_pixels) {
+		if (*w_upscale > *h_upscale) {
+			--*w_upscale;
+		} else {
+			--*h_upscale;
+		}
+	}
+
+	if (*w_upscale != orig_w || *h_upscale != orig_h) {
+		printf("CreateUpscaledTexture: Limited texture size to %dx%d "
+		       "(max %d pixels, max texture size %dx%d)\n",
+		       *w_upscale * SCR_WDTH, *h_upscale * SCR_HGHT,
+		       max_scaling_buffer_pixels, rinfo.max_texture_width,
+		       rinfo.max_texture_height);
+	}
+}
+
+static void CreateUpscaledTexture(int force)
+{
+	static int h_upscale_old, w_upscale_old;
+	int w, h;
+	int h_upscale, w_upscale;
+	SDL_Texture *new_texture, *old_texture;
+
+	// Get the size of the renderer output. The units this gives us will be
+	// real world pixels, which are not necessarily equivalent to the
+	// screen's window size (because of highdpi).
+	if (SDL_GetRendererOutputSize(renderer, &w, &h) != 0) {
+		fprintf(stderr, "failed to get renderer size: %s\n",
+		        SDL_GetError());
+		exit(1);
+	}
+
+	// When the screen or window dimensions do not match the aspect ratio
+	// of the texture, the rendered area is scaled down to fit. Calculate
+	// the actual dimensions of the rendered area.
+	if (w * SCR_HGHT < h * SCR_WDTH) {
+		// Tall window.
+		h = w * SCR_HGHT / SCR_WDTH;
+	} else {
+		// Wide window.
+		w = h * SCR_WDTH / SCR_HGHT;
+	}
+
+	// Pick texture size the next integer multiple of the screen dimensions.
+	// If one screen dimension matches an integer multiple of the original
+	// resolution, there is no need to overscale in this direction.
+	w_upscale = (w + SCR_WDTH - 1) / SCR_WDTH;
+	h_upscale = (h + SCR_HGHT - 1) / SCR_HGHT;
+
+	// Minimum texture dimensions of 320x200.
+	if (w_upscale < 1) {
+		w_upscale = 1;
+	}
+	if (h_upscale < 1) {
+		h_upscale = 1;
+	}
+
+	LimitTextureSize(&w_upscale, &h_upscale);
+
+	// Create a new texture only if the upscale factors have actually changed.
+	if (h_upscale == h_upscale_old && w_upscale == w_upscale_old && !force) {
+		return;
+	}
+
+	h_upscale_old = h_upscale;
+	w_upscale_old = w_upscale;
+
+	// Set the scaling quality for rendering the upscaled texture to "linear",
+	// which looks much softer and smoother than "nearest" but does a better
+	// job at downscaling from the upscaled texture to screen.
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+
+	new_texture = SDL_CreateTexture(
+		renderer, pixel_format, SDL_TEXTUREACCESS_TARGET,
+		w_upscale*SCR_WDTH, h_upscale*SCR_HGHT);
+
+	old_texture = texture_upscaled;
+	texture_upscaled = new_texture;
+
+	if (old_texture != NULL) {
+		SDL_DestroyTexture(old_texture);
+	}
+}
 
 static void Vid_UnsetMode(void)
 {
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
@@ -219,15 +367,16 @@ static void Vid_SetMode(void)
 {
 	int n;
 	int w, h;
-	int flags = 0;
+	int flags = 0, renderer_flags = 0;
+	unsigned int rmask, gmask, bmask, amask;
+	int bpp;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Unable to initialize video subsystem: %s\n",
-				SDL_GetError());
+		                SDL_GetError());
 		exit(-1);
 	}
 	srand(time(NULL));
-	set_icon(symbol_plane[rand() % 2][rand() % 16]);
 
 	w = SCR_WDTH;
 	h = SCR_HGHT;
@@ -237,29 +386,78 @@ static void Vid_SetMode(void)
 		h *= 2;
 	}
 
-	flags = SDL_HWPALETTE;
+	flags = SDL_WINDOW_RESIZABLE;
 	if (vid_fullscreen) {
-		flags |= SDL_FULLSCREEN;
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
-	screen = SDL_SetVideoMode(w, h, 8, flags);
+	window = SDL_CreateWindow(PACKAGE_STRING, SDL_WINDOWPOS_UNDEFINED,
+	                          SDL_WINDOWPOS_UNDEFINED, w, h, flags);
 
-	if (screen == NULL) {
-		fprintf(stderr, "Failed to initialize SDL: %s\n",
+	if (window == NULL) {
+		fprintf(stderr, "Failed to open SDL window: %s\n",
 		        SDL_GetError());
 		exit(-1);
 	}
 
-	SDL_EnableUNICODE(1);
+        pixel_format = SDL_GetWindowPixelFormat(window);
 
-	for (n = 0; n < NUM_KEYS; ++n)
+	for (n = 0; n < NUM_KEYS; ++n) {
 		keysdown[n] = 0;
+	}
 
-	SDL_WM_SetCaption("SDL Sopwith", NULL);
-
-	SDL_SetColors(screen, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
-	SDL_SetColors(screenbuf, cga_pal, 0, sizeof(cga_pal)/sizeof(*cga_pal));
+	set_icon(symbol_plane[rand() % 2][rand() % 16]);
 	SDL_ShowCursor(0);
+
+	renderer_flags = SDL_RENDERER_PRESENTVSYNC;
+	renderer = SDL_CreateRenderer(window, -1, renderer_flags);
+
+	// Important: Set the "logical size" of the rendering context. At the
+	// same time this also defines the aspect ratio that is preserved while
+	// scaling and stretching the texture into the window.
+	SDL_RenderSetLogicalSize(renderer, SCR_WDTH, SCR_HGHT);
+
+	// Blank out the full screen area in case there is any junk in
+	// the borders that won't otherwise be overwritten.
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+	SDL_RenderPresent(renderer);
+
+	// Format of argbbuffer must match the screen pixel format because we
+	// import the surface data into the texture.
+	if (argbbuffer != NULL) {
+		SDL_FreeSurface(argbbuffer);
+		argbbuffer = NULL;
+	}
+
+	if (argbbuffer == NULL) {
+		SDL_PixelFormatEnumToMasks(
+			pixel_format, &bpp, &rmask, &gmask,
+			&bmask, &amask);
+		argbbuffer = SDL_CreateRGBSurface(
+			0, SCR_WDTH, SCR_HGHT, bpp,
+			rmask, gmask, bmask, amask);
+		SDL_FillRect(argbbuffer, NULL, 0);
+	}
+
+	if (texture != NULL) {
+		SDL_DestroyTexture(texture);
+	}
+
+	// Set the scaling quality for rendering the intermediate texture into
+	// the upscaled texture to "nearest", which is gritty and pixelated and
+	// resembles software scaling pretty well.
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+
+	// Create the intermediate texture that the RGBA surface gets loaded
+	// into. The SDL_TEXTUREACCESS_STREAMING flag means that this
+	// texture's content is going to change frequently.
+	texture = SDL_CreateTexture(renderer, pixel_format,
+	                            SDL_TEXTUREACCESS_STREAMING,
+	                            SCR_WDTH, SCR_HGHT);
+
+	// Initially create the upscaled texture for rendering to screen
+	CreateUpscaledTexture(1);
 }
 
 void Vid_Shutdown(void)
@@ -283,12 +481,14 @@ void Vid_Init(void)
 
 	fflush(stdout);
 
+	Vid_SetMode();
+
 	screenbuf = SDL_CreateRGBSurface(0, SCR_WDTH, SCR_HGHT, 8,
-					 0, 0, 0, 0);	
+	                                 0, 0, 0, 0);
 	vid_vram = screenbuf->pixels;
 	vid_pitch = screenbuf->pitch;
-
-	Vid_SetMode();
+	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0,
+	                     sizeof(cga_pal) / sizeof(*cga_pal));
 
 	initted = 1;
 
@@ -312,10 +512,10 @@ void Vid_Reset(void)
 }
 
 #define INPUT_BUFFER_LEN 32
-static SDL_keysym input_buffer[INPUT_BUFFER_LEN];
+static SDL_Keysym input_buffer[INPUT_BUFFER_LEN];
 static int input_buffer_head = 0, input_buffer_tail = 0;
 
-static void input_buffer_push(SDL_keysym c)
+static void input_buffer_push(SDL_Keysym c)
 {
 	int tail_next = (input_buffer_tail + 1) % INPUT_BUFFER_LEN;
 	if (tail_next == input_buffer_head) {
@@ -325,9 +525,9 @@ static void input_buffer_push(SDL_keysym c)
 	input_buffer_tail = tail_next;
 }
 
-static SDL_keysym input_buffer_pop(void)
+static SDL_Keysym input_buffer_pop(void)
 {
-	SDL_keysym result;
+	SDL_Keysym result;
 
 	if (input_buffer_head == input_buffer_tail) {
 		result.sym = SDLK_UNKNOWN;
@@ -368,7 +568,7 @@ static void getevents(void)
 				ctrldown = 1;
 			} else if (ctrldown &&
 			           (event.key.keysym.sym == SDLK_c ||
-			            event.key.keysym.sym == SDLK_BREAK)) {
+			            event.key.keysym.sym == SDLK_PAUSE)) {
 				++ctrlbreak;
 				if (ctrlbreak >= 3) {
 					fprintf(stderr,
@@ -407,7 +607,7 @@ static void getevents(void)
 
 int Vid_GetKey(void)
 {
-	SDL_keysym k;
+	SDL_Keysym k;
 	getevents();
 	k = input_buffer_pop();
 	return k.sym;
@@ -415,7 +615,10 @@ int Vid_GetKey(void)
 
 int Vid_GetChar(void)
 {
-	SDL_keysym k;
+return 0;
+#if 0
+//TODO
+	SDL_Keysym k;
 	// Not all keypresses wil have a character associated with them.
 	do {
 		getevents();
@@ -429,6 +632,7 @@ int Vid_GetChar(void)
 		k.unicode = '\n';
 	}
 	return k.unicode;
+#endif
 }
 
 BOOL Vid_GetCtrlBreak(void)

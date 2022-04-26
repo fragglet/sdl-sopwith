@@ -47,7 +47,7 @@ AC_PROG_INSTALL
 
 dnl libraries
 
-AM_PATH_SDL(1.1.3)
+PKG_CHECK_MODULES(SDL, [sdl2 >= 2.0.7])
 
 dnl check for TCPIP support
 
