@@ -49,11 +49,13 @@ void swend(char *msg, BOOL update)
 	sound(0, 0, NULL);
 	swsound();
 
-	if (repflag)
+	if (repflag) {
 		swreport();
+	}
 
-	if (playmode == PLAYMODE_ASYNCH)
+	if (playmode == PLAYMODE_ASYNCH) {
 		closmsg = asynclos();
+	}
 
 	histend();
 
@@ -69,10 +71,11 @@ void swend(char *msg, BOOL update)
 
 	inplay = FALSE;
 
-	if (msg || closmsg)
+	if (msg || closmsg) {
 		exit(YES);
-	else
+	} else {
 		exit(NO);
+	}
 }
 
 
@@ -84,30 +87,29 @@ void endgame(int targclr)
 	int winclr;
 	OBJECTS *ob;
 
-	if (playmode != PLAYMODE_ASYNCH)
+	if (playmode != PLAYMODE_ASYNCH) {
 		winclr = 1;
-	else {
-		if ((objtop + 1)->ob_score.score == objtop->ob_score.score)
-			winclr = 3 - targclr;
-		else
-			winclr =
-			    ((objtop + 1)->ob_score.score >
-			     objtop->ob_score.score) + 1;
+	} else if ((objtop + 1)->ob_score.score == objtop->ob_score.score) {
+		winclr = 3 - targclr;
+	} else {
+		winclr = ((objtop + 1)->ob_score.score
+		       > objtop->ob_score.score) + 1;
 	}
 
 	ob = objtop;
 	while (ob->ob_type == PLANE) {
 		if (ob->ob_endsts == PLAYING) {
 			if (ob->ob_clr == winclr
-			    && (ob->ob_crashcnt < (MAXCRASH - 1)
-				|| (ob->ob_crashcnt < MAXCRASH
-				    && (ob->ob_state == FLYING
-					|| ob->ob_state == STALLED
-					|| ob->ob_state == WOUNDED
-					|| ob->ob_state == WOUNDSTALL))))
+			 && (ob->ob_crashcnt < (MAXCRASH - 1)
+			  || (ob->ob_crashcnt < MAXCRASH
+			   && (ob->ob_state == FLYING
+			    || ob->ob_state == STALLED
+			    || ob->ob_state == WOUNDED
+			    || ob->ob_state == WOUNDSTALL)))) {
 				winner(ob);
-			else
+			} else {
 				loser(ob);
+			}
 		}
 		ob = ob->ob_next;
 	}

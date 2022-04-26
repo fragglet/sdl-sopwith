@@ -90,7 +90,7 @@ static void nearpln(OBJECTS * obp)
 		if (obt->ob_drawf == dispcomp) {
 
 			if (playmode != PLAYMODE_COMPUTER
-			    || (obx >= lcompter[i] && obx <= rcompter[i])) {
+			 || (obx >= lcompter[i] && obx <= rcompter[i])) {
 				obc = compnear[i];
 				if (!obc || abs(obx - obt->ob_x)
 				          < abs(obc->ob_x - obt->ob_x)) {
@@ -225,9 +225,9 @@ BOOL moveplyr(OBJECTS * obp)
 		}
 
 		if (endstat != WINNER
-		    && (ob->ob_life <= QUIT
-		     || (playmode != PLAYMODE_ASYNCH
-		         && ob->ob_crashcnt >= MAXCRASH))) {
+		 && (ob->ob_life <= QUIT
+		  || (playmode != PLAYMODE_ASYNCH
+		   && ob->ob_crashcnt >= MAXCRASH))) {
 			if (!endstat) {
 				loser(ob);
 			}
@@ -261,11 +261,8 @@ void interpret(OBJECTS * obp, int key)
 
 	state = ob->ob_state;
 
-	if (state != FLYING
-	    && state != STALLED
-	    && state != FALLING
-	    && state != WOUNDED
-	    && state != WOUNDSTALL) {
+	if (state != FLYING && state != STALLED && state != FALLING
+	 && state != WOUNDED && state != WOUNDSTALL) {
 		return;
 	}
 
@@ -297,7 +294,7 @@ void interpret(OBJECTS * obp, int key)
 	}
 
 	if ((countmove & 1)
-	    || (state != WOUNDED && state != WOUNDSTALL)) {
+	 || (state != WOUNDED && state != WOUNDSTALL)) {
 		if (key & K_FLAPU) {
 			++ob->ob_flaps;
 			ob->ob_home = FALSE;
@@ -523,9 +520,8 @@ BOOL movepln(OBJECTS * obp)
 		}
 
 		if (ob->ob_life <= 0 && !ob->ob_athome
-		    && (state == FLYING || state == STALLED
-			|| state == WOUNDED
-			|| state == WOUNDSTALL)) {
+		 && (state == FLYING || state == STALLED
+		  || state == WOUNDED || state == WOUNDSTALL)) {
 			hitpln(ob);
 			scorepln(ob, GROUND);
 			return movepln(ob);
@@ -562,12 +558,12 @@ BOOL movepln(OBJECTS * obp)
 
 		if (!(countmove & 0x0003)) {
 			if (!stalled && nspeed < gminspeed
-			    && playmode != PLAYMODE_NOVICE) {
+			 && playmode != PLAYMODE_NOVICE) {
 				--nspeed;
 				update = TRUE;
 			} else {
 				limit = gminspeed
-				    + ob->ob_accel + gravity[nangle];
+				      + ob->ob_accel + gravity[nangle];
 				if (nspeed < limit) {
 					++nspeed;
 					update = TRUE;
@@ -659,11 +655,9 @@ BOOL movepln(OBJECTS * obp)
 	}
 
 	if (!compplane
-	    && (ob->ob_state == FLYING
-		|| ob->ob_state == STALLED
-		|| ob->ob_state == WOUNDED
-		|| ob->ob_state == WOUNDSTALL)
-	    && consoleplayer->ob_endsts == PLAYING) {
+	 && consoleplayer->ob_endsts == PLAYING
+	 && (ob->ob_state == FLYING || ob->ob_state == STALLED
+	  || ob->ob_state == WOUNDED || ob->ob_state == WOUNDSTALL)) {
 		nearpln(ob);
 	}
 
@@ -686,8 +680,8 @@ BOOL movepln(OBJECTS * obp)
 
 	if (y < MAX_Y && y >= 0) {
 		if (ob->ob_state == FALLING
-		    || ob->ob_state == WOUNDED
-		    || ob->ob_state == WOUNDSTALL) {
+		 || ob->ob_state == WOUNDED
+		 || ob->ob_state == WOUNDSTALL) {
 			initsmok(ob);
 		}
 		return plyrplane || ob->ob_state < FINISHED;
@@ -738,8 +732,7 @@ BOOL moveshot(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 
-	if (y >= MAX_Y || y <= (int) ground[x]
-	    || x < 0 || x >= MAX_X) {
+	if (y >= MAX_Y || y <= (int) ground[x] || x < 0 || x >= MAX_X) {
 		deallobj(ob);
 		return FALSE;
 	}
@@ -898,15 +891,15 @@ BOOL movetarg(OBJECTS * obt)
 	obp = objtop;
 	ob->ob_firing = NULL;
 	if (gamenum
-	    && ob->ob_state == STANDING
-	    && (obp->ob_state == FLYING
-		|| obp->ob_state == STALLED
-		|| obp->ob_state == WOUNDED
-		|| obp->ob_state == WOUNDSTALL)
-	    && ob->ob_clr != obp->ob_clr
-	    && (gamenum > 1 || (countmove & 0x0001))
-	    && ((r = range(ob->ob_x, ob->ob_y, obp->ob_x, obp->ob_y)) > 0)
-	    && r < targrnge) {
+	 && ob->ob_state == STANDING
+	 && (obp->ob_state == FLYING
+	  || obp->ob_state == STALLED
+	  || obp->ob_state == WOUNDED
+	  || obp->ob_state == WOUNDSTALL)
+	 && ob->ob_clr != obp->ob_clr
+	 && (gamenum > 1 || (countmove & 0x0001))
+	 && ((r = range(ob->ob_x, ob->ob_y, obp->ob_x, obp->ob_y)) > 0)
+	 && r < targrnge) {
 		initshot(ob, ob->ob_firing = obp);
 	}
 
@@ -963,8 +956,7 @@ BOOL moveexpl(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 
-	if (y <= (int) ground[x]
-	 || x < 0 || x >= MAX_X) {
+	if (y <= (int) ground[x] || x < 0 || x >= MAX_X) {
 		if (orient) {
 			stopsound(ob);
 		}
@@ -993,10 +985,8 @@ BOOL movesmok(OBJECTS * obp)
 	--ob->ob_life;
 
 	if (ob->ob_life <= 0
-	 || (state != FALLING
-	  && state != WOUNDED
-	  && state != WOUNDSTALL
-	  && state != CRASHED)) {
+	 || (state != FALLING && state != WOUNDED
+	  && state != WOUNDSTALL && state != CRASHED)) {
 		deallobj(ob);
 		return FALSE;
 	}
@@ -1068,8 +1058,7 @@ BOOL movebird(OBJECTS * obp)
 
 	insertx(ob, ob->ob_xnext);
 	ob->ob_newsym = symbol_bird[ob->ob_orient];
-	if (y >= MAX_Y || y <= (int) ground[x]
-	    || x < 0 || x >= MAX_X) {
+	if (y >= MAX_Y || y <= (int) ground[x] || x < 0 || x >= MAX_X) {
 		ob->ob_y -= ob->ob_dy;
 		ob->ob_life = -2;
 		return FALSE;
@@ -1107,7 +1096,7 @@ BOOL crashpln(OBJECTS * obp)
 
 	obo = &oobjects[ob->ob_index];
 	ob->ob_hitcount = ((abs(obo->ob_x - ob->ob_x) < SAFERESET)
-			   && (abs(obo->ob_y - ob->ob_y) < SAFERESET))
+	                && (abs(obo->ob_y - ob->ob_y) < SAFERESET))
 	    ? (MAXCRCOUNT << 1) : MAXCRCOUNT;
 
 	return TRUE;

@@ -51,10 +51,11 @@
 
 static void dispgrnd(void)
 {
-	if (conf_solidground)
+	if (conf_solidground) {
 		Vid_DispGround_Solid(ground + displx);
-	else
+	} else {
 		Vid_DispGround(ground + displx);
+	}
 }
 
 
@@ -93,10 +94,11 @@ void swground(void)
 
 static inline int ob_color(OBJECTS *ob)
 {
-	if (ob->ob_type == SHOT)
+	if (ob->ob_type == SHOT) {
 		return 3;
-	else
+	} else {
 		return ob->ob_clr;
+	}
 }
 
 
@@ -139,8 +141,9 @@ void swdisp(void)
 
 	// heads up splats
 	
-	if (conf_hudsplats)
+	if (conf_hudsplats) {
 		swdispsplats();
+	}
 
 	// "the end"
 	
@@ -155,10 +158,11 @@ void swdisp(void)
 
 //	displx += consoleplayer->ob_dx * lag;
 
-	if (displx < 0)
+	if (displx < 0) {
 		displx = 0;
-	else if (displx >= MAX_X - SCR_WDTH)
+	} else if (displx >= MAX_X - SCR_WDTH) {
 		displx = MAX_X - SCR_WDTH - 1;
+	}
 
 	// draw objects
 
@@ -171,9 +175,7 @@ void swdisp(void)
 //		x += ob->ob_dx * lag;
 //		y += ob->ob_dy * lag;
 
-		if (ob->ob_drwflg
-		 && x >= displx
-		 && x < displx + SCR_WDTH) {
+		if (ob->ob_drwflg && x >= displx && x < displx + SCR_WDTH) {
 			swputsym(x - displx, y, ob);
 
 			if (ob->ob_drawf) {
