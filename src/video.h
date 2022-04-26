@@ -59,7 +59,6 @@ extern int keysdown[NUM_KEYS];
 extern int keybindings[NUM_KEYS];
 
 extern BOOL vid_fullscreen;         // fullscreen
-extern BOOL vid_double_size;        // x2 scale
 
 // init/shutdown
 

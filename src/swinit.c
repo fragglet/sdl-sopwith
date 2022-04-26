@@ -77,7 +77,6 @@ PACKAGE_STRING "\n"
 "\n"
 "Video:\n"
 "        -f    :  fullscreen\n"
-"        -2    :  double scale window\n"
 "\n"
 #ifdef TCPIP
 "Networking: \n"
@@ -1043,8 +1042,6 @@ void swinit(int argc, char *argv[])
 		} else if (!strncasecmp(argv[i], "-g", 2)) {
 			sscanf(& (argv[i][2]), "%d", &starting_level);
 			gamenum = starting_level;
-		} else if (!strcasecmp(argv[i], "-2")) {
-			vid_double_size = 1;
 		} else if (!strcasecmp(argv[i], "-q")) {
 			soundflg = 1;
 		} else if (!strcasecmp(argv[i], "-p")) {

@@ -52,7 +52,6 @@ static SDL_Color cga_pal[] = {
 };
 
 BOOL vid_fullscreen = FALSE;
-BOOL vid_double_size = TRUE;
 
 extern unsigned char *vid_vram;
 extern unsigned int vid_pitch;
@@ -378,13 +377,8 @@ static void Vid_SetMode(void)
 	}
 	srand(time(NULL));
 
-	w = SCR_WDTH;
-	h = SCR_HGHT;
-
-	if (vid_double_size) {
-		w *= 2;
-		h *= 2;
-	}
+	w = SCR_WDTH * 2;
+	h = SCR_HGHT * 2;
 
 	flags = SDL_WINDOW_RESIZABLE;
 	if (vid_fullscreen) {

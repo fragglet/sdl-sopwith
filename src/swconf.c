@@ -83,7 +83,6 @@ static confoption_t confoptions[] = {
 	{"conf_harrykeys",   CONF_BOOL, {&conf_harrykeys}},
 	{"conf_medals",	     CONF_BOOL, {&conf_medals}},
 	{"vid_fullscreen",   CONF_BOOL, {&vid_fullscreen}},
-	{"vid_double_size",  CONF_BOOL, {&vid_double_size}},
 
 	{"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}},
 	{"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}},
@@ -434,8 +433,7 @@ static int runmenu(char *title, struct menuitem *menu)
 		}
 
 		// reset the screen if we need to
-		if (opt->value.b == &vid_fullscreen
-		 || opt->value.b == &vid_double_size) {
+		if (opt->value.b == &vid_fullscreen) {
 			Vid_Reset();
 		}
 
@@ -457,7 +455,6 @@ struct menuitem keys_menu[] = {
 
 struct menuitem options_menu[] = {
 	{"vid_fullscreen",    "Run fullscreen"},
-	{"vid_double_size",   "Scale window 2x"},
 	{"conf_solidground",  "Solid ground"},
 	{"conf_hudsplats",    "HUD splats"},
 	{"conf_wounded",      "Wounded planes"},
