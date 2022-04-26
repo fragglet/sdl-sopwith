@@ -286,7 +286,7 @@ static void change_key_binding(struct menuitem *item)
 		}
 	}
 
-	if (key == 27) {
+	if (!strcasecmp(Vid_KeyName(key), "Escape")) {
 		return;
 	}
 

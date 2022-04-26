@@ -58,18 +58,18 @@ extern unsigned char *vid_vram;
 extern unsigned int vid_pitch;
 
 int keybindings[NUM_KEYS] = {
-	0,            // KEY_UNKNOWN
-	SDLK_COMMA,   // KEY_PULLUP
-	SDLK_SLASH,   // KEY_PULLDOWN
-	SDLK_PERIOD,  // KEY_FLIP
-	SDLK_b,       // KEY_BOMB
-	SDLK_SPACE,   // KEY_FIRE
-	SDLK_h,       // KEY_HOME
-	SDLK_v,       // KEY_MISSILE
-	SDLK_c,       // KEY_STARBURST
-	SDLK_x,       // KEY_ACCEL
-	SDLK_z,       // KEY_DECEL
-	SDLK_s,       // KEY_SOUND
+	0,                    // KEY_UNKNOWN
+	SDL_SCANCODE_COMMA,   // KEY_PULLUP
+	SDL_SCANCODE_SLASH,   // KEY_PULLDOWN
+	SDL_SCANCODE_PERIOD,  // KEY_FLIP
+	SDL_SCANCODE_B,       // KEY_BOMB
+	SDL_SCANCODE_SPACE,   // KEY_FIRE
+	SDL_SCANCODE_H,       // KEY_HOME
+	SDL_SCANCODE_V,       // KEY_MISSILE
+	SDL_SCANCODE_C,       // KEY_STARBURST
+	SDL_SCANCODE_X,       // KEY_ACCEL
+	SDL_SCANCODE_Z,       // KEY_DECEL
+	SDL_SCANCODE_S,       // KEY_SOUND
 };
 
 static int ctrlbreak = 0;
@@ -531,6 +531,7 @@ static SDL_Keysym input_buffer_pop(void)
 
 	if (input_buffer_head == input_buffer_tail) {
 		result.sym = SDLK_UNKNOWN;
+		result.scancode = SDL_SCANCODE_UNKNOWN;
 		return result;
 	}
 
@@ -539,12 +540,12 @@ static SDL_Keysym input_buffer_pop(void)
 	return result;
 }
 
-static sopkey_t translate_key(int sdl_key)
+static sopkey_t translate_scancode(int sdl_scancode)
 {
 	int i;
 
 	for (i = 1; i < NUM_KEYS; ++i) {
-		if (keybindings[i] != 0 && sdl_key == keybindings[i]) {
+		if (keybindings[i] != 0 && sdl_scancode == keybindings[i]) {
 			return i;
 		}
 	}
@@ -583,7 +584,8 @@ static void getevents(void)
 				}
 			}
 			input_buffer_push(event.key.keysym);
-			translated = translate_key(event.key.keysym.sym);
+			translated = translate_scancode(
+				event.key.keysym.scancode);
 			if (translated != KEY_UNKNOWN) {
 				keysdown[translated] |= 3;
 			}
@@ -595,7 +597,8 @@ static void getevents(void)
 			        || event.key.keysym.sym == SDLK_RCTRL) {
 				ctrldown = 0;
 			} else {
-				translated = translate_key(event.key.keysym.sym);
+				translated = translate_scancode(
+					event.key.keysym.scancode);
 				if (translated != KEY_UNKNOWN) {
 					keysdown[translated] &= ~1;
 				}
@@ -610,29 +613,15 @@ int Vid_GetKey(void)
 	SDL_Keysym k;
 	getevents();
 	k = input_buffer_pop();
-	return k.sym;
+	return k.scancode;
 }
 
 int Vid_GetChar(void)
 {
-return 0;
-#if 0
-//TODO
 	SDL_Keysym k;
-	// Not all keypresses wil have a character associated with them.
-	do {
-		getevents();
-		k = input_buffer_pop();
-		if (k.sym == SDLK_UNKNOWN) {
-			return 0;
-		}
-	} while (k.unicode == 0);
-
-	if (k.unicode == '\r') {
-		k.unicode = '\n';
-	}
-	return k.unicode;
-#endif
+	getevents();
+	k = input_buffer_pop();
+	return k.sym;
 }
 
 BOOL Vid_GetCtrlBreak(void)
@@ -643,7 +632,7 @@ BOOL Vid_GetCtrlBreak(void)
 
 const char *Vid_KeyName(int key)
 {
-	return SDL_GetKeyName(key);
+	return SDL_GetScancodeName(key);
 }
 
 //-----------------------------------------------------------------------
