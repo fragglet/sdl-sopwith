@@ -9,6 +9,7 @@ Bug fixes:
 * Fix planes crashing into their own bullets (creichen).
 * Fix players able to turn quickly when wounded and using the autopilot.
 * Damaged ground persisting to the title screen even after the game has ended.
+* Network game desyncs when only one player uses harry keys mode.
 
 Restructuring:
 * Rewritten graphics code

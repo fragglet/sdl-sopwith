@@ -201,7 +201,7 @@ BOOL moveplyr(OBJECTS * obp)
 
 	// Thanks to Kodath duMatri for fixing this :)
 
-	if (conf_harrykeys && ob->ob_orient) {
+	if ((multkey & K_HARRYKEYS) != 0 && ob->ob_orient) {
 		if (multkey & (K_FLAPU | K_FLAPD)) {
 			multkey ^= K_FLAPU | K_FLAPD;
 		}

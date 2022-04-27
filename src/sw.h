@@ -163,6 +163,7 @@ typedef enum {
 #define K_FLAPD         0x0008
 #define K_FLIP          0x0010
 #define K_SHOT          0x0020
+#define K_HARRYKEYS     0x0040          /* reverse flapu/d when flipped */
 #define K_BOMB          0x0100
 #define K_HOME          0x0200
 #define K_SOUND         0x0400
@@ -170,13 +171,6 @@ typedef enum {
 #define K_MISSILE       0x1000
 #define K_STARBURST     0x2000
 
-#define K_ASYNACK       0x40
-
-// made these into typedefs rather than ugly #define macros
-
-                                        /*  Internal representation of ground */
-                                        /*  due to non-implementation of      */
-                                        /*  unsigned char on ATARI            */
 typedef  unsigned int GRNDTYPE;
 
 struct tt {                     /*  Continuous tone table entry    */

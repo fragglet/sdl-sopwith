@@ -196,6 +196,9 @@ static void new_move(void)
 	/* generate a new move command and save it */
 
 	multkey = Vid_GetGameKeys();
+	if (conf_harrykeys) {
+		multkey |= K_HARRYKEYS;
+	}
 
 	/* tictime is the game time of the command we are creating */
 
