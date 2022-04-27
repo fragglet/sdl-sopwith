@@ -17,6 +17,7 @@ dnl check for cc
 
 AC_PROG_CC
 AC_PROG_RANLIB
+AC_CHECK_TOOL(STRIP, strip, )
 
 if test "$GCC" = "yes"
 then
@@ -64,6 +65,8 @@ Makefile
 src/Makefile
 src/sdl/Makefile
 doc/Makefile
+pkg/config.make
+pkg/macos/Info.plist
 ])
 AC_OUTPUT
 

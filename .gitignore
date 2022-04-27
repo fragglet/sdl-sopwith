@@ -9,6 +9,7 @@ config.hin
 config.log
 config.status
 configure
+pkg/config.make
 src/sopwith
 src/sopwith.exe
 .deps

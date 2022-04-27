@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>CFBundleIdentifier</key>
+        <string>org.soulsphere.sdl-sopwith</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDisplayName</key>
+	<string>@PACKAGE_NAME@</string>
+	<key>CFBundleExecutable</key>
+	<string>sopwith</string>
+	<key>CFBundleGetInfoString</key>
+	<string>@PACKAGE_STRING@</string>
+	<key>CFBundleIconFile</key>
+	<string>app.icns</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>@PACKAGE_NAME@</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@PACKAGE_VERSION@</string>
+	<key>CFBundleVersion</key>
+	<string>@PACKAGE_VERSION@</string>
+        <key>NSHighResolutionCapable</key>
+        <string>true</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+        <key>NSHumanReadableCopyright</key>
+        <string>Copyright (C) 1984, 1985, 1987 BMB Compuscience
+Copyright (C) 1984-2000 David L. Clark
+Copyright (C) 2001-2022 Simon Howard, Jesse Smith
+Licensed under the GNU GPL v2.</string>
+
+</dict>
+</plist>
