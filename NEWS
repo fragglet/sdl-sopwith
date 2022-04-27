@@ -15,6 +15,8 @@ Restructuring:
 * Rewritten graphics code
 * Major internal restructuring: removal of obsolete code, removal of
   some global variables
+* Sopwith configuration file is no longer ~/.sopwithrc on *nix systems, but
+  can now be found at ~/.local/share/SDL\ Sopwith/sopwith.cfg
 
 v1.8.4
 Updated man page (doc/sopwith.6) to match Debian's manual page.

@@ -110,6 +110,8 @@ extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
 
 void Vid_ClearBuf(void);
 
+char *Vid_GetPrefPath(void);
+
 #endif
 
 //-----------------------------------------------------------------------

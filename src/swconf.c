@@ -42,36 +42,31 @@
 #include "swtitle.h"
 #include "swmain.h"
 
-#ifdef _WIN32
-static char config_file[] = "sopwith.ini";
-#else
-static char config_file[] = ".sopwithrc";
-#endif
+#define CONFIG_FILE_NAME "sopwith.cfg"
 
-static char *get_config_filename(void)
+static char *GetConfigFilename(void)
 {
-#ifdef _WIN32
-	// this should probably be saved in the registry,
-	// but pfft, whatever
-	return config_file;
-#else
-	static char *namebuf = NULL;
-	char *homedir = getenv("HOME");
+	static char *result = NULL;
+	char *pref_path;
 	size_t buflen;
 
-	if (homedir == NULL) {
-		return config_file;
+	if (result != NULL) {
+		return result;
 	}
 
-	if (namebuf == NULL) {
-		buflen = strlen(config_file) + strlen(getenv("HOME")) + 5;
-		namebuf = malloc(buflen);
-
-		snprintf(namebuf, buflen, "%s/%s", getenv("HOME"), config_file);
+	pref_path = Vid_GetPrefPath();
+	if (pref_path == NULL) {
+		return NULL;
 	}
 
-	return namebuf;
-#endif
+	buflen = strlen(pref_path) + strlen(CONFIG_FILE_NAME) + 1;
+	result = malloc(buflen);
+	if (result == NULL) {
+		return NULL;
+	}
+
+	snprintf(result, buflen, "%s%s", pref_path, CONFIG_FILE_NAME);
+	return result;
 }
 
 static confoption_t confoptions[] = {
@@ -182,10 +177,14 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 
 void swloadconf(void)
 {
-	char *config_file = get_config_filename();
+	char *config_file = GetConfigFilename();
 	FILE *fs;
 	char inbuf[128];
 	int lineno = 0;
+
+	if (config_file == NULL) {
+		return;
+	}
 
 	fs = fopen(config_file, "r");
 
@@ -212,9 +211,13 @@ void swloadconf(void)
 
 void swsaveconf(void)
 {
-	char *config_file = get_config_filename();
+	char *config_file = GetConfigFilename();
 	FILE *fs;
 	int i;
+
+	if (config_file == NULL) {
+		return;
+	}
 
 	fs = fopen(config_file, "w");
 
@@ -224,8 +227,8 @@ void swsaveconf(void)
 		return;
 	}
 
-	fprintf(fs, "# sopwith config file\n"
-	            "# created by " PACKAGE_STRING "\n\n");
+	fprintf(fs, "# Configuration file for " PACKAGE_NAME "\n"
+	            "# Created by " PACKAGE_STRING "\n\n");
 
 	for (i=0; i<num_confoptions; ++i) {
 		fprintf(fs, "%-20s", confoptions[i].name);

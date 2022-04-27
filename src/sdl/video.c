@@ -74,7 +74,6 @@ int keybindings[NUM_KEYS] = {
 static int ctrlbreak = 0;
 static BOOL initted = 0;
 static SDL_Window *window;
-static SDL_Surface *screen;
 static uint32_t pixel_format;
 static SDL_Renderer *renderer;
 
@@ -671,6 +670,21 @@ BOOL Vid_GetCtrlBreak(void)
 const char *Vid_KeyName(int key)
 {
 	return SDL_GetScancodeName(key);
+}
+
+// Not really video related code, but it had to go somewhere.
+char *Vid_GetPrefPath(void)
+{
+	char *result = SDL_GetPrefPath("", PACKAGE_NAME);
+
+	// If SDL_GetPrefPath() fails, we can't load or save a config file,
+	// but at least we let the user play the game...
+	if (result == NULL) {
+		fprintf(stderr, "Vid_GetPrefPath: Failed to make preferences "
+		                "directory: %s\n", SDL_GetError());
+	}
+
+	return result;
 }
 
 //-----------------------------------------------------------------------
