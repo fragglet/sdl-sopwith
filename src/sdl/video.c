@@ -361,6 +361,25 @@ static void Vid_UnsetMode(void)
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
+static void GetWindowSize(int *w, int *h)
+{
+	SDL_DisplayMode mode;
+	int factor;
+
+	*w = SCR_WDTH;
+	*h = SCR_HGHT;
+
+	if (SDL_GetDesktopDisplayMode(0, &mode) != 0) {
+		return;
+	}
+
+	for (factor = 1; *w * factor < (mode.w / 2)
+	              && *h * factor < (mode.h / 2); ++factor);
+
+	*w *= factor;
+	*h *= factor;
+}
+
 static void Vid_SetMode(void)
 {
 	int n;
@@ -376,8 +395,7 @@ static void Vid_SetMode(void)
 	}
 	srand(time(NULL));
 
-	w = SCR_WDTH * 2;
-	h = SCR_HGHT * 2;
+	GetWindowSize(&w, &h);
 
 	flags = SDL_WINDOW_RESIZABLE;
 	if (vid_fullscreen) {
