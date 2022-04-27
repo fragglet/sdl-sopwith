@@ -99,6 +99,8 @@ void swgets(char *s, int max)
 	int erase_len = 0;
 	int x, y;
 
+	Vid_StartTextInput();
+
 	for (;;) {
 		unsigned char c;
 
@@ -132,6 +134,8 @@ void swgets(char *s, int max)
 			break;
 		}
 	}
+
+	Vid_StopTextInput();
 }
 
 void swcolour(int a)

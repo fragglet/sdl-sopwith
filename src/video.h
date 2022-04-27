@@ -79,6 +79,12 @@ extern int Vid_GetChar(void);
 extern int Vid_GetGameKeys(void);
 extern const char *Vid_KeyName(int key);
 
+// In text input mode, characters returned from Vid_GetChar() are "fully
+// baked" - with shifting applied etc. Text input mode also pops up the
+// on-screen keyboard if appropriate.
+void Vid_StartTextInput(void);
+void Vid_StopTextInput(void);
+
 // drawing routines
 
 void Vid_Box(int x, int y, int w, int h, int c);
@@ -98,7 +104,7 @@ extern int Vid_GetPixel(int x, int y);
 // draw a symbol
 
 extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
-			   int clr);
+                           int clr);
 
 // clear screen
 

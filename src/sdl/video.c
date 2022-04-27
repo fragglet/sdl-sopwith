@@ -547,10 +547,24 @@ static sopkey_t translate_scancode(int sdl_scancode)
 	return KEY_UNKNOWN;
 }
 
+// Special keys get passed through as input events even when text input mode
+// is activated.
+static BOOL IsSpecialKey(SDL_Keysym *k) {
+	switch (k->sym) {
+		case SDLK_ESCAPE:
+		case SDLK_RETURN:
+		case SDLK_BACKSPACE:
+			return TRUE;
+		default:
+			return FALSE;
+	}
+}
+
 static void getevents(void)
 {
 	SDL_Event event;
 	static BOOL ctrldown = 0, altdown = 0;
+	int i;
 	sopkey_t translated;
 
 	while (SDL_PollEvent(&event)) {
@@ -577,13 +591,17 @@ static void getevents(void)
 					continue;
 				}
 			}
-			input_buffer_push(event.key.keysym);
+			if (!SDL_IsTextInputActive()
+			 || IsSpecialKey(&event.key.keysym)) {
+				input_buffer_push(event.key.keysym);
+			}
 			translated = translate_scancode(
 				event.key.keysym.scancode);
 			if (translated != KEY_UNKNOWN) {
 				keysdown[translated] |= 3;
 			}
 			break;
+
 		case SDL_KEYUP:
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 0;
@@ -598,8 +616,31 @@ static void getevents(void)
 				}
 			}
 			break;
+
+		case SDL_TEXTINPUT:
+			for (i = 0; event.text.text[i] != '\0'; ++i) {
+				char c = event.text.text[i];
+				SDL_Keysym fake;
+				if (c >= 0x80) {
+					continue;
+				}
+				fake.sym = c;
+				fake.scancode = SDL_SCANCODE_UNKNOWN;
+				input_buffer_push(fake);
+			}
+			break;
 		}
 	}
+}
+
+void Vid_StartTextInput(void)
+{
+	SDL_StartTextInput();
+}
+
+void Vid_StopTextInput(void)
+{
+	SDL_StopTextInput();
 }
 
 int Vid_GetKey(void)
@@ -612,10 +653,13 @@ int Vid_GetKey(void)
 
 int Vid_GetChar(void)
 {
-	SDL_Keysym k;
+	int result;
 	getevents();
-	k = input_buffer_pop();
-	return k.sym;
+	result = input_buffer_pop().sym;
+	if (result == '\r') {
+		result = '\n';
+	}
+	return result;
 }
 
 BOOL Vid_GetCtrlBreak(void)
