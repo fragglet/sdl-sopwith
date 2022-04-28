@@ -1,4 +1,4 @@
-AC_INIT([SDL Sopwith],[1.99.0],[fraggle@gmail.com],[sdl_sopwith])
+AC_INIT([SDL Sopwith],[1.99.0],[fraggle@gmail.com],[sdl-sopwith])
 AC_CONFIG_AUX_DIR(autotools)
 
 VERSION=$CONFIG_VERSION
