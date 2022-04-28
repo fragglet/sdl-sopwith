@@ -43,10 +43,7 @@ $(STAGING_DIR): app.icns
 
 	mkdir -p "$(APP_BIN_DIR)"
 
-	#mv "$(APP_DOC_DIR)/README.md" "$(APP_DOC_DIR)/README"
-	#mv "$(APP_DOC_DIR)/COPYING.md" "$(APP_DOC_DIR)/COPYING"
-	#ln -s "$(APP_DOC_RELDIR)/COPYING" "$(STAGING_DIR)/Software License"
-	#ln -s "$(APP_DOC_RELDIR)/README" "$(STAGING_DIR)/README"
+	cp $(TOPLEVEL)/COPYING.md "$(STAGING_DIR)/Software License"
 	ln -s /Applications "$(STAGING_DIR)"
 
 	./cp-with-libs $(TOPLEVEL)/src/sopwith "$(APP_BIN_DIR)"

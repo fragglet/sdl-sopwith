@@ -56,8 +56,7 @@ on run argv
 
         -- icon positions:
 
-        --set position of file "README" of theDisk to {110, 220}
-        --set position of file "Software License" of theDisk to {400, 220}
+        set position of file "Software License" of theDisk to {500, 280}
         set position of file appName of theDisk to {320, 200}
         set position of file "Applications" of theDisk to {500, 30}
 
