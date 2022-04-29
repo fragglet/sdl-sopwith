@@ -50,7 +50,7 @@ $(STAGING_DIR): app.icns
 	$(STRIP) "$(APP_BIN_DIR)/sopwith"
 
 	mkdir -p "$(APP_BIN_DIR)/man/man5" "$(APP_BIN_DIR)/man/man6"
-	#cp $(TOPLEVEL)/doc/*.5 "$(APP_BIN_DIR)/man/man5"
+	cp $(TOPLEVEL)/doc/*.5 "$(APP_BIN_DIR)/man/man5"
 	cp $(TOPLEVEL)/doc/*.6 "$(APP_BIN_DIR)/man/man6"
 	cp disk/dir.DS_Store $(STAGING_DIR)/.DS_Store
 	cp disk/background.png $(STAGING_DIR)/background.png
