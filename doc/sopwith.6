@@ -8,54 +8,20 @@ sopwith \- classic aerial combat shoot em up game
 [ \-n | \-s | \-c | \-l | \-j \fIhost\fR ] [\-f] [\-g\fIlevel\fR] [\-x] [\-q] [\-p] [\-e]
 
 .SH DESCRIPTION
-Sopwith is a modern port of the classic 1980s shoot 'em up game of the
-same name.
-The game has a World War I theme.  The object of Sopwith is to destroy 
-all enemy targets with a somewhat limited airforce.
+Sopwith is a modern port of the classic 1980s shoot 'em up game of the same
+name. The game has a World War I aviation theme. The object of Sopwith is to
+destroy all enemy targets with a somewhat limited airforce.
 
-It can be played both in single player and multiplayer mode over 
-a TCP/IP network.
+It can be played both in single player and multiplayer mode over a TCP/IP network.
 
+Sopwith looks for a configuration file in the user's home directory at
+\fI~/.local/share/SDL Sopwith/sopwith.cfg\fR; the configuration file is only
+generated after the user changes one of the settings from the in-game options
+menu. Details about the contents of this file can be found in \fBsopwith.cfg\fR(5).
 .SH AUDIO
 As of version 1.7.3, audio is disabled by default.  Audio can be enabled
 using the \-p switch.  Once you're in the game, you will also have to
 use the S key to turn on sound effects.
-
-.SH CONTROLS
-The standard controls are as follows:
-.TP 
-comma
-pull up
-.TP
-slash
-pull down
-.TP
-period
-flip plane
-.TP
-Z
-decrease speed
-.TP
-X
-increase speed
-.TP
-space
-fire machine gun
-.TP
-B
-drop bomb
-.TP
-H
-autopilot plane to home base
-.TP
-S
-turn on sound effects (if sound is enabled with \-p)
-.TP
-Ctrl+C
-quit
-.TP
-Ctrl+C Ctrl+C Ctrl+C
-quit immediately
 
 .SH OPTIONS
 .TP
@@ -91,35 +57,125 @@ Turn on sound (play music)
 \-e
 Turn off intense explosions
 
+.SH CONTROLS
+The standard controls on a US layout keyboard are as follows:
+.TP 
+comma
+pull up
+.TP
+slash
+pull down
+.TP
+period
+flip plane
+.TP
+Z
+decrease speed
+.TP
+X
+increase speed
+.TP
+space
+fire machine gun
+.TP
+B
+drop bomb
+.TP
+H
+autopilot plane to home base
+.TP
+S
+turn on sound effects (if sound is enabled with \-p)
+.TP
+Ctrl+C
+quit
+.TP
+Ctrl+C Ctrl+C Ctrl+C
+quit immediately
+
+.SH TIPS
+The following are some tips for playing the game:
+.IP \(bu
+Start off by playing in single player mode before playing against the computer.
+This will allow you to "get the feel of the stick" without being attacked by
+enemy planes. Practice dropping bombs on ground targets, as this is a key
+skill.
+.IP \(bu
+Accelerate to maximum speed on takeoff, otherwise you may stall the plane.
+Moving at speed is particularly important when playing against the computer,
+as you are otherwise likely to be outmanuevered by the enemy planes.
+.IP \(bu
+Bombs can be used against planes as well as ground targets. It can sometimes
+be easier to hit a plane with a bomb instead of the machine gun.
+.IP \(bu
+The machine gun can be used to destroy ground targets as well as planes. Some
+targets at the edges of the map are much easier to destroy in this way. Since
+the machine gun has a limited range, reducing your speed when attacking a
+ground target can give you more time to aim and attack before you have to pull
+away.
+.IP \(bu
+Computer planes will try to tail you so that they can shoot you down. Don't
+allow them to get a clear shot. "Wiggling" the plane by repeatedly pulling up
+and down can be an effective evasive maneuver.
+.IP \(bu
+Firing your machine gun through a flock of birds will cause the birds to
+disperse, and the computer planes will sometimes hit a bird and crash. However,
+this tactic can also backfire.
+.IP \(bu
+Each computer plane has a "territory" and if you escape that territory they
+will break off their pursuit. At the boundary between territories you can
+sometimes trick two planes into crashing into each other.
+.IP \(bu
+When your plane is crashing, the pull up/down keys still have a small effect on
+your trajectory. You can use this to try to crash your plane into a ground
+target.
+.IP \(bu
+Hitting the top of your screen stalls your plane. Hold down the pull up key to
+break out of the stall before your plane crashes into the ground.
+.IP \(bu
+Wait until you're close to your base with a clear path to the runway before
+pressing the home key - the autopilot sometimes makes mistakes.
+
 .SH MEDALS
 
-If the "medals" game option is turned on, the player is rewarded with medals
-for the following:
+If the "medals" game option is turned on, the player is rewarded with ribbons
+and medals for the following:
 
-.IP \(bu
+.TP
+Flying Ace Ribbon (cyan with a single white stripe)
 Shooting down 5 planes
-.IP \(bu
+.TP
+Top Flying Ace Ribbon (cyan with two white stripes)
 Shooting down 25 planes (difficult!)
-.IP \(bu
+.TP
+Service Ribbon (cyan with white edges)
 Three successful raids
-.IP \(bu
+.TP
+Perfect Ribbon (white with two magenta stripes)
 Finishing a level with no planes lost
-.IP \(bu
+.TP
+Competence Medal (white medal on a cyan ribbon)
 Gaining 25 points in a single flight, where 3 points are awarded per plane
 and 4 per building
-.IP \(bu
+.TP
+Ribbon of Competence (white with magenta stripe)
 As above, a second time
-.IP \(bu
+.TP
+Purple Heart (magenta heart on a cyan ribbon)
 Returning to base after having been damaged
-.IP \(bu
+.TP
+Ribbon of Valour (magenta with white stripe)
 Gaining a certain number of points for destroyed planes and buildings; the
 points depend on whether the player was damaged at that point in time, and
 how far away the destroyed object was from the player's base
-.IP \(bu
+.TP
+Victoria Cross (cyan cross on a magenta ribbon)
 As above, but a few more points
 .PP
-
 All medals and counters for these are reset once a plane is destroyed.
+
+.SH SEE ALSO
+\fBsopwith.cfg\fR(5)
 
 .SH AUTHORS
 Originally written by David L. Clark for BMB Compuscience
@@ -130,12 +186,24 @@ Modern SDL port By Simon Howard
 Sopwith was originally developed by BMB Compuscience of Canada as a
 demonstration game for their Imaginet Networking System. The system was not
 commercially successful but Sopwith became a popular game for the IBM PC and
-compatibles. A sequel "Sopwith 2" was actually a newer version rather than a
-different game, but included extra features, such as oxen and birds (the oxen
-being an in-joke reference to a BMB employee who was nicknamed "Ox"). The
-original author, David L. Clark, later released "Sopwith - The Network Edition"
-with several extra features including comical heads-up "splats" and wounded
-planes; a follow-up titled "The Author's Edition" contained the same features.
-This version of Sopwith is based on the released source code to the Network
-Edition.
+compatibles. A sequel that is referred to by fans as "Sopwith 2" was actually a
+newer version rather than a different game, but included extra features, such
+as oxen and birds (the oxen being an in-joke reference to a BMB employee who
+was nicknamed "Ox").
+.PP
+The original author, David L. Clark, later released "Sopwith - The Network
+Edition" with several extra features including comical heads-up "splats" and
+wounded planes; a follow-up titled "The Author's Edition" contained the same
+features. This version of Sopwith is based on the released source code to the
+Network Edition.
+.PP
+The real Sopwith Camel F.1 was one of the most famous fighter planes of World
+War I; Camel pilots shot down 1,294 enemy aircraft over the course of the war,
+more than any other aircraft. The plane gained a reputation for being agile
+but difficult to fly; many novice pilots crashed the plane on takeoff. The
+Camel was designed and manufactured by the Sopwith Aviation Company, founded by
+aviation pioneer Thomas Sopwith; 5,490 aircraft were produced. In popular
+culture the Camel is known for being the biplane flown by the protagonist in
+the \fIBiggles\fR series of novels, and by Snoopy in the \fIPeanuts\fR comic
+strip.
 
