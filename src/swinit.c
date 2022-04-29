@@ -1028,6 +1028,9 @@ void swinit(int argc, char *argv[])
 	int i;
 
 	soundflg = 1;      // assume off by default
+	// DEBIAN FOLKS: please don't disable the configuration file.
+	// The code has changed significantly, that patch should no
+	// longer be necessary.
 	swloadconf();
 
 	for (i=1; i<argc; ++i) {
