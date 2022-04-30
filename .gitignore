@@ -10,6 +10,7 @@ config.log
 config.status
 configure
 pkg/config.make
+src/sopwith.rc
 src/sopwith
 src/sopwith.exe
 .deps
