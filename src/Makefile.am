@@ -16,14 +16,6 @@ swauto.h    swgames.c   swmain.c    swobject.h  swutil.c		\
 swsplat.c   swsplat.h	swstbar.c   swstbar.h                           \
 video.c
 
-# include dos port sources in distribution
-
-DOS_FILES = dos/Makefile  dos/pcsound.c  dos/README  dos/timer.c
-
-EXTRA_DIST=$(DOS_FILES)
-
-# SDL build
-
 sopwith_SOURCES = $(COMMON_SOURCES) vid_vga.c
 sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@ sdl/libsdlsopmain.a
 
