@@ -25,5 +25,5 @@ EXTRA_DIST=$(DOS_FILES)
 # SDL build
 
 sopwith_SOURCES = $(COMMON_SOURCES) vid_vga.c
-sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@
+sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@ sdl/libsdlsopmain.a
 
