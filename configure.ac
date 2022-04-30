@@ -66,6 +66,7 @@ src/Makefile
 src/sdl/Makefile
 doc/Makefile
 pkg/config.make
+pkg/Makefile
 pkg/macos/Info.plist
 ])
 AC_OUTPUT

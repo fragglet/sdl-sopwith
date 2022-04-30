@@ -1,9 +1,6 @@
 AUX_DIST_GEN =                          \
-        $(ac_aux_dir)/config.guess      \
-        $(ac_aux_dir)/config.sub        \
         $(ac_aux_dir)/install-sh        \
-        $(ac_aux_dir)/missing           \
-        $(ac_aux_dir)/mkinstalldirs
+        $(ac_aux_dir)/missing
 
 # extra distributed MSVC build files
 MSVC_DIST= \
@@ -13,11 +10,11 @@ DOC_FILES=                              \
         COPYING.md                      \
         README.md
 
-EXTRA_DIST = $(AUX_DIST_GEN) $(MSVC_DIST) $(DOC_FILES)
+EXTRA_DIST = $(AUX_DIST_GEN) $(MSVC_DIST) $(DOC_FILES) \
+             icon.png
 
-MAINTAINERCLEANFILES =  $(AUX_DIST_GEN)
+MAINTAINERCLEANFILES = $(AUX_DIST_GEN)
 
 docdir=$(prefix)/share/doc/@PACKAGE@
-SUBDIRS=src doc
+SUBDIRS=src doc pkg
 
-blah:
