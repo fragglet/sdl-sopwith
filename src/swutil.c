@@ -66,7 +66,7 @@ void setdxdy(OBJECTS * obj, int dx, int dy)
 
 void swsetblk(void)
 {
-	// used by the splatted ox code to colour the screen. ?
+	// used by the splatted ox code to color the screen. ?
 }
 
 void swgetjoy(void)

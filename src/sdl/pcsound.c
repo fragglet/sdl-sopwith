@@ -127,7 +127,7 @@ void Speaker_Shutdown(void)
 	sound_initted = 0;
 }
 
-// initialise sound
+// initialize sound
 
 void Speaker_Init(void)
 {

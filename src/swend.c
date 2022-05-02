@@ -146,7 +146,7 @@ void loser(OBJECTS * ob)
 void dispendmessage(void)
 {
 	if (consoleplayer->ob_endsts != PLAYING) {
-		swcolour(0x82);
+		swcolor(0x82);
 		swposcur((SCR_WDTH/16) - 4, 12);
 		swputs("THE END");
 	}

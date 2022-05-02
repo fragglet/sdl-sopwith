@@ -1087,7 +1087,7 @@ void swinit(int argc, char *argv[])
 
 	symbol_generate();
 
-	// initialise video
+	// initialize video
 
 	Vid_Init();
 

@@ -138,7 +138,7 @@ void swgets(char *s, int max)
 	Vid_StopTextInput();
 }
 
-void swcolour(int a)
+void swcolor(int a)
 {
 	cur_color = a;
 }

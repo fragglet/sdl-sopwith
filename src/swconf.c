@@ -265,15 +265,15 @@ static void change_key_binding(struct menuitem *item)
 
 	Vid_ClearBuf();
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(10, 5);
 	swputs("Press the new key for: ");
 
-	swcolour(2);
+	swcolor(2);
 	swposcur(14, 7);
 	swputs(item->description);
 
-	swcolour(1);
+	swcolor(1);
 	swposcur(1, 22);
 	swputs("   ESC - Cancel");
 
@@ -304,11 +304,11 @@ static void drawmenu(char *title, struct menuitem *menu)
 	int i, keynum, said_key = 0;
 	Vid_ClearBuf();
 
-	swcolour(2);
+	swcolor(2);
 	swposcur(19 - strlen(title) / 2, 2);
 	swputs(title);
 
-	swcolour(3);
+	swcolor(3);
 
 	for (i=0, keynum=0; menu[i].config_name != NULL; ++i) {
 		confoption_t *opt;
@@ -322,7 +322,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 
 		if (menu[i].config_name[0] == '>') {
 			key = menu[i].config_name[1];
-			swcolour(1);
+			swcolor(1);
 			suffix = " >>>";
 		} else {
 			key = menukeys[keynum];
@@ -340,7 +340,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 
 		swposcur(6, 5+i);
 		swputs(buf);
-		swcolour(3);
+		swcolor(3);
 
 		swposcur(28, 5+i);
 		opt = confoption_by_name(menu[i].config_name);
@@ -359,7 +359,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 		}
 	}
 
-	swcolour(1);
+	swcolor(1);
 
 	swposcur(1, 22);
 	swputs("   ESC - Exit Menu");

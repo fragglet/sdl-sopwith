@@ -41,17 +41,7 @@
 unsigned char *vid_vram;
 unsigned int vid_pitch;
 
-/*---------------------------------------------------------------------------
-
-        Update display of ground.   Delete previous display of ground by
-        XOR graphics.
-
-        Different routines are used to display/delete ground on colour
-        or monochrome systems.
-
----------------------------------------------------------------------------*/
-
-
+// Draw SCR_WDTH columns of ground, starting at the given ground pointer.
 void Vid_DispGround(GRNDTYPE *gptr)
 {
 	GRNDTYPE *g = gptr;
@@ -85,7 +75,6 @@ void Vid_DispGround(GRNDTYPE *gptr)
 
 
 // sdh 28/10/2001: solid ground function
-
 void Vid_DispGround_Solid(GRNDTYPE * gptr)
 {
 	GRNDTYPE *g = gptr;
@@ -104,18 +93,6 @@ void Vid_DispGround_Solid(GRNDTYPE * gptr)
 		}
 	}
 }
-
-
-/*---------------------------------------------------------------------------
-
-        External calls to display a point of a specified colour at a
-        specified position.   The point request may or may not ask for
-        collision detection by returning the old colour of the point.
-
-        Different routines are used to display points on colour or
-        monochrome systems.
-
----------------------------------------------------------------------------*/
 
 void Vid_PlotPixel(int x, int y, int clr)
 {
@@ -140,17 +117,6 @@ int Vid_GetPixel(int x, int y)
 
 	return *sptr;
 }
-
-
-/*---------------------------------------------------------------------------
-
-        Display an object's current symbol at a specified screen location
-        Collision detection may or may not be asked for.
-
-        Different routines are used to display symbols on colour or
-        monochrome systems.
-
----------------------------------------------------------------------------*/
 
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {

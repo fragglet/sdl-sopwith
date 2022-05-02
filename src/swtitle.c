@@ -60,62 +60,62 @@ void swtitln(void)
 /*---------------- Original BMB Version---------------*/
 #ifndef NET_TITLE
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(13+X_OFFSET/8, 6);
 	swputs("S O P W I T H");
 
-	swcolour(1);
+	swcolor(1);
 	swposcur(12+X_OFFSET/8, 8);
 	swputs("(Version " PACKAGE_VERSION ")");
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(5+X_OFFSET/8, 11);
 	swputs("(c) Copyright 1984, 1985, 1987");
 
-	swcolour(1);
+	swcolor(1);
 	swposcur(6+X_OFFSET/8, 12);
 	swputs("BMB ");
-	swcolour(3);
+	swcolor(3);
 	swputs("Compuscience");
 #else
 /*------------------ Original BMB Version---------------*/
 
 /*---------------- New Network Version ---------------*/
 
-	swcolour(2);
+	swcolor(2);
 	swposcur(18+X_OFFSET/8, 2);
 	swputs("SDL");
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(13+X_OFFSET/8, 4);
 	swputs("S O P W I T H");
 
 	swposcur(13+X_OFFSET/8, 6);
 	swputs("Version " PACKAGE_VERSION);
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(0+X_OFFSET/8, 9);
 	swputs("(c) 1984, 1985, 1987 ");
 
-	swcolour(1);
+	swcolor(1);
 	swputs("BMB ");
-	swcolour(3);
+	swcolor(3);
 	swputs("Compuscience");
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(0+X_OFFSET/8, 10);
 	swputs("(c) 1984-2000 David L. Clark");
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(0+X_OFFSET/8, 11);
 	swputs("(c) 2001-2022 Simon Howard, Jesse Smith");
 
-	swcolour(3);
+	swcolor(3);
 	swposcur(0+X_OFFSET/8, 12);
 	swputs("    Distributed under the ");
-	swcolour(1);
+	swcolor(1);
 	swputs("GNU");
-	swcolour(3);
+	swcolor(3);
 	swputs(" GPL");
 
 /*---------------- New Network Version-----------------*/

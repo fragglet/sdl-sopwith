@@ -39,16 +39,6 @@
 #include "swsymbol.h"
 #include "swutil.h"
 
-/*---------------------------------------------------------------------------
-
-        Update display of ground.   Delete previous display of ground by
-        XOR graphics.
-
-        Different routines are used to display/delete ground on colour
-        or monochrome systems.
-
----------------------------------------------------------------------------*/
-
 static void dispgrnd(void)
 {
 	if (conf_solidground) {
@@ -58,35 +48,10 @@ static void dispgrnd(void)
 	}
 }
 
-
-
-/*---------------------------------------------------------------------------
-
-        External display ground call for title screen processing.
-
----------------------------------------------------------------------------*/
-
-
-
-
 void swground(void)
 {
 	dispgrnd();
 }
-
-
-/*---------------------------------------------------------------------------
-
-        External calls to display a point of a specified colour at a
-        specified position.   The point request may or may not ask for
-        collision detection by returning the old colour of the point.
-
-        Different routines are used to display points on colour or
-        monochrome systems.
-
----------------------------------------------------------------------------*/
-
-
 
 
 // sdh 14/2/2003: find the color of an object
@@ -101,33 +66,10 @@ static inline int ob_color(OBJECTS *ob)
 	}
 }
 
-
-/*---------------------------------------------------------------------------
-
-        Display an object's current symbol at a specified screen location
-        Collision detection may or may not be asked for.
-
-        Different routines are used to display symbols on colour or
-        monochrome systems.
-
----------------------------------------------------------------------------*/
-
-
-
-
 void swputsym(int x, int y, OBJECTS * ob)
 {
 	Vid_DispSymbol(x, y, ob->ob_newsym, ob_color(ob));
 }
-
-
-/*---------------------------------------------------------------------------
-
-        Main display loop.   Delete and display all visible objects.
-        Delete any newly deleted objects
-
----------------------------------------------------------------------------*/
-
 
 void swdisp(void)
 {
@@ -136,26 +78,21 @@ void swdisp(void)
 	Vid_ClearBuf();
 
 	// display the status bar
-
 	dispstatusbar();
 
 	// heads up splats
-	
 	if (conf_hudsplats) {
 		swdispsplats();
 	}
 
 	// "the end"
-	
 	dispendmessage();
 
 //	lag = latest_player_time[player] - countmove;
 
 	// calculate displx from the player position
 	// do sanity checks to make sure we never go out of range
-
 	displx = consoleplayer->ob_x - SCR_CENTR;
-
 //	displx += consoleplayer->ob_dx * lag;
 
 	if (displx < 0) {
@@ -165,7 +102,6 @@ void swdisp(void)
 	}
 
 	// draw objects
-
 	for (ob = objtop; ob; ob = ob->ob_next) {
 		int x, y;
 
@@ -190,7 +126,6 @@ void swdisp(void)
 
 	// need to update the screen as we arent writing
 	// directly into vram any more
-
 	Vid_Update();
 }
 
