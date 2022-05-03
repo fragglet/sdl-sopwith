@@ -8,6 +8,7 @@ MSVC_DIST= \
 
 DOC_FILES=            \
         COPYING.md    \
+        FAQ.md        \
         NEWS.md       \
         README.md
 
