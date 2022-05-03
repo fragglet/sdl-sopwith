@@ -26,7 +26,7 @@ tmp.dmg : $(STAGING_DIR)
 # Staging dir build for package:
 
 APP_DIR=$(STAGING_DIR)/$(PACKAGE_NAME).app
-
+DOC_DIR=$(STAGING_DIR)/Documentation
 APP_TOP_DIR=$(APP_DIR)/Contents
 APP_BIN_DIR=$(APP_DIR)/Contents/MacOS
 SRC_INFO_PLIST=Info.plist
@@ -49,9 +49,15 @@ $(STAGING_DIR): app.icns
 	./cp-with-libs $(TOPLEVEL)/src/sopwith "$(APP_BIN_DIR)"
 	$(STRIP) "$(APP_BIN_DIR)/sopwith"
 
-	mkdir -p "$(APP_BIN_DIR)/man/man5" "$(APP_BIN_DIR)/man/man6"
-	cp $(TOPLEVEL)/doc/*.5 "$(APP_BIN_DIR)/man/man5"
-	cp $(TOPLEVEL)/doc/*.6 "$(APP_BIN_DIR)/man/man6"
+	mkdir -p "$(DOC_DIR)"
+	for d in $(DOC_FILES); do \
+		pandoc -f gfm -o $(DOC_DIR)/$$(basename $$d .md).html  \
+		       -s $(TOPLEVEL)/$$d;                             \
+	done
+	pandoc -f man -o $(DOC_DIR)/Manual.html \
+	       -s $(TOPLEVEL)/doc/sopwith.6
+	pandoc -f man -o $(DOC_DIR)/Configuration.html \
+	       -s $(TOPLEVEL)/doc/sopwith.cfg.5
 	cp disk/dir.DS_Store $(STAGING_DIR)/.DS_Store
 	cp disk/background.png $(STAGING_DIR)/background.png
 

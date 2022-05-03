@@ -42,7 +42,7 @@ on run argv
             set sidebar width to 0
             set toolbar visible to false
             set statusbar visible to false
-            set bounds to {200, 200, 800, 600}
+            set bounds to {200, 200, 850, 630}
         end tell
         tell icon view options of win
             set icon size to 48
@@ -56,9 +56,10 @@ on run argv
 
         -- icon positions:
 
-        set position of file "Software License" of theDisk to {500, 280}
+        set position of file "Software License" of theDisk to {500, 300}
         set position of file appName of theDisk to {320, 200}
         set position of file "Applications" of theDisk to {500, 30}
+        set position of folder "Documentation" of theDisk to {140, 300}
 
         eject theDisk
     end tell
