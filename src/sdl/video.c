@@ -93,39 +93,38 @@ static SDL_Texture *texture_upscaled = NULL;
 
 
 // convert a sopsym_t into a surface
-
+#define ICON_SCALE 4
 SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
 	SDL_Surface *surface = SDL_CreateRGBSurface(
-		0, sym->w, sym->h, 32,
+		0, sym->w * ICON_SCALE, sym->h * ICON_SCALE, 32,
 		0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 
 	unsigned char *src;
 	uint32_t *dst;
-	int x, y;
+	int x, y, sx, sy;
 
-	if (!surface) {
+	if (surface == NULL) {
 		return NULL;
 	}
 
 	// set palette
-
 	SDL_LockSurface(surface);
 
-	src = sym->data;
-
 	// copy data from symbol into surface
-
-	for (y = 0; y < sym->h; ++y, src += sym->w) {
+	for (y = 0; y < surface->h; ++y) {
+		sy = y / ICON_SCALE;
+		src = sym->data + sy * sym->w;
 		dst = (uint32_t *) ((uint8_t *) surface->pixels +
 		                    y * surface->pitch);
-		for (x = 0; x < sym->w; ++x) {
+		for (x = 0; x < surface->w; ++x) {
 			SDL_Color *p;
-			if (src[x] == 0) {
+			sx = x / ICON_SCALE;
+			if (src[sx] == 0) {
 				dst[x] = 0;
 				continue;
 			}
-			p = &cga_pal[src[x]];
+			p = &cga_pal[src[sx]];
 			dst[x] = (p->r << 24) | (p->g << 16)
 			       | (p->b << 8) | 0xff;
 		}
@@ -173,55 +172,41 @@ void Vid_Update(void)
 	SDL_LockSurface(screenbuf);
 }
 
-static void set_icon(sopsym_t *sym)
+static BOOL is_special_day(void)
 {
-	unsigned char *pixels;
-	unsigned char *mask;
-	SDL_Surface *icon = surface_from_sopsym(sym);
-	int mask_size;
-	int i;
-	int x, y;
+	time_t now = time(NULL);
+	struct tm *t = localtime(&now);
 
-	if (!icon) {
+	return
+	    // 18 January 1888, birth date of Thomas Sopwith:
+	    (t->tm_mon == 0 && t->tm_mday == 18)
+	    // 15 December 1913, founding of the Sopwith Aviation Company:
+	 || (t->tm_mon == 11 && t->tm_mday == 15)
+	    // 22 December 1916, first flight of the Sopwith Camel:
+	 || (t->tm_mon == 11 && t->tm_mday == 22)
+	    // 11 November 1918, Armistice Day:
+	 || (t->tm_mon == 10 && t->tm_mday == 11);
+}
+
+static void set_icon(void)
+{
+	SDL_Surface *icon;
+	sopsym_t *sym;
+
+	if (is_special_day()) {
+		sym = symbol_plane[1][0];
+	} else {
+		sym = symbol_plane[0][0];
+	}
+
+	icon = surface_from_sopsym(sym);
+	if (icon == NULL) {
 		return;
 	}
 
-	// generate mask from icon
-
-	mask_size = (icon->w * icon->h) / 8 + 1;
-
-	mask = (unsigned char *)malloc(mask_size);
-
-	SDL_LockSurface(icon);
-
-	pixels = (unsigned char *)icon->pixels;
-
-	i = 0;
-
-	for (y=0; y<icon->h; y++) {
-		for (x=0; x<icon->w; x++) {
-			if (i % 8) {
-				mask[i / 8] <<= 1;
-			} else {
-				mask[i / 8] = 0;
-			}
-
-			if (pixels[i]) {
-				mask[i / 8] |= 0x01;
-			}
-
-			++i;
-		}
-	}
-
-	SDL_UnlockSurface(icon);
-
 	// set icon
-
 	SDL_SetWindowIcon(window, icon);
-
 	SDL_FreeSurface(icon);
-	free(mask);
 }
 
 static void LimitTextureSize(int *w_upscale, int *h_upscale)
@@ -417,7 +402,7 @@ static void Vid_SetMode(void)
 		keysdown[n] = 0;
 	}
 
-	set_icon(symbol_plane[rand() % 2][rand() % 16]);
+	set_icon();
 	SDL_ShowCursor(0);
 
 	renderer_flags = SDL_RENDERER_PRESENTVSYNC;
