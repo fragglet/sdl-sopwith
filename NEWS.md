@@ -1,20 +1,31 @@
 
-Features in this version:
+Changes in this version:
 
-* Vastly superior network performance
-* Medals feature to reward players (creichen)
+* Medals are now awarded to reward players (thanks creichen). The Unix
+  manpage includes some details about the medals and how to attain them.
+* There is now a configuration screen for setting key bindings, which are
+  stored in the same configuration file as other settings.
+* Thanks to SDL2's renderer API, the game now scales up to arbitrary window
+  sizes and resolutions, and isn't limited to just 320x200 or 640x400.
+* Network performance has been improved significantly.
+* The Unix manpage has been significantly improved and expanded. A separate
+  manpage was added for the configuration file.
+* Now runs on macOS, and Mac .dmg packages are generated.
+* The Windows .exe now has metadata and an icon.
+* The missiles feature was changed to a hidden setting since it's not very
+  fun and doesn't really fit the game's theme.
 
 Bug fixes:
 
-* Fix computer planes which trail the player without shooting (creichen).
 * Fix computer planes not shooting when tailing the player's plane (creichen).
 * Fix planes crashing into their own bullets (creichen).
 * Fix players able to turn quickly when wounded and using the autopilot.
-* Damaged ground persisting to the title screen even after the game has ended.
-* Network game desyncs when only one player uses harry keys mode.
+* Damaged ground no longer remains on the title screen after the game ends.
+* Network games no longer desync when only one player uses harry keys mode.
 
 Restructuring:
 
+* Code has been ported to SDL2.
 * Rewritten graphics code
 * Major internal restructuring: removal of obsolete code, removal of
   some global variables
