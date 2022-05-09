@@ -189,6 +189,7 @@ static void synchronize(void)
 		conf_missiles = readshort() != 0;
 		conf_wounded = readshort() != 0;
 		conf_animals = readshort() != 0;
+		conf_big_explosions = readshort() != 0;
 	} else {
 		// send settings
 		sendshort(explseed);
@@ -198,6 +199,7 @@ static void synchronize(void)
 		sendshort(conf_missiles);
 		sendshort(conf_wounded);
 		sendshort(conf_animals);
+		sendshort(conf_big_explosions);
 	}
 }
 

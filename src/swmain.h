@@ -38,6 +38,7 @@ extern BOOL conf_wounded;
 extern BOOL conf_animals;
 extern BOOL conf_harrykeys;
 extern BOOL conf_medals;
+extern BOOL conf_big_explosions;
 
 extern OBJECTS *consoleplayer;
 extern playmode_t playmode;

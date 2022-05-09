@@ -70,14 +70,15 @@ static char *GetConfigFilename(void)
 }
 
 static confoption_t confoptions[] = {
-	{"conf_missiles",    CONF_BOOL, {&conf_missiles}},
-	{"conf_solidground", CONF_BOOL, {&conf_solidground}},
-	{"conf_hudsplats",   CONF_BOOL, {&conf_hudsplats}},
-	{"conf_wounded",     CONF_BOOL, {&conf_wounded}},
-	{"conf_animals",     CONF_BOOL, {&conf_animals}},
-	{"conf_harrykeys",   CONF_BOOL, {&conf_harrykeys}},
-	{"conf_medals",	     CONF_BOOL, {&conf_medals}},
-	{"vid_fullscreen",   CONF_BOOL, {&vid_fullscreen}},
+	{"conf_missiles",       CONF_BOOL, {&conf_missiles}},
+	{"conf_solidground",    CONF_BOOL, {&conf_solidground}},
+	{"conf_hudsplats",      CONF_BOOL, {&conf_hudsplats}},
+	{"conf_wounded",        CONF_BOOL, {&conf_wounded}},
+	{"conf_animals",        CONF_BOOL, {&conf_animals}},
+	{"conf_harrykeys",      CONF_BOOL, {&conf_harrykeys}},
+	{"conf_big_explosions", CONF_BOOL, {&conf_big_explosions}},
+	{"conf_medals",         CONF_BOOL, {&conf_medals}},
+	{"vid_fullscreen",      CONF_BOOL, {&vid_fullscreen}},
 
 	{"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}},
 	{"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}},
@@ -301,7 +302,7 @@ static void change_key_binding(struct menuitem *item)
 
 static void drawmenu(char *title, struct menuitem *menu)
 {
-	int i, keynum, said_key = 0;
+	int i, y, keynum, said_key = 0;
 	Vid_ClearBuf();
 
 	swcolor(2);
@@ -310,7 +311,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 
 	swcolor(3);
 
-	for (i=0, keynum=0; menu[i].config_name != NULL; ++i) {
+	for (i=0, y=0, keynum=0; menu[i].config_name != NULL; ++i, ++y) {
 		confoption_t *opt;
 		char *suffix;
 		char buf[40];
@@ -330,7 +331,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 			suffix = ":";
 
 			if (!said_key) {
-				swposcur(1, 5+i);
+				swposcur(0, 5+y);
 				swputs("Key:");
 				said_key = 1;
 			}
@@ -338,11 +339,15 @@ static void drawmenu(char *title, struct menuitem *menu)
 		snprintf(buf, sizeof(buf), "%c - %s%s",
 		         key, menu[i].description, suffix);
 
-		swposcur(6, 5+i);
+		swposcur(5, 5+y);
 		swputs(buf);
 		swcolor(3);
 
-		swposcur(28, 5+i);
+		if (strlen(buf) > 22) {
+			++y;
+		}
+
+		swposcur(28, 5+y);
 		opt = confoption_by_name(menu[i].config_name);
 		if (opt == NULL) {
 			continue;
@@ -457,15 +462,16 @@ struct menuitem keys_menu[] = {
 };
 
 struct menuitem options_menu[] = {
-	{"vid_fullscreen",    "Run fullscreen"},
-	{"conf_solidground",  "Solid ground"},
-	{"conf_hudsplats",    "HUD splats"},
-	{"conf_wounded",      "Wounded planes"},
-	{"conf_animals",      "Oxen and birds"},
-	{"conf_medals",	      "Medals"},
-	{"conf_harrykeys",    "Harry keys mode"},
-	{"",                  ""},
-	{">K",                "Key bindings"},
+	{"vid_fullscreen",      "Run fullscreen"},
+	{"conf_solidground",    "Solid ground"},
+	{"conf_hudsplats",      "HUD splats"},
+	{"conf_wounded",        "Wounded planes"},
+	{"conf_animals",        "Oxen and birds"},
+	{"conf_big_explosions", "Big oil tank explosions"},
+	{"conf_medals",         "Medals"},
+	{"conf_harrykeys",      "Harry keys mode"},
+	{"",                    ""},
+	{">K",                  "Key bindings"},
 	{NULL},
 };
 

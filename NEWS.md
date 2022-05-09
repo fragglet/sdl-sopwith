@@ -22,6 +22,9 @@ Bug fixes:
 * Fix players able to turn quickly when wounded and using the autopilot.
 * Damaged ground no longer remains on the title screen after the game ends.
 * Network games no longer desync when only one player uses harry keys mode.
+* Big oil tank explosions now match the magnitude of the old explosions from
+  Sopwith 1 and Sopwith 2. The command line option to disable them has been
+  replaced with a configuration variable.
 
 Restructuring:
 

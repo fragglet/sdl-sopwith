@@ -55,7 +55,6 @@
 static int have_savescore = 0;
 static score_t savescore;		/* save players score on restart  */
 static int starting_level = 0;
-static int conf_explosions = 1;
 
 static char helptxt[] =
 "\n"
@@ -700,10 +699,13 @@ void initexpl(OBJECTS * obop, int small)
 	obotype = obo->ob_type;
 	if (obotype == TARGET && obo->ob_orient == 2) {
 		ic = 1;
-		// adding in option here for large oil tank explosions
-		// - Jesse
-		if (conf_explosions) {
-			speed = gminspeed * 4 / 3;
+		// sdh: Oil tank explosions were changed in Sopwith "Network
+		// Edition" to be much less intense; we make this change
+		// optional. I believe +4 here is correct, because the amj
+		// decompile says something like "speed = level + 8" and
+		// gminspeed = level + MIN_SPEED = level + 4.
+		if (conf_big_explosions) {
+			speed = gminspeed + 4;
 		} else {
 			speed = gminspeed;
 		}
@@ -1049,8 +1051,6 @@ void swinit(int argc, char *argv[])
 			soundflg = 1;
 		} else if (!strcasecmp(argv[i], "-p")) {
 			soundflg = 0;
-		} else if (!strcasecmp(argv[i], "-e")) {
-			conf_explosions = 0;
 		} else
 #ifdef TCPIP
 		if (!strcasecmp(argv[i], "-l")) {

@@ -52,6 +52,7 @@ BOOL conf_wounded = 0;              // enable wounded planes
 BOOL conf_animals = 1;              // birds and oxen
 BOOL conf_harrykeys = 0;            // plane rotation relative to screen
 BOOL conf_medals = 1;
+BOOL conf_big_explosions = 1;       // big oil tank explosions
 
 playmode_t playmode;		/* Mode of play                     */
 GAMES *currgame;		/* Game parameters and current game */
