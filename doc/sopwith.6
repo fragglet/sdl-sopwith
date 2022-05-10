@@ -35,18 +35,20 @@ Start a single player in expert mode
 Start a single player vs. computer game
 .TP
 \-l
-Start a network game listening for a network connection
+Start a network game listening for a network connection.
+See the section "MULTIPLAYER SERVERS" below for more details.
 .TP
-\-j \fIhost\fR
+\-j \fIhost:port\fR
 Start a network game, connecting to another listening host as specified
-by \fIhost\fR
+by \fIhost:port\fR. If the port number is not specified then TCP port 3847 is
+used.
 .TP
 \-f
 Start in full screen mode if possible.
 .TP
 \-g\fIlevel\fR
-Start the game on the indicated difficulty level.  For instance, use \-g2 to start
-the game on level 2.  The default is level 0.
+Start the game on the indicated difficulty level. For instance, use \-g2 to start
+the game on level 2. The default is level 0.
 .TP
 \-q
 Turn off sound (quiet)
@@ -170,6 +172,28 @@ Victoria Cross (cyan cross on a magenta ribbon)
 As above, but a few more points
 .PP
 All medals and counters for these are reset once a plane is destroyed.
+
+.SH MULTIPLAYER SERVERS
+
+When run in "listen" mode with the \fB\-l\fR command line flag (see above),
+\fBsopwith\fR runs as a server that listens for an incoming connection.
+To make this server available from a home Internet connection, you will
+typically have to set up a port forward from your Internet router. The port
+to forward is TCP port 3847. You will also need to find out your public IP
+address so that the other player can connect.
+
+Alternatively, if you have access to a *nix-based server then it may be
+preferable to run something like a dedicated server that avoids the hassle
+of port forwarding and dynamic IPs. All that is needed in order to do this
+is to run a TCP server that forwards connections between two clients. This
+can be done using \fBnc\fR(1); for example:
+
+.RS
+nc -l -p 3847 -c "nc -l -p 3847"
+.RE
+
+Developing the above command into a complete shell script for a
+continually-active dedicated server is left as an exercise for the reader.
 
 .SH SEE ALSO
 \fBsopwith.cfg\fR(5),

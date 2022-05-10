@@ -44,6 +44,8 @@
 asynmode_t asynmode;
 char asynhost[128];
 
+#define SYNC_IM_PLAYER0 '?'
+#define SYNC_IM_PLAYER1 '!'
 #define TIMEOUT_LEN_MS 5000 	/* time out after 5 seconds */
 
 static int timeout_time;
@@ -116,7 +118,7 @@ char *asynclos(void)
 
 void asynupdate(void)
 {
-	int i;
+	int i, ticnum;
 
 	i = try_readshort();
 
@@ -128,41 +130,35 @@ void asynupdate(void)
 
 		netplayer = !player;
 
-		latest_player_commands[netplayer][latest_player_time[netplayer] % MAX_NET_LAG] = i;
+		ticnum = latest_player_time[netplayer] % MAX_NET_LAG;
+		latest_player_commands[netplayer][ticnum] = i;
 		++latest_player_time[netplayer];
 	}
 }
 
-#define PROTOHEADER PACKAGE_STRING
+#define PROTOHEADER_FMT (PACKAGE_STRING ", player %d")
 
 static void synchronize(void)
 {
-	// check for header
+	char *buf, *p;
 
 	// send the header ourselves first
-
-	char *buf;
-	char *p;
-
-	buf = malloc(sizeof(PROTOHEADER) + 5);
-	snprintf(buf, sizeof(PROTOHEADER) + 5, PROTOHEADER "%d", player);
+	buf = malloc(sizeof(PROTOHEADER_FMT) + 5);
+	snprintf(buf, sizeof(PROTOHEADER_FMT) + 5, PROTOHEADER_FMT, player);
 
 	for (p = buf; *p; ++p) {
 		commout(*p);
 	}
 
 	// now listen for response
-
-	snprintf(buf, sizeof(PROTOHEADER) + 5, PROTOHEADER "%d", !player);
-
+	snprintf(buf, sizeof(PROTOHEADER_FMT) + 5, PROTOHEADER_FMT, !player);
 	settimeout();
 
 	for (p = buf; *p;) {
 		int c;
 
 		if (timeout()) {
-			fprintf(stderr,
-				"synchronize: timeout on connect\n");
+			fprintf(stderr, "asyninit: timeout on connect\n");
 			exit(-1);
 		}
 
@@ -171,9 +167,10 @@ static void synchronize(void)
 		if (c >= 0) {
 			if (c == *p) {
 				++p;
-			} else {
-				fprintf(stderr,
-					"synchronize: invalid protocol header received!\n");
+			} else if (c != SYNC_IM_PLAYER0
+			        && c != SYNC_IM_PLAYER1) {
+				fprintf(stderr, "asyninit: invalid protocol"
+				        " header received!\n");
 				exit(-1);
 			}
 		}
@@ -185,7 +182,6 @@ static void synchronize(void)
 		explseed = readshort();
 
 		printf("random seed: %i\n", explseed);
-
 		conf_missiles = readshort() != 0;
 		conf_wounded = readshort() != 0;
 		conf_animals = readshort() != 0;
@@ -195,7 +191,6 @@ static void synchronize(void)
 		sendshort(explseed);
 
 		printf("random seed: %i\n", explseed);
-
 		sendshort(conf_missiles);
 		sendshort(conf_wounded);
 		sendshort(conf_animals);
@@ -204,80 +199,53 @@ static void synchronize(void)
 }
 
 // setup tcp loop
-
-static void tcploop_connect(void)
+static void AssignPlayers(BOOL server_side)
 {
-	int time;
-
-	clrprmpt();
-	swputs("  Attempting to connect to\n  ");
-	swputs(asynhost);
-	swputs(" ...");
-	Vid_Update();
-	
-	commconnect(asynhost);
+	int starttime, lastsendtime, now;
 
 	clrprmpt();
 	swputs("  Connected, waiting for other player\n");
 	Vid_Update();
 
+	starttime = Timer_GetMS();
+	lastsendtime = 0;
+
 	// for the first 5 seconds, listen to see if theres another player
 	// there
-
-	for (time = Timer_GetMS() + 5000; Timer_GetMS() < time; ) {
-		int c;
-
-		if (ctlbreak()) {
-			fprintf(stderr, "tcploop_connect: user aborted\n");
-			exit(-1);
-		}
-		
-		c = commin();
-
-		if (c >= 0) {
-			if (c == '?') {
-				commout('!');
-				player = 1;
-				return;
-			} else {
-				fprintf(stderr,
-					"tcploop_connect: invalid"
-					"char received\n");
-				exit(-1);
-			}
-		}
-	}
-
-	// now send a ? every second until we get a ! response
-
-	time = Timer_GetMS() + 1000;
-
 	for (;;) {
 		int c;
 
 		if (ctlbreak()) {
-			fprintf(stderr, "tcploop_connect: user aborted\n");
+			fprintf(stderr, "asyninit: user aborted\n");
 			exit(-1);
 		}
-
+		
 		c = commin();
-
 		if (c >= 0) {
-			if (c == '!') {
+			if (server_side && c == SYNC_IM_PLAYER0) {
+				commout(SYNC_IM_PLAYER1);
+				player = 1;
+				return;
+			} else if (!server_side && c == SYNC_IM_PLAYER1) {
 				player = 0;
 				return;
-			} else {
+			} else if (server_side || c != SYNC_IM_PLAYER0) {
 				fprintf(stderr,
-					"tcploop_connect: invalid"
-					"char received\n");
+				        "asyninit: got wrong char: %d\n", c);
 				exit(-1);
 			}
 		}
-	
 
-		if (Timer_GetMS() > time) {
-			commout('?');
-			time = Timer_GetMS() + 1000;
+		now = Timer_GetMS();
+		if (!server_side) {
+			// After five seconds we switch to server mode, so
+			// that two clients connected to a loop synchronize:
+			if ((now - starttime) > 5000) {
+				server_side = TRUE;
+			} else if ((now - lastsendtime) > 500) {
+				commout(SYNC_IM_PLAYER0);
+				lastsendtime = now;
+			}
 		}
 	}
 }
@@ -286,15 +254,13 @@ static void tcploop_connect(void)
 
 static void asyninit(void)
 {
-	if (asynmode == ASYN_TCPLOOP) {
-		tcploop_connect();
-	} else if (asynmode == ASYN_LISTEN) {
+	if (asynmode == ASYN_LISTEN) {
 		swtitln();
 		clrprmpt();
 		swputs("  Listening for connection...");
 		Vid_Update();
 		commlisten();
-		player = 0;
+		AssignPlayers(TRUE);
 	} else if (asynmode == ASYN_CONNECT) {
 		swtitln();
 		clrprmpt();
@@ -303,7 +269,7 @@ static void asyninit(void)
 		swputs(" ...");
 		Vid_Update();
 		commconnect(asynhost);
-		player = 1;
+		AssignPlayers(FALSE);
 	} else {
 		fprintf(stderr, "unknown asynmode mode\n");
 		exit(-1);

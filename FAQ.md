@@ -63,15 +63,30 @@ SDL Sopwith FAQ
 
   **A**: Yes! Classic Sopwith had support for multiplayer as well, but
   it used a proprietary networking system (which Sopwith was made to
-  demonstrate).  Sopwith 2 also had support for "2 players over an
-  asyncronous line", presumably for playing over a serial cable,
+  demonstrate). Sopwith 2 also had support for "2 players over an
+  asynchronous line", presumably for playing over a serial cable,
   although this did not seem to work either. I have replaced the serial
   code with code to use TCP/IP.  This means that you can play 2 player
   SDL Sopwith over a LAN with TCP/IP or even over the Internet.
 
-- **Q** What license is this released under?
+- **Q**: How do I play this through a firewall?
 
-  **A** This is released under the GNU General Public License,
+  **A**: Most home routers require you to set up port forwarding to
+  establish a connection for multiplayer. You'll need to forward TCP
+  port 3847.
+
+  Alternatively, if you can run a TCP server that forwards data between
+  clients that connect to it, two Sopwith players that connect to this
+  server should automatically find each other. It is fairly simple to
+  write do this with "netcat". for example:
+
+```shell
+  nc -l -p 3847 -c "nc -l -p 3847"
+```
+
+- **Q**: What license is this released under?
+
+  **A**: This is released under the GNU General Public License,
   version 2. The Sopwith source was originally released under a more
   restrictive license, but it has since been relicensed.
 

@@ -24,7 +24,7 @@
 
 #include "sw.h"
 
-typedef enum { ASYN_LISTEN, ASYN_CONNECT, ASYN_TCPLOOP } asynmode_t;
+typedef enum { ASYN_LISTEN, ASYN_CONNECT } asynmode_t;
 
 extern asynmode_t asynmode;
 extern char asynhost[128];

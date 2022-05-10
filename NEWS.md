@@ -14,6 +14,9 @@ Changes in this version:
 * The Windows .exe now has metadata and an icon.
 * The missiles feature was changed to a hidden setting since it's not very
   fun and doesn't really fit the game's theme.
+* The networking option to use a "TCP loop" has now been merged with the
+  normal "connect" option, for simplicity. The target server may be a real
+  server or a TCP loop server, and the clients will autodiscover.
 
 Bug fixes:
 

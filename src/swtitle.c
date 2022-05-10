@@ -191,7 +191,6 @@ static BOOL getnet(void)
 		clrprmpt();
 		swputs("Key: L - listen for connection\n");
 		swputs("     C - connect to remote host\n");
-		swputs("     T - connect to TCP loop\n");
 
 		Vid_Update();
 
@@ -207,10 +206,6 @@ static BOOL getnet(void)
 			return 1;
 		case 'C':
 			asynmode = ASYN_CONNECT;
-			gethost();
-			return 1;
-		case 'T':
-			asynmode = ASYN_TCPLOOP;
 			gethost();
 			return 1;
 		case 27:
