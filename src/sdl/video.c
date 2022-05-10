@@ -383,6 +383,7 @@ static void Vid_SetMode(void)
 	GetWindowSize(&w, &h);
 
 	flags = SDL_WINDOW_RESIZABLE;
+	flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 	if (vid_fullscreen) {
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
