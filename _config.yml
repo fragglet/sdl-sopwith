@@ -1,0 +1,10 @@
+
+title: SDL Sopwith website
+description: >- # this means to ignore newlines until "baseurl:"
+  Modern port of the classic biplane shoot-em up, Sopwith.
+baseurl: /sdl-sopwith
+url: https://fragglet.github.io
+
+# Build settings
+theme: minima
+
