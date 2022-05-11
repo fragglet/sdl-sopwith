@@ -6,5 +6,5 @@ baseurl: /sdl-sopwith
 url: https://fragglet.github.io
 
 # Build settings
-theme: minima
+theme: minimal
 
