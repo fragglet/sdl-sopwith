@@ -7,7 +7,7 @@ header {
   margin-bottom: 10px;
 }
 
-img[src~=sopattack] {
+img[alt~=Camel] {
   float: right;
   margin: 20px;
 }
