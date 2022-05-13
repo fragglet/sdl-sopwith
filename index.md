@@ -14,3 +14,5 @@ SDL Sopwith is based on the original Sopwith source code, which was
 released by its author Dave L. Clark as Free and Open Source Software under the
 GNU General Public License.
 
+![Open Source Software](open_source_button.png)
+
