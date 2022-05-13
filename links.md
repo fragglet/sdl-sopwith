@@ -16,7 +16,7 @@
 ## Other Sopwith ports and recreations
 
 * [Sopwith 3](http://sopwith3.sourceforge.net/) by Jornand de Buisonjé
-* [Sopwith 2002](https://sourceforge.net/projects/sopwith/)
+* [Sopwith 2002](https://sourceforge.net/projects/sopwith/) by Jon Rafkind
 * [Sopwith Camel](http://sopwithcamel.sourceforge.net/) by Alan Broun
 * [YASG](https://sourceforge.net/projects/yasg/) ("Yet Another Sopwith Game")
   by zlogic (Russian game)
@@ -26,7 +26,9 @@
 * [Triplane Classic](http://triplane.sourceforge.net/) aka Triplane Turmoil
 * [Triplane Turmoil II](http://triplane2.draconus.com/)
 * [Airstrike](http://icculus.org/airstrike/)
-* [BIP!](https://store.steampowered.com/app/1285200/Bip/)
+* [Biplane Duel](https://www.youtube.com/watch?v=WEmhFFFpwjE) for the Amiga
+* [BIP!](https://store.steampowered.com/app/1285200/Bip/),
+  inspired by Biplane Duel
 
 
 
