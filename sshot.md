@@ -1,13 +1,18 @@
 
-![Screenshot](sshot/runway.png)
+![Screenshot, Linux XFCE](sshot/sopwith-linux-xfce.png)
 
-Sitting on the runway in single player mode
+SDL Sopwith running under Linux with the XFCE desktop.
+
+![Screenshot, macOS](sshot/sopwith-macos.png)
+
+SDL Sopwith running under macOS.
+
+![Screenshot, Haiku](sshot/sopwith-haiku.png)
+
+SDL Sopwith's use of the SDL library means that it will even run on more
+niche OSes such as [Haiku](https://www.haiku-os.org/).
 
 ![Screenshot, multiplayer](sshot/multi.png)
 
 Multiplayer mode
-
-![Screenshot, Linux](sshot/sopwith_flux.png)
-
-Sopwith running under Linux.
 
