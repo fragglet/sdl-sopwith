@@ -5,6 +5,7 @@ title: SDL Sopwith: Links
 * [Website of David L. Clark](http://www.davidlclark.com/), the author of Sopwith.
 * [sopwith.org](http://www.sopwith.org/), a fan site with lots of details
   about the original game.
+* [Decoded: Sopwith](http://www.maizure.org/projects/decoded-sopwith/), MaiZure's analysis of the Sopwith source code
 
 ## Ports of SDL Sopwith to other platforms
 
@@ -33,7 +34,7 @@ title: SDL Sopwith: Links
 * [BIP!](https://store.steampowered.com/app/1285200/Bip/),
   inspired by Biplane Duel
 
-## And, uh...
+### And, uh...
 
 * [Turd Eating Cat](https://www.youtube.com/watch?v=1rZFk9ww29U)
   (note: vulgar humor)
