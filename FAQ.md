@@ -1,3 +1,7 @@
+---
+title: SDL Sopwith FAQ
+---
+
 SDL Sopwith FAQ
 ===============
 

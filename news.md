@@ -1,3 +1,6 @@
+---
+title: SDL Sopwith: News
+---
 
 ## November 17, 2014
 

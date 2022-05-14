@@ -1,3 +1,6 @@
+---
+title: SDL Sopwith
+---
 
 ![CGA colored Sopwith Camel](sopattack.png)
 

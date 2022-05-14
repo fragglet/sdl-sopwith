@@ -1,3 +1,6 @@
+---
+title: SDL Sopwith: Links
+---
 
 * [Website of David L. Clark](http://www.davidlclark.com/), the author of Sopwith.
 * [sopwith.org](http://www.sopwith.org/), a fan site with lots of details
