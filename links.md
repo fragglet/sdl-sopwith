@@ -30,5 +30,8 @@
 * [BIP!](https://store.steampowered.com/app/1285200/Bip/),
   inspired by Biplane Duel
 
+## And, uh...
 
+* [Turd Eating Cat](https://www.youtube.com/watch?v=1rZFk9ww29U)
+  (note: vulgar humor)
 
