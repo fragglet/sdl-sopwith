@@ -1,3 +1,6 @@
+---
+title: SDL Sopwith: Screenshots
+---
 
 ![Screenshot, Linux XFCE](sshot/sopwith-linux-xfce.png)
 
@@ -12,7 +15,7 @@ SDL Sopwith running under macOS.
 SDL Sopwith's use of the SDL library means that it will even run on more
 niche OSes such as [Haiku](https://www.haiku-os.org/).
 
-![Screenshot, multiplayer](sshot/multi.png)
+![Screenshot, multiplayer](sshot/sopwith-multi.png)
 
 Multiplayer mode
 
