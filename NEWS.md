@@ -20,6 +20,10 @@ Changes in this version:
 
 Bug fixes:
 
+* Movement precision within the game was made significantly more precise.
+  This fixes a long-standing issue where fractional movement values were
+  just being discarded, instead of being included in calculations as they
+  should have been.
 * Fix computer planes not shooting when tailing the player's plane (creichen).
 * Fix planes crashing into their own bullets (creichen).
 * Fix players able to turn quickly when wounded and using the autopilot.
@@ -28,6 +32,8 @@ Bug fixes:
 * Big oil tank explosions now match the magnitude of the old explosions from
   Sopwith 1 and Sopwith 2. The command line option to disable them has been
   replaced with a configuration variable.
+* A bug was fixed where it was possible to stop the plane in midair when
+  playing the game in novice mode (thanks Alaux).
 
 Restructuring:
 
