@@ -1,4 +1,9 @@
-body,h1,h2,h3,h4,h5,h6,code,strong,pre {
+body,h1,h2,h3,h4,h5,h6,code,strong,pre,.highlight {
+  background-color: black;
+  color: white;
+}
+
+code > span {
   background-color: black;
   color: white;
 }
