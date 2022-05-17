@@ -5,6 +5,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: /sdl-sopwith
 url: https://fragglet.github.io
 image: /sdl-sopwith/sshot/sopwith-gameplay.png
+favicon: /sdl-sopwith/icon.png
 
 # Build settings
 remote_theme: pages-themes/minimal@v0.2.0
