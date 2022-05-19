@@ -97,18 +97,6 @@ void Speaker_Output(unsigned short count)
 	current_freq = (TIMER_FREQ) / ((float) count * FREQ);
 }
 
-// turn speaker on
-
-void Speaker_On(void)
-{
-	speaker_on = 1;
-	if (!current_freq) {
-		current_freq = 255;
-	}
-}
-
-// turn sound off
-
 void Speaker_Off(void)
 {
 	speaker_on = 0;
@@ -156,29 +144,6 @@ void Speaker_Init(void)
 	sound_initted = 1;
 
 	SDL_PauseAudio(0);
-}
-
-// this is identical to the BASIC SOUND function
-
-void Speaker_Sound(int freq, int duration)
-{
-	int duration_clocks = duration * 1000 / 18.2;
-	int endtime;
-
-	// turn speaker on
-
-	int count = TIMER_FREQ / freq;
-
-	Speaker_Output(count);
-
-	// delay
-
-	for (endtime = SDL_GetTicks() + duration_clocks;
-	     SDL_GetTicks() < endtime;);
-
-	// turn speaker off
-
-	Speaker_Off();
 }
 
 //-----------------------------------------------------------------------

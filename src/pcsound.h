@@ -26,18 +26,8 @@
 #ifndef __SDLSOUND_H__
 #define __SDLSOUND_H__
 
-//
-// Initialize and Shut down
-//
-
 void Speaker_Init(void);
 void Speaker_Shutdown(void);
-
-//
-// Turn speaker on and off
-//
-
-void Speaker_On(void);
 void Speaker_Off(void);
 
 //
@@ -50,15 +40,6 @@ void Speaker_Off(void);
 //
 
 void Speaker_Output(unsigned short count);
-
-//
-// Play a sound
-//
-// This should be identical to the BASIC SOUND function
-// duration = 1/18th's of a second
-//
-
-void Speaker_Sound(int freq, int duration);
 
 #endif
 
