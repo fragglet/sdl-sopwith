@@ -44,6 +44,9 @@ case "$target" in
     *-*-qnx*)
 	LDFLAGS="$LDFLAGS -lsocket"
 	;;
+    *haiku*)
+	LDFLAGS="$LDFLAGS -lnetwork"
+	 ;;
 esac
 
 case "$host" in
