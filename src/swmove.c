@@ -1028,6 +1028,26 @@ BOOL moveflck(OBJECTS * obp)
 }
 
 
+static BOOL checkwall(OBJECTS *obp, int direction)
+{
+	int check_x, cnt;
+
+	check_x = obp->ob_x;
+	for (cnt = 0; cnt < 20; ++cnt) {
+		if (check_x < 0 || check_x >= MAX_X) {
+			return TRUE;
+		}
+		if ((int) ground[check_x] > obp->ob_y + 10) {
+			return TRUE;
+		}
+		if (direction < 0) {
+			--check_x;
+		} else {
+			++check_x;
+		}
+	}
+	return FALSE;
+}
 
 BOOL movebird(OBJECTS * obp)
 {
@@ -1044,6 +1064,11 @@ BOOL movebird(OBJECTS * obp)
 	} else if (ob->ob_life == -2) {
 		ob->ob_dy = -ob->ob_dy;
 		ob->ob_dx = (countmove & 7) - 4;
+		// Don't move in a direction where we might (continue to?)
+		// fly into a wall. Fixes a crasher bug.
+		if (checkwall(ob, ob->ob_dx)) {
+			ob->ob_dx = -ob->ob_dx;
+		}
 		ob->ob_life = BIRDLIFE;
 	} else {
 		--ob->ob_life;
