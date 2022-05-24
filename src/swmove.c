@@ -1143,9 +1143,7 @@ BOOL hitpln(OBJECTS * obp)
 }
 
 
-
-
-BOOL insertx(OBJECTS * ob, OBJECTS * obp)
+BOOL insertx(OBJECTS *ob, OBJECTS *obp)
 {
 	OBJECTS *obs;
 	int obx;
@@ -1153,32 +1151,40 @@ BOOL insertx(OBJECTS * ob, OBJECTS * obp)
 	obs = obp;
 	obx = ob->ob_x;
 	if (obx < obs->ob_x) {
-		do {
+		while (obs->ob_xprev != NULL && obx < obs->ob_xprev->ob_x) {
 			obs = obs->ob_xprev;
-		} while (obx < obs->ob_x);
+		}
+		// Insert between obs->ob_xprev and obs:
+		ob->ob_xprev = obs->ob_xprev;
+		ob->ob_xnext = obs;
 	} else {
-		while (obx >= obs->ob_x) {
+		while (obs->ob_xnext != NULL && obx > obs->ob_xnext->ob_x) {
 			obs = obs->ob_xnext;
 		}
-		obs = obs->ob_xprev;
+		// Insert between obs and ob->ob_xnext:
+		ob->ob_xprev = obs;
+		ob->ob_xnext = obs->ob_xnext;
 	}
-	ob->ob_xnext = obs->ob_xnext;
-	ob->ob_xprev = obs;
-	obs->ob_xnext->ob_xprev = ob;
-	obs->ob_xnext = ob;
+	if (ob->ob_xprev != NULL) {
+		ob->ob_xprev->ob_xnext = ob;
+	}
+	if (ob->ob_xnext != NULL) {
+		ob->ob_xnext->ob_xprev = ob;
+	}
 
 	return TRUE;
 }
 
 
 
-void deletex(OBJECTS * obp)
+void deletex(OBJECTS *ob)
 {
-	OBJECTS *ob;
-
-	ob = obp;
-	ob->ob_xnext->ob_xprev = ob->ob_xprev;
-	ob->ob_xprev->ob_xnext = ob->ob_xnext;
+	if (ob->ob_xprev != NULL) {
+		ob->ob_xprev->ob_xnext = ob->ob_xnext;
+	}
+	if (ob->ob_xnext != NULL) {
+		ob->ob_xnext->ob_xprev = ob->ob_xprev;
+	}
 }
 
 
