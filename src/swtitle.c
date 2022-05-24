@@ -131,8 +131,9 @@ void swtitln(void)
 	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, symbol_ox[0], 1);
 	Vid_DispSymbol(270+X_OFFSET, 160, symbol_plane_hit[0], 2);
 
-	for (i = 9, h=150; i; --i, h += 5)
+	for (i = 9, h=150; i; --i, h += 5) {
 		Vid_PlotPixel(280+X_OFFSET, h, 3);
+	}
 
 #endif				/* #ifndef NET_TITLE */
 }

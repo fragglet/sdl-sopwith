@@ -620,8 +620,9 @@ void scorepln(OBJECTS * ob, obtype_t type)
 		OBJECTS *scobj = get_score_obj(ob, &reverse);
 		if (!reverse) {
 			if (had_taken_off) {
-				if (type != PLANE)
+				if (type != PLANE) {
 					scobj->ob_score.planekills++;
+				}
 				scobj->ob_score.valour += 4 * (2 + compute_valour (ob));
 			}
 

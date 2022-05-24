@@ -62,10 +62,11 @@ int shoot(OBJECTS *obt)
 			r = obtsp.ob_flaps;
 
 			if (r) {
-				if (obtsp.ob_orient)
+				if (obtsp.ob_orient) {
 					nangle -= r;
-				else
+				} else {
 					nangle += r;
+				}
 				nangle = (nangle + ANGLES) % ANGLES;
 				setdxdy(&obtsp,
 					nspeed * COS(nangle),
@@ -75,8 +76,9 @@ int shoot(OBJECTS *obt)
 
 		movexy(&obtsp, &obtx, &obty);
 		r = range(obx, oby, obtx, obty);
-		if (r < 0 || r > rprev)
+		if (r < 0 || r > rprev) {
 			return 0;
+		}
 		if (obx >= obtx
 		    && obx <= (obtx + SYM_WDTH - 1)
 		    && oby <= obty
