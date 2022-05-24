@@ -186,7 +186,7 @@ void commlisten(void)
 		}
 
 		if (errno == EWOULDBLOCK) {
-			Timer_Sleep(100);
+			Timer_Sleep(50);
 		} else {
 			fprintf(stderr,
 				"commlisten: error accepting connection: %s\n",

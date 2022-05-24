@@ -281,7 +281,7 @@ static void change_key_binding(struct menuitem *item)
 	Vid_Update();
 
 	while ((key = Vid_GetKey()) == 0) {
-		Timer_Sleep(100);
+		Timer_Sleep(50);
 
 		swsndupdate();
 		if (ctlbreak()) {
