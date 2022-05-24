@@ -564,12 +564,11 @@ void sound(int type, int parm, OBJECTS * ob)
 
 
 
-void initsound(OBJECTS * obp, int type)
+void initsound(OBJECTS *ob, int type)
 {
-	OBJECTS *ob;
 	TONETAB *tt;
 
-	if ((ob = obp)->ob_sound) {
+	if (ob->ob_sound) {
 		return;
 	}
 

@@ -405,9 +405,9 @@ static int isrange(int x, int y, int ax, int ay)
 
 // bullet
 
-void initshot(OBJECTS * obop, OBJECTS * targ)
+void initshot(OBJECTS *obo, OBJECTS * targ)
 {
-	OBJECTS *ob, *obo = obop;
+	OBJECTS *ob;
 	int nangle, nspeed, dx, dy, r, bspeed, x, y;
 
 	if (!targ && !compplane && !obo->ob_rounds) {
@@ -420,7 +420,6 @@ void initshot(OBJECTS * obop, OBJECTS * targ)
 		return;
 	}
 
-	obo = obop;
 	if (playmode != PLAYMODE_NOVICE) {
 		--obo->ob_rounds;
 	}
@@ -467,9 +466,9 @@ void initshot(OBJECTS * obop, OBJECTS * targ)
 
 // bomb
 
-void initbomb(OBJECTS * obop)
+void initbomb(OBJECTS *obo)
 {
-	OBJECTS *ob, *obo = obop;
+	OBJECTS *ob;
 	int angle;
 
 	if ((!compplane && !obo->ob_bombs) || obo->ob_bdelay) {
@@ -516,9 +515,9 @@ void initbomb(OBJECTS * obop)
 
 // missile
 
-void initmiss(OBJECTS * obop)
+void initmiss(OBJECTS *obo)
 {
-	OBJECTS *ob, *obo = obop;
+	OBJECTS *ob;
 	int angle, nspeed;
 
 	if (obo->ob_mdelay || !obo->ob_missiles || !conf_missiles) {
@@ -563,9 +562,9 @@ void initmiss(OBJECTS * obop)
 
 // starburst
 
-void initburst(OBJECTS * obop)
+void initburst(OBJECTS *obo)
 {
-	OBJECTS *ob, *obo = obop;
+	OBJECTS *ob;
 	int angle;
 
 	if (obo->ob_bsdelay || !obo->ob_bursts || !conf_missiles) {
@@ -680,9 +679,9 @@ static void inittarg(void)
 
 // explosion
 
-void initexpl(OBJECTS * obop, int small)
+void initexpl(OBJECTS *obo, int small)
 {
-	OBJECTS *ob, *obo = obop;
+	OBJECTS *ob;
 	int i, ic, speed;
 	// int life;
 	int obox, oboy, obodx, obody, oboclr;
@@ -761,9 +760,9 @@ void initexpl(OBJECTS * obop, int small)
 
 // smoke from falling plane
 
-void initsmok(OBJECTS * obop)
+void initsmok(OBJECTS *obo)
 {
-	OBJECTS *ob, *obo=obop;
+	OBJECTS *ob;
 
 	ob = allocobj();
 	if (!ob) {
@@ -833,9 +832,9 @@ static void initflck(void)
 
 // single bird
 
-void initbird(OBJECTS * obop, int i)
+void initbird(OBJECTS *obo, int i)
 {
-	OBJECTS *ob, *obo = obop;
+	OBJECTS *ob;
 	static int ibx[] = { 8, 3, 0, 6, 7, 14, 10, 12 };
 	static int iby[] = { 16, 1, 8, 3, 12, 10, 7, 14 };
 	static int ibdx[] = { -2, 2, -3, 3, -1, 1, 0, 0 };

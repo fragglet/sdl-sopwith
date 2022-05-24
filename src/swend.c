@@ -117,10 +117,8 @@ void endgame(int targclr)
 
 
 
-void winner(OBJECTS * obp)
+void winner(OBJECTS *ob)
 {
-	OBJECTS *ob = obp;
-
 	ob->ob_endsts = WINNER;
 	ob->ob_goingsun = TRUE;
 	ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = 0;

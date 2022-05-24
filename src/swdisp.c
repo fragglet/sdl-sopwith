@@ -34,10 +34,8 @@
 #include "swsymbol.h"
 #include "swutil.h"
 
-static void plnsound(OBJECTS *obp)
+static void plnsound(OBJECTS *ob)
 {
-	OBJECTS *ob = obp;
-
 	if (ob->ob_firing)
 		sound(S_SHOT, 0, ob);
 	else
@@ -67,10 +65,8 @@ static void plnsound(OBJECTS *obp)
 
 
 
-void dispbomb(OBJECTS * obp)
+void dispbomb(OBJECTS *ob)
 {
-	OBJECTS *ob = obp;
-
 	if (ob->ob_dy <= 0)
 		sound(S_BOMB, -ob->ob_y, ob);
 }
@@ -95,10 +91,8 @@ void dispburst(OBJECTS * obp)
 
 
 
-void dispexpl(OBJECTS * obp)
+void dispexpl(OBJECTS *ob)
 {
-	OBJECTS *ob = obp;
-
 	if (ob->ob_orient)
 		sound(S_EXPLOSION, ob->ob_hitcount, ob);
 }

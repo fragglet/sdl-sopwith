@@ -71,12 +71,11 @@ void swmove(void)
 }
 
 
-static void nearpln(OBJECTS * obp)
+static void nearpln(OBJECTS *ob)
 {
-	OBJECTS *ob, *obt, *obc;
+	OBJECTS *obt, *obc;
 	int i, obx, obclr;
 
-	ob = obp;
 	obt = objtop + 1;
 
 	obx = ob->ob_x;
@@ -122,12 +121,8 @@ static void topup(int *counter, int max)
 }
 
 
-static void refuel(OBJECTS * obp)
+static void refuel(OBJECTS *ob)
 {
-	OBJECTS *ob;
-
-	ob = obp;
-
 	// sdh 26/10/2001: top up stuff, if anything happens update
 	// the gauges (now a single function)
 	// sdh 27/10/2001: fix refueling in parallel (was a single
@@ -173,15 +168,12 @@ static int symangle(OBJECTS * ob)
 	}
 }
 
-BOOL moveplyr(OBJECTS * obp)
+BOOL moveplyr(OBJECTS *ob)
 {
-	OBJECTS *ob;
 	int multkey;
 
 	compplane = FALSE;
-	plyrplane = player == obp->ob_plrnum;
-
-	ob = obp;
+	plyrplane = player == ob->ob_plrnum;
 
 	endstat = consoleplayer->ob_endsts;
 
@@ -249,12 +241,10 @@ BOOL moveplyr(OBJECTS * obp)
 
 
 
-void interpret(OBJECTS * obp, int key)
+void interpret(OBJECTS *ob, int key)
 {
-	OBJECTS *ob;
 	obstate_t state;
 
-	ob = obp;
 	ob->ob_flaps = 0;
 	ob->ob_bombing = ob->ob_bfiring = 0;
 	ob->ob_mfiring = ob->ob_firing = NULL;
@@ -356,15 +346,13 @@ void interpret(OBJECTS * obp, int key)
 	}
 }
 
-BOOL movecomp(OBJECTS * obp)
+BOOL movecomp(OBJECTS *ob)
 {
-	OBJECTS *ob;
 	int rc;
 
 	compplane = TRUE;
 	plyrplane = FALSE;
 
-	ob = obp;
 	ob->ob_flaps = 0;
 	ob->ob_bfiring = ob->ob_bombing = FALSE;
 	ob->ob_mfiring = NULL;
@@ -412,11 +400,8 @@ BOOL movecomp(OBJECTS * obp)
 	return rc;
 }
 
-static BOOL stallpln(OBJECTS * obp)
+static BOOL stallpln(OBJECTS *ob)
 {
-	OBJECTS *ob;
-
-	ob = obp;
 	ob->ob_ldx = ob->ob_ldy = ob->ob_orient = ob->ob_dx = 0;
 	ob->ob_angle = 7 * ANGLES / 8;
 	ob->ob_speed = 0;
@@ -431,9 +416,8 @@ static BOOL stallpln(OBJECTS * obp)
 
 
 
-BOOL movepln(OBJECTS * obp)
+BOOL movepln(OBJECTS *ob)
 {
-	OBJECTS *ob = obp;
 	int nangle, nspeed, limit, update;
 	obstate_t state, newstate;
 	int x, y, stalled;
@@ -692,12 +676,8 @@ BOOL movepln(OBJECTS * obp)
 
 
 
-static void adjustfall(OBJECTS * obp)
+static void adjustfall(OBJECTS *ob)
 {
-	OBJECTS *ob;
-
-	ob = obp;
-	
 	--ob->ob_life;
 	if (ob->ob_life <= 0) {
 		if (ob->ob_dy < 0) {
@@ -715,12 +695,10 @@ static void adjustfall(OBJECTS * obp)
 }
 
 
-BOOL moveshot(OBJECTS * obp)
+BOOL moveshot(OBJECTS *ob)
 {
-	OBJECTS *ob;
 	int x, y;
 
-	ob = obp;
 	deletex(ob);
 	
 	--ob->ob_life;
@@ -744,12 +722,9 @@ BOOL moveshot(OBJECTS * obp)
 
 
 
-BOOL movebomb(OBJECTS * obp)
+BOOL movebomb(OBJECTS *ob)
 {
-	OBJECTS *ob;
 	int x, y;
-
-	ob = obp;
 
 	deletex(ob);
 
@@ -786,13 +761,10 @@ BOOL movebomb(OBJECTS * obp)
 
 
 
-BOOL movemiss(OBJECTS * obp)
+BOOL movemiss(OBJECTS *ob)
 {
-	OBJECTS *ob;
 	int x, y, angle;
 	OBJECTS *obt;
-
-	ob = obp;
 
 	deletex(ob);
 
@@ -850,12 +822,10 @@ BOOL movemiss(OBJECTS * obp)
 
 
 
-BOOL moveburst(OBJECTS * obp)
+BOOL moveburst(OBJECTS *ob)
 {
-	OBJECTS *ob;
 	int x, y;
 
-	ob = obp;
 	deletex(ob);
 	if (ob->ob_life < 0) {
 		ob->ob_owner->ob_target = NULL;
@@ -882,12 +852,11 @@ BOOL moveburst(OBJECTS * obp)
 
 
 
-BOOL movetarg(OBJECTS * obt)
+BOOL movetarg(OBJECTS *ob)
 {
 	int r;
-	OBJECTS *obp, *ob;
+	OBJECTS *obp;
 
-	ob = obt;
 	obp = objtop;
 	ob->ob_firing = NULL;
 	if (gamenum

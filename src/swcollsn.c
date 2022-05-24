@@ -158,15 +158,13 @@ static void colltest(OBJECTS * ob1, OBJECTS * ob2)
 
 
 static OBJECTS *
-get_score_obj(OBJECTS *obp, int *reverse)
-/* Determine the object that receives a score if 'obp' is destriyed, and whether the score
+get_score_obj(OBJECTS *ob, int *reverse)
+/* Determine the object that receives a score if 'ob' is destriyed, and whether the score
 ** should be subtracted rather than added (iff reverse nonzero) */
 {
-	OBJECTS *ob;
 	OBJECTS *retval;
 	*reverse = 0;
 
-	ob = obp;
 	if (playmode != PLAYMODE_ASYNCH) {
 		retval = &nobjects[0];
 		if (ob->ob_clr == 1) {

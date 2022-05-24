@@ -127,9 +127,8 @@ static void testtargs(int x, int y)
 
 
 
-static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
+static BOOL tstcrash2(OBJECTS *ob, int x, int y, int alt)
 {
-	OBJECTS *ob;
 	int i, xl, xr, xt, yt;
 
 	if (alt > 50) {
@@ -140,7 +139,6 @@ static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
 		return TRUE;
 	}
 
-	ob = obp;
 	if (tl == -2) {
 		testtargs(ob->ob_x, ob->ob_y);
 	}
@@ -166,16 +164,13 @@ static BOOL tstcrash2(OBJECTS *obp, int x, int y, int alt)
 	return FALSE;
 }
 
-int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway)
+int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, BOOL longway)
 {
-	OBJECTS *ob;
 	int r, rmin, i, n=0;
 	int x, y, dx, dy, nx, ny;
 	int nangle, nspeed;
 	static int cflaps[3] = { 0, -1, 1 };
 	static int crange[3], ccrash[3], calt[3];
-
-	ob = obo;
 
 	correction = FALSE;
 
@@ -379,12 +374,9 @@ static void cruise(OBJECTS *ob)
 		MAX_Y - 50 - (courseadj >> 1), NULL, NO);
 }
 
-void attack(OBJECTS *obp, OBJECTS *obt)
+void attack(OBJECTS *obp, OBJECTS *ob)
 {
-	OBJECTS *ob;
-
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	ob = obt;
 	if (ob->ob_speed) {
 		aim(obp,
 		    ob->ob_x - ((CLOSE * COS(ob->ob_angle)) >> 8),
