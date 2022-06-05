@@ -6,6 +6,12 @@ title: SDL Sopwith: Links
 * [sopwith.org](http://www.sopwith.org/), a fan site with lots of details
   about the original game.
 * [Decoded: Sopwith](http://www.maizure.org/projects/decoded-sopwith/), MaiZure's analysis of the Sopwith source code
+* [alt.games.sopwith](https://groups.google.com/g/alt.games.sopwith) - a (sadly)
+  long-inactive newsgroup about Sopwith, although you can find some
+  interesting discussions from the '90s if you're willing to dig through the
+  spam...
+* [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_\(video_game\))
+  on Wikipedia.
 
 ## Ports of SDL Sopwith to other platforms
 
