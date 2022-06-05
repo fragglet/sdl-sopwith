@@ -30,6 +30,7 @@ title: SDL Sopwith: Links
 * [Triplane Classic](http://triplane.sourceforge.net/) aka Triplane Turmoil
 * [Triplane Turmoil II](http://triplane2.draconus.com/)
 * [Airstrike](http://icculus.org/airstrike/)
+* [Artman's Goplanes!](https://www.mobygames.com/game/artmans-goplanes)
 * [Biplane Duel](https://www.youtube.com/watch?v=WEmhFFFpwjE) for the Amiga
 * [BIP!](https://store.steampowered.com/app/1285200/Bip/),
   inspired by Biplane Duel
