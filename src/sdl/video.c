@@ -185,7 +185,10 @@ static BOOL is_special_day(void)
 	    // 22 December 1916, first flight of the Sopwith Camel:
 	 || (t->tm_mon == 11 && t->tm_mday == 22)
 	    // 11 November 1918, Armistice Day:
-	 || (t->tm_mon == 10 && t->tm_mday == 11);
+	 || (t->tm_mon == 10 && t->tm_mday == 11)
+	    // 24 April 1984, date from the original Sopwith documentation
+	    // and assumed to be the original Sopwith release date?
+	 || (t->tm_mon == 3 && t->tm_mday == 24);
 }
 
 static void set_icon(void)
