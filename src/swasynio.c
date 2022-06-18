@@ -23,22 +23,16 @@
 //
 //---------------------------------------------------------------------------
 
-#include <ctype.h>
-
 #include "tcpcomm.h"
 #include "timer.h"
 #include "video.h"
 
 #include "sw.h"
 #include "swasynio.h"
-#include "swdisp.h"
-#include "swend.h"
 #include "swgames.h"
 #include "swinit.h"
 #include "swmain.h"
 #include "swtext.h"
-#include "swmove.h"
-#include "swsound.h"
 #include "swtitle.h"
 
 asynmode_t asynmode;

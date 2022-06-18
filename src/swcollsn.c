@@ -23,17 +23,12 @@
 //
 //---------------------------------------------------------------------------
 
-#include "video.h"
-
 #include "sw.h"
 #include "swcollsn.h"
-#include "swdisp.h"
 #include "swend.h"
 #include "swground.h"
-#include "swgrpha.h"
 #include "swinit.h"
 #include "swmain.h"
-#include "swtext.h"
 #include "swmove.h"
 #include "swsound.h"
 #include "swsplat.h"

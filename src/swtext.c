@@ -30,8 +30,6 @@
 #include "timer.h"
 #include "video.h"
 
-#include "sw.h"
-#include "swgrpha.h"
 #include "swtext.h"
 #include "swsound.h"
 #include "swtitle.h"

@@ -23,8 +23,6 @@
 //
 //---------------------------------------------------------------------------
 
-#include <stdio.h>
-
 #include "timer.h"
 #include "video.h"
 
@@ -37,7 +35,6 @@
 #include "swmove.h"
 #include "swsound.h"
 #include "swtitle.h"
-#include "swutil.h"
 
 // sdh: framerate control
 

@@ -23,21 +23,15 @@
 //
 //---------------------------------------------------------------------------
 
-#include <string.h>
-
 #include "video.h"
 
 #include "sw.h"
-#include "swdisp.h"
 #include "swend.h"
 #include "swground.h"
 #include "swgrpha.h"
-#include "swinit.h"
 #include "swmain.h"
 #include "swsplat.h"
 #include "swstbar.h"
-#include "swsymbol.h"
-#include "swutil.h"
 
 static void dispgrnd(void)
 {

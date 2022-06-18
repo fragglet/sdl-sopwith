@@ -23,7 +23,6 @@
 //
 //---------------------------------------------------------------------------
 
-#include "sw.h"
 #include "swtitle.h"
 #include "tcpcomm.h"
 #include "timer.h"
@@ -38,7 +37,6 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <sys/types.h>
 #include <errno.h>
 #include <string.h>
 

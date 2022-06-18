@@ -23,7 +23,6 @@
 //
 //---------------------------------------------------------------------------
 
-#include "sw.h"
 #include "swsymbol.h"
 
 #define BOMBBYTES       16              /*  Bytes in a bomb symbol          */

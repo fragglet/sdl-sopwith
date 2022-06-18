@@ -23,7 +23,6 @@
 //
 //---------------------------------------------------------------------------
 
-#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -34,16 +33,12 @@
 
 #include "sw.h"
 #include "swasynio.h"
-#include "swcollsn.h"
 #include "swconf.h"
 #include "swdisp.h"
-#include "swend.h"
 #include "swinit.h"
 #include "swgames.h"
 #include "swground.h"
-#include "swgrpha.h"
 #include "swmain.h"
-#include "swtext.h"
 #include "swmove.h"
 #include "swobject.h"
 #include "swsound.h"

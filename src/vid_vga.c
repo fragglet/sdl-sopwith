@@ -26,12 +26,7 @@
 
 #include "video.h"
 #include "sw.h"
-#include "swdisp.h"
-#include "swground.h"
-#include "swgrpha.h"
-#include "swmain.h"
 #include "swsymbol.h"
-#include "swutil.h"
 
 // this should be in a header somewhere
 #define SBAR_HGHT 19

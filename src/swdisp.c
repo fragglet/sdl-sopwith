@@ -23,16 +23,9 @@
 //
 //---------------------------------------------------------------------------
 
-#include "video.h"
-
 #include "sw.h"
 #include "swdisp.h"
-#include "swgrpha.h"
-#include "swmain.h"
-#include "swtext.h"
 #include "swsound.h"
-#include "swsymbol.h"
-#include "swutil.h"
 
 static void plnsound(OBJECTS *ob)
 {

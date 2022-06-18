@@ -22,8 +22,6 @@
 #ifndef __SWASYNIO_H__
 #define __SWASYNIO_H__
 
-#include "sw.h"
-
 typedef enum { ASYN_LISTEN, ASYN_CONNECT } asynmode_t;
 
 extern asynmode_t asynmode;

@@ -28,7 +28,6 @@
 
 #include "video.h"
 
-#include "sw.h"
 #include "swasynio.h"
 #include "swconf.h"
 #include "swend.h"

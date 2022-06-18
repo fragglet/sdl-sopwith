@@ -24,9 +24,7 @@
 //---------------------------------------------------------------------------
 
 #include "sw.h"
-#include "swcollsn.h"
 #include "swend.h"
-#include "swgrpha.h"
 #include "swmain.h"
 #include "swtext.h"
 #include "swsound.h"
