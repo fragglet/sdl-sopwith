@@ -35,6 +35,7 @@
 #include "sw.h"
 #include "swsound.h"
 
+#define VOLUME 10 /* out of 127 */
 #define FILTER_KERNEL_LEN 51
 
 // The following values give the cutoff range for our band-pass
@@ -187,7 +188,7 @@ static void AddFilters(struct filter *f1, struct filter *f2)
 static inline float square_wave(float time)
 {
 	int l = (int) time;
-	return time - l < 0.5 ? -0.15 : 0.15;
+	return time - l < 0.5 ? -0.5 : 0.5;
 }
 
 // callback function to generate sound
@@ -216,7 +217,7 @@ static void snd_callback(void *userdata, Uint8 * stream, int len)
 			sample = square_wave(current_freq * (i + lasttime));
 		}
 		sample = FilterNext(&tinny_filter, sample);
-		stream[i] = 128 + (signed int) (sample * 32);
+		stream[i] = 128 + (signed int) (sample * VOLUME);
 	}
 
 	lasttime += len;
