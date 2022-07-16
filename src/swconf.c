@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "timer.h"
+#include "pcsound.h"
 #include "video.h"
 
 #include "swconf.h"
@@ -77,6 +78,7 @@ static confoption_t confoptions[] = {
 	{"conf_big_explosions", CONF_BOOL, {&conf_big_explosions}},
 	{"conf_medals",         CONF_BOOL, {&conf_medals}},
 	{"vid_fullscreen",      CONF_BOOL, {&vid_fullscreen}},
+	{"snd_tinnyfilter",     CONF_BOOL, {&snd_tinnyfilter}},
 
 	{"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}},
 	{"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}},

@@ -54,6 +54,7 @@ struct filter {
 	int samples_next;
 };
 
+int snd_tinnyfilter = 1;
 static struct filter tinny_filter;
 static int speaker_on = 0;
 static float current_freq = 0xff;
@@ -278,6 +279,21 @@ static void InitializeTinnyFilter(unsigned int sample_rate)
 	FreeFilter(&hp_filter);
 }
 
+static void InitializeNullFilter(void)
+{
+	static float null_kernel, one_sample;
+	tinny_filter.kernel_len = 1;
+	tinny_filter.kernel = &null_kernel;
+	tinny_filter.samples = &one_sample;
+	tinny_filter.samples_next = 0;
+
+	// We want relatively similar volume whether the filter is on or not.
+	// The filter makes things quite a bit quieter.
+	null_kernel = 0.4;
+	one_sample = 0.0;
+}
+
+
 // initialize sound
 void Speaker_Init(void)
 {
@@ -304,7 +320,11 @@ void Speaker_Init(void)
 	}
 
 	sound_initted = 1;
-	InitializeTinnyFilter(audiospec.freq);
+	if (snd_tinnyfilter) {
+		InitializeTinnyFilter(audiospec.freq);
+	} else {
+		InitializeNullFilter();
+	}
 
 	SDL_PauseAudio(0);
 }

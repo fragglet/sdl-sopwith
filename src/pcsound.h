@@ -41,6 +41,8 @@ void Speaker_Off(void);
 
 void Speaker_Output(unsigned short count);
 
+extern int snd_tinnyfilter;
+
 #endif
 
 //---------------------------------------------------------------------------
