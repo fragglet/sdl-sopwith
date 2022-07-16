@@ -1023,7 +1023,7 @@ void swinit(int argc, char *argv[])
 	int modeset = 0, keyset;
 	int i;
 
-	soundflg = 1;      // assume off by default
+	soundflg = 0;
 	// DEBIAN FOLKS: please don't disable the configuration file.
 	// The code has changed significantly, that patch should no
 	// longer be necessary.
@@ -1043,8 +1043,6 @@ void swinit(int argc, char *argv[])
 			gamenum = starting_level;
 		} else if (!strcasecmp(argv[i], "-q")) {
 			soundflg = 1;
-		} else if (!strcasecmp(argv[i], "-p")) {
-			soundflg = 0;
 		} else
 #ifdef TCPIP
 		if (!strcasecmp(argv[i], "-l")) {
