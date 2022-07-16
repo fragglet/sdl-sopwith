@@ -223,7 +223,9 @@ static void snd_callback(void *userdata, Uint8 * stream, int len)
 	}
 
 	lasttime += len;
-	lasttime = lasttime % (int) (1000 * output_freq / current_freq);
+	if (current_freq > 0.1) {
+		lasttime = lasttime % (int) (1000 * output_freq / current_freq);
+	}
 	lastfreq = current_freq;
 }
 
