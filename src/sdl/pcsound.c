@@ -43,7 +43,6 @@
 #define FILTER_LOW_CUTOFF_FREQ  1500 /* hz */
 #define FILTER_HI_CUTOFF_FREQ   6000 /* hz */
 
-#define FREQ 22050
 #define TIMER_FREQ 1193280
 
 struct filter {
@@ -55,6 +54,7 @@ struct filter {
 };
 
 int snd_tinnyfilter = 1;
+static int output_freq;
 static struct filter tinny_filter;
 static int speaker_on = 0;
 static float current_freq = 0xff;
@@ -233,7 +233,7 @@ void Speaker_Output(unsigned short count)
 		return;
 	}
 	speaker_on = 1;
-	current_freq = (TIMER_FREQ) / ((float) count * FREQ);
+	current_freq = (TIMER_FREQ) / ((float) count * output_freq);
 }
 
 void Speaker_Off(void)
@@ -297,7 +297,7 @@ static void InitializeNullFilter(void)
 // initialize sound
 void Speaker_Init(void)
 {
-	static SDL_AudioSpec audiospec;
+	static SDL_AudioSpec audiospec, audiospec_actual;
 
 	if (sound_initted) {
 		return;
@@ -306,18 +306,20 @@ void Speaker_Init(void)
 	SDL_Init(SDL_INIT_AUDIO);
 
 	audiospec.samples = 1024;
-	audiospec.freq = FREQ;
+	audiospec.freq = 48000;
 	audiospec.format = AUDIO_U8;
 	audiospec.channels = 1;
 	audiospec.callback = &snd_callback;
 
 	fflush(stdout);
 
-	if (SDL_OpenAudio(&audiospec, NULL) < 0) {
+	if (SDL_OpenAudio(&audiospec, &audiospec_actual) < 0) {
 		fprintf(stderr, "Failed to initialize sound: %s\n",
 			SDL_GetError());
 		return;
 	}
+
+	output_freq = audiospec_actual.freq;
 
 	sound_initted = 1;
 	if (snd_tinnyfilter) {
