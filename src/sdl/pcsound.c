@@ -186,7 +186,7 @@ static void AddFilters(struct filter *f1, struct filter *f2)
 static inline float square_wave(float time)
 {
 	int l = (int) time;
-	return time - l < 0.5 ? -0.5 : 0.5;
+	return time - l < 0.5 ? -0.15 : 0.15;
 }
 
 // callback function to generate sound
