@@ -209,18 +209,21 @@ static void snd_callback(void *userdata, Uint8 * stream, int len)
 	// to adjust lasttime to the new frequency
 
 	lasttime *= lastfreq / current_freq;
+	printf("%d\n", lasttime);
 
 	for (i = 0; i < len; ++i) {
 		if (!speaker_on) {
 			sample = 0;
 		} else {
-			sample = square_wave(current_freq * (i + lasttime));
+			sample = square_wave(current_freq * (i + lasttime)
+			                   / output_freq);
 		}
 		sample = FilterNext(&tinny_filter, sample);
 		stream[i] = 128 + (signed int) (sample * VOLUME);
 	}
 
 	lasttime += len;
+	lasttime = lasttime % (int) (1000 * output_freq / current_freq);
 	lastfreq = current_freq;
 }
 
@@ -234,7 +237,7 @@ void Speaker_Output(unsigned short count)
 		return;
 	}
 	speaker_on = 1;
-	current_freq = (TIMER_FREQ) / ((float) count * output_freq);
+	current_freq = TIMER_FREQ / (float) count;
 }
 
 void Speaker_Off(void)
