@@ -1,6 +1,10 @@
+# v2.0.0
 
 Changes in this version:
 
+* Sound has been reenabled. Sound output is now passed through a bandpass
+  filter intended to make it sound like a real PC speaker, and also plays
+  back at a much quieter volume, to be less startling to new players.
 * Medals are now awarded to reward players (thanks creichen). The Unix
   manpage includes some details about the medals and how to attain them.
 * There is now a configuration screen for setting key bindings, which are
@@ -10,7 +14,8 @@ Changes in this version:
 * Network performance has been improved significantly.
 * The Unix manpage has been significantly improved and expanded. A separate
   manpage was added for the configuration file.
-* Now runs on macOS, and Mac .dmg packages are generated.
+* Sopwith now runs on macOS, and Mac .dmg packages are generated.
+* Also now builds and runs cleanly on Haiku.
 * The Windows .exe now has metadata and an icon.
 * The missiles feature was changed to a hidden setting since it's not very
   fun and doesn't really fit the game's theme.
