@@ -209,7 +209,6 @@ static void snd_callback(void *userdata, Uint8 * stream, int len)
 	// to adjust lasttime to the new frequency
 
 	lasttime *= lastfreq / current_freq;
-	printf("%d\n", lasttime);
 
 	for (i = 0; i < len; ++i) {
 		if (!speaker_on) {
