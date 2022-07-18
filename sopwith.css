@@ -12,6 +12,12 @@ header {
   margin-bottom: 10px;
 }
 
+/* The "minimal" stylesheet sets width: 100% but this doesn't do
+   anything for us. */
+table {
+  width: auto;
+}
+
 img[alt~=Camel] {
   float: right;
   margin: 20px;
