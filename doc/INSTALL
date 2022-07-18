@@ -43,7 +43,7 @@ just the following items: A C compiler, build system (make) and autoconf tools.
 On Debian (and related Linux distributions) it is possible to build sopwith using
 the following commands
 
-    sudo apt install libsdl1.2-dev dh-autoreconf autogen build-essential
+    sudo apt install libsdl2-dev dh-autoreconf autogen build-essential
 
 Then, in the sopwith top-level source code directory (sdl-sopwith) run
 
