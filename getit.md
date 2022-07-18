@@ -2,11 +2,13 @@
 title: SDL Sopwith: Get it!
 ---
 
-* Windows package
+The latest release is the [2.0.0 release](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-2.0.0) (released July 2022).
 
-* macOS package
+| ![Apple logo](logos/Apple_logo.png) | [macOS package](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.0.0/sdl-sopwith-2.0.0.dmg) |
+| ![Windows logo](logos/Windows_logo.png) | [Windows binary (32-bit)](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.0.0/sdl-sopwith-2.0.0-win32.zip) |
+| ![Open source logo](logos/Open_source_logo.png) | [Source code](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.0.0/sdl-sopwith-2.0.0.tar.gz) |
 
-* Source code
+![Tux and Beastie](logos/Tux-and-beastie.png)
 
 ## Linux and BSD
 
