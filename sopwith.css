@@ -17,7 +17,7 @@ img[alt~=Camel] {
   margin: 20px;
 }
 
-img[src~=Tux-and-beastie] {
+img[src*=Tux-and-beastie] {
   float: right;
   width: 64px;
   margin: 20px;
