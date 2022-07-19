@@ -11,7 +11,7 @@
     <meta property="og:title" content="{{ page.title | default: site.title }}" />
     <meta property="og:description" content="{{ page.description | default: site.description }}" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="{{ site.url | append: page.url }}" />
+    <meta property="og:url" content="{{ "/" | absolute_url }}" />
     <meta property="og:image" content="{{ site.url | append: site.image }}" />
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/x-icon" href="{{ site.url | append: site.favicon }}">
