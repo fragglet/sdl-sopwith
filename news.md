@@ -10,14 +10,18 @@ of SDL Sopwith and includes a large number of changes and improvements,
 some of which have been waiting in development for a long time. Here's a
 selection of some of the changes:
 
+![The new medals that players can earn](img/medals.png)
+
 * The code has been ported to SDL2. This brings  a number of
   improvements but one nice one is that the game can scale to arbitrary
   window sizes and screen resolutions.
 * Sound has been reenabled. Sound output is now passed through a bandpass
   filter intended to make it sound like a real PC speaker, and also plays
   back at a much quieter volume, to be less startling to new players.
-* Medals are now awarded to reward players (this feature can be
-  disabled).
+* Medals are now awarded to reward players; thanks go to Christoph
+  Reichenbach for implementing this feature. The image to the right
+  shows the selection of medals and ribbons that players can attain. The
+  feature can of course be disabled.
 * Documentation has been significantly improved - the Unix manpage for
   sopwith has been greatly expanded, and there is a separate manpage for
   the configuration file.
