@@ -278,7 +278,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	setdxdy(ob, 0, 0);
 	ob->ob_orient = ob->ob_original_ob->orient;
 	ob->ob_angle = (ob->ob_orient) ? (ANGLES / 2) : 0;
-	ob->ob_target = ob->ob_firing = ob->ob_mfiring = NULL;
+	ob->ob_missiletarget = ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = FALSE;
 	ob->ob_newsym = symbol_plane[ob->ob_orient][0];
 	ob->ob_athome = TRUE;
@@ -536,7 +536,7 @@ void initmiss(OBJECTS *obo)
 	ob->ob_newsym = symbol_missile[0];
 	ob->ob_drawf = dispmiss;
 	ob->ob_movef = movemiss;
-	ob->ob_target = obo->ob_mfiring;
+	ob->ob_missiletarget = obo->ob_mfiring;
 	ob->ob_orient = ob->ob_accel = ob->ob_flaps = 0;
 	ob->ob_onmap = TRUE;
 

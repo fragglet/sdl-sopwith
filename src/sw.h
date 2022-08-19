@@ -263,7 +263,7 @@ typedef struct obj {                            /*  Object list             */
 	int            ob_missiles;
 	struct obj    *ob_mfiring;
 	int            ob_mdelay;
-	struct obj    *ob_target;
+	struct obj    *ob_missiletarget;
 	int            ob_bursts;
 	int            ob_bfiring;
 	int            ob_bsdelay;

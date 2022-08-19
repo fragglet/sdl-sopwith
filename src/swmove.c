@@ -771,11 +771,11 @@ BOOL movemiss(OBJECTS *ob)
 	}
 
 	if (ob->ob_state == FLYING) {
-		obt = ob->ob_target;
+		obt = ob->ob_missiletarget;
 
 		if (obt != ob->ob_owner && (ob->ob_life & 1)) {
-			if (obt->ob_target) {
-				obt = obt->ob_target;
+			if (obt->ob_missiletarget) {
+				obt = obt->ob_missiletarget;
 			}
 			aim(ob, obt->ob_x, obt->ob_y, NULL, NO);
 			angle = ob->ob_angle
@@ -824,7 +824,7 @@ BOOL moveburst(OBJECTS *ob)
 
 	deletex(ob);
 	if (ob->ob_life < 0) {
-		ob->ob_owner->ob_target = NULL;
+		ob->ob_owner->ob_missiletarget = NULL;
 		deallobj(ob);
 		return FALSE;
 	}
@@ -833,12 +833,12 @@ BOOL moveburst(OBJECTS *ob)
 	movexy(ob, &x, &y);
 
 	if (y <= (int) ground[x] || x < 0 || x >= MAX_X) {
-		ob->ob_owner->ob_target = NULL;
+		ob->ob_owner->ob_missiletarget = NULL;
 		deallobj(ob);
 		return FALSE;
 	}
 
-	ob->ob_owner->ob_target = ob;
+	ob->ob_owner->ob_missiletarget = ob;
 	ob->ob_newsym = symbol_burst[ob->ob_life & 1];
 	insertx(ob, ob->ob_xnext);
 
