@@ -939,10 +939,6 @@ void swinitlevel(void)
 
 	inittarg();
 
-	if (currgame->gm_specf) {
-		(*currgame->gm_specf) ();
-	}
-
 	initdisp(NO);
 	initflck();
 	initoxen();
