@@ -277,7 +277,6 @@ typedef struct obj {                            /*  Object list             */
 
 typedef struct {                                /*  Game structure          */
 	original_ob_t gm_planes[MAX_PLYR*2];
-	unsigned ( *gm_randf ) (void);
 	unsigned gm_rseed;
 	original_ob_t gm_targets[MAX_TARG];
 }       GAMES;
