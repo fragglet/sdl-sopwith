@@ -253,6 +253,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	}
 
 	n = ob->ob_index;
+	ob->ob_original_ob = &currgame->gm_planes[n];
 
 	if (obp && ob->ob_state != CRASHED && !ob->ob_athome) {
 		/* Just returned home */
@@ -261,7 +262,7 @@ OBJECTS *initpln(OBJECTS * obp)
 
 	ob->ob_type = PLANE;
 
-	ob->ob_x = currgame->gm_planes[n].x;
+	ob->ob_x = ob->ob_original_ob->x;
 	minx = ob->ob_x;
 	maxx = ob->ob_x + 20;
 	height = 0;
@@ -275,7 +276,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	    = ob->ob_hitcount = ob->ob_bdelay = ob->ob_mdelay
 	    = ob->ob_bsdelay = 0;
 	setdxdy(ob, 0, 0);
-	ob->ob_orient = currgame->gm_planes[n].orient;
+	ob->ob_orient = ob->ob_original_ob->orient;
 	ob->ob_angle = (ob->ob_orient) ? (ANGLES / 2) : 0;
 	ob->ob_target = ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = FALSE;
@@ -611,7 +612,8 @@ static void inittarg(void)
 
 	for (i = 0; i < MAX_TARG; ++i)  {
 		targets[i] = ob = allocobj();
-		minx = ob->ob_x = currgame->gm_targets[i].x;
+		ob->ob_original_ob = &currgame->gm_targets[i];
+		minx = ob->ob_x = ob->ob_original_ob->x;
 		maxx = ob->ob_x + 15;
 		minh = 999;
 		maxh = 0;
@@ -636,7 +638,7 @@ static void inittarg(void)
 		    = ob->ob_ldy = ob->ob_angle = ob->ob_hitcount = 0;
 		ob->ob_type = TARGET;
 		ob->ob_state = STANDING;
-		ob->ob_orient = currgame->gm_targets[i].orient;
+		ob->ob_orient = ob->ob_original_ob->orient;
 		ob->ob_life = i;
 
 		if (playmode != PLAYMODE_ASYNCH) {

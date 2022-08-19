@@ -216,6 +216,12 @@ typedef struct {
 #define MEDAL_PREVALOUR		(1<<7)	/* A ribbon awarded about half-way towards MEDAL_VALOUR */
 #define MEDAL_VALOUR		(1<<8)	/* The Iron Cross / Victoria Cross for getting enough valour points */
 
+typedef struct {
+	int x;
+	int orient;
+	int territory_l, territory_r;    /* Computer plane territory */
+} original_ob_t;
+
 typedef struct obj {                            /*  Object list             */
 	obstate_t      ob_state;
 	int            ob_x, ob_y;
@@ -266,13 +272,8 @@ typedef struct obj {                            /*  Object list             */
 	BOOL           ob_goingsun;
 	score_t	       ob_score;
 	score_t	       ob_lastscore;
+	original_ob_t *ob_original_ob;
 }       OBJECTS;
-
-typedef struct {
-	int x;
-	int orient;
-	int territory_l, territory_r;    /* Computer plane territory */
-} original_ob_t;
 
 typedef struct {                                /*  Game structure          */
 	original_ob_t gm_planes[MAX_PLYR*2];

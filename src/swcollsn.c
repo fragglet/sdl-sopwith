@@ -546,7 +546,7 @@ int compute_valour(OBJECTS *ob)
 		return 0;
 	}
 
-	x_home = currgame->gm_planes[so->ob_index].x;
+	x_home = so->ob_original_ob->x;
 
 	distance = abs(x_home - so->ob_x);
 
