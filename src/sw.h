@@ -256,7 +256,6 @@ typedef struct obj {                            /*  Object list             */
 	sopsym_t      *ob_newsym;
 	int            ob_bdelay;
 	int            ob_home;
-	int            ob_hx[3], ob_hy[3];
 	obtype_t       ob_type;
 	struct obj    *ob_dnext;
 	int            ob_athome;
