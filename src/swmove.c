@@ -86,10 +86,10 @@ static void nearpln(OBJECTS *ob)
 			if (playmode != PLAYMODE_COMPUTER
 			 || (obx >= obt->ob_original_ob->territory_l
 			  && obx <= obt->ob_original_ob->territory_r)) {
-				obc = compnear[i];
+				obc = obt->ob_target;
 				if (!obc || abs(obx - obt->ob_x)
 				          < abs(obc->ob_x - obt->ob_x)) {
-					compnear[i] = ob;
+					obt->ob_target = ob;
 				}
 			}
 		}

@@ -391,13 +391,13 @@ void attack(OBJECTS *obp, OBJECTS *ob)
 
 void swauto(OBJECTS *ob)
 {
-	if (compnear[ob->ob_index]) {
-		attack(ob, compnear[ob->ob_index]);
+	if (ob->ob_target != NULL) {
+		attack(ob, ob->ob_target);
 	} else if (!ob->ob_athome) {
 		cruise(ob);
 	}
 
-	compnear[ob->ob_index] = NULL;
+	ob->ob_target = NULL;
 }
 
 

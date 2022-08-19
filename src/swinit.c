@@ -278,7 +278,8 @@ OBJECTS *initpln(OBJECTS * obp)
 	setdxdy(ob, 0, 0);
 	ob->ob_orient = ob->ob_original_ob->orient;
 	ob->ob_angle = (ob->ob_orient) ? (ANGLES / 2) : 0;
-	ob->ob_missiletarget = ob->ob_firing = ob->ob_mfiring = NULL;
+	ob->ob_target = ob->ob_missiletarget = NULL;
+	ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = FALSE;
 	ob->ob_newsym = symbol_plane[ob->ob_orient][0];
 	ob->ob_athome = TRUE;
@@ -297,7 +298,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	if (!obp) {
 		ob->ob_score.score = ob->ob_updcount = ob->ob_crashcnt = 0;
 		ob->ob_endsts = PLAYING;
-		compnear[ob->ob_index] = NULL;
+		ob->ob_target = NULL;
 		insertx(ob, &topobj);
 	} else {
 		deletex(ob);

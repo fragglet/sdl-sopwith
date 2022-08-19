@@ -63,7 +63,6 @@ extern OBJECTS *nobjects;
 extern OBJECTS oobjects[MAX_PLYR];
 extern OBJECTS *objbot, *objtop, *objfree, *deltop, *delbot;
 extern OBJECTS topobj, botobj;
-extern OBJECTS *compnear[MAX_PLYR];
 extern OBJECTS *objsmax;
 extern int     endcount;
 extern int     player;
