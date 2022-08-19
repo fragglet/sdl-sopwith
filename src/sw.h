@@ -274,8 +274,10 @@ typedef struct {                                /*  Game structure          */
 	unsigned ( *gm_randf ) (void);
 	unsigned gm_rseed;
 	int      ( *gm_specf ) (void);
-	int      gm_xtarg[MAX_TARG];
-	int      gm_ttarg[MAX_TARG];
+	struct {
+		int x;
+		int orient;
+	} gm_targets[MAX_TARG];
 	int     *gm_planes;
 	int     *gm_mult_planes;
 }       GAMES;

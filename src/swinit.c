@@ -611,11 +611,7 @@ static void inittarg(void)
 {
 	OBJECTS *ob;
 	int x, i;
-	int *tx, *tt;
 	int minh, maxh, aveh, minx, maxx;
-
-	tx = currgame->gm_xtarg;
-	tt = currgame->gm_ttarg;
 
 	if (playmode != PLAYMODE_ASYNCH) {
 		numtarg[0] = 0;
@@ -624,9 +620,9 @@ static void inittarg(void)
 		numtarg[0] = numtarg[1] = MAX_TARG / 2;
 	}
 
-	for (i = 0; i < MAX_TARG; ++i, ++tx, ++tt) {
+	for (i = 0; i < MAX_TARG; ++i)  {
 		targets[i] = ob = allocobj();
-		minx = ob->ob_x = *tx;
+		minx = ob->ob_x = currgame->gm_targets[i].x;
 		maxx = ob->ob_x + 15;
 		minh = 999;
 		maxh = 0;
@@ -651,7 +647,7 @@ static void inittarg(void)
 		    = ob->ob_ldy = ob->ob_angle = ob->ob_hitcount = 0;
 		ob->ob_type = TARGET;
 		ob->ob_state = STANDING;
-		ob->ob_orient = *tt;
+		ob->ob_orient = currgame->gm_targets[i].orient;
 		ob->ob_life = i;
 
 		if (playmode != PLAYMODE_ASYNCH) {
