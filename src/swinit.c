@@ -296,7 +296,7 @@ OBJECTS *initpln(OBJECTS * obp)
 		initplanescore(&ob->ob_lastscore);
 	}
 	if (!obp) {
-		ob->ob_score.score = ob->ob_updcount = ob->ob_crashcnt = 0;
+		ob->ob_score.score = ob->ob_crashcnt = 0;
 		ob->ob_endsts = PLAYING;
 		ob->ob_target = NULL;
 		insertx(ob, &topobj);
