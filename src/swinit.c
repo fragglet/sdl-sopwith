@@ -252,18 +252,7 @@ OBJECTS *initpln(OBJECTS * obp)
 		ob = obp;
 	}
 
-	switch (playmode) {
-	case PLAYMODE_SINGLE:
-	case PLAYMODE_NOVICE:
-	case PLAYMODE_COMPUTER:
-		n = currgame->gm_planes[ob->ob_index];
-		break;
-	case PLAYMODE_ASYNCH:
-		n = currgame->gm_mult_planes[ob->ob_index];
-		break;
-	default:
-		return NULL;
-	}
+	n = ob->ob_index;
 
 	if (obp && ob->ob_state != CRASHED && !ob->ob_athome) {
 		/* Just returned home */
@@ -272,7 +261,7 @@ OBJECTS *initpln(OBJECTS * obp)
 
 	ob->ob_type = PLANE;
 
-	ob->ob_x = currgame->gm_x[n];
+	ob->ob_x = currgame->gm_planes[n].x;
 	minx = ob->ob_x;
 	maxx = ob->ob_x + 20;
 	height = 0;
@@ -286,7 +275,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	    = ob->ob_hitcount = ob->ob_bdelay = ob->ob_mdelay
 	    = ob->ob_bsdelay = 0;
 	setdxdy(ob, 0, 0);
-	ob->ob_orient = currgame->gm_orient[n];
+	ob->ob_orient = currgame->gm_planes[n].orient;
 	ob->ob_angle = (ob->ob_orient) ? (ANGLES / 2) : 0;
 	ob->ob_target = ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = FALSE;

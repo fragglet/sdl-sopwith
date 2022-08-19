@@ -546,20 +546,7 @@ int compute_valour(OBJECTS *ob)
 		return 0;
 	}
 
-	switch (playmode) {
-	case PLAYMODE_SINGLE:
-	case PLAYMODE_NOVICE:
-	case PLAYMODE_COMPUTER:
-		n = currgame->gm_planes[so->ob_index];
-		break;
-	case PLAYMODE_ASYNCH:
-		n = currgame->gm_mult_planes[so->ob_index];
-		break;
-	default:
-		return 0;
-	}
-
-	x_home = currgame->gm_x[n];
+	x_home = currgame->gm_planes[so->ob_index].x;
 
 	distance = abs(x_home - so->ob_x);
 

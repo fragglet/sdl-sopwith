@@ -269,8 +269,10 @@ typedef struct obj {                            /*  Object list             */
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */
-	int      gm_x[MAX_PLYR*2];
-	int      gm_orient[MAX_PLYR*2];
+	struct {
+		int x;
+		int orient;
+	} gm_planes[MAX_PLYR*2];
 	unsigned ( *gm_randf ) (void);
 	unsigned gm_rseed;
 	int      ( *gm_specf ) (void);
@@ -278,8 +280,6 @@ typedef struct {                                /*  Game structure          */
 		int x;
 		int orient;
 	} gm_targets[MAX_TARG];
-	int     *gm_planes;
-	int     *gm_mult_planes;
 }       GAMES;
 
 extern int sintab[ANGLES];
