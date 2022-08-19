@@ -268,18 +268,18 @@ typedef struct obj {                            /*  Object list             */
 	score_t	       ob_lastscore;
 }       OBJECTS;
 
+typedef struct {
+	int x;
+	int orient;
+	int territory_l, territory_r;    /* Computer plane territory */
+} original_ob_t;
+
 typedef struct {                                /*  Game structure          */
-	struct {
-		int x;
-		int orient;
-	} gm_planes[MAX_PLYR*2];
+	original_ob_t gm_planes[MAX_PLYR*2];
 	unsigned ( *gm_randf ) (void);
 	unsigned gm_rseed;
 	int      ( *gm_specf ) (void);
-	struct {
-		int x;
-		int orient;
-	} gm_targets[MAX_TARG];
+	original_ob_t gm_targets[MAX_TARG];
 }       GAMES;
 
 extern int sintab[ANGLES];

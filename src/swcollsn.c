@@ -537,7 +537,7 @@ int compute_valour(OBJECTS *ob)
 {
 	int reverse;
 	OBJECTS *so = get_score_obj(ob, &reverse);
-	int n, x_home;
+	int x_home;
 	int distance;
 	int valour = 0;
 	int fuelfraction;

@@ -64,8 +64,6 @@ extern OBJECTS oobjects[MAX_PLYR];
 extern OBJECTS *objbot, *objtop, *objfree, *deltop, *delbot;
 extern OBJECTS topobj, botobj;
 extern OBJECTS *compnear[MAX_PLYR];
-extern int     lcompter[MAX_PLYR];
-extern int     rcompter[MAX_PLYR];
 extern OBJECTS *objsmax;
 extern int     endcount;
 extern int     player;

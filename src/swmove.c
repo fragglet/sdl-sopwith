@@ -70,6 +70,7 @@ void swmove(void)
 static void nearpln(OBJECTS *ob)
 {
 	OBJECTS *obt, *obc;
+	original_ob_t *orig_ob;
 	int i, obx, obclr;
 
 	obt = objtop + 1;
@@ -83,9 +84,10 @@ static void nearpln(OBJECTS *ob)
 		}
 
 		if (obt->ob_drawf == dispcomp) {
-
+			orig_ob = &currgame->gm_planes[i];
 			if (playmode != PLAYMODE_COMPUTER
-			 || (obx >= lcompter[i] && obx <= rcompter[i])) {
+			 || (obx >= orig_ob->territory_l
+			  && obx <= orig_ob->territory_r)) {
 				obc = compnear[i];
 				if (!obc || abs(obx - obt->ob_x)
 				          < abs(obc->ob_x - obt->ob_x)) {

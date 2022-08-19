@@ -82,12 +82,6 @@ OBJECTS *objbot, *objtop,	/* Top and bottom of object list    */
 OBJECTS topobj, botobj;		/* Top and Bottom of obj. x list    */
 
 OBJECTS *compnear[MAX_PLYR];	/* Planes near computer planes      */
-int lcompter[MAX_PLYR] = {	/* Computer plane territory         */
-	0, 1155, 0, 2089
-};
-int rcompter[MAX_PLYR] = {	/* Computer plane territory         */
-	0, 2088, 1154, 10000
-};
 
 OBJECTS *objsmax = 0;		/* Maximum object allocated         */
 int endcount;
