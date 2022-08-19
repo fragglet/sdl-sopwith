@@ -217,6 +217,7 @@ typedef struct {
 #define MEDAL_VALOUR		(1<<8)	/* The Iron Cross / Victoria Cross for getting enough valour points */
 
 typedef struct {
+	obtype_t type;
 	int x;
 	int orient;
 	int territory_l, territory_r;    /* Computer plane territory */
