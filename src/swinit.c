@@ -779,7 +779,6 @@ static void initflck(void)
 {
 	static int ifx[] =
 		{ MINFLCKX, MINFLCKX + 1000, MAXFLCKX - 1000, MAXFLCKX };
-	static int ify[] = { MAX_Y - 1, MAX_Y - 1, MAX_Y - 1, MAX_Y - 1 };
 	static int ifdx[] = { 2, 2, -2, -2 };
 	OBJECTS *ob;
 	int i, j;
@@ -798,7 +797,7 @@ static void initflck(void)
 		ob->ob_type = FLOCK;
 		ob->ob_state = FLYING;
 		ob->ob_x = ifx[i];
-		ob->ob_y = ify[i];
+		ob->ob_y = MAX_Y - 1;
 		ob->ob_dx = ifdx[i];
 		ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
 		    ob->ob_ldy = 0;
@@ -855,7 +854,6 @@ static void initoxen(void)
 	OBJECTS *ob;
 	int i;
 	static int iox[] = { 1376, 1608 };
-	static int ioy[] = { 80, 91 };
 
 	if (playmode == PLAYMODE_NOVICE || !conf_animals) {
 		for (i = 0; i < MAX_OXEN; ++i)
@@ -874,7 +872,7 @@ static void initoxen(void)
 		ob->ob_type = OX;
 		ob->ob_state = STANDING;
 		ob->ob_x = iox[i];
-		ob->ob_y = ioy[i];
+		ob->ob_y = ground[ob->ob_x] + 16;
 		ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
 		    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
 		ob->ob_owner = ob;
