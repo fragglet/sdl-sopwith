@@ -88,7 +88,7 @@ typedef enum {
 #define MAXCRASH        5               /* Mximum number of crashes allowed */
 
 #define MAX_PLYR        4               /* Maximum number of players        */
-#define MAX_TARG        20              /* Maximum number of targets        */
+#define MAX_TARG        128             /* Maximum number of targets        */
 #define MAX_OBJS        100             /* Maximum number of objects        */
 #define MAX_FLCK        4               /* Maximum number of flocks         */
 #define MAX_BIRD        1               /* Maximum number of stray birds    */

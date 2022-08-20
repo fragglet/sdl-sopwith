@@ -52,6 +52,12 @@ GAMES swgames[1] = {
 			{TARGET, 2159, 1}, {TARGET, 2279, 3},
 			{TARGET, 2390, 3}, {TARGET, 2549, 0},
 			{TARGET, 2678, 0}, {TARGET, 2763, 1},
+			{FLOCK, MINFLCKX, 0},
+			{FLOCK, MINFLCKX + 1000, 0},
+			{FLOCK, MAXFLCKX - 1000, 0},
+			{FLOCK, MAXFLCKX, 0},
+			{OX, 1376, 0},
+			{OX, 1608, 0},
 		},
 	}
 };

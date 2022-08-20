@@ -612,6 +612,9 @@ static void inittarg(void)
 	}
 
 	for (i = 0; i < MAX_TARG; ++i)  {
+		if (currgame->gm_targets[i].type != TARGET) {
+			continue;
+		}
 		targets[i] = ob = allocobj();
 		ob->ob_original_ob = &currgame->gm_targets[i];
 		minx = ob->ob_x = ob->ob_original_ob->x;
