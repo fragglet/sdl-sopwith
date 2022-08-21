@@ -109,7 +109,7 @@ static void testtargs(int x, int y)
 
 	tl = -1;
 	tr = 0;
-	for (i = 0; i < (MAX_TARG + MAX_OXEN); ++i) {
+	for (i = 0; i < MAX_TARG; ++i) {
 		if (targets[i] && targets[i]->ob_x >= xl) {
 			tl = i;
 			break;
@@ -120,9 +120,7 @@ static void testtargs(int x, int y)
 		return;
 	}
 
-	for (; i < MAX_TARG + MAX_OXEN
-	       && targets[i]
-	       && targets[i]->ob_x < xr; ++i);
+	for (; i < MAX_TARG && targets[i] && targets[i]->ob_x < xr; ++i);
 
 	tr = i - 1;
 }

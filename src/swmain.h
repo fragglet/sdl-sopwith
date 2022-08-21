@@ -43,7 +43,7 @@ extern BOOL conf_big_explosions;
 extern OBJECTS *consoleplayer;
 extern playmode_t playmode;
 extern GAMES   *currgame;
-extern OBJECTS *targets[MAX_TARG+MAX_OXEN];
+extern OBJECTS *targets[MAX_TARG];
 extern int     numtarg[2];
 extern int     savemode;
 extern int     tickmode;

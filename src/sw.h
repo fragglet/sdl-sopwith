@@ -92,7 +92,6 @@ typedef enum {
 #define MAX_OBJS        100             /* Maximum number of objects        */
 #define NUM_STRAY_BIRDS 1               /* Number of stray birds per flock  */
 #define MAX_GAME        7               /* Maximum number of games          */
-#define MAX_OXEN        2               /* Maximum number of oxen           */
 
 #define ANGLES          16              /*  Number of angle increments      */
 #define ORIENTS         2               /*  Number of plane orientations    */
