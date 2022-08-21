@@ -643,7 +643,6 @@ static void inittarg(void)
 		ob->ob_type = TARGET;
 		ob->ob_state = STANDING;
 		ob->ob_orient = ob->ob_original_ob->orient;
-		ob->ob_life = i;
 
 		if (playmode != PLAYMODE_ASYNCH) {
 			ob->ob_owner =
