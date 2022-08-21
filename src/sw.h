@@ -90,9 +90,7 @@ typedef enum {
 #define MAX_PLYR        4               /* Maximum number of players        */
 #define MAX_TARG        128             /* Maximum number of targets        */
 #define MAX_OBJS        100             /* Maximum number of objects        */
-#define MAX_FLCK        4               /* Maximum number of flocks         */
-#define MAX_BIRD        1               /* Maximum number of stray birds    */
-                                        /*    per flock                     */
+#define NUM_STRAY_BIRDS 1               /* Number of stray birds per flock  */
 #define MAX_GAME        7               /* Maximum number of games          */
 #define MAX_OXEN        2               /* Maximum number of oxen           */
 
@@ -221,6 +219,11 @@ typedef struct {
 	int x;
 	int orient;
 	int territory_l, territory_r;    /* Computer plane territory */
+	enum {
+		OWNER_PLAYER2,
+		OWNER_PLAYER1,
+		OWNER_PLAYER1_IN_MULT,
+	} owner;
 } original_ob_t;
 
 typedef struct obj {                            /*  Object list             */

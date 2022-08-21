@@ -598,68 +598,67 @@ void initburst(OBJECTS *obo)
 
 // building/target
 
-static void inittarg(void)
+static OBJECTS *inittarget(original_ob_t *orig_ob)
 {
 	OBJECTS *ob;
-	int x, i;
+	int x;
 	int minh, maxh, aveh, minx, maxx;
 
-	if (playmode != PLAYMODE_ASYNCH) {
-		numtarg[0] = 0;
-		numtarg[1] = MAX_TARG - 3;
-	} else {
-		numtarg[0] = numtarg[1] = MAX_TARG / 2;
+	ob = allocobj();
+	minx = ob->ob_x = orig_ob->x;
+	maxx = ob->ob_x + 15;
+	minh = 999;
+	maxh = 0;
+	for (x = minx; x <= maxx; ++x) {
+		if (ground[x] > maxh) {
+			maxh = ground[x];
+		}
+		if (ground[x] < minh) {
+			minh = ground[x];
+		}
+	}
+	aveh = (minh + maxh) / 2;
+
+	while ((ob->ob_y = aveh + 16) >= MAX_Y) {
+		--aveh;
 	}
 
-	for (i = 0; i < MAX_TARG; ++i)  {
-		if (currgame->gm_targets[i].type != TARGET) {
-			continue;
-		}
-		targets[i] = ob = allocobj();
-		ob->ob_original_ob = &currgame->gm_targets[i];
-		minx = ob->ob_x = ob->ob_original_ob->x;
-		maxx = ob->ob_x + 15;
-		minh = 999;
-		maxh = 0;
-		for (x = minx; x <= maxx; ++x) {
-			if (ground[x] > maxh) {
-				maxh = ground[x];
-			}
-			if (ground[x] < minh) {
-				minh = ground[x];
-			}
-		}
-		aveh = (minh + maxh) / 2;
-
-		while ((ob->ob_y = aveh + 16) >= MAX_Y) {
-			--aveh;
-		}
-
-		for (x = minx; x <= maxx; ++x)
-			ground[x] = aveh;
-
-		ob->ob_dx = ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx
-		    = ob->ob_ldy = ob->ob_angle = ob->ob_hitcount = 0;
-		ob->ob_type = TARGET;
-		ob->ob_state = STANDING;
-		ob->ob_orient = ob->ob_original_ob->orient;
-
-		if (playmode != PLAYMODE_ASYNCH) {
-			ob->ob_owner =
-				&nobjects[(i < MAX_TARG / 2
-					   && i > MAX_TARG / 2 - 4)
-						? 0 : 1];
-		} else {
-			ob->ob_owner = &nobjects[i >= (MAX_TARG / 2)];
-		}
-		ob->ob_clr = ob->ob_owner->ob_clr;
-		ob->ob_newsym = symbol_targets[0];
-		ob->ob_drawf = disptarg;
-		ob->ob_movef = movetarg;
-		ob->ob_onmap = TRUE;
-
-		insertx(ob, &topobj);
+	for (x = minx; x <= maxx; ++x) {
+		ground[x] = aveh;
 	}
+
+	ob->ob_dx = ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx
+	    = ob->ob_ldy = ob->ob_angle = ob->ob_hitcount = 0;
+	ob->ob_type = TARGET;
+	ob->ob_state = STANDING;
+	ob->ob_orient = orig_ob->orient;
+
+	switch (orig_ob->owner) {
+		case OWNER_PLAYER1:
+			ob->ob_owner = &nobjects[0];
+			++numtarg[0];
+			break;
+		case OWNER_PLAYER2:
+			ob->ob_owner = &nobjects[1];
+			++numtarg[1];
+			break;
+		case OWNER_PLAYER1_IN_MULT:
+			if (playmode == PLAYMODE_ASYNCH) {
+				ob->ob_owner = &nobjects[0];
+				++numtarg[0];
+			} else {
+				ob->ob_owner = &nobjects[1];
+				++numtarg[1];
+			}
+			break;
+	}
+	ob->ob_clr = ob->ob_owner->ob_clr;
+	ob->ob_newsym = symbol_targets[0];
+	ob->ob_drawf = disptarg;
+	ob->ob_movef = movetarg;
+	ob->ob_onmap = TRUE;
+
+	return ob;
 }
 
 // explosion
@@ -768,50 +767,42 @@ void initsmok(OBJECTS *obo)
 	ob->ob_clr = obo->ob_clr;
 }
 
-
-
-
-
 // birds
 
-static void initflck(void)
+static OBJECTS *initflock(original_ob_t *orig_ob)
 {
-	static int ifx[] =
-		{ MINFLCKX, MINFLCKX + 1000, MAXFLCKX - 1000, MAXFLCKX };
-	static int ifdx[] = { 2, 2, -2, -2 };
 	OBJECTS *ob;
-	int i, j;
+	int j;
 
 	if (playmode == PLAYMODE_NOVICE || !conf_animals) {
-		return;
+		return NULL;
 	}
 
-	for (i = 0; i < MAX_FLCK; ++i) {
-
-		ob = allocobj();
-		if (!ob) {
-			return;
-		}
-
-		ob->ob_type = FLOCK;
-		ob->ob_state = FLYING;
-		ob->ob_x = ifx[i];
-		ob->ob_y = MAX_Y - 1;
-		ob->ob_dx = ifdx[i];
-		ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
-		    ob->ob_ldy = 0;
-		ob->ob_orient = 0;
-		ob->ob_life = FLOCKLIFE;
-		ob->ob_owner = ob;
-		ob->ob_newsym = symbol_flock[0];
-		ob->ob_drawf = dispflck;
-		ob->ob_movef = moveflck;
-		ob->ob_clr = 9;
-		ob->ob_onmap = TRUE;
-		insertx(ob, &topobj);
-		for (j = 0; j < MAX_BIRD; ++j)
-			initbird(ob, 1);
+	ob = allocobj();
+	if (!ob) {
+		return NULL;
 	}
+
+	ob->ob_type = FLOCK;
+	ob->ob_state = FLYING;
+	ob->ob_x = orig_ob->x;
+	ob->ob_y = MAX_Y - 1;
+	ob->ob_dx = ob->ob_x < (MAX_X / 2) ? 2 : -2;
+	ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx = ob->ob_ldy = 0;
+	ob->ob_orient = 0;
+	ob->ob_life = FLOCKLIFE;
+	ob->ob_owner = ob;
+	ob->ob_newsym = symbol_flock[0];
+	ob->ob_drawf = dispflck;
+	ob->ob_movef = moveflck;
+	ob->ob_clr = 9;
+	ob->ob_onmap = TRUE;
+
+	for (j = 0; j < NUM_STRAY_BIRDS; ++j) {
+		initbird(ob, 1);
+	}
+
+	return ob;
 }
 
 // single bird
@@ -843,48 +834,71 @@ void initbird(OBJECTS *obo, int i)
 	ob->ob_drawf = dispbird;
 	ob->ob_movef = movebird;
 	ob->ob_clr = obo->ob_clr;
-	insertx(ob, obo);
+	insertx(ob, &topobj);
 }
 
 // oxen
 
-static void initoxen(void)
+static OBJECTS *initox(original_ob_t *orig_ob)
 {
 	OBJECTS *ob;
-	int i;
-	static int iox[] = { 1376, 1608 };
 
 	if (playmode == PLAYMODE_NOVICE || !conf_animals) {
-		for (i = 0; i < MAX_OXEN; ++i)
-			targets[MAX_TARG + i] = NULL;
-		return;
+		return NULL;
 	}
 
-	for (i = 0; i < MAX_OXEN; ++i) {
-		ob = allocobj();
-		if (!ob) {
-			return;
-		}
-
-		targets[MAX_TARG + i] = ob;
-
-		ob->ob_type = OX;
-		ob->ob_state = STANDING;
-		ob->ob_x = iox[i];
-		ob->ob_y = ground[ob->ob_x] + 16;
-		ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
-		    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
-		ob->ob_owner = ob;
-		ob->ob_newsym = symbol_ox[0];
-		ob->ob_drawf = NULL;
-		ob->ob_movef = moveox;
-		ob->ob_clr = 1;
-		insertx(ob, &topobj);
+	ob = allocobj();
+	if (!ob) {
+		return NULL;
 	}
+
+	ob->ob_type = OX;
+	ob->ob_state = STANDING;
+	ob->ob_x = orig_ob->x;
+	ob->ob_y = ground[ob->ob_x] + 16;
+	ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
+	    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
+	ob->ob_owner = ob;
+	ob->ob_newsym = symbol_ox[0];
+	ob->ob_drawf = NULL;
+	ob->ob_movef = moveox;
+	ob->ob_clr = 1;
+	return ob;
 }
 
+static void inittargets(void)
+{
+	OBJECTS *ob;
+	original_ob_t *orig_ob;
+	int i, ti;
 
+	numtarg[0] = 0;
+	numtarg[1] = 0;
 
+	for (i = 0, ti = 0; i < MAX_TARG; i++) {
+		orig_ob = &currgame->gm_targets[i];
+		switch (orig_ob->type) {
+			case TARGET:
+				ob = inittarget(orig_ob);
+				break;
+			case OX:
+				ob = initox(orig_ob);
+				break;
+			case FLOCK:
+				ob = initflock(orig_ob);
+				break;
+			default:
+				continue;
+		}
+
+		if (ob != NULL) {
+			ob->ob_original_ob = orig_ob;
+			insertx(ob, &topobj);
+			targets[ti] = ob;
+			++ti;
+		}
+	}
+}
 
 static void initgdep(void)
 {
@@ -938,11 +952,9 @@ void swinitlevel(void)
 		initcomp(NULL);
 	}
 
-	inittarg();
+	inittargets();
 
 	initdisp(NO);
-	initflck();
-	initoxen();
 	initgdep();
 
 	inplay = TRUE;
