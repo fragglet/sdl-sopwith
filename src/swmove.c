@@ -982,8 +982,11 @@ BOOL moveflck(OBJECTS * obp)
 		ob->ob_life = FLOCKLIFE;
 	}
 
-	if (ob->ob_x < MINFLCKX || ob->ob_x > MAXFLCKX) {
-		ob->ob_dx = -ob->ob_dx;
+	// Flocks fly back and forth within their "territory".
+	if (ob->ob_x < ob->ob_original_ob->territory_l) {
+		ob->ob_dx = abs(ob->ob_dx);
+	} else if (ob->ob_x > ob->ob_original_ob->territory_r) {
+		ob->ob_dx = -abs(ob->ob_dx);
 	}
 
 	movexy(ob, &x, &y);

@@ -67,10 +67,10 @@ GAMES swgames[1] = {
 			{TARGET, 2678, 0, 0, 0, OWNER_PLAYER2},
 			{TARGET, 2763, 1, 0, 0, OWNER_PLAYER2},
 
-			{FLOCK, MINFLCKX, 0},
-			{FLOCK, MINFLCKX + 1000, 0},
-			{FLOCK, MAXFLCKX - 1000, 0},
-			{FLOCK, MAXFLCKX, 0},
+			{FLOCK,   370, 0, 370, 2630},
+			{FLOCK,  1000, 0, 370, 2630},
+			{FLOCK,  1630, 0, 370, 2630},
+			{FLOCK,  2630, 0, 370, 2630},
 		},
 	}
 };

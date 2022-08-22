@@ -66,9 +66,6 @@
 #define WRLD_RSX        (MAX_X / 320 * 2 + 1) /*  World display X and  */
 #define WRLD_RSY        (MAX_Y / SCR_MNSH + 1)     /*  Y divisors           */
 
-#define MINFLCKX        370                           /*  Bird flock travel    */
-#define MAXFLCKX        (MAX_X - 370)             /*  limits */
-
 #define GAUGEX          (SCR_CENTR - 25)  /* X co-ordinate of first gauge */
 
 typedef enum {
