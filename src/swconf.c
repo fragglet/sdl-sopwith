@@ -190,8 +190,11 @@ void swloadconf(void)
 	fs = fopen(config_file, "r");
 
 	if (fs == NULL) {
-		fprintf(stderr, "swloadconf: failed to open %s: %s\n",
-		        config_file, strerror(errno));
+		// It isn't an error if the config file doesn't exist yet.
+		if (errno != ENOENT) {
+			fprintf(stderr, "swloadconf: failed to open %s: %s\n",
+			        config_file, strerror(errno));
+		}
 		return;
 	}
 
