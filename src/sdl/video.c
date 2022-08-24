@@ -570,6 +570,7 @@ static void getevents(void)
 {
 	SDL_Event event;
 	static BOOL ctrldown = 0, altdown = 0;
+	int need_redraw = 0;
 	int i;
 	sopkey_t translated;
 
@@ -635,7 +636,18 @@ static void getevents(void)
 				input_buffer_push(fake);
 			}
 			break;
+
+		case SDL_WINDOWEVENT:
+			// When we get one of these events, we redraw
+			// the screen immediately, as we may be in a
+			// menu waiting for a keypress.
+			need_redraw = 1;
+			break;
 		}
+	}
+
+	if (need_redraw) {
+		Vid_Update();
 	}
 }
 
