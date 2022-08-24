@@ -23,7 +23,7 @@ This can be done by using git
 
      https://github.com/fragglet/sdl-sopwith.git
 
-Alternative the source code can be downloaded as an archive from
+Alternatively the source code can be downloaded as an archive from
 
      https://github.com/fragglet/sdl-sopwith/releases
 
@@ -47,11 +47,11 @@ the following commands
 
 Then, in the sopwith top-level source code directory (sdl-sopwith) run
 
-   
-Then, in the sopwith top-level source code directory (sdl-sopwith) run
+    ./configure && make
 
-    ./autogen.sh
-    make
+Or if building from Git:
+
+    ./autogen.sh && make
 
 Optionally you can then either run a local copy of Sopwith using:
 
