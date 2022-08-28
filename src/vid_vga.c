@@ -45,11 +45,17 @@ void Vid_DispGround(GRNDTYPE *gptr)
 	int gc, gl;
 
 	gl = *g;
+	if (gl >= SCR_HGHT - 1) {
+		gl = SCR_HGHT - 1;
+	}
 
 	sptr = vid_vram + (SCR_HGHT-1 - gl) * vid_pitch;
 
 	for (x=SCR_WDTH, g = gptr; x>0; --x) {
 		gc = *g++;
+		if (gc >= SCR_HGHT - 1) {
+			gc = SCR_HGHT - 1;
+		}
 		if (gl == gc) {
 			*sptr ^= 3;
 		} else if (gc < gl) {
@@ -79,6 +85,9 @@ void Vid_DispGround_Solid(GRNDTYPE * gptr)
 
 	for (x=0, g = gptr; x<SCR_WDTH; ++x) {
 		gc = *g++;
+		if (gc >= SCR_HGHT - 1) {
+			gc = SCR_HGHT - 1;
+		}
 
 		sptr = vid_vram + (SCR_HGHT-SBAR_HGHT-1) * vid_pitch + x;
 	

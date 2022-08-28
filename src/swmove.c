@@ -921,7 +921,7 @@ BOOL moveexpl(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 
-	if (y <= (int) ground[x] || x < 0 || x >= MAX_X) {
+	if (x < 0 || x >= MAX_X || y <= (int) ground[x]) {
 		if (orient) {
 			stopsound(ob);
 		}
