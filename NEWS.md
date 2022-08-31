@@ -1,3 +1,24 @@
+# v2.1.0 (2022-08-31)
+
+Bug fixes and changes in this version:
+
+* libm is included as a dependency when needed (thanks slicer69).
+* No error is printed if the config file doesn't exist (thanks Kenneth
+  Pronovici).
+* The screen is now redrawn properly when in menus and the window is uncovered
+  or resized (thanks Kenneth Pronovici).
+* Some potential crashes were fixed when near the edges of the map.
+* Some of the code has been refactored to centralize how levels are defined. In
+  the future this will help to support custom levels.
+
+Documentation changes:
+
+* Build instructions were clarified (thanks Kenneth Pronovici).
+* Better documentation of novice mode was added to the manpage (thanks Kenneth
+  Pronovici).
+* References to the -p argument were removed from the manpage and the help text
+  (thanks Kenneth Pronovici).
+
 # v2.0.0
 
 Changes in this version:
