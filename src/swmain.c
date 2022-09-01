@@ -65,7 +65,6 @@ int targrnge;			/* Target range based on game number */
 
 BOOL titleflg;			/* Title flag                       */
 BOOL soundflg = 0;		/* Sound flag                       */
-BOOL inplay;			/* Game is in play                  */
 
 int displx;			/* Display left and right           */
 

@@ -951,8 +951,6 @@ void swinitlevel(void)
 	initdisp(NO);
 	initgdep();
 
-	inplay = TRUE;
-
 	// sdh 16/11/2001: this needs to be reset with each new game
 	// to keep netgames in sync if we have already played
 

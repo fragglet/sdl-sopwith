@@ -52,8 +52,6 @@ void swend(char *msg, BOOL update)
 		puts("\n");
 	}
 
-	inplay = FALSE;
-
 	if (msg || closmsg) {
 		exit(YES);
 	} else {

@@ -52,8 +52,6 @@ extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
 extern BOOL    titleflg;
 extern BOOL    soundflg;
-extern BOOL    repflag;
-extern BOOL    inplay;
 extern int     displx;
 extern OBJECTS *nobjects;
 extern OBJECTS oobjects[MAX_PLYR];
