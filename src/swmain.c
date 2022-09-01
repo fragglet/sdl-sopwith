@@ -64,7 +64,6 @@ int initial_gamenum = 0;	/* Initial game number (user spec.) */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
-BOOL disppos;			/* Display position flag            */
 BOOL titleflg;			/* Title flag                       */
 BOOL soundflg = 0;		/* Sound flag                       */
 BOOL inplay;			/* Game is in play                  */

@@ -51,7 +51,6 @@ extern int     gamenum;
 extern int     initial_gamenum;
 extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
-extern BOOL    disppos;
 extern BOOL    titleflg;
 extern BOOL    soundflg;
 extern BOOL    repflag;
