@@ -69,7 +69,6 @@ BOOL disppos;			/* Display position flag            */
 BOOL titleflg;			/* Title flag                       */
 int dispdbg;			/* Debug value to display           */
 BOOL soundflg = 0;		/* Sound flag                       */
-BOOL repflag = FALSE;		/* Report statistics flag           */
 BOOL inplay;			/* Game is in play                  */
 
 int displx;			/* Display left and right           */

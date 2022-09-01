@@ -30,15 +30,6 @@
 #include "swsound.h"
 #include "swutil.h"
 
-
-static void swreport(void)
-{
-	puts("\nEnd of game statistics\n");
-	puts("Objects used: ");
-	printf("%ld\n", ((long) objsmax - (long) objtop + 1) / sizeof(OBJECTS));
-	puts("\n");
-}
-
 void swend(char *msg, BOOL update)
 {
 	char *closmsg = NULL;
@@ -46,10 +37,6 @@ void swend(char *msg, BOOL update)
 
 	sound(0, 0, NULL);
 	swsound();
-
-	if (repflag) {
-		swreport();
-	}
 
 	if (playmode == PLAYMODE_ASYNCH) {
 		closmsg = asynclos();
