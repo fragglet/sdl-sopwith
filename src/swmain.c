@@ -77,7 +77,6 @@ OBJECTS *objbot, *objtop,	/* Top and bottom of object list    */
 *deltop, *delbot;		/* Newly deallocated objects        */
 OBJECTS topobj, botobj;		/* Top and Bottom of obj. x list    */
 
-OBJECTS *objsmax = 0;		/* Maximum object allocated         */
 int endcount;
 int player;			/* Pointer to player's object       */
 BOOL plyrplane;			/* Current object is player flag    */

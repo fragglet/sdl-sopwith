@@ -51,10 +51,6 @@ OBJECTS *allocobj(void)
 	ob->ob_drwflg = 0;
 	ob->ob_onmap = FALSE;
 
-	if (ob > objsmax) {
-		objsmax = ob;
-	}
-
 	objbot = ob;
 
 	return ob;
