@@ -126,8 +126,7 @@ void initdisp(BOOL reset)
 //
 
 
-void
-initplanescore (score_t *score)
+static void initplanescore (score_t *score)
 {
 	score->planekills = 0;
 	score->medals = 0x0000;
@@ -143,20 +142,17 @@ initplanescore (score_t *score)
 #define VALOUR_PRELIMIT 175
 #define VALOUR_LIMIT 250
 
-void
-give_medal (OBJECTS *ob, int medal_id)
+static void give_medal(OBJECTS *ob, int medal_id)
 {
 	ob->ob_score.medalslist[ob->ob_score.medals_nr++] = medal_id;
 }
 
-void
-give_ribbon (OBJECTS *ob, int ribbon_id)
+static void give_ribbon(OBJECTS *ob, int ribbon_id)
 {
 	ob->ob_score.ribbons[ob->ob_score.ribbons_nr++] = ribbon_id;
 }
 
-void
-get_awards (OBJECTS *ob)
+static void get_awards(OBJECTS *ob)
 {
 	score_t *lsc = &ob->ob_lastscore;
 	score_t *sc = &ob->ob_score;
@@ -222,8 +218,7 @@ get_awards (OBJECTS *ob)
 	ob->ob_lastscore = ob->ob_score;
 }
 
-void
-get_endlevel (OBJECTS *ob)
+static void get_endlevel(OBJECTS *ob)
 {
 	score_t *sc = &ob->ob_score;
 	score_t *lsc = &ob->ob_lastscore;
