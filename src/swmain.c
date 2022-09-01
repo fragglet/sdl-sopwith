@@ -81,7 +81,6 @@ int endcount;
 int player;			/* Pointer to player's object       */
 BOOL plyrplane;			/* Current object is player flag    */
 BOOL compplane;			/* Current object is a comp plane   */
-char *histin, *histout;		/* History input and output files   */
 unsigned explseed;		/* random seed for explosion        */
 
 int keydelay = -1;		/* Number of displays per keystroke */

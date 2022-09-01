@@ -1083,7 +1083,6 @@ void swinit(int argc, char *argv[])
 		Speaker_Init();		// init pc speaker
 	}
 
-	//        explseed = histinit( explseed );
 	initsndt();
 	initgrnd();           // needed for title screen
 	
