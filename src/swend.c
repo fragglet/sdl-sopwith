@@ -55,8 +55,6 @@ void swend(char *msg, BOOL update)
 		closmsg = asynclos();
 	}
 
-	histend();
-
 	puts("\n");
 	if (closmsg) {
 		puts(closmsg);
