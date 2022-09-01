@@ -212,7 +212,6 @@ void soundoff(void)
 		Speaker_Off();
 
 		lastfreq = 0;
-		dispdbg = 0;
 	}
 }
 
@@ -230,7 +229,6 @@ static void tone(unsigned int freq)
 	Speaker_Output(freq);
 
 	lastfreq = freq;
-	dispdbg = freq;
 }
 
 

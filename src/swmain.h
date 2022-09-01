@@ -53,7 +53,6 @@ extern int     gmaxspeed, gminspeed;
 extern int     targrnge;
 extern BOOL    disppos;
 extern BOOL    titleflg;
-extern int     dispdbg;
 extern BOOL    soundflg;
 extern BOOL    repflag;
 extern BOOL    inplay;
