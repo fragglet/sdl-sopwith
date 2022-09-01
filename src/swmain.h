@@ -46,7 +46,6 @@ extern GAMES   *currgame;
 extern OBJECTS *targets[MAX_TARG];
 extern int     numtarg[2];
 extern int     savemode;
-extern int     tickmode;
 extern int     counttick, countmove;
 extern int     gamenum;
 extern int     initial_gamenum;

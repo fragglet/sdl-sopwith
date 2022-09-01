@@ -57,7 +57,6 @@ OBJECTS *consoleplayer;
 OBJECTS *targets[MAX_TARG];         /* Status of targets array          */
 int numtarg[2];			/* Number of active targets by color */
 int savemode;			/* Saved PC display mode            */
-int tickmode;			/* Tick action to be performed      */
 int counttick, countmove;	/* Performance counters             */
 
 int gamenum = 0;		/* Current game number              */

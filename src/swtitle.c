@@ -49,8 +49,6 @@ void swtitln(void)
 {
 	int i, h;
 
-	tickmode = 1;
-
 	sound(S_TITLE, 0, NULL);
 
 	// clear the screen
@@ -139,14 +137,12 @@ void swtitln(void)
 
 void swtitlf(void)
 {
-
 	if (titleflg) {
 		return;
 	}
 
 	sound(0, 0, NULL);
 	swsound();
-	tickmode = 0;
 }
 
 
