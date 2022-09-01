@@ -82,7 +82,6 @@ int endcount;
 int player;			/* Pointer to player's object       */
 BOOL plyrplane;			/* Current object is player flag    */
 BOOL compplane;			/* Current object is a comp plane   */
-BOOL forcdisp;			/* Force display of ground          */
 char *histin, *histout;		/* History input and output files   */
 unsigned explseed;		/* random seed for explosion        */
 

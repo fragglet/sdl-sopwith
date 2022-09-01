@@ -116,8 +116,6 @@ void swdisp(void)
 
 	dispgrnd();
 
-	forcdisp = TRUE;
-
 	// need to update the screen as we arent writing
 	// directly into vram any more
 	Vid_Update();

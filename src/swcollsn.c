@@ -228,7 +228,6 @@ static void crater(OBJECTS * ob)
 		}
 		ground[x] = ymin - 1;
 	}
-	forcdisp = TRUE;
 }
 
 /* Determine whether the parameter is a shot and hasn't moved very much yet;
