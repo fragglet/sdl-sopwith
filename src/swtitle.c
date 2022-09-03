@@ -41,10 +41,6 @@
 
 #define X_OFFSET ((SCR_WDTH/2)-160)
 
-// sdh -- use network edition title screen
-
-#define NET_TITLE
-
 void swtitln(void)
 {
 	int i, h;
@@ -53,31 +49,6 @@ void swtitln(void)
 
 	// clear the screen
 	Vid_ClearBuf();
-
-/*---------------- Original BMB Version---------------*/
-#ifndef NET_TITLE
-
-	swcolor(3);
-	swposcur(13+X_OFFSET/8, 6);
-	swputs("S O P W I T H");
-
-	swcolor(1);
-	swposcur(12+X_OFFSET/8, 8);
-	swputs("(Version " PACKAGE_VERSION ")");
-
-	swcolor(3);
-	swposcur(5+X_OFFSET/8, 11);
-	swputs("(c) Copyright 1984, 1985, 1987");
-
-	swcolor(1);
-	swposcur(6+X_OFFSET/8, 12);
-	swputs("BMB ");
-	swcolor(3);
-	swputs("Compuscience");
-#else
-/*------------------ Original BMB Version---------------*/
-
-/*---------------- New Network Version ---------------*/
 
 	swcolor(2);
 	swposcur(18+X_OFFSET/8, 2);
@@ -115,14 +86,11 @@ void swtitln(void)
 	swcolor(3);
 	swputs(" GPL");
 
-/*---------------- New Network Version-----------------*/
-
 	memcpy(ground, orground, sizeof(GRNDTYPE) * MAX_X);
 	displx = 507-X_OFFSET;
 	swground();
 
 	Vid_DispSymbol(40+X_OFFSET, 180, symbol_plane[0][0], 1);
-	//Vid_DispSymbol(110+X_OFFSET, 70, symbol_plane_win[3], 1);
 	Vid_DispSymbol(130+X_OFFSET, 80, symbol_plane[1][7], 2);
 	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16, symbol_targets[3], 2);
 	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, symbol_ox[0], 1);
@@ -131,8 +99,6 @@ void swtitln(void)
 	for (i = 9, h=150; i; --i, h += 5) {
 		Vid_PlotPixel(280+X_OFFSET, h, 3);
 	}
-
-#endif				/* #ifndef NET_TITLE */
 }
 
 void swtitlf(void)
@@ -206,69 +172,6 @@ static BOOL getnet(void)
 			return 1;
 		case 27:
 			return 0;
-		}
-	}
-}
-
-// controller menu (unused)
-#if 0
-static void getkey(void)
-{
-	char key;
-
-	/*----------------97/12/27--------------
-        clrprmpt();
-        swputs( "Key: 1 - Joystick with IBM Keyboard\n" );
-        swputs( "     2 - Joystick with non-IBM Keyboard\n" );
-        swputs( "     3 - IBM Keyboard only\n" );
-        swputs( "     4 - Non-IBM keyboard only\n" );
-        for (;;) {
-                if ( ctlbreak() )
-                        swend( NULL, NO );
-                if ( ( ( key = swgetc() & 0x00FF ) < '1' )
-                        || ( key > '4' ) )
-                        continue;
-                joystick = ( key <= '2' );
-                ibmkeybd = ( key == '1' ) || ( key == '3' );
-                return;
-        }
-        ------------------97/12/27--------------*/
-	clrprmpt();
-	swputs("Key: K - Keyboard Only\n");
-	swputs("     J - Joystick and Keyboard\n");
-
-	Vid_Update();
-
-	for (;;) {
-		swsndupdate();
-		if (ctlbreak())
-			swend(NULL, NO);
-		if (((key = toupper(swgetc() & 0x00FF)) != 'K')
-		    && (key != 'J'))
-			continue;
-		joystick = key == 'J';
-		ibmkeybd = 1;
-		return;
-	}
-}
-#endif
-
-// game menu for multiplayer (unused)
-
-int getgame(void)
-{
-	int game;
-
-	clrprmpt();
-	swputs("         Key a game number");
-
-	for (;;) {
-		if (ctlbreak()) {
-			swend(NULL, NO);
-		}
-		if (((game = (swgetc() & 0x00FF) - '0') >= 0)
-		    && (game <= MAX_GAME)) {
-			return (game);
 		}
 	}
 }
