@@ -530,7 +530,7 @@ void initmiss(OBJECTS *obo)
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
 	ob->ob_newsym = symbol_missile[0];
-	ob->ob_drawf = dispmiss;
+	ob->ob_drawf = NULL;
 	ob->ob_movef = movemiss;
 	ob->ob_missiletarget = obo->ob_mfiring;
 	ob->ob_orient = ob->ob_accel = ob->ob_flaps = 0;
@@ -584,7 +584,7 @@ void initburst(OBJECTS *obo)
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
 	ob->ob_newsym = symbol_burst[0];
-	ob->ob_drawf = dispburst;
+	ob->ob_drawf = NULL;
 	ob->ob_movef = moveburst;
 
 	insertx(ob, obo);
@@ -788,7 +788,7 @@ static OBJECTS *initflock(original_ob_t *orig_ob)
 	ob->ob_life = FLOCKLIFE;
 	ob->ob_owner = ob;
 	ob->ob_newsym = symbol_flock[0];
-	ob->ob_drawf = dispflck;
+	ob->ob_drawf = NULL;
 	ob->ob_movef = moveflck;
 	ob->ob_clr = 9;
 	ob->ob_onmap = TRUE;
@@ -826,7 +826,7 @@ void initbird(OBJECTS *obo, int i)
 	ob->ob_life = BIRDLIFE;
 	ob->ob_owner = obo;
 	ob->ob_newsym = symbol_bird[0];
-	ob->ob_drawf = dispbird;
+	ob->ob_drawf = NULL;
 	ob->ob_movef = movebird;
 	ob->ob_clr = obo->ob_clr;
 	insertx(ob, &topobj);

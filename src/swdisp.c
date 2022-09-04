@@ -57,8 +57,6 @@ static void plnsound(OBJECTS *ob)
 	}
 }
 
-
-
 void dispbomb(OBJECTS *ob)
 {
 	if (ob->ob_dy <= 0) {
@@ -66,36 +64,12 @@ void dispbomb(OBJECTS *ob)
 	}
 }
 
-
-
-
-
-void dispmiss(OBJECTS * obp)
-{
-}
-
-
-
-
-
-void dispburst(OBJECTS * obp)
-{
-}
-
-
-
-
-
 void dispexpl(OBJECTS *ob)
 {
 	if (ob->ob_orient) {
 		sound(S_EXPLOSION, ob->ob_hitcount, ob);
 	}
 }
-
-
-
-
 
 void dispcomp(OBJECTS * ob)
 {
@@ -107,14 +81,6 @@ void disptarg(OBJECTS * ob)
 	if (ob->ob_firing) {
 		sound(S_SHOT, 0, ob);
 	}
-}
-
-void dispflck(OBJECTS * ob)
-{
-}
-
-void dispbird(OBJECTS * ob)
-{
 }
 
 void dispplyr(OBJECTS * ob)
