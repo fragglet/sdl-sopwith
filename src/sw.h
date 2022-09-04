@@ -80,7 +80,7 @@ typedef enum {
 #define MAXBOMBS        5               /* Maximum number of bombs available*/
 #define MAXMISSILES     5               /* Maximum number of missiles       */
 #define MAXBURSTS       5               /* Maximum nuber of starbursts      */
-#define MAXFUEL         ( 3 * MAX_X )   /* Maximum Number of turns between  */
+#define MAXFUEL         9000            /* Maximum number of turns between  */
                                         /*  refuellings                     */
 #define MAXCRASH        5               /* Mximum number of crashes allowed */
 
