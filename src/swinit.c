@@ -103,7 +103,8 @@ static void initobjs(void)
 
 static void initgrnd(void)
 {
-	memcpy(ground, currgame->gm_ground, sizeof(GRNDTYPE) * MAX_X);
+	memcpy(ground, currgame->gm_ground,
+	       sizeof(GRNDTYPE) * currgame->gm_max_x);
 }
 
 static void initseed(void)
@@ -781,7 +782,7 @@ static OBJECTS *initflock(original_ob_t *orig_ob)
 	ob->ob_state = FLYING;
 	ob->ob_x = orig_ob->x;
 	ob->ob_y = MAX_Y - 1;
-	ob->ob_dx = ob->ob_x < (MAX_X / 2) ? 2 : -2;
+	ob->ob_dx = ob->ob_x < (currgame->gm_max_x / 2) ? 2 : -2;
 	ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx = ob->ob_ldy = 0;
 	ob->ob_orient = 0;
 	ob->ob_life = FLOCKLIFE;
@@ -936,7 +937,6 @@ void swinitlevel(void)
 		init2asy();
 	} else {
 		maxcrash = MAXCRASH;
-		currgame = &swgames[0];
 
 		// single player
 		
@@ -1076,8 +1076,12 @@ void swinit(int argc, char *argv[])
 		Speaker_Init();		// init pc speaker
 	}
 
+	// initgrnd() below needs currgame initialized to set the contents of
+	// the ground[] array foor the title screen.
+	currgame = &swgames[0];
+
 	initsndt();
-	initgrnd();           // needed for title screen
+	initgrnd();
 	
 	// set playmode if we can, from command line options
 

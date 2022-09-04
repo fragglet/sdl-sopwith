@@ -630,8 +630,8 @@ BOOL movepln(OBJECTS *ob)
 
 	if (x < 0) {
 		x = ob->ob_x = 0;
-	} else if (x >= (MAX_X - 16)) {
-		x = ob->ob_x = MAX_X - 16;
+	} else if (x >= (currgame->gm_max_x - 16)) {
+		x = ob->ob_x = currgame->gm_max_x - 16;
 	}
 
 	if (!compplane
@@ -706,7 +706,8 @@ BOOL moveshot(OBJECTS *ob)
 
 	movexy(ob, &x, &y);
 
-	if (y >= MAX_Y || y <= (int) ground[x] || x < 0 || x >= MAX_X) {
+	if (y >= MAX_Y || y <= (int) ground[x]
+	 || x < 0 || x >= currgame->gm_max_x) {
 		deallobj(ob);
 		return FALSE;
 	}
@@ -738,7 +739,7 @@ BOOL movebomb(OBJECTS *ob)
 
 	movexy(ob, &x, &y);
 
-	if (y < 0 || x < 0 || x >= MAX_X) {
+	if (y < 0 || x < 0 || x >= currgame->gm_max_x) {
 		deallobj(ob);
 		stopsound(ob);
 		ob->ob_state = FINISHED;
@@ -800,7 +801,7 @@ BOOL movemiss(OBJECTS *ob)
 		movexy(ob, &x, &y);
 	}
 
-	if (y < 0 || x < 0 || x >= MAX_X) {
+	if (y < 0 || x < 0 || x >= currgame->gm_max_x) {
 		deallobj(ob);
 		ob->ob_state = FINISHED;
 		return FALSE;
@@ -832,7 +833,7 @@ BOOL moveburst(OBJECTS *ob)
 	adjustfall(ob);
 	movexy(ob, &x, &y);
 
-	if (y <= (int) ground[x] || x < 0 || x >= MAX_X) {
+	if (y <= (int) ground[x] || x < 0 || x >= currgame->gm_max_x) {
 		ob->ob_owner->ob_missiletarget = NULL;
 		deallobj(ob);
 		return FALSE;
@@ -921,7 +922,7 @@ BOOL moveexpl(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 
-	if (x < 0 || x >= MAX_X || y <= (int) ground[x]) {
+	if (x < 0 || x >= currgame->gm_max_x || y <= (int) ground[x]) {
 		if (orient) {
 			stopsound(ob);
 		}
@@ -1002,7 +1003,7 @@ static BOOL checkwall(OBJECTS *obp, int direction)
 
 	check_x = obp->ob_x;
 	for (cnt = 0; cnt < 20; ++cnt) {
-		if (check_x < 0 || check_x >= MAX_X) {
+		if (check_x < 0 || check_x >= currgame->gm_max_x) {
 			return TRUE;
 		}
 		if ((int) ground[check_x] > obp->ob_y + 10) {
@@ -1051,7 +1052,8 @@ BOOL movebird(OBJECTS * obp)
 
 	insertx(ob, ob->ob_xnext);
 	ob->ob_newsym = symbol_bird[ob->ob_orient];
-	if (y >= MAX_Y || y <= (int) ground[x] || x < 0 || x >= MAX_X) {
+	if (y >= MAX_Y || y <= (int) ground[x]
+	 || x < 0 || x >= currgame->gm_max_x) {
 		ob->ob_y -= ob->ob_dy;
 		ob->ob_life = -2;
 		return FALSE;

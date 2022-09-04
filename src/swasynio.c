@@ -280,8 +280,6 @@ void init1asy(void)
 	clrprmpt();
 	swputs("        Waiting for other player");
 	synchronize();
-
-	currgame = &swgames[0];
 #endif
 }
 

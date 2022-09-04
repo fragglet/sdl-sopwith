@@ -91,8 +91,8 @@ void swdisp(void)
 
 	if (displx < 0) {
 		displx = 0;
-	} else if (displx >= MAX_X - SCR_WDTH) {
-		displx = MAX_X - SCR_WDTH - 1;
+	} else if (displx >= currgame->gm_max_x - SCR_WDTH) {
+		displx = currgame->gm_max_x - SCR_WDTH - 1;
 	}
 
 	// draw objects

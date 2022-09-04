@@ -369,8 +369,9 @@ static void cruise(OBJECTS *ob)
 	courseadj = ((countmove & 0x001F) < 16) << 4;
 	orgx = oobjects[ob->ob_index].ob_x;
 	aim(ob, courseadj +
-		(orgx < (MAX_X / 3) ? (MAX_X / 3) :
-		 orgx > (2 * MAX_X / 3) ? (2 * MAX_X / 3) : orgx),
+		(orgx < (currgame->gm_max_x / 3) ? (currgame->gm_max_x / 3) :
+		 orgx > (2 * currgame->gm_max_x / 3) ?
+		     (2 * currgame->gm_max_x / 3) : orgx),
 		MAX_Y - 50 - (courseadj >> 1), NULL, NO);
 }
 

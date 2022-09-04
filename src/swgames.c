@@ -74,6 +74,7 @@ GAMES swgames[1] = {
 			{FLOCK,  2630, 0, 370, 2630},
 		},
 		orground,
+		MAX_X,
 	},
 };
 

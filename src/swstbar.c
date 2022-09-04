@@ -150,7 +150,7 @@ static void dispmap(void)
 
 	// draw ground
 
-	for (x = 0; x < MAX_X; ++x) {
+	for (x = 0; x < currgame->gm_max_x; ++x) {
 
 		if (ground[x] > maxh) {
 			maxh = ground[x];

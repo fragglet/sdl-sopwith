@@ -27,6 +27,7 @@
 //-----------------------------------------------------------------------
 
 #include "sw.h"
+#include "swmain.h"
 #include "swutil.h"
 
 void movexy(OBJECTS * ob, int *x, int *y)
@@ -37,8 +38,8 @@ void movexy(OBJECTS * ob, int *x, int *y)
 //      vel = (((long) (ob->ob_dx)) << 16) + ob->ob_ldx;
 
 	// Adding this to avoid range errors -- Jesse
-	if (pos >= ((MAX_X - 10) << 16)) {
-		pos = (MAX_X - 10) << 16;
+	if (pos >= ((currgame->gm_max_x - 10) << 16)) {
+		pos = (currgame->gm_max_x - 10) << 16;
 	}
 	if (pos < 0) {
 		pos = 0;

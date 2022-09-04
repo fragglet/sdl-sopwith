@@ -86,7 +86,8 @@ void swtitln(void)
 	swcolor(3);
 	swputs(" GPL");
 
-	memcpy(ground, currgame->gm_ground, sizeof(GRNDTYPE) * MAX_X);
+	memcpy(ground, currgame->gm_ground,
+	       sizeof(GRNDTYPE) * currgame->gm_max_x);
 	displx = 507-X_OFFSET;
 	swground();
 

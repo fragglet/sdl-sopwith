@@ -63,7 +63,7 @@
 
 // sdh 27/7/2002: make these independent of the screen width
 
-#define WRLD_RSX        (MAX_X / 320 * 2 + 1) /*  World display X and  */
+#define WRLD_RSX        (currgame->gm_max_x / 320 * 2 + 1) /*  World display X and  */
 #define WRLD_RSY        (MAX_Y / SCR_MNSH + 1)     /*  Y divisors           */
 
 #define GAUGEX          (SCR_CENTR - 25)  /* X co-ordinate of first gauge */
@@ -279,6 +279,7 @@ typedef struct {                                /*  Game structure          */
 	unsigned gm_rseed;
 	original_ob_t gm_targets[MAX_TARG];
 	GRNDTYPE *gm_ground;
+	unsigned int gm_max_x;  // Defines length of gm_ground[] array.
 }       GAMES;
 
 extern int sintab[ANGLES];
