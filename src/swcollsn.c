@@ -33,6 +33,9 @@
 #include "swsound.h"
 #include "swsplat.h"
 
+static void tstcrash(OBJECTS *obp);
+static void blast_target(OBJECTS *ob, obtype_t type);
+
 static OBJECTS *killed[MAX_OBJS*2], *killer[MAX_OBJS*2];
 static int killptr;
 
@@ -238,9 +241,6 @@ is_young_shot(OBJECTS *ob)
 {
 	return (ob && ob->ob_type == SHOT && ob->ob_life >= BULLIFE - 1);
 }
-
-
-void blast_target(OBJECTS *ob, obtype_t type);
 
 static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 {
@@ -498,7 +498,7 @@ void swcollsn(void)
 	}
 }
 
-void tstcrash(OBJECTS * obp)
+static void tstcrash(OBJECTS *obp)
 {
 	sopsym_t *sym = obp->ob_newsym;
 	int x, y;
@@ -532,7 +532,7 @@ void tstcrash(OBJECTS * obp)
 
 /* Determine valour factor */
 
-int compute_valour(OBJECTS *ob)
+static int compute_valour(OBJECTS *ob)
 {
 	int reverse;
 	OBJECTS *so = get_score_obj(ob, &reverse);
@@ -575,7 +575,7 @@ int compute_valour(OBJECTS *ob)
 	return valour;
 }
 
-void blast_target(OBJECTS *ob, obtype_t type)
+static void blast_target(OBJECTS *ob, obtype_t type)
 {
 	int reverse;
 	OBJECTS *so = get_score_obj(ob, &reverse);
