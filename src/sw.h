@@ -278,6 +278,7 @@ typedef struct {                                /*  Game structure          */
 	original_ob_t gm_planes[MAX_PLYR*2];
 	unsigned gm_rseed;
 	original_ob_t gm_targets[MAX_TARG];
+	GRNDTYPE *gm_ground;
 }       GAMES;
 
 extern int sintab[ANGLES];

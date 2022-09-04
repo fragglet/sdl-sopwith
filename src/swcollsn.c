@@ -219,7 +219,7 @@ static void crater(OBJECTS * ob)
 	for (x = xmin, i = 0; x <= xmax; ++x, ++i) {
 		ymax = ground[x];
 		ymin = ymax - crtdepth[i] +1;
-		y = orground[x] - 20;
+		y = currgame->gm_ground[x] - 20;
 		if (y < 20) {
 			y = 20;
 		}

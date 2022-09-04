@@ -247,7 +247,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, BOOL longway)
 		setdxdy(&obs, nspeed * COS(nangle), nspeed * SIN(nangle));
 		movexy(&obs, &nx, &ny);
 		crange[i] = range(nx, ny, ax, ay);
-		calt[i] = ny - orground[nx + 8];
+		calt[i] = ny - currgame->gm_ground[nx + 8];
 		ccrash[i] = tstcrash2(ob, nx, ny, calt[i]);
 
 		obs = *ob;

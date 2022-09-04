@@ -25,6 +25,7 @@
 
 
 #include "sw.h"
+#include "swground.h"
 #include "swgames.h"
 
 GAMES swgames[1] = {
@@ -72,7 +73,8 @@ GAMES swgames[1] = {
 			{FLOCK,  1630, 0, 370, 2630},
 			{FLOCK,  2630, 0, 370, 2630},
 		},
-	}
+		orground,
+	},
 };
 
 //---------------------------------------------------------------------------

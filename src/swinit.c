@@ -103,7 +103,7 @@ static void initobjs(void)
 
 static void initgrnd(void)
 {
-	memcpy(ground, orground, sizeof(GRNDTYPE) * MAX_X);
+	memcpy(ground, currgame->gm_ground, sizeof(GRNDTYPE) * MAX_X);
 }
 
 static void initseed(void)
