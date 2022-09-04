@@ -706,8 +706,8 @@ BOOL moveshot(OBJECTS *ob)
 
 	movexy(ob, &x, &y);
 
-	if (y >= MAX_Y || y <= (int) ground[x]
-	 || x < 0 || x >= currgame->gm_max_x) {
+	if (y >= MAX_Y || x < 0 || x >= currgame->gm_max_x
+	 || y <= (int) ground[x]) {
 		deallobj(ob);
 		return FALSE;
 	}
@@ -833,7 +833,7 @@ BOOL moveburst(OBJECTS *ob)
 	adjustfall(ob);
 	movexy(ob, &x, &y);
 
-	if (y <= (int) ground[x] || x < 0 || x >= currgame->gm_max_x) {
+	if (x < 0 || x >= currgame->gm_max_x || y <= (int) ground[x]) {
 		ob->ob_owner->ob_missiletarget = NULL;
 		deallobj(ob);
 		return FALSE;
@@ -1052,8 +1052,8 @@ BOOL movebird(OBJECTS * obp)
 
 	insertx(ob, ob->ob_xnext);
 	ob->ob_newsym = symbol_bird[ob->ob_orient];
-	if (y >= MAX_Y || y <= (int) ground[x]
-	 || x < 0 || x >= currgame->gm_max_x) {
+	if (x < 0 || x >= currgame->gm_max_x
+	 || y >= MAX_Y || y <= (int) ground[x]) {
 		ob->ob_y -= ob->ob_dy;
 		ob->ob_life = -2;
 		return FALSE;
