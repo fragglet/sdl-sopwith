@@ -54,12 +54,8 @@
 #define SCR_HGHT        200             /*  Screen Height                   */
 
 #define SCR_CENTR       ((SCR_WDTH / 2) - 8) /*  Centre column of screen */
-#define SCR_SEGM        0xB800          /*  Screen Video segment            */
-#define SCR_ROFF        0x2000          /*  Screen odd rastor line offset   */
-#define SCR_LINW        80              /*  Screen line width in bytes      */
 #define SCR_MNSH        16              /*  Minumum line number to shift    */
 #define SCR_MXSH        75              /*  Maximum line number to shift    */
-#define SCR_LIMIT       180             /*  Screen shift limits             */
 
 // sdh 27/7/2002: make these independent of the screen width
 
@@ -88,7 +84,6 @@ typedef enum {
 #define MAX_TARG        128             /* Maximum number of targets        */
 #define MAX_OBJS        100             /* Maximum number of objects        */
 #define NUM_STRAY_BIRDS 1               /* Number of stray birds per flock  */
-#define MAX_GAME        7               /* Maximum number of games          */
 
 #define ANGLES          16              /*  Number of angle increments      */
 #define ORIENTS         2               /*  Number of plane orientations    */
@@ -143,9 +138,7 @@ typedef enum {
 } obtype_t;
 
 #define NEAR            ( 150 * 150 )   /* Computer control distances        */
-#define NEARAPPROACH    200
 #define CLOSE           32
-#define DEADON          ( 4 * 4 )
 #define HOME            16
 #define SAFERESET       32
 
