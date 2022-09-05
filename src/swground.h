@@ -25,7 +25,7 @@
 #include "sw.h"
 
 extern GRNDTYPE orground[MAX_X];
-extern GRNDTYPE ground[MAX_X];
+extern GRNDTYPE *ground;
 
 #endif
 

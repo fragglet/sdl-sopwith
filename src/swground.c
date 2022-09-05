@@ -219,7 +219,7 @@ GRNDTYPE orground[MAX_X] = {            /* Original ground height by pixel */
 };
 
 
-GRNDTYPE ground[MAX_X];                 /* ground height by pixel  */
+GRNDTYPE *ground;
 
 
 //---------------------------------------------------------------------------

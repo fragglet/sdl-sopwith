@@ -101,8 +101,10 @@ static void initobjs(void)
 }
 
 
-static void initgrnd(void)
+void initgrnd(void)
 {
+	free(ground);
+	ground = calloc(currgame->gm_max_x, sizeof(GRNDTYPE));
 	memcpy(ground, currgame->gm_ground,
 	       sizeof(GRNDTYPE) * currgame->gm_max_x);
 }
@@ -1077,7 +1079,7 @@ void swinit(int argc, char *argv[])
 	}
 
 	// initgrnd() below needs currgame initialized to set the contents of
-	// the ground[] array foor the title screen.
+	// the ground[] array for the title screen.
 	currgame = &swgames[0];
 
 	initsndt();

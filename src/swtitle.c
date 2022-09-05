@@ -33,6 +33,7 @@
 #include "swend.h"
 #include "swground.h"
 #include "swgrpha.h"
+#include "swinit.h"
 #include "swmain.h"
 #include "swtext.h"
 #include "swsound.h"
@@ -86,8 +87,7 @@ void swtitln(void)
 	swcolor(3);
 	swputs(" GPL");
 
-	memcpy(ground, currgame->gm_ground,
-	       sizeof(GRNDTYPE) * currgame->gm_max_x);
+	initgrnd();
 	displx = 507-X_OFFSET;
 	swground();
 
