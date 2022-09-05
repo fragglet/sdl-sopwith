@@ -366,6 +366,8 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 			if (ob->ob_index == player) {
 				if (ttype == SHOT) {
 					swwindshot();
+				} else if (ttype == OX) {
+					swsplatox();
 				} else if (ttype == BIRD || ttype == FLOCK) {
 					swsplatbird();
 				}
