@@ -30,6 +30,11 @@ title: SDL Sopwith: Links
 * [Sopwith Camel](http://sopwithcamel.sourceforge.net/) by Alan Broun
 * [YASG](https://sourceforge.net/projects/yasg/) ("Yet Another Sopwith Game")
   by zlogic (Russian game)
+* [Sopwith IV](http://www.alecrivers.com/sopwith/) by Alec Rivers (in alpha?)
+* [Sopwith for PICO-8](https://www.lexaloffle.com/bbs/?tid=31530) by hwd2002
+* [Sopwith VR](https://store.steampowered.com/app/998660/Sopwith_VR/)
+  (mentions the original in the description, though this is a very different
+  game!)
 
 ## Inspired by Sopwith ...?
 
@@ -40,6 +45,7 @@ title: SDL Sopwith: Links
 * [Biplane Duel](https://www.youtube.com/watch?v=WEmhFFFpwjE) for the Amiga
 * [BIP!](https://store.steampowered.com/app/1285200/Bip/),
   inspired by Biplane Duel
+* [Sky Fighter (PS3)](https://www.metacritic.com/game/playstation-3/sky-fighter)
 
 ### And, uh...
 
