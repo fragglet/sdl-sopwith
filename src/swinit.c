@@ -867,12 +867,12 @@ static void inittargets(void)
 {
 	OBJECTS *ob;
 	original_ob_t *orig_ob;
-	int i, ti;
+	int i;
 
 	numtarg[0] = 0;
 	numtarg[1] = 0;
 
-	for (i = 0, ti = 0; i < MAX_TARG; i++) {
+	for (i = 0; i < MAX_TARG; i++) {
 		orig_ob = &currgame->gm_targets[i];
 		switch (orig_ob->type) {
 			case TARGET:
@@ -891,8 +891,6 @@ static void inittargets(void)
 		if (ob != NULL) {
 			ob->ob_original_ob = orig_ob;
 			insertx(ob, &topobj);
-			targets[ti] = ob;
-			++ti;
 		}
 	}
 }
