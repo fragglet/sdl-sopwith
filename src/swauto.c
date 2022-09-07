@@ -23,6 +23,8 @@
 //
 //---------------------------------------------------------------------------
 
+#include <assert.h>
+
 #include "sw.h"
 #include "swauto.h"
 #include "swground.h"
@@ -92,44 +94,15 @@ int shoot(OBJECTS *obt)
 }
 
 
-
-static int tl, tr;
-
-static void cleartargs(void)
+static BOOL is_target(OBJECTS *ob)
 {
-	tl = -2;
+	return ob->ob_type == TARGET || ob->ob_type == OX;
 }
-
-static void testtargs(int x, int y)
-{
-	int i, xl, xr;
-
-	xl = x - 32 - gmaxspeed;
-	xr = x + 32 + gmaxspeed;
-
-	tl = -1;
-	tr = 0;
-	for (i = 0; i < MAX_TARG; ++i) {
-		if (targets[i] && targets[i]->ob_x >= xl) {
-			tl = i;
-			break;
-		}
-	}
-
-	if (tl == -1) {
-		return;
-	}
-
-	for (; i < MAX_TARG && targets[i] && targets[i]->ob_x < xr; ++i);
-
-	tr = i - 1;
-}
-
-
 
 static BOOL tstcrash2(OBJECTS *ob, int x, int y, int alt)
 {
-	int i, xl, xr, xt, yt;
+	OBJECTS *obt;
+	int xl, xr, yt;
 
 	if (alt > 50) {
 		return FALSE;
@@ -139,24 +112,32 @@ static BOOL tstcrash2(OBJECTS *ob, int x, int y, int alt)
 		return TRUE;
 	}
 
-	if (tl == -2) {
-		testtargs(ob->ob_x, ob->ob_y);
+	// This is unnecessarily complicated really, but preserves the
+	// logic of the previous version of tstcrash2(). It can probably
+	// be simplified.
+	xl = ob->ob_x - 32 - gmaxspeed;
+	if (x - 32 > xl) {
+		xl = x - 32;
+	}
+	xr = ob->ob_x + 32 + gmaxspeed;
+	if (x + 32 < xr) {
+		xr = x + 32;
 	}
 
-	xl = x - 32;
-	xr = x + 32;
+	obt = ob;
+	while (obt->ob_xprev != NULL && obt->ob_xprev->ob_x >= xl) {
+		obt = obt->ob_xprev;
+	}
 
-	for (i = tl; i <= tr; ++i) {
-		ob = targets[i];
-		xt = ob->ob_x;
 
-		if (xt < xl) {
+	for (; obt->ob_xnext != NULL; obt = obt->ob_xnext) {
+		if (!is_target(obt) || obt->ob_x < xl) {
 			continue;
 		}
-		if (xt > xr) {
+		if (obt->ob_x > xr) {
 			return FALSE;
 		}
-		yt = ob->ob_y + (ob->ob_state == STANDING ? 16 : 8);
+		yt = obt->ob_y + (obt->ob_state == STANDING ? 16 : 8);
 		if (y <= yt) {
 			return TRUE;
 		}
@@ -239,7 +220,6 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, BOOL longway)
 		nspeed = gminspeed;
 	}
 
-	cleartargs();
 	for (i = 0; i < 3; ++i) {
 		nangle = (obs.ob_angle
 			  + (obs.ob_orient ? -cflaps[i] : cflaps[i])
