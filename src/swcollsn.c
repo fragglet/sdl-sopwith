@@ -312,11 +312,10 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		blast_target(ob, ttype);
 		scoretarg(ob, ob->ob_orient == 2 ? 200 : 100);
 
-		if (numtarg[ob->ob_clr - 1] > 0) {
-			--numtarg[ob->ob_clr - 1];
-			if (numtarg[ob->ob_clr - 1] <= 0) {
-				endgame(ob->ob_clr);
-			}
+		--numtarg[ob->ob_clr - 1];
+		if (numtarg[ob->ob_clr - 1] <= 0
+		 && (playmode == PLAYMODE_ASYNCH || ob->ob_clr == 2)) {
+			endgame(ob->ob_clr);
 		}
 
 		return;
