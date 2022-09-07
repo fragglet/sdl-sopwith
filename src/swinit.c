@@ -872,7 +872,7 @@ static void inittargets(void)
 	numtarg[0] = 0;
 	numtarg[1] = 0;
 
-	for (i = 0; i < MAX_TARG; i++) {
+	for (i = 0; i < currgame->gm_num_targets; i++) {
 		orig_ob = &currgame->gm_targets[i];
 		switch (orig_ob->type) {
 			case TARGET:

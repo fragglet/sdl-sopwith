@@ -81,7 +81,6 @@ typedef enum {
 #define MAXCRASH        5               /* Mximum number of crashes allowed */
 
 #define MAX_PLYR        4               /* Maximum number of players        */
-#define MAX_TARG        128             /* Maximum number of targets        */
 #define MAX_OBJS        100             /* Maximum number of objects        */
 #define NUM_STRAY_BIRDS 1               /* Number of stray birds per flock  */
 
@@ -269,8 +268,9 @@ typedef struct obj {                            /*  Object list             */
 
 typedef struct {                                /*  Game structure          */
 	original_ob_t gm_planes[MAX_PLYR*2];
-	unsigned gm_rseed;
-	original_ob_t gm_targets[MAX_TARG];
+	unsigned int gm_rseed;
+	original_ob_t *gm_targets;
+	unsigned int gm_num_targets;
 	GRNDTYPE *gm_ground;
 	unsigned int gm_max_x;  // Defines length of gm_ground[] array.
 }       GAMES;
@@ -284,6 +284,9 @@ static inline int COS(int x) {
 static inline int SIN(int x) {
 	return sintab[x % ANGLES];
 }
+
+// Evalutes to length of static arrays.
+#define arrlen(x) (sizeof(x) / sizeof(*x))
 
 #endif
 
