@@ -12,6 +12,9 @@ title: SDL Sopwith: Links
   spam...
 * [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_\(video_game\))
   on Wikipedia.
+* ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
+  aka "The U.S. Air Force", the song played on the Sopwith title screen and in
+  the game.
 
 ## Ports of SDL Sopwith to other platforms
 
@@ -22,6 +25,8 @@ title: SDL Sopwith: Links
 * [GP2X](https://dl.openhandhelds.org/cgi-bin/gp2x.cgi?xesybluddjmvmd,0,0,0,27,923)
   version by theoddbot
 * [Nintendo DS](https://www.gamebrew.org/wiki/Sopwith) version by TheLazy1
+* [Amiga OS version](http://os4depot.net/index.php?function=showfile&file=game/shmup/sdlsopwith.lha)
+  by Spot / PFP.
 
 ## Other Sopwith ports and recreations
 
