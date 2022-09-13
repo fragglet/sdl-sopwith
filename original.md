@@ -32,12 +32,18 @@ Please note that other than the Network Edition, these versions are
 The oldest version, released in 1984, was the original demo for
 the Imaginet networking system developed by BMB Compuscience of Canada.
 Its main distinguishing feature is the use of solid white ground, which
-was later replaced by a single line (presumably for performance). To
+was later replaced by a single line (to improve performance). To
 avoid having to redraw the screen, the "camera" only moves sometimes.
 
 Speed is CPU-dependent, so the game runs too fast on machines faster
 than the original IBM XT unless a utility like MOSLO is used (or the
 number of cycles adjusted to a low number on emulators like DOSbox.
+
+The musical theme to this version is 
+[Merrily We Roll Along](https://en.wikipedia.org/wiki/Merrily_We_Roll_Along_\(song\)),
+better known as the theme song for the Warner Brothers ***Merry Melodies***
+cartoon. However, the music doesn't play on the title screen unless Sopwith
+is run with the `-s` command line parameter.
 
 Multiplayer depends on the proprietary BMB drivers and Imaginet networking
 system and to my knowledge, no fans have ever been able to get it working.
@@ -70,6 +76,9 @@ hazard to the player. Speed is now CPU independent, the game supports
 IBM compatible joysticks, and serial line networking, although this
 latter feature is still unusable because it also requires a proprietary
 BMB driver.
+
+Sopwith 2 changed the theme music to [The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
+(aka ***Wild Blue Yonder***), the official song of the US Air Force.
 
 ## Network Edition
 
