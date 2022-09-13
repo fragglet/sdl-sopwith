@@ -19,6 +19,7 @@ Please note that other than the Network Edition, these versions are
 | Enemy planes drop bombs         |   | X |   |   |   |
 | Oxen and birds                  |   |   | X | X | X |
 | Explosions leave debris         |   |   | X | X | X |
+| Novice mode                     |   |   |   | X | X |
 | Missiles and starbursts         |   |   |   | X | X |
 | Wounded planes                  |   |   |   | X | X |
 | Imaginet multiplayer            | X | X | X | X |   |
@@ -73,7 +74,11 @@ BMB driver.
 ## Network Edition
 
 Released by the author David L. Clark in the late '90s, the main features
-added by this release are wounded planes and guided missiles and
+are the addition of novice mode and wounded planes. Novice mode in
+particular is convenient since it makes it impossible to stall the
+plane, a common stumbling block for new players.
+
+A controversial feature added in this release is guided missiles and
 starbursts (chaff/flares) which are presumably intended to make multiplayer
 more fun (they have to be enabled with the `-x` command line parameter).
 The missiles are dumb missiles when fired by the player but heat-seeking
