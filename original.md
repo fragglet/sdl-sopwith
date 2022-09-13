@@ -24,7 +24,7 @@ Please note that other than the Network Edition, these versions are
 | Imaginet multiplayer            | X | X | X | X |   |
 | Async (serial line) multiplayer |   |   | X | X | X |
 | Joystick support                |   |   | X | X | X |
-| Compiler                        |   |   |   | MSC | MSC |
+| Compiler                        | Computer Innovations C | CIC | CIC | Microsoft C | MSC |
 
 ## Sopwith 1
 
