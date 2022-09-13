@@ -4,10 +4,11 @@ title: Original DOS Sopwith versions
 
 # Original DOS Sopwith versions
 
-This page is intended to document the original DOS versions of
-Sopwith. It's not really related to SDL Sopwith except as a historical
-document for prosperity. Please note that other than the Network
-Edition, these versions are **not** open source.
+This page is intended to document the original DOS versions of Sopwith.
+It's not really related to SDL Sopwith except as a historical
+document for posterity and for people who are interested in such things.
+Please note that other than the Network Edition, these versions are
+**not** open source.
 
 ## Features
 
