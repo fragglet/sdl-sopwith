@@ -16,10 +16,11 @@ Please note that other than the Network Edition, these versions are
 | --- | --- | --- | --- | --------------- | ---------------- | 
 | Solid ground                    | X |   |   |   |   |
 | Speed depends on CPU            | X | X |   |   |   |
+| Enemy planes drop bombs         |   | X |   |   |   |
 | Oxen and birds                  |   |   | X | X | X |
 | Explosions leave debris         |   |   | X | X | X |
-| Enemy planes drop bombs         |   | X |   |   |   |
 | Missiles and starbursts         |   |   |   | X | X |
+| Wounded planes                  |   |   |   | X | X |
 | Imaginet multiplayer            | X | X | X | X |   |
 | Async (serial line) multiplayer |   |   | X | X | X |
 | Joystick support                |   |   | X | X | X |
@@ -71,14 +72,15 @@ BMB driver.
 
 ## Network Edition
 
-Released by the author David L. Clark in the late '90s, the main feature
-added by this release is guided missiles and starbursts (chaff/flares)
-which are presumably intended to make multiplayer more fun (they have to
-be enabled with the `-x` command line parameter). The missiles are dumb
-missiles when fired by the player but heat-seeking when fired by
-computer planes, making the single player experience almost impossible.
+Released by the author David L. Clark in the late '90s, the main features
+added by this release are wounded planes and guided missiles and
+starbursts (chaff/flares) which are presumably intended to make multiplayer
+more fun (they have to be enabled with the `-x` command line parameter).
+The missiles are dumb missiles when fired by the player but heat-seeking
+when fired by computer planes, making the single player experience almost
+impossible.
 
-There is a new title screen. This version was the base for the later
+There is also a new title screen. This version was the base for the later
 source code release by Clark.
 
 ## Author's Edition
