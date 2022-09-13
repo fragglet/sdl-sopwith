@@ -15,7 +15,11 @@ title: SDL Sopwith: Links
 * ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
   the game.
-
+* [Old David L. Clark email](https://groups.google.com/g/alt.games.sopwith/c/Ru44q8XvXEk/m/bR-HUt-rQQQJ)
+  with some historical details about the game.
+* [Lost Treasures of Gaming podcast](https://archive.org/details/LostTreasures002-Sopwith)
+  episode: interview with David L. Clark.
+  
 ## Ports of SDL Sopwith to other platforms
 
 * [Nintendo Wii](https://wiibrew.org/wiki/SDL_Sopwith) version by insin
@@ -40,6 +44,9 @@ title: SDL Sopwith: Links
 * [Sopwith VR](https://store.steampowered.com/app/998660/Sopwith_VR/)
   (mentions the original in the description, though this is a very different
   game!)
+* [Sheepwith](https://iirolindell.itch.io/sheepwith) by Iiro Lindell
+  (plus [interview](https://ninichimusic.com/blog/2017/introducing-the-game-robber-docks)
+  with the author where she mentions the original Sopwith as inspiration)
 
 ## Inspired by Sopwith ...?
 
