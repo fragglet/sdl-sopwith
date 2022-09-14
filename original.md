@@ -25,7 +25,7 @@ Please note that other than the Network Edition, these versions are
 | Window "splats"                 |   |   |   | X | X |
 | Imaginet multiplayer            | X | X | X | X |   |
 | Async (serial line) multiplayer |   |   | X | X | X |
-| Joystick support                |   |   | X | X | X |
+| Joystick support                |   | X | X | X | X |
 | Compiler                        | Computer Innovations C | CIC | CIC | Microsoft C | MSC |
 
 ## Sopwith 1
@@ -62,11 +62,19 @@ Sopwith 2 - it is unique in that planes drop bombs, a feature that never
 appeared in later versions and appears to be broken.
 
 Solid ground has been replaced by a line at this point in development,
-but there is not yet any sign of later features, like oxen and birds,
+and joystick supported.
+However, later changes are not yet present, like oxen and birds,
 or explosions leaving debris. It still runs at the speed of the CPU,
 like Sopwith 1, so the same slowdown techniques are needed to make it
 playable.
 
+By this version the theme music has been changed to [The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
+(aka ***Wild Blue Yonder***), the official song of the US Air Force.
+This music is used in Sopwith 2 and all future versions.
+
+<img src="original-files/sop15_title.png" width="320"> <img
+     src="original-files/sop15_001.png" width="320">
+     
 ## Sopwith 2
 
 Perhaps the best-known of the DOS versions, this was a significant step
@@ -81,9 +89,6 @@ hazard to the player. Speed is now CPU independent, the game supports
 IBM compatible joysticks, and serial line networking, although this
 latter feature is still unusable because it also requires a proprietary
 BMB driver.
-
-Sopwith 2 changed the theme music to [The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
-(aka ***Wild Blue Yonder***), the official song of the US Air Force.
 
 <img src="original-files/sopwith2_title.png" width="320"> <img
      src="original-files/sopwith2_001.png" width="320"> <img
