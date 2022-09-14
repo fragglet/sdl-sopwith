@@ -49,6 +49,9 @@ is run with the `-s` command line parameter.
 Multiplayer depends on the proprietary BMB drivers and Imaginet networking
 system and to my knowledge, no fans have ever been able to get it working.
 
+* [Download (.zip)](original-files/sopwith1.zip) (includes original
+  documentation)
+
 <img src="original-files/sopwith1_title.png" width="320"> <img
      src="original-files/sopwith1_001.png" width="320"> <img
      src="original-files/sopwith1_002.png" width="320">
@@ -72,6 +75,8 @@ By this version the theme music has been changed to [The U.S. Air Force](https:/
 (aka ***Wild Blue Yonder***), the official song of the US Air Force.
 This music is used in Sopwith 2 and all future versions.
 
+* [Download (.zip)](original-files/sop15.zip)
+
 <img src="original-files/sop15_title.png" width="320"> <img
      src="original-files/sop15_001.png" width="320">
      
@@ -89,6 +94,8 @@ hazard to the player. Speed is now CPU independent, the game supports
 IBM compatible joysticks, and serial line networking, although this
 latter feature is still unusable because it also requires a proprietary
 BMB driver.
+
+* [Download (.zip)](original-files/sopwith2.zip)
 
 <img src="original-files/sopwith2_title.png" width="320"> <img
      src="original-files/sopwith2_001.png" width="320"> <img
@@ -120,6 +127,8 @@ flying through an ox: the entire screen turns pink from blood.
 There is also a new title screen. This version was the base for the later
 source code release by Clark.
 
+* [Download (.zip)](original-files/swnet.zip)
+
 <img src="original-files/swnet_title.png" width="320"> <img
      src="original-files/swnet_001.png" width="320"> <img
      src="original-files/swnet_002.png" width="320">
@@ -128,5 +137,7 @@ source code release by Clark.
 
 Largely identical to the Network Edition, but the original BMB networking
 has been removed.
+
+* [Download (.zip)](original-files/swauth.zip)
 
 <img src="original-files/swauth_title.png" width="320">
