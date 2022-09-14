@@ -48,6 +48,10 @@ is run with the `-s` command line parameter.
 Multiplayer depends on the proprietary BMB drivers and Imaginet networking
 system and to my knowledge, no fans have ever been able to get it working.
 
+<img src="original-files/sopwith1_title.png" width="320"> <img
+     src="original-files/sopwith1_001.png" width="320"> <img
+     src="original-files/sopwith1_002.png" width="320">
+
 ## Sopwith 1.5
 
 I recently came across this version, which I'm calling Sopwith 1.5 since
@@ -80,6 +84,10 @@ BMB driver.
 Sopwith 2 changed the theme music to [The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
 (aka ***Wild Blue Yonder***), the official song of the US Air Force.
 
+<img src="original-files/sopwith2_title.png" width="320"> <img
+     src="original-files/sopwith2_001.png" width="320"> <img
+     src="original-files/sopwith2_002.png" width="320">
+
 ## Network Edition
 
 Released by the author David L. Clark in the late '90s, the main features
@@ -97,7 +105,13 @@ impossible.
 There is also a new title screen. This version was the base for the later
 source code release by Clark.
 
+<img src="original-files/swnet_title.png" width="320"> <img
+     src="original-files/swnet_001.png" width="320"> <img
+     src="original-files/swnet_002.png" width="320">
+
 ## Author's Edition
 
 Largely identical to the Network Edition, but the original BMB networking
 has been removed.
+
+<img src="original-files/swauth_title.png" width="320">
