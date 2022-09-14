@@ -22,6 +22,7 @@ Please note that other than the Network Edition, these versions are
 | Novice mode                     |   |   |   | X | X |
 | Missiles and starbursts         |   |   |   | X | X |
 | Wounded planes                  |   |   |   | X | X |
+| Window "splats"                 |   |   |   | X | X |
 | Imaginet multiplayer            | X | X | X | X |   |
 | Async (serial line) multiplayer |   |   | X | X | X |
 | Joystick support                |   |   | X | X | X |
@@ -101,6 +102,15 @@ more fun (they have to be enabled with the `-x` command line parameter).
 The missiles are dumb missiles when fired by the player but heat-seeking
 when fired by computer planes, making the single player experience almost
 impossible.
+
+Some more subtle changes: oil tank explosions were made much smaller,
+bird strikes no longer result in an explosion, and computer planes avoid
+crashing into oxen.
+
+A cute addition is that of window "splats": bird strikes result in a
+splatted bird appearing on the screen, and getting hit by a bullet results
+in similar broken glass cracks. Perhaps the funniest of all occurs after
+flying through an ox: the entire screen turns pink from blood.
 
 There is also a new title screen. This version was the base for the later
 source code release by Clark.
