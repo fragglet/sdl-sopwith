@@ -61,11 +61,12 @@ system and to my knowledge, no fans have ever been able to get it working.
 I recently came across this version, which I'm calling Sopwith 1.5 since
 its development clearly sits between the better known Sopwith 1 and 2. In
 my opinion this is perhaps best described as a beta version of the later
-Sopwith 2 - it is unique in that planes drop bombs, a feature that never
-appeared in later versions and appears to be broken.
+Sopwith 2 - it is unique in that computer planes drop bombs, a feature
+that never appeared in any other version and does not appear to work
+very well.
 
 Solid ground has been replaced by a line at this point in development,
-and joystick supported.
+and joystick support added.
 However, later changes are not yet present, like oxen and birds,
 or explosions leaving debris. It still runs at the speed of the CPU,
 like Sopwith 1, so the same slowdown techniques are needed to make it
