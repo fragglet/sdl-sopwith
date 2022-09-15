@@ -1,0 +1,1179 @@
+diff -ur origsrc/bmblib.c gplsrc/bmblib.c
+--- origsrc/bmblib.c	2022-09-15 14:57:36.497652975 +0100
++++ gplsrc/bmblib.c	2022-09-15 14:57:13.240884873 +0100
+@@ -1,15 +1,20 @@
+ /*
+         bmblib  -       SW Old BMB STDLIB routines
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+         Modification History:
+                         94-12-19        Original development
++                        2003-01-27      GNU General Public License
+ */
+ 
+ 
+diff -ur origsrc/_dkio.asm gplsrc/_dkio.asm
+--- origsrc/_dkio.asm	2022-09-15 14:57:36.604320106 +0100
++++ gplsrc/_dkio.asm	2022-09-15 14:57:13.314218527 +0100
+@@ -2,12 +2,16 @@
+ ;       _dkio    -      Interrupt driven diskette i/o
+ ;                       ** Modified to support short diskette sectors **
+ ;
+-;                       Copyright (C) 1984-2000 David L. Clark.
+-;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ ;
+ ;                       Author: Dave Clark
+ ;
+@@ -19,6 +23,7 @@
+ ;                       85-06-09        Non-transparent board
+ ;                       87-03-10        Microsoft compiler
+ ;                       94-12-18        C6 Compiler
++;                       2003-01-27      GNU General Public License
+ ;       Usage:
+ ;               ---------------------------------------------------
+ ;
+Only in gplsrc/: gnu general public license - gnu project - free software foundation (fsf).html
+diff -ur origsrc/_inta.asm gplsrc/_inta.asm
+--- origsrc/_inta.asm	2022-09-15 14:57:36.607653454 +0100
++++ gplsrc/_inta.asm	2022-09-15 14:57:13.317551875 +0100
+@@ -1,12 +1,17 @@
+ ;
+ ;       _inta    -      Generalized interrupt service routine
+ ;
+-;                       Copyright (C) 1984-2000 David L. Clark.
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ ;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
+ ;
+ ;                       Author: Dave Clark
+ ;
+@@ -14,6 +19,7 @@
+ ;                       84-02-22        Development
+ ;                       87-03-10        Microsoft compiler
+ ;                       94-12-18        C6 Compiler
++;                       2003-01-27      GNU General Public License
+ ;       Usage:
+ ;               ---------------------------------------------------
+ ;
+diff -ur origsrc/_intc.c gplsrc/_intc.c
+--- origsrc/_intc.c	2022-09-15 14:57:36.507653018 +0100
++++ gplsrc/_intc.c	2022-09-15 14:57:13.244218222 +0100
+@@ -1,12 +1,16 @@
+ /*
+         _intc.c   -     Interrupt Override Handling
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -14,6 +18,7 @@
+                         84-03-15        Development
+                         85-11-06        Atari
+                         87-03-10        Microsoft compiler.
++                        2003-01-27      GNU General Public License
+ 
+         Usage:  --------------------------------------------------------
+                 _intsetup( inter, offset );
+diff -ur origsrc/_ints.asm gplsrc/_ints.asm
+--- origsrc/_ints.asm	2022-09-15 14:57:36.610986802 +0100
++++ gplsrc/_ints.asm	2022-09-15 14:57:13.320885222 +0100
+@@ -1,19 +1,23 @@
+ ;
+ ;       ints     -      Extra DOS Interrupt Control
+ ;
+-;                       Copyright (C) 1984-2000 David L. Clark.
+-;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
+-;
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. ;
+ ;                       Author: Dave Clark
+ ;
+ ;       Modification History:
+ ;                       84-03-06        Development
+ ;                       87-03-10        Microsoft compiler
+ ;                       94-12-18        C6 Compiler
++;                       2003-01-27      GNU General Public License
+ ;
+ 
+ %       .MODEL  model,lang
+Only in origsrc: license.txt
+Only in gplsrc/: philosophical-gnu-sm.jpg
+diff -ur origsrc/segments.h gplsrc/segments.h
+--- origsrc/segments.h	2022-09-15 14:57:36.584320019 +0100
++++ gplsrc/segments.h	2022-09-15 14:57:13.297551787 +0100
+@@ -1,9 +1,16 @@
+-;                       Copyright (C) 1984-2000 David L. Clark.
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ ;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
++;       Modification History:
++;                       2003-01-27      GNU General Public License
+ ;
+ 
+ 
+diff -ur origsrc/std.h gplsrc/std.h
+--- origsrc/std.h	2022-09-15 14:57:36.590986715 +0100
++++ gplsrc/std.h	2022-09-15 14:57:13.300885135 +0100
+@@ -1,12 +1,18 @@
+ /*
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
++        Modification History:
++                        2003-01-27      GNU General Public License
+ */
+ 
+ #define NULL     ((void *)0)
+diff -ur origsrc/swasynio.c gplsrc/swasynio.c
+--- origsrc/swasynio.c	2022-09-15 14:57:36.520986410 +0100
++++ gplsrc/swasynio.c	2022-09-15 14:57:13.247551569 +0100
+@@ -1,12 +1,17 @@
++
+ /*
+         swasynio -      SW asynchrounous communications I/O
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -16,6 +21,7 @@
+                         87-03-12        Allow asynch loopback for debugging.
+                         96-12-26        Remove IMAGINET network card
+                                           card address in "multaddr".
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swauto.c gplsrc/swauto.c
+--- origsrc/swauto.c	2022-09-15 14:57:36.524319757 +0100
++++ gplsrc/swauto.c	2022-09-15 14:57:13.250884917 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swauto   -      SW control of computer player
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -21,6 +25,7 @@
+                         87-04-05        Missile and starburst support
+                         87-04-06        Computer plane avoiding oxen.
+                         87-04-09        Don't attack until closer.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swcollsn.c gplsrc/swcollsn.c
+--- origsrc/swcollsn.c	2022-09-15 14:57:36.527653105 +0100
++++ gplsrc/swcollsn.c	2022-09-15 14:57:13.250884917 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swcollsn -      SW collision resolution
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -21,6 +25,7 @@
+                         87-03-13        Splatted bird symbol.
+                         87-03-31        Missiles.
+                         87-04-05        Missile and starburst support
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swcomm.asm gplsrc/swcomm.asm
+--- origsrc/swcomm.asm	2022-09-15 14:57:36.617653497 +0100
++++ gplsrc/swcomm.asm	2022-09-15 14:57:13.320885222 +0100
+@@ -3,10 +3,16 @@
+ ;
+ ;                       Copyright (C) 1984-2000 David L. Clark.
+ ;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ ;
+ ;                       Author: Dave Clark
+ ;
+@@ -15,6 +21,7 @@
+ ;                       87-01-09        Multiple port support
+ ;                       87-03-10        Microsoft compiler
+ ;                       94-12-18        C6 Compiler
++;                       2003-01-27      GNU General Public License
+ ;
+ 
+ %       .MODEL  model,lang
+diff -ur origsrc/swdeve.h gplsrc/swdeve.h
+--- origsrc/swdeve.h	2022-09-15 14:57:36.590986715 +0100
++++ gplsrc/swdeve.h	2022-09-15 14:57:13.304218483 +0100
+@@ -1,11 +1,18 @@
+ /*
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Modification History:
++                        2003-01-27      GNU General Public License
+ 
+ */
+ 
+diff -ur origsrc/swdisp.c gplsrc/swdisp.c
+--- origsrc/swdisp.c	2022-09-15 14:57:36.530986453 +0100
++++ gplsrc/swdisp.c	2022-09-15 14:57:13.254218265 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swdispc  -      Display all players and objects
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -17,6 +21,7 @@
+                         87-03-12        Wounded airplanes.
+                         87-03-13        Splatted bird symbol.
+                         87-04-05        Missile and starburst support
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swend.c gplsrc/swend.c
+--- origsrc/swend.c	2022-09-15 14:57:36.534319801 +0100
++++ gplsrc/swend.c	2022-09-15 14:57:13.257551612 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swend    -      SW end of game
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -14,6 +18,7 @@
+                         84-02-02        Development
+                         87-03-09        Microsoft compiler.
+                         87-03-12        Wounded airplanes.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swgames.c gplsrc/swgames.c
+--- origsrc/swgames.c	2022-09-15 14:57:36.537653149 +0100
++++ gplsrc/swgames.c	2022-09-15 14:57:13.260884961 +0100
+@@ -1,18 +1,23 @@
+ /*
+         swgames  -      SW definition of games
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+         Modification History:
+                         84-02-08        Development
+                         87-03-09        Microsoft compiler.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swground.c gplsrc/swground.c
+--- origsrc/swground.c	2022-09-15 14:57:36.537653149 +0100
++++ gplsrc/swground.c	2022-09-15 14:57:13.264218308 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swground -      SW initial ground heights
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -14,6 +18,7 @@
+                         84-04-04        Development
+                         85-10-31        Atari
+                         87-03-09        Microsoft compiler.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swgrpha.c gplsrc/swgrpha.c
+--- origsrc/swgrpha.c	2022-09-15 14:57:36.540986496 +0100
++++ gplsrc/swgrpha.c	2022-09-15 14:57:13.267551657 +0100
+@@ -2,12 +2,16 @@
+ 
+         swgrph   -      SW screen graphics
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -16,6 +20,7 @@
+                         84-06-13        PCjr Speed-up
+                         85-11-05        Atari
+                         87-03-09        Microsoft compiler.
++                        2003-01-27      GNU General Public License
+ */
+ 
+ 
+diff -ur origsrc/swgrph.asm gplsrc/swgrph.asm
+--- origsrc/swgrph.asm	2022-09-15 14:57:36.620986846 +0100
++++ gplsrc/swgrph.asm	2022-09-15 14:57:13.324218570 +0100
+@@ -1,14 +1,16 @@
+ ;
+ ;       swgrph   -      SW screen graphics
+ ;
+-;                       Copyright (C) 1984-2000 David L. Clark.
+-;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
+-;
+-;                       Author: Dave Clark
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ ;
+ ;       Modification History:
+ ;                       84-02-21        Development
+@@ -17,6 +19,7 @@
+ ;                       87-03-10        Microsoft compiler
+ ;                       87-03-13        Splatted ox display
+ ;                       94-12-18        C6 Compiler
++;                       2003-01-27      GNU General Public License
+ ;
+ ;
+ 
+diff -ur origsrc/sw.h gplsrc/sw.h
+--- origsrc/sw.h	2022-09-15 14:57:36.594320062 +0100
++++ gplsrc/sw.h	2022-09-15 14:57:13.304218483 +0100
+@@ -1,12 +1,16 @@
+ /*
+         sw.h     -      SW  Manifest Definitions
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -23,6 +27,7 @@
+                         87-03-31        Missiles
+                         87-04-04        Missile and starburst support
+                         87-04-08        Delay between starbursts
++                        2003-01-27      GNU General Public License
+ */
+ #include        "std.h"
+ #include        "sysint.h"
+diff -ur origsrc/sw.ha gplsrc/sw.ha
+--- origsrc/sw.ha	2022-09-15 14:59:55.901593764 +0100
++++ gplsrc/sw.ha	2022-09-15 14:59:59.258275046 +0100
+@@ -1,12 +1,16 @@
+ ;
+ ;       sw.ah    -      SW Assembler Manifests
+ ;
+-;                       Copyright (C) 1984-2000 David L. Clark.
+-;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ ;
+ ;                       Author: Dave Clark
+ ;
+@@ -14,6 +18,7 @@
+ ;                       84-02-02        Development
+ ;                       84-06-12        PCjr Speed-up
+ ;                       87-03-04        Missile and starburst support
++;                       2003-01-27      GNU General Public License
+ ;
+ ;-----------------------------------------------------------------------------
+ 
+diff -ur origsrc/swhist.asm gplsrc/swhist.asm
+--- origsrc/swhist.asm	2022-09-15 14:57:36.624320194 +0100
++++ gplsrc/swhist.asm	2022-09-15 14:57:13.327551918 +0100
+@@ -3,10 +3,16 @@
+ ;
+ ;                       Copyright (C) 1984-2000 David L. Clark.
+ ;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ ;
+ ;                       Author: Dave Clark
+ ;
+@@ -15,6 +21,7 @@
+ ;                       85-11-05        ATARI
+ ;                       87-03-10        Microsoft compiler
+ ;                       94-12-18        C6 Compiler
++;                       2003-01-27      GNU General Public License
+ ;
+ ;
+ 
+diff -ur origsrc/swinit.c gplsrc/swinit.c
+--- origsrc/swinit.c	2022-09-15 14:57:36.547653192 +0100
++++ gplsrc/swinit.c	2022-09-15 14:57:13.267551657 +0100
+@@ -1,14 +1,16 @@
+ /*
+         swinit   -      SW initialization
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
+-
+-                        Author: Dave Clark
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+         Modification History:
+                         84-02-02        Development
+@@ -34,6 +36,8 @@
+                         2000-10-29      Copyright update.
+                                         Comment out multiplayer selection
+                                           on startup.
++                        2003-01-27      GNU General Public License.
++                        2003-02-04  GNU public license in -?
+ */
+ #include        "sw.h"
+ 
+@@ -139,9 +143,19 @@
+ 
+ static  char     *helptxt[] = {         /* Help text                      */
+ "",
+-"SOPWITH, Distribution Version",
+-"(c) Copyright 1984-2000 David L. Clark",
+-"Modification Date:  October 29, 2000",
++"SOPWITH, (The Author's Edition)",
++"(c) Copyright 1984-2003 David L. Clark",
++"Modification Date:  February 4, 2003",
++"",
++"This program is free software; you can redistribute it and/or modify it under",
++"the terms of the GNU General Public License as published by the Free Software",
++"Foundation; either version 2 of the License, or (at your option) any later",
++"version. This program is distributed in the hope that it will be useful,",
++"but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY",
++"or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for",
++"more details. You should have received a copy of the GNU General Public",
++"License along with this program; if not, write to the Free Software Foundation,",
++"Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.", 
+ "",
+ "Usage:  sopwith [options]",
+ "The options are:",
+Only in origsrc: sw.lnk
+diff -ur origsrc/swmach.h gplsrc/swmach.h
+--- origsrc/swmach.h	2022-09-15 14:57:36.597653411 +0100
++++ gplsrc/swmach.h	2022-09-15 14:57:13.307551831 +0100
+@@ -1,12 +1,18 @@
+ /*
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
++        Modification History:
++                        2003-01-27      GNU General Public License
+ */
+ 
+ #undef IBMPC
+diff -ur origsrc/swmain.c gplsrc/swmain.c
+--- origsrc/swmain.c	2022-09-15 14:57:36.550986540 +0100
++++ gplsrc/swmain.c	2022-09-15 14:57:13.270885004 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swmain   -      SW mainline
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -18,6 +22,7 @@
+                         87-03-12        Wounded airplanes.
+                         87-04-06        Computer plane avoiding oxen.
+                         96-12-26        Speed up game a bit
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/sw.mak gplsrc/sw.mak
+--- origsrc/sw.mak	2022-09-15 15:00:50.765165943 +0100
++++ gplsrc/sw.mak	2022-09-15 15:00:53.881846171 +0100
+@@ -1,9 +1,13 @@
+-#                       Copyright (C) 1984-2000 David L. Clark.
+-#
+-#                       All rights reserved except as specified in the
+-#                       file license.txt.  Distribution of this file
+-#                       without the license.txt file accompanying is
+-#                       prohibited.
++#       Copyright (C) 1984-2003 David L. Clark.
++#       This program is free software; you can redistribute it and/or modify it under
++#       the terms of the GNU General Public License as published by the Free Software
++#       Foundation; either version 2 of the License, or (at your option) any later
++#       version. This program is distributed in the hope that it will be useful,
++#       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++#       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++#       more details. You should have received a copy of the GNU General Public
++#       License along with this program; if not, write to the Free Software Foundation,
++#       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ #
+ 
+ .asm.obj:
+diff -ur origsrc/swmisc.c gplsrc/swmisc.c
+--- origsrc/swmisc.c	2022-09-15 14:57:36.550986540 +0100
++++ gplsrc/swmisc.c	2022-09-15 14:57:13.274218352 +0100
+@@ -1,18 +1,23 @@
+ /*
+         swmiscjr -      SW miscellaneous
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+         Modification History:
+                         84-07-23        Development
+                         87-03-09        Microsoft compiler.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swmove.c gplsrc/swmove.c
+--- origsrc/swmove.c	2022-09-15 14:57:36.557653236 +0100
++++ gplsrc/swmove.c	2022-09-15 14:57:13.277551700 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swmove   -      SW move all objects and players
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -24,6 +28,7 @@
+                         87-04-01        Missiles.
+                         87-04-04        Missile and starburst support.
+                         87-04-09        Delay between starbursts.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swmultio.c gplsrc/swmultio.c
+--- origsrc/swmultio.c	2022-09-15 14:57:36.560986584 +0100
++++ gplsrc/swmultio.c	2022-09-15 14:57:13.277551700 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swmultio -      SW multiple plane communications I/O
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -20,6 +24,7 @@
+                                         but is not linked.
+                         2000-10-29      Re-inserted into project for
+                                           dependable compile/link.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swnetio.c gplsrc/swnetio.c
+--- origsrc/swnetio.c	2022-09-15 14:57:36.564319931 +0100
++++ gplsrc/swnetio.c	2022-09-15 14:57:13.280885047 +0100
+@@ -1,19 +1,21 @@
+ /*
+         swmultio -      SW multiple plane communications I/O
+ 
+-                        This module is a replacement to the
+-                        original "swmultio.c".
+-
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+ 
+         Modification History:
+                         96-12-27        Development
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swobject.c gplsrc/swobject.c
+--- origsrc/swobject.c	2022-09-15 14:57:36.564319931 +0100
++++ gplsrc/swobject.c	2022-09-15 14:57:13.284218396 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swobject -      SW object allocation and deallocation
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -15,6 +19,7 @@
+                         84-06-12        PCjr Speed-up
+                         84-10-31        Atari
+                         87-03-09        Microsoft compiler.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swplanes.c gplsrc/swplanes.c
+--- origsrc/swplanes.c	2022-09-15 14:57:36.567653280 +0100
++++ gplsrc/swplanes.c	2022-09-15 14:57:13.287551743 +0100
+@@ -1,12 +1,19 @@
+ #include        "sw.h"
+ 
+ /*
+-                        Copyright (C) 1984-2000 David L. Clark.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Modification History:
++                        2003-01-27      GNU General Public License
+ */
+ 
+ char    swplnsym[ORIENTS][ANGLES][SYMBYTES] = {
+diff -ur origsrc/swsound.c gplsrc/swsound.c
+--- origsrc/swsound.c	2022-09-15 14:57:36.570986627 +0100
++++ gplsrc/swsound.c	2022-09-15 14:57:13.290885092 +0100
+@@ -1,18 +1,23 @@
+ /*
+         swsound  -      SW sound generation
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+         Modification History:
+                         84-04-11        Development
+                         87-03-10        Microsoft compiler.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+diff -ur origsrc/swsymbol.c gplsrc/swsymbol.c
+--- origsrc/swsymbol.c	2022-09-15 14:57:36.574319976 +0100
++++ gplsrc/swsymbol.c	2022-09-15 14:57:13.290885092 +0100
+@@ -1,12 +1,19 @@
+ #include        "sw.h"
+ 
+ /*
+-                        Copyright (C) 1984-2000 David L. Clark.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Modification History:
++                        2003-01-27      GNU General Public License
+ */
+ 
+ 
+diff -ur origsrc/swtitle.c gplsrc/swtitle.c
+--- origsrc/swtitle.c	2022-09-15 14:57:36.577653323 +0100
++++ gplsrc/swtitle.c	2022-09-15 14:57:13.294218439 +0100
+@@ -1,12 +1,16 @@
+ /*
+         swtitle  -      SW perform animation on the title screen
+ 
+-                        Copyright (C) 1984-2000 David L. Clark.
+-
+-                        All rights reserved except as specified in the
+-                        file license.txt.  Distribution of this file
+-                        without the license.txt file accompanying is
+-                        prohibited.
++        Copyright (C) 1984-2003 David L. Clark.
++        This program is free software; you can redistribute it and/or modify it under
++        the terms of the GNU General Public License as published by the Free Software
++        Foundation; either version 2 of the License, or (at your option) any later
++        version. This program is distributed in the hope that it will be useful,
++        but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++        or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++        more details. You should have received a copy of the GNU General Public
++        License along with this program; if not, write to the Free Software Foundation,
++        Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ 
+                         Author: Dave Clark
+ 
+@@ -18,6 +22,7 @@
+                         96-12-27        New network version.
+                         99-01-24        1999 copyright.
+                         2000-10-29      Copyright update.
++                        2003-01-27      GNU General Public License
+ */
+ #include        "sw.h"
+ 
+@@ -86,7 +91,7 @@
+ 
+         swcolour( 1 );
+         swposcur( 9, 6 );
+-        puts( "(Distribution Version)" );
++        puts( "(The Author's Edition)" );
+ 
+         swcolour( 3 );
+         swposcur( 5, 9 );
+@@ -100,7 +105,7 @@
+ 
+         swcolour( 3 );
+         swposcur( 1, 12 );
+-        puts( "(c) Copyright 1984-2000 David L. Clark" );
++        puts( "Copyright (C) 1984-2003 David L. Clark" );
+ 
+ /*---------------- New Network Version-----------------*/
+ 
+diff -ur origsrc/swutil.asm gplsrc/swutil.asm
+--- origsrc/swutil.asm	2022-09-15 14:57:36.627653541 +0100
++++ gplsrc/swutil.asm	2022-09-15 14:57:13.330885266 +0100
+@@ -1,12 +1,16 @@
+ ;
+ ;       swutil   -      SW assembler utilities
+ ;
+-;                       Copyright (C) 1984-2000 David L. Clark.
+-;
+-;                       All rights reserved except as specified in the
+-;                       file license.txt.  Distribution of this file
+-;                       without the license.txt file accompanying is
+-;                       prohibited.
++;       Copyright (C) 1984-2003 David L. Clark.
++;       This program is free software; you can redistribute it and/or modify it under
++;       the terms of the GNU General Public License as published by the Free Software
++;       Foundation; either version 2 of the License, or (at your option) any later
++;       version. This program is distributed in the hope that it will be useful,
++;       but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
++;       or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
++;       more details. You should have received a copy of the GNU General Public
++;       License along with this program; if not, write to the Free Software Foundation,
++;       Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ ;
+ ;                       Author: Dave Clark
+ ;
+@@ -19,6 +23,7 @@
+ ;                       87-03-05        Remap missile and starburst keys
+ ;                       87-04-09        Fix to non-IBM keyboard.
+ ;                       94-12-18        C6 Compiler
++;                       2003-01-27      GNU General Public License
+ ;
+ 
+ 
