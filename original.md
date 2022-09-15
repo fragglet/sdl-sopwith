@@ -7,7 +7,7 @@ title: Original DOS Sopwith versions
 This page is intended to document the original DOS versions of Sopwith.
 It's not really related to SDL Sopwith except as a historical
 document for posterity and for people who are interested in such things.
-Please note that other than the Network Edition, these versions are
+Please note that other than the Author's Edition, these versions are
 **not** open source.
 
 ## Features
@@ -129,9 +129,6 @@ splatted bird appearing on the screen, and getting hit by a bullet results
 in similar broken glass cracks. Perhaps the funniest of all occurs after
 flying through an ox: the entire screen turns pink from blood.
 
-There is also a new title screen. This version was the base for the later
-source code release by Clark.
-
 * [Download (.zip)](original-files/swnet.zip)
 
 <img src="original-files/swnet_title.png" width="320"> <img
@@ -141,9 +138,21 @@ source code release by Clark.
 ## Author's Edition
 
 Largely identical to the Network Edition, but the original BMB networking
-has been removed.
+has been removed. This was the basis for the source code release by David
+Clark.
+
+The code was originally released in 2000 under a non-commercial license, but
+was later re-released under the GPL in 2003. There are some 
+[very minor differences](original-files/sopwith-orig-gpl.diff) between
+the two source releases. A GPL blurb was added to the program help text (as
+the GPL itself recommends doing), and the copyright year on the title screen
+was updated. The earlier release described itself as "Distribution Version"
+rather than "The Author's Version", presumably because Clark doesn't want
+other people calling their versions by that name.
 
 * [Download (.zip)](original-files/swauth.zip)
+* [Download source code (original non-free license, .zip)](original-files/origsrc.zip)
+* [Download source code (GPL re-release, .zip)](original-files/gplsrc.zip)
 * [Play emulated version](https://archive.org/details/msdos_Sopwith_-_The_Authors_Edition_2000) on
   archive.org.
 
