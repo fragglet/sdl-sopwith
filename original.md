@@ -51,6 +51,8 @@ system and to my knowledge, no fans have ever been able to get it working.
 
 * [Download (.zip)](original-files/sopwith1.zip) (includes original
   documentation)
+* [Play emulated version](https://archive.org/details/msdos_Sopwith_1985) on
+  archive.org.
 
 <img src="original-files/sopwith1_title.png" width="320"> <img
      src="original-files/sopwith1_001.png" width="320"> <img
@@ -97,6 +99,8 @@ latter feature is still unusable because it also requires a proprietary
 BMB driver.
 
 * [Download (.zip)](original-files/sopwith2.zip)
+* [Play emulated version](https://archive.org/details/msdos_Sopwith_2_1985) on
+  archive.org.
 
 <img src="original-files/sopwith2_title.png" width="320"> <img
      src="original-files/sopwith2_001.png" width="320"> <img
@@ -140,5 +144,7 @@ Largely identical to the Network Edition, but the original BMB networking
 has been removed.
 
 * [Download (.zip)](original-files/swauth.zip)
+* [Play emulated version](https://archive.org/details/msdos_Sopwith_-_The_Authors_Edition_2000) on
+  archive.org.
 
 <img src="original-files/swauth_title.png" width="320">
