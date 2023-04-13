@@ -1,24 +1,24 @@
 .TH sopwith 6
-
+.
 .SH NAME
 sopwith \- classic aerial combat shoot em up game
-
+.
 .SH SYNOPSIS
 .B sopwith 
 [ \-n | \-s | \-c | \-l | \-j \fIhost\fR ] [\-f] [\-g\fIlevel\fR] [\-q]
-
+.
 .SH DESCRIPTION
 Sopwith is a modern port of the classic 1980s shoot 'em up game of the same
 name. The game has a World War I aviation theme. The object of Sopwith is to
 destroy all enemy targets with a somewhat limited airforce.
-
+.
 It can be played both in single player and multiplayer mode over a TCP/IP network.
-
+.
 Sopwith looks for a configuration file in the user's home directory at
 \fI~/.local/share/SDL Sopwith/sopwith.cfg\fR; the configuration file is only
 generated after the user changes one of the settings from the in-game options
 menu. Details about the contents of this file can be found in \fBsopwith.cfg\fR(5).
-
+.
 .SH OPTIONS
 .TP
 \-n
@@ -51,7 +51,7 @@ the game on level 2. The default is level 0.
 .TP
 \-q
 Turn off sound (quiet)
-
+.
 .SH CONTROLS
 The standard controls on a US layout keyboard are as follows:
 .TP 
@@ -87,7 +87,7 @@ quit
 .TP
 Ctrl+C Ctrl+C Ctrl+C
 quit immediately
-
+.
 .SH TIPS
 The following are some tips for playing the game:
 .IP \(bu
@@ -130,12 +130,12 @@ break out of the stall before your plane crashes into the ground.
 .IP \(bu
 Wait until you're close to your base with a clear path to the runway before
 pressing the home key - the autopilot sometimes makes mistakes.
-
+.
 .SH MEDALS
-
+.
 If the "medals" game option is turned on, the player is rewarded with ribbons
 and medals for the following:
-
+.
 .TP
 Flying Ace Ribbon (cyan with a single white stripe)
 Shooting down 5 planes
@@ -168,39 +168,39 @@ Victoria Cross (cyan cross on a magenta ribbon)
 As above, but a few more points
 .PP
 All medals and counters for these are reset once a plane is destroyed.
-
+.
 .SH MULTIPLAYER SERVERS
-
+.
 When run in "listen" mode with the \fB\-l\fR command line flag (see above),
 \fBsopwith\fR runs as a server that listens for an incoming connection.
 To make this server available from a home Internet connection, you will
 typically have to set up a port forward from your Internet router. The port
 to forward is TCP port 3847. You will also need to find out your public IP
 address so that the other player can connect.
-
+.
 Alternatively, if you have access to a *nix-based server then it may be
 preferable to run something like a dedicated server that avoids the hassle
 of port forwarding and dynamic IPs. All that is needed in order to do this
 is to run a TCP server that forwards connections between two clients. This
 can be done using \fBnc\fR(1); for example:
-
+.
 .RS
 nc -l -p 3847 -c "nc -l -p 3847"
 .RE
-
+.
 Developing the above command into a complete shell script for a
 continually-active dedicated server is left as an exercise for the reader.
-
+.
 .SH SEE ALSO
 \fBsopwith.cfg\fR(5),
 \fBtriplane\fR(6),
 \fBairstrike\fR(6)
-
+.
 .SH AUTHORS
 Originally written by David L. Clark for BMB Compuscience
 .br
 Modern SDL port By Simon Howard, Jesse Smith
-
+.
 .SH HISTORY
 Sopwith was originally developed by BMB Compuscience of Canada as a
 demonstration game for their Imaginet Networking System. The system was not
@@ -225,4 +225,3 @@ aviation pioneer Thomas Sopwith; 5,490 aircraft were produced. In popular
 culture the Camel is known for being the biplane flown by the protagonist in
 the \fIBiggles\fR series of novels, and by Snoopy in the \fIPeanuts\fR comic
 strip.
-
