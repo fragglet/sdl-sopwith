@@ -13,19 +13,19 @@ Please note that other than the Author's Edition, these versions are
 ## Features
 
 |     | 1   | 1.5 | 2   | Network Edition | Author's Edition |
-| --- | --- | --- | --- | --------------- | ---------------- | 
-| Solid ground                    | X |   |   |   |   |
-| Speed depends on CPU            | X | X |   |   |   |
-| Enemy planes drop bombs         |   | X |   |   |   |
-| Oxen and birds                  |   |   | X | X | X |
-| Explosions leave debris         |   |   | X | X | X |
-| Novice mode                     |   |   |   | X | X |
-| Missiles and starbursts         |   |   |   | X | X |
-| Wounded planes                  |   |   |   | X | X |
-| Window "splats"                 |   |   |   | X | X |
-| Imaginet multiplayer            | X | X | X | X |   |
-| Async (serial line) multiplayer |   |   | X | X | X |
-| Joystick support                |   | X | X | X | X |
+| --- | --- | --- | --- | --------------- | ---------------- |
+| Solid ground                    | ✓ |   |   |   |   |
+| Speed depends on CPU            | ✓ | ✓ |   |   |   |
+| Enemy planes drop bombs         |   | ✓ |   |   |   |
+| Oxen and birds                  |   |   | ✓ | ✓ | ✓ |
+| Explosions leave debris         |   |   | ✓ | ✓ | ✓ |
+| Novice mode                     |   |   |   | ✓ | ✓ |
+| Missiles and starbursts         |   |   |   | ✓ | ✓ |
+| Wounded planes                  |   |   |   | ✓ | ✓ |
+| Window "splats"                 |   |   |   | ✓ | ✓ |
+| Imaginet multiplayer            | ✓ | ✓ | ✓ | ✓ |   |
+| Async (serial line) multiplayer |   |   | ✓ | ✓ | ✓ |
+| Joystick support                |   | ✓ | ✓ | ✓ | ✓ |
 | Compiler                        | Computer Innovations C | CIC | CIC | Microsoft C | MSC |
 
 ## Sopwith 1
@@ -40,7 +40,7 @@ Speed is CPU-dependent, so the game runs too fast on machines faster
 than the original IBM XT unless a utility like MOSLO is used (or the
 number of cycles adjusted to a low number on emulators like DOSbox.
 
-The musical theme to this version is 
+The musical theme to this version is
 [Merrily We Roll Along](https://en.wikipedia.org/wiki/Merrily_We_Roll_Along_\(song\)),
 better known as the theme song for the Warner Brothers ***Merry Melodies***
 cartoon. However, the music doesn't play on the title screen unless Sopwith
@@ -82,7 +82,7 @@ This music is used in Sopwith 2 and all future versions.
 
 <img src="original-files/sop15_title.png" width="320"> <img
      src="original-files/sop15_001.png" width="320">
-     
+
 ## Sopwith 2
 
 Perhaps the best-known of the DOS versions, this was a significant step
@@ -142,7 +142,7 @@ has been removed. This was the basis for the source code release by David
 Clark.
 
 The code was originally released in 2000 under a non-commercial license, but
-was later re-released under the GPL in 2003. There are some 
+was later re-released under the GPL in 2003. There are some
 [very minor differences](original-files/sopwith-orig-gpl.diff) between
 the two source releases. A GPL blurb was added to the program help text (as
 the GPL itself recommends doing), and the copyright year on the title screen
