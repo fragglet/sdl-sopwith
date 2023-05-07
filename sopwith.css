@@ -8,6 +8,9 @@ code > span {
   color: white;
 }
 
+code > .nt { color: inherit; }
+code > .s2 { color: inherit; }
+
 header {
   margin-bottom: 10px;
   padding-right: 0;
