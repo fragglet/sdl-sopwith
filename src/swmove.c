@@ -38,6 +38,9 @@
 #include "swtitle.h"
 #include "swutil.h"
 
+static BOOL movepln(OBJECTS *ob);
+static void interpret(OBJECTS *ob, int key);
+
 static BOOL quit;
 
 void swmove(void)
@@ -121,8 +124,6 @@ static void refuel(OBJECTS *ob)
 {
 	// sdh 26/10/2001: top up stuff, if anything happens update
 	// the gauges (now a single function)
-	// sdh 27/10/2001: fix refueling in parallel (was a single
-	// set of ||'s and was being shortcircuited)
 
 	topup(&ob->ob_life, MAXFUEL);
 	topup(&ob->ob_rounds, MAXROUNDS);
@@ -237,7 +238,7 @@ BOOL moveplyr(OBJECTS *ob)
 
 
 
-void interpret(OBJECTS *ob, int key)
+static void interpret(OBJECTS *ob, int key)
 {
 	obstate_t state;
 
@@ -412,7 +413,7 @@ static BOOL stallpln(OBJECTS *ob)
 
 
 
-BOOL movepln(OBJECTS *ob)
+static BOOL movepln(OBJECTS *ob)
 {
 	int nangle, nspeed, limit, update;
 	obstate_t state, newstate;

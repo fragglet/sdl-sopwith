@@ -205,7 +205,7 @@ void stopsound(OBJECTS * ob)
 
 
 
-void soundoff(void)
+static void soundoff(void)
 {
 	if (lastfreq) {
 
@@ -242,7 +242,7 @@ static void tone(unsigned int freq)
 #define DOT         '.'
 #define REST        'R'
 
-void playnote(void)
+static void playnote(void)
 {
 
 	static int noteindex[] = { 0, 2, 3, 5, 7, 8, 10 };

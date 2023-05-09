@@ -36,7 +36,7 @@ static BOOL correction;		/*  Course correction flag        */
 static OBJECTS obs;		/*  Saved computer object         */
 static int courseadj;		/*  Course adjustment             */
 
-int shoot(OBJECTS *obt)
+static int shoot(OBJECTS *obt)
 {
 	static OBJECTS obsp, obtsp;
 	int obx, oby, obtx, obty;
@@ -355,7 +355,7 @@ static void cruise(OBJECTS *ob)
 		MAX_Y - 50 - (courseadj >> 1), NULL, NO);
 }
 
-void attack(OBJECTS *obp, OBJECTS *ob)
+static void attack(OBJECTS *obp, OBJECTS *ob)
 {
 	courseadj = ((countmove & 0x001F) < 16) << 4;
 	if (ob->ob_speed) {

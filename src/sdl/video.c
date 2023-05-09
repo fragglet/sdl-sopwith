@@ -94,7 +94,7 @@ static SDL_Texture *texture_upscaled = NULL;
 
 // convert a sopsym_t into a surface
 #define ICON_SCALE 4
-SDL_Surface *surface_from_sopsym(sopsym_t *sym)
+static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
 	SDL_Surface *surface = SDL_CreateRGBSurface(
 		0, sym->w * ICON_SCALE, sym->h * ICON_SCALE, 32,

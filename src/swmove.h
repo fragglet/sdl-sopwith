@@ -26,9 +26,7 @@
 
 extern void swmove(void);
 extern BOOL moveplyr(OBJECTS *obp);
-extern void interpret(OBJECTS *obp, int key);
 extern BOOL movecomp(OBJECTS *obp);
-extern BOOL movepln(OBJECTS *obp);
 extern BOOL moveshot(OBJECTS *obp);
 extern BOOL movebomb(OBJECTS *obp);
 extern BOOL movemiss(OBJECTS *obp);
