@@ -92,7 +92,7 @@ static confoption_t confoptions[] = {
 	{"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}},
 };
 
-int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
+static int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
 
 static void chomp(char *s)
 {
@@ -452,7 +452,7 @@ static int runmenu(char *title, struct menuitem *menu)
 	}
 }
 
-struct menuitem keys_menu[] = {
+static struct menuitem keys_menu[] = {
 	{"key_accelerate", "Accelerate"},
 	{"key_decelerate", "Decelerate"},
 	{"key_pullup",     "Pull up"},
@@ -464,7 +464,7 @@ struct menuitem keys_menu[] = {
 	{NULL},
 };
 
-struct menuitem options_menu[] = {
+static struct menuitem options_menu[] = {
 	{"vid_fullscreen",      "Run fullscreen"},
 	{"conf_solidground",    "Solid ground"},
 	{"conf_hudsplats",      "HUD splats"},

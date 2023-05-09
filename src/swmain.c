@@ -110,7 +110,7 @@ int num_players;
  * We store this to calculate the lag between the player command
  * being created and the command being executed. */
 
-int player_command_time[MAX_NET_LAG];
+static int player_command_time[MAX_NET_LAG];
 
 /* Skip time.  This is used to keep players in sync.
  * Each player waits a slight bit longer than they would normally
@@ -120,7 +120,7 @@ int player_command_time[MAX_NET_LAG];
  * others, keeping the game in sync.
  */
 
-int skip_time;
+static int skip_time;
 
 /* possibly advance the game */
 
