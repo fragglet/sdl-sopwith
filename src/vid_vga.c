@@ -114,14 +114,6 @@ void Vid_XorPixel(int x, int y, int clr)
 	*sptr ^= clr & 3;
 }
 
-int Vid_GetPixel(int x, int y)
-{
-	unsigned char *sptr
-		= vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;
-
-	return *sptr;
-}
-
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {
 	unsigned char *sptr = vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;

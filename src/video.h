@@ -99,8 +99,6 @@ extern void Vid_DispGround_Solid(GRNDTYPE *gptr);
 extern void Vid_PlotPixel(int x, int y, int clr);
 extern void Vid_XorPixel(int x, int y, int clr);
 
-extern int Vid_GetPixel(int x, int y);
-
 // draw a symbol
 
 extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
