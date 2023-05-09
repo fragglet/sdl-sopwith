@@ -55,10 +55,9 @@ playmode_t playmode;		/* Mode of play                     */
 GAMES *currgame;		/* Game parameters and current game */
 OBJECTS *consoleplayer;
 int numtarg[2];			/* Number of active targets by color */
-int counttick, countmove;	/* Performance counters             */
+int countmove;			/* Performance counters             */
 
 int gamenum = 0;		/* Current game number              */
-int initial_gamenum = 0;	/* Initial game number (user spec.) */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
