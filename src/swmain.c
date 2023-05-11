@@ -163,8 +163,6 @@ static void calculate_lag(void)
 	}
 
 	skip_time += compensation;
-
-//        printf("lag: %ims\n", lag);
 }
 
 static void new_move(void)
@@ -234,6 +232,8 @@ int swmain(int argc, char *argv[])
 
 		nowtime = Timer_GetMS();
 
+		// TODO: Replace the sync code with a PID loop like what
+		// Chocolate Doom uses.
 		if (nowtime > nexttic
 		 && latest_player_time[player] - countmove < MAX_NET_LAG) {
 

@@ -116,12 +116,9 @@ void swdisp(void)
 		print_help();
 	}
 
-//	lag = latest_player_time[player] - countmove;
-
 	// calculate displx from the player position
 	// do sanity checks to make sure we never go out of range
 	displx = consoleplayer->ob_x - SCR_CENTR;
-//	displx += consoleplayer->ob_dx * lag;
 
 	if (displx < 0) {
 		displx = 0;
@@ -135,9 +132,6 @@ void swdisp(void)
 
 		x = ob->ob_x;
 		y = ob->ob_y;
-
-//		x += ob->ob_dx * lag;
-//		y += ob->ob_dy * lag;
 
 		if (ob->ob_drwflg && x >= displx && x < displx + SCR_WDTH) {
 			swputsym(x - displx, y, ob);
