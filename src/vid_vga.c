@@ -121,6 +121,7 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 	int x1, y1;
 	int w = symbol->w, h = symbol->h;
 	int wrap = x - SCR_WDTH + w;
+	int color_flip;
 
 	if (w == 1 && h == 1) {
 		Vid_XorPixel(x, y, clr);
@@ -138,32 +139,24 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 		h = y + 1;
 	}
 
+	// TODO: This could be generalized via a mapping table to do new
+	// color-swap variants - magenta and white planes, etc.
 	if (clr == 2) {
-		for (y1=0; y1<h; ++y1) {
-			unsigned char *sptr2 = sptr;
-			for (x1=0; x1<w; ++x1, ++sptr2) {
-				int i = *data++;
-
-				if (i) {
-					*sptr2 ^= i ^ 3;
-				}
-			}
-			data += wrap;
-			sptr += vid_pitch;
-		}
+		color_flip = 3;
 	} else {
-		for (y1=0; y1<h; ++y1) {
-			unsigned char *sptr2 = sptr;
-			for (x1=0; x1<w; ++x1, ++sptr2) {
-				unsigned int i = *data++;
+		color_flip = 0;
+	}
+	for (y1=0; y1<h; ++y1) {
+		unsigned char *sptr2 = sptr;
+		for (x1=0; x1<w; ++x1, ++sptr2) {
+			int i = *data++;
 
-				if (i) {
-					*sptr2 ^= i;
-				}
+			if (i) {
+				*sptr2 ^= i ^ color_flip;
 			}
-			data += wrap;
-			sptr += vid_pitch;
 		}
+		data += wrap;
+		sptr += vid_pitch;
 	}
 }
 
