@@ -27,7 +27,7 @@
 #include "sw.h"
 #include "swgames.h"
 
-static GRNDTYPE orground[] = {     /* Original ground height by pixel */
+static GRNDTYPE original_ground[] = { /* Original ground height by pixel */
 
 /*   0 */  199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,
 /*  16 */  199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,
@@ -252,25 +252,23 @@ static original_ob_t original_targets[] = {
 	{FLOCK,  2630, 0, 370, 2630},
 };
 
-GAMES swgames[1] = {
+GAMES original_level = {
 	{
-		{
-			{PLANE, 1270, 0,  901, 1835},
-			{PLANE, 1720, 1, 1155, 2089},
-			{PLANE,  588, 0,    0, 1154},
-			{PLANE, 2456, 1, 2089, 9999},
-			// Extra planes for multiplayer:
-			{PLANE, 1330, 0,  901, 1835},
-			{PLANE, 1360, 0,  901, 1835},
-			{PLANE, 1630, 1, 1155, 2089},
-			{PLANE, 1660, 1, 1155, 2089},
-		},
-		7491,
-		original_targets,
-		arrlen(original_targets),
-		orground,
-		arrlen(orground),
+		{PLANE, 1270, 0,  901, 1835},
+		{PLANE, 1720, 1, 1155, 2089},
+		{PLANE,  588, 0,    0, 1154},
+		{PLANE, 2456, 1, 2089, 9999},
+		// Extra planes for multiplayer:
+		{PLANE, 1330, 0,  901, 1835},
+		{PLANE, 1360, 0,  901, 1835},
+		{PLANE, 1630, 1, 1155, 2089},
+		{PLANE, 1660, 1, 1155, 2089},
 	},
+	7491,
+	original_targets,
+	arrlen(original_targets),
+	original_ground,
+	arrlen(original_ground),
 };
 
 //---------------------------------------------------------------------------

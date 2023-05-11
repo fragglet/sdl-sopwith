@@ -24,7 +24,7 @@
 
 #include "sw.h"
 
-extern GAMES   swgames[1];
+extern GAMES original_level;
 
 #endif
 
