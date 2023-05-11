@@ -32,6 +32,7 @@
 #include "swmain.h"
 #include "swsplat.h"
 #include "swstbar.h"
+#include "swtext.h"
 
 static void dispgrnd(void)
 {
@@ -65,6 +66,35 @@ void swputsym(int x, int y, OBJECTS * ob)
 	Vid_DispSymbol(x, y, ob->ob_newsym, ob_color(ob));
 }
 
+static void print_help(void)
+{
+	int i;
+	struct {
+		char *name; int key;
+	} items[] = {
+		{ "Accelerate",  KEY_ACCEL },
+		{ "Decelerate",  KEY_DECEL },
+		{ "Pull Up",     KEY_PULLUP },
+		{ "Pull Down",   KEY_PULLDOWN },
+		{ "Flip Plane",  KEY_FLIP },
+		{ "Fire Gun",    KEY_FIRE },
+		{ "Drop Bomb",   KEY_BOMB },
+		{ "Fly Home",    KEY_HOME },
+	};
+
+	swcolor(2);
+	swposcur(20, 1);
+	swputs("BEGINNER'S HELP");
+	swcolor(3);
+	for (i = 0; i < arrlen(items); i++) {
+		char buf[64];
+		snprintf(buf, sizeof(buf), "%-11s- %s",
+		        items[i].name, Vid_KeyName(keybindings[items[i].key]));
+		swposcur(20, i + 2);
+		swputs(buf);
+	}
+}
+
 void swdisp(void)
 {
 	OBJECTS *ob;
@@ -81,6 +111,10 @@ void swdisp(void)
 
 	// "the end"
 	dispendmessage();
+
+	if (consoleplayer->ob_athome && playmode == PLAYMODE_NOVICE) {
+		print_help();
+	}
 
 //	lag = latest_player_time[player] - countmove;
 
