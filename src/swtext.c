@@ -127,7 +127,9 @@ void swgets(char *s, int max)
 			s[strlen(s)] = c;
 		} else if (c == '\b') {
 			// backspace
-			s[strlen(s) - 1] = '\0';
+			if (strlen(s) > 0) {
+				s[strlen(s) - 1] = '\0';
+			}
 		} else if (c == '\n') {
 			break;
 		}
