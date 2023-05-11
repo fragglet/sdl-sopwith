@@ -39,7 +39,6 @@
 
 /*  Constants  */
 
-#define MAX_X           3000            /*  Maximum X coordinate            */
 #define MAX_Y           200             /*  Maximum Y coordinate            */
 #define MIN_SPEED       4               /*  Minimum plane speed             */
 #define MAX_SPEED       8               /*  Maximum plane speed             */

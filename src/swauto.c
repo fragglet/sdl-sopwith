@@ -27,7 +27,6 @@
 
 #include "sw.h"
 #include "swauto.h"
-#include "swground.h"
 #include "swinit.h"
 #include "swmain.h"
 #include "swutil.h"

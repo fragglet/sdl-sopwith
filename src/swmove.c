@@ -28,7 +28,6 @@
 #include "swcollsn.h"
 #include "swdisp.h"
 #include "swend.h"
-#include "swground.h"
 #include "swinit.h"
 #include "swmain.h"
 #include "swmove.h"

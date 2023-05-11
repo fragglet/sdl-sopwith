@@ -7,8 +7,8 @@ bin_PROGRAMS = sopwith
 
 COMMON_SOURCES =       \
 video.h     swcollsn.c  swgames.h   swmain.h    swutil.h               \
-font.h      swcollsn.h  swground.c  swtext.c    tcpcomm.c              \
-pcsound.h   swconf.c    swground.h  swtext.h    swsound.c   tcpcomm.h  \
+font.h      swcollsn.h  swtext.c    tcpcomm.c              \
+pcsound.h   swconf.c    swtext.h    tcpcomm.h   swsound.c \
 std.h       swconf.h    swgrpha.c   swmove.c    swsound.h   timer.h    \
 sw.h        swdisp.c    swgrpha.h   swmove.h    swsymbol.c             \
 swasynio.c  swdisp.h    swinit.c    swsymbol.h                         \

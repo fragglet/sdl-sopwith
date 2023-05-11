@@ -27,8 +27,8 @@
 
 #include "sw.h"
 #include "swend.h"
-#include "swground.h"
 #include "swgrpha.h"
+#include "swinit.h"
 #include "swmain.h"
 #include "swsplat.h"
 #include "swstbar.h"

@@ -39,8 +39,7 @@ extern void initexpl(OBJECTS *obop, int small);
 extern void initsmok(OBJECTS *obop);
 extern void initbird(OBJECTS *obop, int i);
 
-extern void dispmap(void);
-extern void dispgauges(OBJECTS *ob);
+extern GRNDTYPE *ground;
 
 #endif
 

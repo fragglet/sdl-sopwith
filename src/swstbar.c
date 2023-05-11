@@ -25,7 +25,7 @@
 
 #include "video.h"
 
-#include "swground.h"
+#include "swinit.h"
 #include "swmain.h"
 #include "swtext.h"
 

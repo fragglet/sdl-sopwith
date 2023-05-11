@@ -37,7 +37,6 @@
 #include "swdisp.h"
 #include "swinit.h"
 #include "swgames.h"
-#include "swground.h"
 #include "swmain.h"
 #include "swmove.h"
 #include "swobject.h"
@@ -46,6 +45,8 @@
 #include "swsymbol.h"
 #include "swtitle.h"
 #include "swutil.h"
+
+GRNDTYPE *ground;
 
 static int have_savescore = 0;
 static score_t savescore;		/* save players score on restart  */
