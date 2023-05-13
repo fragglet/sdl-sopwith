@@ -60,6 +60,7 @@ on run argv
         set position of file appName of theDisk to {320, 200}
         set position of file "Applications" of theDisk to {500, 30}
         set position of folder "Documentation" of theDisk to {140, 300}
+        set position of document file "Problems Running the Game?.rtfd" of theDisk to {320, 300}
 
         eject theDisk
     end tell

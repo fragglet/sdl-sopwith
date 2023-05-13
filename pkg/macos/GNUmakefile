@@ -60,6 +60,7 @@ $(STAGING_DIR): app.icns
 	       -s $(TOPLEVEL)/doc/sopwith.cfg.5
 	cp disk/dir.DS_Store $(STAGING_DIR)/.DS_Store
 	cp disk/background.png $(STAGING_DIR)/background.png
+	cp -R disk/problems.rtfd "$(STAGING_DIR)/Problems Running the Game?.rtfd"
 
 app.icns:
 	mkdir app.iconset
