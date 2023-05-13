@@ -255,11 +255,9 @@ int commin(void)
 	bytes = recv(tcp_sock, (char *) &c, 1, 0);
 
 	if (bytes < 1) {
-		fprintf(stderr, "commin: %s reading from socket\n",
-		        strerror(errno));
-		closesocket(tcp_sock);
-		tcp_sock = -1;
-		return -1;
+		error_exit("commin: %s reading from socket",
+		           strerror(errno));
+		return 0;
 	}
 
 	return c;
@@ -278,9 +276,8 @@ void commout(unsigned char i)
 	}
 
 	if (!send(tcp_sock, (char *) &i, 1, 0)) {
-		fprintf(stderr,
-			"commout: %s writing to socket\n",
-			strerror(errno));
+		error_exit("commout: %s writing to socket",
+		           strerror(errno));
 	}
 #endif   /* #ifdef TCPIP */
 }
