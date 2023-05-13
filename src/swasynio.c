@@ -35,6 +35,8 @@
 #include "swtext.h"
 #include "swtitle.h"
 
+#define ABORTMSG "\n\n         (Ctrl-C to abort)"
+
 asynmode_t asynmode;
 char asynhost[128];
 
@@ -194,7 +196,7 @@ static void AssignPlayers(bool server_side)
 	int starttime, lastsendtime, now;
 
 	clrprmpt();
-	swputs("  Connected, waiting for other player\n");
+	swputs("  Connected, waiting for other player..." ABORTMSG);
 	Vid_Update();
 
 	starttime = Timer_GetMS();
@@ -245,14 +247,14 @@ static void asyninit(void)
 	if (asynmode == ASYN_LISTEN) {
 		swtitln();
 		clrprmpt();
-		swputs("  Listening for connection...");
+		swputs("  Listening for connection..." ABORTMSG);
 		Vid_Update();
 		commlisten();
 		AssignPlayers(true);
 	} else if (asynmode == ASYN_CONNECT) {
 		swtitln();
 		clrprmpt();
-		swputs("  Attempting to connect to \n  ");
+		swputs("  Attempting to connect to\n  ");
 		swputs(asynhost);
 		swputs(" ...");
 		Vid_Update();
@@ -270,7 +272,7 @@ void init1asy(void)
 #else
 	asyninit();
 	clrprmpt();
-	swputs("        Waiting for other player");
+	swputs("  Waiting for other player...");
 	synchronize();
 #endif
 }
