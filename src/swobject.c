@@ -56,8 +56,6 @@ OBJECTS *allocobj(void)
 	return ob;
 }
 
-
-
 void deallobj(OBJECTS * obp)
 {
 	OBJECTS *ob=obp;
@@ -85,9 +83,43 @@ void deallobj(OBJECTS * obp)
 	}
 
 	delbot = ob;
-
-
 }
+
+void movexy(OBJECTS * ob, int *x, int *y)
+{
+	unsigned int pos = 0;
+	//long vel;
+//      pos = (((long) (ob->ob_x)) << 16) + ob->ob_lx;
+//      vel = (((long) (ob->ob_dx)) << 16) + ob->ob_ldx;
+
+	// Adding this to avoid range errors -- Jesse
+	if (pos >= ((currgame->gm_max_x - 10) << 16)) {
+		pos = (currgame->gm_max_x - 10) << 16;
+	}
+	if (pos < 0) {
+		pos = 0;
+	}
+
+	pos = (ob->ob_x + ob->ob_dx) << 16;
+	pos += ob->ob_lx + ob->ob_ldx;
+	ob->ob_x = (unsigned short) (pos >> 16) & 0xffff;
+	ob->ob_lx = (unsigned short) pos & 0xffff;
+	*x = ob->ob_x;
+	pos = (ob->ob_y + ob->ob_dy) << 16;
+	pos += ob->ob_ly + ob->ob_ldy;
+	ob->ob_y = (unsigned short) (pos >> 16) & 0xffff;
+	ob->ob_ly = (unsigned short) pos & 0xffff;
+	*y = ob->ob_y;
+}
+
+void setdxdy(OBJECTS * obj, int dx, int dy)
+{
+	obj->ob_dx = (dx >> 8);
+	obj->ob_ldx = (dx << 8) & 0xffff;
+	obj->ob_dy = (dy >> 8);
+	obj->ob_ldy = (dy << 8) & 0xffff;
+}
+
 
 //---------------------------------------------------------------------------
 //
