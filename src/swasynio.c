@@ -74,8 +74,7 @@ static inline int try_readshort(void)
 
 	while ((t = commin()) < 0) {
 		if (timeout()) {
-			fprintf(stderr, "readshort: timeout on read\n");
-			exit(-1);
+			error_exit("readshort: timeout on read");
 		}
 	}
 
@@ -90,8 +89,7 @@ static int readshort(void)
 
 	for (i=-1; i < 0; i = try_readshort()) {
 		if (timeout()) {
-			fprintf(stderr, "readshort: timeout on read\n");
-			exit(-1);
+			error_exit("readshort: timeout on read");
 		}
 	}
 
@@ -152,8 +150,7 @@ static void synchronize(void)
 		int c;
 
 		if (timeout()) {
-			fprintf(stderr, "asyninit: timeout on connect\n");
-			exit(-1);
+			error_exit("synchronize: timeout on connect");
 		}
 
 		c = commin();
@@ -163,9 +160,8 @@ static void synchronize(void)
 				++p;
 			} else if (c != SYNC_IM_PLAYER0
 			        && c != SYNC_IM_PLAYER1) {
-				fprintf(stderr, "asyninit: invalid protocol"
-				        " header received!\n");
-				exit(-1);
+				error_exit("synchronize: invalid protocol "
+				           "header received.");
 			}
 		}
 	}
@@ -210,8 +206,7 @@ static void AssignPlayers(bool server_side)
 		int c;
 
 		if (ctlbreak()) {
-			fprintf(stderr, "asyninit: user aborted\n");
-			exit(-1);
+			error_exit("asyninit: user aborted");
 		}
 		
 		c = commin();
@@ -224,9 +219,8 @@ static void AssignPlayers(bool server_side)
 				player = 0;
 				return;
 			} else if (server_side || c != SYNC_IM_PLAYER0) {
-				fprintf(stderr,
-				        "asyninit: got wrong char: %d\n", c);
-				exit(-1);
+				error_exit("asyninit: got wrong char: %02x",
+				           c);
 			}
 		}
 
@@ -265,16 +259,14 @@ static void asyninit(void)
 		commconnect(asynhost);
 		AssignPlayers(false);
 	} else {
-		fprintf(stderr, "unknown asynmode mode\n");
-		exit(-1);
+		error_exit("asynmode: unknown asynmode %d", asynmode);
 	}
 }
 
 void init1asy(void)
 {
 #ifndef TCPIP
-	fprintf(stderr, "TCP/IP support not compiled into binary!\n");
-	return;
+	error_exit("TCP/IP support not compiled into binary!");
 #else
 	asyninit();
 	clrprmpt();

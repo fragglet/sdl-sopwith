@@ -73,7 +73,7 @@ int keybindings[NUM_KEYS] = {
 
 static int ctrlbreak = 0;
 static bool initted = 0;
-static SDL_Window *window;
+static SDL_Window *window = NULL;
 static uint32_t pixel_format;
 static SDL_Renderer *renderer;
 
@@ -222,9 +222,8 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
 
 	// Query renderer and limit to maximum texture dimensions of hardware:
 	if (SDL_GetRendererInfo(renderer, &rinfo) != 0) {
-		fprintf(stderr, "CreateUpscaledTexture: SDL_GetRendererInfo() "
-		                "call failed: %s\n", SDL_GetError());
-		exit(1);
+		error_exit("CreateUpscaledTexture: SDL_GetRendererInfo() "
+		           "call failed: %s", SDL_GetError());
 	}
 
 	while (*w_upscale * SCR_WDTH > rinfo.max_texture_width) {
@@ -236,11 +235,10 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
 
 	if ((*w_upscale < 1 && rinfo.max_texture_width > 0)
 	 || (*h_upscale < 1 && rinfo.max_texture_height > 0)) {
-		fprintf(stderr, "CreateUpscaledTexture: Can't create a "
-		                "texture big enough for the whole screen! "
-		                "Maximum texture size %dx%d\n",
-		        rinfo.max_texture_width, rinfo.max_texture_height);
-		exit(1);
+		error_exit("CreateUpscaledTexture: Can't create a "
+		           "texture big enough for the whole screen! "
+		           "Maximum texture size %dx%d",
+		           rinfo.max_texture_width, rinfo.max_texture_height);
 	}
 
 	// We limit the amount of texture memory used for the intermediate buffer,
@@ -249,11 +247,10 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
 	// huge textures, so the user can use this to reduce the maximum texture
 	// size if desired.
 	if (max_scaling_buffer_pixels < SCR_WDTH * SCR_HGHT) {
-		fprintf(stderr, "CreateUpscaledTexture: max_scaling_buffer_"
-		                "pixels too small to create a texture buffer:"
-		                " %d < %d\n", max_scaling_buffer_pixels,
-		                SCR_WDTH * SCR_HGHT);
-		exit(1);
+		error_exit("CreateUpscaledTexture: max_scaling_buffer_"
+		           "pixels too small to create a texture buffer:"
+		           " %d < %d", max_scaling_buffer_pixels,
+		           SCR_WDTH * SCR_HGHT);
 	}
 
 	while (*w_upscale * *h_upscale * SCR_WDTH * SCR_HGHT
@@ -267,7 +264,7 @@ static void LimitTextureSize(int *w_upscale, int *h_upscale)
 
 	if (*w_upscale != orig_w || *h_upscale != orig_h) {
 		printf("CreateUpscaledTexture: Limited texture size to %dx%d "
-		       "(max %d pixels, max texture size %dx%d)\n",
+		       "(max %d pixels, max texture size %dx%d)",
 		       *w_upscale * SCR_WDTH, *h_upscale * SCR_HGHT,
 		       max_scaling_buffer_pixels, rinfo.max_texture_width,
 		       rinfo.max_texture_height);
@@ -285,9 +282,7 @@ static void CreateUpscaledTexture(int force)
 	// real world pixels, which are not necessarily equivalent to the
 	// screen's window size (because of highdpi).
 	if (SDL_GetRendererOutputSize(renderer, &w, &h) != 0) {
-		fprintf(stderr, "failed to get renderer size: %s\n",
-		        SDL_GetError());
-		exit(1);
+		error_exit("failed to get renderer size: %s", SDL_GetError());
 	}
 
 	// When the screen or window dimensions do not match the aspect ratio
@@ -377,9 +372,8 @@ static void Vid_SetMode(void)
 	int bpp;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		fprintf(stderr, "Unable to initialize video subsystem: %s\n",
-		                SDL_GetError());
-		exit(-1);
+		error_exit("Unable to initialize video subsystem: %s",
+		           SDL_GetError());
 	}
 	srand(time(NULL));
 
@@ -395,9 +389,7 @@ static void Vid_SetMode(void)
 	                          SDL_WINDOWPOS_UNDEFINED, w, h, flags);
 
 	if (window == NULL) {
-		fprintf(stderr, "Failed to open SDL window: %s\n",
-		        SDL_GetError());
-		exit(-1);
+		error_exit("Failed to open SDL window: %s", SDL_GetError());
 	}
 
         pixel_format = SDL_GetWindowPixelFormat(window);
@@ -704,6 +696,35 @@ char *Vid_GetPrefPath(void)
 	}
 
 	return result;
+}
+
+#ifdef HAVE_ISATTY
+#include <unistd.h>
+#else
+int isatty(int fd)
+{
+	return 0;
+}
+#endif
+
+void error_exit(char *s, ...)
+{
+	static char buf[128];
+	va_list args;
+
+	va_start(args, s);
+	vsnprintf(buf, sizeof(buf), s, args);
+	va_end(args);
+
+	if (!isatty(1)) {
+		if (SDL_ShowSimpleMessageBox(
+			SDL_MESSAGEBOX_ERROR, "Error", buf, window) == 0) {
+			exit(1);
+		}
+	}
+
+	fprintf(stderr, "%s\n", buf);
+	exit(1);
 }
 
 //-----------------------------------------------------------------------

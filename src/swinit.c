@@ -1039,8 +1039,7 @@ void swinit(int argc, char *argv[])
 			asynmode = ASYN_LISTEN;
 		} else if (!strcasecmp(argv[i], "-j")) {
 			if (i + 1 >= argc) {
-				fprintf(stderr, "insufficient arguments to -j\n");
-				exit(-1);
+				error_exit("insufficient arguments to -j");
 			}
 			a = 1;
 			asynmode = ASYN_CONNECT;
