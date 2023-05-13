@@ -114,6 +114,20 @@ void Vid_XorPixel(int x, int y, int clr)
 	*sptr ^= clr & 3;
 }
 
+static unsigned char color_mappings[][4] = {
+	{ 0, 1, 2, 3 },  // Cyan fuselage, magenta wings
+	{ 0, 2, 1, 3 },  // Magenta fuselage, cyan wings
+	// New colors:
+	{ 0, 1, 3, 2 },  // Cyan fuselage, white wings
+	{ 0, 2, 3, 1 },  // Magenta fuselage, white wings
+	{ 0, 3, 1, 2 },  // White fuselage, cyan wings
+	{ 0, 3, 2, 1 },  // White fuselage, magenta wings
+	// Now we're getting into boring territory...
+	{ 0, 1, 1, 3 },  // All-cyan
+	{ 0, 2, 2, 3 },  // All-magenta
+	{ 0, 3, 3, 3 },  // All-white
+};
+
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 {
 	unsigned char *sptr = vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;
@@ -121,7 +135,7 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 	int x1, y1;
 	int w = symbol->w, h = symbol->h;
 	int wrap = x - SCR_WDTH + w;
-	int color_flip;
+	unsigned char *color_mapping;
 
 	if (w == 1 && h == 1) {
 		Vid_XorPixel(x, y, clr);
@@ -139,20 +153,14 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 		h = y + 1;
 	}
 
-	// TODO: This could be generalized via a mapping table to do new
-	// color-swap variants - magenta and white planes, etc.
-	if (clr == 2) {
-		color_flip = 3;
-	} else {
-		color_flip = 0;
-	}
+	color_mapping = color_mappings[clr == 2 ? 1 : 0];
 	for (y1=0; y1<h; ++y1) {
 		unsigned char *sptr2 = sptr;
 		for (x1=0; x1<w; ++x1, ++sptr2) {
 			int i = *data++;
 
 			if (i) {
-				*sptr2 ^= i ^ color_flip;
+				*sptr2 ^= color_mapping[i];
 			}
 		}
 		data += wrap;
