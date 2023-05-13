@@ -36,20 +36,23 @@ fi
 
 dnl network libraries
 
+SOCKET_LIBS=
 case "$target" in
     *-*-cygwin* | *-*-mingw32*)
-	LDFLAGS="$LDFLAGS -lwsock32"
+	SOCKET_LIBS="-lwsock32"
 	;;
     sparc*-*-solaris*)
-	LDFLAGS="$LDFLAGS -lsocket -lnsl"
+	SOCKET_LIBS="-lsocket -lnsl"
 	;;
     *-*-qnx*)
-	LDFLAGS="$LDFLAGS -lsocket"
+	SOCKET_LIBS="-lsocket"
 	;;
     *haiku*)
-	LDFLAGS="$LDFLAGS -lnetwork"
+	SOCKET_LIBS="-lnetwork"
 	 ;;
 esac
+
+AC_SUBST(SOCKET_LIBS)
 
 case "$host" in
     *cygwin* | *mingw* )
@@ -75,9 +78,7 @@ PKG_CHECK_MODULES(SDL, [sdl2 >= 2.0.7])
 
 dnl check for TCPIP support
 
-AC_CHECK_HEADER(netinet/in.h, [
-    AC_DEFINE(TCPIP, 1, [TCPIP multiplayer support])
-],,)
+AC_CHECK_HEADERS(netinet/in.h winsock.h)
 
 AC_SUBST(ac_aux_dir)
 

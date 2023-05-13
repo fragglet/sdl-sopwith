@@ -27,25 +27,77 @@
 #include "tcpcomm.h"
 #include "timer.h"
 
-#ifdef TCPIP
+#include "config.h"
+
+#if defined(HAVE_NETINET_IN_H) || defined(HAVE_WINSOCK_H)
+#define TCPIP
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
 #include <errno.h>
 #include <string.h>
+
+#ifdef HAVE_NETINET_IN_H
+#include <arpa/inet.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#define closesocket close
+#endif /* HAVE_NETINET_IN_H */
+
+#ifdef HAVE_WINSOCK_H
+#include <winsock.h>
+typedef int socklen_t;
+#endif /* HAVE_WINSOCK_H */
 
 #define PORT 3847
 
 static int server_sock = -1;
 static int tcp_sock = -1;
 
-#endif   /* #ifdef TCPIP */
+static void comminit(void)
+{
+	static int initialized = 0;
+
+	if (initialized) {
+		return;
+	}
+
+#ifdef HAVE_WINSOCK_H
+	{
+		WORD winsock11 = MAKEWORD(1, 1);
+		WSADATA wsaData;
+
+		if (WSAStartup(winsock11, &wsaData) != 0) {
+			fprintf(stderr, "Error initializing Winsock.\n");
+			exit(1);
+		}
+	}
+#endif
+	initialized = 1;
+}
+
+// poll_socket returns 1 if there appears to be new data ready on the given
+// socket. It uses select() because this works everywhere, while every OS
+// seems to have their own unique way of setting a non-blocking socket.
+static int poll_socket(int s)
+{
+	fd_set in_fds, except_fds;
+	struct timeval timeout = { 0, 1 };  // 1us = ~immediate
+
+	FD_ZERO(&in_fds);
+	FD_SET(s, &in_fds);
+	FD_ZERO(&except_fds);
+	FD_SET(s, &except_fds);
+	if (select(s + 1, &in_fds, NULL, &except_fds, &timeout) < 0) {
+		// error may mean error on socket, so take a look.
+		return 1;
+	}
+	return FD_ISSET(s, &in_fds) || FD_ISSET(s, &except_fds);
+}
 
 // connect to a host
 
@@ -56,6 +108,8 @@ void commconnect(char *host)
 	struct sockaddr_in in;
 	char *realhost;
 	int port = PORT;
+
+	comminit();
 
 	// sdh 17/11/2001: check for host:port, use a different
 	// port from the default
@@ -109,10 +163,6 @@ void commconnect(char *host)
 			host, strerror(errno));
 		exit(-1);
 	}
-	// non blocking socket
-
-	fcntl(tcp_sock, F_SETFL, O_NONBLOCK);
-
 	fprintf(stderr, "commconnect: connected to '%s'!\n", host);
 #endif    /* #ifdef TCPIP */
 }
@@ -124,6 +174,8 @@ void commlisten(void)
 #ifdef TCPIP
 	struct sockaddr_in in;
 	socklen_t in_size;
+
+	comminit();
 
 	// create socket
 
@@ -163,9 +215,6 @@ void commlisten(void)
 	fprintf(stderr,
 		"commlisten: listening for connection on port %i\n", PORT);
 
-		
-	fcntl(server_sock, F_SETFL, O_NONBLOCK);
-	
 	// listen for connection
 
 	for (;;) {
@@ -175,27 +224,22 @@ void commlisten(void)
 			exit(-1);
 		}
 
+		if (!poll_socket(server_sock)) {
+			Timer_Sleep(50);
+			continue;
+		}
+
 		in_size = sizeof(in);
-		
 		tcp_sock = accept(server_sock, (struct sockaddr *) &in, &in_size);
 
 		if (tcp_sock >= 0) {
 			break;
 		}
 
-		if (errno == EWOULDBLOCK) {
-			Timer_Sleep(50);
-		} else {
-			fprintf(stderr,
-				"commlisten: error accepting connection: %s\n",
-				strerror(errno));
-			exit(-1);
-		}
+		fprintf(stderr, "commlisten: error accepting connection: %s\n",
+		        strerror(errno));
+		exit(-1);
 	}
-
-	// non blocking socket
-	
-	fcntl(tcp_sock, F_SETFL, O_NONBLOCK);
 
 	fprintf(stderr,
 		"commlisten: accepted connection from %s\n",
@@ -217,18 +261,18 @@ int commin(void)
 		return -1;
 	}
 
-	// read
+	if (!poll_socket(tcp_sock)) {
+		return -1;
+	}
 
-	bytes = read(tcp_sock, &c, 1);
+	// read
+	bytes = recv(tcp_sock, (char *) &c, 1, 0);
 
 	if (bytes < 1) {
-		if (errno != EWOULDBLOCK) {
-			fprintf(stderr,
-				"commin: %s reading from socket\n",
-				strerror(errno));
-			close(tcp_sock);
-			tcp_sock = -1;
-		}
+		fprintf(stderr, "commin: %s reading from socket\n",
+		        strerror(errno));
+		closesocket(tcp_sock);
+		tcp_sock = -1;
 		return -1;
 	}
 
@@ -247,7 +291,7 @@ void commout(unsigned char i)
 		return;
 	}
 
-	if (!write(tcp_sock, &i, 1)) {
+	if (!send(tcp_sock, (char *) &i, 1, 0)) {
 		fprintf(stderr,
 			"commout: %s writing to socket\n",
 			strerror(errno));
@@ -261,12 +305,12 @@ void commterm(void)
 {
 #ifdef TCPIP
 	if (tcp_sock > 0) {
-		close(tcp_sock);
+		closesocket(tcp_sock);
 		tcp_sock = -1;
 	}
 
 	if (server_sock > 0) {
-		close(server_sock);
+		closesocket(server_sock);
 		server_sock = -1;
 	}
 #endif      /* #ifdef TCPIP */

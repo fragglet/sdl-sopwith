@@ -24,7 +24,8 @@ else
 sopwith_SOURCES = $(COMMON_SOURCES)
 endif
 
-sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@ sdl/libsdlsopmain.a
+sopwith_LDADD = sdl/libsdlsopwith.a @SDL_LIBS@ sdl/libsdlsopmain.a \
+                $(SOCKET_LIBS)
 
 .rc.o:
 	$(WINDRES) $< -o $@

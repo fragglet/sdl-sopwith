@@ -31,6 +31,10 @@
 #include "swsymbol.h"
 #include "config.h"
 
+#if defined(HAVE_NETINET_IN_H) || defined(HAVE_WINSOCK_H)
+#define TCPIP
+#endif
+
 #ifdef _MSC_VER
 #define inline __inline
 #define strcasecmp stricmp
