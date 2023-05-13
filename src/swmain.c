@@ -42,14 +42,14 @@
 
 // sdh 28/10/2001: game options
 
-BOOL conf_missiles = 0;             // allow missiles: replaces missok
-BOOL conf_solidground = 0;          // draw ground solid like in sopwith 1
-BOOL conf_hudsplats = 0;            // splatted birds etc
-BOOL conf_wounded = 0;              // enable wounded planes
-BOOL conf_animals = 1;              // birds and oxen
-BOOL conf_harrykeys = 0;            // plane rotation relative to screen
-BOOL conf_medals = 1;
-BOOL conf_big_explosions = 1;       // big oil tank explosions
+bool conf_missiles = 0;             // allow missiles: replaces missok
+bool conf_solidground = 0;          // draw ground solid like in sopwith 1
+bool conf_hudsplats = 0;            // splatted birds etc
+bool conf_wounded = 0;              // enable wounded planes
+bool conf_animals = 1;              // birds and oxen
+bool conf_harrykeys = 0;            // plane rotation relative to screen
+bool conf_medals = 1;
+bool conf_big_explosions = 1;       // big oil tank explosions
 
 playmode_t playmode;		/* Mode of play                     */
 GAMES *currgame;		/* Game parameters and current game */
@@ -61,8 +61,8 @@ int gamenum = 0;		/* Current game number              */
 int gmaxspeed, gminspeed;	/* Speed range based on game number */
 int targrnge;			/* Target range based on game number */
 
-BOOL titleflg;			/* Title flag                       */
-BOOL soundflg = 0;		/* Sound flag                       */
+bool titleflg;			/* Title flag                       */
+bool soundflg = 0;		/* Sound flag                       */
 
 int displx;			/* Display left and right           */
 
@@ -75,8 +75,8 @@ OBJECTS topobj, botobj;		/* Top and Bottom of obj. x list    */
 
 int endcount;
 int player;			/* Pointer to player's object       */
-BOOL plyrplane;			/* Current object is player flag    */
-BOOL compplane;			/* Current object is a comp plane   */
+bool plyrplane;			/* Current object is player flag    */
+bool compplane;			/* Current object is a comp plane   */
 unsigned explseed;		/* random seed for explosion        */
 
 int keydelay = -1;		/* Number of displays per keystroke */

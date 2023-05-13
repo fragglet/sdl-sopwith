@@ -31,7 +31,7 @@
 #include "swmain.h"
 #include "swutil.h"
 
-static BOOL correction;		/*  Course correction flag        */
+static bool correction;		/*  Course correction flag        */
 static OBJECTS obs;		/*  Saved computer object         */
 static int courseadj;		/*  Course adjustment             */
 
@@ -93,22 +93,22 @@ static int shoot(OBJECTS *obt)
 }
 
 
-static BOOL is_target(OBJECTS *ob)
+static bool is_target(OBJECTS *ob)
 {
 	return ob->ob_type == TARGET || ob->ob_type == OX;
 }
 
-static BOOL tstcrash2(OBJECTS *ob, int x, int y, int alt)
+static bool tstcrash2(OBJECTS *ob, int x, int y, int alt)
 {
 	OBJECTS *obt;
 	int xl, xr, yt;
 
 	if (alt > 50) {
-		return FALSE;
+		return false;
 	}
 
 	if (alt < 22) {
-		return TRUE;
+		return true;
 	}
 
 	// This is unnecessarily complicated really, but preserves the
@@ -134,17 +134,17 @@ static BOOL tstcrash2(OBJECTS *ob, int x, int y, int alt)
 			continue;
 		}
 		if (obt->ob_x > xr) {
-			return FALSE;
+			return false;
 		}
 		yt = obt->ob_y + (obt->ob_state == STANDING ? 16 : 8);
 		if (y <= yt) {
-			return TRUE;
+			return true;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
-int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, BOOL longway)
+int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 {
 	int r, rmin, i, n=0;
 	int x, y, dx, dy, nx, ny;
@@ -152,7 +152,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, BOOL longway)
 	static int cflaps[3] = { 0, -1, 1 };
 	static int crange[3], ccrash[3], calt[3];
 
-	correction = FALSE;
+	correction = false;
 
 	if ((ob->ob_state == STALLED || ob->ob_state == WOUNDSTALL)
 	    && ob->ob_angle != (3 * ANGLES / 4)) {

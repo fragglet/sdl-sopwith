@@ -51,7 +51,7 @@ static SDL_Color cga_pal[] = {
 #endif
 };
 
-BOOL vid_fullscreen = FALSE;
+bool vid_fullscreen = false;
 
 extern unsigned char *vid_vram;
 extern unsigned int vid_pitch;
@@ -72,7 +72,7 @@ int keybindings[NUM_KEYS] = {
 };
 
 static int ctrlbreak = 0;
-static BOOL initted = 0;
+static bool initted = 0;
 static SDL_Window *window;
 static uint32_t pixel_format;
 static SDL_Renderer *renderer;
@@ -172,7 +172,7 @@ void Vid_Update(void)
 	SDL_LockSurface(screenbuf);
 }
 
-static BOOL is_special_day(void)
+static bool is_special_day(void)
 {
 	time_t now = time(NULL);
 	struct tm *t = localtime(&now);
@@ -555,21 +555,21 @@ static sopkey_t translate_scancode(int sdl_scancode)
 
 // Special keys get passed through as input events even when text input mode
 // is activated.
-static BOOL IsSpecialKey(SDL_Keysym *k) {
+static bool IsSpecialKey(SDL_Keysym *k) {
 	switch (k->sym) {
 		case SDLK_ESCAPE:
 		case SDLK_RETURN:
 		case SDLK_BACKSPACE:
-			return TRUE;
+			return true;
 		default:
-			return FALSE;
+			return false;
 	}
 }
 
 static void getevents(void)
 {
 	SDL_Event event;
-	static BOOL ctrldown = 0, altdown = 0;
+	static bool ctrldown = 0, altdown = 0;
 	int need_redraw = 0;
 	int i;
 	sopkey_t translated;
@@ -680,7 +680,7 @@ int Vid_GetChar(void)
 	return result;
 }
 
-BOOL Vid_GetCtrlBreak(void)
+bool Vid_GetCtrlBreak(void)
 {
 	getevents();
 	return ctrlbreak;

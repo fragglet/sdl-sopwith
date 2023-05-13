@@ -25,21 +25,21 @@
 #include "sw.h"
 
 extern void swmove(void);
-extern BOOL moveplyr(OBJECTS *obp);
-extern BOOL movecomp(OBJECTS *obp);
-extern BOOL moveshot(OBJECTS *obp);
-extern BOOL movebomb(OBJECTS *obp);
-extern BOOL movemiss(OBJECTS *obp);
-extern BOOL moveburst(OBJECTS *obp);
-extern BOOL movetarg(OBJECTS *obt);
-extern BOOL moveexpl(OBJECTS *obp);
-extern BOOL movesmok(OBJECTS *obp);
-extern BOOL moveflck(OBJECTS *obp);
-extern BOOL movebird(OBJECTS *obp);
-extern BOOL moveox(OBJECTS *ob);
-extern BOOL crashpln(OBJECTS *obp);
-extern BOOL hitpln(OBJECTS *obp);
-extern BOOL insertx(OBJECTS *ob, OBJECTS *obp);
+extern bool moveplyr(OBJECTS *obp);
+extern bool movecomp(OBJECTS *obp);
+extern bool moveshot(OBJECTS *obp);
+extern bool movebomb(OBJECTS *obp);
+extern bool movemiss(OBJECTS *obp);
+extern bool moveburst(OBJECTS *obp);
+extern bool movetarg(OBJECTS *obt);
+extern bool moveexpl(OBJECTS *obp);
+extern bool movesmok(OBJECTS *obp);
+extern bool moveflck(OBJECTS *obp);
+extern bool movebird(OBJECTS *obp);
+extern bool moveox(OBJECTS *ob);
+extern bool crashpln(OBJECTS *obp);
+extern bool hitpln(OBJECTS *obp);
+extern bool insertx(OBJECTS *ob, OBJECTS *obp);
 extern void deletex(OBJECTS *obp);
 
 #endif

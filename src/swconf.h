@@ -38,7 +38,7 @@ typedef struct
 	} type;
 	union {
 		void *v;
-		BOOL *b;
+		bool *b;
 		int *i;
 	} value;
 } confoption_t;

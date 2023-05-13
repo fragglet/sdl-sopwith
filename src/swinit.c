@@ -116,7 +116,7 @@ static void initseed(void)
 	explseed = rand() % 65536;
 }
 
-void initdisp(BOOL reset)
+void initdisp(bool reset)
 {
 	swclearsplats();
 	if (!reset) {
@@ -278,10 +278,10 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_angle = (ob->ob_orient) ? (ANGLES / 2) : 0;
 	ob->ob_target = ob->ob_missiletarget = NULL;
 	ob->ob_firing = ob->ob_mfiring = NULL;
-	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = FALSE;
+	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = false;
 	ob->ob_newsym = symbol_plane[ob->ob_orient][0];
-	ob->ob_athome = TRUE;
-	ob->ob_onmap = TRUE;
+	ob->ob_athome = true;
+	ob->ob_onmap = true;
 
 	if (!obp || ob->ob_state == CRASHED) {
 		/* New plane */
@@ -304,7 +304,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	}
 
 	ob->ob_state = FLYING;
-	ob->ob_goingsun = FALSE;
+	ob->ob_goingsun = false;
 
 	return ob;
 }
@@ -360,7 +360,7 @@ void initcomp(OBJECTS * obp)
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
-		ob->ob_onmap = FALSE;
+		ob->ob_onmap = false;
 		deletex(ob);
 	}
 }
@@ -474,7 +474,7 @@ void initbomb(OBJECTS *obo)
 	ob->ob_state = FALLING;
 	ob->ob_dx = obo->ob_dx;
 	ob->ob_dy = obo->ob_dy;
-	ob->ob_onmap = TRUE;
+	ob->ob_onmap = true;
 
 	if (obo->ob_orient) {
 		angle = (obo->ob_angle + (ANGLES / 4)) % ANGLES;
@@ -537,7 +537,7 @@ void initmiss(OBJECTS *obo)
 	ob->ob_movef = movemiss;
 	ob->ob_missiletarget = obo->ob_mfiring;
 	ob->ob_orient = ob->ob_accel = ob->ob_flaps = 0;
-	ob->ob_onmap = TRUE;
+	ob->ob_onmap = true;
 
 	insertx(ob, obo);
 
@@ -654,7 +654,7 @@ static OBJECTS *inittarget(original_ob_t *orig_ob)
 	ob->ob_newsym = symbol_targets[0];
 	ob->ob_drawf = disptarg;
 	ob->ob_movef = movetarg;
-	ob->ob_onmap = TRUE;
+	ob->ob_onmap = true;
 
 	return ob;
 }
@@ -668,7 +668,7 @@ void initexpl(OBJECTS *obo, int small)
 	// int life;
 	int obox, oboy, obodx, obody, oboclr;
 	obtype_t obotype;
-	BOOL mansym;
+	bool mansym;
 	int orient;
 
 	obox = obo->ob_x + (obo->ob_newsym->w / 2);
@@ -794,7 +794,7 @@ static OBJECTS *initflock(original_ob_t *orig_ob)
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveflck;
 	ob->ob_clr = 9;
-	ob->ob_onmap = TRUE;
+	ob->ob_onmap = true;
 
 	for (j = 0; j < NUM_STRAY_BIRDS; ++j) {
 		initbird(ob, 1);
@@ -1004,11 +1004,11 @@ void swrestart(void)
 
 void swinit(int argc, char *argv[])
 {
-	BOOL n = FALSE;
-	BOOL s = FALSE;
-	BOOL c = FALSE;
-	BOOL a = FALSE;
-	BOOL k = FALSE;
+	bool n = false;
+	bool s = false;
+	bool c = false;
+	bool a = false;
+	bool k = false;
 	int modeset = 0, keyset;
 	int i;
 
@@ -1059,7 +1059,7 @@ void swinit(int argc, char *argv[])
 
 	soundflg = !soundflg;
 	if (modeset && keyset) {
-		titleflg = TRUE;
+		titleflg = true;
 	}
 
 	initseed();

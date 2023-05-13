@@ -26,7 +26,7 @@
 
 extern void swauto(OBJECTS *ob);
 extern int gohome(OBJECTS *obpt);
-extern int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, BOOL longway);
+extern int aim(OBJECTS *obo, int ax, int ay, OBJECTS *obt, bool longway);
 extern int range(int x, int y, int ax, int ay);
 
 #endif

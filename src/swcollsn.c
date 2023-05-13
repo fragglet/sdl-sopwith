@@ -187,7 +187,7 @@ static void scoretarg(OBJECTS *obp, int score)
 }
 
 
-static BOOL scorepenalty(obtype_t ttype, OBJECTS * ob, int score)
+static bool scorepenalty(obtype_t ttype, OBJECTS * ob, int score)
 {
 	OBJECTS *obt;
 
@@ -200,9 +200,9 @@ static BOOL scorepenalty(obtype_t ttype, OBJECTS * ob, int score)
 			&& obt->ob_hitcount == FALLCOUNT))
 		&& !obt->ob_athome)) {
 		scoretarg(obt, score);
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 
@@ -305,7 +305,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		}
 
 		ob->ob_state = FINISHED;
-		ob->ob_onmap = FALSE;
+		ob->ob_onmap = false;
 		initexpl(ob, 0);
 
 		blast_target(ob, ttype);

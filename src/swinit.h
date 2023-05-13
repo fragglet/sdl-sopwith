@@ -26,7 +26,7 @@
 extern void swinit(int argc, char *argv[]);
 extern void swinitlevel(void);
 extern void swrestart(void);
-extern void initdisp(BOOL reset);
+extern void initdisp(bool reset);
 extern void initgrnd(void);
 extern void initcomp(OBJECTS *obp);
 extern void initplyr(OBJECTS *obp);

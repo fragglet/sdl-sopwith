@@ -30,7 +30,7 @@
 #include "swsound.h"
 #include "swutil.h"
 
-void swend(char *msg, BOOL update)
+void swend(char *msg, bool update)
 {
 	char *closmsg = NULL;
 	char *multclos(), *asynclos();
@@ -101,7 +101,7 @@ void endgame(int targclr)
 void winner(OBJECTS *ob)
 {
 	ob->ob_endsts = WINNER;
-	ob->ob_goingsun = TRUE;
+	ob->ob_goingsun = true;
 	ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = 0;
 	ob->ob_state = FLYING;
 	ob->ob_life = MAXFUEL;

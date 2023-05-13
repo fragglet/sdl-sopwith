@@ -49,7 +49,7 @@ OBJECTS *allocobj(void)
 
 	ob->ob_sound = NULL;
 	ob->ob_drwflg = 0;
-	ob->ob_onmap = FALSE;
+	ob->ob_onmap = false;
 
 	objbot = ob;
 

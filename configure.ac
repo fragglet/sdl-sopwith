@@ -26,6 +26,7 @@ AC_PROG_CC
 AC_PROG_RANLIB
 AC_CHECK_TOOL(STRIP, strip, )
 AC_CHECK_TOOL(CONVERT, convert, )
+AC_CHECK_HEADERS(stdbool.h)
 
 if test "$GCC" = "yes"
 then

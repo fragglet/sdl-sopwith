@@ -49,7 +49,7 @@ static void settimeout(void)
 	timeout_time = Timer_GetMS() + TIMEOUT_LEN_MS;
 }
 
-static BOOL timeout(void)
+static bool timeout(void)
 {
 	return Timer_GetMS() >= timeout_time;
 }
@@ -193,7 +193,7 @@ static void synchronize(void)
 }
 
 // setup tcp loop
-static void AssignPlayers(BOOL server_side)
+static void AssignPlayers(bool server_side)
 {
 	int starttime, lastsendtime, now;
 
@@ -235,7 +235,7 @@ static void AssignPlayers(BOOL server_side)
 			// After five seconds we switch to server mode, so
 			// that two clients connected to a loop synchronize:
 			if ((now - starttime) > 5000) {
-				server_side = TRUE;
+				server_side = true;
 			} else if ((now - lastsendtime) > 500) {
 				commout(SYNC_IM_PLAYER0);
 				lastsendtime = now;
@@ -254,7 +254,7 @@ static void asyninit(void)
 		swputs("  Listening for connection...");
 		Vid_Update();
 		commlisten();
-		AssignPlayers(TRUE);
+		AssignPlayers(true);
 	} else if (asynmode == ASYN_CONNECT) {
 		swtitln();
 		clrprmpt();
@@ -263,7 +263,7 @@ static void asyninit(void)
 		swputs(" ...");
 		Vid_Update();
 		commconnect(asynhost);
-		AssignPlayers(FALSE);
+		AssignPlayers(false);
 	} else {
 		fprintf(stderr, "unknown asynmode mode\n");
 		exit(-1);

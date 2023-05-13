@@ -154,7 +154,7 @@ void swdispd(int n, int size)
 {
 	int i = 0;
 	int d, t;
-	BOOL first = TRUE;
+	bool first = true;
 
 	if (n < 0) {
 		n = -n;
@@ -164,7 +164,7 @@ void swdispd(int n, int size)
 	for (t = 10000; t > 1; n %= t, t /= 10) {
 		d = n / t;
 		if (d || !first) {
-			first = FALSE;
+			first = false;
 			swputc(d + '0');
 			++i;
 		}

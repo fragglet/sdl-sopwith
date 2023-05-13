@@ -25,7 +25,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef enum {FALSE, TRUE} BOOL;
+// Almost everything is C99-compliant nowadays; MSC might be the only
+// exception, so just in case -
+#ifdef HAVE_STDBOOL_H
+#include <stdbool.h>
+#else
+typedef enum { false, true } bool;
+#endif
+
 enum {NO, YES};
 
 #endif

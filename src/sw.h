@@ -236,10 +236,10 @@ typedef struct obj {                            /*  Object list             */
 	struct obj    *ob_next;
 	struct obj    *ob_prev;
 	int            ob_index;
-	BOOL           ob_drwflg;
-	BOOL           ob_onmap;
+	bool           ob_drwflg;
+	bool           ob_onmap;
 	void        ( *ob_drawf ) (struct obj *);
-	BOOL        ( *ob_movef ) (struct obj *);
+	bool        ( *ob_movef ) (struct obj *);
 	struct obj    *ob_xnext;
 	struct obj    *ob_xprev;
 	int            ob_crashcnt;
@@ -259,7 +259,7 @@ typedef struct obj {                            /*  Object list             */
 	int            ob_bsdelay;
 	int            ob_plrnum;
 	obendstatus_t  ob_endsts;
-	BOOL           ob_goingsun;
+	bool           ob_goingsun;
 	score_t	       ob_score;
 	score_t	       ob_lastscore;
 	original_ob_t *ob_original_ob;

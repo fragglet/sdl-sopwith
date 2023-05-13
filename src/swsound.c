@@ -259,7 +259,7 @@ static void playnote(void)
 	static int noteoctavefactor;
 	static int dottednote;
 
-	BOOL firstplace = TRUE;
+	bool firstplace = true;
 
 	indexadj = 0;
 	durplace = 0;
@@ -287,7 +287,7 @@ static void playnote(void)
 			}
 			break;
 		}
-		firstplace = FALSE;
+		firstplace = false;
 		if (charatplace == NOTEEND) {
 			break;
 		}
@@ -473,7 +473,7 @@ void swsound(void)
 	}
 
 	soundticks = 0;
-	titleflg = FALSE;
+	titleflg = false;
 
 	switch (soundtype) {
 
@@ -548,7 +548,7 @@ void sound(int type, int parm, OBJECTS * ob)
 			titlnote();
 			toneadj = NULL;
 			lastobj = NULL;
-			titleflg = TRUE;
+			titleflg = true;
 		}
 	} else if (type < soundtype) {
 		soundtype = type;

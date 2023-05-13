@@ -116,7 +116,7 @@ void swtitlf(void)
 // menus
 //
 
-BOOL ctlbreak(void)
+bool ctlbreak(void)
 {
 	return Vid_GetCtrlBreak();
 }
@@ -135,7 +135,7 @@ void clrprmpt(void)
 	swposcur(0, 20);
 }
 
-static BOOL gethost(void)
+static bool gethost(void)
 {
 	clrprmpt();
 
@@ -147,7 +147,7 @@ static BOOL gethost(void)
 
 // network menu
 
-static BOOL getnet(void)
+static bool getnet(void)
 {
 	for (;;) {
 		clrprmpt();
@@ -178,7 +178,7 @@ static BOOL getnet(void)
 
 // sdh: get single player skill level
 
-static BOOL getskill(void)
+static bool getskill(void)
 {
 	for (;;) {
 		clrprmpt();
