@@ -49,6 +49,9 @@ is run with the `-s` command line parameter.
 Multiplayer depends on the proprietary BMB drivers and Imaginet networking
 system and to my knowledge, no fans have ever been able to get it working.
 
+A review was published of this version in the book "Free and user supported
+software for the IBM PC"; you can read it [here](free-ibmpc.md).
+
 * [Download (.zip)](original-files/sopwith1.zip) (includes original
   documentation)
 * [Play emulated version](https://archive.org/details/msdos_Sopwith_1985) on

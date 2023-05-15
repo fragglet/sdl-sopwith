@@ -19,7 +19,9 @@ title: SDL Sopwith: Links
   with some historical details about the game.
 * [Lost Treasures of Gaming podcast](https://archive.org/details/LostTreasures002-Sopwith)
   episode: interview with David L. Clark.
-  
+* [A review of Sopwith](free-ibmpc.md) from the book "Free and user supported
+  software for the IBM PC" (1990).
+
 ## Ports of SDL Sopwith to other platforms
 
 * [Nintendo Wii](https://wiibrew.org/wiki/SDL_Sopwith) version by insin
