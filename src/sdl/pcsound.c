@@ -326,6 +326,7 @@ void Speaker_Init(void)
 
 	output_freq = audiospec_actual.freq;
 
+	atexit(Speaker_Shutdown);
 	sound_initted = 1;
 	if (snd_tinnyfilter) {
 		InitializeTinnyFilter(audiospec.freq);

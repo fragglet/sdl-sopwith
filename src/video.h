@@ -63,7 +63,6 @@ extern bool vid_fullscreen;         // fullscreen
 // init/shutdown
 
 extern void Vid_Init(void);
-extern void Vid_Shutdown(void);
 extern void Vid_Reset(void);
 
 // update screen

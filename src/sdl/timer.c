@@ -41,9 +41,15 @@ void Timer_Sleep(int usec)
 	SDL_Delay(usec);
 }
 
+static void Timer_Shutdown(void)
+{
+	SDL_QuitSubSystem(SDL_INIT_AUDIO);
+}
+
 void Timer_Init(void)
 {
 	SDL_Init(SDL_INIT_TIMER);
+	atexit(Timer_Shutdown);
 }
 
 //--------------------------------------------------------------------------

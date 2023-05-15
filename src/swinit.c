@@ -1067,8 +1067,7 @@ void swinit(int argc, char *argv[])
 
 	symbol_generate();
 
-	// initialize video
-
+	Timer_Init();
 	Vid_Init();
 
 	// dont init speaker if started with -q (quiet)

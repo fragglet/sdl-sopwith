@@ -27,7 +27,6 @@
 #define __SDLSOUND_H__
 
 void Speaker_Init(void);
-void Speaker_Shutdown(void);
 void Speaker_Off(void);
 
 //
