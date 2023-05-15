@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//--------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,13 +13,11 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//--------------------------------------------------------------------------
 //
 // Configuration code
 //
 // Save game settings to a configuration file
 //
-//-------------------------------------------------------------------------
 
 #include <ctype.h>
 #include <errno.h>
@@ -490,44 +484,3 @@ void setconfig(void)
 		}
 	}
 }
-
-//-------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.9  2005/05/29 19:46:10  fraggle
-// Fix up autotools build. Fix "make dist".
-//
-// Revision 1.8  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.7  2005/04/29 19:00:48  fraggle
-// Capitalise first letter of config descriptions
-//
-// Revision 1.6  2005/04/29 10:10:12  fraggle
-// "Medals" feature
-// By Christoph Reichenbach <creichen@gmail.com>
-//
-// Revision 1.5  2004/10/15 17:52:31  fraggle
-// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
-// accurately describes what the file does.
-//
-// Revision 1.4  2003/06/08 03:41:41  fraggle
-// Remove auxdisp buffer totally, and all associated functions
-//
-// Revision 1.3  2003/06/04 17:22:11  fraggle
-// Remove "save settings" option in settings menus. Just save it anyway.
-//
-// Revision 1.2  2003/04/05 22:55:11  fraggle
-// Remove the FOREVER macro and some unused stuff from std.h
-//
-// Revision 1.1.1.1  2003/02/14 19:03:10  fraggle
-// Initial Sourceforge CVS import
-//
-//
-// sdh 14/2/2003: change license header to GPL
-// sdh 26/03/2002: change CGA_ to Vid_
-// sdh 10/11/2001: make confoptions globally available for gtk code to use
-//
-//-------------------------------------------------------------------------
-
-

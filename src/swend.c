@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 //        swend    -      SW end of game
 //
-//---------------------------------------------------------------------------
 
 #include "sw.h"
 #include "swend.h"
@@ -131,41 +125,9 @@ void dispendmessage(void)
 	}
 }
 
-
-
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.9  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.8  2005/04/29 10:10:12  fraggle
-// "Medals" feature
-// By Christoph Reichenbach <creichen@gmail.com>
-//
-// Revision 1.7  2004/10/25 19:58:06  fraggle
-// Remove 'goingsun' global variable
-//
-// Revision 1.6  2004/10/20 19:00:01  fraggle
-// Remove currobx, endsts variables
-//
-// Revision 1.5  2004/10/15 17:52:32  fraggle
-// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
-// accurately describes what the file does.
-//
-// Revision 1.4  2003/06/08 02:39:25  fraggle
-// Initial code to remove XOR based drawing
-//
-// Revision 1.3  2003/04/05 22:44:04  fraggle
-// Remove some useless functions from headers, make them static if they
-// are not used by other files
-//
-// Revision 1.2  2003/04/05 22:31:29  fraggle
-// Remove PLAYMODE_MULTIPLE and swnetio.c
-//
-// Revision 1.1.1.1  2003/02/14 19:03:10  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 21/10/2001: rearranged headers, added cvs tags
@@ -178,5 +140,3 @@ void dispendmessage(void)
 // 87-03-09        Microsoft compiler.
 // 84-02-02        Development
 //
-//---------------------------------------------------------------------------
-

@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 // TCP/IP Communications
 //
-//---------------------------------------------------------------------------
 
 #include "sw.h"
 #include "swtitle.h"
@@ -247,16 +241,3 @@ void commterm(void)
 	}
 #endif      /* #ifdef TCPIP */
 }
-
-//---------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.2  2005/04/29 19:25:29  fraggle
-// Update copyright to 2005
-//
-// Revision 1.1  2003/08/06 14:53:05  fraggle
-// SDL_net implementation of tcpcomm.c
-// This uses the new SDL_net API which is IPv6 compatible
-//
-//
-//---------------------------------------------------------------------------

@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001-2005 Simon Howard
 //
@@ -16,11 +12,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 // Keep track of and display heads-up splats.
 //
-//---------------------------------------------------------------------------
 
 #ifndef __SWSPLAT_H__
 #define __SWSPLAT_H__
@@ -33,17 +27,3 @@ extern void swsplatox(void);
 extern void swwindshot(void);
 
 #endif /* #ifndef __SWSPLAT_H__ */
-
-//---------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.2  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.1  2004/10/15 17:23:32  fraggle
-// Restore HUD splats
-//
-//
-//---------------------------------------------------------------------------
-
-

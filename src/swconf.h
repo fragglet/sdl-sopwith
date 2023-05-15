@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//--------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,13 +13,11 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//--------------------------------------------------------------------------
 //
 // Configuration code
 //
 // Save game settings to a configuration file
 //
-//-------------------------------------------------------------------------
 
 #ifndef __SWCONF_H__
 #define __SWCONF_H__
@@ -48,18 +42,3 @@ extern void swsaveconf(void);
 extern void setconfig(void);          // config menu
 
 #endif
-
-//-------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.2  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.1.1.1  2003/02/14 19:03:30  fraggle
-// Initial Sourceforge CVS import
-//
-//
-// sdh 14/2/2003: change license header to GPL
-// sdh 10/11/2001: make confoptions available globally for gtk code
-//
-//-------------------------------------------------------------------------

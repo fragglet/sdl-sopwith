@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001-2005 Simon Howard
 //
@@ -16,11 +12,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 // Keep track of and display heads-up splats.
 //
-//---------------------------------------------------------------------------
 
 #include <string.h>
 
@@ -123,22 +117,3 @@ void swsplatox(void)
 {
 	oxsplatted = 1;
 }
-
-
-//---------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.3  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.2  2004/10/15 17:52:32  fraggle
-// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
-// accurately describes what the file does.
-//
-// Revision 1.1  2004/10/15 17:23:32  fraggle
-// Restore HUD splats
-//
-//
-//---------------------------------------------------------------------------
-
-

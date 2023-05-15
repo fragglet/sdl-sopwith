@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//--------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001-2005 Simon Howard
 //
@@ -16,14 +12,12 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//--------------------------------------------------------------------------
 //
 // Program entry point
 //
 // SDL sets up some routines which wrap the main function; however
 // the main sopwith files do not include the SDL headers.
 //
-//--------------------------------------------------------------------------
 
 #include <SDL.h>
 
@@ -33,13 +27,3 @@ int main(int argc, char *argv[])
 {
 	return swmain(argc, argv);
 }
-
-//--------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.3  2005/06/01 10:43:35  fraggle
-// Add missing log tags
-//
-//
-//--------------------------------------------------------------------------
-

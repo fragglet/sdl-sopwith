@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//--------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001-2005 Simon Howard
 //
@@ -16,7 +12,6 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//--------------------------------------------------------------------------
 //
 // Timer code
 //
@@ -24,7 +19,6 @@
 // Basically this is to keep SDL out of the main code, so we can if we
 // want drop in other code to run without SDL.
 //
-//--------------------------------------------------------------------------
 
 #include <SDL.h>
 #include "sw.h"
@@ -51,18 +45,3 @@ void Timer_Init(void)
 	SDL_Init(SDL_INIT_TIMER);
 	atexit(Timer_Shutdown);
 }
-
-//--------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.2  2005/04/29 19:25:29  fraggle
-// Update copyright to 2005
-//
-// Revision 1.1.1.1  2003/02/14 19:03:37  fraggle
-// Initial Sourceforge CVS import
-//
-//
-// sdh 14/2/2003: change license header to GPL
-// sdh 21/10/2001: added cvs tags
-//
-//--------------------------------------------------------------------------

@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 // Sprites
 //
-//---------------------------------------------------------------------------
 
 #include "swsymbol.h"
 
@@ -1193,36 +1187,9 @@ void symbol_generate(void)
 	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32);
 }
 
-
-
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.8  2005/06/01 10:10:40  fraggle
-// Fix medal symbol warnings
-//
-// Revision 1.7  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.6  2005/04/29 11:20:35  fraggle
-// Remove ghost planes.  Split off status bar code into a separate file.
-//
-// Revision 1.5  2005/04/29 10:10:12  fraggle
-// "Medals" feature
-// By Christoph Reichenbach <creichen@gmail.com>
-//
-// Revision 1.4  2005/04/28 14:52:48  fraggle
-// Fix compilation under gcc 4.0
-//
-// Revision 1.3  2004/10/15 16:39:32  fraggle
-// Unobfuscate some parts
-//
-// Revision 1.2  2003/06/16 02:03:50  fraggle
-// Pseudo-MSVC support..
-//
-// Revision 1.1.1.1  2003/02/14 19:03:21  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 28/06/2002: move plane sprites here, drop swplanes.c
@@ -1232,5 +1199,3 @@ void symbol_generate(void)
 // sdh 21/10/2001: reformatted headers, added cvs tags
 // sdh 20/10/2001: added some missing {}'s to shut up compiler
 //
-//---------------------------------------------------------------------------
-

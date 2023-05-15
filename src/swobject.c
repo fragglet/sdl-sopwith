@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 //        swobject -      SW object allocation and deallocation
 //
-//---------------------------------------------------------------------------
 
 #include "sw.h"
 #include "swmain.h"
@@ -120,22 +114,9 @@ void setdxdy(OBJECTS * obj, int dx, int dy)
 	obj->ob_ldy = (dy << 8) & 0xffff;
 }
 
-
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.4  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.3  2004/10/15 18:51:24  fraggle
-// Fix the map. Rename dispworld to dispmap as this is what it really does.
-//
-// Revision 1.2  2003/06/08 02:39:25  fraggle
-// Initial code to remove XOR based drawing
-//
-// Revision 1.1.1.1  2003/02/14 19:03:17  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 21/10/2001: rearranged headers, added cvs tags
@@ -150,5 +131,3 @@ void setdxdy(OBJECTS * obj, int dx, int dy)
 // 84-06-12        PCjr Speed-up
 // 84-02-07        Development
 //
-//---------------------------------------------------------------------------
-

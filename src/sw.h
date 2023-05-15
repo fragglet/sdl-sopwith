@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 //        sw.h     -      SW  Manifest Definitions
 //
-//---------------------------------------------------------------------------
 
 #ifndef __SW_H__
 #define __SW_H__
@@ -293,55 +287,9 @@ static inline int SIN(int x) {
 
 #endif
 
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.15  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.14  2005/04/29 17:20:05  fraggle
-// Fix spelling error: guage -> gauge
-//
-// Revision 1.13  2005/04/29 11:20:26  fraggle
-// Remove ghost planes.  Split off status bar code into a separate file.
-//
-// Revision 1.12  2005/04/29 10:10:12  fraggle
-// "Medals" feature
-// By Christoph Reichenbach <creichen@gmail.com>
-//
-// Revision 1.11  2004/10/25 20:02:11  fraggle
-// Fix spelling error: guage -> gauge
-//
-// Revision 1.10  2004/10/25 19:58:06  fraggle
-// Remove 'goingsun' global variable
-//
-// Revision 1.9  2004/10/20 19:00:01  fraggle
-// Remove currobx, endsts variables
-//
-// Revision 1.8  2004/10/15 21:30:57  fraggle
-// Improve multiplayer
-//
-// Revision 1.7  2004/10/15 18:51:24  fraggle
-// Fix the map. Rename dispworld to dispmap as this is what it really does.
-//
-// Revision 1.6  2003/06/16 02:03:50  fraggle
-// Pseudo-MSVC support..
-//
-// Revision 1.5  2003/06/08 02:39:25  fraggle
-// Initial code to remove XOR based drawing
-//
-// Revision 1.4  2003/06/04 15:49:05  fraggle
-// Removed and unused #define
-//
-// Revision 1.3  2003/04/05 22:48:34  fraggle
-// Remove archaic swmach.h and all IBMPC/ATARI #defines
-//
-// Revision 1.2  2003/04/05 22:31:29  fraggle
-// Remove PLAYMODE_MULTIPLE and swnetio.c
-//
-// Revision 1.1.1.1  2003/02/14 19:03:29  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 27/07/2002: made some constants independent of screen width
@@ -368,5 +316,3 @@ static inline int SIN(int x) {
 // 84-06-12        PCjr Speed-up
 // 84-02-02        Development
 //
-//---------------------------------------------------------------------------
-

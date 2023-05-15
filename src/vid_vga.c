@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001-2005 Simon Howard
 //
@@ -16,11 +12,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 //  Graphics backend for 8-bit (VGA) displays
 //
-//---------------------------------------------------------------------------
 
 #include <string.h>
 
@@ -187,21 +181,9 @@ void Vid_ClearBuf(void)
 	memset(vid_vram, 0, VRAMSIZE);
 }
 
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.4  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.3  2005/04/28 14:52:55  fraggle
-// Fix compilation under gcc 4.0
-//
-// Revision 1.2  2003/06/08 03:41:42  fraggle
-// Remove auxdisp buffer totally, and all associated functions
-//
-// Revision 1.1.1.1  2003/02/14 19:03:34  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 27/7/2002: remove collision detection code
@@ -227,5 +209,3 @@ void Vid_ClearBuf(void)
 // 84-06-13        PCjr Speed-up
 // 84-02-21        Development
 //
-//---------------------------------------------------------------------------
-

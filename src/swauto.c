@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 //        swauto   -      SW control of computer player
 //
-//---------------------------------------------------------------------------
 
 #include <assert.h>
 
@@ -401,36 +395,9 @@ int range(int x, int y, int ax, int ay)
 	return -((7 * dx + (dy << 2)) >> 3);
 }
 
-
-
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.8  2005/04/29 19:33:54  fraggle
-// Move slowly when wounded and using autopilot
-//
-// Revision 1.7  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.6  2005/04/28 18:32:59  fraggle
-// Fix bug with oobjects
-// Remove unused "goinghome" flag
-//
-// Revision 1.5  2005/04/28 18:24:41  fraggle
-// Fix 'home' key
-//
-// Revision 1.4  2005/04/28 10:42:48  fraggle
-// Fix computer planes not firing when tailing player plane
-//
-// Revision 1.3  2004/10/20 19:00:01  fraggle
-// Remove currobx, endsts variables
-//
-// Revision 1.2  2003/04/06 22:01:01  fraggle
-// Fix compile warnings
-//
-// Revision 1.1.1.1  2003/02/14 19:03:08  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 21/10/2001: rearranged file headers, added cvs tags
@@ -452,5 +419,3 @@ int range(int x, int y, int ax, int ay)
 // 84-06-12        PCjr Speed-up
 // 84-03-05        Development
 //
-//---------------------------------------------------------------------------
-

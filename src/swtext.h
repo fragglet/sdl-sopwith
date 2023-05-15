@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,7 +13,6 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 
 #ifndef __SWMISC_H__
 #define __SWMISC_H__
@@ -34,25 +29,3 @@ extern void swflush(void);
 extern void swdispd(int n, int size);
 
 #endif
-
-
-//---------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.2  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.1  2004/10/15 17:52:32  fraggle
-// Clean up compiler warnings. Rename swmisc.c -> swtext.c as this more
-// accurately describes what the file does.
-//
-// Revision 1.1.1.1  2003/02/14 19:03:31  fraggle
-// Initial Sourceforge CVS import
-//
-//
-// sdh 14/2/2003: change license header to GPL
-// sdh 21/10/2001: added cvs tags
-// sdh 19/10/2001: added header
-//
-//---------------------------------------------------------------------------
-

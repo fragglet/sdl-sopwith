@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 // TCP/IP Communications
 //
-//---------------------------------------------------------------------------
 
 #include "swtitle.h"
 #include "tcpcomm.h"
@@ -298,26 +292,3 @@ void commterm(void)
 	}
 #endif      /* #ifdef TCPIP */
 }
-
-//---------------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.4  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.3  2005/04/28 14:52:55  fraggle
-// Fix compilation under gcc 4.0
-//
-// Revision 1.2  2003/04/05 22:55:11  fraggle
-// Remove the FOREVER macro and some unused stuff from std.h
-//
-// Revision 1.1.1.1  2003/02/14 19:03:23  fraggle
-// Initial Sourceforge CVS import
-//
-//
-// sdh 14/2/2003: change license header to GPL
-// sdh 17/11/2001: ability to specify a different port from default
-// sdh 16/11/2001: TCPIP #define to disable TCP/IP support
-// sdh 21/10/2001: added cvs tags
-//
-//---------------------------------------------------------------------------

@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001-2005 Simon Howard
 //
@@ -16,11 +12,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 // System-independent video code
 //
-//---------------------------------------------------------------------------
 
 #include "video.h"
 
@@ -87,16 +81,3 @@ int Vid_GetGameKeys(void)
 
 	return c;
 }
-
-//-----------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.2  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.1  2003/03/26 13:53:29  fraggle
-// Allow control via arrow keys
-// Some code restructuring, system-independent video.c added
-//
-//
-//-----------------------------------------------------------------------

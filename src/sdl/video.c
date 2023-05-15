@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//--------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001-2005 Simon Howard
 //
@@ -16,13 +12,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//--------------------------------------------------------------------------
 //
 // SDL Video Code
 //
-// By Simon Howard
-//
-//-----------------------------------------------------------------------
 
 #include <string.h>
 #include <time.h>
@@ -726,48 +718,3 @@ void error_exit(char *s, ...)
 	fprintf(stderr, "%s\n", buf);
 	exit(1);
 }
-
-//-----------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.8  2005/06/01 10:17:26  fraggle
-// Don't #include files with drawing functions.
-// Include README files for psion and gtk ports.
-// Remove unnecessary include parameter.
-//
-// Revision 1.7  2005/04/29 19:25:29  fraggle
-// Update copyright to 2005
-//
-// Revision 1.6  2005/04/28 14:52:55  fraggle
-// Fix compilation under gcc 4.0
-//
-// Revision 1.5  2004/10/15 17:30:58  fraggle
-// Always hide the cursor.
-//
-// Revision 1.4  2004/10/14 08:48:46  fraggle
-// Wrap the main function in system-specific code.  Remove g_argc/g_argv.
-// Fix crash when unable to initialise video subsystem.
-//
-// Revision 1.3  2003/03/26 13:53:29  fraggle
-// Allow control via arrow keys
-// Some code restructuring, system-independent video.c added
-//
-// Revision 1.2  2003/03/26 12:02:38  fraggle
-// Apply patch from David B. Harris (ElectricElf) for right ctrl key and
-// documentation
-//
-// Revision 1.1.1.1  2003/02/14 19:03:37  fraggle
-// Initial Sourceforge CVS import
-//
-//
-// sdh 14/2/2003: change license header to GPL
-// sdh 25/04/2002: rename vga_{pitch,vram} to vid_{pitch,vram}
-// sdh 26/03/2002: now using platform specific vga code for drawing stuff
-//                 (#include "vid_vga.c")
-//                 rename CGA_ to Vid_
-// sdh 17/11/2001: buffered input for keypresses,
-//                 CGA_GetLastKey->CGA_GetKey
-// sdh 07/11/2001: add CGA_Reset
-// sdh 21/10/2001: added cvs tags
-//
-//-----------------------------------------------------------------------

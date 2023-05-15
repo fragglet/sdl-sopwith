@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 //        swgames  -      SW definition of games
 //
-//---------------------------------------------------------------------------
 
 
 #include "sw.h"
@@ -271,19 +265,9 @@ GAMES original_level = {
 	arrlen(original_ground),
 };
 
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.3  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.2  2005/04/29 10:10:12  fraggle
-// "Medals" feature
-// By Christoph Reichenbach <creichen@gmail.com>
-//
-// Revision 1.1.1.1  2003/02/14 19:03:10  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 21/10/2001: rearranged file headers, added cvs tags
@@ -294,5 +278,3 @@ GAMES original_level = {
 // 87-03-09        Microsoft compiler.
 // 84-02-08        Development
 //
-//---------------------------------------------------------------------------
-

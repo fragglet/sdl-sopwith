@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 1984-2000 David L. Clark
 // Copyright(C) 2001-2005 Simon Howard
@@ -17,11 +13,9 @@
 // program; if not, write to the Free Software Foundation, Inc., 59 Temple
 // Place - Suite 330, Boston, MA 02111-1307, USA.
 //
-//---------------------------------------------------------------------------
 //
 //        swsound  -      SW sound generation
 //
-//---------------------------------------------------------------------------
 
 #include <ctype.h>
 
@@ -622,31 +616,9 @@ void swsndupdate(void)
 	}
 }
 
-//---------------------------------------------------------------------------
 //
-// $Log$
-// Revision 1.7  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.6  2005/04/28 14:52:47  fraggle
-// Fix compilation under gcc 4.0
-//
-// Revision 1.5  2004/10/15 16:39:32  fraggle
-// Unobfuscate some parts
-//
-// Revision 1.4  2003/04/05 22:55:11  fraggle
-// Remove the FOREVER macro and some unused stuff from std.h
-//
-// Revision 1.3  2003/04/05 22:48:35  fraggle
-// Remove archaic swmach.h and all IBMPC/ATARI #defines
-//
-// Revision 1.2  2003/04/05 22:44:04  fraggle
-// Remove some useless functions from headers, make them static if they
-// are not used by other files
-//
-// Revision 1.1.1.1  2003/02/14 19:03:18  fraggle
-// Initial Sourceforge CVS import
-//
+// 2003-02-14: Code was checked into version control; no further entries
+// will be added to this log.
 //
 // sdh 14/2/2003: change license header to GPL
 // sdh 25/11/2001: remove intsoff, intson calls
@@ -663,5 +635,3 @@ void swsndupdate(void)
 // 87-03-10        Microsoft compiler.
 // 84-04-11        Development
 //
-//---------------------------------------------------------------------------
-

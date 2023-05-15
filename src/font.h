@@ -1,7 +1,3 @@
-// Emacs style mode select -*- C++ -*-
-//---------------------------------------------------------------------------
-//
-// $Id$
 //
 // Copyright(C) 2001 A. Schiffler
 // Copyright(C) 2001-2005 Simon Howard
@@ -20,11 +16,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 //
-//--------------------------------------------------------------------------
 //
 // This is from SDL_gfxPrimitives-1.4 by A. Schiffler <aschiffler@home.com>
 //
-//--------------------------------------------------------------------------
 
 #ifndef __FONT_H__
 #define __FONT_H__
@@ -2599,19 +2593,3 @@ static unsigned char font_data[GFX_FONTDATAMAX] = {
 
 #endif /* __FONT_H__ */
 
-//-----------------------------------------------------------------------
-//
-// $Log$
-// Revision 1.3  2005/04/29 19:25:28  fraggle
-// Update copyright to 2005
-//
-// Revision 1.2  2004/10/14 08:56:40  fraggle
-// font.h is under the LGPL; fix license and copyright info
-//
-// Revision 1.1.1.1  2003/02/14 19:03:27  fraggle
-// Initial Sourceforge CVS import
-//
-//
-// sdh 21/10/2001: rearranged headers, added cvs tags
-//
-//-----------------------------------------------------------------------
