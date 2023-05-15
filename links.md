@@ -12,6 +12,7 @@ title: SDL Sopwith: Links
   spam...
 * [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_\(video_game\))
   on Wikipedia.
+* [Sopwith on Mobygames](https://www.mobygames.com/game/1380/sopwith/).
 * ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
   the game.
@@ -39,6 +40,8 @@ title: SDL Sopwith: Links
 * [Sopwith 3](http://sopwith3.sourceforge.net/) by Jornand de Buisonjé
 * [Sopwith 2002](https://sourceforge.net/projects/sopwith/) by Jon Rafkind
 * [Sopwith Camel](http://sopwithcamel.sourceforge.net/) by Alan Broun
+* [Sopwith Classic Free](https://play.google.com/store/apps/details?id=com.contactcom.dolphinfighter)
+  for Android, by Contact Computers.
 * [YASG](https://sourceforge.net/projects/yasg/) ("Yet Another Sopwith Game")
   by zlogic (Russian game)
 * [Sopwith IV](http://www.alecrivers.com/sopwith/) by Alec Rivers (in alpha?)
@@ -49,6 +52,7 @@ title: SDL Sopwith: Links
 * [Sheepwith](https://iirolindell.itch.io/sheepwith) by Iiro Lindell
   (plus [interview](https://ninichimusic.com/blog/2017/introducing-the-game-robber-docks)
   with the author where she mentions the original Sopwith as inspiration)
+* [Sopwith Camel Scout](https://grigorich.itch.io/sopwith-camel) by Grigorich.
 
 ## Inspired by Sopwith ...?
 
