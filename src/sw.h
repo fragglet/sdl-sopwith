@@ -241,7 +241,6 @@ typedef struct obj {                            /*  Object list             */
 	int            ob_bdelay;
 	int            ob_home;
 	obtype_t       ob_type;
-	struct obj    *ob_dnext;
 	int            ob_athome;
 	struct tt     *ob_sound;
 	int            ob_missiles;
