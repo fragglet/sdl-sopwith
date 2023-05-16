@@ -375,7 +375,12 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 				}
 			}
 
-			if (conf_wounded) {
+			// Wounding is only allowed if the player is actually
+			// in the air. If an enemy plane scores a hit on a
+			// player sitting on the runway, that is a successful
+			// raid; otherwise, the damage would be repaired
+			// immediately.
+			if (conf_wounded && !ob->ob_athome) {
 				if (state == FLYING) {
 					ob->ob_state = WOUNDED;
 					return;
