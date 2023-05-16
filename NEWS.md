@@ -1,3 +1,10 @@
+# v2.1.1 (2022-11-05)
+
+* An embarrassing bug was fixed where you could win by bombing your own
+  buildings.
+* The ox "splat" screen now shows correctly if you are shot down and crash
+  into an ox.
+
 # v2.1.0 (2022-08-31)
 
 Bug fixes and changes in this version:
