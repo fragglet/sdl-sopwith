@@ -1,3 +1,25 @@
+# v2.2.0 (2023-05-16)
+
+* Multiplayer support was added for the Windows version, at long last.
+* Help text is now shown for new players. This is shown on game start in
+  novice mode, but won't be shown again after a successful flight. The help
+  text will also appear in other single player modes, but only if it looks
+  like you're really struggling to get the plane off the ground.
+* It's no longer possible to flip the plane upside down while sitting
+  motionless on the runway (a bug since the original DOS versions).
+* It's no longer possible to get wounded on the ground. If a plane shoots
+  another on the ground, that's a successful raid. This fixes a bug where
+  a wounded plane on the runway would still be damaged after takeoff.
+* The game no longer freezes up in multiplayer mode if the other player
+  quits. When establishing a connection, a helpful message is shown about how
+  to abort.
+* An extra help doc was added for macOS users.
+* If the game quits with an error, a friendly dialog box now shows the error.
+* Some minor manpage fixes: the deleted missiles mode flag is no longer
+  mentioned, and the spacing appears correct on OpenBSD man(1).
+* Lots more internal cleanups making good progress towards eventually adding
+  support for custom levels.
+
 # v2.1.1 (2022-11-05)
 
 * An embarrassing bug was fixed where you could win by bombing your own
