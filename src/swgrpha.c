@@ -20,6 +20,7 @@
 #include "swgrpha.h"
 #include "swinit.h"
 #include "swmain.h"
+#include "swmove.h"
 #include "swsplat.h"
 #include "swstbar.h"
 #include "swtext.h"
@@ -72,15 +73,31 @@ static void print_help(void)
 		{ "Fly Home",    KEY_HOME },
 	};
 
+	// We usually only show the help text in novice mode. However, in
+	// other single player modes, we do show the help text if the
+	// player seems to be really struggling.
+	switch (playmode) {
+		case PLAYMODE_NOVICE:
+			break;
+		case PLAYMODE_SINGLE:
+		case PLAYMODE_COMPUTER:
+			if (consoleplayer->ob_crashcnt < 3) {
+				return;
+			}
+			break;
+		default:
+			return;
+	}
+
 	swcolor(2);
-	swposcur(20, 1);
+	swposcur(1, 2);
 	swputs("BEGINNER'S HELP");
 	swcolor(3);
 	for (i = 0; i < arrlen(items); i++) {
 		char buf[64];
 		snprintf(buf, sizeof(buf), "%-11s- %s",
 		        items[i].name, Vid_KeyName(keybindings[items[i].key]));
-		swposcur(20, i + 2);
+		swposcur(1, i + 3);
 		swputs(buf);
 	}
 }
@@ -102,7 +119,10 @@ void swdisp(void)
 	// "the end"
 	dispendmessage();
 
-	if (consoleplayer->ob_athome && playmode == PLAYMODE_NOVICE) {
+	// Display help text if the player is just starting off. We only
+	// show this on the first level, and stop showing it once the
+	// player demonstrates the ability to take off successfully.
+	if (consoleplayer->ob_athome && !successful_flight && gamenum == 0) {
 		print_help();
 	}
 

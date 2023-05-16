@@ -26,10 +26,6 @@
 #include "swsound.h"
 #include "swtitle.h"
 
-// sdh: framerate control
-
-#define FPS 10
-
 // sdh 28/10/2001: game options
 
 bool conf_missiles = 0;             // allow missiles: replaces missok

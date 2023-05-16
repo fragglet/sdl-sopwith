@@ -15,6 +15,8 @@
 
 #include "sw.h"
 
+extern bool successful_flight;
+
 extern void swmove(void);
 extern bool moveplyr(OBJECTS *obp);
 extern bool movecomp(OBJECTS *obp);

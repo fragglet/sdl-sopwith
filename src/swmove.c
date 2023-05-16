@@ -26,10 +26,16 @@
 #include "swsymbol.h"
 #include "swtitle.h"
 
+// If the player manages to keep the plane in the air this long, they
+// have got the hang of the controls and don't need any more help.
+#define SUCCESSFUL_FLIGHT_TIME (8 /* seconds */ * FPS)
+
 static bool movepln(OBJECTS *ob);
 static void interpret(OBJECTS *ob, int key);
 
 static bool quit;
+static int last_ground_time = 0;
+bool successful_flight = false;
 
 void swmove(void)
 {
@@ -55,6 +61,11 @@ void swmove(void)
 	}
 
 	++countmove;
+	if (consoleplayer->ob_athome) {
+		last_ground_time = countmove;
+	} else if (countmove - last_ground_time > SUCCESSFUL_FLIGHT_TIME) {
+		successful_flight = true;
+	}
 }
 
 

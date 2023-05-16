@@ -945,9 +945,11 @@ void swinitlevel(void)
 	// to keep netgames in sync if we have already played
 
 	countmove = 0;
+	successful_flight = false;
 
-	for (i=0; i<num_players; ++i)
+	for (i=0; i<num_players; ++i) {
 		latest_player_time[i] = 0;
+	}
 }
 
 void swrestart(void)
