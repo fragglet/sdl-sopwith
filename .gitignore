@@ -16,4 +16,9 @@ src/sopwith.exe
 .deps
 *.a
 *.o
+*~
+*.orig
+*.rej
 stamp-h1
+tags
+TAGS
