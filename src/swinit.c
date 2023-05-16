@@ -34,7 +34,6 @@
 #include "swsplat.h"
 #include "swsymbol.h"
 #include "swtitle.h"
-#include "swutil.h"
 
 GRNDTYPE *ground;
 

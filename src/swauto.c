@@ -19,7 +19,7 @@
 #include "swauto.h"
 #include "swinit.h"
 #include "swmain.h"
-#include "swutil.h"
+#include "swobject.h"
 
 static bool correction;		/*  Course correction flag        */
 static OBJECTS obs;		/*  Saved computer object         */

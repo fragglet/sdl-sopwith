@@ -17,5 +17,7 @@
 
 extern OBJECTS *allocobj(void);
 extern void deallobj(OBJECTS *obp);
+extern void movexy(OBJECTS *ob, int *x, int *y);
+extern void setdxdy(OBJECTS *obj, int dx, int dy);
 
 #endif

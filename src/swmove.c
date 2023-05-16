@@ -25,7 +25,6 @@
 #include "swsound.h"
 #include "swsymbol.h"
 #include "swtitle.h"
-#include "swutil.h"
 
 static bool movepln(OBJECTS *ob);
 static void interpret(OBJECTS *ob, int key);

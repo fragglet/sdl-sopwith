@@ -18,7 +18,7 @@
 #include "swmain.h"
 #include "swtext.h"
 #include "swsound.h"
-#include "swutil.h"
+#include "swobject.h"
 
 void swend(char *msg, bool update)
 {
