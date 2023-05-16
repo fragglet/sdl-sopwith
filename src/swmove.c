@@ -280,7 +280,10 @@ static void interpret(OBJECTS *ob, int key)
 			ob->ob_home = false;
 		}
 
-		if (key & K_FLIP) {
+		// We don't allow flipping upside down while sitting
+		// on the runway, that would be silly (this was a bug
+		// in the original game).
+		if ((key & K_FLIP) && !ob->ob_athome) {
 			ob->ob_orient = !ob->ob_orient;
 			ob->ob_home = false;
 		}
