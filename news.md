@@ -2,6 +2,25 @@
 title: SDL Sopwith: News
 ---
 
+## May 16, 2023
+
+SDL Sopwith v2.2.0 has just been released; here are some of the
+highlights:
+
+* Multiplayer support was added for the Windows version, at long last.
+* Help text is now shown for new players. This is shown on game start in
+  novice mode, but won't be shown again after a successful flight. The help
+  text will also appear in other single player modes, but only if it looks
+  like you're really struggling to get the plane off the ground.
+* It's no longer possible to flip the plane upside down while sitting
+  motionless on the runway (a bug since the original DOS versions).
+* It's no longer possible to get wounded on the ground. If a plane shoots
+  another on the ground, that's a successful raid. This fixes a bug where
+  a wounded plane on the runway would still be damaged after takeoff.
+
+A more complete list can be found
+[in the release notes](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-2.2.0).
+
 ## July 18, 2022
 
 A new release of SDL Sopwith, v2.0.0 is now out after many years of
