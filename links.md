@@ -12,6 +12,8 @@ title: SDL Sopwith: Links
 * ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
   the game.
+* [Sopwith Youtube Videos](https://www.youtube.com/playlist?list=PLHt4bcu83-6QJexQ8pYlS42jEkmA3C7RW):
+  a curated playlist.
 
 ## Sopwith's author, David L. Clark
 
