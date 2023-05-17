@@ -61,9 +61,6 @@ title: SDL Sopwith: Links
   by zlogic (Russian game)
 * [Sopwith IV](http://www.alecrivers.com/sopwith/) by Alec Rivers (in alpha?)
 * [Sopwith for PICO-8](https://www.lexaloffle.com/bbs/?tid=31530) by hwd2002
-* [Sopwith VR](https://store.steampowered.com/app/998660/Sopwith_VR/)
-  (mentions the original in the description, though this is a very different
-  game!)
 * [Sheepwith](https://iirolindell.itch.io/sheepwith) by Iiro Lindell
   (plus [interview](https://ninichimusic.com/blog/2017/introducing-the-game-robber-docks)
   with the author where she mentions the original Sopwith as inspiration)
@@ -71,6 +68,8 @@ title: SDL Sopwith: Links
 
 ## Inspired by Sopwith ...?
 
+* [Sopwith VR](https://store.steampowered.com/app/998660/Sopwith_VR/)
+  (mentions the original in the description on Steam)
 * [Triplane Classic](http://triplane.sourceforge.net/) aka Triplane Turmoil
 * [Triplane Turmoil II](http://triplane2.draconus.com/)
 * [Airstrike](http://icculus.org/airstrike/)
