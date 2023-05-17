@@ -65,6 +65,10 @@ title: SDL Sopwith: Links
   (plus [interview](https://ninichimusic.com/blog/2017/introducing-the-game-robber-docks)
   with the author where she mentions the original Sopwith as inspiration)
 * [Sopwith Camel Scout](https://grigorich.itch.io/sopwith-camel) by Grigorich.
+* [Sopwith Back](https://js13kgames.com/entries/sopwith-back) by Elemental Systems
+* [Sopwith - WW1 Flight Simulator](https://apkcombo.com/sopwith-ww1-flight-simulator/com.cactoosoftware.sopwith/);
+  Android version by CactooSoftware.
+* [Sopwith remake](https://saltyseadogs.itch.io/sopwith) by Salty Sea Dogs
 
 ## Inspired by Sopwith ...?
 
@@ -78,6 +82,10 @@ title: SDL Sopwith: Links
 * [BIP!](https://store.steampowered.com/app/1285200/Bip/),
   inspired by Biplane Duel
 * [Sky Fighter (PS3)](https://www.metacritic.com/game/playstation-3/sky-fighter)
+* [Pocket Squadron](https://play.google.com/store/apps/details?id=com.bombsight.biplane.android)
+  on Android, by Bombsight Games.
+* [Air Bandits](https://air-bandits.soft112.com/) by Insofta Games
+* [Blazin' Aces](https://duncanbellsa.itch.io/blazin-aces) by Duncan Bell
 
 ### And, uh...
 
