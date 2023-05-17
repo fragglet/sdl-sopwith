@@ -45,6 +45,7 @@ struct filter {
 };
 
 int snd_tinnyfilter = 1;
+static SDL_AudioDeviceID audio_dev;
 static int output_freq;
 static struct filter tinny_filter;
 static int speaker_on = 0;
@@ -306,9 +307,9 @@ void Speaker_Init(void)
 	audiospec.channels = 1;
 	audiospec.callback = &snd_callback;
 
-	fflush(stdout);
-
-	if (SDL_OpenAudio(&audiospec, &audiospec_actual) < 0) {
+	audio_dev = SDL_OpenAudioDevice(NULL, 0, &audiospec, &audiospec_actual,
+	                                SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
+	if (audio_dev == 0) {
 		fprintf(stderr, "Failed to initialize sound: %s\n",
 			SDL_GetError());
 		return;
@@ -324,5 +325,5 @@ void Speaker_Init(void)
 		InitializeNullFilter();
 	}
 
-	SDL_PauseAudio(0);
+	SDL_PauseAudioDevice(audio_dev, 0);
 }
