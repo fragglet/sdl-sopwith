@@ -21,11 +21,12 @@
 #include <SDL.h>
 #include <math.h>
 #include <assert.h>
+#include <inttypes.h>
 
 #include "sw.h"
 #include "swsound.h"
 
-#define VOLUME 10 /* out of 127 */
+#define VOLUME 4000 /* out of 1 << 15 */
 #define FILTER_KERNEL_LEN 51
 
 // The following values give the cutoff range for our band-pass
@@ -183,12 +184,15 @@ static inline float square_wave(float time)
 }
 
 // callback function to generate sound
-static void snd_callback(void *userdata, Uint8 * stream, int len)
+static void snd_callback(void *userdata, Uint8 *stream8, int len)
 {
 	static int lasttime;
 	static float lastfreq;
+	uint16_t *stream = (uint16_t *) stream8;
 	float sample;
 	int i;
+
+	len /= 2;  // 2 bytes per sample
 
 	swsndupdate();
 
@@ -209,7 +213,7 @@ static void snd_callback(void *userdata, Uint8 * stream, int len)
 			                   / output_freq);
 		}
 		sample = FilterNext(&tinny_filter, sample);
-		stream[i] = 128 + (signed int) (sample * VOLUME);
+		stream[i] = (1 << 15) + (signed int) (sample * VOLUME);
 	}
 
 	lasttime += len;
@@ -303,7 +307,7 @@ void Speaker_Init(void)
 
 	audiospec.samples = 1024;
 	audiospec.freq = 48000;
-	audiospec.format = AUDIO_U8;
+	audiospec.format = AUDIO_U16SYS;
 	audiospec.channels = 1;
 	audiospec.callback = &snd_callback;
 
