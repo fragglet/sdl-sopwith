@@ -122,7 +122,8 @@ void swdisp(void)
 	// Display help text if the player is just starting off. We only
 	// show this on the first level, and stop showing it once the
 	// player demonstrates the ability to take off successfully.
-	if (consoleplayer->ob_athome && !successful_flight && gamenum == 0) {
+	if (consoleplayer->ob_athome && !successful_flight && gamenum == 0
+	 && consoleplayer->ob_state == FLYING) {
 		print_help();
 	}
 
