@@ -4,13 +4,10 @@ title: SDL Sopwith: Links
 
 * [sopwith.org](http://www.sopwith.org/), a fan site with lots of details
   about the original game.
-* [Decoded: Sopwith](http://www.maizure.org/projects/decoded-sopwith/), MaiZure's analysis of the Sopwith source code
 * [alt.games.sopwith](https://groups.google.com/g/alt.games.sopwith) - a (sadly)
   long-inactive newsgroup about Sopwith, although you can find some
   interesting discussions from the '90s if you're willing to dig through the
   spam...
-* [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_\(video_game\))
-  on Wikipedia.
 * [Sopwith on Mobygames](https://www.mobygames.com/game/1380/sopwith/).
 * ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
@@ -24,8 +21,20 @@ title: SDL Sopwith: Links
   with some historical details about the game.
 * [Lost Treasures of Gaming podcast](https://archive.org/details/LostTreasures002-Sopwith)
   episode: interview with David L. Clark.
+
+## Articles
+
+* [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_\(video_game\))
+  on Wikipedia.
+* [Decoded: Sopwith](http://www.maizure.org/projects/decoded-sopwith/), MaiZure's analysis of the Sopwith source code
 * [A review of Sopwith](free-ibmpc.md) from the book "Free and user supported
   software for the IBM PC" (1990).
+* ["The Search for Nostalgic PC Games Digs Out a Forgotten Gem"](https://medium.com/sepia-sententiae/the-search-for-nostalgic-pc-games-digs-out-a-forgotten-gem-d4e67f1297be),
+  by The Secret Aspirant
+* [Memory Cache: Sopwith](https://www.abc.net.au/tv/goodgame/stories/s4295505.htm)
+  (transcript; this aired on Australian TV; [download the episode here](https://abcmedia.akamaized.net/tv/goodgame/vodcast/goodgame_2015_s11_ep27.mp4))
+* [Sopwith review](http://www.thealmightyguru.com/Wiki/index.php?title=Sopwith)
+  by TheAlmightyGuru.
 
 ## Ports of SDL Sopwith to other platforms
 
