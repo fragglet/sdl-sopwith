@@ -2,7 +2,6 @@
 title: SDL Sopwith: Links
 ---
 
-* [Website of David L. Clark](http://www.davidlclark.com/), the author of Sopwith.
 * [sopwith.org](http://www.sopwith.org/), a fan site with lots of details
   about the original game.
 * [Decoded: Sopwith](http://www.maizure.org/projects/decoded-sopwith/), MaiZure's analysis of the Sopwith source code
@@ -16,6 +15,11 @@ title: SDL Sopwith: Links
 * ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
   the game.
+
+## Sopwith's author, David L. Clark
+
+* [David's website](https://web.archive.org/web/20190425101807/http://davidlclark.com/)
+  (archived; we hope David's site will be back soon!)
 * [Old David L. Clark email](https://groups.google.com/g/alt.games.sopwith/c/Ru44q8XvXEk/m/bR-HUt-rQQQJ)
   with some historical details about the game.
 * [Lost Treasures of Gaming podcast](https://archive.org/details/LostTreasures002-Sopwith)
