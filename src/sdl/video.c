@@ -373,8 +373,8 @@ static void Vid_SetMode(void)
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
-	window = SDL_CreateWindow(PACKAGE_STRING, SDL_WINDOWPOS_UNDEFINED,
-	                          SDL_WINDOWPOS_UNDEFINED, w, h, flags);
+	window = SDL_CreateWindow(PACKAGE_STRING, SDL_WINDOWPOS_CENTERED,
+	                          SDL_WINDOWPOS_CENTERED, w, h, flags);
 
 	if (window == NULL) {
 		error_exit("Failed to open SDL window: %s", SDL_GetError());
