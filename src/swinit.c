@@ -279,10 +279,10 @@ OBJECTS *initpln(OBJECTS * obp)
 		ob->ob_missiles = MAXMISSILES;
 		ob->ob_bursts = MAXBURSTS;
 		ob->ob_life = MAXFUEL;
-		initplanescore(&ob->ob_score);
 		initplanescore(&ob->ob_lastscore);
 	}
 	if (!obp) {
+		initplanescore(&ob->ob_score);
 		ob->ob_score.score = ob->ob_crashcnt = 0;
 		ob->ob_endsts = PLAYING;
 		ob->ob_target = NULL;
