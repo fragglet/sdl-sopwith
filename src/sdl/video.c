@@ -618,11 +618,18 @@ static void getevents(void)
 			break;
 
 		case SDL_WINDOWEVENT:
-			// When we get one of these events, we redraw
-			// the screen immediately, as we may be in a
-			// menu waiting for a keypress.
-			need_redraw = 1;
-			break;
+			switch (event.window.event) {
+			case SDL_WINDOWEVENT_CLOSE:
+				exit(0);
+				break;
+
+			default:
+				// When we get one of these events, we redraw
+				// the screen immediately, as we may be in a
+				// menu waiting for a keypress.
+				need_redraw = 1;
+				break;
+			}
 		}
 	}
 
