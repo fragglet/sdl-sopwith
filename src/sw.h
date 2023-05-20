@@ -185,6 +185,7 @@ typedef struct {
 	int		ribbons_nr;	/* Awarded # of ribbons */
 	int		ribbons[6];	/* Ribbon display order */
 	unsigned int	medals;		/* See below */
+	bool            combatwound;    /* If true, wounding came from a bullet */
 } score_t;
 
 #define MEDAL_PURPLEHEART	(1<<0)	/* Returned when damaged */

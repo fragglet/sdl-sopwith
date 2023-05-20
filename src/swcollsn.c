@@ -381,6 +381,9 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 			// raid; otherwise, the damage would be repaired
 			// immediately.
 			if (conf_wounded && !ob->ob_athome) {
+				if (ttype == SHOT) {
+					ob->ob_score.combatwound = true;
+				}
 				if (state == FLYING) {
 					ob->ob_state = WOUNDED;
 					return;

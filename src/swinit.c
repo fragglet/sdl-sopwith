@@ -151,8 +151,9 @@ static void get_awards(OBJECTS *ob)
 	score_t *sc = &ob->ob_score;
 
 	if (!(lsc->medals & MEDAL_PURPLEHEART)) {
-		if (ob->ob_state == WOUNDED
-		    || ob->ob_state == WOUNDSTALL) {
+		// We only award purple heart if wounded in combat (=hit by
+		// bullet), not from a bird strike or flying into an ox
+		if (ob->ob_score.combatwound) {
 			sc->medals |= MEDAL_PURPLEHEART;
 			give_medal(ob, MEDAL_ID_PURPLEHEART);
 		}
@@ -271,6 +272,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_newsym = symbol_plane[ob->ob_orient][0];
 	ob->ob_athome = true;
 	ob->ob_onmap = true;
+	ob->ob_score.combatwound = false;
 
 	if (!obp || ob->ob_state == CRASHED) {
 		/* New plane */
