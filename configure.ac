@@ -1,9 +1,9 @@
-AC_INIT([SDL Sopwith], [2.2.0], [fraggle@gmail.com], [sdl-sopwith])
+AC_INIT([SDL Sopwith], [2.3.0], [fraggle@gmail.com], [sdl-sopwith])
 AC_CONFIG_AUX_DIR(autotools)
 
 VERSION=$CONFIG_VERSION
 
-PACKAGE_COPYRIGHT="Copyright (C) 1984-2022"
+PACKAGE_COPYRIGHT="Copyright (C) 1984-2023"
 PACKAGE_LICENSE="GNU General Public License, version 2"
 
 AC_SUBST(VERSION)

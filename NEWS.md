@@ -1,3 +1,14 @@
+# v 2.3.0 (2023-05-20)
+
+* Sound on Windows was fixed.
+* Medals are no longer cleared after a crash. Players now keep their medals
+  until the end of the level, like their score.
+* The purple heart medal is now only awarded to players injured in combat.
+  Surviving a bird strike or crashing into an ox doesn't cut it.
+* Out of tree builds were fixed (thanks Will Thompson)
+* The close button now quits the game (thanks Will Thompson)
+* The help screen is no longer shown when aborting the game.
+
 # v2.2.0 (2023-05-16)
 
 * Multiplayer support was added for the Windows version, at long last.
