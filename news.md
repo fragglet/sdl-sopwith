@@ -2,6 +2,20 @@
 title: SDL Sopwith: News
 ---
 
+## May 20, 2023
+
+SDL Sopwith v2.3.0 comes hot on the tail of the v2.2.0 just a few days
+ago. Here's a quick summary:
+
+* Sound on Windows was fixed.
+* Changes to medals: they're no longer cleared after a crash, and the
+  purple heart is only awarded if injured in combat.
+* The close button now quits the game (thanks Will Thompson)
+* A bug with the help screen introduced in the previous version was fixed.
+
+A more complete list can be found
+[in the release notes](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-2.2.0).
+
 ## May 16, 2023
 
 SDL Sopwith v2.2.0 has just been released; here are some of the
