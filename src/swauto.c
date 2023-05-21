@@ -297,7 +297,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 
 int gohome(OBJECTS *ob)
 {
-	original_ob_t *orig_ob;
+	const original_ob_t *orig_ob;
 
 	if (ob->ob_athome) {
 		return 0;

@@ -587,7 +587,7 @@ void initburst(OBJECTS *obo)
 
 // building/target
 
-static OBJECTS *inittarget(original_ob_t *orig_ob)
+static OBJECTS *inittarget(const original_ob_t *orig_ob)
 {
 	OBJECTS *ob;
 	int x;
@@ -758,7 +758,7 @@ void initsmok(OBJECTS *obo)
 
 // birds
 
-static OBJECTS *initflock(original_ob_t *orig_ob)
+static OBJECTS *initflock(const original_ob_t *orig_ob)
 {
 	OBJECTS *ob;
 	int j;
@@ -828,7 +828,7 @@ void initbird(OBJECTS *obo, int i)
 
 // oxen
 
-static OBJECTS *initox(original_ob_t *orig_ob)
+static OBJECTS *initox(const original_ob_t *orig_ob)
 {
 	OBJECTS *ob;
 
@@ -858,7 +858,7 @@ static OBJECTS *initox(original_ob_t *orig_ob)
 static void inittargets(void)
 {
 	OBJECTS *ob;
-	original_ob_t *orig_ob;
+	const original_ob_t *orig_ob;
 	int i;
 
 	numtarg[0] = 0;

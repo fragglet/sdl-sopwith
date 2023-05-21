@@ -258,7 +258,7 @@ typedef struct obj {                            /*  Object list             */
 	bool           ob_goingsun;
 	score_t	       ob_score;
 	score_t	       ob_lastscore;
-	original_ob_t *ob_original_ob;
+	const original_ob_t *ob_original_ob;
 	// There is a non-orthogonality here. The original X position is
 	// defined in ob_original_ob->x (ie. the definition of the level)
 	// but the original Y position is not part of the level; it gets

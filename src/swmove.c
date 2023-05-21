@@ -1078,7 +1078,7 @@ bool moveox(OBJECTS * ob)
 
 bool crashpln(OBJECTS *ob)
 {
-	original_ob_t *orig_ob = ob->ob_original_ob;
+	const original_ob_t *orig_ob = ob->ob_original_ob;
 
 	if (ob->ob_dx < 0) {
 		ob->ob_angle = (ob->ob_angle + 2) % ANGLES;

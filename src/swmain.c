@@ -38,7 +38,7 @@ bool conf_medals = 1;
 bool conf_big_explosions = 1;       // big oil tank explosions
 
 playmode_t playmode;		/* Mode of play                     */
-GAMES *currgame;		/* Game parameters and current game */
+const GAMES *currgame;		/* Game parameters and current game */
 OBJECTS *consoleplayer;
 int numtarg[2];			/* Number of active targets by color */
 int countmove;			/* Performance counters             */

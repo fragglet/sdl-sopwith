@@ -33,7 +33,7 @@ extern bool conf_big_explosions;
 
 extern OBJECTS *consoleplayer;
 extern playmode_t playmode;
-extern GAMES   *currgame;
+extern const GAMES *currgame;
 extern int     numtarg[2];
 extern int     counttick, countmove;
 extern int     gamenum;

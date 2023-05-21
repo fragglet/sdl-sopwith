@@ -242,7 +242,7 @@ static original_ob_t original_targets[] = {
 	{FLOCK,  2630, 0, 370, 2630},
 };
 
-GAMES original_level = {
+const GAMES original_level = {
 	{
 		{PLANE, 1270, 0,  901, 1835},
 		{PLANE, 1720, 1, 1155, 2089},

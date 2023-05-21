@@ -15,6 +15,6 @@
 
 #include "sw.h"
 
-extern GAMES original_level;
+extern const GAMES original_level;
 
 #endif
