@@ -53,7 +53,6 @@ bool soundflg = 0;		/* Sound flag                       */
 int displx;			/* Display left and right           */
 
 OBJECTS *nobjects;		/* Objects list.                    */
-OBJECTS oobjects[MAX_PLYR];	/* Original plane object description */
 OBJECTS *objbot, *objtop,	/* Top and bottom of object list    */
 *objfree,			/* Free list                        */
 *deltop, *delbot;		/* Newly deallocated objects        */

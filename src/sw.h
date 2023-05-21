@@ -259,6 +259,13 @@ typedef struct obj {                            /*  Object list             */
 	score_t	       ob_score;
 	score_t	       ob_lastscore;
 	original_ob_t *ob_original_ob;
+	// There is a non-orthogonality here. The original X position is
+	// defined in ob_original_ob->x (ie. the definition of the level)
+	// but the original Y position is not part of the level; it gets
+	// generated automatically when the object first gets instantiated.
+	// That generated values is saved here as ob_orig_y, and we must
+	// look in two different locations to get the two coordinates.
+	int            ob_orig_y;
 }       OBJECTS;
 
 typedef struct {                                /*  Game structure          */

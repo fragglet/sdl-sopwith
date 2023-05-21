@@ -297,17 +297,17 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 
 int gohome(OBJECTS *ob)
 {
-	OBJECTS *original_ob;
+	original_ob_t *orig_ob;
 
 	if (ob->ob_athome) {
 		return 0;
 	}
 
-	original_ob = &oobjects[ob->ob_index];
+	orig_ob = ob->ob_original_ob;
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	if (abs(ob->ob_x - original_ob->ob_x) < HOME
-	 && abs(ob->ob_y - original_ob->ob_y) < HOME) {
+	if (abs(ob->ob_x - orig_ob->x) < HOME
+	 && abs(ob->ob_y - ob->ob_orig_y) < HOME) {
 		if (plyrplane) {
 			initplyr(ob);
 			initdisp(YES);
@@ -324,7 +324,7 @@ int gohome(OBJECTS *ob)
 	if (ob->ob_state == WOUNDED && (countmove & 1)) {
 		return 0;
 	} else {
-		return aim(ob, original_ob->ob_x, original_ob->ob_y, NULL, NO);
+		return aim(ob, orig_ob->x, ob->ob_orig_y, NULL, NO);
 	}
 }
 
@@ -336,7 +336,7 @@ static void cruise(OBJECTS *ob)
 	int orgx;
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	orgx = oobjects[ob->ob_index].ob_x;
+	orgx = ob->ob_original_ob->x;
 	aim(ob, courseadj +
 		(orgx < (currgame->gm_max_x / 3) ? (currgame->gm_max_x / 3) :
 		 orgx > (2 * currgame->gm_max_x / 3) ?

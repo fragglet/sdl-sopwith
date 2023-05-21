@@ -1076,11 +1076,9 @@ bool moveox(OBJECTS * ob)
 
 
 
-bool crashpln(OBJECTS * obp)
+bool crashpln(OBJECTS *ob)
 {
-	OBJECTS *ob, *obo;
-
-	ob = obp;
+	original_ob_t *orig_ob = ob->ob_original_ob;
 
 	if (ob->ob_dx < 0) {
 		ob->ob_angle = (ob->ob_angle + 2) % ANGLES;
@@ -1092,9 +1090,8 @@ bool crashpln(OBJECTS * obp)
 	ob->ob_athome = false;
 	ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = ob->ob_speed = 0;
 
-	obo = &oobjects[ob->ob_index];
-	ob->ob_hitcount = ((abs(obo->ob_x - ob->ob_x) < SAFERESET)
-	                && (abs(obo->ob_y - ob->ob_y) < SAFERESET))
+	ob->ob_hitcount = ((abs(orig_ob->x - ob->ob_x) < SAFERESET)
+	                && (abs(ob->ob_orig_y - ob->ob_y) < SAFERESET))
 	    ? (MAXCRCOUNT << 1) : MAXCRCOUNT;
 
 	return true;

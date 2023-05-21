@@ -260,6 +260,8 @@ OBJECTS *initpln(OBJECTS * obp)
 		}
 	}
 	ob->ob_y = height + 13;
+	ob->ob_orig_y = ob->ob_y;
+
 	ob->ob_lx = ob->ob_ly = ob->ob_speed = ob->ob_flaps = ob->ob_accel
 	    = ob->ob_hitcount = ob->ob_bdelay = ob->ob_mdelay
 	    = ob->ob_bsdelay = 0;
@@ -314,7 +316,6 @@ void initplyr(OBJECTS * obp)
 		ob->ob_movef = moveplyr;
 		ob->ob_clr = ob->ob_index % 2 + 1;
 		ob->ob_owner = ob;
-		oobjects[ob->ob_index] = *ob;
 		endcount = 0;
 
 		ob->ob_plrnum = num_players;
@@ -347,7 +348,6 @@ void initcomp(OBJECTS * obp)
 		} else {
 			ob->ob_owner = ob - 2;
 		}
-		oobjects[ob->ob_index] = *ob;
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
