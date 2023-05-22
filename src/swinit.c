@@ -622,16 +622,24 @@ static OBJECTS *inittarget(const original_ob_t *orig_ob)
 	ob->ob_state = STANDING;
 	ob->ob_orient = orig_ob->orient;
 
+	// TODO: For the time being, player 3 is just interpreted as a
+	// special player number that either maps to player 1 or 2
+	// depending on the game mode; player 4 is just a synonym for
+	// player 2; and "none" is a synonym for player 1.
+	// This may change in the future if we support multiplayer with
+	// more than two players.
 	switch (orig_ob->owner) {
+		case OWNER_NONE:
 		case OWNER_PLAYER1:
 			ob->ob_owner = &nobjects[0];
 			++numtarg[0];
 			break;
 		case OWNER_PLAYER2:
+		case OWNER_PLAYER4:
 			ob->ob_owner = &nobjects[1];
 			++numtarg[1];
 			break;
-		case OWNER_PLAYER1_IN_MULT:
+		case OWNER_PLAYER3:
 			if (playmode == PLAYMODE_ASYNCH) {
 				ob->ob_owner = &nobjects[0];
 				++numtarg[0];

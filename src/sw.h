@@ -204,9 +204,16 @@ typedef struct {
 	int orient;
 	int territory_l, territory_r;    /* Computer plane territory */
 	enum {
-		OWNER_PLAYER2,
+		// For the time being, OWNER_PLAYER3 means "OWNER_PLAYER1
+		// in multiplayer; OWNER_PLAYER2 in single player".
+		// OWNER_PLAYER4 is a synonym for OWNER_PLAYER2.
+		// OWNER_NONE Is a synonym for OWNER_PLAYER1.
+		// This may change in the future.
+		OWNER_NONE,
 		OWNER_PLAYER1,
-		OWNER_PLAYER1_IN_MULT,
+		OWNER_PLAYER2,
+		OWNER_PLAYER3,
+		OWNER_PLAYER4,
 	} owner;
 } original_ob_t;
 
