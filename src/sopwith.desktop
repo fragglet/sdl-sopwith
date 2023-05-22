@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Sopwith
+Exec=sopwith
+Icon=sopwith
+Type=Application
+Comment=Classic biplane shoot-'em up
+Categories=Game;ActionGame;ArcadeGame
+Keywords=sopwith;biplane;retro;aeroplane;dogfight;combat
