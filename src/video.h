@@ -91,7 +91,7 @@ extern void Vid_XorPixel(int x, int y, int clr);
 // draw a symbol
 
 extern void Vid_DispSymbol(int x, int y, sopsym_t *symbol,
-                           int clr);
+                           ob_owner_t owner);
 
 // clear screen
 

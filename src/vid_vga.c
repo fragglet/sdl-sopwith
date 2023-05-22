@@ -105,20 +105,20 @@ void Vid_XorPixel(int x, int y, int clr)
 }
 
 static unsigned char color_mappings[][4] = {
-	{ 0, 1, 2, 3 },  // Cyan fuselage, magenta wings
-	{ 0, 2, 1, 3 },  // Magenta fuselage, cyan wings
+	{ 0, 3, 3, 3 },  // All-white                     - OWNER_NONE?
+	{ 0, 1, 2, 3 },  // Cyan fuselage, magenta wings  - OWNER_PLAYER1
+	{ 0, 2, 1, 3 },  // Magenta fuselage, cyan wings  - OWNER_PLAYER2
 	// New colors:
-	{ 0, 1, 3, 2 },  // Cyan fuselage, white wings
-	{ 0, 2, 3, 1 },  // Magenta fuselage, white wings
-	{ 0, 3, 1, 2 },  // White fuselage, cyan wings
-	{ 0, 3, 2, 1 },  // White fuselage, magenta wings
+	{ 0, 1, 3, 2 },  // Cyan fuselage, white wings    - OWNER_PLAYER3
+	{ 0, 2, 3, 1 },  // Magenta fuselage, white wings - OWNER_PLAYER4
+	{ 0, 3, 1, 2 },  // White fuselage, cyan wings    - OWNER_PLAYER5
+	{ 0, 3, 2, 1 },  // White fuselage, magenta wings - OWNER_PLAYER6
 	// Now we're getting into boring territory...
-	{ 0, 1, 1, 3 },  // All-cyan
-	{ 0, 2, 2, 3 },  // All-magenta
-	{ 0, 3, 3, 3 },  // All-white
+	{ 0, 1, 1, 3 },  // All-cyan                      - OWNER_PLAYER7
+	{ 0, 2, 2, 3 },  // All-magenta                   - OWNER_PLAYER8
 };
 
-void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
+void Vid_DispSymbol(int x, int y, sopsym_t *symbol, ob_owner_t clr)
 {
 	unsigned char *sptr = vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;
 	unsigned char *data = symbol->data;
@@ -143,7 +143,7 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, int clr)
 		h = y + 1;
 	}
 
-	color_mapping = color_mappings[clr == 2 ? 1 : 0];
+	color_mapping = color_mappings[clr];
 	for (y1=0; y1<h; ++y1) {
 		unsigned char *sptr2 = sptr;
 		for (x1=0; x1<w; ++x1, ++sptr2) {

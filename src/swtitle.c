@@ -80,11 +80,14 @@ void swtitln(void)
 	displx = 507-X_OFFSET;
 	swground();
 
-	Vid_DispSymbol(40+X_OFFSET, 180, symbol_plane[0][0], 1);
-	Vid_DispSymbol(130+X_OFFSET, 80, symbol_plane[1][7], 2);
-	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16, symbol_targets[3], 2);
-	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, symbol_ox[0], 1);
-	Vid_DispSymbol(270+X_OFFSET, 160, symbol_plane_hit[0], 2);
+	Vid_DispSymbol(40+X_OFFSET, 180, symbol_plane[0][0], OWNER_PLAYER1);
+	Vid_DispSymbol(130+X_OFFSET, 80, symbol_plane[1][7], OWNER_PLAYER2);
+	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16, symbol_targets[3],
+	               OWNER_PLAYER2);
+	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, symbol_ox[0],
+	               OWNER_PLAYER1);
+	Vid_DispSymbol(270+X_OFFSET, 160, symbol_plane_hit[0],
+	               OWNER_PLAYER2);
 
 	for (i = 6, h=165; i; --i, h += 5) {
 		Vid_PlotPixel(280+X_OFFSET, h, 3);

@@ -198,23 +198,32 @@ typedef struct {
 #define MEDAL_PREVALOUR		(1<<7)	/* A ribbon awarded about half-way towards MEDAL_VALOUR */
 #define MEDAL_VALOUR		(1<<8)	/* The Iron Cross / Victoria Cross for getting enough valour points */
 
+// Objects in levels are assigned an "owner" player. This is mainly used
+// to control which targets are assigned to which player. However, since
+// each player is assigned a unique color scheme, these constants are
+// also used in some places to denote a color scheme to draw symbols in.
+// For the time being, OWNER_PLAYER3 means "OWNER_PLAYER1 in multiplayer;
+// OWNER_PLAYER2 in single player". All others are synonyms for either
+// OWNER_PLAYER1 or OWNER_PLAYER2; this may change in the future if/when
+// we support more than two players.
+typedef enum {
+	OWNER_NONE,
+	OWNER_PLAYER1,
+	OWNER_PLAYER2,
+	OWNER_PLAYER3,
+	OWNER_PLAYER4,
+	OWNER_PLAYER5,
+	OWNER_PLAYER6,
+	OWNER_PLAYER7,
+	OWNER_PLAYER8,
+} ob_owner_t;
+
 typedef struct {
 	obtype_t type;
 	int x;
 	int orient;
 	int territory_l, territory_r;    /* Computer plane territory */
-	enum {
-		// For the time being, OWNER_PLAYER3 means "OWNER_PLAYER1
-		// in multiplayer; OWNER_PLAYER2 in single player".
-		// OWNER_PLAYER4 is a synonym for OWNER_PLAYER2.
-		// OWNER_NONE Is a synonym for OWNER_PLAYER1.
-		// This may change in the future.
-		OWNER_NONE,
-		OWNER_PLAYER1,
-		OWNER_PLAYER2,
-		OWNER_PLAYER3,
-		OWNER_PLAYER4,
-	} owner;
+	ob_owner_t owner;
 } original_ob_t;
 
 typedef struct obj {                            /*  Object list             */
