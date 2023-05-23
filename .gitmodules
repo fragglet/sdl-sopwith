@@ -1,0 +1,5 @@
+[submodule "doc/sdl-sopwith"]
+	path = doc/sdl-sopwith
+	url = https://github.com/fragglet/sdl-sopwith
+	ignore = all
+	shallow = true

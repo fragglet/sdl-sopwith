@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>sopwith</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<p>.TH sopwith 6 . .SH NAME sopwith - classic aerial combat shoot em up
+game . .SH SYNOPSIS .B sopwith [ -n | -s | -c | -l | -j \fIhost\fR ]
+[-f] [-g\fIlevel\fR] [-q] . .SH DESCRIPTION Sopwith is a modern port of
+the classic 1980s shoot 'em up game of the same name. The game has a
+World War I aviation theme. The object of Sopwith is to destroy all
+enemy targets with a somewhat limited airforce. . It can be played both
+in single player and multiplayer mode over a TCP/IP network. . Sopwith
+looks for a configuration file in the user's home directory at
+\fI~/.local/share/SDL Sopwith/sopwith.cfg\fR; the configuration file is
+only generated after the user changes one of the settings from the
+in-game options menu. Details about the contents of this file can be
+found in \fBsopwith.cfg\fR(5). . .SH OPTIONS .TP -n Start a single
+player game in novice mode. In novice mode there are no oxen or birds,
+you have infinite ammo and bombs, and it is not possible to stall the
+plane. This is a good option if you are new to the game, or if you're
+just interested in more casual gameplay without so much of a challenge.
+.TP -s Start a single player in expert mode .TP -c Start a single player
+vs. computer game .TP -l Start a network game listening for a network
+connection. See the section "MULTIPLAYER SERVERS" below for more
+details. .TP -j \fIhost:port\fR Start a network game, connecting to
+another listening host as specified by \fIhost:port\fR. If the port
+number is not specified then TCP port 3847 is used. .TP -f Start in full
+screen mode if possible. .TP -g\fIlevel\fR Start the game on the
+indicated difficulty level. For instance, use -g2 to start the game on
+level 2. The default is level 0. .TP -q Turn off sound (quiet) . .SH
+CONTROLS The standard controls on a US layout keyboard are as follows:
+.TP comma pull up .TP slash pull down .TP period flip plane .TP Z
+decrease speed .TP X increase speed .TP space fire machine gun .TP B
+drop bomb .TP H autopilot plane to home base .TP S turn on sound effects
+.TP Ctrl+C quit .TP Ctrl+C Ctrl+C Ctrl+C quit immediately . .SH TIPS The
+following are some tips for playing the game: .IP (bu Start off by
+playing in single player mode before playing against the computer. This
+will allow you to "get the feel of the stick" without being attacked by
+enemy planes. Practice dropping bombs on ground targets, as this is a
+key skill. .IP (bu Accelerate to maximum speed on takeoff, otherwise you
+may stall the plane. Moving at speed is particularly important when
+playing against the computer, as you are otherwise likely to be
+outmanuevered by the enemy planes. .IP (bu Bombs can be used against
+planes as well as ground targets. It can sometimes be easier to hit a
+plane with a bomb instead of the machine gun. .IP (bu The machine gun
+can be used to destroy ground targets as well as planes. Some targets at
+the edges of the map are much easier to destroy in this way. Since the
+machine gun has a limited range, reducing your speed when attacking a
+ground target can give you more time to aim and attack before you have
+to pull away. .IP (bu Computer planes will try to tail you so that they
+can shoot you down. Don't allow them to get a clear shot. "Wiggling" the
+plane by repeatedly pulling up and down can be an effective evasive
+maneuver. .IP (bu Firing your machine gun through a flock of birds will
+cause the birds to disperse, and the computer planes will sometimes hit
+a bird and crash. However, this tactic can also backfire. .IP (bu Each
+computer plane has a "territory" and if you escape that territory they
+will break off their pursuit. At the boundary between territories you
+can sometimes trick two planes into crashing into each other. .IP (bu
+When your plane is crashing, the pull up/down keys still have a small
+effect on your trajectory. You can use this to try to crash your plane
+into a ground target. .IP (bu Hitting the top of your screen stalls your
+plane. Hold down the pull up key to break out of the stall before your
+plane crashes into the ground. .IP (bu Wait until you're close to your
+base with a clear path to the runway before pressing the home key - the
+autopilot sometimes makes mistakes. . .SH MEDALS . If the "medals" game
+option is turned on, the player is rewarded with ribbons and medals for
+the following: . .TP Flying Ace Ribbon (cyan with a single white stripe)
+Shooting down 5 planes .TP Top Flying Ace Ribbon (cyan with two white
+stripes) Shooting down 25 planes (difficult!) .TP Service Ribbon (cyan
+with white edges) Three successful raids .TP Perfect Ribbon (white with
+two magenta stripes) Finishing a level with no planes lost .TP
+Competence Medal (white medal on a cyan ribbon) Gaining 25 points in a
+single flight, where 3 points are awarded per plane and 4 per building
+.TP Ribbon of Competence (white with magenta stripe) As above, a second
+time .TP Purple Heart (magenta heart on a cyan ribbon) Returning to base
+after having been damaged .TP Ribbon of Valour (magenta with white
+stripe) Gaining a certain number of points for destroyed planes and
+buildings; the points depend on whether the player was damaged at that
+point in time, and how far away the destroyed object was from the
+player's base .TP Victoria Cross (cyan cross on a magenta ribbon) As
+above, but a few more points .PP All medals and counters for these are
+reset once a plane is destroyed. . .SH MULTIPLAYER SERVERS . When run in
+"listen" mode with the \fB-l\fR command line flag (see above),
+\fBsopwith\fR runs as a server that listens for an incoming connection.
+To make this server available from a home Internet connection, you will
+typically have to set up a port forward from your Internet router. The
+port to forward is TCP port 3847. You will also need to find out your
+public IP address so that the other player can connect. . Alternatively,
+if you have access to a *nix-based server then it may be preferable to
+run something like a dedicated server that avoids the hassle of port
+forwarding and dynamic IPs. All that is needed in order to do this is to
+run a TCP server that forwards connections between two clients. This can
+be done using \fBnc\fR(1); for example: . .RS nc -l -p 3847 -c "nc -l -p
+3847" .RE . Developing the above command into a complete shell script
+for a continually-active dedicated server is left as an exercise for the
+reader. . .SH SEE ALSO \fBsopwith.cfg\fR(5), \fBtriplane\fR(6),
+\fBairstrike\fR(6) . .SH AUTHORS Originally written by David L. Clark
+for BMB Compuscience .br Modern SDL port By Simon Howard, Jesse Smith .
+.SH HISTORY Sopwith was originally developed by BMB Compuscience of
+Canada as a demonstration game for their Imaginet Networking System. The
+system was not commercially successful but Sopwith became a popular game
+for the IBM PC and compatibles. A sequel that is referred to by fans as
+"Sopwith 2" was actually a newer version rather than a different game,
+but included extra features, such as oxen and birds (the oxen being an
+in-joke reference to a BMB employee who was nicknamed "Ox"). .PP The
+original author, David L. Clark, later released "Sopwith - The Network
+Edition" with several extra features including comical heads-up "splats"
+and wounded planes; a follow-up titled "The Author's Edition" contained
+the same features. This version of Sopwith is based on the released
+source code to the Network Edition. .PP The real Sopwith Camel F.1 was
+one of the most famous fighter planes of World War I; Camel pilots shot
+down 1,294 enemy aircraft over the course of the war, more than any
+other aircraft. The plane gained a reputation for being agile but
+difficult to fly; many novice pilots crashed the plane on takeoff. The
+Camel was designed and manufactured by the Sopwith Aviation Company,
+founded by aviation pioneer Thomas Sopwith; 5,490 aircraft were
+produced. In popular culture the Camel is known for being the biplane
+flown by the protagonist in the \fIBiggles\fR series of novels, and by
+Snoopy in the \fIPeanuts\fR comic strip.</p>
+</body>
+</html>
