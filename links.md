@@ -92,6 +92,9 @@ title: SDL Sopwith: Links
   on Android, by Bombsight Games.
 * [Air Bandits](https://air-bandits.soft112.com/) by Insofta Games
 * [Blazin' Aces](https://duncanbellsa.itch.io/blazin-aces) by Duncan Bell
+* [GoPlanes](https://archive.kontek.net/sopwith.classicgaming.gamespy.com/goplanes.htm)
+  by Shawn LeBlanc, inspired by Sopwith. Available for download on the
+  sopwith.org website.
 
 ### And, uh...
 
