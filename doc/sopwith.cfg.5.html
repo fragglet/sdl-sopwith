@@ -156,87 +156,176 @@
   </style>
 </head>
 <body>
-<p>.TH sopwith.cfg 5 .SH NAME sopwith.cfg - configuration file for SDL
-Sopwith .SH DESCRIPTION .PP \fIsopwith.cfg\fR is the configuration file
-for \fBsopwith\fR(6). The settings stored in \fIsopwith.cfg\fR are
-usually modified in-game via the options menu. .PP \fIsopwith.cfg\fR is
-normally stored in the user's home directory, as \fI~/.local/share/SDL
-Sopwith/default.cfg\fR. The path can be overridden using the
-\fBXDG_DATA_HOME\fR environment variable (see the XDG Base Directory
-Specification). .br .SH FILE FORMAT The file is a plain-text file,
-consisting of a list of configuration options and their values,
-separated by whitespace. Each option is stored on a separate line. .PP
-For example: .RS .PP integer_value 1 .br integer_value2 1 .RE .PP Lines
-beginning with "#" are interpreted as comments and will be ignored.
-Invalid lines or comments in the file will generate a warning, but will
-otherwise be ignored. .PP Some options are used for keyboard key
-bindings; these are stored as integer values containing the keyboard
-scan code of the key to be bound to. Boolean values are also stored as
-integers, with a value of zero usually indicating "false" and a non-zero
-value indicating "true".</p>
-<p>.SH CONFIGURATION VARIABLES .TP \fBvid_fullscreen\fR If 1, the game
-runs full screen rather than in a window. By default this is 0. .TP
-\fBsnd_tinnyfilter\fR If 1, a filter is applied to the sound output so
-that it sounds more like a tinny PC speaker that's inside a metal PC
-case. By default this is 1. .TP \fBconf_solidground\fR If 1, display the
-ground as a solid white block, reproducing the visual appearance of
-"Sopwith 1". If 0, the ground is displayed as a line, reproducing the
-visual appearance of "Sopwith 2". By default this is 0. .TP
-\fBconf_hudsplats\fR If 1, "splats" are shown on the screen when the
-plane takes damage: splatted birds are shown on the screen after a bird
-strike; windscreen "cracks" are shown if the plane is hit by bullets,
-and the whole screen turns magenta after flying through an ox. This
-feature was added by the original author of Sopwith in the "Network
-Edition" release. By default this is 0. .TP \fBconf_wounded\fR If 1,
-planes can take a single unit of damage without crashing. Your plane
-becomes slower to turn when wounded. This feature was added by the
+<header id="title-block-header">
+<h1 class="title">sopwith.cfg</h1>
+</header>
+<h1>NAME</h1>
+<p>sopwith.cfg - configuration file for SDL Sopwith</p>
+<h1>DESCRIPTION</h1>
+<p><em>sopwith.cfg</em> is the configuration file for
+<strong>sopwith</strong>(6). The settings stored in <em>sopwith.cfg</em>
+are usually modified in-game via the options menu.</p>
+<p><em>sopwith.cfg</em> is normally stored in the user's home directory,
+as <em>~/.local/share/SDL Sopwith/default.cfg</em>. The path can be
+overridden using the <strong>XDG_DATA_HOME</strong> environment variable
+(see the XDG Base Directory Specification).<br />
+</p>
+<h1>FILE FORMAT</h1>
+<p>The file is a plain-text file, consisting of a list of configuration
+options and their values, separated by whitespace. Each option is stored
+on a separate line.</p>
+<p>For example:</p>
+<blockquote>
+<p>integer_value 1<br />
+integer_value2 1</p>
+</blockquote>
+<p>Lines beginning with "#" are interpreted as comments and will be
+ignored. Invalid lines or comments in the file will generate a warning,
+but will otherwise be ignored.</p>
+<p>Some options are used for keyboard key bindings; these are stored as
+integer values containing the keyboard scan code of the key to be bound
+to. Boolean values are also stored as integers, with a value of zero
+usually indicating "false" and a non-zero value indicating "true".</p>
+<h1>CONFIGURATION VARIABLES</h1>
+<dl>
+<dt><strong>vid_fullscreen</strong></dt>
+<dd>
+<p>If 1, the game runs full screen rather than in a window. By default
+this is 0.</p>
+</dd>
+<dt><strong>snd_tinnyfilter</strong></dt>
+<dd>
+<p>If 1, a filter is applied to the sound output so that it sounds more
+like a tinny PC speaker that's inside a metal PC case. By default this
+is 1.</p>
+</dd>
+<dt><strong>conf_solidground</strong></dt>
+<dd>
+<p>If 1, display the ground as a solid white block, reproducing the
+visual appearance of "Sopwith 1". If 0, the ground is displayed as a
+line, reproducing the visual appearance of "Sopwith 2". By default this
+is 0.</p>
+</dd>
+<dt><strong>conf_hudsplats</strong></dt>
+<dd>
+<p>If 1, "splats" are shown on the screen when the plane takes damage:
+splatted birds are shown on the screen after a bird strike; windscreen
+"cracks" are shown if the plane is hit by bullets, and the whole screen
+turns magenta after flying through an ox. This feature was added by the
 original author of Sopwith in the "Network Edition" release. By default
-this is 0. .TP \fBconf_animals\fR If 1, oxen and birds appear in the
-game. These were added in "Sopwith 2" but were not present in the
-original "Sopwith 1". By default this is 1. .TP \fBconf_harrykeys\fR If
-1, the \fBkey_pullup\fR and \fBkey_pulldown\fR controls turn your plane
-relative to the screen, rather than your plane. It is a common point of
-confusion that the direction of turning appears to "reverse" when the
-plane is flipped / flying towards the left. By default this is 0. .TP
-\fBconf_big_explosions\fR If 1, oil tanks produce a huge explosion when
-destroyed. This reproduces the behavior found in both "Sopwith 1" and
-"Sopwith 2", but the magnitude of the explosion was dialed back
-significantly in the "Network Edition" release. The default is 1. .TP
-\fBconf_medals\fR If 1, medals are sometimes awarded to the player on
-return to base. Some details can be found in the "MEDALS" section of
-\fBsopwith\fR(6). The medals do not have any effect on gameplay. By
-default this is 1. .SH KEY BINDINGS The following settings determine the
-in-game controls. These are keyboard scancodes, so the key binding does
-not change with keyboard layout. However, the name for the key as shown
-in the in-game options menu should match the current keyboard layout.
-The values for these settings are scancodes from the USB standard for
-HID devices: .PP <a
-href="https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf">https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf</a>
-.TP \fBkey_accelerate\fR Key to accelerate the plane. Default is "X" on
-a US layout keyboard. .TP \fBkey_decelerate\fR Key to decelerate the
-plane. Decelerating too much may cause the plane to stall. Default is
-"Z" on a US layout keyboard. .TP \fBkey_pullup\fR Key to pull up (aim
-the plane towards the sky). Default is "," on a US layout keyboard. Note
-that \fBconf_harrykeys\fR may change the behavior of this key binding.
-.TP \fBkey_pulldown\fR Key to pull down (aim the plane towards the
-ground. Default is "/" on a US layout keyboard. Note that
-\fBconf_harrykeys\fR may change the behavior of this key binding. .TP
-\fBkey_flip\fR Key to flip the plane upside down. Default is "." on a US
-layout keyboard. .TP \fBkey_fire\fR Key to fire the machine gun. Default
-on a US layout keyboard is the spacebar. .TP \fBkey_dropbomb\fR Key to
-drop a bomb. Default is "B" on a US layout keyboard. .TP \fBkey_home\fR
-Key to autopilot the plane home to base. Default is "H" on a US layout
-keyboard. .SH HIDDEN SETTINGS The following are "hidden settings": they
-cannot be edited in-game via the options menu, and editing the
-configuration file is the only way to change them. .TP
-\fBconf_missiles\fR Enable missiles and starbursts (flares). This is a
-feature that was originally added by the author of Sopwith in the
-"Network Edition" release, but has been hidden as it significantly
-changes the gameplay in a way that doesn't fit the game's theme and also
-isn't particularly fun. .TP \fBkey_missile\fR Fire missile, if
-\fBconf_missiles\fR is enabled. Default key is "V" on a US layout
-keyboard. .TP \fBkey_starburst\fR Launch starburst (flare) if
-\fBconf_missiles\fR is enabled. Default key is "C" on a US layout
-keyboard. .SH SEE ALSO \fBsopwith\fR(6)</p>
+this is 0.</p>
+</dd>
+<dt><strong>conf_wounded</strong></dt>
+<dd>
+<p>If 1, planes can take a single unit of damage without crashing. Your
+plane becomes slower to turn when wounded. This feature was added by the
+original author of Sopwith in the "Network Edition" release. By default
+this is 0.</p>
+</dd>
+<dt><strong>conf_animals</strong></dt>
+<dd>
+<p>If 1, oxen and birds appear in the game. These were added in "Sopwith
+2" but were not present in the original "Sopwith 1". By default this is
+1.</p>
+</dd>
+<dt><strong>conf_harrykeys</strong></dt>
+<dd>
+<p>If 1, the <strong>key_pullup</strong> and
+<strong>key_pulldown</strong> controls turn your plane relative to the
+screen, rather than your plane. It is a common point of confusion that
+the direction of turning appears to "reverse" when the plane is flipped
+/ flying towards the left. By default this is 0.</p>
+</dd>
+<dt><strong>conf_big_explosions</strong></dt>
+<dd>
+<p>If 1, oil tanks produce a huge explosion when destroyed. This
+reproduces the behavior found in both "Sopwith 1" and "Sopwith 2", but
+the magnitude of the explosion was dialed back significantly in the
+"Network Edition" release. The default is 1.</p>
+</dd>
+<dt><strong>conf_medals</strong></dt>
+<dd>
+<p>If 1, medals are sometimes awarded to the player on return to base.
+Some details can be found in the "MEDALS" section of
+<strong>sopwith</strong>(6). The medals do not have any effect on
+gameplay. By default this is 1.</p>
+</dd>
+</dl>
+<h1>KEY BINDINGS</h1>
+<p>The following settings determine the in-game controls. These are
+keyboard scancodes, so the key binding does not change with keyboard
+layout. However, the name for the key as shown in the in-game options
+menu should match the current keyboard layout. The values for these
+settings are scancodes from the USB standard for HID devices:</p>
+<p>https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf</p>
+<dl>
+<dt><strong>key_accelerate</strong></dt>
+<dd>
+<p>Key to accelerate the plane. Default is "X" on a US layout
+keyboard.</p>
+</dd>
+<dt><strong>key_decelerate</strong></dt>
+<dd>
+<p>Key to decelerate the plane. Decelerating too much may cause the
+plane to stall. Default is "Z" on a US layout keyboard.</p>
+</dd>
+<dt><strong>key_pullup</strong></dt>
+<dd>
+<p>Key to pull up (aim the plane towards the sky). Default is "," on a
+US layout keyboard. Note that <strong>conf_harrykeys</strong> may change
+the behavior of this key binding.</p>
+</dd>
+<dt><strong>key_pulldown</strong></dt>
+<dd>
+<p>Key to pull down (aim the plane towards the ground. Default is "/" on
+a US layout keyboard. Note that <strong>conf_harrykeys</strong> may
+change the behavior of this key binding.</p>
+</dd>
+<dt><strong>key_flip</strong></dt>
+<dd>
+<p>Key to flip the plane upside down. Default is "." on a US layout
+keyboard.</p>
+</dd>
+<dt><strong>key_fire</strong></dt>
+<dd>
+<p>Key to fire the machine gun. Default on a US layout keyboard is the
+spacebar.</p>
+</dd>
+<dt><strong>key_dropbomb</strong></dt>
+<dd>
+<p>Key to drop a bomb. Default is "B" on a US layout keyboard.</p>
+</dd>
+<dt><strong>key_home</strong></dt>
+<dd>
+<p>Key to autopilot the plane home to base. Default is "H" on a US
+layout keyboard.</p>
+</dd>
+</dl>
+<h1>HIDDEN SETTINGS</h1>
+<p>The following are "hidden settings": they cannot be edited in-game
+via the options menu, and editing the configuration file is the only way
+to change them.</p>
+<dl>
+<dt><strong>conf_missiles</strong></dt>
+<dd>
+<p>Enable missiles and starbursts (flares). This is a feature that was
+originally added by the author of Sopwith in the "Network Edition"
+release, but has been hidden as it significantly changes the gameplay in
+a way that doesn't fit the game's theme and also isn't particularly
+fun.</p>
+</dd>
+<dt><strong>key_missile</strong></dt>
+<dd>
+<p>Fire missile, if <strong>conf_missiles</strong> is enabled. Default
+key is "V" on a US layout keyboard.</p>
+</dd>
+<dt><strong>key_starburst</strong></dt>
+<dd>
+<p>Launch starburst (flare) if <strong>conf_missiles</strong> is
+enabled. Default key is "C" on a US layout keyboard.</p>
+</dd>
+</dl>
+<h1>SEE ALSO</h1>
+<p><strong>sopwith</strong>(6)</p>
 </body>
 </html>

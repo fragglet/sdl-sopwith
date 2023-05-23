@@ -156,119 +156,250 @@
   </style>
 </head>
 <body>
-<p>.TH sopwith 6 . .SH NAME sopwith - classic aerial combat shoot em up
-game . .SH SYNOPSIS .B sopwith [ -n | -s | -c | -l | -j \fIhost\fR ]
-[-f] [-g\fIlevel\fR] [-q] . .SH DESCRIPTION Sopwith is a modern port of
-the classic 1980s shoot 'em up game of the same name. The game has a
-World War I aviation theme. The object of Sopwith is to destroy all
-enemy targets with a somewhat limited airforce. . It can be played both
-in single player and multiplayer mode over a TCP/IP network. . Sopwith
-looks for a configuration file in the user's home directory at
-\fI~/.local/share/SDL Sopwith/sopwith.cfg\fR; the configuration file is
-only generated after the user changes one of the settings from the
-in-game options menu. Details about the contents of this file can be
-found in \fBsopwith.cfg\fR(5). . .SH OPTIONS .TP -n Start a single
-player game in novice mode. In novice mode there are no oxen or birds,
-you have infinite ammo and bombs, and it is not possible to stall the
-plane. This is a good option if you are new to the game, or if you're
-just interested in more casual gameplay without so much of a challenge.
-.TP -s Start a single player in expert mode .TP -c Start a single player
-vs. computer game .TP -l Start a network game listening for a network
-connection. See the section "MULTIPLAYER SERVERS" below for more
-details. .TP -j \fIhost:port\fR Start a network game, connecting to
-another listening host as specified by \fIhost:port\fR. If the port
-number is not specified then TCP port 3847 is used. .TP -f Start in full
-screen mode if possible. .TP -g\fIlevel\fR Start the game on the
-indicated difficulty level. For instance, use -g2 to start the game on
-level 2. The default is level 0. .TP -q Turn off sound (quiet) . .SH
-CONTROLS The standard controls on a US layout keyboard are as follows:
-.TP comma pull up .TP slash pull down .TP period flip plane .TP Z
-decrease speed .TP X increase speed .TP space fire machine gun .TP B
-drop bomb .TP H autopilot plane to home base .TP S turn on sound effects
-.TP Ctrl+C quit .TP Ctrl+C Ctrl+C Ctrl+C quit immediately . .SH TIPS The
-following are some tips for playing the game: .IP (bu Start off by
-playing in single player mode before playing against the computer. This
-will allow you to "get the feel of the stick" without being attacked by
-enemy planes. Practice dropping bombs on ground targets, as this is a
-key skill. .IP (bu Accelerate to maximum speed on takeoff, otherwise you
-may stall the plane. Moving at speed is particularly important when
-playing against the computer, as you are otherwise likely to be
-outmanuevered by the enemy planes. .IP (bu Bombs can be used against
-planes as well as ground targets. It can sometimes be easier to hit a
-plane with a bomb instead of the machine gun. .IP (bu The machine gun
-can be used to destroy ground targets as well as planes. Some targets at
-the edges of the map are much easier to destroy in this way. Since the
-machine gun has a limited range, reducing your speed when attacking a
-ground target can give you more time to aim and attack before you have
-to pull away. .IP (bu Computer planes will try to tail you so that they
-can shoot you down. Don't allow them to get a clear shot. "Wiggling" the
-plane by repeatedly pulling up and down can be an effective evasive
-maneuver. .IP (bu Firing your machine gun through a flock of birds will
-cause the birds to disperse, and the computer planes will sometimes hit
-a bird and crash. However, this tactic can also backfire. .IP (bu Each
-computer plane has a "territory" and if you escape that territory they
-will break off their pursuit. At the boundary between territories you
-can sometimes trick two planes into crashing into each other. .IP (bu
-When your plane is crashing, the pull up/down keys still have a small
-effect on your trajectory. You can use this to try to crash your plane
-into a ground target. .IP (bu Hitting the top of your screen stalls your
-plane. Hold down the pull up key to break out of the stall before your
-plane crashes into the ground. .IP (bu Wait until you're close to your
-base with a clear path to the runway before pressing the home key - the
-autopilot sometimes makes mistakes. . .SH MEDALS . If the "medals" game
-option is turned on, the player is rewarded with ribbons and medals for
-the following: . .TP Flying Ace Ribbon (cyan with a single white stripe)
-Shooting down 5 planes .TP Top Flying Ace Ribbon (cyan with two white
-stripes) Shooting down 25 planes (difficult!) .TP Service Ribbon (cyan
-with white edges) Three successful raids .TP Perfect Ribbon (white with
-two magenta stripes) Finishing a level with no planes lost .TP
-Competence Medal (white medal on a cyan ribbon) Gaining 25 points in a
-single flight, where 3 points are awarded per plane and 4 per building
-.TP Ribbon of Competence (white with magenta stripe) As above, a second
-time .TP Purple Heart (magenta heart on a cyan ribbon) Returning to base
-after having been damaged .TP Ribbon of Valour (magenta with white
-stripe) Gaining a certain number of points for destroyed planes and
+<header id="title-block-header">
+<h1 class="title">sopwith</h1>
+</header>
+<h1>NAME</h1>
+<p>sopwith - classic aerial combat shoot em up game</p>
+<h1>SYNOPSIS</h1>
+<p><strong>sopwith</strong> [ -n | -s | -c | -l | -j <em>host</em> ]
+[-f] [-g<em>level</em>] [-q]</p>
+<h1>DESCRIPTION</h1>
+<p>Sopwith is a modern port of the classic 1980s shoot 'em up game of
+the same name. The game has a World War I aviation theme. The object of
+Sopwith is to destroy all enemy targets with a somewhat limited
+airforce. It can be played both in single player and multiplayer mode
+over a TCP/IP network. Sopwith looks for a configuration file in the
+user's home directory at <em>~/.local/share/SDL
+Sopwith/sopwith.cfg</em>; the configuration file is only generated after
+the user changes one of the settings from the in-game options menu.
+Details about the contents of this file can be found in
+<strong>sopwith.cfg</strong>(5).</p>
+<h1>OPTIONS</h1>
+<dl>
+<dt>-n</dt>
+<dd>
+<p>Start a single player game in novice mode. In novice mode there are
+no oxen or birds, you have infinite ammo and bombs, and it is not
+possible to stall the plane. This is a good option if you are new to the
+game, or if you're just interested in more casual gameplay without so
+much of a challenge.</p>
+</dd>
+<dt>-s</dt>
+<dd>
+<p>Start a single player in expert mode</p>
+</dd>
+<dt>-c</dt>
+<dd>
+<p>Start a single player vs. computer game</p>
+</dd>
+<dt>-l</dt>
+<dd>
+<p>Start a network game listening for a network connection. See the
+section "MULTIPLAYER SERVERS" below for more details.</p>
+</dd>
+<dt>-j <em>host:port</em></dt>
+<dd>
+<p>Start a network game, connecting to another listening host as
+specified by <em>host:port</em>. If the port number is not specified
+then TCP port 3847 is used.</p>
+</dd>
+<dt>-f</dt>
+<dd>
+<p>Start in full screen mode if possible.</p>
+</dd>
+<dt>-g<em>level</em></dt>
+<dd>
+<p>Start the game on the indicated difficulty level. For instance, use
+-g2 to start the game on level 2. The default is level 0.</p>
+</dd>
+<dt>-q</dt>
+<dd>
+<p>Turn off sound (quiet)</p>
+</dd>
+</dl>
+<h1>CONTROLS</h1>
+<p>The standard controls on a US layout keyboard are as follows:</p>
+<dl>
+<dt>comma</dt>
+<dd>
+<p>pull up</p>
+</dd>
+<dt>slash</dt>
+<dd>
+<p>pull down</p>
+</dd>
+<dt>period</dt>
+<dd>
+<p>flip plane</p>
+</dd>
+<dt>Z</dt>
+<dd>
+<p>decrease speed</p>
+</dd>
+<dt>X</dt>
+<dd>
+<p>increase speed</p>
+</dd>
+<dt>space</dt>
+<dd>
+<p>fire machine gun</p>
+</dd>
+<dt>B</dt>
+<dd>
+<p>drop bomb</p>
+</dd>
+<dt>H</dt>
+<dd>
+<p>autopilot plane to home base</p>
+</dd>
+<dt>S</dt>
+<dd>
+<p>turn on sound effects</p>
+</dd>
+<dt>Ctrl+C</dt>
+<dd>
+<p>quit</p>
+</dd>
+<dt>Ctrl+C Ctrl+C Ctrl+C</dt>
+<dd>
+<p>quit immediately</p>
+</dd>
+</dl>
+<h1>TIPS</h1>
+<p>The following are some tips for playing the game:</p>
+<ul>
+<li><p>Start off by playing in single player mode before playing against
+the computer. This will allow you to "get the feel of the stick" without
+being attacked by enemy planes. Practice dropping bombs on ground
+targets, as this is a key skill.</p></li>
+<li><p>Accelerate to maximum speed on takeoff, otherwise you may stall
+the plane. Moving at speed is particularly important when playing
+against the computer, as you are otherwise likely to be outmanuevered by
+the enemy planes.</p></li>
+<li><p>Bombs can be used against planes as well as ground targets. It
+can sometimes be easier to hit a plane with a bomb instead of the
+machine gun.</p></li>
+<li><p>The machine gun can be used to destroy ground targets as well as
+planes. Some targets at the edges of the map are much easier to destroy
+in this way. Since the machine gun has a limited range, reducing your
+speed when attacking a ground target can give you more time to aim and
+attack before you have to pull away.</p></li>
+<li><p>Computer planes will try to tail you so that they can shoot you
+down. Don't allow them to get a clear shot. "Wiggling" the plane by
+repeatedly pulling up and down can be an effective evasive
+maneuver.</p></li>
+<li><p>Firing your machine gun through a flock of birds will cause the
+birds to disperse, and the computer planes will sometimes hit a bird and
+crash. However, this tactic can also backfire.</p></li>
+<li><p>Each computer plane has a "territory" and if you escape that
+territory they will break off their pursuit. At the boundary between
+territories you can sometimes trick two planes into crashing into each
+other.</p></li>
+<li><p>When your plane is crashing, the pull up/down keys still have a
+small effect on your trajectory. You can use this to try to crash your
+plane into a ground target.</p></li>
+<li><p>Hitting the top of your screen stalls your plane. Hold down the
+pull up key to break out of the stall before your plane crashes into the
+ground.</p></li>
+<li><p>Wait until you're close to your base with a clear path to the
+runway before pressing the home key - the autopilot sometimes makes
+mistakes.</p></li>
+</ul>
+<h1>MEDALS</h1>
+<p>If the "medals" game option is turned on, the player is rewarded with
+ribbons and medals for the following:</p>
+<dl>
+<dt>Flying Ace Ribbon (cyan with a single white stripe)</dt>
+<dd>
+<p>Shooting down 5 planes</p>
+</dd>
+<dt>Top Flying Ace Ribbon (cyan with two white stripes)</dt>
+<dd>
+<p>Shooting down 25 planes (difficult!)</p>
+</dd>
+<dt>Service Ribbon (cyan with white edges)</dt>
+<dd>
+<p>Three successful raids</p>
+</dd>
+<dt>Perfect Ribbon (white with two magenta stripes)</dt>
+<dd>
+<p>Finishing a level with no planes lost</p>
+</dd>
+<dt>Competence Medal (white medal on a cyan ribbon)</dt>
+<dd>
+<p>Gaining 25 points in a single flight, where 3 points are awarded per
+plane and 4 per building</p>
+</dd>
+<dt>Ribbon of Competence (white with magenta stripe)</dt>
+<dd>
+<p>As above, a second time</p>
+</dd>
+<dt>Purple Heart (magenta heart on a cyan ribbon)</dt>
+<dd>
+<p>Returning to base after having been damaged</p>
+</dd>
+<dt>Ribbon of Valour (magenta with white stripe)</dt>
+<dd>
+<p>Gaining a certain number of points for destroyed planes and
 buildings; the points depend on whether the player was damaged at that
 point in time, and how far away the destroyed object was from the
-player's base .TP Victoria Cross (cyan cross on a magenta ribbon) As
-above, but a few more points .PP All medals and counters for these are
-reset once a plane is destroyed. . .SH MULTIPLAYER SERVERS . When run in
-"listen" mode with the \fB-l\fR command line flag (see above),
-\fBsopwith\fR runs as a server that listens for an incoming connection.
-To make this server available from a home Internet connection, you will
-typically have to set up a port forward from your Internet router. The
-port to forward is TCP port 3847. You will also need to find out your
-public IP address so that the other player can connect. . Alternatively,
-if you have access to a *nix-based server then it may be preferable to
-run something like a dedicated server that avoids the hassle of port
-forwarding and dynamic IPs. All that is needed in order to do this is to
-run a TCP server that forwards connections between two clients. This can
-be done using \fBnc\fR(1); for example: . .RS nc -l -p 3847 -c "nc -l -p
-3847" .RE . Developing the above command into a complete shell script
-for a continually-active dedicated server is left as an exercise for the
-reader. . .SH SEE ALSO \fBsopwith.cfg\fR(5), \fBtriplane\fR(6),
-\fBairstrike\fR(6) . .SH AUTHORS Originally written by David L. Clark
-for BMB Compuscience .br Modern SDL port By Simon Howard, Jesse Smith .
-.SH HISTORY Sopwith was originally developed by BMB Compuscience of
-Canada as a demonstration game for their Imaginet Networking System. The
-system was not commercially successful but Sopwith became a popular game
-for the IBM PC and compatibles. A sequel that is referred to by fans as
-"Sopwith 2" was actually a newer version rather than a different game,
-but included extra features, such as oxen and birds (the oxen being an
-in-joke reference to a BMB employee who was nicknamed "Ox"). .PP The
-original author, David L. Clark, later released "Sopwith - The Network
-Edition" with several extra features including comical heads-up "splats"
-and wounded planes; a follow-up titled "The Author's Edition" contained
-the same features. This version of Sopwith is based on the released
-source code to the Network Edition. .PP The real Sopwith Camel F.1 was
-one of the most famous fighter planes of World War I; Camel pilots shot
-down 1,294 enemy aircraft over the course of the war, more than any
-other aircraft. The plane gained a reputation for being agile but
-difficult to fly; many novice pilots crashed the plane on takeoff. The
-Camel was designed and manufactured by the Sopwith Aviation Company,
-founded by aviation pioneer Thomas Sopwith; 5,490 aircraft were
-produced. In popular culture the Camel is known for being the biplane
-flown by the protagonist in the \fIBiggles\fR series of novels, and by
-Snoopy in the \fIPeanuts\fR comic strip.</p>
+player's base</p>
+</dd>
+<dt>Victoria Cross (cyan cross on a magenta ribbon)</dt>
+<dd>
+<p>As above, but a few more points</p>
+</dd>
+</dl>
+<p>All medals and counters for these are reset once a plane is
+destroyed.</p>
+<h1>MULTIPLAYER SERVERS</h1>
+<p>When run in "listen" mode with the <strong>-l</strong> command line
+flag (see above), <strong>sopwith</strong> runs as a server that listens
+for an incoming connection. To make this server available from a home
+Internet connection, you will typically have to set up a port forward
+from your Internet router. The port to forward is TCP port 3847. You
+will also need to find out your public IP address so that the other
+player can connect. Alternatively, if you have access to a *nix-based
+server then it may be preferable to run something like a dedicated
+server that avoids the hassle of port forwarding and dynamic IPs. All
+that is needed in order to do this is to run a TCP server that forwards
+connections between two clients. This can be done using
+<strong>nc</strong>(1); for example:</p>
+<blockquote>
+<p>nc -l -p 3847 -c "nc -l -p 3847"</p>
+</blockquote>
+<p>Developing the above command into a complete shell script for a
+continually-active dedicated server is left as an exercise for the
+reader.</p>
+<h1>SEE ALSO</h1>
+<p><strong>sopwith.cfg</strong>(5), <strong>triplane</strong>(6),
+<strong>airstrike</strong>(6)</p>
+<h1>AUTHORS</h1>
+<p>Originally written by David L. Clark for BMB Compuscience<br />
+Modern SDL port By Simon Howard, Jesse Smith</p>
+<h1>HISTORY</h1>
+<p>Sopwith was originally developed by BMB Compuscience of Canada as a
+demonstration game for their Imaginet Networking System. The system was
+not commercially successful but Sopwith became a popular game for the
+IBM PC and compatibles. A sequel that is referred to by fans as "Sopwith
+2" was actually a newer version rather than a different game, but
+included extra features, such as oxen and birds (the oxen being an
+in-joke reference to a BMB employee who was nicknamed "Ox").</p>
+<p>The original author, David L. Clark, later released "Sopwith - The
+Network Edition" with several extra features including comical heads-up
+"splats" and wounded planes; a follow-up titled "The Author's Edition"
+contained the same features. This version of Sopwith is based on the
+released source code to the Network Edition.</p>
+<p>The real Sopwith Camel F.1 was one of the most famous fighter planes
+of World War I; Camel pilots shot down 1,294 enemy aircraft over the
+course of the war, more than any other aircraft. The plane gained a
+reputation for being agile but difficult to fly; many novice pilots
+crashed the plane on takeoff. The Camel was designed and manufactured by
+the Sopwith Aviation Company, founded by aviation pioneer Thomas
+Sopwith; 5,490 aircraft were produced. In popular culture the Camel is
+known for being the biplane flown by the protagonist in the
+<em>Biggles</em> series of novels, and by Snoopy in the <em>Peanuts</em>
+comic strip.</p>
 </body>
 </html>
