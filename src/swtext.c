@@ -24,6 +24,8 @@
 #include "swsound.h"
 #include "swtitle.h"
 
+#define BLINK_PERIOD  400 /* ms */
+
 // sdh: emulate text display
 
 static int cur_x = 0, cur_y = 0;	// place we are writing text
@@ -85,7 +87,6 @@ void swgets(char *s, int max)
 {
 	int or_x = cur_x, or_y = cur_y;
 	int erase_len = 0;
-	int x, y;
 
 	Vid_StartTextInput();
 
@@ -93,36 +94,45 @@ void swgets(char *s, int max)
 		unsigned char c;
 
 		// erase background from previous write
-
-		for (y = 0; y < 8; ++y) {
-			for (x = 0; x < erase_len * 8; ++x) {
-				Vid_PlotPixel
-					(or_x * 8 + x,
-					 SCR_HGHT - (or_y * 8 + y), 0);
-			}
-		}
+		Vid_Box(or_x * 8, SCR_HGHT - (or_y) * 8 + 1,
+		        erase_len * 8, 8, 0);
 
 		cur_x = or_x;
 		cur_y = or_y;
-		erase_len = strlen(s);
+		erase_len = strlen(s) + 1;
 		swputs(s);
+
+		if (((Timer_GetMS() / BLINK_PERIOD) % 2) == 0) {
+			swputc('_');
+		}
+
 		Vid_Update();
 
-		// read next keypress
-
-		while (!(c = swgetc()));
-
-		if (isprint(c) && strlen(s) < max) {
-			s[strlen(s) + 1] = '\0';
-			s[strlen(s)] = c;
-		} else if (c == '\b') {
-			// backspace
-			if (strlen(s) > 0) {
-				s[strlen(s) - 1] = '\0';
+		// read all queued keypresses
+		while ((c = Vid_GetChar()) != 0) {
+			if (c != 0 && isprint(c) && strlen(s) < max) {
+				s[strlen(s) + 1] = '\0';
+				s[strlen(s)] = c;
+			} else if (c == '\b') {
+				// backspace
+				if (strlen(s) > 0) {
+					s[strlen(s) - 1] = '\0';
+				}
+			} else if (c == '\n') {
+				break;
+			} else if (c == 27) {
+				s[0] = '\0';
+				c = '\n';
+				break;
 			}
-		} else if (c == '\n') {
-			break;
 		}
+		if (c == '\n') {
+			break;
+		} else if (ctlbreak()) {
+			// TODO
+		}
+		swsndupdate();
+		Timer_Sleep(50);
 	}
 
 	Vid_StopTextInput();

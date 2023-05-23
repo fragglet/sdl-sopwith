@@ -135,7 +135,7 @@ static bool gethost(void)
 	swputs("Enter Remote Hostname/IP:\n");
 	swgets(asynhost, sizeof(asynhost) - 3);
 
-	return 1;
+	return strcmp(asynhost, "") != 0;
 }
 
 // network menu
@@ -161,8 +161,7 @@ static bool getnet(void)
 			return 1;
 		case 'C':
 			asynmode = ASYN_CONNECT;
-			gethost();
-			return 1;
+			return gethost();
 		case 27:
 			return 0;
 		}
