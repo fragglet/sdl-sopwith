@@ -14,7 +14,7 @@ ago. Here's a quick summary:
 * A bug with the help screen introduced in the previous version was fixed.
 
 A more complete list can be found
-[in the release notes](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-2.2.0).
+[in the release notes](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-2.3.0).
 
 ## May 16, 2023
 
