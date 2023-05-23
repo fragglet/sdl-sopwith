@@ -8,12 +8,18 @@ title: SDL Sopwith: Links
   long-inactive newsgroup about Sopwith, although you can find some
   interesting discussions from the '90s if you're willing to dig through the
   spam...
+* [The old Sopwith forum](https://web.archive.org/web/20020620233656/http://pub50.ezboard.com/fsopwithfrm1)
+  from sopwith.org, now long dead and archived...
 * [Sopwith on Mobygames](https://www.mobygames.com/game/1380/sopwith/).
 * ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
   the game.
 * [Sopwith Youtube Videos](https://www.youtube.com/playlist?list=PLHt4bcu83-6QJexQ8pYlS42jEkmA3C7RW):
   a curated playlist.
+* [Sopwith Camel N6254 RFC](https://www.aerialvisuals.ca/AirframeDossier.php?Serial=29479),
+  which was recently assigned the civil registration code of ZK-SDL. A strange
+  coincidence... or a reference to this project? The plane is on display in
+  the Vintage Aviation Museum in New Zealand.
 
 ## Sopwith's author, David L. Clark
 
