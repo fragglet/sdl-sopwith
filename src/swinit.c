@@ -341,13 +341,7 @@ void initcomp(OBJECTS * obp)
 		ob->ob_drawf = dispcomp;
 		ob->ob_movef = movecomp;
 		ob->ob_clr = 2;
-		if (playmode != PLAYMODE_ASYNCH) {
-			ob->ob_owner = &nobjects[1];
-		} else if (ob->ob_index == 1) {
-			ob->ob_owner = ob;
-		} else {
-			ob->ob_owner = ob - 2;
-		}
+		ob->ob_owner = &nobjects[1];
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
