@@ -248,7 +248,6 @@ typedef struct obj {                            /*  Object list             */
 	int            ob_ldx, ob_ldy;
 	struct obj    *ob_next;
 	struct obj    *ob_prev;
-	int            ob_index;
 	bool           ob_drwflg;
 	bool           ob_onmap;
 	void        ( *ob_drawf ) (struct obj *);

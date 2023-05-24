@@ -153,12 +153,12 @@ get_score_obj(OBJECTS *ob, int *reverse)
 	*reverse = 0;
 
 	if (playmode != PLAYMODE_ASYNCH) {
-		retval = &nobjects[0];
+		retval = planes[0];
 		if (ob->ob_clr == 1) {
 			*reverse = 1;
 		}
 	} else
-		retval = &nobjects[2 - ob->ob_clr];
+		retval = planes[2 - ob->ob_clr];
 
 	return retval;
 }
@@ -351,7 +351,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		}
 
 		if (state == FALLING) {
-			if (ob->ob_index == player) {
+			if (ob == consoleplayer) {
 				if (ttype == SHOT) {
 					swwindshot();
 				} else if (ttype == OX) {
@@ -365,7 +365,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 
 		if (ttype == SHOT || ttype == BIRD
 		    || ttype == OX || ttype == FLOCK) {
-			if (ob->ob_index == player) {
+			if (ob == consoleplayer) {
 				if (ttype == SHOT) {
 					swwindshot();
 				} else if (ttype == OX) {

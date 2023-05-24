@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 #include "pcsound.h"
 #include "timer.h"
@@ -70,24 +71,13 @@ PACKAGE_STRING "\n"
 
 static void initobjs(void)
 {
-	OBJECTS *ob;
-	int i;
-
 	topobj.ob_xnext = topobj.ob_next = &botobj;
 	botobj.ob_xprev = botobj.ob_prev = &topobj;
 	topobj.ob_x = -32767;
 	botobj.ob_x = 32767;
 
 	objbot = objtop = deltop = delbot = NULL;
-	objfree = ob = nobjects;
-
-	for (i = 0; i < MAX_OBJS; ++i) {
-		ob->ob_next = ob + 1;
-		ob->ob_index = i;
-		++ob;
-	}
-
-	(ob-1)->ob_next = NULL;
+	objfree = NULL;
 }
 
 
@@ -232,16 +222,17 @@ static void get_endlevel(OBJECTS *ob)
 OBJECTS *initpln(OBJECTS * obp)
 {
 	OBJECTS *ob;
-	int x, height, minx, maxx, n;
+	int x, height, minx, maxx;
 
 	if (!obp) {
+		assert(num_planes < MAX_PLYR);
 		ob = allocobj();
+		ob->ob_original_ob = &currgame->gm_planes[num_planes];
+		planes[num_planes] = ob;
+		++num_planes;
 	} else {
 		ob = obp;
 	}
-
-	n = ob->ob_index;
-	ob->ob_original_ob = &currgame->gm_planes[n];
 
 	if (obp && ob->ob_state != CRASHED && !ob->ob_athome) {
 		/* Just returned home */
@@ -314,7 +305,7 @@ void initplyr(OBJECTS * obp)
 	if (!obp) {
 		ob->ob_drawf = dispplyr;
 		ob->ob_movef = moveplyr;
-		ob->ob_clr = ob->ob_index % 2 + 1;
+		ob->ob_clr = ob->ob_original_ob->owner % 2;
 		ob->ob_owner = ob;
 		endcount = 0;
 
@@ -341,7 +332,7 @@ void initcomp(OBJECTS * obp)
 		ob->ob_drawf = dispcomp;
 		ob->ob_movef = movecomp;
 		ob->ob_clr = 2;
-		ob->ob_owner = &nobjects[1];
+		ob->ob_owner = planes[1];
 	}
 	if (playmode == PLAYMODE_SINGLE || playmode == PLAYMODE_NOVICE) {
 		ob->ob_state = FINISHED;
@@ -627,22 +618,22 @@ static OBJECTS *inittarget(const original_ob_t *orig_ob)
 		case OWNER_PLAYER1:
 		case OWNER_PLAYER5:
 		case OWNER_PLAYER7:
-			ob->ob_owner = &nobjects[0];
+			ob->ob_owner = planes[0];
 			++numtarg[0];
 			break;
 		case OWNER_PLAYER2:
 		case OWNER_PLAYER4:
 		case OWNER_PLAYER6:
 		case OWNER_PLAYER8:
-			ob->ob_owner = &nobjects[1];
+			ob->ob_owner = planes[1];
 			++numtarg[1];
 			break;
 		case OWNER_PLAYER3:
 			if (playmode == PLAYMODE_ASYNCH) {
-				ob->ob_owner = &nobjects[0];
+				ob->ob_owner = planes[0];
 				++numtarg[0];
 			} else {
-				ob->ob_owner = &nobjects[1];
+				ob->ob_owner = planes[1];
 				++numtarg[1];
 			}
 			break;
@@ -925,6 +916,8 @@ void swinitlevel(void)
 	initobjs();
 
 	num_players = 0;
+	num_planes = 0;
+	memset(planes, 0, sizeof(planes));
 
 	if (keydelay == -1) {
 		keydelay = 1;
@@ -967,7 +960,7 @@ void swrestart(void)
 	int time;
 		
 	if (consoleplayer->ob_endsts == WINNER) {
-		ob = &nobjects[player];
+		ob = planes[player];
 		inc = 0;
 
 		get_endlevel(ob);

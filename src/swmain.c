@@ -52,7 +52,9 @@ bool soundflg = 0;		/* Sound flag                       */
 
 int displx;			/* Display left and right           */
 
-OBJECTS *nobjects;		/* Objects list.                    */
+OBJECTS *planes[MAX_PLYR];      /* Plane objects                    */
+int num_planes;
+
 OBJECTS *objbot, *objtop,	/* Top and bottom of object list    */
 *objfree,			/* Free list                        */
 *deltop, *delbot;		/* Newly deallocated objects        */
@@ -192,8 +194,6 @@ static void dump_cmds(void)
 int swmain(int argc, char *argv[])
 {
 	int nexttic;
-
-	nobjects = (OBJECTS *) malloc(100 * sizeof(OBJECTS));
 
 	swinit(argc, argv);
 	setjmp(envrestart);

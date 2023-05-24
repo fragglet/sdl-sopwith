@@ -13,6 +13,8 @@
 //        swobject -      SW object allocation and deallocation
 //
 
+#include <assert.h>
+
 #include "sw.h"
 #include "swmain.h"
 #include "swobject.h"
@@ -21,12 +23,13 @@ OBJECTS *allocobj(void)
 {
 	OBJECTS *ob;
 
-	if (!objfree) {
-		return NULL;
+	if (objfree != NULL) {
+		ob = objfree;
+		objfree = ob->ob_next;
+	} else {
+		ob = calloc(1, sizeof(OBJECTS));
+		assert(ob != NULL);
 	}
-
-	ob = objfree;
-	objfree = ob->ob_next;
 
 	ob->ob_next = NULL;
 	ob->ob_prev = objbot;
