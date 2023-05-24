@@ -19,6 +19,7 @@ possible.
 | ALT Linux     | `apt-get install sopwith`    |
 | Debian        | `sudo apt install sopwith`   |
 | Fedora        | `dnf install sopwith`        |
+| Flatpak       | `flatpak install flathub io.github.fragglet.sdl_sopwith` |
 | FreeBSD       | `pkg install sopwith`        |
 | OpenSuSE      | `zypper install sopwith`     |
 | Ubuntu        | `sudo apt install sopwith`   |
