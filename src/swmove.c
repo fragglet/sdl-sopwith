@@ -72,15 +72,14 @@ void swmove(void)
 static void nearpln(OBJECTS *ob)
 {
 	OBJECTS *obt, *obc;
-	int i, obx, obclr;
-
-	obt = objtop + 1;
+	int obx, obclr;
 
 	obx = ob->ob_x;
 	obclr = ob->ob_owner->ob_clr;
 
-	for (i = 1; obt->ob_type == PLANE; ++i, ++obt) {
-		if (obclr == obt->ob_owner->ob_clr) {
+	for (obt = objtop; obt != NULL; obt = obt->ob_next) {
+		if (obt->ob_type != PLANE
+		 || obclr == obt->ob_owner->ob_clr) {
 			continue;
 		}
 
