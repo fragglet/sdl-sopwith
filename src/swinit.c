@@ -36,6 +36,7 @@
 #include "swsymbol.h"
 #include "swtitle.h"
 
+static const original_ob_t *orig_planes[MAX_PLYR * 2];
 GRNDTYPE *ground;
 
 static int have_savescore = 0;
@@ -227,7 +228,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	if (!obp) {
 		assert(num_planes < MAX_PLYR);
 		ob = allocobj();
-		ob->ob_original_ob = &currgame->gm_planes[num_planes];
+		ob->ob_original_ob = orig_planes[num_planes];
 		planes[num_planes] = ob;
 		++num_planes;
 	} else {
@@ -918,6 +919,18 @@ void swinitlevel(void)
 	num_players = 0;
 	num_planes = 0;
 	memset(planes, 0, sizeof(planes));
+	memset(orig_planes, 0, sizeof(orig_planes));
+
+	for (i = 0; i < currgame->gm_num_targets; i++) {
+		int pln_index;
+		if (currgame->gm_targets[i].type != PLANE) {
+			continue;
+		}
+		pln_index = currgame->gm_targets[i].owner - 1;
+		if (pln_index >= 0 && pln_index < MAX_PLYR * 2) {
+			orig_planes[pln_index] = &currgame->gm_targets[i];
+		}
+	}
 
 	if (keydelay == -1) {
 		keydelay = 1;

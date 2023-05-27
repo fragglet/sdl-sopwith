@@ -281,16 +281,15 @@ typedef struct obj {                            /*  Object list             */
 	// That generated values is saved here as ob_orig_y, and we must
 	// look in two different locations to get the two coordinates.
 	int            ob_orig_y;
-}       OBJECTS;
+} OBJECTS;
 
 typedef struct {                                /*  Game structure          */
-	original_ob_t gm_planes[MAX_PLYR*2];
 	unsigned int gm_rseed;
 	original_ob_t *gm_targets;
 	unsigned int gm_num_targets;
 	GRNDTYPE *gm_ground;
 	unsigned int gm_max_x;  // Defines length of gm_ground[] array.
-}       GAMES;
+} GAMES;
 
 extern int sintab[ANGLES];
 
