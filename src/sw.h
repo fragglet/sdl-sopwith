@@ -286,7 +286,7 @@ typedef struct obj {                            /*  Object list             */
 typedef struct {                                /*  Game structure          */
 	unsigned int gm_rseed;
 	original_ob_t *gm_objects;
-	unsigned int gm_num_targets;
+	unsigned int gm_num_objects;
 	GRNDTYPE *gm_ground;
 	unsigned int gm_max_x;  // Defines length of gm_ground[] array.
 } GAMES;

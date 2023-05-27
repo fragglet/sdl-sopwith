@@ -862,7 +862,7 @@ static void inittargets(void)
 	numtarg[0] = 0;
 	numtarg[1] = 0;
 
-	for (i = 0; i < currgame->gm_num_targets; i++) {
+	for (i = 0; i < currgame->gm_num_objects; i++) {
 		orig_ob = &currgame->gm_objects[i];
 		switch (orig_ob->type) {
 			case TARGET:
@@ -921,7 +921,7 @@ void swinitlevel(void)
 	memset(planes, 0, sizeof(planes));
 	memset(orig_planes, 0, sizeof(orig_planes));
 
-	for (i = 0; i < currgame->gm_num_targets; i++) {
+	for (i = 0; i < currgame->gm_num_objects; i++) {
 		int pln_index;
 		if (currgame->gm_objects[i].type != PLANE) {
 			continue;
