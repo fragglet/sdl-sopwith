@@ -11,18 +11,33 @@ bindir=$(prefix)/bin
 SUBDIRS = sdl
 bin_PROGRAMS = sopwith
 
-COMMON_SOURCES =       \
-video.h     swcollsn.c  swgames.h   swmain.h    \
-font.h      swcollsn.h  swtext.c    tcpcomm.c   \
-pcsound.h   swconf.c    swtext.h    tcpcomm.h   swsound.c \
-std.h       swconf.h    swgrpha.c   swmove.c    swsound.h   timer.h    \
-sw.h        swdisp.c    swgrpha.h   swmove.h    swsymbol.c             \
-swasynio.c  swdisp.h    swinit.c    swsymbol.h  \
-swasynio.h  swend.c     swinit.h    swtitle.c   \
-swauto.c    swend.h     swobject.c  swtitle.h   \
-swauto.h    swgames.c   swmain.c    swobject.h  \
-swsplat.c   swsplat.h   swstbar.c   swstbar.h   \
-video.c     vid_vga.c
+COMMON_SOURCES =                   \
+        font.h                     \
+        pcsound.h                  \
+        std.h                      \
+        swasynio.c   swasynio.h    \
+        swauto.c     swauto.h      \
+        swcollsn.c   swcollsn.h    \
+        swconf.c     swconf.h      \
+        swdisp.c     swdisp.h      \
+        swend.c      swend.h       \
+        swgames.c    swgames.h     \
+        swgrpha.c    swgrpha.h     \
+        sw.h                       \
+        swinit.c     swinit.h      \
+        swmain.c     swmain.h      \
+        swmove.c     swmove.h      \
+        swobject.c   swobject.h    \
+        swsound.c    swsound.h     \
+        swsplat.c    swsplat.h     \
+        swstbar.c    swstbar.h     \
+        swsymbol.c   swsymbol.h    \
+        swtext.c     swtext.h      \
+        swtitle.c    swtitle.h     \
+        tcpcomm.c    tcpcomm.h     \
+        timer.h                    \
+        video.c      video.h       \
+        vid_vga.c
 
 if HAVE_WINDRES
 sopwith_SOURCES = $(COMMON_SOURCES) resource.rc
