@@ -1083,7 +1083,6 @@ void swinit(int argc, char *argv[])
 	// initgrnd() below needs currgame initialized to set the contents of
 	// the ground[] array for the title screen.
 	currgame = &original_level;
-	currgame = load_custom_level("empty.yocton");
 
 	initsndt();
 	initgrnd();
