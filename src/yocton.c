@@ -619,3 +619,20 @@ unsigned long long yocton_field_uint(struct yocton_field *f, size_t n)
 	}
 	return result;
 }
+
+unsigned int yocton_field_enum(struct yocton_field *f, const char **values)
+{
+	const char *value = yocton_field_value(f);
+	int i;
+
+	for (i = 0; values[i] != NULL; ++i) {
+		if (!strcmp(values[i], value)) {
+			return i;
+		}
+	}
+
+	// Unknown value.
+	input_error(f->parent->instream, "unknown enum value: '%s'",
+	            value);
+	return 0;
+}

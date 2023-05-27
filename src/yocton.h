@@ -238,6 +238,33 @@ unsigned long long yocton_field_uint(struct yocton_field *f, size_t n);
 		} \
 	} while (0)
 
+/**
+ * Parse the field value as an enumeration.
+ *
+ * Enumeration values are assumed to be contiguous and start from zero.
+ * values[e] gives the string representing enum value e. If the field
+ * value is not found in the values array, an error is set.
+ *
+ * Note that the lookup of name to enum value is a linear scan so it is
+ * relatively inefficient. If efficiency is concerned, an alternative
+ * approach should be used (eg. a hash table).
+ *
+ * @param f       The field.
+ * @param values  Pointer to a NULL-terminated array of strings representing
+ *                enum values. values[e] is a string representing enum
+ *                value e.
+ * @return        The identified enum value. If not found, an error is set
+ *                and zero is returned.
+ */
+unsigned int yocton_field_enum(struct yocton_field *f, const char **values);
+
+#define YOCTON_FIELD_ENUM(field, my_struct, name, values) \
+	do { \
+		if (!strcmp(yocton_field_name(field), #name)) { \
+			(my_struct).name = yocton_field_enum(field, values); \
+		} \
+	} while (0)
+
 #ifdef __cplusplus
 }
 #endif

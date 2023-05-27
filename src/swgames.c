@@ -266,6 +266,16 @@ const GAMES original_level = {
 	arrlen(original_ground),
 };
 
+static const char *obtype_names[] = {
+	"GROUND", "PLANE", "BOMB", "SHOT", "TARGET", "EXPLOSION", "SMOKE",
+	"FLOCK", "BIRD", "OX", "MISSILE", "STARBURST", NULL,
+};
+
+static const char *owner_names[] = {
+	"NONE", "PLAYER1", "PLAYER2", "PLAYER3", "PLAYER4", "PLAYER5",
+	"PLAYER6", "PLAYER7", "PLAYER8", NULL,
+};
+
 static GAMES custom_level;
 
 static void free_custom_level(void)
@@ -299,8 +309,8 @@ static void add_object(struct yocton_object *yo)
 		YOCTON_FIELD_INT(f, *ob, int, orient);
 		YOCTON_FIELD_INT(f, *ob, int, territory_l);
 		YOCTON_FIELD_INT(f, *ob, int, territory_r);
-		YOCTON_FIELD_INT(f, *ob, ob_owner_t, type);
-		YOCTON_FIELD_INT(f, *ob, ob_owner_t, owner);
+		YOCTON_FIELD_ENUM(f, *ob, type, obtype_names);
+		YOCTON_FIELD_ENUM(f, *ob, owner, owner_names);
 	}
 }
 
