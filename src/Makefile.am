@@ -37,7 +37,8 @@ COMMON_SOURCES =                   \
         tcpcomm.c    tcpcomm.h     \
         timer.h                    \
         video.c      video.h       \
-        vid_vga.c
+        vid_vga.c                  \
+        yocton.c     yocton.h
 
 if HAVE_WINDRES
 sopwith_SOURCES = $(COMMON_SOURCES) resource.rc
