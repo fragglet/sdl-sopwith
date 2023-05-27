@@ -21,8 +21,9 @@ included here:
 
 You can find lots more information about the original Sopwith here:
 
- http://www.sopwith.org/
- https://en.wikipedia.org/wiki/Sopwith_(video_game)
+* http://www.sopwith.org/
+* https://fragglet.github.io/sdl-sopwith
+* https://en.wikipedia.org/wiki/Sopwith_(video_game)
 
 # Feedback
 
