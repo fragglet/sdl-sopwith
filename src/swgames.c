@@ -13,9 +13,13 @@
 //        swgames  -      SW definition of games
 //
 
+#include <assert.h>
+#include <string.h>
 
 #include "sw.h"
 #include "swgames.h"
+#include "video.h"
+#include "yocton.h"
 
 static GRNDTYPE original_ground[] = { /* Original ground height by pixel */
 
@@ -261,6 +265,107 @@ const GAMES original_level = {
 	original_ground,
 	arrlen(original_ground),
 };
+
+static GAMES custom_level;
+
+static void free_custom_level(void)
+{
+	free(custom_level.gm_objects);
+	custom_level.gm_objects = NULL;
+	custom_level.gm_num_objects = 0;
+	free(custom_level.gm_ground);
+	custom_level.gm_ground = NULL;
+	custom_level.gm_max_x = 0;
+	custom_level.gm_rseed = 12345;
+}
+
+static void add_object(struct yocton_object *yo)
+{
+	original_ob_t *ob;
+	custom_level.gm_objects = realloc(custom_level.gm_objects,
+	                                  (custom_level.gm_num_objects + 1)
+	                                   * sizeof(original_ob_t));
+	assert(custom_level.gm_objects != NULL);
+	ob = &custom_level.gm_objects[custom_level.gm_num_objects];
+	++custom_level.gm_num_objects;
+
+	for (;;) {
+		struct yocton_field *f = yocton_next_field(yo);
+		if (f == NULL) {
+			break;
+		}
+
+		YOCTON_FIELD_INT(f, *ob, int, x);
+		YOCTON_FIELD_INT(f, *ob, int, orient);
+		YOCTON_FIELD_INT(f, *ob, int, territory_l);
+		YOCTON_FIELD_INT(f, *ob, int, territory_r);
+		YOCTON_FIELD_INT(f, *ob, ob_owner_t, type);
+		YOCTON_FIELD_INT(f, *ob, ob_owner_t, owner);
+	}
+}
+
+static void set_ground(struct yocton_object *yo)
+{
+	for (;;) {
+		struct yocton_field *f = yocton_next_field(yo);
+		if (f == NULL) {
+			break;
+		}
+
+		yocton_check(yo, "expected field name '_'",
+		             !strcmp(yocton_field_name(f), "_"));
+		custom_level.gm_ground = realloc(
+			custom_level.gm_ground,
+			(custom_level.gm_max_x + 1) * sizeof(original_ob_t));
+		assert(custom_level.gm_ground != NULL);
+
+		custom_level.gm_ground[custom_level.gm_max_x] =
+			yocton_field_int(f, sizeof(GRNDTYPE));
+		++custom_level.gm_max_x;
+	}
+}
+
+const GAMES *load_custom_level(const char *filename)
+{
+	FILE *fs;
+	struct yocton_object *obj;
+	const char *error_msg;
+	int lineno;
+
+	free_custom_level();
+
+	fs = fopen(filename, "r");
+	if (fs == NULL) {
+		error_exit("Failed to open file: %s", filename);
+	}
+	obj = yocton_read_from(fs);
+	assert(obj != NULL);
+
+	for (;;) {
+		struct yocton_field *f = yocton_next_field(obj);
+		const char *name;
+
+		if (f == NULL) {
+			break;
+		}
+
+		name = yocton_field_name(f);
+		if (!strcmp(name, "object")) {
+			add_object(yocton_field_inner(f));
+		} else if (!strcmp(name, "ground")) {
+			set_ground(yocton_field_inner(f));
+		}
+	}
+
+	if (yocton_have_error(obj, &lineno, &error_msg)) {
+		error_exit("Error in %s at line %d:\n%s", filename, lineno,
+		           error_msg);
+	}
+
+	yocton_free(obj);
+
+	return &custom_level;
+}
 
 //
 // 2003-02-14: Code was checked into version control; no further entries

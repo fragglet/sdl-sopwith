@@ -17,4 +17,6 @@
 
 extern const GAMES original_level;
 
+const GAMES *load_custom_level(const char *filename);
+
 #endif
