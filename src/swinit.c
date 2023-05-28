@@ -901,6 +901,12 @@ void swinitlevel(void)
 {
 	int i;
 
+	if (have_custom_level) {
+		currgame = &custom_level;
+	} else {
+		currgame = &original_level;
+	}
+
 	// clear out any waiting keys. this stops, eg. 's' on the
 	// menu from toggling sound once the game starts
 
@@ -1080,12 +1086,7 @@ void swinit(int argc, char *argv[])
 		Speaker_Init();		// init pc speaker
 	}
 
-	// initgrnd() below needs currgame initialized to set the contents of
-	// the ground[] array for the title screen.
-	currgame = &original_level;
-
 	initsndt();
-	initgrnd();
 	
 	// set playmode if we can, from command line options
 

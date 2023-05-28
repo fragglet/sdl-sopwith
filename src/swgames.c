@@ -276,7 +276,8 @@ static const char *owner_names[] = {
 	"PLAYER6", "PLAYER7", "PLAYER8", NULL,
 };
 
-static GAMES custom_level;
+GAMES custom_level;
+bool have_custom_level;
 
 static void free_custom_level(void)
 {
@@ -335,7 +336,7 @@ static void set_ground(struct yocton_object *yo)
 	}
 }
 
-const GAMES *load_custom_level(const char *filename)
+void load_custom_level(const char *filename)
 {
 	FILE *fs;
 	struct yocton_object *obj;
@@ -373,8 +374,7 @@ const GAMES *load_custom_level(const char *filename)
 	}
 
 	yocton_free(obj);
-
-	return &custom_level;
+	have_custom_level = true;
 }
 
 //

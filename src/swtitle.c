@@ -21,6 +21,7 @@
 #include "swasynio.h"
 #include "swconf.h"
 #include "swend.h"
+#include "swgames.h"
 #include "swgrpha.h"
 #include "swinit.h"
 #include "swmain.h"
@@ -76,6 +77,9 @@ void swtitln(void)
 	swcolor(3);
 	swputs(" GPL");
 
+	// We might be playing a custom level, but we need to swap back to
+	// the original level to render the title screen properly.
+	currgame = &original_level;
 	initgrnd();
 	displx = 507-X_OFFSET;
 	swground();
