@@ -949,12 +949,14 @@ void swinitlevel(void)
 	} else {
 		maxcrash = MAXCRASH;
 
-		// single player
-		
+		// single player. we spawn as many enemy planes as we have
+		// defined within the map.
+		// TODO: We should have a way to define the number of enemy
+		// planes in levels.
 		initplyr(NULL);
-		initcomp(NULL);
-		initcomp(NULL);
-		initcomp(NULL);
+		for (i = 1; i < MAX_PLYR && orig_planes[i] != NULL; i++) {
+			initcomp(NULL);
+		}
 	}
 
 	inittargets();
