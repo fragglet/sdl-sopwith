@@ -59,6 +59,7 @@ PACKAGE_STRING "\n"
 "        -q :  begin game with sound off\n"
 "        -g#:  start at level #\n"
 "        -e :  turn off big explosions\n"
+"        -m <filename>: load new mission from file\n"
 "\n"
 "Video:\n"
 "        -f    :  fullscreen\n"
@@ -1043,6 +1044,9 @@ void swinit(int argc, char *argv[])
 			gamenum = starting_level;
 		} else if (!strcasecmp(argv[i], "-q")) {
 			soundflg = 1;
+		} else if (!strcmp(argv[i], "-m") && (i + 1) < argc) {
+			load_custom_level(argv[i + 1]);
+			++i;
 		} else
 #ifdef TCPIP
 		if (!strcasecmp(argv[i], "-l")) {
