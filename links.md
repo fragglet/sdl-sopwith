@@ -75,6 +75,8 @@ title: SDL Sopwith: Links
 * [Sopwith - WW1 Flight Simulator](https://apkcombo.com/sopwith-ww1-flight-simulator/com.cactoosoftware.sopwith/);
   Android version by CactooSoftware.
 * [Sopwith remake](https://saltyseadogs.itch.io/sopwith) by Salty Sea Dogs
+* [Sopwith](https://www.youtube.com/watch?v=AuXMK27dq4I) for the Russian
+  Electronika BK0010 microcomputer.
 
 ## Inspired by Sopwith ...?
 
