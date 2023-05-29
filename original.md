@@ -135,7 +135,12 @@ flying through an ox: the entire screen turns pink from blood.
 Drivers are available that can be used to play this version and the Author's
 Edition over a serial line; see the download link below. These were
 originally posted by the user "per" on [a thread on the VCFEd](https://forum.vcfed.org/index.php?threads/dos-game-red-baron.14382/)
-forums. These drivers apparently (?) do not work with Sopwith 2.
+forums. These drivers apparently (?) do not work with Sopwith 2. A driver
+file is also included for the original BMB network hardware, but you are
+unlikely to be able to get this to work unless you have original BMB
+hardware. Under DOSbox you will need the
+[DRVLOAD](http://cd.textfiles.com/pier/pier04/010/v12n19.zip) program
+to be able to load the drivers.
 
 * [Download (.zip)](original-files/swnet.zip)
 * [Download drivers (.zip)](original-files/SopwithDrivers.zip)
