@@ -132,7 +132,13 @@ splatted bird appearing on the screen, and getting hit by a bullet results
 in similar broken glass cracks. Perhaps the funniest of all occurs after
 flying through an ox: the entire screen turns pink from blood.
 
+Drivers are available that can be used to play this version and the Author's
+Edition over a serial line; see the download link below. These were
+originally posted by the user "per" on [a thread on the VCFEd](https://forum.vcfed.org/index.php?threads/dos-game-red-baron.14382/)
+forums. These drivers apparently (?) do not work with Sopwith 2.
+
 * [Download (.zip)](original-files/swnet.zip)
+* [Download drivers (.zip)](original-files/SopwithDrivers.zip)
 
 <img src="original-files/swnet_title.png" width="320"> <img
      src="original-files/swnet_001.png" width="320"> <img
