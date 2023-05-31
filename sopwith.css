@@ -27,6 +27,11 @@ img[alt~=Camel] {
   margin: 20px;
 }
 
+img[alt~=Imaginet] {
+  float: right;
+  margin: 20px;
+}
+
 img[src*=medals] {
   float: right;
   margin-left: 10px;
