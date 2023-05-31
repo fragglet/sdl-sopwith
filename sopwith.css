@@ -22,14 +22,10 @@ table {
   width: auto;
 }
 
-img[alt~=Camel] {
+img[alt~=Camel], img[alt~=Imaginet] {
   float: right;
   margin: 20px;
-}
-
-img[alt~=Imaginet] {
-  float: right;
-  margin: 20px;
+  max-width: 50%;
 }
 
 img[src*=medals] {
