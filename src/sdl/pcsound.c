@@ -188,7 +188,7 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 {
 	static int lasttime;
 	static float lastfreq;
-	uint16_t *stream = (uint16_t *) stream8;
+	int16_t *stream = (int16_t *) stream8;
 	float sample;
 	int i;
 
@@ -213,7 +213,7 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 			                   / output_freq);
 		}
 		sample = FilterNext(&tinny_filter, sample);
-		stream[i] = (1 << 15) + (signed int) (sample * VOLUME);
+		stream[i] = (signed int) (sample * VOLUME);
 	}
 
 	lasttime += len;
@@ -307,7 +307,7 @@ void Speaker_Init(void)
 
 	audiospec.samples = 1024;
 	audiospec.freq = 48000;
-	audiospec.format = AUDIO_U16SYS;
+	audiospec.format = AUDIO_S16SYS;
 	audiospec.channels = 1;
 	audiospec.callback = &snd_callback;
 
