@@ -156,7 +156,7 @@ static bool getnet(void)
 		swsndupdate();
 
 		if (ctlbreak()) {
-			swend(NULL, NO);
+			swend(NULL, false);
 		}
 
 		switch (toupper(swgetc() & 0xff)) {
@@ -185,7 +185,7 @@ static bool getskill(void)
 
 		swsndupdate();
 		if (ctlbreak()) {
-			swend(NULL, NO);
+			swend(NULL, false);
 		}
 		switch (toupper(swgetc() & 0xff)) {
 		case 'N':
@@ -219,7 +219,7 @@ void getgamemode(void)
 		Vid_Update();
 
 		if (ctlbreak()) {
-			swend(NULL, NO);
+			swend(NULL, false);
 		}
 
 		c = toupper(swgetc() & 0xff);

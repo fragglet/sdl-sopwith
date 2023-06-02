@@ -178,7 +178,7 @@ bool moveplyr(OBJECTS *ob)
 			if (playmode != PLAYMODE_ASYNCH && !quit) {
 				swrestart();
 			}
-			swend(NULL, YES);
+			swend(NULL, true);
 		}
 	}
 	
@@ -220,10 +220,10 @@ bool moveplyr(OBJECTS *ob)
 			}
 		} else {
 			initplyr(ob);
-			initdisp(YES);
+			initdisp(true);
 			if (endstat == WINNER) {
 				if (ctlbreak()) {
-					swend(NULL, YES);
+					swend(NULL, true);
 				}
 				winner(ob);
 			}
@@ -780,7 +780,7 @@ bool movemiss(OBJECTS *ob)
 			if (obt->ob_missiletarget) {
 				obt = obt->ob_missiletarget;
 			}
-			aim(ob, obt->ob_x, obt->ob_y, NULL, NO);
+			aim(ob, obt->ob_x, obt->ob_y, NULL, false);
 			angle = ob->ob_angle
 			    =
 			    (ob->ob_angle + ob->ob_flaps +

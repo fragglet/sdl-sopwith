@@ -961,7 +961,7 @@ void swinitlevel(void)
 
 	inittargets();
 
-	initdisp(NO);
+	initdisp(false);
 	initgdep();
 
 	// sdh 16/11/2001: this needs to be reset with each new game

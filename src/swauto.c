@@ -162,14 +162,14 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 				ob->ob_hitcount = (y > (MAX_Y - 50)) ? 2 : 1;
 			}
 			return (aim(ob, x, ob->ob_hitcount == 1
-				    ? (y + 25) : (y - 25), NULL, YES));
+				    ? (y + 25) : (y - 25), NULL, true));
 		}
 		ob->ob_hitcount = 0;
 		return (aim(ob, x + (dx < 0 ? 150 : -150),
 			    (y + 100 > MAX_Y - 50 - courseadj)
 			        ? MAX_Y - 50 - courseadj
 			        : y + 100,
-			    NULL, YES));
+			    NULL, true));
 	} else {
 		if (!longway) {
 			ob->ob_hitcount = 0;
@@ -310,7 +310,7 @@ int gohome(OBJECTS *ob)
 	 && abs(ob->ob_y - ob->ob_orig_y) < HOME) {
 		if (plyrplane) {
 			initplyr(ob);
-			initdisp(YES);
+			initdisp(true);
 		} else if (compplane) {
 			initcomp(ob);
 		} else {
@@ -324,7 +324,7 @@ int gohome(OBJECTS *ob)
 	if (ob->ob_state == WOUNDED && (countmove & 1)) {
 		return 0;
 	} else {
-		return aim(ob, orig_ob->x, ob->ob_orig_y, NULL, NO);
+		return aim(ob, orig_ob->x, ob->ob_orig_y, NULL, false);
 	}
 }
 
@@ -341,7 +341,7 @@ static void cruise(OBJECTS *ob)
 		(orgx < (currgame->gm_max_x / 3) ? (currgame->gm_max_x / 3) :
 		 orgx > (2 * currgame->gm_max_x / 3) ?
 		     (2 * currgame->gm_max_x / 3) : orgx),
-		MAX_Y - 50 - (courseadj >> 1), NULL, NO);
+		MAX_Y - 50 - (courseadj >> 1), NULL, false);
 }
 
 static void attack(OBJECTS *obp, OBJECTS *ob)
@@ -350,9 +350,9 @@ static void attack(OBJECTS *obp, OBJECTS *ob)
 	if (ob->ob_speed) {
 		aim(obp,
 		    ob->ob_x - ((CLOSE * COS(ob->ob_angle)) >> 8),
-		    ob->ob_y - ((CLOSE * SIN(ob->ob_angle)) >> 8), ob, NO);
+		    ob->ob_y - ((CLOSE * SIN(ob->ob_angle)) >> 8), ob, false);
 	} else {
-		aim(obp, ob->ob_x, ob->ob_y + 4, ob, NO);
+		aim(obp, ob->ob_x, ob->ob_y + 4, ob, false);
 	}
 }
 

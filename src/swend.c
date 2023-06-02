@@ -43,9 +43,9 @@ void swend(char *msg, bool update)
 	}
 
 	if (msg || closmsg) {
-		exit(YES);
+		exit(1);
 	} else {
-		exit(NO);
+		exit(0);
 	}
 }
 

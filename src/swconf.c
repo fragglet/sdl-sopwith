@@ -400,7 +400,7 @@ static int runmenu(char *title, struct menuitem *menu)
 		drawmenu(title, menu);
 
 		if (ctlbreak()) {
-			swend(NULL, NO);
+			swend(NULL, false);
 		}
 
 		key = toupper(swgetc() & 0xff);

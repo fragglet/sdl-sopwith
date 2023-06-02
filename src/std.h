@@ -24,7 +24,5 @@
 typedef enum { false, true } bool;
 #endif
 
-enum {NO, YES};
-
 #endif
 
