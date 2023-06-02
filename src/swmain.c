@@ -71,7 +71,7 @@ int dispcnt;			/* Displays to delay keyboard       */
 int endstat;			/* End of game status for curr. move */
 int maxcrash;			/* Maximum number of crashes        */
 
-int sintab[ANGLES] = {		/* sine table of pi/8 increments    */
+const int sintab[ANGLES] = {	/* sine table of pi/8 increments    */
 	0, 98, 181, 237,	/*   multiplied by 256              */
 	256, 237, 181, 98,
 	0, -98, -181, -237,

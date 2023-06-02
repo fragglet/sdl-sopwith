@@ -291,7 +291,7 @@ typedef struct {                                /*  Game structure          */
 	unsigned int gm_max_x;  // Defines length of gm_ground[] array.
 } GAMES;
 
-extern int sintab[ANGLES];
+extern const int sintab[ANGLES];
 
 static inline int COS(int x) {
 	return sintab[(x+(ANGLES/4)) % ANGLES];
