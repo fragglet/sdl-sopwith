@@ -1,6 +1,6 @@
 
 SDL Sopwith is a port of the game "Sopwith", which was originally
-by BMB CompuScience Canada. The original author David L. Clark
+by BMB Compuscience Canada. The original author David L. Clark
 has kindly released the sourcecode under the GNU GPL.
 
 Features:
