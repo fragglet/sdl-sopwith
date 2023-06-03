@@ -190,9 +190,11 @@ Some websites have suggested that BMB went out of business as a result of
 litigation but this is not the case. BMB *was* involved in a landmark ruling in
 Canadian trademark law named *BMB Compuscience Canada Ltd v Bramalea Ltd.* and
 this appears to be the origin of this myth. The company continued into the '90s
-before acquiring Systems Xcellence Inc. in 1994, after which it [changed its
-name](https://opencorporates.com/companies/ca/1689681) to the name of this
-acquisition.
+before [being acquired by Systems Xcellence Inc.](https://opencorporates.com/companies/ca/1689681)
+in 1994 in a [reverse takeover](https://en.wikipedia.org/wiki/Reverse_takeover).
+The company later changed its name to SXC Health Solutions, and then [Catamaran
+Corporation](https://en.wikipedia.org/wiki/Catamaran_Corporation), before being
+acquired by UnitedHealth Group in 2015.
 
 * [National Post article from 1985](original-files/natpost_nov_1985.pdf) which
 provides some details about BMB.
