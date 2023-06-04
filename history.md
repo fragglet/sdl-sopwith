@@ -26,7 +26,7 @@ Sopwith is one of the oldest video games still in active development today.
 In 2018, PC Gamer [published a list](https://www.pcgamer.com/the-80s-and-90s-pc-games-still-unbelievably-being-updated-today/)
 of old games still being maintained and developed. Sopwith is not on the list,
 but the only game on the list arguably older is
-[Hack](https://en.wikipedia.org/wiki/Hack_(video_game%29) (1984), released
+[Hack](https://en.wikipedia.org/wiki/Hack_%28video_game%29) (1984), released
 several months earlier and still under development in the form of **NetHack**.
 SDL Sopwith is directly derived from the source code to the original DOS
 versions, and still includes changelog comments that date all the way back to
@@ -133,7 +133,7 @@ than the original IBM XT unless a utility like MOSLO is used (or the
 number of cycles adjusted to a low number on emulators like DOSbox.
 
 The musical theme to this version is
-[Merrily We Roll Along](https://en.wikipedia.org/wiki/Merrily_We_Roll_Along_(song%29)
+[Merrily We Roll Along](https://en.wikipedia.org/wiki/Merrily_We_Roll_Along_%28song%29)
 better known as the theme song for the Warner Brothers ***Merry Melodies***
 cartoon. However, the music doesn't play on the title screen unless Sopwith
 is run with the `-s` command line parameter.
@@ -169,7 +169,7 @@ or explosions leaving debris. It still runs at the speed of the CPU,
 like Sopwith 1, so the same slowdown techniques are needed to make it
 playable.
 
-By this version the theme music has been changed to [The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_(song%29)
+By this version the theme music has been changed to [The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_%28song%29)
 (aka ***Wild Blue Yonder***), the official song of the US Air Force.
 This music is used in Sopwith 2 and all future versions.
 
