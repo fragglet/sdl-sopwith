@@ -308,7 +308,7 @@ void initplyr(OBJECTS * obp)
 	if (!obp) {
 		ob->ob_drawf = dispplyr;
 		ob->ob_movef = moveplyr;
-		ob->ob_clr = ob->ob_original_ob->owner % 2;
+		ob->ob_clr = ob->ob_original_ob->owner;
 		ob->ob_owner = ob;
 		endcount = 0;
 
