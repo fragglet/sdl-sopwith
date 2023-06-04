@@ -27,6 +27,7 @@
 
 #define ABORTMSG "\n\n         (Ctrl-C to abort)"
 
+int asynport = DEFAULT_PORT;
 asynmode_t asynmode;
 char asynhost[128];
 

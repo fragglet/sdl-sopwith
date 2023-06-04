@@ -13,6 +13,7 @@
 // TCP/IP Communications
 //
 
+#include "swasynio.h"
 #include "swtitle.h"
 #include "tcpcomm.h"
 #include "timer.h"
@@ -43,8 +44,6 @@
 #include <winsock.h>
 typedef int socklen_t;
 #endif /* HAVE_WINSOCK_H */
-
-#define PORT 3847
 
 static int server_sock = -1;
 static int tcp_sock = -1;
@@ -97,7 +96,7 @@ void commconnect(char *host)
 	struct hostent *hent;
 	struct sockaddr_in in;
 	char *realhost;
-	int port = PORT;
+	int port = asynport;
 
 	comminit();
 
@@ -176,11 +175,11 @@ void commlisten(void)
 	memset(&in, 0, sizeof(in));
 	in.sin_family = AF_INET;
 	in.sin_addr.s_addr = INADDR_ANY;
-	in.sin_port = htons(PORT);
+	in.sin_port = htons(asynport);
 
 	if (bind(server_sock, (struct sockaddr *) &in, sizeof(in)) < 0) {
 		error_exit("commlisten: cant bind to port %d: %s",
-		           PORT, strerror(errno));
+		           asynport, strerror(errno));
 	}
 
 	atexit(commterm);
@@ -189,11 +188,11 @@ void commlisten(void)
 
 	if (listen(server_sock, 1)) {
 		error_exit("commlisten: cant listen on port %i: %s",
-		           PORT, strerror(errno));
+		           asynport, strerror(errno));
 	}
 
 	fprintf(stderr,
-		"commlisten: listening for connection on port %i\n", PORT);
+		"commlisten: listening for connection on port %i\n", asynport);
 
 	// listen for connection
 
