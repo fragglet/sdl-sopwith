@@ -1,16 +1,108 @@
 ---
-title: Original DOS Sopwith versions
+title: History of Sopwith
 ---
+
+# History of Sopwith
+
+At the time of writing, Sopwith is approaching its 40th birthday. This page
+documents some of the details of its long history.
+
+First released in 1984, Sopwith is notable for several distinctive reasons.
+
+Sopwith is one of the first games for the IBM PC. Released less than
+three years after the release of the [IBM PC](https://en.wikipedia.org/wiki/IBM_Personal_Computer)
+in August 1981, Sopwith sits within the "first wave" of games developed for the
+system. The PC remains an important platform for games to this day.
+
+Sopwith is one of the earliest networked games. Certainly there are other
+earlier and contemporary examples, including [Maze War](https://en.wikipedia.org/wiki/Maze_War)
+and [SGI Dogfight](https://en.wikipedia.org/wiki/SGI_Dogfight); Sopwith was not
+the first. However, at the time of its release there were still relatively few
+other examples. An unfortunate detail is that the game only worked with the
+proprietary BMB hardware and drivers, meaning that very few people were able to
+use this feature.
+
+Sopwith is one of the oldest video games still in active development today.
+In 2018, PC Gamer [published a list](https://www.pcgamer.com/the-80s-and-90s-pc-games-still-unbelievably-being-updated-today/)
+of old games still being maintained and developed. Sopwith is not on the list,
+but the only game on the list arguably older is
+[Hack](https://en.wikipedia.org/wiki/Hack_(video_game%29) (1984), released
+several months earlier and still under development in the form of **NetHack**.
+SDL Sopwith is directly derived from the source code to the original DOS
+versions, and still includes changelog comments that date all the way back to
+1984.
+
+# About BMB Compuscience
+
+BMB Compuscience was a Canadian company founded in 1979 and based in Milton,
+Ontario by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler. The
+initials of their first names were the origin of the name BMB. The business
+originally acted as a reseller for Commodore computers, targeting scientists
+and researchers. BMB then pivoted to focus on the IBM PC after it was released
+in 1981. This proved to be a smart move and BMB racked up enough in sales
+that it was able to open six retail stores.
+
+The company went public in 1983 but then experienced difficulties the following
+year after a market downturn. BMB responded by discontinuing the retail side
+of its business to focus on its own hardware and software products.
+
+Some websites have suggested that BMB went out of business as a result of
+litigation but this is not the case. BMB *was* involved in a landmark ruling in
+Canadian trademark law named *BMB Compuscience Canada Ltd v Bramalea Ltd.* and
+this appears to be the origin of this myth. The company continued into the '90s
+before [being acquired by Systems Xcellence Inc.](https://opencorporates.com/companies/ca/1689681)
+in 1994 in a [reverse takeover](https://en.wikipedia.org/wiki/Reverse_takeover).
+The company later changed its name to SXC Health Solutions, and then [Catamaran
+Corporation](https://en.wikipedia.org/wiki/Catamaran_Corporation), before being
+acquired by UnitedHealth Group in 2015.
+
+* [National Post article from 1985](original-files/natpost_nov_1985.pdf) which
+provides some details about BMB.
+
+# Imaginet
+
+![Imaginet logo](original-files/imaginet.png)
+
+BMB was not a games company; Sopwith was developed as a demo application for
+the Imaginet networking system, an early form of
+[LAN](https://en.wikipedia.org/wiki/Local_area_network) that networked IBM
+PCs and Atari STs. David Clark has described Sopwith as something he hoped
+would attract attention at trade shows.
+A more serious application for Imaginet was an electronic mail system system
+called NetMail, which was later the subject of the lawsuit mentioned above.
+
+The Imaginet system does not appear to have been particuarly successful and
+little information seems to be available on it. The Sopwith source code suggests
+that it allowed multiple computers to share a floppy disk drive to exchange
+data. Marketing materials for Imaginet emphasized its "transparency" that
+allowed normal DOS software to interface with the network; this was probably a
+very important feature in the years before 1987 when MS-DOS 3.0 introduced
+native interfaces for networking.
+
+* [1984 full-page ad from the Edmonton Journal](original-files/edmonton_journal_oct1984.pdf)
+about BMB and Imaginet.
+* [Cover photo from BMB's annual report](https://www.flickr.com/photos/stompr/4302616998)
+that shows boxed copies of the Imaginet software, NetMail, and other BMB
+software (credit to R Stomphorst for sharing this photo on Flickr).
+
+BMB had previously developed a very similar network system to Imaginet for the
+Commodore PET called MUPET which had enjoyed some moderate success. As with
+Imaginet it allowed multiple computers to share a floppy drive. Much more is
+known about this system which may give some sense of how Imaginet worked:
+
+* [MUPET brochure](original-files/mupet-brochure.pdf)
+(credit to vintagecomputer.ca).
+* [Photo of the MUPET hardware](https://www.flickr.com/photos/stompr/4581759820)
+(credit to R Stomphorst for sharing this photo on Flickr).
+* [Video demonstration of the MUPET system](https://youtu.be/FvBC-83rk2w) (credit
+goes to Harry McCracken who originally shared this on Twitter).
 
 # Original DOS Sopwith versions
 
-This page is intended to document the original DOS versions of Sopwith.
-It's not really related to SDL Sopwith except as a historical
-document for posterity and for people who are interested in such things.
+There are several MS-DOS versions of Sopwith which contain different features
+as the game was expanded and developed.
 Please note that other than the Author's Edition, these versions are
 **not** open source.
-
-## Features
 
 |     | 1   | 1.5 | 2   | Network Edition | Author's Edition |
 | --- | --- | --- | --- | --------------- | ---------------- |
@@ -172,67 +264,3 @@ other people calling their versions by that name.
 
 <img src="original-files/swauth_title.png" width="320">
 
-# About BMB Compuscience
-
-BMB Compuscience was a Canadian company founded in 1979 and based in Milton,
-Ontario by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler. The
-initials of their first names were the origin of the name BMB. The business
-originally acted as a reseller for Commodore computers, targeting scientists
-and researchers. BMB then pivoted to focus on the IBM PC after it was released
-in 1981. This proved to be a smart move and BMB racked up enough in sales
-that it was able to open six retail stores.
-
-The company went public in 1983 but then experienced difficulties the following
-year after a market downturn. BMB responded by discontinuing the retail side
-of its business to focus on its own hardware and software products.
-
-Some websites have suggested that BMB went out of business as a result of
-litigation but this is not the case. BMB *was* involved in a landmark ruling in
-Canadian trademark law named *BMB Compuscience Canada Ltd v Bramalea Ltd.* and
-this appears to be the origin of this myth. The company continued into the '90s
-before [being acquired by Systems Xcellence Inc.](https://opencorporates.com/companies/ca/1689681)
-in 1994 in a [reverse takeover](https://en.wikipedia.org/wiki/Reverse_takeover).
-The company later changed its name to SXC Health Solutions, and then [Catamaran
-Corporation](https://en.wikipedia.org/wiki/Catamaran_Corporation), before being
-acquired by UnitedHealth Group in 2015.
-
-* [National Post article from 1985](original-files/natpost_nov_1985.pdf) which
-provides some details about BMB.
-
-## Imaginet
-
-![Imaginet logo](original-files/imaginet.png)
-
-BMB was not a games company; Sopwith was developed as a demo application for
-the Imaginet networking system, an early form of
-[LAN](https://en.wikipedia.org/wiki/Local_area_network) that networked IBM
-PCs and Atari STs. David Clark has described Sopwith as something he hoped
-would attract attention at trade shows.
-A more serious application for Imaginet was an electronic mail system system
-called NetMail, which was later the subject of the lawsuit mentioned above.
-
-The Imaginet system does not appear to have been particuarly successful and
-little information seems to be available on it. The Sopwith source code suggests
-that it allowed multiple computers to share a floppy disk drive to exchange
-data. Marketing materials for Imaginet emphasized its "transparency" that
-allowed normal DOS software to interface with the network; this was probably a
-very important feature in the years before 1987 when MS-DOS 3.0 introduced
-native interfaces for networking.
-
-* [1984 full-page ad from the Edmonton Journal](original-files/edmonton_journal_oct1984.pdf)
-about BMB and Imaginet.
-* [Cover photo from BMB's annual report](https://www.flickr.com/photos/stompr/4302616998)
-that shows boxed copies of the Imaginet software, NetMail, and other BMB
-software (credit to R Stomphorst for sharing this photo on Flickr).
-
-BMB had previously developed a very similar network system to Imaginet for the
-Commodore PET called MUPET which had enjoyed some moderate success. As with
-Imaginet it allowed multiple computers to share a floppy drive. Much more is
-known about this system which may give some sense of how Imaginet worked:
-
-* [MUPET brochure](original-files/mupet-brochure.pdf)
-(credit to vintagecomputer.ca).
-* [Photo of the MUPET hardware](https://www.flickr.com/photos/stompr/4581759820)
-(credit to R Stomphorst for sharing this photo on Flickr).
-* [Video demonstration of the MUPET system](https://youtu.be/FvBC-83rk2w) (credit
-goes to Harry McCracken who originally shared this on Twitter).
