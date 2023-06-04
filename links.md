@@ -40,7 +40,7 @@ title: SDL Sopwith: Links
 * ["The Search for Nostalgic PC Games Digs Out a Forgotten Gem"](https://medium.com/sepia-sententiae/the-search-for-nostalgic-pc-games-digs-out-a-forgotten-gem-d4e67f1297be),
   by The Secret Aspirant
 * [Memory Cache: Sopwith](https://www.abc.net.au/tv/goodgame/stories/s4295505.htm)
-  (transcript; this aired on Australian TV; [download the episode here](https://abcmedia.akamaized.net/tv/goodgame/vodcast/goodgame_2015_s11_ep27.mp4))
+  (transcript; this aired on Australian TV; [watch the clip here](https://www.youtube.com/watch?v=SpJ1XJLw_rI)).
 * [Sopwith review](http://www.thealmightyguru.com/Wiki/index.php?title=Sopwith)
   by TheAlmightyGuru.
 
