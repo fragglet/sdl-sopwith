@@ -32,7 +32,7 @@ SDL Sopwith is directly derived from the source code to the original DOS
 versions, and still includes changelog comments that date all the way back to
 1984.
 
-# About BMB Compuscience
+## About BMB Compuscience
 
 BMB Compuscience was a Canadian company founded in 1979 and based in Milton,
 Ontario by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler. The
@@ -59,7 +59,7 @@ acquired by UnitedHealth Group in 2015.
 * [National Post article from 1985](original-files/natpost_nov_1985.pdf) which
 provides some details about BMB.
 
-# Imaginet
+## Imaginet
 
 ![Imaginet logo](original-files/imaginet.png)
 
