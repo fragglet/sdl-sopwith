@@ -176,6 +176,7 @@ software for the IBM PC"; you can read it [here](free-ibmpc.md).
 
 * [Download (.zip)](original-files/sopwith1.zip) (includes original
   documentation)
+* [Documentation](original-files/sopwith1_docs.txt) for this version.
 * [Play emulated version](https://archive.org/details/msdos_Sopwith_1985) on
   archive.org.
 
@@ -224,6 +225,8 @@ latter feature is still unusable because it also requires a proprietary
 BMB driver.
 
 * [Download (.zip)](original-files/sopwith2.zip)
+* [Documentation](https://github.com/fragglet/sdl-sopwith/blob/trunk/doc/origdoc.txt)
+  for this version.
 * [Play emulated version](https://archive.org/details/msdos_Sopwith_2_1985) on
   archive.org.
 
