@@ -2,7 +2,7 @@
 title: SDL Sopwith
 ---
 
-![CGA colored Sopwith Camel](sopattack.png)
+![Illustration: CGA colored Sopwith Camel](sopattack.png)
 
 This is a port of the classic biplane shoot 'em-up "Sopwith" to run on modern
 computers and operating systems. It is named "SDL Sopwith" as it uses the

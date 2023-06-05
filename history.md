@@ -61,7 +61,7 @@ provides some details about BMB.
 
 ## Imaginet
 
-![Imaginet logo](original-files/imaginet.png)
+![Illustration: Imaginet logo](original-files/imaginet.png)
 
 BMB was not a games company; Sopwith was developed as a demo application for
 the Imaginet networking system, an early form of
@@ -96,6 +96,36 @@ known about this system which may give some sense of how Imaginet worked:
 (credit to R Stomphorst for sharing this photo on Flickr).
 * [Video demonstration of the MUPET system](https://youtu.be/FvBC-83rk2w) (credit
 goes to Harry McCracken who originally shared this on Twitter).
+
+## The inspiration
+
+![Illustration: Sopwith Camel](original-files/camel_photo.jpg)
+
+The Sopwith Aviation Company was founded by aviation pioneer Thomas Sopwith
+in 1913. After World War I broke out, it became one of the main manufacturers
+of military planes for the war effort. This included the
+[1½ Strutter](https://en.wikipedia.org/wiki/Sopwith_1%C2%BD_Strutter) two
+seat general purpose biplane, and the
+[Pup](https://en.wikipedia.org/wiki/Sopwith_Pup) and
+[Triplane](https://en.wikipedia.org/wiki/Sopwith_Triplane) fighter planes.
+
+Technology advanced quickly over the course of the war and the Pup was quickly
+rendered obsolete; the
+[Sopwith Camel F.1](https://en.wikipedia.org/wiki/Sopwith_Camel) was an
+evolution of the design that was faster, more manoeuvrable and more heavily
+armed. It acquired its (unofficial) name as a result of a metal fairing over
+the gun breeches that gave the appearance of a hump. While the game does not
+clarify *which* Sopwith plane is being flown, it is assumed to be a Camel,
+since it is one of the most famous planes of the war; certainly the most
+famous produced by the Sopwith Aviation Company.
+
+Camel pilots shot down 1,294 enemy aircraft over the course of the war,
+more than any other aircraft. The plane gained a reputation for being agile
+but difficult to fly; many novice pilots crashed the plane on takeoff.
+5,490 Sopwith Camel aircraft were produced. In popular
+culture the Camel is known for being the biplane flown by the protagonist in
+the *Biggles* series of novels, and by Snoopy in the *Peanuts* comic
+strip (in his imagined dogfights with "The Red Baron").
 
 # Original DOS Sopwith versions
 
