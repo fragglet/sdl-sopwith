@@ -22,7 +22,7 @@ table {
   width: auto;
 }
 
-img[alt~=Illustration] {
+img[alt~="Illustration:"] {
   float: right;
   margin: 20px;
   max-width: 50%;
