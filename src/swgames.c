@@ -336,12 +336,28 @@ static void set_ground(struct yocton_object *yo)
 	}
 }
 
+static void process_level(struct yocton_object *obj)
+{
+	struct yocton_field *f;
+
+	while ((f = yocton_next_field(obj)) != NULL) {
+		const char *name = yocton_field_name(f);
+		if (!strcmp(name, "object")) {
+			add_object(yocton_field_inner(f));
+		} else if (!strcmp(name, "ground")) {
+			set_ground(yocton_field_inner(f));
+		}
+	}
+}
+
 void load_custom_level(const char *filename)
 {
 	FILE *fs;
 	struct yocton_object *obj;
 	const char *error_msg;
 	int lineno;
+	struct yocton_field *f;
+	bool processed_level = false;
 
 	free_custom_level();
 
@@ -352,21 +368,20 @@ void load_custom_level(const char *filename)
 	obj = yocton_read_from(fs);
 	assert(obj != NULL);
 
-	for (;;) {
-		struct yocton_field *f = yocton_next_field(obj);
-		const char *name;
-
-		if (f == NULL) {
-			break;
-		}
-
-		name = yocton_field_name(f);
-		if (!strcmp(name, "object")) {
-			add_object(yocton_field_inner(f));
-		} else if (!strcmp(name, "ground")) {
-			set_ground(yocton_field_inner(f));
+	while ((f = yocton_next_field(obj)) != NULL) {
+		const char *name = yocton_field_name(f);
+		// TODO: Add support for multiple levels within a mission file.
+		// The level data gets embedded within a level {} object with
+		// the expectation that files will be able to contain multiple
+		// levels in the future.
+		if (!strcmp(name, "level")) {
+			yocton_check(obj, "only one level per file supported",
+			             !processed_level);
+			process_level(yocton_field_inner(f));
+			processed_level = true;
 		}
 	}
+	yocton_check(obj, "expected level {} block in file", processed_level);
 
 	if (yocton_have_error(obj, &lineno, &error_msg)) {
 		error_exit("Error in %s at line %d:\n%s", filename, lineno,
