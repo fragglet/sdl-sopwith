@@ -9,7 +9,8 @@ DOC_FILES=            \
         README.md
 
 EXTRA_DIST = $(AUX_DIST_GEN) $(DOC_FILES) \
-             icon.png
+             icon.png \
+             maps/README.md maps/original.sop maps/empty.sop
 
 MAINTAINERCLEANFILES = $(AUX_DIST_GEN)
 
