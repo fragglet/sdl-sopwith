@@ -68,6 +68,7 @@ PACKAGE_STRING "\n"
 "Networking: \n"
 "        -l    :  listen for connection\n"
 " -j <host>    :  connect to a listening host\n"
+" -p <port>    :  use alternative TCP port\n"
 #endif
 ;
 
@@ -307,7 +308,7 @@ void initplyr(OBJECTS * obp)
 	if (!obp) {
 		ob->ob_drawf = dispplyr;
 		ob->ob_movef = moveplyr;
-		ob->ob_clr = ob->ob_original_ob->owner % 2;
+		ob->ob_clr = ob->ob_original_ob->owner;
 		ob->ob_owner = ob;
 		endcount = 0;
 
@@ -1062,6 +1063,12 @@ void swinit(int argc, char *argv[])
 			asynmode = ASYN_CONNECT;
 			++i;
 			snprintf(asynhost, sizeof(asynhost), "%s", argv[i]);
+		} else if (!strcmp(argv[i], "-p")) {
+			if (i + 1 >= argc) {
+				error_exit("insufficient arguments to -p");
+			}
+			++i;
+			asynport = atoi(argv[i]);
 		} else
 #endif
 		{

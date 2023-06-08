@@ -17,6 +17,7 @@ typedef enum { ASYN_LISTEN, ASYN_CONNECT } asynmode_t;
 
 extern asynmode_t asynmode;
 extern char asynhost[128];
+extern int asynport;
 
 extern void asynput(int movekey);
 extern char *asynclos(void);

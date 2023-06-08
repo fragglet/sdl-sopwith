@@ -35,6 +35,8 @@
 
 #define FPS             10              /* How fast the game runs */
 
+#define DEFAULT_PORT    3847            /* Default TCP port for multiplayer */
+
 #define MAX_Y           200             /*  Maximum Y coordinate            */
 #define MIN_SPEED       4               /*  Minimum plane speed             */
 #define MAX_SPEED       8               /*  Maximum plane speed             */
