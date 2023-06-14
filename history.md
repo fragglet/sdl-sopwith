@@ -34,6 +34,8 @@ versions, and still includes changelog comments that date all the way back to
 
 ## About BMB Compuscience
 
+![Illustration: BMB Compuscience logo](original-files/bmb_logo.png)
+
 BMB Compuscience was a Canadian company founded in 1979 and based in Milton,
 Ontario by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler. The
 initials of their first names were the origin of the name BMB. The business
@@ -72,13 +74,21 @@ A more serious application for Imaginet was an electronic mail system system
 called NetMail, which was later the subject of the lawsuit mentioned above.
 
 The Imaginet system does not appear to have been particuarly successful and
-little information seems to be available on it. The Sopwith source code suggests
-that it allowed multiple computers to share a floppy disk drive to exchange
-data. Marketing materials for Imaginet emphasized its "transparency" that
-allowed normal DOS software to interface with the network; this was probably a
-very important feature in the years before 1987 when MS-DOS 3.0 introduced
-native interfaces for networking.
+not much information seems to be available on it.  One
+[article](imaginet-ad.md) about the system explains that it allowed multiple
+computers to share a floppy disk drive to exchange data, with the drives
+possibly being entirely virtual. From examination of the source code, Sopwith
+itself appears to have worked by having different players continually reading
+and writing from the same disk sector.
 
+On the client computers the drive would appear as though it was just another
+floppy drive. Marketing materials for Imaginet emphasized this "transparency"
+that allowed normal DOS software to interface with the network; this was
+probably a very important feature in the years before 1987 when MS-DOS 3.0
+introduced native interfaces for networking.
+
+* [Three page ad published in Canadian Datasystems](imaginet-ad.md) that gives
+a decent amount of technical information about Imaginet and how it worked.
 * [1984 full-page ad from the Edmonton Journal](original-files/edmonton_journal_oct1984.pdf)
 about BMB and Imaginet.
 * [Cover photo from BMB's annual report](https://www.flickr.com/photos/stompr/4302616998)
