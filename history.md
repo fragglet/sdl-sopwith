@@ -39,7 +39,7 @@ versions, and still includes changelog comments that date all the way back to
 
 ## About BMB Compuscience
 
-![Illustration: BMB Compuscience logo](original-files/bmb_logo.png)
+![Illustration: BMB Compuscience logo](img/bmb_logo.png)
 
 BMB Compuscience was a Canadian company founded in 1979 and based in Milton,
 Ontario by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler. The
@@ -63,12 +63,12 @@ The company later changed its name to SXC Health Solutions, and then [Catamaran
 Corporation](https://en.wikipedia.org/wiki/Catamaran_Corporation), before being
 acquired by UnitedHealth Group in 2015.
 
-* [National Post article from 1985](original-files/natpost_nov_1985.pdf) which
+* [National Post article from 1985](articles/natpost_nov_1985.pdf) which
 provides some details about BMB.
 
 ## Imaginet
 
-![Illustration: Imaginet logo](original-files/imaginet.png)
+![Illustration: Imaginet logo](img/imaginet.png)
 
 BMB was not a games company; Sopwith was developed as a demo application for
 the Imaginet networking system, an early form of
@@ -94,7 +94,7 @@ introduced native interfaces for networking.
 
 * [Three page ad published in Canadian Datasystems](imaginet-ad.md) that gives
 a decent amount of technical information about Imaginet and how it worked.
-* [1984 full-page ad from the Edmonton Journal](original-files/edmonton_journal_oct1984.pdf)
+* [1984 full-page ad from the Edmonton Journal](articles/edmonton_journal_oct1984.pdf)
 about BMB and Imaginet.
 * [Cover photo from BMB's annual report](https://www.flickr.com/photos/stompr/4302616998)
 that shows boxed copies of the Imaginet software, NetMail, and other BMB
@@ -105,7 +105,7 @@ Commodore PET called MUPET which had enjoyed some moderate success. As with
 Imaginet it allowed multiple computers to share a floppy drive. Much more is
 known about this system which may give some sense of how Imaginet worked:
 
-* [MUPET brochure](original-files/mupet-brochure.pdf)
+* [MUPET brochure](articles/mupet-brochure.pdf)
 (credit to vintagecomputer.ca).
 * [Photo of the MUPET hardware](https://www.flickr.com/photos/stompr/4581759820)
 (credit to R Stomphorst for sharing this photo on Flickr).
@@ -114,7 +114,7 @@ goes to Harry McCracken who originally shared this on Twitter).
 
 ## The inspiration
 
-![Illustration: Sopwith Camel](original-files/camel_photo.jpg)
+![Illustration: Sopwith Camel](img/camel_photo.jpg)
 
 The Sopwith Aviation Company was founded by aviation pioneer Thomas Sopwith
 in 1913. After World War I broke out, it became one of the main manufacturers
