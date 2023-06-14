@@ -4,23 +4,28 @@ title: History of Sopwith
 
 # History of Sopwith
 
-At the time of writing, Sopwith is approaching its 40th birthday. This page
-documents some of the details of its long history.
+![Illustration: Sopwith start screen](original-files/sopwith2_001.png)
 
-First released in 1984, Sopwith is notable for several distinctive reasons.
+At the time of writing, Sopwith is approaching its 40th birthday. Sopwith
+is a very old game, and has an interesting history that deserves to be
+documented.
 
-Sopwith is one of the first games for the IBM PC. Released less than
-three years after the release of the [IBM PC](https://en.wikipedia.org/wiki/IBM_Personal_Computer)
-in August 1981, Sopwith sits within the "first wave" of games developed for the
+First released in 1984, Sopwith was one of the first games for the IBM PC.
+Released less than three years after the release of the
+[IBM PC](https://en.wikipedia.org/wiki/IBM_Personal_Computer) in August
+1981, Sopwith sits within the "first wave" of games developed for the
 system. The PC remains an important platform for games to this day.
 
-Sopwith is one of the earliest networked games. Certainly there are other
-earlier and contemporary examples, including [Maze War](https://en.wikipedia.org/wiki/Maze_War)
-and [SGI Dogfight](https://en.wikipedia.org/wiki/SGI_Dogfight); Sopwith was not
-the first. However, at the time of its release there were still relatively few
-other examples. An unfortunate detail is that the game only worked with the
-proprietary BMB hardware and drivers, meaning that very few people were able to
-use this feature.
+Sopwith is one of the earliest networked games, and indeed was developed as
+a demo program for the proprietary Imaginet system, an early form of
+[LAN](https://en.wikipedia.org/wiki/Local_area_network)  Certainly there
+are other earlier and contemporary examples, including
+[Maze War](https://en.wikipedia.org/wiki/Maze_War) and
+[SGI Dogfight](https://en.wikipedia.org/wiki/SGI_Dogfight); Sopwith was not
+the first. However, at the time of its release there were still relatively
+few other examples. An unfortunate detail is that the game only worked with
+the proprietary BMB hardware and drivers, meaning that very few people were
+able to use this feature.
 
 Sopwith is one of the oldest video games still in active development today.
 In 2018, PC Gamer [published a list](https://www.pcgamer.com/the-80s-and-90s-pc-games-still-unbelievably-being-updated-today/)
