@@ -152,6 +152,7 @@ Please note that other than the Author's Edition, these versions are
 |     | 1   | 1.5 | 2   | Network Edition | Author's Edition |
 | --- | --- | --- | --- | --------------- | ---------------- |
 | Solid ground                    | ✓ |   |   |   |   |
+| 640x200 "hi res" mode           | ✓ |   |   |   |   |
 | Speed depends on CPU            | ✓ | ✓ |   |   |   |
 | Enemy planes drop bombs         |   | ✓ |   |   |   |
 | Oxen and birds                  |   |   | ✓ | ✓ | ✓ |
@@ -176,6 +177,9 @@ avoid having to redraw the screen, the "camera" only moves sometimes.
 Speed is CPU-dependent, so the game runs too fast on machines faster
 than the original IBM XT unless a utility like MOSLO is used (or the
 number of cycles adjusted to a low number on emulators like DOSbox.
+Uniquely to this version, an undocumented `-h` command line argument will
+run the game in the CGA 640x200 "hi res" mono mode rather than the usual
+640x200 color mode.
 
 The musical theme to this version is
 [Merrily We Roll Along](https://en.wikipedia.org/wiki/Merrily_We_Roll_Along_%28song%29)
