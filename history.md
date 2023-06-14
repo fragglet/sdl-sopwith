@@ -80,20 +80,21 @@ called NetMail, which was later the subject of the lawsuit mentioned above.
 
 The Imaginet system does not appear to have been particuarly successful and
 not much information seems to be available on it.  One
-[article](imaginet-ad.md) about the system explains that it allowed multiple
+[article](imaginet.md) about the system explains that it allowed multiple
 computers to share a floppy disk drive to exchange data, with the drives
 possibly being entirely virtual. From examination of the source code, Sopwith
 itself appears to have worked by having different players continually reading
 and writing from the same disk sector.
 
 On the client computers the drive would appear as though it was just another
-floppy drive. Marketing materials for Imaginet emphasized this "transparency"
-that allowed normal DOS software to interface with the network; this was
-probably a very important feature in the years before 1987 when MS-DOS 3.0
-introduced native interfaces for networking.
+floppy drive. This was the origin of the Imaginet name, the idea being that
+"you have to imagine that a network's really there". Marketing materials for
+Imaginet emphasized this "transparency" that allowed normal DOS software to
+interface with the network; this was probably a very important feature in the
+years before 1987 when MS-DOS 3.0 introduced native interfaces for networking.
 
-* [Three page ad published in Canadian Datasystems](imaginet-ad.md) that gives
-a decent amount of technical information about Imaginet and how it worked.
+* [Some published articles about Imaginet](imaginet.md) that give some
+technical information about the system and how it worked.
 * [1984 full-page ad from the Edmonton Journal](articles/edmonton_journal_oct1984.pdf)
 about BMB and Imaginet.
 * [Cover photo from BMB's annual report](https://www.flickr.com/photos/stompr/4302616998)
