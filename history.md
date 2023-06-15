@@ -153,7 +153,6 @@ Please note that other than the Author's Edition, these versions are
 |     | 1   | 1.5 | 2   | Network Edition | Author's Edition |
 | --- | --- | --- | --- | --------------- | ---------------- |
 | Solid ground                    | ✓ |   |   |   |   |
-| 640x200 "hi res" mode           | ✓ |   |   |   |   |
 | Speed depends on CPU            | ✓ | ✓ |   |   |   |
 | Enemy planes drop bombs         |   | ✓ |   |   |   |
 | Oxen and birds                  |   |   | ✓ | ✓ | ✓ |
@@ -163,6 +162,7 @@ Please note that other than the Author's Edition, these versions are
 | Wounded planes                  |   |   |   | ✓ | ✓ |
 | Window "splats"                 |   |   |   | ✓ | ✓ |
 | Imaginet multiplayer            | ✓ | ✓ | ✓ | ✓ |   |
+| 640x200 "hi res" mode           | ✓ (`-h`) | ✓ | ✓ | ✓ |   |
 | Async (serial line) multiplayer |   |   | ✓ | ✓ | ✓ |
 | Joystick support                |   | ✓ | ✓ | ✓ | ✓ |
 | Compiler                        | Computer Innovations C | CIC | CIC | Microsoft C | MSC |
@@ -178,9 +178,9 @@ avoid having to redraw the screen, the "camera" only moves sometimes.
 Speed is CPU-dependent, so the game runs too fast on machines faster
 than the original IBM XT unless a utility like MOSLO is used (or the
 number of cycles adjusted to a low number on emulators like DOSbox.
-Uniquely to this version, an undocumented `-h` command line argument will
-run the game in the CGA 640x200 "hi res" mono mode rather than the usual
-640x200 color mode.
+As with later versions, this version supports running the game in 640x200
+CGA "hi res" mono mode, but the command line argument to enable it is `-h`;
+this was changed to `-w` in later versions.
 
 The musical theme to this version is
 [Merrily We Roll Along](https://en.wikipedia.org/wiki/Merrily_We_Roll_Along_%28song%29)
