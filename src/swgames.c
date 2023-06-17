@@ -279,74 +279,58 @@ static const char *owner_names[] = {
 GAMES custom_level;
 bool have_custom_level;
 
+#define cl custom_level
+
 static void free_custom_level(void)
 {
-	free(custom_level.gm_objects);
-	custom_level.gm_objects = NULL;
-	custom_level.gm_num_objects = 0;
-	free(custom_level.gm_ground);
-	custom_level.gm_ground = NULL;
-	custom_level.gm_max_x = 0;
-	custom_level.gm_rseed = 12345;
+	free(cl.gm_objects);
+	cl.gm_objects = NULL;
+	cl.gm_num_objects = 0;
+	free(cl.gm_ground);
+	cl.gm_ground = NULL;
+	cl.gm_max_x = 0;
+	cl.gm_rseed = 12345;
 }
 
-static void add_object(struct yocton_object *yo)
+static void add_object(original_ob_t *ob, struct yocton_object *yo)
 {
-	original_ob_t *ob;
-	custom_level.gm_objects = realloc(custom_level.gm_objects,
-	                                  (custom_level.gm_num_objects + 1)
-	                                   * sizeof(original_ob_t));
-	assert(custom_level.gm_objects != NULL);
-	ob = &custom_level.gm_objects[custom_level.gm_num_objects];
-	++custom_level.gm_num_objects;
+	struct yocton_prop *p;
 
-	for (;;) {
-		struct yocton_field *f = yocton_next_field(yo);
-		if (f == NULL) {
-			break;
-		}
-
-		YOCTON_FIELD_INT(f, *ob, int, x);
-		YOCTON_FIELD_INT(f, *ob, int, orient);
-		YOCTON_FIELD_INT(f, *ob, int, territory_l);
-		YOCTON_FIELD_INT(f, *ob, int, territory_r);
-		YOCTON_FIELD_ENUM(f, *ob, type, obtype_names);
-		YOCTON_FIELD_ENUM(f, *ob, owner, owner_names);
+	while ((p = yocton_next_prop(yo)) != NULL) {
+		YOCTON_FIELD_INT(p, *ob, int, x);
+		YOCTON_FIELD_INT(p, *ob, int, orient);
+		YOCTON_FIELD_INT(p, *ob, int, territory_l);
+		YOCTON_FIELD_INT(p, *ob, int, territory_r);
+		YOCTON_FIELD_ENUM(p, *ob, type, obtype_names);
+		YOCTON_FIELD_ENUM(p, *ob, owner, owner_names);
 	}
 }
 
 static void set_ground(struct yocton_object *yo)
 {
-	for (;;) {
-		struct yocton_field *f = yocton_next_field(yo);
-		if (f == NULL) {
-			break;
-		}
+	struct yocton_prop *p;
 
-		yocton_check(yo, "expected field name '_'",
-		             !strcmp(yocton_field_name(f), "_"));
-		custom_level.gm_ground = realloc(
-			custom_level.gm_ground,
-			(custom_level.gm_max_x + 1) * sizeof(original_ob_t));
-		assert(custom_level.gm_ground != NULL);
-
-		custom_level.gm_ground[custom_level.gm_max_x] =
-			yocton_field_int(f, sizeof(GRNDTYPE));
-		++custom_level.gm_max_x;
+	while ((p = yocton_next_prop(yo)) != NULL) {
+		yocton_check(yo, "expected prop name '_'",
+		             !strcmp(yocton_prop_name(p), "_"));
+		YOCTON_VAR_INT_ARRAY(p, _, GRNDTYPE, cl.gm_ground,
+		                     cl.gm_max_x);
 	}
 }
 
 static void process_level(struct yocton_object *obj)
 {
-	struct yocton_field *f;
+	struct yocton_prop *p;
 
-	while ((f = yocton_next_field(obj)) != NULL) {
-		const char *name = yocton_field_name(f);
-		if (!strcmp(name, "object")) {
-			add_object(yocton_field_inner(f));
-		} else if (!strcmp(name, "ground")) {
-			set_ground(yocton_field_inner(f));
-		}
+	while ((p = yocton_next_prop(obj)) != NULL) {
+		YOCTON_VAR_ARRAY(p, object, cl.gm_objects, cl.gm_num_objects, {
+			add_object(&cl.gm_objects[cl.gm_num_objects],
+				yocton_prop_inner(p));
+			++cl.gm_num_objects;
+		});
+		YOCTON_IF_PROP(p, ground, {
+			set_ground(yocton_prop_inner(p));
+		});
 	}
 }
 
@@ -356,7 +340,7 @@ void load_custom_level(const char *filename)
 	struct yocton_object *obj;
 	const char *error_msg;
 	int lineno;
-	struct yocton_field *f;
+	struct yocton_prop *p;
 	bool processed_level = false;
 
 	free_custom_level();
@@ -368,8 +352,8 @@ void load_custom_level(const char *filename)
 	obj = yocton_read_from(fs);
 	assert(obj != NULL);
 
-	while ((f = yocton_next_field(obj)) != NULL) {
-		const char *name = yocton_field_name(f);
+	while ((p = yocton_next_prop(obj)) != NULL) {
+		const char *name = yocton_prop_name(p);
 		// TODO: Add support for multiple levels within a mission file.
 		// The level data gets embedded within a level {} object with
 		// the expectation that files will be able to contain multiple
@@ -377,7 +361,7 @@ void load_custom_level(const char *filename)
 		if (!strcmp(name, "level")) {
 			yocton_check(obj, "only one level per file supported",
 			             !processed_level);
-			process_level(yocton_field_inner(f));
+			process_level(yocton_prop_inner(p));
 			processed_level = true;
 		}
 	}
@@ -391,6 +375,8 @@ void load_custom_level(const char *filename)
 	yocton_free(obj);
 	have_custom_level = true;
 }
+
+#undef cl
 
 //
 // 2003-02-14: Code was checked into version control; no further entries
