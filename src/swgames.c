@@ -297,12 +297,12 @@ static void add_object(original_ob_t *ob, struct yocton_object *yo)
 	struct yocton_prop *p;
 
 	while ((p = yocton_next_prop(yo)) != NULL) {
-		YOCTON_FIELD_INT(p, *ob, int, x);
-		YOCTON_FIELD_INT(p, *ob, int, orient);
-		YOCTON_FIELD_INT(p, *ob, int, territory_l);
-		YOCTON_FIELD_INT(p, *ob, int, territory_r);
-		YOCTON_FIELD_ENUM(p, *ob, type, obtype_names);
-		YOCTON_FIELD_ENUM(p, *ob, owner, owner_names);
+		YOCTON_VAR_INT(p, x, int, ob->x);
+		YOCTON_VAR_INT(p, orient, int, ob->orient);
+		YOCTON_VAR_INT(p, territory_l, int, ob->territory_l);
+		YOCTON_VAR_INT(p, territory_r, int, ob->territory_r);
+		YOCTON_VAR_ENUM(p, type, ob->type, obtype_names);
+		YOCTON_VAR_ENUM(p, owner, ob->owner, owner_names);
 	}
 }
 
