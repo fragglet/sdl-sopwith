@@ -138,7 +138,7 @@ static int read_next_byte(struct yocton_instream *s, uint8_t *c)
 
 static int is_symbol_byte(int c)
 {
-       return isalnum(c) || strchr("_-+.", c) != NULL;
+	return isalnum(c) || strchr("_-+.", c) != NULL;
 }
 
 static int append_string_byte(struct yocton_instream *s, uint8_t c)
@@ -269,29 +269,29 @@ static enum token_type read_next_token(struct yocton_instream *s)
 
 struct yocton_object {
 	struct yocton_instream *instream;
-	struct yocton_field *field;
+	struct yocton_prop *property;
 	int done;
 };
 
-struct yocton_field {
-	enum yocton_field_type type;
+struct yocton_prop {
+	enum yocton_prop_type type;
 	struct yocton_buffer name, value;
 	struct yocton_object *parent, *child;
 };
 
 static void free_obj(struct yocton_object *obj);
 
-static void free_field(struct yocton_field *field)
+static void free_property(struct yocton_prop *property)
 {
-	if (field == NULL) {
+	if (property == NULL) {
 		return;
 	}
-	free_obj(field->child);
-	field->child = NULL;
+	free_obj(property->child);
+	property->child = NULL;
 
-	free(field->name.data);
-	free(field->value.data);
-	free(field);
+	free(property->name.data);
+	free(property->value.data);
+	free(property);
 }
 
 static void free_obj(struct yocton_object *obj)
@@ -299,8 +299,8 @@ static void free_obj(struct yocton_object *obj)
 	if (obj == NULL) {
 		return;
 	}
-	free_field(obj->field);
-	obj->field = NULL;
+	free_property(obj->property);
+	obj->property = NULL;
 	free(obj);
 }
 
@@ -373,7 +373,7 @@ struct yocton_object *yocton_read_with(yocton_read callback, void *handle)
 		return NULL;
 	}
 
-	obj->field = NULL;
+	obj->property = NULL;
 	obj->done = 0;
 	obj->instream->root = obj;
 
@@ -395,13 +395,18 @@ int yocton_have_error(struct yocton_object *obj, int *lineno,
 	return 1;
 }
 
+int __yocton_prop_have_error(struct yocton_prop *p)
+{
+	return yocton_have_error(p->parent, NULL, NULL);
+}
+
 void yocton_check(struct yocton_object *obj, const char *error_msg,
                   int normally_true)
 {
 	if (!normally_true) {
-		if (obj->field != NULL) {
-			input_error(obj->instream, "field '%s': %s",
-			            obj->field->name.data, error_msg);
+		if (obj->property != NULL) {
+			input_error(obj->instream, "property '%s': %s",
+			            obj->property->name.data, error_msg);
 		} else {
 			input_error(obj->instream, "%s", error_msg);
 		}
@@ -419,84 +424,84 @@ void yocton_free(struct yocton_object *obj)
 }
 
 // If we're partway through reading a child object, skip through any
-// of its fields so we can read the next of ours.
+// of its properties so we can read the next of ours.
 static void skip_forward(struct yocton_object *obj)
 {
 	struct yocton_object *child;
-	if (obj->field == NULL || obj->field->child == NULL) {
+	if (obj->property == NULL || obj->property->child == NULL) {
 		return;
 	}
-	child = obj->field->child;
-	// Read out all subfields until we get a NULL response and have
+	child = obj->property->child;
+	// Read out all subproperties until we get a NULL response and have
 	// finished skipping over them.
-	while (yocton_next_field(child) != NULL);
+	while (yocton_next_prop(child) != NULL);
 	free_obj(child);
-	obj->field->child = NULL;
+	obj->property->child = NULL;
 }
 
-static int parse_next_field(struct yocton_object *obj, struct yocton_field *f)
+static int parse_next_prop(struct yocton_object *obj, struct yocton_prop *p)
 {
 	switch (read_next_token(obj->instream)) {
 		case TOKEN_COLON:
 			// This is the string:string case.
-			f->type = YOCTON_FIELD_STRING;
+			p->type = YOCTON_PROP_STRING;
 			if (read_next_token(obj->instream) != TOKEN_STRING) {
 				input_error(obj->instream, "string expected "
 				            "to follow ':'");
 				return 0;
 			}
 			CHECK_OR_RETURN(
-			    buffer_dup(obj->instream, &f->value,
+			    buffer_dup(obj->instream, &p->value,
 			               &obj->instream->string), 0);
 			return 1;
 		case TOKEN_OPEN_BRACE:
-			f->type = YOCTON_FIELD_OBJECT;
+			p->type = YOCTON_PROP_OBJECT;
 			CHECK_OR_RETURN(
-			    assign_alloc(&f->child, obj->instream,
+			    assign_alloc(&p->child, obj->instream,
 			        calloc(1, sizeof(struct yocton_object))), 0);
-			f->child->instream = obj->instream;
-			f->child->done = 0;
+			p->child->instream = obj->instream;
+			p->child->done = 0;
 			return 1;
 		default:
 			input_error(obj->instream, "':' or '{' expected to "
-			            "follow field name");
+			            "follow property name");
 			return 0;
 	}
 }
 
-static struct yocton_field *next_field(struct yocton_object *obj)
+static struct yocton_prop *next_prop(struct yocton_object *obj)
 {
-	struct yocton_field *f = NULL;
+	struct yocton_prop *p = NULL;
 
 	CHECK_OR_RETURN(
-	    assign_alloc(&f, obj->instream,
-	        calloc(1, sizeof(struct yocton_field))), NULL);
-	obj->field = f;
-	f->parent = obj;
+	    assign_alloc(&p, obj->instream,
+	        calloc(1, sizeof(struct yocton_prop))), NULL);
+	obj->property = p;
+	p->parent = obj;
 
-	if (!buffer_dup(obj->instream, &f->name, &obj->instream->string)
-	 || !parse_next_field(obj, f)) {
-		free_field(f);
-		obj->field = NULL;
+	if (!buffer_dup(obj->instream, &p->name, &obj->instream->string)
+	 || !parse_next_prop(obj, p)) {
+		free_property(p);
+		obj->property = NULL;
 		return NULL;
 	}
 
-	return f;
+	return p;
 }
 
-struct yocton_field *yocton_next_field(struct yocton_object *obj)
+struct yocton_prop *yocton_next_prop(struct yocton_object *obj)
 {
 	if (obj == NULL || obj->done || strlen(obj->instream->error_buf) > 0) {
 		return NULL;
 	}
 
 	skip_forward(obj);
-	free_field(obj->field);
-	obj->field = NULL;
+	free_property(obj->property);
+	obj->property = NULL;
 
 	switch (read_next_token(obj->instream)) {
 		case TOKEN_STRING:
-			return next_field(obj);
+			return next_prop(obj);
 		case TOKEN_CLOSE_BRACE:
 			if (obj == obj->instream->root) {
 				input_error(obj->instream, "closing brace "
@@ -515,49 +520,61 @@ struct yocton_field *yocton_next_field(struct yocton_object *obj)
 			return NULL;
 		default:
 			input_error(obj->instream, "expected start of "
-			            "next field");
+			            "next property");
 			return NULL;
 	}
 }
 
-enum yocton_field_type yocton_field_type(struct yocton_field *f)
+enum yocton_prop_type yocton_prop_type(struct yocton_prop *p)
 {
-	return f->type;
+	return p->type;
 }
 
-const char *yocton_field_name(struct yocton_field *f)
+const char *yocton_prop_name(struct yocton_prop *p)
 {
-	return (const char *) f->name.data;
+	return (const char *) p->name.data;
 }
 
-const char *yocton_field_value(struct yocton_field *f)
+const char *yocton_prop_value(struct yocton_prop *p)
 {
-	if (f->type != YOCTON_FIELD_STRING) {
-		input_error(f->parent->instream, "field '%s' has object, "
-		            "not string type", f->name.data);
+	if (p->type != YOCTON_PROP_STRING) {
+		input_error(p->parent->instream, "property '%s' has object, "
+		            "not string type", p->name.data);
 		return "";
 	}
-	return (const char *) f->value.data;
+	return (const char *) p->value.data;
 }
 
-struct yocton_object *yocton_field_inner(struct yocton_field *f)
+char *yocton_prop_value_dup(struct yocton_prop *p)
 {
-	if (f->type != YOCTON_FIELD_OBJECT) {
-		input_error(f->parent->instream, "field '%s' has string, "
-		            "not object type", f->name.data);
+	const char *value = yocton_prop_value(p);
+	char *result;
+	if (value == NULL) {
 		return NULL;
 	}
-	return f->child;
+	result = strdup(value);
+	yocton_check(p->parent, ERROR_ALLOC, result != NULL);
+	return result;
 }
 
-signed long long yocton_field_int(struct yocton_field *f, size_t n)
+struct yocton_object *yocton_prop_inner(struct yocton_prop *p)
+{
+	if (p->type != YOCTON_PROP_OBJECT) {
+		input_error(p->parent->instream, "property '%s' has string, "
+		            "not object type", p->name.data);
+		return NULL;
+	}
+	return p->child;
+}
+
+signed long long yocton_prop_int(struct yocton_prop *p, size_t n)
 {
 	signed long long result, min, max;
 	const char *value;
 	char *endptr;
 
 	if (n == 0 || n > sizeof(long long)) {
-		input_error(f->parent->instream, "unsupported "
+		input_error(p->parent->instream, "unsupported "
 		            "integer size: %d-bit", n * 8);
 		return 0;
 	} else if (n == sizeof(long long)) {
@@ -568,33 +585,33 @@ signed long long yocton_field_int(struct yocton_field *f, size_t n)
 		max = -min - 1;
 	}
 
-	value = yocton_field_value(f);
+	value = yocton_prop_value(p);
 	errno = 0;
 	result = strtoll(value, &endptr, 10);
 	// Must be entire string, not empty, nothing leading or trailing:
 	if (*value == '\0' || isspace(*value) || *endptr != '\0') {
-		input_error(f->parent->instream, "not a valid integer "
+		input_error(p->parent->instream, "not a valid integer "
 		            "value: '%s'", value);
 		return 0;
 	}
 
 	if (((result == LLONG_MIN || result == LLONG_MAX) && errno == ERANGE)
 	 || result < min || result > max) {
-		input_error(f->parent->instream, "value not in range of a "
+		input_error(p->parent->instream, "value not in range of a "
 		            "%d-bit signed integer: %s", n * 8, value);
 		return 0;
 	}
 	return result;
 }
 
-unsigned long long yocton_field_uint(struct yocton_field *f, size_t n)
+unsigned long long yocton_prop_uint(struct yocton_prop *p, size_t n)
 {
 	unsigned long long result, max;
 	const char *value;
 	char *endptr;
 
 	if (n == 0 || n > sizeof(unsigned long long)) {
-		input_error(f->parent->instream, "unsupported "
+		input_error(p->parent->instream, "unsupported "
 		            "integer size: %d-bit", n * 8);
 		return 0;
 	} else if (n == sizeof(unsigned long long)) {
@@ -603,26 +620,26 @@ unsigned long long yocton_field_uint(struct yocton_field *f, size_t n)
 		max = (1ULL << (n * 8)) - 1;
 	}
 
-	value = yocton_field_value(f);
+	value = yocton_prop_value(p);
 	errno = 0;
 	result = strtoull(value, &endptr, 10);
 	if (*value == '\0' || isspace(*value) || *endptr != '\0') {
-		input_error(f->parent->instream, "not a valid integer "
+		input_error(p->parent->instream, "not a valid integer "
 		            "value: '%s'", value);
 		return 0;
 	}
 
 	if ((result == ULLONG_MAX && errno == ERANGE) || result > max) {
-		input_error(f->parent->instream, "value not in range of a "
+		input_error(p->parent->instream, "value not in range of a "
 		            "%d-bit unsigned integer: %s", n * 8, value);
 		return 0;
 	}
 	return result;
 }
 
-unsigned int yocton_field_enum(struct yocton_field *f, const char **values)
+unsigned int yocton_prop_enum(struct yocton_prop *p, const char **values)
 {
-	const char *value = yocton_field_value(f);
+	const char *value = yocton_prop_value(p);
 	int i;
 
 	for (i = 0; values[i] != NULL; ++i) {
@@ -632,7 +649,27 @@ unsigned int yocton_field_enum(struct yocton_field *f, const char **values)
 	}
 
 	// Unknown value.
-	input_error(f->parent->instream, "unknown enum value: '%s'",
+	input_error(p->parent->instream, "unknown enum value: '%s'",
 	            value);
 	return 0;
+}
+
+// Helper function for array macros. Reallocates the given array one element
+// longer so that it can be (potentially) extended in length.
+int __yocton_reserve_array(struct yocton_prop *p, void **array, size_t nmemb,
+                           size_t size)
+{
+	void *new_array;
+
+	if (nmemb == 0) {
+		*array = NULL;
+	}
+	new_array = realloc(*array, (nmemb + 1) * size);
+	if (new_array == NULL) {
+		input_error(p->parent->instream, ERROR_ALLOC);
+		return 0;
+	}
+
+	*array = new_array;
+	return 1;
 }
