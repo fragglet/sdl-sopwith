@@ -236,7 +236,7 @@ const char *yocton_prop_value(struct yocton_prop *p);
  * It is an error to call this for a property that is not of type @ref
  * YOCTON_PROP_STRING. String encoding depends on the input file.
  *
- * It may be more convenient to use @ref YOCTON_FIELD_STRING which is a wrapper
+ * It may be more convenient to use @ref YOCTON_VAR_STRING which is a wrapper
  * around this function.
  *
  * @param p  The property.
@@ -305,44 +305,6 @@ int __yocton_reserve_array(struct yocton_prop *p, void **array,
 	})
 
 /**
- * Match a particular property name and allocate array storage.
- *
- * This macro is used to build other array macros such as
- * @ref YOCTON_FIELD_INT_ARRAY and @ref YOCTON_FIELD_STRING_ARRAY. If the
- * name of the given property is equal to `name`, the struct field `name`
- * (a pointer to array data) will be reallocated so that enough space is
- * available in the array to append a new element. The argument `then` is then
- * evaluated to (conditionally) append the new element.
- *
- * Example that populates an array field named "bar":
- * ~~~~~~~~~~~~~~~~~~~~~~~
- *   struct my_element { int id; }
- *   struct foo {
- *       struct my_element *elements;
- *       size_t num_elements;
- *   };
- *   struct foo s = {NULL, 0};
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_ARRAY(p, s, elements, num_elements, {
- *           s.elements[s.num_elements].id = yocton_prop_int(p, sizeof(int));
- *           s.num_elements++;
- *       });
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop         The property.
- * @param my_struct    The structure containing the fields.
- * @param name         Name of the property to match, and struct field to set.
- * @param name_len     Name of struct field containing array length.
- * @param then         Code to evaluate after new element space is allocated.
- */
-#define YOCTON_FIELD_ARRAY(prop, my_struct, name, name_len, then) \
-	YOCTON_VAR_ARRAY(prop, name, (my_struct).name, \
-	                 (my_struct).name_len, then)
-
-/**
  * Set the value of a string variable if appropriate.
  *
  * If the name of the property currently being parsed is equal to `propname`,
@@ -406,75 +368,6 @@ int __yocton_reserve_array(struct yocton_prop *p, void **array,
 	})
 
 /**
- * Set the value of a string struct field if appropriate.
- *
- * If the property currently being parsed has the same name as the given field,
- * the field will be initialized to a newly-allocated buffer containing a copy
- * of the string value.
- *
- * If the field has an existing value it will be freed. It is therefore
- * important that the field is initialized to NULL before the first time this
- * macro is used to set it.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_STRING can be used to initialize a
- * different field.
- *
- * Example:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   struct s {
- *       char *bar;
- *   };
- *   struct s foo = {NULL};
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_STRING(p, foo, bar);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop       Property.
- * @param my_struct  C struct to initialize.
- * @param name       Name of field to initialize.
- */
-#define YOCTON_FIELD_STRING(prop, my_struct, name) \
-	YOCTON_VAR_STRING(prop, name, (my_struct).name)
-
-/**
- * Append value to a string array field if appropriate.
- *
- * If the name of the property currently being parsed is equal to `name`,
- * the property value will be appended to the string array pointed at
- * by the struct field with the same name.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_STRING_ARRAY can be used to initialize a
- * different field.
- *
- * Example to populate an array field named "bar":
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   struct foo {
- *       char **bar;
- *       size_t bar_len;
- *   };
- *   struct foo s = {NULL, 0};
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_STRING_ARRAY(p, s, bar, bar_len);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop       Property.
- * @param my_struct  Struct containing fields to set.
- * @param name       Name of property and field pointing to array data.
- * @param name_len   Name of field containing length of array.
- */
-#define YOCTON_FIELD_STRING_ARRAY(prop, my_struct, name, name_len) \
-	YOCTON_VAR_STRING_ARRAY(prop, name, (my_struct).name, \
-	                        (my_struct).name_len)
-
-/**
  * Get the inner object associated with a @ref yocton_prop of type
  * @ref YOCTON_PROP_OBJECT. It is an error to call this for a property that
  * is not of this type.
@@ -505,7 +398,7 @@ struct yocton_object *yocton_prop_inner(struct yocton_prop *p);
  * If the property value is not a valid integer of the given size, zero is
  * returned and an error is set.
  *
- * It may be more convenient to use @ref YOCTON_FIELD_INT which is a wrapper
+ * It may be more convenient to use @ref YOCTON_VAR_INT which is a wrapper
  * around this function.
  *
  * @param p   The property.
@@ -582,83 +475,12 @@ signed long long yocton_prop_int(struct yocton_prop *p, size_t n);
 	})
 
 /**
- * Set the value of a signed integer struct field if appropriate.
- *
- * If the property currently being parsed has the same name as the given struct
- * field, the field will be initialized to a signed integer value parsed from
- * the property value. If the property value cannot be parsed as a signed
- * integer, the field will be set to zero and an error set.
- *
- * This will work with any kind of signed integer field, but the type of the
- * field must be provided.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_INT can be used to initialize a different
- * field.
- *
- * Example:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   struct s {
- *       int bar;
- *   };
- *   struct s foo;
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_INT(p, foo, int, bar);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop           Property.
- * @param my_struct      C struct to initialize.
- * @param field_type     Type of the field, eg. `int` or `ssize_t`.
- * @param name           Name of field to initialize.
- */
-#define YOCTON_FIELD_INT(prop, my_struct, field_type, name) \
-	YOCTON_VAR_INT(prop, name, field_type, (my_struct).name)
-
-/**
- * Append value to an array of signed integers if appropriate.
- *
- * If the name of the property currently being parsed is equal to `name`,
- * the property value will be parsed as a signed integer and appended to the
- * array pointed at by the field with the same name.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_INT_ARRAY can be used to initialize a
- * different field.
- *
- * Example to populate an array field named "bar":
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   struct foo {
- *       int *bar;
- *       size_t bar_len;
- *   };
- *   struct foo s = {NULL, 0};
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_INT_ARRAY(p, s, int, bar, bar_len);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop         Property.
- * @param my_struct    Struct containing fields to set.
- * @param field_type   Type of array element.
- * @param name         Name of property and field pointing to array data.
- * @param name_len     Name of field containing length of array.
- */
-#define YOCTON_FIELD_INT_ARRAY(prop, my_struct, field_type, name, name_len) \
-	YOCTON_VAR_INT_ARRAY(prop, name, field_type, (my_struct).name, \
-	                     (my_struct).name_len)
-
-/**
  * Parse the property value as an unsigned integer.
  *
  * If the property value is not a valid integer of the given size, zero is
  * returned and an error is set.
  *
- * It may be more convenient to use @ref YOCTON_FIELD_UINT which is a wrapper
+ * It may be more convenient to use @ref YOCTON_VAR_UINT which is a wrapper
  * around this function.
  *
  * @param p   The property.
@@ -736,77 +558,6 @@ unsigned long long yocton_prop_uint(struct yocton_prop *p, size_t n);
 	})
 
 /**
- * Set the value of an unsigned integer struct field if appropriate.
- *
- * If the property currently being parsed has the same name as the given struct
- * field, the field will be initialized to an unsigned integer value parsed
- * from the property value. If the property value cannot be parsed as an
- * unsigned integer, the field will be set to zero and an error set.
- *
- * This will work with any kind of unsigned integer property, but the type of the
- * property must be provided.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_UINT can be used to initialize a different
- * field.
- *
- * Example:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   struct s {
- *       unsigned int bar;
- *   };
- *   struct s foo;
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_UINT(p, foo, unsigned int, bar);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop        Property.
- * @param my_struct   C struct to initialize.
- * @param field_type  Type of the field, eg. `unsigned int` or `size_t`.
- * @param name        Name of field to initialize.
- */
-#define YOCTON_FIELD_UINT(prop, my_struct, field_type, name) \
-	YOCTON_VAR_UINT(prop, name, field_type, (my_struct).name)
-
-/**
- * Append value to an array of unsigned integers if appropriate.
- *
- * If the name of the property currently being parsed is equal to `name`,
- * the property value will be parsed as an unsigned integer and appended to the
- * array pointed at by the field with the same name.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_UINT_ARRAY can be used to initialize a
- * different field.
- *
- * Example to populate an array field named "bar":
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   struct foo {
- *       unsigned int *bar;
- *       size_t bar_len;
- *   };
- *   struct foo s = {NULL, 0};
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_INT_ARRAY(p, s, unsigned int, bar, bar_len);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop         Property.
- * @param my_struct    Struct containing fields to set.
- * @param field_type   Type of array element.
- * @param name         Name of property and field pointing to array data.
- * @param name_len     Name of field containing length of array.
- */
-#define YOCTON_FIELD_UINT_ARRAY(prop, my_struct, field_type, name, name_len) \
-	YOCTON_VAR_UINT_ARRAY(prop, name, field_type, (my_struct).name, \
-	                      (my_struct).name_len)
-
-/**
  * Parse the property value as an enumeration.
  *
  * Enumeration values are assumed to be contiguous and start from zero.
@@ -817,7 +568,7 @@ unsigned long long yocton_prop_uint(struct yocton_prop *p, size_t n);
  * relatively inefficient. If efficiency is concerned, an alternative
  * approach should be used (eg. a hash table).
  *
- * It may be more convenient to use @ref YOCTON_FIELD_ENUM which is a wrapper
+ * It may be more convenient to use @ref YOCTON_VAR_ENUM which is a wrapper
  * around this function.
  *
  * @param p       The property.
@@ -891,79 +642,6 @@ unsigned int yocton_prop_enum(struct yocton_prop *p, const char **values);
 			++(varname_len); \
 		} \
 	})
-
-/**
- * Set the value of an enum struct field if appropriate.
- *
- * If the property currently being parsed has the same name as the given struct
- * field, the field will be initialized to an enum value that matches a name
- * from the given list.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_ENUM can be used to initialize a different
- * field.
- *
- * Example:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   enum e { FIRST, SECOND, THIRD };
- *   const char *enum_values[] = {"FIRST", "SECOND", "THIRD", NULL};
- *   struct s {
- *       enum e bar;
- *   };
- *   struct s foo;
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_ENUM(p, foo, bar, enum_values);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop       Property.
- * @param my_struct  C struct to initialize.
- * @param name       Name of field to initialize.
- * @param values     NULL-terminated array of strings representing enum values
- *                   (same as values parameter to @ref yocton_prop_enum).
- */
-#define YOCTON_FIELD_ENUM(prop, my_struct, name, values) \
-	YOCTON_VAR_ENUM(prop, name, (my_struct).name, values)
-
-/**
- * Append value to an array of enums if appropriate.
- *
- * If the name of the property currently being parsed is equal to `name`, the
- * property value will be parsed as an enum and appended to the array pointed
- * at by the field with the same name.
- *
- * This macro assumes that the property and field names are the same. If this
- * is not the case, @ref YOCTON_VAR_ENUM_ARRAY can be used to initialize a
- * different field.
- *
- * Example to populate an array field named "bar":
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *   enum e { FIRST, SECOND, THIRD };
- *   const char *enum_names[] = {"FIRST", "SECOND", "THIRD", NULL};
- *   struct foo {
- *       enum e *bar;
- *       size_t bar_len;
- *   };
- *   struct foo s = {NULL, 0};
- *   struct yocton_prop *p;
- *
- *   while ((p = yocton_next_prop(obj)) != NULL) {
- *       YOCTON_FIELD_ENUM_ARRAY(p, s, bar, bar_len, enum_names);
- *   }
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *
- * @param prop       Property.
- * @param my_struct  Struct containing fields to set.
- * @param name       Name of property and field pointing to array data.
- * @param name_len   Name of field containing length of array.
- * @param values     NULL-terminated array of strings representing enum values
- *                   (same as values parameter to @ref yocton_prop_enum).
- */
-#define YOCTON_FIELD_ENUM_ARRAY(prop, my_struct, name, name_len, values) \
-	YOCTON_VAR_ENUM_ARRAY(prop, name, (my_struct).name, \
-	                      (my_struct).name_len, values)
 
 #ifdef __cplusplus
 }
