@@ -7,8 +7,7 @@ on:
     branches: [ "trunk" ]
 
 jobs:
-  build:
-
+  linux_build:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,3 +22,17 @@ jobs:
       run: make
     - name: make check
       run: make check
+
+  macos_build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install SDL
+      run: brew install sdl2
+    - name: autogen
+      run: ./autogen.sh
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make
