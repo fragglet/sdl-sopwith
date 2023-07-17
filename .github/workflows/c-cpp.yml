@@ -8,19 +8,13 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
     - name: Install SDL
-      run: |
-        if [ "$RUNNER_OS" = "Linux" ]; then
-          sudo apt -q install libsdl2-dev
-        elif [ "$RUNNER_OS" = "macOS" ]; then
-          brew install sdl2
-        fi
+      run: sudo apt -q install libsdl2-dev
     - name: autogen
       run: ./autogen.sh
     - name: configure
