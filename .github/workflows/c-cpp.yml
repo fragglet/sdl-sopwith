@@ -49,7 +49,7 @@ jobs:
     - name: Find Git version
       id: version
       run: |
-        export VERSION=$(git describe --always)
+        export VERSION=$(git rev-parse --short HEAD)
         if [[ ${{ matrix.host }} = x86_64-w64-mingw32 ]]; then
           VERSION=$VERSION-win64
         else
@@ -119,4 +119,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         path: "pkg/win32/staging"
-        name: ${{steps.version.outputs.VERSION}}
+        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
