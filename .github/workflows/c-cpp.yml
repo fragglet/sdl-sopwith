@@ -106,13 +106,18 @@ jobs:
         popd
     - name: autogen
       run: |
-        export PATH=$PATH:$PWD/inst/bin
         export PKG_CONFIG_PATH=$PWD/inst/lib/pkgconfig
         ./autogen.sh --host=i686-w64-mingw32
     - name: make
       run: make -j8
     - name: make package
       run: |
+        export PATH=$PATH:$PWD/inst/bin
         pushd pkg/win32
         make
         popd
+    - name: Upload build
+      uses: actions/upload-artifact@v1
+      with:
+        path: "pkg/win32/staging"
+        name: sdl-sopwith-win32
