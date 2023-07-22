@@ -44,7 +44,8 @@ jobs:
     - name: Make package
       run: |
         cd pkg/macos
-        make PACKAGE_VERSION=${{steps.version.outputs.VERSION}}
+        make PACKAGE_VERSION=${{steps.version.outputs.VERSION}} \
+             PACKAGE_STRING="Sopwith build ${{steps.version.outputs.VERSION}}"
     - name: Upload build
       uses: actions/upload-artifact@v1
       with:
