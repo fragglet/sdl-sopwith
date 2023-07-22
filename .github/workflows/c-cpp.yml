@@ -38,6 +38,10 @@ jobs:
       run: make
 
   windows_crossbuild:
+    strategy:
+      matrix:
+        host: [i686-w64-mingw32, x86_64-w64-mingw32]
+
     runs-on: ubuntu-latest
 
     steps:
@@ -49,6 +53,11 @@ jobs:
         if [[ ${VERSION:0:1} == "v" ]]; then
           export VERSION=${VERSION:1}
         fi
+        if [[ ${{ matrix.host }} = x86_64-w64-mingw32 ]]; then
+          VERSION=$VERSION-win64
+        else
+          VERSION=$VERSION-win32
+        fi
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
     - name: Install mingw
       run: sudo apt -q install mingw-w64
@@ -58,7 +67,7 @@ jobs:
         pushd SDL
         mv .git .gitz
         export AUTOTOOLS_BUILD_PATH=build-artifacts
-        ./configure --host=i686-w64-mingw32 --prefix=$PWD/../inst \
+        ./configure --host=${{ matrix.host }} --prefix=$PWD/../inst \
             --disable-alsa                 \
             --disable-altivec              \
             --disable-arm-neon             \
@@ -100,7 +109,7 @@ jobs:
     - name: autogen
       run: |
         export PKG_CONFIG_PATH=$PWD/inst/lib/pkgconfig
-        ./autogen.sh --host=i686-w64-mingw32
+        ./autogen.sh --host=${{ matrix.host }}
     - name: make
       run: make -j8
     - name: make package
