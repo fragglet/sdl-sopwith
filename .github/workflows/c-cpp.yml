@@ -36,3 +36,83 @@ jobs:
       run: ./configure
     - name: make
       run: make
+
+  windows_crossbuild:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install mingw
+      run: sudo apt -q install mingw-w64
+    - name: build SDL:
+      run: |
+        git clone -b SDL2 --depth 1 https://github.com/libsdl-org/SDL.git
+        pushd SDL
+        mv .git .gitz
+        export AUTOTOOLS_BUILD_PATH=build-artifacts
+        ./configure --host=i686-w64-mingw32 --prefix=$PWD/../inst \
+            --disable-3dnow                \
+            --disable-alsa                 \
+            --disable-altivec              \
+            --disable-arm-neon             \
+            --disable-arm-simd             \
+            --disable-arts                 \
+            --disable-assembly             \
+            --disable-dbus                 \
+            --disable-directx              \
+            --disable-diskaudio            \
+            --disable-esd                  \
+            --disable-fcitx                \
+            --disable-fusionsound          \
+            --disable-hidapi-joystick      \
+            --disable-hidapi-libusb        \
+            --disable-ibus                 \
+            --disable-ime                  \
+            --disable-jack                 \
+            --disable-lasx                 \
+            --disable-libdecor             \
+            --disable-libsamplerate        \
+            --disable-libudev              \
+            --disable-lsx                  \
+            --disable-mmx                  \
+            --disable-nas                  \
+            --disable-oss                  \
+            --disable-pipewire             \
+            --disable-pulseaudio           \
+            --disable-render-d3d           \
+            --disable-render-metal         \
+            --disable-sndio                \
+            --disable-sse                  \
+            --disable-sse2                 \
+            --disable-sse3                 \
+            --disable-ssemath              \
+            --disable-video-cocoa          \
+            --disable-video-directfb       \
+            --disable-video-kmsdrm         \
+            --disable-video-metal          \
+            --disable-video-offscreen      \
+            --disable-video-opengl         \
+            --disable-video-opengles       \
+            --disable-video-opengles1      \
+            --disable-video-opengles2      \
+            --disable-video-rpi            \
+            --disable-video-vivante        \
+            --disable-video-vulkan         \
+            --disable-video-wayland        \
+            --disable-video-x11            \
+            --disable-wasapi
+        make -j8
+        make install
+        popd
+    - name: autogen
+      run: |
+        export PATH=$PATH:$PWD/inst/bin
+        export PKG_CONFIG_PATH=$PWD/inst/lib/pkgconfig
+        ./autogen.sh --host=i686-w64-mingw32
+    - name: make
+      run: make -j8
+    - name: make package
+      run: |
+        pushd pkg/win32
+        make
+        popd
