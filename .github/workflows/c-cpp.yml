@@ -36,6 +36,20 @@ jobs:
       run: ./configure
     - name: make
       run: make
+    - name: Find Git version
+      id: version
+      run: |
+        VERSION=$(git rev-parse --short HEAD)
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+    - name: Make package
+      run: |
+        cd pkg/macos
+        make PACKAGE_VERSION=${{steps.version.outputs.VERSION}}
+    - name: Upload build
+      uses: actions/upload-artifact@v1
+      with:
+        path: "pkg/macos/sdl-sopwith-${{steps.version.outputs.VERSION}}.dmg"
+        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
 
   windows_crossbuild:
     strategy:
