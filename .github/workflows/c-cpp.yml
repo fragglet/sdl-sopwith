@@ -42,6 +42,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Find Git version
+      id: version
+      run: |
+        export VERSION=$(git describe --abbrev=8)
+        if [[ ${VERSION:0:1} == "v" ]]; then
+          export VERSION=${VERSION:1}
+        fi
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
     - name: Install mingw
       run: sudo apt -q install mingw-w64
     - name: Build SDL
@@ -105,4 +113,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         path: "pkg/win32/staging"
-        name: sdl-sopwith-win32
+        name: sdl-sopwith-${{steps.version.outputs.VERSION}}-win32
