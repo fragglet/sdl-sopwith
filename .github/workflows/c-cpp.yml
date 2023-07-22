@@ -40,7 +40,7 @@ jobs:
       id: version
       run: |
         VERSION=$(git rev-parse --short HEAD)
-        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION-macos" >> $GITHUB_OUTPUT
     - name: Make package
       run: |
         cd pkg/macos
