@@ -21,6 +21,9 @@ staging:
 		pandoc  -f gfm -o $@/$$(basename $$f .md).html  \
 		        -s $(TOPLEVEL)/$$f;                     \
 	done
+	pandoc -f man $(TOPLEVEL)/doc/sopwith.6 -o $@/Manual.html
+	pandoc -f man $(TOPLEVEL)/doc/sopwith.cfg.5 \
+	       -o $@/Configuration.html
 
 clean:
 	rm -f $(ZIPFILE)
