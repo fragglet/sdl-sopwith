@@ -7,7 +7,7 @@
 
 CC = @CC@
 STRIP = @STRIP@
-LDFLAGS = @LDFLAGS@
+LDFLAGS = @LDFLAGS@ @SDL_LIBS@
 
 # Package name and version number:
 
