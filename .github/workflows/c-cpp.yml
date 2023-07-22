@@ -51,15 +51,12 @@ jobs:
         mv .git .gitz
         export AUTOTOOLS_BUILD_PATH=build-artifacts
         ./configure --host=i686-w64-mingw32 --prefix=$PWD/../inst \
-            --disable-3dnow                \
             --disable-alsa                 \
             --disable-altivec              \
             --disable-arm-neon             \
             --disable-arm-simd             \
             --disable-arts                 \
-            --disable-assembly             \
             --disable-dbus                 \
-            --disable-directx              \
             --disable-diskaudio            \
             --disable-esd                  \
             --disable-fcitx                \
@@ -74,33 +71,21 @@ jobs:
             --disable-libsamplerate        \
             --disable-libudev              \
             --disable-lsx                  \
-            --disable-mmx                  \
             --disable-nas                  \
             --disable-oss                  \
             --disable-pipewire             \
             --disable-pulseaudio           \
-            --disable-render-d3d           \
             --disable-render-metal         \
             --disable-sndio                \
-            --disable-sse                  \
-            --disable-sse2                 \
-            --disable-sse3                 \
-            --disable-ssemath              \
             --disable-video-cocoa          \
             --disable-video-directfb       \
             --disable-video-kmsdrm         \
             --disable-video-metal          \
-            --disable-video-offscreen      \
-            --disable-video-opengl         \
-            --disable-video-opengles       \
-            --disable-video-opengles1      \
-            --disable-video-opengles2      \
             --disable-video-rpi            \
             --disable-video-vivante        \
             --disable-video-vulkan         \
             --disable-video-wayland        \
-            --disable-video-x11            \
-            --disable-wasapi
+            --disable-video-x11
         make -j8
         make install
         popd
