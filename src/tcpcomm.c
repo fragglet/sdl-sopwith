@@ -29,13 +29,13 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include <sys/select.h>
 
 #ifdef HAVE_NETINET_IN_H
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <sys/select.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #define closesocket close
