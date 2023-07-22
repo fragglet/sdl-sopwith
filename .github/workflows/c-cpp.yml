@@ -56,8 +56,8 @@ jobs:
           VERSION=$VERSION-win32
         fi
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-    - name: Install mingw
-      run: sudo apt -q install mingw-w64
+    - name: Install dependencies
+      run: sudo apt -q install mingw-w64 pandoc
     - name: Build SDL
       run: |
         git clone -b SDL2 --depth 1 https://github.com/libsdl-org/SDL.git
