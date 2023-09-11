@@ -380,6 +380,8 @@ static void Vid_SetMode(void)
 		error_exit("Failed to open SDL window: %s", SDL_GetError());
 	}
 
+        SDL_StopTextInput();
+
         pixel_format = SDL_GetWindowPixelFormat(window);
 
 	for (n = 0; n < NUM_KEYS; ++n) {
