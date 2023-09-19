@@ -13,7 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install SDL
-      run: sudo apt -q install libsdl2-dev
+      run: |
+        sudo apt update
+        sudo apt -q install libsdl2-dev
     - name: autogen
       run: ./autogen.sh
     - name: configure
@@ -72,7 +74,9 @@ jobs:
         fi
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
     - name: Install dependencies
-      run: sudo apt -q install mingw-w64 pandoc
+      run: |
+        sudo apt update
+        sudo apt -q install mingw-w64 pandoc
     - name: Build SDL
       run: |
         git clone -b SDL2 --depth 1 https://github.com/libsdl-org/SDL.git
