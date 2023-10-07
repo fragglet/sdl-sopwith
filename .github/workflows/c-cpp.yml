@@ -1,10 +1,6 @@
 name: Continuous Integration
 
-on:
-  push:
-    branches: [ "trunk" ]
-  pull_request:
-    branches: [ "trunk" ]
+on: [push, pull_request]
 
 jobs:
   linux_build:
