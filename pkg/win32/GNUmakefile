@@ -1,6 +1,7 @@
 
 include ../config.make
 
+PANDOC_FLAGS = -s --template=default.html5 -H ../style.html
 TOPLEVEL=../..
 
 ZIPFILE = $(PACKAGE_TARNAME)-$(PACKAGE_VERSION)-win32.zip
@@ -17,13 +18,14 @@ staging:
 
 	$(STRIP) $@/*.exe $@/*.dll
 
-	-for f in $(DOC_FILES); do                              \
-		pandoc  -f gfm -o $@/$$(basename $$f .md).html  \
-		        -s $(TOPLEVEL)/$$f;                     \
+	-for f in $(DOC_FILES); do \
+		pandoc $(PANDOC_FLAGS) -f gfm -o $@/$$(basename $$f .md).html \
+		       $(TOPLEVEL)/$$f; \
 	done
-	pandoc -f man $(TOPLEVEL)/doc/sopwith.6 -o $@/Manual.html
-	pandoc -f man $(TOPLEVEL)/doc/sopwith.cfg.5 \
-	       -o $@/Configuration.html
+	pandoc $(PANDOC_FLAGS) -f man -o $@/Manual.html \
+	       $(TOPLEVEL)/doc/sopwith.6
+	pandoc $(PANDOC_FLAGS) -f man -o $@/Configuration.html \
+	       $(TOPLEVEL)/doc/sopwith.cfg.5
 
 clean:
 	rm -f $(ZIPFILE)
