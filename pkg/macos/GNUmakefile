@@ -5,6 +5,7 @@ include ../config.make
 export MACOSX_DEPLOYMENT_TARGET=10.7
 
 STAGING_DIR=staging
+PANDOC_FLAGS = -s --template=default.html5 -H ../style.html
 DMG=$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).dmg
 
 TOPLEVEL=../..
@@ -51,13 +52,14 @@ $(STAGING_DIR): app.icns
 
 	mkdir -p "$(DOC_DIR)"
 	for d in $(DOC_FILES); do \
-		pandoc -f gfm -o $(DOC_DIR)/$$(basename $$d .md).html  \
-		       -s $(TOPLEVEL)/$$d;                             \
+		pandoc $(PANDOC_FLAGS) -f gfm \
+		       -o $(DOC_DIR)/$$(basename $$d .md).html  \
+		       $(TOPLEVEL)/$$d; \
 	done
-	pandoc -f man -o $(DOC_DIR)/Manual.html \
-	       -s $(TOPLEVEL)/doc/sopwith.6
-	pandoc -f man -o $(DOC_DIR)/Configuration.html \
-	       -s $(TOPLEVEL)/doc/sopwith.cfg.5
+	pandoc $(PANDOC_FLAGS) -f man -o $(DOC_DIR)/Manual.html \
+	       $(TOPLEVEL)/doc/sopwith.6
+	pandoc $(PANDOC_FLAGS) -f man -o $(DOC_DIR)/Configuration.html \
+	       $(TOPLEVEL)/doc/sopwith.cfg.5
 	cp disk/dir.DS_Store $(STAGING_DIR)/.DS_Store
 	cp disk/background.png $(STAGING_DIR)/background.png
 	cp -R disk/problems.rtfd "$(STAGING_DIR)/Problems Running the Game?.rtfd"
