@@ -138,10 +138,13 @@ famous produced by the Sopwith Aviation Company.
 Camel pilots shot down 1,294 enemy aircraft over the course of the war,
 more than any other aircraft. The plane gained a reputation for being agile
 but difficult to fly; many novice pilots crashed the plane on takeoff.
-5,490 Sopwith Camel aircraft were produced. In popular
-culture the Camel is known for being the biplane flown by the protagonist in
-the *Biggles* series of novels, and by Snoopy in the *Peanuts* comic
-strip (in his imagined dogfights with "The Red Baron").
+5,490 Sopwith Camel aircraft were produced.
+
+![Illustration: Snoopy in his Sopwith Camel](img/snoopy.png)
+
+In popular culture the Camel is known for being the biplane flown by the
+protagonist in the *Biggles* series of novels, and by Snoopy in the *Peanuts*
+comic strip (in his imagined dogfights with "The Red Baron").
 
 # Original DOS Sopwith versions
 
