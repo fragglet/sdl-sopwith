@@ -100,6 +100,14 @@ title: SDL Sopwith: Links
 * [GoPlanes](https://archive.kontek.net/sopwith.classicgaming.gamespy.com/goplanes.htm)
   by Shawn LeBlanc, inspired by Sopwith. Available for download on the
   sopwith.org website.
+* [Warplane Quest](https://store.steampowered.com/app/1968670/Warplane_Quest/)
+  by Legia Studios
+* [Great Pilots](https://store.steampowered.com/app/2146550/Great_Pilots/) by KeepPlaying Games
+
+## Sopwith inspired by ...?
+
+* [Looping](https://en.wikipedia.org/wiki/Looping_%28video_game%29) - 1982
+  Italian arcade game.
 
 ### And, uh...
 
