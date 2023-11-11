@@ -140,7 +140,7 @@ more than any other aircraft. The plane gained a reputation for being agile
 but difficult to fly; many novice pilots crashed the plane on takeoff.
 5,490 Sopwith Camel aircraft were produced.
 
-![Illustration: Snoopy in his Sopwith Camel](img/snoopy.png)
+![Illustration: Peanuts strip of Snoopy in his Sopwith Camel](img/snoopy.png)
 
 In popular culture the Camel is known for being the biplane flown by the
 protagonist in the *Biggles* series of novels, and by Snoopy in the *Peanuts*
