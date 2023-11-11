@@ -38,7 +38,7 @@ title: SDL Sopwith: Links
   MaiZure's analysis of the Sopwith source code
 * [A review of Sopwith](free-ibmpc.md) from the book "Free and user supported
   software for the IBM PC" (1990).
-* [Several ads about Imaginet](imaginet.md) that give some background on the
+* [Several articles about Imaginet](imaginet.md) that give some background on the
   system.
 * ["The Search for Nostalgic PC Games Digs Out a Forgotten Gem"](https://medium.com/sepia-sententiae/the-search-for-nostalgic-pc-games-digs-out-a-forgotten-gem-d4e67f1297be),
   by The Secret Aspirant
