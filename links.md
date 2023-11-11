@@ -11,7 +11,7 @@ title: SDL Sopwith: Links
 * [The old Sopwith forum](https://web.archive.org/web/20020620233656/http://pub50.ezboard.com/fsopwithfrm1)
   from sopwith.org, now long dead and archived...
 * [Sopwith on Mobygames](https://www.mobygames.com/game/1380/sopwith/).
-* ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_\(song\))
+* ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_%28song%29)
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
   the game.
 * [Sopwith Youtube Videos](https://www.youtube.com/playlist?list=PLHt4bcu83-6QJexQ8pYlS42jEkmA3C7RW):
@@ -32,7 +32,7 @@ title: SDL Sopwith: Links
 
 ## Articles
 
-* [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_\(video_game\))
+* [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_%28video_game%29)
   on Wikipedia.
 * [Decoded: Sopwith](http://www.maizure.org/projects/decoded-sopwith/),
   MaiZure's analysis of the Sopwith source code
