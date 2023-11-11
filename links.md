@@ -20,6 +20,8 @@ title: SDL Sopwith: Links
   which was recently assigned the civil registration code of ZK-SDL. A strange
   coincidence... or a reference to this project? The plane is on display in
   the Vintage Aviation Museum in New Zealand.
+* [Sopwith: the board game](https://boardgamegeek.com/boardgame/2105/sopwith)!
+  No relation to the PC game, and the gameplay is *quite* different.
 
 ## Sopwith's author, David L. Clark
 
