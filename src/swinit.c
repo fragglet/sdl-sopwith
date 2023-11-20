@@ -1111,7 +1111,8 @@ void swinit(int argc, char *argv[])
 		PLAYMODE_UNSET;
 }
 
-int getStartingLevel(){
+int getStartingLevel(void)
+{
 	return starting_level;
 }
 
