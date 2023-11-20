@@ -45,6 +45,8 @@ extern unsigned char *vid_vram;
 extern unsigned int vid_pitch;
 extern void swinitlevel(void);
 extern void swrestart(void);
+extern int gamenum;
+extern int getStartingLevel(void);
 
 int keybindings[NUM_KEYS] = {
 	0,                    // KEY_UNKNOWN
@@ -576,6 +578,7 @@ static void getevents(void)
 					exit(-1);
 				}
 			} else if (ctrldown && event.key.keysym.sym == SDLK_r) {
+					gamenum = getStartingLevel();
 					swinitlevel();
 			} else if (ctrldown && event.key.keysym.sym == SDLK_q) {
 					swrestart();
