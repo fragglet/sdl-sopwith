@@ -288,3 +288,14 @@ void commterm(void)
 	}
 #endif      /* #ifdef TCPIP */
 }
+
+bool isNetworkGame(void)
+{
+#ifdef TCPIP
+	if (tcp_sock > 0) {
+		return true;
+	}
+#endif   /* #ifdef TCPIP */
+
+	return false;
+}

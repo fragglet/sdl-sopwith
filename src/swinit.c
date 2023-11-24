@@ -1111,6 +1111,11 @@ void swinit(int argc, char *argv[])
 		PLAYMODE_UNSET;
 }
 
+int getStartingLevel(void)
+{
+	return starting_level;
+}
+
 //
 // 2003-02-14: Code was checked into version control; no further entries
 // will be added to this log.
