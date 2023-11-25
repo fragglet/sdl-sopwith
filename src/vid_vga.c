@@ -119,6 +119,17 @@ static unsigned char color_mappings[][4] = {
 	{ 0, 2, 2, 3 },  // All-magenta                   - OWNER_PLAYER8
 };
 
+// Given a player number (ob_owner_t), returns the color of the fuselage
+// when that plane is drawn to the screen. This is used by the map to get
+// the color of objects when they're drawn there.
+// TODO: When the fuselage is white, we should probably return the wing
+// color instead so that the player can be distinguished from the ground.
+int Vid_FuselageColor(ob_owner_t clr)
+{
+	assert(clr < arrlen(color_mappings));
+	return color_mappings[clr][1];
+}
+
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, ob_owner_t clr)
 {
 	unsigned char *sptr = vid_vram + (SCR_HGHT-1 - y) * vid_pitch + x;

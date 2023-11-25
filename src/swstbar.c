@@ -98,7 +98,7 @@ static void dispgauges(OBJECTS *ob)
 	dispgge(x += sep, ob->ob_bombs, MAXBOMBS, 2);
 
 	// bullets
- 	dispgge(x += sep, ob->ob_rounds, MAXROUNDS, 3);
+	dispgge(x += sep, ob->ob_rounds, MAXROUNDS, 3);
 
 	if (conf_missiles) {
 
@@ -123,7 +123,8 @@ static void dispmapobjects(void)
 			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY);
 
 			if (y < SCR_MNSH-1) {
-				Vid_PlotPixel(x, y, ob->ob_clr);
+				Vid_PlotPixel(x, y,
+				              Vid_FuselageColor(ob->ob_clr));
 			}
 		}
 	}
