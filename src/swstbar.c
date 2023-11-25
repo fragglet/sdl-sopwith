@@ -18,6 +18,7 @@
 #include "swinit.h"
 #include "swmain.h"
 #include "swtext.h"
+#include "vid_vga.h"
 
 static void dispribbonrow (int *ribbonid, int ribbons_nr, int y)
 {
@@ -123,7 +124,10 @@ static void dispmapobjects(void)
 			y = ((ob->ob_y - (ob->ob_newsym->h / 2)) / WRLD_RSY);
 
 			if (y < SCR_MNSH-1) {
-				Vid_PlotPixel(x, y, ob->ob_clr);
+				unsigned char* mapping = getColorMapping(ob->ob_clr);
+				unsigned char map_color = mapping[1];
+
+				Vid_PlotPixel(x, y, map_color);
 			}
 		}
 	}
