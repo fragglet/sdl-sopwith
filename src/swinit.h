@@ -31,5 +31,6 @@ extern void initsmok(OBJECTS *obop);
 extern void initbird(OBJECTS *obop, int i);
 
 extern GRNDTYPE *ground;
+extern int starting_level;
 
 #endif

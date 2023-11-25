@@ -41,7 +41,7 @@ GRNDTYPE *ground;
 
 static int have_savescore = 0;
 static score_t savescore;		/* save players score on restart  */
-static int starting_level = 0;
+int starting_level = 0;
 
 static char helptxt[] =
 "\n"
@@ -1109,11 +1109,6 @@ void swinit(int argc, char *argv[])
 		c ? PLAYMODE_COMPUTER :
 		a ? PLAYMODE_ASYNCH :
 		PLAYMODE_UNSET;
-}
-
-int getStartingLevel(void)
-{
-	return starting_level;
 }
 
 //
