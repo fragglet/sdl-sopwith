@@ -13,6 +13,7 @@
 //
 
 #include <string.h>
+#include <assert.h>
 
 #include "video.h"
 #include "sw.h"
@@ -143,6 +144,7 @@ void Vid_DispSymbol(int x, int y, sopsym_t *symbol, ob_owner_t clr)
 		h = y + 1;
 	}
 
+	assert(clr < arrlen(color_mappings));
 	color_mapping = color_mappings[clr];
 	for (y1=0; y1<h; ++y1) {
 		unsigned char *sptr2 = sptr;
