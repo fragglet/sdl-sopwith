@@ -17,7 +17,6 @@
 #include "video.h"
 #include "sw.h"
 #include "swsymbol.h"
-#include "vid_vga.h"
 
 // this should be in a header somewhere
 #define SBAR_HGHT 19
@@ -117,17 +116,7 @@ static unsigned char color_mappings[][4] = {
 	// Now we're getting into boring territory...
 	{ 0, 1, 1, 3 },  // All-cyan                      - OWNER_PLAYER7
 	{ 0, 2, 2, 3 },  // All-magenta                   - OWNER_PLAYER8
-	// Color scheme for birds, set by initflock in swinit.c 
-	{ 0, 1, 0, 3 },  // Cyan dot on minimap, white bird in-game
 };
-
-unsigned char* getColorMapping(int i) {
-    if (i >= 0 && i < sizeof(color_mappings) / sizeof(color_mappings[0])) {
-        return color_mappings[i];
-    } else {
-        return color_mappings[1];
-    }
-}
 
 void Vid_DispSymbol(int x, int y, sopsym_t *symbol, ob_owner_t clr)
 {
