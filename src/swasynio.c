@@ -169,6 +169,7 @@ static void synchronize(void)
 		conf_wounded = readshort() != 0;
 		conf_animals = readshort() != 0;
 		conf_big_explosions = readshort() != 0;
+		starting_level = readshort();
 	} else {
 		// send settings
 		sendshort(explseed);
@@ -178,7 +179,9 @@ static void synchronize(void)
 		sendshort(conf_wounded);
 		sendshort(conf_animals);
 		sendshort(conf_big_explosions);
+		sendshort(starting_level);
 	}
+	gamenum = starting_level;
 }
 
 // setup tcp loop
