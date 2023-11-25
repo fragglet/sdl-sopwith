@@ -784,7 +784,7 @@ static OBJECTS *initflock(const original_ob_t *orig_ob)
 	ob->ob_newsym = symbol_flock[0];
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveflck;
-	ob->ob_clr = 9;
+	ob->ob_clr = 1;
 	ob->ob_onmap = true;
 
 	for (j = 0; j < NUM_STRAY_BIRDS; ++j) {
