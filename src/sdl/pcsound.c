@@ -216,7 +216,8 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 			// downsample using a simple low-pass filter.
 			// This reduces aliasing artifacts.
 			for (j = 0; j < OVERSAMPLE_FACTOR; j++) {
-				float t = i + lasttime + j / OVERSAMPLE_FACTOR;
+				float t = i + lasttime
+				        + ((float) j) / OVERSAMPLE_FACTOR;
 				t = (t * current_freq) / output_freq;
 				presample += square_wave(t);
 			}
