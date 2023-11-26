@@ -178,10 +178,26 @@ static void AddFilters(struct filter *f1, struct filter *f2)
 }
 
 // square wave function for sound generation
-static inline float square_wave(float time)
+static inline float SquareWave(float time)
 {
 	int l = (int) time;
 	return time - l < 0.5 ? -0.5 : 0.5;
+}
+
+static float OversampledSquareWave(int i)
+{
+	float presample;
+	int j;
+
+	// Sample the square wave at close to TIMER_FREQ and downsample
+	// using a simple low-pass filter. This reduces aliasing artifacts.
+	presample = 0;
+	for (j = 0; j < OVERSAMPLE_FACTOR; j++) {
+		float t = i + ((float) j) / OVERSAMPLE_FACTOR;
+		t = (t * current_freq) / output_freq;
+		presample += SquareWave(t);
+	}
+	return presample / ((float) OVERSAMPLE_FACTOR);
 }
 
 // callback function to generate sound
@@ -191,7 +207,7 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 	static float lastfreq;
 	int16_t *stream = (int16_t *) stream8;
 	float sample;
-	int i, j;
+	int i;
 
 	len /= 2;  // 2 bytes per sample
 
@@ -210,18 +226,7 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 		if (!speaker_on) {
 			sample = 0;
 		} else {
-			float presample = 0;
-
-			// Sample the square wave at close to TIMER_FREQ and
-			// downsample using a simple low-pass filter.
-			// This reduces aliasing artifacts.
-			for (j = 0; j < OVERSAMPLE_FACTOR; j++) {
-				float t = i + lasttime
-				        + ((float) j) / OVERSAMPLE_FACTOR;
-				t = (t * current_freq) / output_freq;
-				presample += square_wave(t);
-			}
-			sample = presample / ((float) OVERSAMPLE_FACTOR);
+			sample = OversampledSquareWave(i + lasttime);
 		}
 
 		sample = FilterNext(&tinny_filter, sample);
