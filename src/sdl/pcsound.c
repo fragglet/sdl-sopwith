@@ -28,6 +28,7 @@
 
 #define VOLUME 4000 /* out of 1 << 15 */
 #define FILTER_KERNEL_LEN 51
+#define OVERSAMPLE_FACTOR 25
 
 // The following values give the cutoff range for our band-pass
 // filter. These frequencies come from a frequency analysis of
@@ -190,7 +191,7 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 	static float lastfreq;
 	int16_t *stream = (int16_t *) stream8;
 	float sample;
-	int i;
+	int i, j;
 
 	len /= 2;  // 2 bytes per sample
 
@@ -209,9 +210,19 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 		if (!speaker_on) {
 			sample = 0;
 		} else {
-			sample = square_wave(current_freq * (i + lasttime)
-			                   / output_freq);
+			float presample = 0;
+
+			// Sample the square wave at close to TIMER_FREQ and
+			// downsample using a simple low-pass filter.
+			// This reduces aliasing artifacts.
+			for (j = 0; j < OVERSAMPLE_FACTOR; j++) {
+				float t = i + lasttime + j / OVERSAMPLE_FACTOR;
+				t = (t * current_freq) / output_freq;
+				presample += square_wave(t);
+			}
+			sample = presample / ((float) OVERSAMPLE_FACTOR);
 		}
+
 		sample = FilterNext(&tinny_filter, sample);
 		stream[i] = (signed int) (sample * VOLUME);
 	}
