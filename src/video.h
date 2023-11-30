@@ -61,6 +61,12 @@ extern void Vid_Update(void);
 
 extern bool Vid_GetCtrlBreak(void);
 
+// video palette
+
+void Vid_SetVideoPalette(int palette);
+const char* Vid_GetVideoPaletteName(int palette);
+int Vid_GetNumVideoPalettes(void);
+
 // keyboard functions
 
 extern int Vid_GetKey(void);

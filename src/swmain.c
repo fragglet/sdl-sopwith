@@ -37,6 +37,8 @@ bool conf_harrykeys = 0;            // plane rotation relative to screen
 bool conf_medals = 1;
 bool conf_big_explosions = 1;       // big oil tank explosions
 
+int conf_video_palette = 0;			// Video palette selection (0 is the default CGA color scheme)
+
 playmode_t playmode;		/* Mode of play                     */
 const GAMES *currgame;		/* Game parameters and current game */
 OBJECTS *consoleplayer;

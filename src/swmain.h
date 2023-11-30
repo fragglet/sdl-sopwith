@@ -30,6 +30,7 @@ extern bool conf_animals;
 extern bool conf_harrykeys;
 extern bool conf_medals;
 extern bool conf_big_explosions;
+extern int conf_video_palette;
 
 extern OBJECTS *consoleplayer;
 extern playmode_t playmode;
