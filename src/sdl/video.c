@@ -30,14 +30,28 @@
 
 //#define LCD
 
-static SDL_Color cga_pal[] = {
-#ifdef LCD
-	{213, 226, 138}, {150, 160, 150},
-	{120, 120, 160}, {0, 20, 200},
-#else
-	{0, 0, 0}, {0, 255, 255},
-	{255, 0, 255}, {255, 255, 255},
-#endif
+static SDL_Color cga_pal[] = {{}, {}, {}, {}};
+
+typedef struct {
+	char name[13]; // Up to 12 characters will display correctly on the menu
+	SDL_Color color[4];
+} VideoPalette;
+
+VideoPalette VideoPalettes[] = {
+	{"CGA 1", 		// CGA black, cyan, magenta, white (Sopwith's default color scheme)
+		{{0, 0, 0}, {0, 255, 255}, {255, 0, 255}, {255, 255, 255}}},
+	{"CGA 2", 		// CGA black, red, green, yellow
+		{{0, 0, 0}, {0, 255, 0}, {255, 0, 0}, {255, 255, 0}}},
+	{"CGA Amber",   // Shades of amber from a monochrome CGA display
+		{{0, 0, 0}, {242, 125, 0}, {255, 170, 16}, {255, 226, 52}}},
+	{"CGA Green", 	// Shades of green from a monochrome CGA display
+		{{0, 0, 0}, {8, 202, 48}, {12, 238, 56}, {49, 253, 90}}},
+	{"CGA Grey", 	// Shades of grey from a monochrome CGA display
+		{{0, 0, 0}, {182, 186, 182}, {222, 222, 210}, {255, 255, 255}}},
+	{"LCD 1",		// Toshiba laptop with STN panel
+		{{213, 226, 138}, {150, 160, 150}, {120, 120, 160}, {0, 20, 200}}},
+	{"LCD 2",		// Toshiba laptop with STN panel, reversed
+		{{0, 20, 200}, {120, 120, 160}, {150, 160, 150}, {213, 226, 138}}},
 };
 
 bool vid_fullscreen = false;
@@ -494,6 +508,27 @@ void Vid_Reset(void)
 	// need to redraw buffer to screen
 
 	Vid_Update();
+}
+
+void Vid_SetVideoPalette(int palette)
+{
+	cga_pal[0] = VideoPalettes[palette].color[0];
+	cga_pal[1] = VideoPalettes[palette].color[1];
+	cga_pal[2] = VideoPalettes[palette].color[2];
+	cga_pal[3] = VideoPalettes[palette].color[3];
+	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0, sizeof(cga_pal) / sizeof(*cga_pal));
+	Vid_Update();
+}
+
+const char* Vid_GetVideoPaletteName(int palette)
+{
+        return VideoPalettes[palette].name;
+}
+
+int Vid_GetNumVideoPalettes(void)
+{
+    int numPalettes = sizeof(VideoPalettes) / sizeof(VideoPalettes[0]);
+	return numPalettes;
 }
 
 #define INPUT_BUFFER_LEN 32

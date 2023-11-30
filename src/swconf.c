@@ -70,6 +70,8 @@ static confoption_t confoptions[] = {
 	{"vid_fullscreen",      CONF_BOOL, {&vid_fullscreen}},
 	{"snd_tinnyfilter",     CONF_BOOL, {&snd_tinnyfilter}},
 
+	{"conf_video_palette",	CONF_INT, {&conf_video_palette}},
+
 	{"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}},
 	{"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}},
 	{"key_pullup",     CONF_KEY, {&keybindings[KEY_PULLUP]}},
@@ -149,6 +151,18 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 	switch (opt->type) {
 		case CONF_BOOL:
 			*opt->value.b = atoi(value) != 0;
+			break;
+		case CONF_INT:
+			if(!strcasecmp(opt->name, "conf_video_palette")) {
+				// If an invalid video palette number was loaded, use palette 0
+				if(atoi(value) >= (Vid_GetNumVideoPalettes()) ){
+					*opt->value.i = 0;
+				} else {
+					*opt->value.i = atoi(value);
+				}
+			} else {
+				*opt->value.i = atoi(value);
+			}
 			break;
 		case CONF_KEY:
 			if (sscanf(value, "%d", &key) == 1) {
@@ -230,6 +244,7 @@ void swsaveconf(void)
 		case CONF_BOOL:
 			fprintf(fs, "%d", *confoptions[i].value.b);
 			break;
+		case CONF_INT:
 		case CONF_KEY:
 			fprintf(fs, "%d", *confoptions[i].value.i);
 			break;
@@ -349,6 +364,11 @@ static void drawmenu(char *title, struct menuitem *menu)
 		case CONF_BOOL:
 			swputs(*opt->value.b ? "on" : "off");
 			break;
+		case CONF_INT:
+			if(!strcasecmp(opt->name, "conf_video_palette")) {
+				swputs(Vid_GetVideoPaletteName(*opt->value.i));
+			}
+			break;
 		case CONF_KEY:
 			swputs(Vid_KeyName(*opt->value.i));
 			break;
@@ -426,6 +446,12 @@ static int runmenu(char *title, struct menuitem *menu)
 		case CONF_BOOL:
 			*opt->value.b = !*opt->value.b;
 			break;
+		case CONF_INT:
+			if(!strcasecmp(opt->name, "conf_video_palette")) {
+				*opt->value.i = (*opt->value.i + 1) % Vid_GetNumVideoPalettes();
+				Vid_SetVideoPalette(*opt->value.i);
+			}
+			break;
 		case CONF_KEY:
 			change_key_binding(pressed);
 			break;
@@ -456,6 +482,7 @@ static struct menuitem keys_menu[] = {
 
 static struct menuitem options_menu[] = {
 	{"vid_fullscreen",      "Run fullscreen"},
+	{"conf_video_palette",  "Video palette"},
 	{"conf_solidground",    "Solid ground"},
 	{"conf_hudsplats",      "HUD splats"},
 	{"conf_wounded",        "Wounded planes"},
