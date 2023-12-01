@@ -43,11 +43,11 @@ VideoPalette VideoPalettes[] = {
 	{"CGA 2", 		// CGA black, red, green, yellow
 		{{0, 0, 0}, {0, 255, 0}, {255, 0, 0}, {255, 255, 0}}},
 	{"CGA Amber",   // Shades of amber from a monochrome CGA display
-		{{0, 0, 0}, {242, 125, 0}, {255, 170, 16}, {255, 226, 52}}},
+		{{0, 0, 0}, {255, 170, 16}, {242, 125, 0}, {255, 226, 52}}},
 	{"CGA Green", 	// Shades of green from a monochrome CGA display
-		{{0, 0, 0}, {8, 202, 48}, {12, 238, 56}, {49, 253, 90}}},
+		{{0, 0, 0}, {12, 238, 56}, {8, 202, 48}, {49, 253, 90}}},
 	{"CGA Grey", 	// Shades of grey from a monochrome CGA display
-		{{0, 0, 0}, {182, 186, 182}, {222, 222, 210}, {255, 255, 255}}},
+		{{0, 0, 0}, {222, 222, 210}, {182, 186, 182}, {255, 255, 255}}},
 	{"LCD 1",		// Toshiba laptop with STN panel
 		{{213, 226, 138}, {150, 160, 150}, {120, 120, 160}, {0, 20, 200}}},
 	{"LCD 2",		// Toshiba laptop with STN panel, reversed
