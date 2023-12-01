@@ -48,10 +48,19 @@ VideoPalette VideoPalettes[] = {
 		{{0, 0, 0}, {12, 238, 56}, {8, 202, 48}, {49, 253, 90}}},
 	{"Mono Grey", 	// Shades of grey from a monochrome CGA display
 		{{0, 0, 0}, {222, 222, 210}, {182, 186, 182}, {255, 255, 255}}},
-	{"LCD 1",		// Toshiba laptop with STN panel
+	{"Tosh LCD 1",		// Toshiba laptop with STN panel
 		{{213, 226, 138}, {150, 160, 150}, {120, 120, 160}, {0, 20, 200}}},
-	{"LCD 2",		// Toshiba laptop with STN panel, reversed
+	{"Tosh LCD 2",		// Toshiba laptop with STN panel, reversed
 		{{0, 20, 200}, {120, 120, 160}, {150, 160, 150}, {213, 226, 138}}},
+	{"IBM LCD",  // IBM PC Convertible
+		{{0x6b, 0x85, 0x88}, {0x56, 0x6b, 0x6e},
+		 {0x42, 0x52, 0x54}, {0x2e, 0x39, 0x3b}}},
+	{"Tandy LCD", // Tandy 1100FD
+		{{0x48, 0xad, 0x68}, {0x36, 0x8c, 0x61},
+		 {0x24, 0x6c, 0x5a}, {0x13, 0x4a, 0x54}}},
+	{"Gas Plasma",
+		{{0x7d, 0x1b, 0x02}, {0xd3, 0x41, 0x00},
+		 {0xa8, 0x2e, 0x01}, {0xfe, 0x54, 0x00}}},
 };
 
 bool vid_fullscreen = false;
