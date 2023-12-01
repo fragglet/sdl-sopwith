@@ -485,6 +485,9 @@ void Vid_Init(void)
 {
 	if (SDL_NumJoysticks() > 0) {
 		controller = SDL_GameControllerOpen(0);
+		printf("a controller is detected. \n");
+	} else {
+		printf("no controller is detected. \n");
 	}
 
 	if (initted) {
