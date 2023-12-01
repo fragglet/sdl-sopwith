@@ -597,7 +597,7 @@ static void getevents(void)
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_KEYDOWN:
-			if (event.key.keysym.sym == SDLK_LALT) {
+			if (event.key.keysym.sym == SDLK_LALT || event.key.keysym.sym == SDLK_RALT) {
 				altdown = 1;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
 			        || event.key.keysym.sym == SDLK_RCTRL) {
@@ -616,12 +616,17 @@ static void getevents(void)
 					swinitlevel();
 			} else if (ctrldown && event.key.keysym.sym == SDLK_q && !isNetworkGame()) {
 					swrestart();
-			} else if (event.key.keysym.sym == SDLK_RETURN) {
-				if (altdown) {
+			} else if (altdown && (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_KP_ENTER)) {
 					vid_fullscreen = !vid_fullscreen;
 					Vid_Reset();
+					altdown = 0;
 					continue;
-				}
+			} else if (!altdown && event.key.keysym.sym == SDLK_KP_ENTER && SDL_IsTextInputActive()) {
+					SDL_Keysym fake;
+					fake.sym = '\n';
+					fake.scancode = SDL_SCANCODE_UNKNOWN;
+					input_buffer_push(fake);
+					continue;
 			}
 			if (!SDL_IsTextInputActive()
 			 || IsSpecialKey(&event.key.keysym)) {
@@ -635,7 +640,7 @@ static void getevents(void)
 			break;
 
 		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_LALT) {
+			if (event.key.keysym.sym == SDLK_LALT || event.key.keysym.sym == SDLK_RALT) {
 				altdown = 0;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
 			        || event.key.keysym.sym == SDLK_RCTRL) {
