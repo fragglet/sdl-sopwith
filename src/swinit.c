@@ -21,6 +21,7 @@
 #include "pcsound.h"
 #include "timer.h"
 #include "video.h"
+#include "gamepad.h"
 
 #include "sw.h"
 #include "swasynio.h"
@@ -1093,6 +1094,7 @@ void swinit(int argc, char *argv[])
 
 	Timer_Init();
 	Vid_Init();
+	Gamepad_Init();
 	Vid_SetVideoPalette(conf_video_palette);
 
 	// dont init speaker if started with -q (quiet)

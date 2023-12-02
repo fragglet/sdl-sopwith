@@ -26,9 +26,9 @@
 #include "sw.h"
 #include "swinit.h"
 
+// lcd mode to emulate my old laptop i used to play sopwith on :)
 
-// Controller handling
-static SDL_GameController *controller = NULL;
+//#define LCD
 
 static SDL_Color cga_pal[] = {{}, {}, {}, {}};
 
@@ -483,13 +483,6 @@ void Vid_Shutdown(void)
 
 void Vid_Init(void)
 {
-	if (SDL_NumJoysticks() > 0) {
-		controller = SDL_GameControllerOpen(0);
-		printf("a controller is detected. \n");
-	} else {
-		printf("no controller is detected. \n");
-	}
-
 	if (initted) {
 		return;
 	}
@@ -510,14 +503,6 @@ void Vid_Init(void)
 	atexit(Vid_Shutdown);
 
 	SDL_LockSurface(screenbuf);
-
-	// Controller handling
-	SDL_GameController *controller = NULL;
-	if (SDL_NumJoysticks() > 0) {
-		controller = SDL_GameControllerOpen(0);
-	}
-
-
 }
 
 void Vid_Reset(void)
@@ -617,40 +602,9 @@ static void getevents(void)
 	int need_redraw = 0;
 	int i;
 	sopkey_t translated;
-	int buttonPressed = 0;
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
-		case SDL_CONTROLLERBUTTONDOWN:
-		case SDL_CONTROLLERBUTTONUP:
-			if(event.type == SDL_CONTROLLERBUTTONDOWN) {
-				buttonPressed = 1;
-			}
-			switch (event.cbutton.button) {
-				case SDL_CONTROLLER_BUTTON_A:
-					if (buttonPressed) {
-						printf("The A button is pressed\n");
-						keysdown[KEY_FIRE] |= 3;
-					}
-					break;
-/*				case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-					dpad_left = buttonPressed;
-					break;
-				case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-					dpad_right = buttonPressed;
-					break;
-				case SDL_CONTROLLER_BUTTON_DPAD_UP:
-					dpad_up = buttonPressed;
-					break;
-				case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-					dpad_down = buttonPressed;
-					break;
-*/
-			}
-
-
-
-
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 1;
