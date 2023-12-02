@@ -27,6 +27,7 @@ void Gamepad_Update(void)
 	if (!gamepad_initted) {
 		Gamepad_Init();
 	}
+	
 }
 
 void Gamepad_Shutdown(void)
@@ -82,7 +83,7 @@ void Gamepad_Shutdown(void)
 
 
 
-
+jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjdddddddddddddddddddddddddddddddddddd
 
 
 

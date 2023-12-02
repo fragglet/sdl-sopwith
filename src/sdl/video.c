@@ -29,6 +29,11 @@
 // lcd mode to emulate my old laptop i used to play sopwith on :)
 
 //#define LCD
+extern int buttonPressed;
+extern int dpad_left;
+extern int dpad_right;
+extern int dpad_up;
+extern int dpad_down;
 
 static SDL_Color cga_pal[] = {{}, {}, {}, {}};
 
@@ -604,7 +609,90 @@ static void getevents(void)
 	sopkey_t translated;
 
 	while (SDL_PollEvent(&event)) {
+//		Gamepad_Update();
 		switch (event.type) {
+
+
+
+		case SDL_CONTROLLERBUTTONDOWN:
+		case SDL_CONTROLLERBUTTONUP:
+			if(event.type == SDL_CONTROLLERBUTTONDOWN) {
+				buttonPressed = 1;
+			} else {
+				buttonPressed = 0;
+			}
+
+			switch (event.cbutton.button) {
+				case SDL_CONTROLLER_BUTTON_X:
+					if (buttonPressed) {
+						keysdown[KEY_FIRE] |= 3;
+					} else {
+						keysdown[KEY_FIRE] &= ~1;
+					}
+					break;
+				case SDL_CONTROLLER_BUTTON_Y:
+					if (buttonPressed) {
+						keysdown[KEY_FLIP] |= 3;
+					} else {
+						keysdown[KEY_FLIP] &= ~1;
+					}
+					break;
+				case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+					if (buttonPressed) {
+						keysdown[KEY_ACCEL] |= 3;
+					} else {
+						keysdown[KEY_ACCEL] &= ~1;
+					}
+					break;
+				case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
+					if (buttonPressed) {
+						keysdown[KEY_DECEL] |= 3;
+					} else {
+						keysdown[KEY_DECEL] &= ~1;
+					}
+					break;
+				case SDL_CONTROLLER_BUTTON_A:
+					if (buttonPressed) {
+						keysdown[KEY_BOMB] |= 3;
+					} else {
+						keysdown[KEY_BOMB] &= ~1;
+					}
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+					dpad_left = buttonPressed;
+					if(dpad_left) {
+						keysdown[KEY_PULLUP] |= 3;
+					} else {
+						keysdown[KEY_PULLUP] &= ~1;
+					}
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+					printf("dpad right\n");
+					dpad_right = buttonPressed;
+					if(dpad_right) {
+						keysdown[KEY_PULLDOWN] |= 3;
+					} else {
+						keysdown[KEY_PULLDOWN] &= ~1;
+					}
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_UP:
+					printf("dpad up\n");
+					dpad_up = buttonPressed;
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+					printf("dpad down\n");
+					dpad_down = buttonPressed;
+					break;
+			}
+
+
+
+
+
+
+
+
+
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 1;
