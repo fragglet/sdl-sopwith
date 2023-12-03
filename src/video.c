@@ -13,6 +13,7 @@
 //
 
 #include "video.h"
+#include "gamepad.h"
 
 int keysdown[NUM_KEYS];
 
