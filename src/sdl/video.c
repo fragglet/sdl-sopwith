@@ -47,6 +47,8 @@ VideoPalette VideoPalettes[] = {
 		{{0, 0, 0}, {0, 255, 255}, {255, 0, 255}, {255, 255, 255}}},
 	{"CGA 2", 		// CGA black, red, green, yellow
 		{{0, 0, 0}, {0, 255, 0}, {255, 0, 0}, {255, 255, 0}}},
+	{"CGA 3", 		// CGA black, cyan, red, white (aka CGA mode 5)
+		{{0, 0, 0}, {0, 255, 255}, {255, 0, 0}, {255, 255, 255}}},
 	{"Mono Amber",   // Shades of amber from a monochrome CGA display
 		{{0, 0, 0}, {255, 170, 16}, {242, 125, 0}, {255, 226, 52}}},
 	{"Mono Green", 	// Shades of green from a monochrome CGA display
@@ -57,6 +59,9 @@ VideoPalette VideoPalettes[] = {
 		{{213, 226, 138}, {150, 160, 150}, {120, 120, 160}, {0, 20, 200}}},
 	{"Tosh LCD 2",		// Toshiba laptop with STN panel, reversed
 		{{0, 20, 200}, {120, 120, 160}, {150, 160, 150}, {213, 226, 138}}},
+	{"Tosh LCD 3",		// Toshiba T1000 with no backlight
+		{{0x72, 0x88, 0x79}, {0x4b, 0x6e, 0x75},
+		 {0x42, 0x5a, 0x75}, {0x27, 0x46, 0x6d}}},
 	{"IBM LCD",  // IBM PC Convertible
 		{{0x6b, 0x85, 0x88}, {0x56, 0x6b, 0x6e},
 		 {0x42, 0x52, 0x54}, {0x2e, 0x39, 0x3b}}},
