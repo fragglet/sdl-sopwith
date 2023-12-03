@@ -88,6 +88,7 @@ int keybindings[NUM_KEYS] = {
 
 static int ctrlbreak = 0;
 static bool initted = 0;
+static bool last_input_gamepad = 0;
 static SDL_Window *window = NULL;
 static uint32_t pixel_format;
 static SDL_Renderer *renderer;
@@ -605,10 +606,11 @@ static void getevents(void)
 	sopkey_t translated;
 
 	while (SDL_PollEvent(&event)) {
-		Gamepad_Update(event);
 
 		switch (event.type) {
 		case SDL_KEYDOWN:
+			last_input_gamepad = 0;
+
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 1;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
@@ -647,6 +649,7 @@ static void getevents(void)
 			break;
 
 		case SDL_KEYUP:
+			last_input_gamepad = 0;
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 0;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
@@ -674,6 +677,11 @@ static void getevents(void)
 			}
 			break;
 
+		case SDL_CONTROLLERBUTTONDOWN:
+        case SDL_CONTROLLERBUTTONUP:
+            last_input_gamepad = 1;
+			break;
+
 		case SDL_WINDOWEVENT:
 			switch (event.window.event) {
 			case SDL_WINDOWEVENT_CLOSE:
@@ -689,7 +697,10 @@ static void getevents(void)
 			}
 		}
 	}
-    Gamepad_CheckState();
+
+	if(last_input_gamepad == 1) {
+		Gamepad_Update();
+	}
 
 	if (need_redraw) {
 		Vid_Update();

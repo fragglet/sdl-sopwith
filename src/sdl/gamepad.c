@@ -19,19 +19,6 @@ int buttonbindings[NUM_KEYS] = {
 	SDL_CONTROLLER_BUTTON_BACK,			// KEY_SOUND
 };
 
-static sopkey_t translate_buttoncode(int sdl_buttoncode)
-{
-	int i;
-
-	for (i = 1; i < NUM_KEYS; ++i) {
-		if (buttonbindings[i] != -1 && sdl_buttoncode == buttonbindings[i]) {
-			return i;
-		}
-	}
-
-	return KEY_UNKNOWN;
-}
-
 void Gamepad_Init(void)
 {
     if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0) {
@@ -48,29 +35,10 @@ void Gamepad_Init(void)
     gamepad_initted = 1;
 }
 
-void Gamepad_Update(SDL_Event event)
-{
-	sopkey_t translated;
-	if (!gamepad_initted) {
-		Gamepad_Init();
-	}
-	if(event.type == SDL_CONTROLLERBUTTONDOWN) {
-		// DEBUG printf("Button %d\n", event.cbutton.button);
-		translated = translate_buttoncode(event.cbutton.button);
-		if(translated != KEY_UNKNOWN) {
-			keysdown[translated] |= 3;
-		}
-	} else {
-		translated = translate_buttoncode(event.cbutton.button);
-		if(translated != KEY_UNKNOWN) {
-			keysdown[translated] &= ~1;
-		}
-	}
-}
 
-/*
-void Gamepad_CheckState(void) {
+void Gamepad_Update() {
     if (!gamepad_initted || gamepad == NULL) {
+        Gamepad_Init();
         return;
     }
 
@@ -81,22 +49,6 @@ void Gamepad_CheckState(void) {
             } else {
                 keysdown[i] &= ~1; // Button is not pressed
             }
-        }
-    }
-}
-*/
-
-void Gamepad_CheckState(void) {
-    if (!gamepad_initted || gamepad == NULL) {
-        return;
-    }
-
-    // Check only the state of the X button (assuming it's mapped to KEY_FIRE)
-    if (buttonbindings[KEY_FIRE] != -1) {
-        if (SDL_GameControllerGetButton(gamepad, buttonbindings[KEY_FIRE])) {
-            keysdown[KEY_FIRE] |= 3; // X button is pressed
-        } else {
-            keysdown[KEY_FIRE] &= ~1; // X button is not pressed
         }
     }
 }
