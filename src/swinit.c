@@ -48,7 +48,7 @@ static char helptxt[] =
 PACKAGE_STRING "\n"
 "Copyright (C) 1984, 1985, 1987 BMB Compuscience\n"
 "Copyright (C) 1984-2000 David L. Clark\n"
-"Copyright (C) 2001-2022 Simon Howard, Jesse Smith\n"
+"Copyright (C) 2001-2023 Simon Howard, Jesse Smith\n"
 "Licensed under the GNU GPL v2.\n"
 "\n"
 "Usage:  sopwith [options]\n"

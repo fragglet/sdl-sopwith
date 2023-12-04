@@ -67,7 +67,7 @@ void swtitln(void)
 
 	swcolor(3);
 	swposcur(0+X_OFFSET/8, 11);
-	swputs("(c) 2001-2022 Simon Howard, Jesse Smith");
+	swputs("(c) 2001-2023 Simon Howard, Jesse Smith");
 
 	swcolor(3);
 	swposcur(0+X_OFFSET/8, 12);
