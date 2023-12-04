@@ -25,6 +25,7 @@
 #include "video.h"
 #include "sw.h"
 #include "swinit.h"
+#include "gamepad.h"
 
 static SDL_Color cga_pal[] = {{}, {}, {}, {}};
 

@@ -32,8 +32,7 @@ void Gamepad_Init(void)
     gamepad_initted = 1;
 }
 
-
-void Gamepad_Update() {
+void Gamepad_Update(void) {
     if (!gamepad_initted || gamepad == NULL) {
         Gamepad_Init();
         return;
@@ -43,7 +42,6 @@ void Gamepad_Update() {
         if (btnbindings[i] != -1) {
             if (SDL_GameControllerGetButton(gamepad, btnbindings[i])) {
                 keysdown[i] |= 3; // Button is pressed
-				printf("Button: %d\n", i);
             } else {
                 keysdown[i] &= ~1; // Button is not pressed
             }
