@@ -25,11 +25,13 @@ typedef struct
 		CONF_BOOL,
 		CONF_INT,
 		CONF_KEY,
+		CONF_BTN,
 	} type;
 	union {
 		void *v;
 		bool *b;
 		int *i;
+		int *btn;
 	} value;
 } confoption_t;
 

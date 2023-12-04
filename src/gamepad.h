@@ -11,4 +11,6 @@ void Gamepad_Init(void);
 void Gamepad_Update(SDL_Event event);
 void Gamepad_CheckState(void);
 
+extern int btnbindings[NUM_KEYS];
+
 #endif

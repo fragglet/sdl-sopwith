@@ -4,7 +4,7 @@
 SDL_GameController *gamepad = NULL;
 static int gamepad_initted = 0;
 
-int buttonbindings[NUM_KEYS] = {
+int btnbindings[NUM_KEYS] = {
 	-1,                    				// KEY_UNKNOWN
 	SDL_CONTROLLER_BUTTON_DPAD_LEFT,	// KEY_PULLUP
 	SDL_CONTROLLER_BUTTON_DPAD_RIGHT,   // KEY_PULLDOWN
@@ -26,9 +26,6 @@ void Gamepad_Init(void)
     } else {
         if (SDL_NumJoysticks() > 0) {
             gamepad = SDL_GameControllerOpen(0);
-            printf("a gamepad is detected. \n");
-        } else {
-            printf("no gamepad is detected. \n");
         }
     }
 
@@ -43,9 +40,10 @@ void Gamepad_Update() {
     }
 
     for (int i = 1; i < NUM_KEYS; ++i) {
-        if (buttonbindings[i] != -1) {
-            if (SDL_GameControllerGetButton(gamepad, buttonbindings[i])) {
+        if (btnbindings[i] != -1) {
+            if (SDL_GameControllerGetButton(gamepad, btnbindings[i])) {
                 keysdown[i] |= 3; // Button is pressed
+				printf("Button: %d\n", i);
             } else {
                 keysdown[i] &= ~1; // Button is not pressed
             }
