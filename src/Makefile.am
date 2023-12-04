@@ -19,13 +19,13 @@ COMMON_SOURCES =                   \
         swasynio.c   swasynio.h    \
         swauto.c     swauto.h      \
         swcollsn.c   swcollsn.h    \
-        swconf.c     swconf.h      \
+        swconf.h                   \
         swdisp.c     swdisp.h      \
         swend.c      swend.h       \
         swgames.c    swgames.h     \
         swgrpha.c    swgrpha.h     \
         sw.h                       \
-        swinit.c     swinit.h      \
+        swinit.h                   \
         swmain.c     swmain.h      \
         swmove.c     swmove.h      \
         swobject.c   swobject.h    \
