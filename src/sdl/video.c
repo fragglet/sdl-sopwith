@@ -23,12 +23,9 @@
 #include <sys/types.h>
 
 #include "video.h"
+#include "gamepad.h"
 #include "sw.h"
 #include "swinit.h"
-
-// lcd mode to emulate my old laptop i used to play sopwith on :)
-
-//#define LCD
 
 static SDL_Color cga_pal[] = {{}, {}, {}, {}};
 
@@ -536,12 +533,12 @@ void Vid_SetVideoPalette(int palette)
 
 const char* Vid_GetVideoPaletteName(int palette)
 {
-        return VideoPalettes[palette].name;
+		return VideoPalettes[palette].name;
 }
 
 int Vid_GetNumVideoPalettes(void)
 {
-    int numPalettes = sizeof(VideoPalettes) / sizeof(VideoPalettes[0]);
+	int numPalettes = sizeof(VideoPalettes) / sizeof(VideoPalettes[0]);
 	return numPalettes;
 }
 
@@ -609,8 +606,10 @@ static void getevents(void)
 	sopkey_t translated;
 
 	while (SDL_PollEvent(&event)) {
+
 		switch (event.type) {
 		case SDL_KEYDOWN:
+			setLastInputGamepad(false);
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 1;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
@@ -649,6 +648,7 @@ static void getevents(void)
 			break;
 
 		case SDL_KEYUP:
+			setLastInputGamepad(false);
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 0;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
@@ -689,6 +689,9 @@ static void getevents(void)
 				need_redraw = 1;
 				break;
 			}
+		case SDL_CONTROLLERBUTTONDOWN:
+		case SDL_CONTROLLERBUTTONUP:
+			setLastInputGamepad(true);
 		}
 	}
 

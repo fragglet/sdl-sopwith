@@ -13,6 +13,7 @@ bin_PROGRAMS = sopwith
 
 COMMON_SOURCES =                   \
         font.h                     \
+        gamepad.h                  \
         pcsound.h                  \
         std.h                      \
         swasynio.c   swasynio.h    \

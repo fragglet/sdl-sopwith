@@ -23,6 +23,7 @@
 #include "timer.h"
 #include "pcsound.h"
 #include "video.h"
+#include "gamepad.h"
 
 #include "swconf.h"
 #include "swend.h"
@@ -82,6 +83,17 @@ static confoption_t confoptions[] = {
 	{"key_home",       CONF_KEY, {&keybindings[KEY_HOME]}},
 	{"key_missile",    CONF_KEY, {&keybindings[KEY_MISSILE]}},
 	{"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}},
+
+	{"btn_accelerate", CONF_BTN, {&btnbindings[BTN_ACCEL]}},
+	{"btn_decelerate", CONF_BTN, {&btnbindings[BTN_DECEL]}},
+	{"btn_pullup",     CONF_BTN, {&btnbindings[BTN_PULLUP]}},
+	{"btn_pulldown",   CONF_BTN, {&btnbindings[BTN_PULLDOWN]}},
+	{"btn_flip",       CONF_BTN, {&btnbindings[BTN_FLIP]}},
+	{"btn_fire",       CONF_BTN, {&btnbindings[BTN_FIRE]}},
+	{"btn_dropbomb",   CONF_BTN, {&btnbindings[BTN_BOMB]}},
+	{"btn_home",       CONF_BTN, {&btnbindings[BTN_HOME]}},
+	{"btn_missile",    CONF_BTN, {&btnbindings[BTN_MISSILE]}},
+	{"btn_starburst",  CONF_BTN, {&btnbindings[BTN_STARBURST]}},
 };
 
 static int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
@@ -165,6 +177,7 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 			}
 			break;
 		case CONF_KEY:
+		case CONF_BTN:
 			if (sscanf(value, "%d", &key) == 1) {
 				*opt->value.i = key;
 			}
@@ -246,6 +259,7 @@ void swsaveconf(void)
 			break;
 		case CONF_INT:
 		case CONF_KEY:
+		case CONF_BTN:
 			fprintf(fs, "%d", *confoptions[i].value.i);
 			break;
 		default:
@@ -306,6 +320,35 @@ static void change_key_binding(struct menuitem *item)
 		return;
 	}
 	*opt->value.i = key;
+}
+
+
+static void change_btn_binding(struct menuitem *item)
+{
+	confoption_t *opt;
+	int btn = -1;
+
+	Vid_ClearBuf();
+
+	swcolor(3);
+	swposcur(10, 5);
+	swputs("Press the new button for: ");
+
+	swcolor(2);
+	swposcur(14, 7);
+	swputs(item->description);
+
+	swcolor(1);
+	swposcur(1, 22);
+	swputs("   ESC - Cancel");
+
+	Vid_Update();
+
+	btn = Gamepad_GetBtn();
+	if (btn != -1) {
+		opt = confoption_by_name(item->config_name);
+		*opt->value.i = btn;
+	}
 }
 
 static void drawmenu(char *title, struct menuitem *menu)
@@ -371,6 +414,9 @@ static void drawmenu(char *title, struct menuitem *menu)
 			break;
 		case CONF_KEY:
 			swputs(Vid_KeyName(*opt->value.i));
+			break;
+		case CONF_BTN:
+			swputs(Gamepad_BtnName(*opt->value.i));
 			break;
 		default:
 			break;
@@ -455,6 +501,9 @@ static int runmenu(char *title, struct menuitem *menu)
 		case CONF_KEY:
 			change_key_binding(pressed);
 			break;
+		case CONF_BTN:
+			change_btn_binding(pressed);
+			break;
 		default:
 			break;
 		}
@@ -480,6 +529,18 @@ static struct menuitem keys_menu[] = {
 	{NULL},
 };
 
+static struct menuitem btns_menu[] = {
+	{"btn_accelerate", "Accelerate"},
+	{"btn_decelerate", "Decelerate"},
+	{"btn_pullup",     "Pull up"},
+	{"btn_pulldown",   "Pull down"},
+	{"btn_flip",       "Flip"},
+	{"btn_fire",       "Fire machine gun"},
+	{"btn_dropbomb",   "Drop bomb"},
+	{"btn_home",       "Navigate home"},
+	{NULL},
+};
+
 static struct menuitem options_menu[] = {
 	{"vid_fullscreen",      "Run fullscreen"},
 	{"conf_video_palette",  "Video palette"},
@@ -492,6 +553,7 @@ static struct menuitem options_menu[] = {
 	{"conf_harrykeys",      "Harry keys mode"},
 	{"",                    ""},
 	{">K",                  "Key bindings"},
+	{">G",                  "Gamepad bindings"},
 	{NULL},
 };
 
@@ -503,6 +565,9 @@ void setconfig(void)
 				return;
 			case 'K':
 				runmenu("OPTIONS > KEY BINDINGS", keys_menu);
+				break;
+			case 'G':
+				runmenu("OPTIONS > GAMEPAD BINDINGS", btns_menu);
 				break;
 		}
 	}
