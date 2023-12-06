@@ -19,7 +19,6 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include <SDL.h>
 
 #include "timer.h"
 #include "pcsound.h"
@@ -85,16 +84,16 @@ static confoption_t confoptions[] = {
 	{"key_missile",    CONF_KEY, {&keybindings[KEY_MISSILE]}},
 	{"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}},
 
-	{"btn_accelerate", CONF_BTN, {&btnbindings[KEY_ACCEL]}},
-	{"btn_decelerate", CONF_BTN, {&btnbindings[KEY_DECEL]}},
-	{"btn_pullup",     CONF_BTN, {&btnbindings[KEY_PULLUP]}},
-	{"btn_pulldown",   CONF_BTN, {&btnbindings[KEY_PULLDOWN]}},
-	{"btn_flip",       CONF_BTN, {&btnbindings[KEY_FLIP]}},
-	{"btn_fire",       CONF_BTN, {&btnbindings[KEY_FIRE]}},
-	{"btn_dropbomb",   CONF_BTN, {&btnbindings[KEY_BOMB]}},
-	{"btn_home",       CONF_BTN, {&btnbindings[KEY_HOME]}},
-	{"btn_missile",    CONF_BTN, {&btnbindings[KEY_MISSILE]}},
-	{"btn_starburst",  CONF_BTN, {&btnbindings[KEY_STARBURST]}},
+	{"btn_accelerate", CONF_BTN, {&btnbindings[BTN_ACCEL]}},
+	{"btn_decelerate", CONF_BTN, {&btnbindings[BTN_DECEL]}},
+	{"btn_pullup",     CONF_BTN, {&btnbindings[BTN_PULLUP]}},
+	{"btn_pulldown",   CONF_BTN, {&btnbindings[BTN_PULLDOWN]}},
+	{"btn_flip",       CONF_BTN, {&btnbindings[BTN_FLIP]}},
+	{"btn_fire",       CONF_BTN, {&btnbindings[BTN_FIRE]}},
+	{"btn_dropbomb",   CONF_BTN, {&btnbindings[BTN_BOMB]}},
+	{"btn_home",       CONF_BTN, {&btnbindings[BTN_HOME]}},
+	{"btn_missile",    CONF_BTN, {&btnbindings[BTN_MISSILE]}},
+	{"btn_starburst",  CONF_BTN, {&btnbindings[BTN_STARBURST]}},
 };
 
 static int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
@@ -124,7 +123,6 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 {
 	char *name, *value, *p;
 	int key;
-	int btn;
 	confoption_t *opt;
 
 	p = line;
@@ -179,13 +177,9 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 			}
 			break;
 		case CONF_KEY:
+		case CONF_BTN:
 			if (sscanf(value, "%d", &key) == 1) {
 				*opt->value.i = key;
-			}
-			break;
-		case CONF_BTN:
-			if (sscanf(value, "%d", &btn) == 1) {
-				*opt->value.i = btn;
 			}
 			break;
 		default:
@@ -328,51 +322,33 @@ static void change_key_binding(struct menuitem *item)
 	*opt->value.i = key;
 }
 
+
 static void change_btn_binding(struct menuitem *item)
 {
-    confoption_t *opt;
-    int btn = -1;
-    SDL_Event event;
+	confoption_t *opt;
+	int btn = -1;
 
-    Vid_ClearBuf();
+	Vid_ClearBuf();
 
-    swcolor(3);
-    swposcur(10, 5);
-    swputs("Press the new button for: ");
+	swcolor(3);
+	swposcur(10, 5);
+	swputs("Press the new button for: ");
 
-    swcolor(2);
-    swposcur(14, 7);
-    swputs(item->description);
+	swcolor(2);
+	swposcur(14, 7);
+	swputs(item->description);
 
-    swcolor(1);
-    swposcur(1, 22);
-    swputs("   ESC - Cancel");
+	swcolor(1);
+	swposcur(1, 22);
+	swputs("   ESC - Cancel");
 
-    Vid_Update();
+	Vid_Update();
 
-    while (btn == -1) {
-		// Have to use SDL_WaitEventTimeout() instead Timer_Sleep(50) so that buttons register
-        if (SDL_WaitEventTimeout(&event, 10)) {  
-            if (event.type == SDL_CONTROLLERBUTTONDOWN) {
-                btn = event.cbutton.button;
-                break;
-            } else if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
-                    return;
-                }
-            }
-        }
-        swsndupdate();
-        if (ctlbreak()) {
-            return;
-        }
-    }
-
-    opt = confoption_by_name(item->config_name);
-    if (opt == NULL) {
-        return;
-    }
-    *opt->value.i = btn;
+	btn = Gamepad_GetBtn();
+	if (btn != -1) {
+		opt = confoption_by_name(item->config_name);
+		*opt->value.i = btn;
+	}
 }
 
 static void drawmenu(char *title, struct menuitem *menu)
@@ -439,12 +415,9 @@ static void drawmenu(char *title, struct menuitem *menu)
 		case CONF_KEY:
 			swputs(Vid_KeyName(*opt->value.i));
 			break;
-		case CONF_BTN: {
-			char btnString[20]; // Large enough to hold any integer
-			sprintf(btnString, "%d", *opt->value.i); // Convert integer to string
-			swputs(btnString);
+		case CONF_BTN:
+			swputs(Gamepad_BtnName(*opt->value.i));
 			break;
-		}
 		default:
 			break;
 		}

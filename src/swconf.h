@@ -31,7 +31,6 @@ typedef struct
 		void *v;
 		bool *b;
 		int *i;
-		int *btn;
 	} value;
 } confoption_t;
 

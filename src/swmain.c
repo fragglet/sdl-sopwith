@@ -15,6 +15,7 @@
 
 #include "timer.h"
 #include "video.h"
+#include "gamepad.h"
 
 #include "sw.h"
 #include "swasynio.h"
@@ -157,11 +158,18 @@ static void calculate_lag(void)
 static void new_move(void)
 {
 	int multkey;
+	int multbtn;
 	int tictime;
 
 	/* generate a new move command and save it */
 
 	multkey = Vid_GetGameKeys();
+	if(isGamepadInitted()) {
+		multbtn = Gamepad_GetGameBtns();
+		if(isLastInputGamepad()) {
+			multkey = multbtn;
+		}
+	}
 	if (conf_harrykeys) {
 		multkey |= K_HARRYKEYS;
 	}

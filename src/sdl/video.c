@@ -23,9 +23,9 @@
 #include <sys/types.h>
 
 #include "video.h"
+#include "gamepad.h"
 #include "sw.h"
 #include "swinit.h"
-#include "gamepad.h"
 
 static SDL_Color cga_pal[] = {{}, {}, {}, {}};
 
@@ -89,7 +89,6 @@ int keybindings[NUM_KEYS] = {
 
 static int ctrlbreak = 0;
 static bool initted = 0;
-static bool last_input_gamepad = 0;
 static SDL_Window *window = NULL;
 static uint32_t pixel_format;
 static SDL_Renderer *renderer;
@@ -534,12 +533,12 @@ void Vid_SetVideoPalette(int palette)
 
 const char* Vid_GetVideoPaletteName(int palette)
 {
-        return VideoPalettes[palette].name;
+		return VideoPalettes[palette].name;
 }
 
 int Vid_GetNumVideoPalettes(void)
 {
-    int numPalettes = sizeof(VideoPalettes) / sizeof(VideoPalettes[0]);
+	int numPalettes = sizeof(VideoPalettes) / sizeof(VideoPalettes[0]);
 	return numPalettes;
 }
 
@@ -610,8 +609,7 @@ static void getevents(void)
 
 		switch (event.type) {
 		case SDL_KEYDOWN:
-			last_input_gamepad = 0;
-
+			setLastInputGamepad(false);
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 1;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
@@ -650,7 +648,7 @@ static void getevents(void)
 			break;
 
 		case SDL_KEYUP:
-			last_input_gamepad = 0;
+			setLastInputGamepad(false);
 			if (event.key.keysym.sym == SDLK_LALT) {
 				altdown = 0;
 			} else if (event.key.keysym.sym == SDLK_LCTRL
@@ -678,11 +676,6 @@ static void getevents(void)
 			}
 			break;
 
-		case SDL_CONTROLLERBUTTONDOWN:
-        case SDL_CONTROLLERBUTTONUP:
-            last_input_gamepad = 1;
-			break;
-
 		case SDL_WINDOWEVENT:
 			switch (event.window.event) {
 			case SDL_WINDOWEVENT_CLOSE:
@@ -696,11 +689,10 @@ static void getevents(void)
 				need_redraw = 1;
 				break;
 			}
+		case SDL_CONTROLLERBUTTONDOWN:
+		case SDL_CONTROLLERBUTTONUP:
+			setLastInputGamepad(true);
 		}
-	}
-
-	if(last_input_gamepad == 1) {
-		Gamepad_Update();
 	}
 
 	if (need_redraw) {
