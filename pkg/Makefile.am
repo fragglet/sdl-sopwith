@@ -1,5 +1,9 @@
 EXTRA_DIST = \
 ./config.make.in                         \
+./emscripten/GNUmakefile                 \
+./emscripten/error.png                   \
+./emscripten/loading.gif                 \
+./emscripten/sopwith.html                \
 ./macos/cp-with-libs                     \
 ./macos/disk                             \
 ./macos/disk/background.png              \

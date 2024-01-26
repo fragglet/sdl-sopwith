@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>SDL Sopwith</title>
+    <style>
+      body {
+        background-color: black;
+      }
+      canvas.emscripten, #loading {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(5vw, 5vh);
+        width: 90vw;
+      }
+      canvas.emscripten {
+        visibility: hidden;
+        height: 90vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="emscripten">
+      <progress value="0" max="100" id="progress" hidden=1></progress>
+    </div>
+
+    <div class="emscripten_border">
+      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+    </div>
+
+    <img id="loading" src="loading.gif">
+
+    <script type='text/javascript'>
+      function programError() {
+        canvas.style.visibility = "hidden";
+        loadingElement.style.visibility = "visible";
+        loadingElement.setAttribute("src", "error.png");
+      }
+      var progressElement = document.getElementById('progress');
+      var loadingElement = document.getElementById('loading');
+      var canvas = document.getElementById('canvas');
+
+      var Module = {
+        preRun: [function(){
+          canvas.style.visibility = "visible";
+          loadingElement.style.visibility = "hidden";
+        }],
+        postRun: [],
+        onAbort: function(x) {
+          programError();
+        },
+        print: function(text) {},
+        canvas: (function() {
+          canvas.addEventListener("webglcontextlost", function(e) {
+            alert('WebGL context lost. You will need to reload the page.');
+            e.preventDefault();
+            programError();
+          }, false);
+          return canvas;
+        })(),
+        setStatus: function(text) {},
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+        }
+      };
+      window.addEventListener("error", (event) => {
+        programError();
+        Module.setStatus('Exception thrown, see JavaScript console');
+        Module.setStatus = function(text) {
+          if (text) Module.printErr('[post-exception status] ' + text);
+        };
+      });
+    </script>
+
+    <script async type="text/javascript" src="sopwith.js"></script>
+  </body>
+</html>
+
+
