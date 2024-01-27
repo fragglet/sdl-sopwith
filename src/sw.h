@@ -21,7 +21,10 @@
 #include "swsymbol.h"
 #include "config.h"
 
-#if defined(HAVE_NETINET_IN_H) || defined(HAVE_WINSOCK_H)
+// We only enable TCP/IP support if we have the appropriate socket header
+// files. Emscripten doesn't get TCP/IP.
+#if !defined(__EMSCRIPTEN__) && ( \
+    defined(HAVE_NETINET_IN_H) || defined(HAVE_WINSOCK_H))
 #define TCPIP
 #endif
 
