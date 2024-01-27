@@ -600,10 +600,47 @@ static bool IsSpecialKey(SDL_Keysym *k) {
 	}
 }
 
+static bool CtrlDown(void)
+{
+	return (SDL_GetModState() & KMOD_CTRL) != 0;
+}
+
+static bool AltDown(void)
+{
+	return (SDL_GetModState() & KMOD_ALT) != 0;
+}
+
+static void CtrlKeyPress(SDL_KeyCode k)
+{
+	switch (k) {
+	case SDLK_c:
+	case SDLK_PAUSE:
+		++ctrlbreak;
+		if (ctrlbreak >= 3) {
+			fprintf(stderr,
+				"user aborted with 3 ^C's\n");
+			exit(-1);
+		}
+		break;
+	case SDLK_r:
+		if (!isNetworkGame()) {
+			gamenum = starting_level;
+			swinitlevel();
+		}
+		break;
+	case SDLK_q:
+		if (!isNetworkGame()) {
+			swrestart();
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 static void getevents(void)
 {
 	SDL_Event event;
-	static bool ctrldown = 0, altdown = 0;
 	int need_redraw = 0;
 	int i;
 	sopkey_t translated;
@@ -611,31 +648,12 @@ static void getevents(void)
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_KEYDOWN:
-			if (event.key.keysym.sym == SDLK_LALT) {
-				altdown = 1;
-			} else if (event.key.keysym.sym == SDLK_LCTRL
-			        || event.key.keysym.sym == SDLK_RCTRL) {
-				ctrldown = 1;
-			} else if (ctrldown &&
-			           (event.key.keysym.sym == SDLK_c ||
-			            event.key.keysym.sym == SDLK_PAUSE)) {
-				++ctrlbreak;
-				if (ctrlbreak >= 3) {
-					fprintf(stderr,
-						"user aborted with 3 ^C's\n");
-					exit(-1);
-				}
-			} else if (ctrldown && event.key.keysym.sym == SDLK_r && !isNetworkGame()) {
-					gamenum = starting_level;
-					swinitlevel();
-			} else if (ctrldown && event.key.keysym.sym == SDLK_q && !isNetworkGame()) {
-					swrestart();
-			} else if (event.key.keysym.sym == SDLK_RETURN) {
-				if (altdown) {
-					vid_fullscreen = !vid_fullscreen;
-					Vid_Reset();
-					continue;
-				}
+			if (CtrlDown()) {
+				CtrlKeyPress(event.key.keysym.sym);
+			} else if (AltDown() && event.key.keysym.sym == SDLK_RETURN) {
+				vid_fullscreen = !vid_fullscreen;
+				Vid_Reset();
+				continue;
 			}
 			if (!SDL_IsTextInputActive()
 			 || IsSpecialKey(&event.key.keysym)) {
@@ -649,17 +667,10 @@ static void getevents(void)
 			break;
 
 		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_LALT) {
-				altdown = 0;
-			} else if (event.key.keysym.sym == SDLK_LCTRL
-			        || event.key.keysym.sym == SDLK_RCTRL) {
-				ctrldown = 0;
-			} else {
-				translated = translate_scancode(
-					event.key.keysym.scancode);
-				if (translated != KEY_UNKNOWN) {
-					keysdown[translated] &= ~1;
-				}
+			translated = translate_scancode(
+				event.key.keysym.scancode);
+			if (translated != KEY_UNKNOWN) {
+				keysdown[translated] &= ~1;
 			}
 			break;
 
