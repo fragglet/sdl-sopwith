@@ -24,6 +24,7 @@
 #include "pcsound.h"
 #include "video.h"
 
+#include "sw.h"
 #include "swconf.h"
 #include "swend.h"
 #include "swsound.h"
@@ -481,7 +482,9 @@ static struct menuitem keys_menu[] = {
 };
 
 static struct menuitem options_menu[] = {
+#ifndef NO_FULLSCREEN
 	{"vid_fullscreen",      "Run fullscreen"},
+#endif
 	{"conf_video_palette",  "Video palette"},
 	{"conf_solidground",    "Solid ground"},
 	{"conf_hudsplats",      "HUD splats"},

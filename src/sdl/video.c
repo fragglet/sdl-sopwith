@@ -653,9 +653,11 @@ static void getevents(void)
 			if (CtrlDown()) {
 				CtrlKeyPress(event.key.keysym.sym);
 			} else if (AltDown() && event.key.keysym.sym == SDLK_RETURN) {
+#ifndef NO_FULLSCREEN
 				vid_fullscreen = !vid_fullscreen;
 				Vid_Reset();
 				continue;
+#endif
 			}
 			if (!SDL_IsTextInputActive()
 			 || IsSpecialKey(&event.key.keysym)) {

@@ -34,6 +34,12 @@
 #define NO_EXIT
 #endif
 
+// In Emcripten mode we don't bother with fullscreen mode. This is also
+// something likely useful for games consoles.
+#ifdef __EMSCRIPTEN__
+#define NO_FULLSCREEN
+#endif
+
 #ifdef _MSC_VER
 #define inline __inline
 #define strcasecmp stricmp
