@@ -18,6 +18,7 @@
 
 #include "video.h"
 
+#include "sw.h"
 #include "swasynio.h"
 #include "swconf.h"
 #include "swend.h"
@@ -215,7 +216,9 @@ void getgamemode(void)
 		swputs("     N - network game\n");
 #endif
 		swputs("     O - game options\n");
+#ifndef NO_EXIT
 		swputs("     Q - quit game\n");
+#endif
 		Vid_Update();
 
 		if (ctlbreak()) {
@@ -244,9 +247,11 @@ void getgamemode(void)
 			}
 			break;
 #endif
+#ifndef NO_EXIT
 		case 'Q':
 			exit(0);
 			break;
+#endif
 		}
 	}
 }

@@ -25,6 +25,12 @@
 #define TCPIP
 #endif
 
+// In Emscripten mode there's nothing we can exit to. This might also be
+// useful when porting to certain systems (eg. games consoles).
+#ifdef __EMSCRIPTEN__
+#define NO_EXIT
+#endif
+
 #ifdef _MSC_VER
 #define inline __inline
 #define strcasecmp stricmp

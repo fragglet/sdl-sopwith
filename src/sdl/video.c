@@ -613,6 +613,7 @@ static bool AltDown(void)
 static void CtrlKeyPress(SDL_KeyCode k)
 {
 	switch (k) {
+#ifndef NO_EXIT
 	case SDLK_c:
 	case SDLK_PAUSE:
 		++ctrlbreak;
@@ -622,6 +623,7 @@ static void CtrlKeyPress(SDL_KeyCode k)
 			exit(-1);
 		}
 		break;
+#endif
 	case SDLK_r:
 		if (!isNetworkGame()) {
 			gamenum = starting_level;
