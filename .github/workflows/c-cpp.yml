@@ -50,6 +50,20 @@ jobs:
         path: "pkg/macos/sdl-sopwith-${{steps.version.outputs.VERSION}}.dmg"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}
 
+  emscripten_build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Emscripten
+      run: |
+        sudo apt update
+        sudo apt -q install emscripten
+    - name: build
+      run: ./embuild.sh
+    - name: make check
+      run: make check
+
   windows_crossbuild:
     strategy:
       matrix:
