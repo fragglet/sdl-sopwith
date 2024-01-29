@@ -55,5 +55,7 @@ make_wrapper_script ld     emcc
 make_wrapper_script nm     emnm
 make_wrapper_script ranlib emranlib
 
-./autogen.sh --host=asmjs-local-emscripten
+if [ ! -e configure ]; then
+    ./autogen.sh --host=asmjs-local-emscripten
+fi
 make
