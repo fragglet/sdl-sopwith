@@ -32,7 +32,7 @@ AC_CHECK_FUNCS(isatty)
 if test "$GCC" = "yes"
 then
         WARNINGS="-Wall -Wdeclaration-after-statement -Wredundant-decls"
-        CFLAGS="-O$OPT_LEVEL -g $WARNINGS $orig_CFLAGS"
+        CFLAGS="-O$OPT_LEVEL -g $WARNINGS $CFLAGS"
 fi
 
 dnl network libraries
