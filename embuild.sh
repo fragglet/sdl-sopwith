@@ -9,7 +9,7 @@ make_wrapper_script() {
     local toolname emtoolname path
     toolname="$1"
     emtoolname="$2"
-    path="$EM_CACHE/bin/wasm32-unknown-emscripten-$toolname"
+    path="$EM_CACHE/bin/asmjs-local-emscripten-$toolname"
     (echo "#!/bin/bash"
      echo "exec $emtoolname \"\$@\"") > "$path"
     chmod a+rx "$path"
@@ -55,5 +55,5 @@ make_wrapper_script ld     emcc
 make_wrapper_script nm     emnm
 make_wrapper_script ranlib emranlib
 
-./autogen.sh --host=wasm32-unknown-emscripten
+./autogen.sh --host=asmjs-local-emscripten
 make
