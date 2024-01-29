@@ -3,6 +3,8 @@
 # Wrapper script for emscripten build.
 #
 
+set -eu
+
 make_wrapper_script() {
     local toolname emtoolname path
     toolname="$1"
