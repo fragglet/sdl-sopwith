@@ -59,8 +59,21 @@ jobs:
       run: |
         sudo apt update
         sudo apt -q install emscripten
+    - name: Find Git version
+      id: version
+      run: |
+        VERSION=$(git rev-parse --short HEAD)
+        echo "VERSION=$VERSION-js" >> $GITHUB_OUTPUT
     - name: build
       run: ./embuild.sh
+    - name: make pkg
+      run: |
+        make -C pkg/emscripten
+    - name: Upload build
+      uses: actions/upload-artifact@v1
+      with:
+        path: "pkg/emscripten/page"
+        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
 
   windows_crossbuild:
     strategy:
