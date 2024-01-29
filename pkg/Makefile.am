@@ -1,5 +1,6 @@
 EXTRA_DIST = \
 ./config.make.in                         \
+./style.html                             \
 ./emscripten/GNUmakefile                 \
 ./emscripten/error.png                   \
 ./emscripten/loading.gif                 \
