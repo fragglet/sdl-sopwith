@@ -4,7 +4,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Modern port of the classic biplane shoot-em up, Sopwith.
 baseurl: /sdl-sopwith
 url: https://fragglet.github.io
-image: /sdl-sopwith/sshot/sopwith-gameplay.png
+image: /sdl-sopwith/img/start-screen-wide.png
 favicon: /sdl-sopwith/icon.png
 
 # Build settings
