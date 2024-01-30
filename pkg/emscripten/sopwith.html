@@ -51,7 +51,6 @@
         onAbort: function(x) {
           programError();
         },
-        print: function(text) {},
         canvas: (function() {
           canvas.addEventListener("webglcontextlost", function(e) {
             alert('WebGL context lost. You will need to reload the page.');
@@ -60,11 +59,6 @@
           }, false);
           return canvas;
         })(),
-        setStatus: function(text) {},
-        totalDependencies: 0,
-        monitorRunDependencies: function(left) {
-          this.totalDependencies = Math.max(this.totalDependencies, left);
-        }
       };
       window.addEventListener("error", (event) => {
         programError();
