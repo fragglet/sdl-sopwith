@@ -42,12 +42,31 @@
       var loadingElement = document.getElementById('loading');
       var canvas = document.getElementById('canvas');
 
+      function syncFilesystems() {
+        FS.syncfs(() => {})
+      }
+
+      function mountFilesystems() {
+        // The Sopwith configuration file is stored in /libsdl/SDL Sopwith.
+        FS.mkdir("/libsdl")
+        FS.mount(IDBFS, {}, "/libsdl")
+        // We can't start the game until we have synced all the contents of
+        // /libsdl from IndexedDB. Because of this, we set a run dependency
+        // that defers starting until the callback is invoked.
+        addRunDependency("mountFilesystems");
+        FS.syncfs(true, () => {
+          // We sync the filesystem every 5 seconds.
+          setInterval(syncFilesystems, 5000);
+          removeRunDependency("mountFilesystems");
+          run();
+        })
+      }
+
       var Module = {
         preRun: [function(){
           canvas.style.visibility = "visible";
           loadingElement.style.visibility = "hidden";
-        }],
-        postRun: [],
+        }, mountFilesystems],
         onAbort: function(x) {
           programError();
         },
