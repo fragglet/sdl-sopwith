@@ -81,7 +81,7 @@ jobs:
       with:
         folder: "pkg/emscripten/page"
         repository-name: "fragglet/sdl-sopwith-latest"
-        token: "${{SDL_SOPWITH_LATEST_SECRET}}"
+        token: "${{secrets.SDL_SOPWITH_LATEST_SECRET}}"
         clean: true
 
   windows_crossbuild:
