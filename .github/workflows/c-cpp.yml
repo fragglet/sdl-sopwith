@@ -83,6 +83,7 @@ jobs:
         repository-name: "fragglet/sdl-sopwith-latest"
         token: "${{secrets.SDL_SOPWITH_LATEST_SECRET}}"
         clean: true
+        commit-message: "Build from fragglet/sdl-sopwith@${{github.sha}}"
 
   windows_crossbuild:
     strategy:
