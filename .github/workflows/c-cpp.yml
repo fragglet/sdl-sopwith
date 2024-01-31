@@ -75,6 +75,15 @@ jobs:
         path: "pkg/emscripten/page"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}
 
+    - name: Deploy
+      if: ${{ github.ref == 'refs/heads/trunk' }}
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: "pkg/emscripten/page"
+        repository-name: "fragglet/sdl-sopwith-latest"
+        token: "${{SDL_SOPWITH_LATEST_SECRET}}"
+        clean: true
+
   windows_crossbuild:
     strategy:
       matrix:
