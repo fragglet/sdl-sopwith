@@ -1,3 +1,23 @@
+# v2.4.0 (2024-02-??)
+
+* There is now an emscripten (web) version, available on the website.
+* It is now possible to make and load custom levels (there is no proper
+  level editor available yet though).
+* There are now a number of alternative palettes that can be used that
+  simulate different CGA palettes and old monitors (thanks techknight).
+* There are now hotkeys to end or restart the current game (thanks
+  techknight).
+* There is now a `-p` command line option to specify TCP port number.
+* The Windows package now includes a copy of the Unix manual pages.
+* Sound is now oversampled to reduce sound aliasing (thanks @kmill).
+* Starting level is now synchronized between players at multiplayer start.
+* A bug was fixed with the keybindings menu not working (thanks ranguli,
+  NY00123)
+* A missing include was added to fix build on Alpine Linux (thanks John
+  Gebbie)
+* An input bug was fixed where a backspace would leave some visual
+  corruption, and the cursor now blinks.
+
 # v 2.3.0 (2023-05-20)
 
 * Sound on Windows was fixed.
