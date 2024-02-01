@@ -1,10 +1,10 @@
 EXTRA_DIST = sopwith.ico
 
 appdir = $(prefix)/share/applications
-app_DATA = sopwith.desktop
+dist_app_DATA = sopwith.desktop
 
 iconsdir = $(prefix)/share/icons/hicolor/128x128/apps
-icons_DATA = sopwith.png
+dist_icons_DATA = sopwith.png
 
 bindir=$(prefix)/bin
 
