@@ -382,7 +382,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 			// immediately.
 			if (conf_wounded && !ob->ob_athome) {
 				if (ttype == SHOT) {
-					ob->ob_score.combatwound = true;
+					ob->ob_flightscore.combatwound = true;
 				}
 				if (state == FLYING) {
 					ob->ob_state = WOUNDED;
@@ -583,8 +583,8 @@ static void blast_target(OBJECTS *ob, obtype_t type)
 	}
 
 	if (type == BOMB || type == SHOT || type == MISSILE || type == PLANE) {
-		so->ob_score.killscore += 4;
-		so->ob_score.valour += 3 * compute_valour (ob);
+		so->ob_flightscore.killscore += 4;
+		so->ob_flightscore.valour += 3 * compute_valour (ob);
 	}
 }
 
@@ -600,12 +600,13 @@ void scorepln(OBJECTS * ob, obtype_t type)
 		if (!reverse) {
 			if (had_taken_off) {
 				if (type != PLANE) {
-					scobj->ob_score.planekills++;
+					scobj->ob_flightscore.planekills++;
 				}
-				scobj->ob_score.valour += 4 * (2 + compute_valour (ob));
+				scobj->ob_flightscore.valour +=
+					4 * (2 + compute_valour (ob));
 			}
 
-			scobj->ob_score.killscore += 3;
+			scobj->ob_flightscore.killscore += 3;
 		}
 	}
 }

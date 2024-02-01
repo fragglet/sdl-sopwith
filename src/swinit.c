@@ -110,16 +110,14 @@ void initdisp(bool reset)
 // object creation
 //
 
-
-static void initplanescore (score_t *score)
+static void initscore(score_t *score)
 {
-	score->planekills = 0;
-	score->medals = 0x0000;
-	score->valour = 0;
-	score->killscore = 0;
-	score->landings = 0;
-	score->medals_nr = 0;
-	score->ribbons_nr = 0;
+	memset(score, 0, sizeof(score_t));
+}
+
+static void initflightscore(flight_score_t *score)
+{
+	memset(score, 0, sizeof(flight_score_t));
 }
 
 #define SERVICE_KILLSCORE 5
@@ -127,95 +125,97 @@ static void initplanescore (score_t *score)
 #define VALOUR_PRELIMIT 175
 #define VALOUR_LIMIT 250
 
+static bool have_medal(int *medals, int medals_nr, int medal_id)
+{
+	int i;
+
+	for (i = 0; i < medals_nr; i++) {
+		if (medals[i] == medal_id) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 static void give_medal(OBJECTS *ob, int medal_id)
 {
-	ob->ob_score.medalslist[ob->ob_score.medals_nr++] = medal_id;
+	score_t *sc = &ob->ob_score;
+	if (!have_medal(sc->medals, sc->medals_nr, medal_id)) {
+		assert(sc->medals_nr < 3);
+		sc->medals[sc->medals_nr++] = medal_id;
+	}
 }
 
 static void give_ribbon(OBJECTS *ob, int ribbon_id)
 {
-	ob->ob_score.ribbons[ob->ob_score.ribbons_nr++] = ribbon_id;
+	score_t *sc = &ob->ob_score;
+	if (!have_medal(sc->ribbons, sc->ribbons_nr, ribbon_id)) {
+		assert(sc->ribbons_nr < 6);
+		sc->ribbons[sc->ribbons_nr++] = ribbon_id;
+	}
 }
 
 static void get_awards(OBJECTS *ob)
 {
-	score_t *lsc = &ob->ob_lastscore;
+	flight_score_t *fsc = &ob->ob_flightscore;
 	score_t *sc = &ob->ob_score;
 
-	if (!(lsc->medals & MEDAL_PURPLEHEART)) {
-		// We only award purple heart if wounded in combat (=hit by
-		// bullet), not from a bird strike or flying into an ox
-		if (ob->ob_score.combatwound) {
-			sc->medals |= MEDAL_PURPLEHEART;
-			give_medal(ob, MEDAL_ID_PURPLEHEART);
+	// We only award purple heart if wounded in combat (=hit by bullet),
+	// not from a bird strike or flying into an ox.
+	if (fsc->combatwound) {
+		give_medal(ob, MEDAL_PURPLEHEART);
+	}
+
+	// We count up the number of planes shot down, but they only count if
+	// the player returns to base successfully.
+	sc->planekills += fsc->planekills;
+	//printf("planes %d %d\n", sc->planekills, fsc->planekills);
+	if (sc->planekills >= 5) {
+		give_ribbon(ob, RIBBON_ACE);
+	}
+	if (sc->planekills >= 25) {
+		give_ribbon(ob, RIBBON_TOPACE);
+	}
+
+	// We count the number of landings during which we did a decent amount
+	// of damage to the enemy.
+	if (fsc->killscore >= SERVICE_KILLSCORE) {
+		sc->landings++;
+	}
+	//printf("kills %d landings %d\n", fsc->killscore, sc->landings);
+	if (sc->landings >= 3) {
+		give_ribbon(ob, RIBBON_SERVICE);
+	}
+
+	// If a huge number of damage is done, we give a medal (first time) or
+	// ribbon (second time)
+	if (fsc->killscore >= COMPETENCE_KILLSCORE) {
+		if (!have_medal(sc->medals, sc->medals_nr, MEDAL_COMPETENCE)) {
+			give_medal(ob, MEDAL_COMPETENCE);
+		} else {
+			give_ribbon(ob, RIBBON_COMPETENCE2);
 		}
 	}
 
-	if (!(lsc->medals & MEDAL_ACE)) {
-		if (sc->planekills >= 5) {
-			sc->medals |= MEDAL_ACE;
-			give_ribbon(ob, RIBBON_ID_ACE);
-		}
+	// We count up valour, but again - only if the player returned to base
+	// successfully
+	sc->valour += fsc->valour;
+	//printf("valour %d %d\n", sc->valour, fsc->valour);
+	if (sc->valour >= VALOUR_PRELIMIT) {
+		give_ribbon(ob, RIBBON_PREVALOUR);
 	}
-
-	if (!(lsc->medals & MEDAL_TOPACE)) {
-		if (sc->planekills >= 25) {
-			sc->medals |= MEDAL_TOPACE;
-			give_ribbon(ob, RIBBON_ID_TOPACE);
-		}
+	if (sc->valour >= VALOUR_LIMIT) {
+		give_medal(ob, MEDAL_VALOUR);
 	}
-
-	if (!(lsc->medals & MEDAL_SERVICE)) {
-		if (sc->killscore >= SERVICE_KILLSCORE) {
-			sc->landings++;
-		}
-
-		if (sc->landings >= 3) {
-			sc->medals |= MEDAL_SERVICE;
-			give_ribbon(ob, RIBBON_ID_SERVICE);
-		}
-	}
-
-	if (sc->killscore >= COMPETENCE_KILLSCORE) {
-		if (!(lsc->medals & MEDAL_COMPETENCE)) {
-			sc->medals |= MEDAL_COMPETENCE;
-			give_medal(ob, MEDAL_ID_COMPETENCE);
-		} else if (!(lsc->medals & MEDAL_COMPETENCE2)) {
-			sc->medals |= MEDAL_COMPETENCE2;
-			give_ribbon(ob, RIBBON_ID_COMPETENCE2);
-		}
-	}
-
-	if (!(lsc->medals & MEDAL_PREVALOUR)) {
-		if (sc->valour >= VALOUR_PRELIMIT) {
-			sc->medals |= MEDAL_PREVALOUR;
-			give_ribbon(ob, RIBBON_ID_PREVALOUR);
-		}
-	}
-
-	if (!(lsc->medals & MEDAL_VALOUR)) {
-		if (sc->valour >= VALOUR_LIMIT) {
-			sc->medals |= MEDAL_VALOUR;
-			give_medal(ob, MEDAL_ID_VALOUR);
-		}
-	}
-
-	sc->killscore = 0;
-	ob->ob_lastscore = ob->ob_score;
 }
 
 static void get_endlevel(OBJECTS *ob)
 {
-	score_t *sc = &ob->ob_score;
-	score_t *lsc = &ob->ob_lastscore;
-
 	get_awards(ob);
 
-	if (!(lsc->medals & MEDAL_PERFECT)) {
-		if (ob->ob_crashcnt == 0) {
-			sc->medals |= MEDAL_PERFECT;
-			give_ribbon(ob, RIBBON_ID_PERFECT);
-		}
+	if (ob->ob_crashcnt == 0) {
+		give_ribbon(ob, RIBBON_PERFECT);
 	}
 }
 
@@ -240,6 +240,8 @@ OBJECTS *initpln(OBJECTS * obp)
 		/* Just returned home */
 		get_awards(ob);
 	}
+
+	initflightscore(&ob->ob_flightscore);
 
 	ob->ob_type = PLANE;
 
@@ -267,7 +269,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_newsym = symbol_plane[ob->ob_orient][0];
 	ob->ob_athome = true;
 	ob->ob_onmap = true;
-	ob->ob_score.combatwound = false;
+	ob->ob_flightscore.combatwound = false;
 
 	if (!obp || ob->ob_state == CRASHED) {
 		/* New plane */
@@ -276,11 +278,9 @@ OBJECTS *initpln(OBJECTS * obp)
 		ob->ob_missiles = MAXMISSILES;
 		ob->ob_bursts = MAXBURSTS;
 		ob->ob_life = MAXFUEL;
-		initplanescore(&ob->ob_lastscore);
 	}
 	if (!obp) {
-		initplanescore(&ob->ob_score);
-		ob->ob_score.score = ob->ob_crashcnt = 0;
+		initscore(&ob->ob_score);
 		ob->ob_endsts = PLAYING;
 		ob->ob_target = NULL;
 		insertx(ob, &topobj);

@@ -17,6 +17,7 @@
   Gebbie)
 * An input bug was fixed where a backspace would leave some visual
   corruption, and the cursor now blinks.
+* A bug was fixed where the same medal could be awarded twice.
 
 # v 2.3.0 (2023-05-20)
 

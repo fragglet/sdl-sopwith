@@ -41,7 +41,7 @@ static void dispmedals(OBJECTS *ob)
 	int i;
 
 	for (i = 0; i < ob->ob_score.medals_nr; i++) {
-		int medal_id = ob->ob_score.medalslist[i];
+		int medal_id = ob->ob_score.medals[i];
 
 		Vid_DispSymbol(medal_offset + medal_offsets[medal_id],
 		               11, symbol_medal[medal_id], OWNER_PLAYER1);
