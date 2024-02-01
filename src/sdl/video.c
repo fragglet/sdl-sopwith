@@ -610,7 +610,7 @@ static bool AltDown(void)
 	return (SDL_GetModState() & KMOD_ALT) != 0;
 }
 
-static void CtrlKeyPress(SDL_KeyCode k)
+static void CtrlKeyPress(SDL_Keycode k)
 {
 	switch (k) {
 #ifndef NO_EXIT
