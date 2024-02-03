@@ -115,6 +115,7 @@ static SDL_Texture *texture_upscaled = NULL;
 #define ICON_SCALE 4
 static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
+	SDL_Color *pal = &VideoPalettes[0].color;
 	SDL_Surface *surface = SDL_CreateRGBSurface(
 		0, sym->w * ICON_SCALE, sym->h * ICON_SCALE, 32,
 		0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
@@ -143,7 +144,7 @@ static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 				dst[x] = 0;
 				continue;
 			}
-			p = &cga_pal[src[sx]];
+			p = &pal[src[sx]];
 			dst[x] = (p->r << 24) | (p->g << 16)
 			       | (p->b << 8) | 0xff;
 		}
