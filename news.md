@@ -2,6 +2,26 @@
 title: SDL Sopwith: News
 ---
 
+## February 3, 2024
+
+SDL Sopwith v2.4.0 is now out. Besides some bug fixes, the major
+improvements are:
+
+* There is now an emscripten (web) version, now available to play
+  [right here](web/sopwith.html) on the website with no download
+  necessary.
+* It is now possible to make and load custom levels. While there is no
+  proper level editor available yet, enterprising and
+  sufficiently-motivated individuals may want to try making some new
+  levels anyway. Let us know if you put a new level together, and we
+  can maybe include it with future releases.
+* There are now a number of alternative palettes that can be used that
+  simulate different CGA palettes and old monitors, for people who want
+  that truly authentic retro experience from their youth.
+
+A more complete list can be found
+[in the release notes](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-2.4.0).
+
 ## May 20, 2023
 
 SDL Sopwith v2.3.0 comes hot on the tail of the v2.2.0 just a few days
