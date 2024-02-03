@@ -49,7 +49,7 @@ jobs:
         fi
         echo "VERSION=$VERSION-macos" >> $GITHUB_OUTPUT
         # Patch the version in configure.ac:
-        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
+        sed -i.old "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
             configure.ac
     - name: autogen
       run: ./autogen.sh
