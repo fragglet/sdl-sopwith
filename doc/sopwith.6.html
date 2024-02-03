@@ -7,9 +7,6 @@
   <title>sopwith</title>
   <style>
     html {
-      line-height: 1.5;
-      font-family: Georgia, serif;
-      font-size: 20px;
       color: #1a1a1a;
       background-color: #fdfdfd;
     }
@@ -28,13 +25,16 @@
     @media (max-width: 600px) {
       body {
         font-size: 0.9em;
-        padding: 1em;
+        padding: 12px;
       }
       h1 {
         font-size: 1.8em;
       }
     }
     @media print {
+      html {
+        background-color: white;
+      }
       body {
         background-color: transparent;
         color: black;
@@ -84,9 +84,10 @@
       color: #606060;
     }
     code {
-      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
       font-size: 85%;
       margin: 0;
+      hyphens: manual;
     }
     pre {
       margin: 1em 0;
@@ -148,12 +149,68 @@
     }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
+  
+  <!-- Tweaks to the pandoc output style to make the resulting HTML
+       look much nicer. -->
+
+  <style>
+  body {
+      background-color: white;
+      margin-top: 1.5em;
+      margin-bottom: 4em;
+
+      max-width: 38em;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+
+      padding: 0;
+      padding-left: 1.3em;
+      padding-right: 1.3em;
+
+      font-size: large;
+      color: #555;
+      line-height: 1.6;
+
+      text-align: justify;
+      overflow-wrap: break-word;
+  }
+
+  header {
+        font-family: serif;
+        margin-top: 0;
+        margin-bottom: 0.2em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+        margin-top: 0.5em;
+        margin-bottom: 0.2em;
+  }
+
+  p {
+        margin-top: 0;
+        margin-bottom: 0.8em;
+  }
+
+  dl {
+        margin-block-start: 0.5em;
+  }
+  </style>
+
 </head>
 <body>
 <header id="title-block-header">
@@ -163,18 +220,19 @@
 <p>sopwith - classic aerial combat shoot em up game</p>
 <h1>SYNOPSIS</h1>
 <p><strong>sopwith</strong> [ -n | -s | -c | -l | -j <em>host</em> ]
-[-f] [-g<em>level</em>] [-q]</p>
+[-f] [-g<em>level</em>] [-m <em>filename</em>] [-q]</p>
 <h1>DESCRIPTION</h1>
 <p>Sopwith is a modern port of the classic 1980s shoot 'em up game of
 the same name. The game has a World War I aviation theme. The object of
 Sopwith is to destroy all enemy targets with a somewhat limited
-airforce. It can be played both in single player and multiplayer mode
-over a TCP/IP network. Sopwith looks for a configuration file in the
-user's home directory at <em>~/.local/share/SDL
-Sopwith/sopwith.cfg</em>; the configuration file is only generated after
-the user changes one of the settings from the in-game options menu.
-Details about the contents of this file can be found in
-<strong>sopwith.cfg</strong>(5).</p>
+airforce.</p>
+<p>It can be played both in single player and multiplayer mode over a
+TCP/IP network.</p>
+<p>Sopwith looks for a configuration file in the user's home directory
+at <em>~/.local/share/SDL Sopwith/sopwith.cfg</em>; the configuration
+file is only generated after the user changes one of the settings from
+the in-game options menu. Details about the contents of this file can be
+found in <strong>sopwith.cfg</strong>(5).</p>
 <h1>OPTIONS</h1>
 <dl>
 <dt>-n</dt>
@@ -198,6 +256,11 @@ much of a challenge.</p>
 <p>Start a network game listening for a network connection. See the
 section "MULTIPLAYER SERVERS" below for more details.</p>
 </dd>
+<dt>-p</dt>
+<dd>
+<p>Use a different TCP port for multiplayer games than the default
+(3847).</p>
+</dd>
 <dt>-j <em>host:port</em></dt>
 <dd>
 <p>Start a network game, connecting to another listening host as
@@ -216,6 +279,10 @@ then TCP port 3847 is used.</p>
 <dt>-q</dt>
 <dd>
 <p>Turn off sound (quiet)</p>
+</dd>
+<dt>-m <em>filename</em></dt>
+<dd>
+<p>Load new mission (level) from the given filename.</p>
 </dd>
 </dl>
 <h1>CONTROLS</h1>
@@ -257,6 +324,14 @@ then TCP port 3847 is used.</p>
 <dd>
 <p>turn on sound effects</p>
 </dd>
+<dt>Ctrl+R</dt>
+<dd>
+<p>restart the current game, only works in single player mode</p>
+</dd>
+<dt>Ctrl+Q</dt>
+<dd>
+<p>quit the current game, only works in single player mode</p>
+</dd>
 <dt>Ctrl+C</dt>
 <dd>
 <p>quit</p>
@@ -284,14 +359,16 @@ machine gun.</p></li>
 planes. Some targets at the edges of the map are much easier to destroy
 in this way. Since the machine gun has a limited range, reducing your
 speed when attacking a ground target can give you more time to aim and
-attack before you have to pull away.</p></li>
+attack before you have to pull away. But don't reduce the speed too much
+or the plane may stall.</p></li>
 <li><p>Computer planes will try to tail you so that they can shoot you
 down. Don't allow them to get a clear shot. "Wiggling" the plane by
 repeatedly pulling up and down can be an effective evasive
 maneuver.</p></li>
 <li><p>Firing your machine gun through a flock of birds will cause the
 birds to disperse, and the computer planes will sometimes hit a bird and
-crash. However, this tactic can also backfire.</p></li>
+crash. However, this tactic can also backfire for obvious
+reasons.</p></li>
 <li><p>Each computer plane has a "territory" and if you escape that
 territory they will break off their pursuit. At the boundary between
 territories you can sometimes trick two planes into crashing into each
@@ -305,6 +382,8 @@ ground.</p></li>
 <li><p>Wait until you're close to your base with a clear path to the
 runway before pressing the home key - the autopilot sometimes makes
 mistakes.</p></li>
+<li><p>It's possible to fly upside down, but trying to drop bombs while
+inverted is usually unwise.</p></li>
 </ul>
 <h1>MEDALS</h1>
 <p>If the "medals" game option is turned on, the player is rewarded with
@@ -351,8 +430,9 @@ player's base</p>
 <p>As above, but a few more points</p>
 </dd>
 </dl>
-<p>All medals and counters for these are reset once a plane is
-destroyed.</p>
+<p>Medals are only awarded if you get back to base safely. For example,
+if you destroy some targets but then crash, or if you shoot down a plane
+but get shot down yourself, it doesn't count.</p>
 <h1>MULTIPLAYER SERVERS</h1>
 <p>When run in "listen" mode with the <strong>-l</strong> command line
 flag (see above), <strong>sopwith</strong> runs as a server that listens
@@ -360,24 +440,30 @@ for an incoming connection. To make this server available from a home
 Internet connection, you will typically have to set up a port forward
 from your Internet router. The port to forward is TCP port 3847. You
 will also need to find out your public IP address so that the other
-player can connect. Alternatively, if you have access to a *nix-based
-server then it may be preferable to run something like a dedicated
-server that avoids the hassle of port forwarding and dynamic IPs. All
-that is needed in order to do this is to run a TCP server that forwards
-connections between two clients. This can be done using
-<strong>nc</strong>(1); for example:</p>
+player can connect.</p>
+<p>Alternatively, if you have access to a *nix-based server then it may
+be preferable to run something like a dedicated server that avoids the
+hassle of port forwarding and dynamic IPs. All that is needed in order
+to do this is to run a TCP server that forwards connections between two
+clients. This can be done using <strong>nc</strong>(1); for example:</p>
 <blockquote>
 <p>nc -l -p 3847 -c "nc -l -p 3847"</p>
 </blockquote>
 <p>Developing the above command into a complete shell script for a
 continually-active dedicated server is left as an exercise for the
 reader.</p>
+<h1>WWW</h1>
+<p><a href="https://fragglet.github.io/sdl-sopwith"></a></p>
+<h1>BUG REPORTS</h1>
+<p>Bugs can be reported to the GitHub issue tracker: <a
+href="https://github.com/fragglet/sdl-sopwith"></a></p>
 <h1>SEE ALSO</h1>
 <p><strong>sopwith.cfg</strong>(5), <strong>triplane</strong>(6),
 <strong>airstrike</strong>(6)</p>
 <h1>AUTHORS</h1>
 <p>Originally written by David L. Clark for BMB Compuscience<br />
-Modern SDL port By Simon Howard, Jesse Smith</p>
+Modern SDL port By <a href="mailto:fraggle@gmail.com">Simon Howard</a>,
+Jesse Smith</p>
 <h1>HISTORY</h1>
 <p>Sopwith was originally developed by BMB Compuscience of Canada as a
 demonstration game for their Imaginet Networking System. The system was
@@ -401,5 +487,17 @@ Sopwith; 5,490 aircraft were produced. In popular culture the Camel is
 known for being the biplane flown by the protagonist in the
 <em>Biggles</em> series of novels, and by Snoopy in the <em>Peanuts</em>
 comic strip.</p>
+<h1>COPYRIGHT</h1>
+<p>Copyright © 1984, 1985, 1987 BMB Compuscience Inc.<br />
+Copyright © 1984-2000 David L. Clark<br />
+Copyright © 2001-2024 Simon Howard, Jesse Smith</p>
+<p>This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2 of the License, or (at your
+option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+Public License for more details.</p>
 </body>
 </html>
