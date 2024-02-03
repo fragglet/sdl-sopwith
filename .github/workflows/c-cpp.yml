@@ -38,12 +38,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install SDL
       run: brew install sdl2 autoconf automake libtool pandoc
-    - name: autogen
-      run: ./autogen.sh
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make -j4
     - name: Find Git version
       id: version
       run: |
@@ -54,6 +48,15 @@ jobs:
           VERSION=$(git rev-parse --short HEAD)
         fi
         echo "VERSION=$VERSION-macos" >> $GITHUB_OUTPUT
+        # Patch the version in configure.ac:
+        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
+            configure.ac
+    - name: autogen
+      run: ./autogen.sh
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make -j4
     - name: Make package
       run: |
         cd pkg/macos
@@ -84,6 +87,9 @@ jobs:
           VERSION=$(git rev-parse --short HEAD)
         fi
         echo "VERSION=$VERSION-js" >> $GITHUB_OUTPUT
+        # Patch the version in configure.ac:
+        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
+            configure.ac
     - name: build
       run: ./embuild.sh
     - name: make pkg
@@ -129,6 +135,9 @@ jobs:
           VERSION=$VERSION-win32
         fi
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        # Patch the version in configure.ac:
+        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
+            configure.ac
     - name: Install dependencies
       run: |
         sudo apt update
