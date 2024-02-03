@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title> SDL Sopwith 2.4.0 </title>
+    <style>
+      body {
+        background-color: black;
+      }
+      canvas.emscripten, #loading {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(5vw, 5vh);
+        width: 90vw;
+      }
+      canvas.emscripten {
+        visibility: hidden;
+        height: 90vh;
+      }
+    </style>
+
+    <meta property="og:title" content="Sopwith" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Play the classic biplane shoot 'em up" />
+    <meta property="og:image" content="https://fragglet.github.io/sdl-sopwith/img/start-screen-wide.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Screenshot of the start position of the game Sopwith" />
+
+    <meta name="twitter:title" content="Sopwith">
+    <meta name="twitter:description" content="Play the classic biplane shoot 'em up">
+    <meta name="twitter:image" content="https://fragglet.github.io/sdl-sopwith/img/start-screen-wide.png">
+    <meta name="twitter:image:alt" content="Screenshot of the start position of the game Sopwith">
+    <meta name="twitter:card" content="summary_large_image">
+  </head>
+  <body>
+    <div class="emscripten">
+      <progress value="0" max="100" id="progress" hidden=1></progress>
+    </div>
+
+    <div class="emscripten_border">
+      <canvas class="emscripten" id="canvas" tabindex=-1></canvas>
+    </div>
+
+    <img id="loading" src="loading.gif">
+
+    <script type='text/javascript'>
+      function programError() {
+        canvas.style.visibility = "hidden";
+        loadingElement.style.visibility = "visible";
+        loadingElement.setAttribute("src", "error.png");
+      }
+      var progressElement = document.getElementById('progress');
+      var loadingElement = document.getElementById('loading');
+      var canvas = document.getElementById('canvas');
+
+      function syncFilesystems() {
+        FS.syncfs(() => {})
+      }
+
+      function mountFilesystems() {
+        // The Sopwith configuration file is stored in /libsdl/SDL Sopwith.
+        FS.mkdir("/libsdl")
+        FS.mount(IDBFS, {}, "/libsdl")
+        // We can't start the game until we have synced all the contents of
+        // /libsdl from IndexedDB. Because of this, we set a run dependency
+        // that defers starting until the callback is invoked.
+        addRunDependency("mountFilesystems");
+        FS.syncfs(true, () => {
+          // We sync the filesystem every 5 seconds.
+          setInterval(syncFilesystems, 5000);
+          removeRunDependency("mountFilesystems");
+          run();
+        })
+      }
+
+      var Module = {
+        preRun: [function(){
+          canvas.style.visibility = "visible";
+          loadingElement.style.visibility = "hidden";
+        }, mountFilesystems],
+        onAbort: function(x) {
+          programError();
+        },
+        canvas: (function() {
+          canvas.addEventListener("webglcontextlost", function(e) {
+            alert('WebGL context lost. You will need to reload the page.');
+            e.preventDefault();
+            programError();
+          }, false);
+          return canvas;
+        })(),
+      };
+      window.addEventListener("error", (event) => {
+        programError();
+        Module.setStatus('Exception thrown, see JavaScript console');
+        Module.setStatus = function(text) {
+          if (text) Module.printErr('[post-exception status] ' + text);
+        };
+      });
+    </script>
+
+    <script async type="text/javascript" src="sopwith.js"></script>
+  </body>
+</html>

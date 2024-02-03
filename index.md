@@ -9,7 +9,7 @@ computers and operating systems. It is named "SDL Sopwith" as it uses the
 [LibSDL](https://www.libsdl.org/) cross-platform library.
 
 * [Screenshots](sshot.md) of it in action.
-* [Go get it!](getit.md)
+* [Play now](web/sopwith.html) in your browser, or [download it](getit.md).
 * [Frequently Asked Questions](FAQ.md) about SDL Sopwith, and other
   [documentation](docs.md).
 * [Github Page](https://github.com/fragglet/sdl-sopwith) where you can browse
