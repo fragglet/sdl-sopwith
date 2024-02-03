@@ -47,7 +47,12 @@ jobs:
     - name: Find Git version
       id: version
       run: |
-        VERSION=$(git rev-parse --short HEAD)
+        if git describe --exact-match --tags >/dev/null; then
+          VERSION=$(git describe --exact-match --tags)
+          VERSION=${VERSION/#sdl-sopwith-/}
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
         echo "VERSION=$VERSION-macos" >> $GITHUB_OUTPUT
     - name: Make package
       run: |
@@ -72,7 +77,12 @@ jobs:
     - name: Find Git version
       id: version
       run: |
-        VERSION=$(git rev-parse --short HEAD)
+        if git describe --exact-match --tags >/dev/null; then
+          VERSION=$(git describe --exact-match --tags)
+          VERSION=${VERSION/#sdl-sopwith-/}
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
         echo "VERSION=$VERSION-js" >> $GITHUB_OUTPUT
     - name: build
       run: ./embuild.sh
@@ -107,7 +117,12 @@ jobs:
     - name: Find Git version
       id: version
       run: |
-        export VERSION=$(git rev-parse --short HEAD)
+        if git describe --exact-match --tags >/dev/null; then
+          VERSION=$(git describe --exact-match --tags)
+          VERSION=${VERSION/#sdl-sopwith-/}
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
         if [[ ${{ matrix.host }} = x86_64-w64-mingw32 ]]; then
           VERSION=$VERSION-win64
         else
