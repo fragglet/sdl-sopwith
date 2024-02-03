@@ -60,7 +60,7 @@ extern int     keydelay;
 extern int     dispcnt;
 extern int     endstat;
 extern int     maxcrash;
-extern jmp_buf envrestart;
+extern bool    restart_flag;
 
 extern int latest_player_commands[MAX_PLYR][MAX_NET_LAG];
 extern int latest_player_time[MAX_PLYR];

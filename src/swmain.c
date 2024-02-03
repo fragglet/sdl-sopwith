@@ -72,6 +72,7 @@ int keydelay = -1;		/* Number of displays per keystroke */
 int dispcnt;			/* Displays to delay keyboard       */
 int endstat;			/* End of game status for curr. move */
 int maxcrash;			/* Maximum number of crashes        */
+bool restart_flag;              /* Return to main menu              */
 
 const int sintab[ANGLES] = {	/* sine table of pi/8 increments    */
 	0, 98, 181, 237,	/*   multiplied by 256              */
@@ -79,9 +80,6 @@ const int sintab[ANGLES] = {	/* sine table of pi/8 increments    */
 	0, -98, -181, -237,
 	-256, -237, -181, -98
 };
-
-jmp_buf envrestart;		/* Restart environment for restart  */
-				/*  long jump.                      */
 
 /* player commands */
 
@@ -198,7 +196,9 @@ int swmain(int argc, char *argv[])
 	int nexttic;
 
 	swinit(argc, argv);
-	setjmp(envrestart);
+
+restart:
+        restart_flag = false;
 
 	// sdh 28/10/2001: playmode is called from here now
 	// makes for a more coherent progression through the setup process
@@ -213,6 +213,11 @@ int swmain(int argc, char *argv[])
 
 	for (;;) {
 		int nowtime;
+
+		/* Sure, goto is bad, but this used to be a longjmp! */
+		if (restart_flag) {
+			goto restart;
+		}
 
 		/* generate a new move command periodically
 		 * and send to other players if necessary */

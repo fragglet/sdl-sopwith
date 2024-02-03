@@ -1011,7 +1011,9 @@ void swrestart(void)
 		playmode = PLAYMODE_UNSET;
 	}
 
-	longjmp(envrestart, 0);
+	// The main loop code in swmain.c will detect this and return
+	// to the title screen.
+	restart_flag = true;
 }
 
 // init game

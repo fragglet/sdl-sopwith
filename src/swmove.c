@@ -177,6 +177,7 @@ bool moveplyr(OBJECTS *ob)
 		if (endcount <= 0) {
 			if (playmode != PLAYMODE_ASYNCH && !quit) {
 				swrestart();
+				return true;
 			}
 			swend(NULL, true);
 		}
