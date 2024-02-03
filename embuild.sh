@@ -22,7 +22,7 @@ export EM_FROZEN_CACHE=
 export PKG_CONFIG_PATH=$EM_CACHE/pkg
 export PATH="$EM_CACHE/bin:$PATH"
 export CFLAGS="-fexceptions -sSUPPORT_LONGJMP=emscripten"
-export LDFLAGS="-flto -sASYNCIFY -sENVIRONMENT=web -lidbfs.js $CFLAGS"
+export LDFLAGS="-flto -sASYNCIFY -sENVIRONMENT=web -lidbfs.js -Wl,-u,ntohs $CFLAGS"
 
 # The first time creating the cache directory, we make a copy of the
 # one already installed on the system, to avoid having to rebuild all

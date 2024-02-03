@@ -1,6 +1,8 @@
 # v2.4.0 (2024-02-??)
 
 * There is now an emscripten (web) version, available on the website.
+  (Thanks go to @midzer, who previously did an Emscripten port and whose
+  work I built on to put the build script together).
 * It is now possible to make and load custom levels (there is no proper
   level editor available yet though).
 * There are now a number of alternative palettes that can be used that
