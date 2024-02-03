@@ -1,4 +1,4 @@
-# v2.4.0 (2024-02-??)
+# v2.4.0 (2024-02-03)
 
 * There is now an emscripten (web) version, available on the website.
   (Thanks go to @midzer, who previously did an Emscripten port and whose
