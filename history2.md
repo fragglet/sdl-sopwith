@@ -75,7 +75,7 @@ multiple options including CP/M-86.
 * [Some published articles about Imaginet](imaginet.md) that give some
 technical information about the system and how it worked.
 * [Canadian patent 1172380](articles/canada-patent-1172380.pdf) and the
-equivalent [US patent 4792896](us-patent-4792896.pdf).
+equivalent [US patent 4792896](articles/us-patent-4792896.pdf).
 * [1984 full-page ad from the Edmonton Journal](articles/edmonton_journal_oct1984.pdf)
 about BMB and Imaginet.
 * [Cover photo from BMB's annual report](https://www.flickr.com/photos/stompr/4302616998)
