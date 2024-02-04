@@ -19,9 +19,9 @@ Released less than three years after the release of the
 system. The PC remains an important platform for games to this day.
 
 Sopwith is one of the earliest networked games, and indeed was developed as
-a demo program for the proprietary Imaginet system, an early form of
-[LAN](https://en.wikipedia.org/wiki/Local_area_network)  Certainly there
-are other earlier and contemporary examples, including
+a demo program for the proprietary [Imaginet](history2.md) system, an early
+form of [LAN](https://en.wikipedia.org/wiki/Local_area_network). Certainly
+there are other earlier and contemporary examples, including
 [Maze War](https://en.wikipedia.org/wiki/Maze_War) and
 [SGI Dogfight](https://en.wikipedia.org/wiki/SGI_Dogfight); Sopwith was not
 the first. However, at the time of its release there were still relatively
