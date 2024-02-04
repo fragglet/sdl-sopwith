@@ -1,4 +1,3 @@
-
 ---
 title: History of Sopwith: Sopwith meets the Internet
 ---
@@ -82,7 +81,7 @@ VR game that explicitly lists the original Sopwith as an inspiration.
 another game that lists Sopwith as an influence.
 
 ![Still frame from Turd Eating Cat: a monkey flying a cyan plane is being
-chased by a cat in a magenta plane](turd-eating-cat.png)
+chased by a cat in a magenta plane](img/turd-eating-cat.png)
 
 [Turd-eating cat](https://www.youtube.com/watch?v=1rZFk9ww29U), a surreal
 flash animation from 2010. Sometimes Sopwith references pop up in unusual
