@@ -41,13 +41,16 @@ versions of Sopwith date to this time.
 ![Boxed copy of Imaginet showing manual, floppy disks and ISA card](img/imaginet-boxed.jpg)
 
 Some [articles](imaginet.md) describe the system, including a multi-page ad
-written by Jack Cole, one of the system's technical architects. A virtual disk
-drive could be accesed by multiple other client machines, and the shared drive
-would appear to those clients as though it was just another floppy drive. This
-was the origin of the Imaginet name, the idea being that "you have to imagine
-that a network's really there". Marketing materials for Imaginet emphasized
-this "transparency" that allowed normal DOS software to interface with the
-network. The system could work hierarchically, with the idea that the network
+written by Jack Cole, one of the system's technical architects, who gives some
+details about the system and the underlying philosophy behind its design.
+A virtual drive could be accesed by multiple other client machines, and the
+shared drive would appear to those clients as though it was just another floppy
+drive.
+
+Marketing materials for Imaginet emphasized this "transparency" that allowed
+normal DOS software to interface with the network.  This was the origin of the
+Imaginet name, the idea being that "you have to imagine that a network's really
+there".  The system could work hierarchically, with the idea that the network
 could mirror a company's corporate structure.
 
 ![Hierarchy diagram of an Imaginet network](img/imaginet-hierarchy.jpg)
@@ -63,7 +66,7 @@ allowed printers to be shared.
 Imaginet's hardware-based networking seems unusual nowadays, where networking
 is based on protocols and, of course, connection to the Internet. Nonetheless,
 the system provided some unique advantages - specifically software
-compatibility that was likely unmatched by competing products. MS-DOS at the
+compatibility - that was likely unmatched by competing products. MS-DOS at the
 time did not have any native interfaces for networking, and would not gain
 them until 1987 with the release of MS-DOS 3.0. The hardware-based approach
 also meant that any operating system could be used - IBM originally offered
@@ -89,19 +92,21 @@ communication appears to have worked by having different players continually
 reading and writing from the same disk sector.
 
 Sopwith somehow "escaped the lab" and PC players everywhere came to enjoy
-its single player mode. No doubt many fans curious about the multiplayer option
-on the main menu to make it work, but without the Imaginet hardware, their
-efforts were doomed. The reliance on direct hardware access made its use with
-other networking systems impossible, since few (if any) supported such a
-feature. It is only recently, with the
-[Imaginot](https://github.com/fragglet/imaginot) wrapper program, that the
-original multiplayer has been successfully made to work.
+its single player modes. No doubt many fans curious about the multiplayer option
+on the main menu have tried over the years to make it work, but without the
+Imaginet hardware, their efforts were futile. The reliance on direct hardware
+access made its use with other networking systems impossible, since few (if
+any) supported such a feature. It is only recently, with the
+[Imaginot](https://github.com/fragglet/imaginot) adapter program, that the
+original multiplayer has been successfully made to work again.
 
 Besides Sopwith, a serious application for Imaginet was an electronic mail
-system system called NetMail, which was later the subject of the lawsuit
-mentioned above.  While Imaginet does not appear to have been particuarly
-successful in the marketplace, it did find some customers in Canada, and
-remains an interesting footnote in the history of PC networking.
+system system called NetMail, notable for having been the subject of a
+landmark Canadian court ruling over a claim that its name was infringing on
+another company's trademark (BMB won the case). While Imaginet does not appear
+to have been particuarly successful in the marketplace, it did find some
+customers in Canada, and remains an interesting footnote in the history of PC
+networking.
 
 ---
 
