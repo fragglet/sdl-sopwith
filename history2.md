@@ -53,5 +53,5 @@ goes to Harry McCracken who originally shared this on Twitter).
 
 ---
 
-[**Next: DOS versions**](history3.md)
+**Next:** [DOS versions](history3.md)
 

@@ -103,5 +103,5 @@ comic strip (in his imagined dogfights with "The Red Baron").
 
 ---
 
-[**Next: Imaginet**](history2.md)
+**Next:** [Imaginet](history2.md)
 
