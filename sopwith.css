@@ -55,13 +55,12 @@ a:visited {
 
 #edit-link {
   position: fixed;
-  right: 5px;
+  right: 20px;
   top: 5px;
   color: white;
   background-color: black;
   opacity: 25%;
   padding: 5px;
-  padding-right: 20px;
   border-radius: 10px;
 }
 
