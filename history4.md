@@ -22,7 +22,7 @@ this day, although it has been mostly dormant in recent years.
 More recently a [Discord server](https://discord.gg/S2P5wUUzNU) has been set
 up for fans to talk about the game and arrange multiplayer games.
 
-# The source code release
+## The source code release
 
 ![Illustration: Sopwith Network Edition](original-files/swnet_title.png)
 
@@ -46,7 +46,7 @@ This source code release was followed by [Sopwith
 Jornand de Buisonje based on the original source code that is described as
 "semi-official".
 
-# Ports
+## Ports
 
 The first release of SDL Sopwith was made in October 2001, adapting the
 Sopwith source code to use the [LibSDL](https://libsdl.org/) cross-platform
@@ -73,7 +73,7 @@ TheLazy1.
 
 [Game Boy Advance port](http://davr.org/sopwith/) by David Rorex.
 
-# Remakes and Cultural Impact
+## Remakes and Cultural Impact
 
 Sopwith has inspired many other games, although exactly how many is unclear,
 since the concept of a sidescrolling airplane shoot-'em up has no doubt been
