@@ -64,13 +64,11 @@ an Emscripten (in-browser) version.
 SDL Sopwith has also served as the basis for a number of ports to different
 platforms (a list can be found on the [links page](links.md)).
 
-![Nintendo DS version](img/ds-port.png)
-
+![Nintendo DS version](img/ds-port.png) \
 [Homebrew Nintendo DS port](https://www.gamebrew.org/wiki/Sopwith) by
 TheLazy1.
 
-![Game Boy Advance version](img/gba-port.png)
-
+![Game Boy Advance version](img/gba-port.png) \
 [Game Boy Advance port](http://davr.org/sopwith/) by David Rorex.
 
 ## Remakes and Cultural Impact
@@ -80,19 +78,16 @@ since the concept of a sidescrolling airplane shoot-'em up has no doubt been
 independently invented by others. The following are a few examples, though
 there is a more comprehensive list on the [links](links.md) page.
 
-![Sopwith VR screenshot](img/sopwith-vr.jpg)
-
+![Sopwith VR screenshot](img/sopwith-vr.jpg) \
 [Sopwith VR (2018)](https://store.steampowered.com/app/998660/Sopwith_VR/), a
 VR game that explicitly lists the original Sopwith as an inspiration.
 
-![Goplanes screenshot](img/goplanes.png)
-
+![Goplanes screenshot](img/goplanes.png) \
 [Goplanes](https://archive.kontek.net/sopwith.classicgaming.gamespy.com/goplanes.htm),
 another game that lists Sopwith as an influence.
 
 ![Still frame from Turd Eating Cat: a monkey flying a cyan plane is being
-chased by a cat in a magenta plane](img/turd-eating-cat.png)
-
+chased by a cat in a magenta plane](img/turd-eating-cat.png) \
 [Turd-eating cat](https://www.youtube.com/watch?v=1rZFk9ww29U), a surreal
 flash animation from 2010. Sometimes Sopwith references pop up in unusual
 places.
