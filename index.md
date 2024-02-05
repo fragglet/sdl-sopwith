@@ -13,7 +13,6 @@ computers and operating systems. It is named "SDL Sopwith" as it uses the
 * [History of the Game](history.md).
 * [Github Page](https://github.com/fragglet/sdl-sopwith) where you can browse
   the source code, file bugs and contribute to development of the project.
-* [Latest news](news.md) from the project.
 
 SDL Sopwith is based on the original Sopwith source code, which was released by
 its author David L. Clark as Free and Open Source Software under the GNU General
