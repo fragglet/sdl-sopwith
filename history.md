@@ -20,14 +20,15 @@ system. The PC remains an important platform for games to this day.
 
 Sopwith is one of the earliest networked games, and indeed was developed as
 a demo program for the proprietary [Imaginet](history2.md) system, an early
-form of [LAN](https://en.wikipedia.org/wiki/Local_area_network). Certainly
-there are other earlier and contemporary examples, including
+form of [LAN](https://en.wikipedia.org/wiki/Local_area_network) developed by
+BMB Compuscience of Ontario, Canada. Sopwith was not the first networked game;
+other contemporary examples exist, including
 [Maze War](https://en.wikipedia.org/wiki/Maze_War) and
-[SGI Dogfight](https://en.wikipedia.org/wiki/SGI_Dogfight); Sopwith was not
-the first. However, at the time of its release there were still relatively
-few other examples. An unfortunate detail is that the game only worked with
-the proprietary BMB hardware and drivers, meaning that very few people were
-able to use this feature.
+[SGI Dogfight](https://en.wikipedia.org/wiki/SGI_Dogfight). However, at the
+time of its release there were still relatively few other examples. An
+unfortunate detail is that the game only worked with the proprietary BMB
+hardware and drivers, meaning that very few people were able to use this
+feature.
 
 Sopwith is one of the oldest video games still in active development today.
 In 2018, PC Gamer [published a list](https://www.pcgamer.com/the-80s-and-90s-pc-games-still-unbelievably-being-updated-today/)
@@ -43,13 +44,14 @@ versions, and still includes changelog comments that date all the way back to
 
 ![Illustration: BMB Compuscience logo](img/bmb_logo.png)
 
-BMB Compuscience was a Canadian company founded in 1979 and based in Milton,
-Ontario by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler. The
-initials of their first names were the origin of the name BMB. The business
-originally acted as a reseller for Commodore computers, targeting scientists
-and researchers. BMB then pivoted to focus on the IBM PC after it was released
-in 1981. This proved to be a smart move and BMB racked up enough in sales
-that it was able to open six retail stores.
+Sopwith's title screen proudly identifies it as the work of **BMB
+Compuscience**, a Canadian company founded in 1979 and based in Milton, Ontario
+by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler.  The initials
+of their first names were the origin of the name BMB. The business originally
+acted as a reseller for Commodore computers, targeting scientists and
+researchers. BMB then pivoted to focus on the IBM PC after it was released
+in 1981. This proved to be a smart move and BMB racked up enough in sales that it
+was able to open six retail stores.
 
 The company went public in 1983 but then experienced difficulties the following
 year after a market downturn. BMB responded by discontinuing the retail side
