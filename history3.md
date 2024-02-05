@@ -6,10 +6,20 @@ title: History of Sopwith: Original DOS versions
 
 # Original DOS Sopwith versions
 
-There are several MS-DOS versions of Sopwith which contain different features
-as the game was expanded and developed.
-Please note that other than the Author's Edition, these versions are
-**not** open source.
+Sopwith was (originally) an MS-DOS game and several different versions
+are known to exist. These different versions contain different features
+as the game was expanded and developed. This page documents these
+different versions.
+
+Fans have developed their own names for these different versions,
+specifically those known as "Sopwith 1" and "Sopwith 2". However, these
+names are not official, and do not appear anywhere in the program. So
+they are not true "sequels", only different versions of the same game.
+
+## Features
+
+The following table gives a quick rundown of the various features of the
+different versions:
 
 |     | 1   | 1.5 | 2   | Network Edition | Author's Edition |
 | --- | --- | --- | --- | --------------- | ---------------- |
@@ -30,11 +40,11 @@ Please note that other than the Author's Edition, these versions are
 
 ## Sopwith 1
 
-The oldest version, released in 1984, was the original demo for
-the Imaginet networking system developed by BMB Compuscience of Canada.
-Its main distinguishing feature is the use of solid white ground, which
-was later replaced by a single line (to improve performance). To
-avoid having to redraw the screen, the "camera" only moves sometimes.
+The oldest version, released in 1984, was the original demo for the
+Imaginet networking system.  Its main distinguishing feature is the use
+of solid white ground, which was later replaced by a single line (to
+improve performance). To avoid having to redraw the screen, the "camera"
+only moves sometimes.
 
 Speed is CPU-dependent, so the game runs too fast on machines faster
 than the original IBM XT unless a utility like MOSLO is used (or the
@@ -49,8 +59,10 @@ better known as the theme song for the Warner Brothers ***Merry Melodies***
 cartoon. However, the music doesn't play on the title screen unless Sopwith
 is run with the `-s` command line parameter.
 
-Multiplayer depends on the proprietary BMB drivers and Imaginet networking
-system and to my knowledge, no fans have ever been able to get it working.
+The multiplayer feature was thought to be unusable without the original
+Imaginet hardware, but has recently
+[been made to work](https://www.youtube.com/watch?v=HxEBEqbuIqI) by
+having multiple instances of QEMU sharing a floppy disk image.
 
 A review was published of this version in the book "Free and user supported
 software for the IBM PC"; you can read it [here](free-ibmpc.md).
@@ -67,7 +79,7 @@ software for the IBM PC"; you can read it [here](free-ibmpc.md).
 ## Sopwith 1.5
 
 I recently came across this version, which I'm calling Sopwith 1.5 since
-its development clearly sits between the better known Sopwith 1 and 2. In
+its development clearly sits between the better-known Sopwith 1 and 2. In
 my opinion this is perhaps best described as a beta version of the later
 Sopwith 2 - it is unique in that computer planes drop bombs, a feature
 that never appeared in any other version and does not appear to work
@@ -80,7 +92,8 @@ or explosions leaving debris. It still runs at the speed of the CPU,
 like Sopwith 1, so the same slowdown techniques are needed to make it
 playable.
 
-By this version the theme music has been changed to [The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_%28song%29)
+By this version the theme music has been changed to
+[The U.S. Air Force](https://en.wikipedia.org/wiki/The_U.S._Air_Force_%28song%29)
 (aka ***Wild Blue Yonder***), the official song of the US Air Force.
 This music is used in Sopwith 2 and all future versions.
 
@@ -104,6 +117,9 @@ IBM compatible joysticks, and serial line networking, although this
 latter feature is still unusable because it also requires a proprietary
 BMB driver.
 
+The multiplayer feature has recently been made usable through the
+[Imaginot](https://github.com/fragglet/imaginot) adapter program.
+
 * [Download (.zip)](original-files/sopwith2.zip)
 * [Documentation](original-files/sopwith2_docs.txt) for this version.
 * [Play emulated version](https://archive.org/details/msdos_Sopwith_2_1985) on
@@ -111,7 +127,8 @@ BMB driver.
 
 <img src="original-files/sopwith2_title.png" width="320"> <img
      src="original-files/sopwith2_001.png" width="320"> <img
-     src="original-files/sopwith2_002.png" width="320">
+     src="original-files/sopwith2_002.png" width="320"> <img
+     src="img/sopwith-4player.png" width="320">
 
 ## Network Edition
 
@@ -165,8 +182,12 @@ was later re-released under the GPL in 2003. There are some
 the two source releases. A GPL blurb was added to the program help text (as
 the GPL itself recommends doing), and the copyright year on the title screen
 was updated. The earlier release described itself as "Distribution Version"
-rather than "The Author's Version", presumably because Clark doesn't want
+rather than "The Author's Version", presumably because David doesn't want
 other people calling their versions by that name.
+
+The Author's Edition is the only version that is **truly**
+[free](https://www.gnu.org/philosophy/free-sw.en.html) and
+[open source](https://opensource.org/osd/) software.
 
 * [Download (.zip)](original-files/swauth.zip)
 * [Download source code (original non-free license, .zip)](original-files/origsrc.zip)
