@@ -52,7 +52,10 @@ The first release of SDL Sopwith was made in October 2001, adapting the
 Sopwith source code to use the [LibSDL](https://libsdl.org/) cross-platform
 library. A package was added to [Debian](https://www.debian.org/) in 2003
 and the port has since made its way into many other Linux distros along with
-the FreeBSD ports collection.
+the FreeBSD ports collection. Use of the LibSDL library makes the project
+highly portable, even to niche OSes like [Haiku](https://www.haiku-os.org/):
+
+![Screenshot, Haiku](sshot/sopwith-haiku.png)
 
 SDL Sopwith continues to be developed to this day; recent versions have
 added various new features, including custom level support, medals, and
