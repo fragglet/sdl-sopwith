@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem "jekyll-github-metadata"
 gem "webrick"
 gem "minima", "~> 2.5"
 group :jekyll_plugins do

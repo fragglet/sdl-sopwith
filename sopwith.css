@@ -53,3 +53,18 @@ a:visited {
   color: #f0f;
 }
 
+#edit-link {
+  position: fixed;
+  right: 5px;
+  top: 5px;
+  color: white;
+  background-color: black;
+  opacity: 25%;
+  padding: 5px;
+  padding-right: 20px;
+  border-radius: 10px;
+}
+
+#edit-link a {
+  color: white;
+}
