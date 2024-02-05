@@ -2,7 +2,7 @@
 title: History of Sopwith
 ---
 
-[ **Introduction** | [Imaginet](history2.md) | [DOS versions](history3.md) | [Sopwith meets the Internet](sopwith4.md) ]
+[ **Introduction** | [Imaginet](history2.md) | [DOS versions](history3.md) | [On the Internet](sopwith4.md) ]
 
 # History of Sopwith
 
