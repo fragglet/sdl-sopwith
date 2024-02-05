@@ -19,6 +19,9 @@ known at the time. The site shared the various different versions along with
 mods and tools such as unofficial level editors. The site is still online to
 this day, although it has been mostly dormant in recent years.
 
+More recently a [Discord server](https://discord.gg/S2P5wUUzNU) has been set
+up for fans to talk about the game and arrange multiplayer games.
+
 # The source code release
 
 ![Illustration: Sopwith Network Edition](original-files/swnet_title.png)
@@ -51,7 +54,11 @@ library. A package was added to [Debian](https://www.debian.org/) in 2003
 and the port has since made its way into many other Linux distros along with
 the FreeBSD ports collection.
 
-SDL Sopwith has since served as the basis for a number of ports to different
+SDL Sopwith continues to be developed to this day; recent versions have
+added various new features, including custom level support, medals, and
+an Emscripten (in-browser) version.
+
+SDL Sopwith has also served as the basis for a number of ports to different
 platforms (a list can be found on the [links page](links.md)).
 
 ![Nintendo DS version](img/ds-port.png)
