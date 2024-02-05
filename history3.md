@@ -2,7 +2,7 @@
 title: History of Sopwith: Original DOS versions
 ---
 
-[ [Introduction](history.md) | [Imaginet](history2.md) | **DOS versions** ]
+[ [Introduction](history.md) | [Imaginet](history2.md) | **DOS versions** | [Sopwith meets the Internet](history4.md) ]
 
 # Original DOS Sopwith versions
 
@@ -176,3 +176,4 @@ other people calling their versions by that name.
 
 <img src="original-files/swauth_title.png" width="320">
 
+**Next:** [Sopwith meets the Internet](history4.md)

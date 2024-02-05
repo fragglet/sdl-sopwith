@@ -2,7 +2,7 @@
 title: History of Sopwith: Imaginet
 ---
 
-[ [Introduction](history.md) | **Imaginet** | [DOS versions](history3.md) ]
+[ [Introduction](history.md) | **Imaginet** | [DOS versions](history3.md) | [Sopwith meets the Internet](history4.md) ]
 
 ## Imaginet
 
