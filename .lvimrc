@@ -1,0 +1,2 @@
+" Local vimrc configuration file.  Install the localvimrc.vim vim script.
+setlocal tabstop=8 softtabstop=2 shiftwidth=2 expandtab smartindent nocindent
