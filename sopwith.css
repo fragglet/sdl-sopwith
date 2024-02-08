@@ -22,6 +22,10 @@ table {
   width: auto;
 }
 
+th {
+  color: white;
+}
+
 img[alt~="Illustration:"] {
   float: right;
   margin: 20px;
