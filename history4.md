@@ -24,7 +24,7 @@ up for fans to talk about the game and arrange multiplayer games.
 
 ## The source code release
 
-![Illustration: Sopwith Network Edition](original-files/swnet_title.png)
+![Illustration: Sopwith Author's Edition](original-files/swauth_title.png)
 
 In 2000, Sopwith fan Andrew Jenner made contact with David L. Clark, after
 discovering his website identifying himself as the original author of the game.
@@ -32,14 +32,15 @@ Andrew had already been performing his own reverse engineering project,
 decompiling the original Sopwith binaries to C source code. He was subsequently
 able to convince David to release the source code to the game.
 
-This first release was of the *The Network Edition* that contained some of
-David's further enhancements to the game that fans had not previously seen. It
-also included Andrew's reverse engineered versions of Sopwith 1 and 2. This
-first release was under a
+David's release was of the source code to *The Author's Edition*, which
+contained the enhancements to the game that had been added in *The Network
+Edition*; the name on the title screen was changed to "Distribution Version",
+since David reserves that name for any personal releases of the game.
+It also included Andrew's reverse engineered versions of Sopwith 1 and 2.
+This first release was under a
 non-[free](https://www.gnu.org/philosophy/free-sw.en.html) license, but a
-second release was later made of the *Author's Edition* source code under the
-GNU GPL (there are very few differences between the Network and Author's
-Editions).
+second release of the source code was made in 2003 under the GNU GPL (there
+are only very minor differences between the two releases).
 
 This source code release was followed by [Sopwith
 3](https://sopwith3.sourceforge.net/), a sequel/remake by Andrew Jenner and

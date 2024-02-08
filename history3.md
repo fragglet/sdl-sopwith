@@ -130,7 +130,7 @@ The multiplayer feature has recently been made usable through the
      src="original-files/sopwith2_002.png" width="320"> <img
      src="img/sopwith-4player.png" width="320">
 
-## Network Edition
+## The Network Edition
 
 Released by the author David L. Clark in the late '90s, the main features
 are the addition of novice mode and wounded planes. Novice mode in
@@ -170,7 +170,7 @@ to be able to load the drivers.
      src="original-files/swnet_001.png" width="320"> <img
      src="original-files/swnet_002.png" width="320">
 
-## Author's Edition
+## The Author's Edition
 
 Largely identical to the Network Edition, but the original BMB networking
 has been removed. This was the basis for the source code release by David
@@ -182,8 +182,8 @@ was later re-released under the GPL in 2003. There are some
 the two source releases. A GPL blurb was added to the program help text (as
 the GPL itself recommends doing), and the copyright year on the title screen
 was updated. The earlier release described itself as "Distribution Version"
-rather than "The Author's Version", presumably because David doesn't want
-other people calling their versions by that name.
+rather than "The Author's Version"; David has specifically requested that
+people do not use that name for their versions.
 
 The Author's Edition is the only version that is **truly**
 [free](https://www.gnu.org/philosophy/free-sw.en.html) and
