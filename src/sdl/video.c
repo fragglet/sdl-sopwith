@@ -115,7 +115,7 @@ static SDL_Texture *texture_upscaled = NULL;
 #define ICON_SCALE 4
 static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
-	SDL_Color *pal = &VideoPalettes[0].color;
+	SDL_Color *pal = VideoPalettes[0].color;
 	SDL_Surface *surface = SDL_CreateRGBSurface(
 		0, sym->w * ICON_SCALE, sym->h * ICON_SCALE, 32,
 		0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
@@ -682,7 +682,7 @@ static void getevents(void)
 		case SDL_TEXTINPUT:
 			for (i = 0; event.text.text[i] != '\0'; ++i) {
 				char c = event.text.text[i];
-				SDL_Keysym fake;
+				SDL_Keysym fake = {0};
 				if (c >= 0x80) {
 					continue;
 				}
