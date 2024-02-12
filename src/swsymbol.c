@@ -1090,34 +1090,58 @@ static unsigned char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
 	  0xaf, 0xe8 }	/* MMWWWMM : PREVALOUR */
 };
 
+static void rotate(int *x, int *y, int w, int h, int rotations)
+{
+	int i, tmp;
+
+	for (i = 0; i < rotations; i++) {
+		tmp = *x; *x = *y; *y = w - 1 - tmp;
+		tmp = w; w = h; h = tmp;
+	}
+}
+
 // sdh 27/6/2002: create a sopsym_t structure from the original
 // raw sprite data.
 // the data in sopsym_t's is in a simpler one-byte-per-pixel format
 // rather than packing 4 pixels into one byte as in the original data.
 // this simplifies various stuff such as collision detection.
-
-static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h)
+// 'rotations' specified the number of 90 degree rotations to perform
+// on the input data, eg. 3=270 degrees.
+static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h,
+                                  int rotations)
 {
 	sopsym_t *sym = malloc(sizeof(*sym));
-	unsigned char *d, *s;
-	int x, y;
+	unsigned char *d;
+	int x, y, dx, dy;
 
-	sym->w = w;
-	sym->h = h;
+	if ((rotations & 1) == 0) {
+		sym->w = w;
+		sym->h = h;
+	} else {
+		sym->w = h;
+		sym->h = w;
+	}
 	sym->data = malloc(w * h);
 
 	// decode the symbol data
-
-	for (d=(unsigned char *) data, s=sym->data, y=0; y<h; ++y) {
-
-		// all symbols are multiples of 4 wide
-		// so this should be ok
-
+	d = data;
+	for (y=0; y<h; ++y) {
 		for (x=0; x<w; x += 4, ++d) {
-			*s++ = (*d & 0xc0) >> 6;
-			*s++ = (*d & 0x30) >> 4;
-			*s++ = (*d & 0x0c) >> 2;
-			*s++ = (*d & 0x03);
+			dx = x; dy = y;
+			rotate(&dx, &dy, w, h, rotations);
+			sym->data[dy * sym->w + dx] = (*d >> 6) & 0x03;
+
+			dx = x + 1; dy = y;
+			rotate(&dx, &dy, w, h, rotations);
+			sym->data[dy * sym->w + dx] = (*d >> 4) & 0x03;
+
+			dx = x + 2; dy = y;
+			rotate(&dx, &dy, w, h, rotations);
+			sym->data[dy * sym->w + dx] = (*d >> 2) & 0x03;
+
+			dx = x + 3; dy = y;
+			rotate(&dx, &dy, w, h, rotations);
+			sym->data[dy * sym->w + dx] = *d & 0x03;
 		}
 	}
 
@@ -1140,8 +1164,8 @@ sopsym_t *symbol_burst[2];                // swbstsym
 sopsym_t *symbol_plane[2][16];            // swplnsym
 sopsym_t *symbol_plane_hit[2];            // swhitsym
 sopsym_t *symbol_plane_win[4];            // swwinsym
-sopsym_t *symbol_medal[3];		  // swmedalsym
-sopsym_t *symbol_ribbon[6];		  // swribbonsym
+sopsym_t *symbol_medal[3];                // swmedalsym
+sopsym_t *symbol_ribbon[6];               // swribbonsym
 
 // special symbol for single pixel (bullets etc)
 
@@ -1158,7 +1182,7 @@ sopsym_t symbol_pixel = {
 #define sopsyms_from_data(data, w, h, out)                              \
         { int _i;                                                       \
           for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)               \
-             (out)[_i] = sopsym_from_data((data)[_i], (w), (h));        \
+             (out)[_i] = sopsym_from_data((data)[_i], (w), (h), 0);     \
         }
 
 void symbol_generate(void)
@@ -1178,9 +1202,9 @@ void symbol_generate(void)
 	sopsyms_from_data(swmedalsym, 8, 12, symbol_medal);
 	sopsyms_from_data(swribbonsym, 8, 2, symbol_ribbon);
 
-	symbol_target_hit = sopsym_from_data(swhtrsym, 16, 16);
-	symbol_shotwin = sopsym_from_data(swshtsym, 16, 16);
-	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32);
+	symbol_target_hit = sopsym_from_data(swhtrsym, 16, 16, 0);
+	symbol_shotwin = sopsym_from_data(swshtsym, 16, 16, 0);
+	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32, 0);
 }
 
 //
