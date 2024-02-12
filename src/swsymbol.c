@@ -1090,13 +1090,17 @@ static unsigned char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
 	  0xaf, 0xe8 }	/* MMWWWMM : PREVALOUR */
 };
 
-static void rotate(int *x, int *y, int w, int h, int rotations)
+static void rotate(int *x, int *y, int w, int h, int rotations, bool mirror)
 {
 	int i, tmp;
 
 	for (i = 0; i < rotations; i++) {
 		tmp = *x; *x = *y; *y = w - 1 - tmp;
 		tmp = w; w = h; h = tmp;
+	}
+
+	if (mirror) {
+		*y = h - 1 - *y;
 	}
 }
 
@@ -1108,7 +1112,7 @@ static void rotate(int *x, int *y, int w, int h, int rotations)
 // 'rotations' specified the number of 90 degree rotations to perform
 // on the input data, eg. 3=270 degrees.
 static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h,
-                                  int rotations)
+                                  int rotations, bool mirror)
 {
 	sopsym_t *sym = malloc(sizeof(*sym));
 	unsigned char *d;
@@ -1128,19 +1132,19 @@ static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h,
 	for (y=0; y<h; ++y) {
 		for (x=0; x<w; x += 4, ++d) {
 			dx = x; dy = y;
-			rotate(&dx, &dy, w, h, rotations);
+			rotate(&dx, &dy, w, h, rotations, mirror);
 			sym->data[dy * sym->w + dx] = (*d >> 6) & 0x03;
 
 			dx = x + 1; dy = y;
-			rotate(&dx, &dy, w, h, rotations);
+			rotate(&dx, &dy, w, h, rotations, mirror);
 			sym->data[dy * sym->w + dx] = (*d >> 4) & 0x03;
 
 			dx = x + 2; dy = y;
-			rotate(&dx, &dy, w, h, rotations);
+			rotate(&dx, &dy, w, h, rotations, mirror);
 			sym->data[dy * sym->w + dx] = (*d >> 2) & 0x03;
 
 			dx = x + 3; dy = y;
-			rotate(&dx, &dy, w, h, rotations);
+			rotate(&dx, &dy, w, h, rotations, mirror);
 			sym->data[dy * sym->w + dx] = *d & 0x03;
 		}
 	}
@@ -1179,10 +1183,10 @@ sopsym_t symbol_pixel = {
 
 // generate symbols from data
 
-#define sopsyms_from_data(data, w, h, out)                              \
-        { int _i;                                                       \
-          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)               \
-             (out)[_i] = sopsym_from_data((data)[_i], (w), (h), 0);     \
+#define sopsyms_from_data(data, w, h, out)                                 \
+        { int _i;                                                          \
+          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)                  \
+             (out)[_i] = sopsym_from_data((data)[_i], (w), (h), 0, false); \
         }
 
 void symbol_generate(void)
@@ -1202,9 +1206,9 @@ void symbol_generate(void)
 	sopsyms_from_data(swmedalsym, 8, 12, symbol_medal);
 	sopsyms_from_data(swribbonsym, 8, 2, symbol_ribbon);
 
-	symbol_target_hit = sopsym_from_data(swhtrsym, 16, 16, 0);
-	symbol_shotwin = sopsym_from_data(swshtsym, 16, 16, 0);
-	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32, 0);
+	symbol_target_hit = sopsym_from_data(swhtrsym, 16, 16, 0, false);
+	symbol_shotwin = sopsym_from_data(swshtsym, 16, 16, 0, false);
+	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32, 0, false);
 }
 
 //
