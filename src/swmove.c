@@ -613,13 +613,14 @@ static bool movepln(OBJECTS *ob)
 	}
 
 	if (ob->ob_endsts == WINNER && ob->ob_goingsun) {
-		ob->ob_newsym = symbol_plane_win[endcount / 18];
+		ob->ob_newsym = &symbol_plane_win[endcount / 18]->sym[0];
 	} else if (ob->ob_state == FINISHED) {
 		ob->ob_newsym = NULL;
 	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0) {
-		ob->ob_newsym = symbol_plane_hit[ob->ob_orient];
+		ob->ob_newsym = &symbol_plane_hit[ob->ob_orient]->sym[0];
 	} else {
-		ob->ob_newsym = symbol_plane[ob->ob_orient][ob->ob_angle];
+		ob->ob_newsym =
+			&symbol_plane[ob->ob_orient][ob->ob_angle]->sym[0];
 	}
 
 	//ob->ob_newsym =
@@ -749,7 +750,7 @@ bool movebomb(OBJECTS *ob)
 		return false;
 	}
 
-	ob->ob_newsym = symbol_bomb[symangle(ob)];
+	ob->ob_newsym = &symbol_bomb[symangle(ob)]->sym[0];
 	insertx(ob, ob->ob_xnext);
 
 	if (y >= MAX_Y) {
@@ -810,7 +811,7 @@ bool movemiss(OBJECTS *ob)
 		return false;
 	}
 
-	ob->ob_newsym = symbol_missile[ob->ob_angle];
+	ob->ob_newsym = &symbol_missile[ob->ob_angle]->sym[0];
 	insertx(ob, ob->ob_xnext);
 
 	if (y >= MAX_Y) {
@@ -843,7 +844,7 @@ bool moveburst(OBJECTS *ob)
 	}
 
 	ob->ob_owner->ob_missiletarget = ob;
-	ob->ob_newsym = symbol_burst[ob->ob_life & 1];
+	ob->ob_newsym = &symbol_burst[ob->ob_life & 1]->sym[0];
 	insertx(ob, ob->ob_xnext);
 
 	return y < MAX_Y;
@@ -879,9 +880,9 @@ bool movetarg(OBJECTS *ob)
 	}
 
 	if (ob->ob_state == STANDING) {
-		ob->ob_newsym = symbol_targets[ob->ob_orient];
+		ob->ob_newsym = &symbol_targets[ob->ob_orient]->sym[0];
 	} else {
-		ob->ob_newsym = symbol_target_hit;
+		ob->ob_newsym = &symbol_target_hit->sym[0];
 	}
 
 	return true;
@@ -935,7 +936,7 @@ bool moveexpl(OBJECTS * obp)
 	++ob->ob_hitcount;
 
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = symbol_debris[ob->ob_orient];
+	ob->ob_newsym = &symbol_debris[ob->ob_orient]->sym[0];
 
 	return y < MAX_Y;
 }
@@ -995,7 +996,7 @@ bool moveflck(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = symbol_flock[ob->ob_orient];
+	ob->ob_newsym = &symbol_flock[ob->ob_orient]->sym[0];
 	return true;
 }
 
@@ -1054,7 +1055,7 @@ bool movebird(OBJECTS * obp)
 	movexy(ob, &x, &y);
 
 	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = symbol_bird[ob->ob_orient];
+	ob->ob_newsym = &symbol_bird[ob->ob_orient]->sym[0];
 	if (x < 0 || x >= currgame->gm_max_x
 	 || y >= MAX_Y || y <= (int) ground[x]) {
 		ob->ob_y -= ob->ob_dy;
@@ -1069,7 +1070,7 @@ bool movebird(OBJECTS * obp)
 
 bool moveox(OBJECTS * ob)
 {
-	ob->ob_newsym = symbol_ox[ob->ob_state != STANDING];
+	ob->ob_newsym = &symbol_ox[ob->ob_state != STANDING]->sym[0];
 	return true;
 }
 

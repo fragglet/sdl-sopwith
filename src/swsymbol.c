@@ -1111,10 +1111,9 @@ static void rotate(int *x, int *y, int w, int h, int rotations, bool mirror)
 // this simplifies various stuff such as collision detection.
 // 'rotations' specified the number of 90 degree rotations to perform
 // on the input data, eg. 3=270 degrees.
-static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h,
-                                  int rotations, bool mirror)
+static void sopsym_from_data(sopsym_t *sym, unsigned char *data, int w, int h,
+                             int rotations, bool mirror)
 {
-	sopsym_t *sym = malloc(sizeof(*sym));
 	unsigned char *d;
 	int x, y, dx, dy;
 
@@ -1148,28 +1147,40 @@ static sopsym_t *sopsym_from_data(unsigned char *data, int w, int h,
 			sym->data[dy * sym->w + dx] = *d & 0x03;
 		}
 	}
+}
 
-	return sym;
+static symset_t *symset_from_data(unsigned char *data, int w, int h)
+{
+	symset_t *s = malloc(sizeof(*s));
+	int r;
+
+	for (r = 0; r < 4; r++)
+	{
+		sopsym_from_data(&s->sym[r], data, w, h, r, false);
+		sopsym_from_data(&s->sym[r + 4], data, w, h, r, true);
+	}
+
+	return s;
 }
 
 // converted symbols:
 
-sopsym_t *symbol_bomb[8];                 // swbmbsym
-sopsym_t *symbol_targets[4];              // swtrgsym
-sopsym_t *symbol_target_hit;              // swhtrsym
-sopsym_t *symbol_debris[8];               // swexpsym
-sopsym_t *symbol_flock[2];                // swflksym
-sopsym_t *symbol_bird[2];                 // swbrdsym
-sopsym_t *symbol_ox[2];                   // swoxsym
-sopsym_t *symbol_shotwin;                 // swshtsym
-sopsym_t *symbol_birdsplat;               // swsplsym
-sopsym_t *symbol_missile[16];             // swmscsym
-sopsym_t *symbol_burst[2];                // swbstsym
-sopsym_t *symbol_plane[2][16];            // swplnsym
-sopsym_t *symbol_plane_hit[2];            // swhitsym
-sopsym_t *symbol_plane_win[4];            // swwinsym
-sopsym_t *symbol_medal[3];                // swmedalsym
-sopsym_t *symbol_ribbon[6];               // swribbonsym
+symset_t *symbol_bomb[8];                 // swbmbsym
+symset_t *symbol_targets[4];              // swtrgsym
+symset_t *symbol_target_hit;              // swhtrsym
+symset_t *symbol_debris[8];               // swexpsym
+symset_t *symbol_flock[2];                // swflksym
+symset_t *symbol_bird[2];                 // swbrdsym
+symset_t *symbol_ox[2];                   // swoxsym
+symset_t *symbol_shotwin;                 // swshtsym
+symset_t *symbol_birdsplat;               // swsplsym
+symset_t *symbol_missile[16];             // swmscsym
+symset_t *symbol_burst[2];                // swbstsym
+symset_t *symbol_plane[2][16];            // swplnsym
+symset_t *symbol_plane_hit[2];            // swhitsym
+symset_t *symbol_plane_win[4];            // swwinsym
+symset_t *symbol_medal[3];                // swmedalsym
+symset_t *symbol_ribbon[6];               // swribbonsym
 
 // special symbol for single pixel (bullets etc)
 
@@ -1183,32 +1194,32 @@ sopsym_t symbol_pixel = {
 
 // generate symbols from data
 
-#define sopsyms_from_data(data, w, h, out)                                 \
-        { int _i;                                                          \
-          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)                  \
-             (out)[_i] = sopsym_from_data((data)[_i], (w), (h), 0, false); \
+#define symsets_from_data(data, w, h, out)                        \
+        { int _i;                                                 \
+          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)         \
+             (out)[_i] = symset_from_data((data)[_i], (w), (h));  \
         }
 
 void symbol_generate(void)
 {
-	sopsyms_from_data(swbmbsym, 8, 8, symbol_bomb);
-	sopsyms_from_data(swtrgsym, 16, 16, symbol_targets);
-	sopsyms_from_data(swexpsym, 8, 8, symbol_debris);
-	sopsyms_from_data(swflksym, 16, 16, symbol_flock);
-	sopsyms_from_data(swbrdsym, 4, 2, symbol_bird);
-	sopsyms_from_data(swoxsym, 16, 16, symbol_ox);
-	sopsyms_from_data(swmscsym, 8, 8, symbol_missile);
-	sopsyms_from_data(swbstsym, 8, 8, symbol_burst);
-	sopsyms_from_data(swplnsym[0], 16, 16, symbol_plane[0]);
-	sopsyms_from_data(swplnsym[1], 16, 16, symbol_plane[1]);
-	sopsyms_from_data(swhitsym, 16, 16, symbol_plane_hit);
-	sopsyms_from_data(swwinsym, 16, 16, symbol_plane_win);
-	sopsyms_from_data(swmedalsym, 8, 12, symbol_medal);
-	sopsyms_from_data(swribbonsym, 8, 2, symbol_ribbon);
+	symsets_from_data(swbmbsym, 8, 8, symbol_bomb);
+	symsets_from_data(swtrgsym, 16, 16, symbol_targets);
+	symsets_from_data(swexpsym, 8, 8, symbol_debris);
+	symsets_from_data(swflksym, 16, 16, symbol_flock);
+	symsets_from_data(swbrdsym, 4, 2, symbol_bird);
+	symsets_from_data(swoxsym, 16, 16, symbol_ox);
+	symsets_from_data(swmscsym, 8, 8, symbol_missile);
+	symsets_from_data(swbstsym, 8, 8, symbol_burst);
+	symsets_from_data(swplnsym[0], 16, 16, symbol_plane[0]);
+	symsets_from_data(swplnsym[1], 16, 16, symbol_plane[1]);
+	symsets_from_data(swhitsym, 16, 16, symbol_plane_hit);
+	symsets_from_data(swwinsym, 16, 16, symbol_plane_win);
+	symsets_from_data(swmedalsym, 8, 12, symbol_medal);
+	symsets_from_data(swribbonsym, 8, 2, symbol_ribbon);
 
-	symbol_target_hit = sopsym_from_data(swhtrsym, 16, 16, 0, false);
-	symbol_shotwin = sopsym_from_data(swshtsym, 16, 16, 0, false);
-	symbol_birdsplat = sopsym_from_data(swsplsym, 32, 32, 0, false);
+	symbol_target_hit = symset_from_data(swhtrsym, 16, 16);
+	symbol_shotwin = symset_from_data(swshtsym, 16, 16);
+	symbol_birdsplat = symset_from_data(swsplsym, 32, 32);
 }
 
 //
