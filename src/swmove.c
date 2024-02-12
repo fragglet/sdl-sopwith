@@ -726,6 +726,7 @@ bool moveshot(OBJECTS *ob)
 bool movebomb(OBJECTS *ob)
 {
 	int x, y;
+	int ang;
 
 	deletex(ob);
 
@@ -750,7 +751,8 @@ bool movebomb(OBJECTS *ob)
 		return false;
 	}
 
-	ob->ob_newsym = &symbol_bomb[symangle(ob)]->sym[0];
+	ang = symangle(ob);
+	ob->ob_newsym = &symbol_bomb[ang % 2]->sym[ang / 2];
 	insertx(ob, ob->ob_xnext);
 
 	if (y >= MAX_Y) {
