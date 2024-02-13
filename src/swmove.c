@@ -813,7 +813,8 @@ bool movemiss(OBJECTS *ob)
 		return false;
 	}
 
-	ob->ob_newsym = &symbol_missile[ob->ob_angle]->sym[0];
+	ob->ob_newsym =
+		&symbol_missile[ob->ob_angle % 4]->sym[ob->ob_angle / 4];
 	insertx(ob, ob->ob_xnext);
 
 	if (y >= MAX_Y) {
