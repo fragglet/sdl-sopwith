@@ -266,7 +266,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_target = ob->ob_missiletarget = NULL;
 	ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = false;
-	ob->ob_newsym = &symbol_plane[ob->ob_orient][0]->sym[0];
+	ob->ob_newsym = &symbol_plane[0]->sym[ob->ob_orient ? 4 : 0];
 	ob->ob_athome = true;
 	ob->ob_onmap = true;
 	ob->ob_flightscore.combatwound = false;

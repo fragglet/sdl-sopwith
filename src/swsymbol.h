@@ -42,7 +42,7 @@ extern symset_t *symbol_shotwin;                 // swshtsym
 extern symset_t *symbol_birdsplat;               // swsplsym
 extern symset_t *symbol_missile[4];              // swmscsym
 extern symset_t *symbol_burst[2];                // swbstsym
-extern symset_t *symbol_plane[2][4];             // swplnsym
+extern symset_t *symbol_plane[4];                // swplnsym
 extern symset_t *symbol_plane_hit[2];            // swhitsym
 extern symset_t *symbol_plane_win[4];            // swwinsym
 extern symset_t *symbol_medal[3];		  // swmedalsym

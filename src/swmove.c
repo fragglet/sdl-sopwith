@@ -618,8 +618,12 @@ static bool movepln(OBJECTS *ob)
 		ob->ob_newsym = NULL;
 	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0) {
 		ob->ob_newsym = &symbol_plane_hit[ob->ob_orient]->sym[0];
+	} else if (ob->ob_orient) {
+		// Flipped:
+		int a = (16 - ob->ob_angle) % 16;
+		ob->ob_newsym = &symbol_plane[a % 4]->sym[4 + a / 4];
 	} else {
-		ob->ob_newsym = &symbol_plane[ob->ob_orient][ob->ob_angle % 4]
+		ob->ob_newsym = &symbol_plane[ob->ob_angle % 4]
 			->sym[ob->ob_angle / 4];
 	}
 
