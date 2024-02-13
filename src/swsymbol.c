@@ -17,28 +17,16 @@
 
 #define BOMBBYTES       16              /*  Bytes in a bomb symbol          */
 #define TARGBYTES       64              /*  Bytes in a target symbol        */
-#define TARGORIENTS     4               /*  Number of target types          */
-#define EXPLSYMS        8               /*  Number of explosion symbols     */
 #define EXPBYTES        16              /*  Bytes in an explosion symbol    */
-#define FLCKSYMS        2               /*  Number of flock symbols         */
 #define FLKBYTES        64              /*  Bytes in a flock symbol         */
-#define BIRDSYMS        2               /*  Number of bird symbols          */
 #define BRDBYTES        2               /*  Bytes in a bird symbol          */
-#define OXSYMS          2               /*  Number of ox symbols            */
 #define OXBYTES         64              /*  Bytes in an ox symbol           */
-#define SHOTBYTES       64              /*  Bytes in a shot window symbol   */
-#define SPLTBYTES       256             /*  Bytes in a splatted bird symbol */
 #define MISCBYTES       16              /*  Bytes in a missile symbol       */
 #define BRSTBYTES       16              /*  Bytes in a starburst symbol     */
-#define BRSTSYMS        2               /*  Number of starburst symbols     */
 #define MEDALBYTES	24		/*  Bytes in a medal		    */
-#define MEDALSYMS	3		/*  Number of medals		    */
 #define RIBBONBYTES	4		/*  Bytes in a ribbon		    */
-#define RIBBONSYMS	6		/*  Number of ribbons		    */
 
-#define HITSYMS         2               /*  Number of hit symbols per plane */
 #define SYMBYTES        64              /*  Bytes in a symbol               */
-#define WINSIZES        4               /*  Number of winner plane sizes    */
 #define WINBYTES        64              /*  Bytes in a winner symbol        */
 
 static unsigned char swplnsym[][SYMBYTES] = {
@@ -100,7 +88,7 @@ static unsigned char swplnsym[][SYMBYTES] = {
 	},
 };
 
-static unsigned char swhitsym[HITSYMS][SYMBYTES] = {  /*  Hit plane pixel array  */
+static unsigned char swhitsym[][SYMBYTES] = {  /*  Hit plane pixel array  */
 
 /*  airplane symbols based on the following template file:
 16
@@ -142,7 +130,7 @@ static unsigned char swhitsym[HITSYMS][SYMBYTES] = {  /*  Hit plane pixel array 
 };
 
 
-static unsigned char swwinsym[WINSIZES][WINBYTES] = {  /*  Win plane pixel array  */
+static unsigned char swwinsym[][WINBYTES] = {  /*  Win plane pixel array  */
 
 /*  airplane symbols based on the following template files:
 16                                 16
@@ -243,7 +231,7 @@ static unsigned char swbmbsym[][BOMBBYTES] = {
 	},
 };
 
-static unsigned char swtrgsym[TARGORIENTS][TARGBYTES] = {
+static unsigned char swtrgsym[][TARGBYTES] = {
 
 /*  target symbols based on the following template files:
 16                                    16
@@ -321,7 +309,7 @@ static unsigned char swtrgsym[TARGORIENTS][TARGBYTES] = {
 	},
 };
 
-static unsigned char swhtrsym[TARGBYTES] = {
+static unsigned char swhtrsym[] = {
 
 /*  hit target symbols based on the following template file:
 16
@@ -351,7 +339,7 @@ static unsigned char swhtrsym[TARGBYTES] = {
        0x55, 0xA5, 0x65, 0x55
 };
 
-static unsigned char swexpsym[EXPLSYMS][EXPBYTES] = {
+static unsigned char swexpsym[][EXPBYTES] = {
 
 /*  explosion symbols based on the following template files:
 08                 08                08                08
@@ -409,7 +397,7 @@ static unsigned char swexpsym[EXPLSYMS][EXPBYTES] = {
 	}
 };
 
-static unsigned char swflksym[FLCKSYMS][FLKBYTES] = {
+static unsigned char swflksym[][FLKBYTES] = {
 
 /*  flock symbols based on the following template files:
 16                                16
@@ -450,7 +438,7 @@ static unsigned char swflksym[FLCKSYMS][FLKBYTES] = {
 	},
 };
 
-static unsigned char swbrdsym[BIRDSYMS][BRDBYTES] = {
+static unsigned char swbrdsym[][BRDBYTES] = {
 
 /*  bird symbols based on the following template files:
 4         4
@@ -461,7 +449,7 @@ static unsigned char swbrdsym[BIRDSYMS][BRDBYTES] = {
        {0xCC, 0x30}
 };
 
-static unsigned char swoxsym[OXSYMS][OXBYTES] = {
+static unsigned char swoxsym[][OXBYTES] = {
 
 /*  ox symbols based on the following template files:
 16                                16
@@ -502,7 +490,7 @@ static unsigned char swoxsym[OXSYMS][OXBYTES] = {
 	},
 };
 
-static unsigned char swshtsym[SHOTBYTES] = {
+static unsigned char swshtsym[] = {
 
 /*  shot window symbol based on the following template file:
 16
@@ -532,7 +520,7 @@ static unsigned char swshtsym[SHOTBYTES] = {
        0x0 , 0x14, 0x0 , 0x10
 };
 
-static unsigned char swsplsym[SPLTBYTES] = {
+static unsigned char swsplsym[] = {
 
 /*  splatted bird symbol based on the following template file:
 32
@@ -630,7 +618,7 @@ static unsigned char swmscsym[][MISCBYTES] = {
 	},
 };
 
-static unsigned char swbstsym[BRSTSYMS][BRSTBYTES] = {
+static unsigned char swbstsym[][BRSTBYTES] = {
 
 
 /*  starburst symbols based on the following template file:
@@ -655,7 +643,7 @@ static unsigned char swbstsym[BRSTSYMS][BRSTBYTES] = {
 	}
 };
 
-static unsigned char swmedalsym[MEDALSYMS][MEDALBYTES] = {
+static unsigned char swmedalsym[][MEDALBYTES] = {
 /* Medal symbols based on the following templates:
 08
 . . 3 3 3 3 . .
@@ -744,7 +732,7 @@ static unsigned char swmedalsym[MEDALSYMS][MEDALBYTES] = {
 	}
 };
 
-static unsigned char swribbonsym[RIBBONSYMS][RIBBONBYTES] = {
+static unsigned char swribbonsym[][RIBBONBYTES] = {
 	/* Actual width: 7 pixels */
 	{ 0x57, 0x54,
 	  0x57, 0x54 }, /* CCCWCCC : ACE */
