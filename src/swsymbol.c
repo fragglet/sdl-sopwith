@@ -15,21 +15,9 @@
 
 #include "swsymbol.h"
 
-#define BOMBBYTES       16              /*  Bytes in a bomb symbol          */
-#define TARGBYTES       64              /*  Bytes in a target symbol        */
-#define EXPBYTES        16              /*  Bytes in an explosion symbol    */
-#define FLKBYTES        64              /*  Bytes in a flock symbol         */
-#define BRDBYTES        2               /*  Bytes in a bird symbol          */
-#define OXBYTES         64              /*  Bytes in an ox symbol           */
-#define MISCBYTES       16              /*  Bytes in a missile symbol       */
-#define BRSTBYTES       16              /*  Bytes in a starburst symbol     */
-#define MEDALBYTES	24		/*  Bytes in a medal		    */
-#define RIBBONBYTES	4		/*  Bytes in a ribbon		    */
+// TODO: Generate the data below from strings, for maintainability.
 
-#define SYMBYTES        64              /*  Bytes in a symbol               */
-#define WINBYTES        64              /*  Bytes in a winner symbol        */
-
-static unsigned char swplnsym[][SYMBYTES] = {
+static unsigned char swplnsym[][64] = {
 
 /*  airplane symbols based on the following template file:
 16
@@ -88,7 +76,7 @@ static unsigned char swplnsym[][SYMBYTES] = {
 	},
 };
 
-static unsigned char swhitsym[][SYMBYTES] = {  /*  Hit plane pixel array  */
+static unsigned char swhitsym[][64] = {  /*  Hit plane pixel array  */
 
 /*  airplane symbols based on the following template file:
 16
@@ -130,7 +118,7 @@ static unsigned char swhitsym[][SYMBYTES] = {  /*  Hit plane pixel array  */
 };
 
 
-static unsigned char swwinsym[][WINBYTES] = {  /*  Win plane pixel array  */
+static unsigned char swwinsym[][64] = {  /*  Win plane pixel array  */
 
 /*  airplane symbols based on the following template files:
 16                                 16
@@ -208,7 +196,7 @@ static unsigned char swwinsym[][WINBYTES] = {  /*  Win plane pixel array  */
 };
 
 
-static unsigned char swbmbsym[][BOMBBYTES] = {
+static unsigned char swbmbsym[][16] = {
 
 /*  bomb symbols based on the following template file:
 08
@@ -231,7 +219,7 @@ static unsigned char swbmbsym[][BOMBBYTES] = {
 	},
 };
 
-static unsigned char swtrgsym[][TARGBYTES] = {
+static unsigned char swtrgsym[][64] = {
 
 /*  target symbols based on the following template files:
 16                                    16
@@ -339,7 +327,7 @@ static unsigned char swhtrsym[] = {
        0x55, 0xA5, 0x65, 0x55
 };
 
-static unsigned char swexpsym[][EXPBYTES] = {
+static unsigned char swexpsym[][16] = {
 
 /*  explosion symbols based on the following template files:
 08                 08                08                08
@@ -397,7 +385,7 @@ static unsigned char swexpsym[][EXPBYTES] = {
 	}
 };
 
-static unsigned char swflksym[][FLKBYTES] = {
+static unsigned char swflksym[][64] = {
 
 /*  flock symbols based on the following template files:
 16                                16
@@ -438,7 +426,7 @@ static unsigned char swflksym[][FLKBYTES] = {
 	},
 };
 
-static unsigned char swbrdsym[][BRDBYTES] = {
+static unsigned char swbrdsym[][2] = {
 
 /*  bird symbols based on the following template files:
 4         4
@@ -449,7 +437,7 @@ static unsigned char swbrdsym[][BRDBYTES] = {
        {0xCC, 0x30}
 };
 
-static unsigned char swoxsym[][OXBYTES] = {
+static unsigned char swoxsym[][64] = {
 
 /*  ox symbols based on the following template files:
 16                                16
@@ -585,7 +573,7 @@ static unsigned char swsplsym[] = {
        0x0 , 0x2 , 0x0 , 0x0 , 0x40, 0x20
 };
 
-static unsigned char swmscsym[][MISCBYTES] = {
+static unsigned char swmscsym[][16] = {
 
 /*  bomb symbols based on the following template file:
 
@@ -618,7 +606,7 @@ static unsigned char swmscsym[][MISCBYTES] = {
 	},
 };
 
-static unsigned char swbstsym[][BRSTBYTES] = {
+static unsigned char swbstsym[][16] = {
 
 
 /*  starburst symbols based on the following template file:
@@ -643,7 +631,7 @@ static unsigned char swbstsym[][BRSTBYTES] = {
 	}
 };
 
-static unsigned char swmedalsym[][MEDALBYTES] = {
+static unsigned char swmedalsym[][24] = {
 /* Medal symbols based on the following templates:
 08
 . . 3 3 3 3 . .
@@ -732,7 +720,7 @@ static unsigned char swmedalsym[][MEDALBYTES] = {
 	}
 };
 
-static unsigned char swribbonsym[][RIBBONBYTES] = {
+static unsigned char swribbonsym[][4] = {
 	/* Actual width: 7 pixels */
 	{ 0x57, 0x54,
 	  0x57, 0x54 }, /* CCCWCCC : ACE */
