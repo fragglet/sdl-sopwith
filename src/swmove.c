@@ -619,8 +619,8 @@ static bool movepln(OBJECTS *ob)
 	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0) {
 		ob->ob_newsym = &symbol_plane_hit[ob->ob_orient]->sym[0];
 	} else {
-		ob->ob_newsym =
-			&symbol_plane[ob->ob_orient][ob->ob_angle]->sym[0];
+		ob->ob_newsym = &symbol_plane[ob->ob_orient][ob->ob_angle % 4]
+			->sym[ob->ob_angle / 4];
 	}
 
 	//ob->ob_newsym =
