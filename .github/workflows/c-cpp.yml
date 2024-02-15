@@ -229,6 +229,7 @@ jobs:
           git
           zip
           mingw-w64-i686-gcc
+          mingw-w64-i686-python
           mingw-w64-i686-SDL2
     - name: Install pandoc
       shell: cmd
