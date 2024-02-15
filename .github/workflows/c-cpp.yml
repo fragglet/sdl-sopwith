@@ -148,7 +148,7 @@ jobs:
         VERSION=$VERSION-${{ matrix.config.suffix }}
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         # Patch the version in configure.ac:
-        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
+        sed -i.old "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
             configure.ac
 
     - name: autogen
