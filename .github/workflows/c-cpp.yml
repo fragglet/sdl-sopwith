@@ -238,10 +238,12 @@ jobs:
 
     steps:
     - name: Install pandoc
+      if: runner.os == 'Windows'
       shell: cmd
       run: choco install pandoc
 
     - name: Set up MSYS2
+      if: runner.os == 'Windows'
       uses: msys2/setup-msys2@v2
       with:
         msystem: ${{ matrix.config.msystem }}
@@ -281,12 +283,14 @@ jobs:
     - name: make
       run: make -j8
 
-    - name: make package
+    - name: Package (Windows)
+      if: runner.os == 'Windows'
       run: |
         cd pkg/win32
         make
 
-    - name: Upload build
+    - name: Upload build (Windows)
+      if: runner.os == 'Windows'
       uses: actions/upload-artifact@v1
       with:
         path: "pkg/win32/staging"
