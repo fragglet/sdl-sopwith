@@ -158,6 +158,21 @@ jobs:
     - name: make
       run: make -j8
 
+    - name: make check
+      run: make check
+
+    - name: autotools dist check
+      if: runner.os == 'Linux'
+      run: |
+        # This checks we can go through the entire process of generating
+        # a distribution package with autotools, and that the package can
+        # be built and installed successfully.
+        make distdir distdir=distdir
+        cd distdir
+        ./configure
+        make -j4
+        make install DESTDIR=/tmp/asdfghj
+
     - name: Package (Windows)
       if: runner.os == 'Windows'
       run: |
