@@ -31,43 +31,6 @@ jobs:
         make -j4
         make install DESTDIR=/tmp/asdfghj
 
-  macos_build:
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install SDL
-      run: brew install sdl2 autoconf automake libtool pandoc
-    - name: Find Git version
-      id: version
-      run: |
-        if git describe --exact-match --tags >/dev/null; then
-          VERSION=$(git describe --exact-match --tags)
-          VERSION=${VERSION/#sdl-sopwith-/}
-        else
-          VERSION=$(git rev-parse --short HEAD)
-        fi
-        echo "VERSION=$VERSION-macos" >> $GITHUB_OUTPUT
-        # Patch the version in configure.ac:
-        sed -i.old "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
-            configure.ac
-    - name: autogen
-      run: ./autogen.sh
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make -j4
-    - name: Make package
-      run: |
-        cd pkg/macos
-        make PACKAGE_VERSION=${{steps.version.outputs.VERSION}} \
-             PACKAGE_STRING="Sopwith build ${{steps.version.outputs.VERSION}}"
-    - name: Upload build
-      uses: actions/upload-artifact@v1
-      with:
-        path: "pkg/macos/sdl-sopwith-${{steps.version.outputs.VERSION}}.dmg"
-        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
-
   emscripten_build:
     runs-on: ubuntu-latest
 
@@ -139,6 +102,12 @@ jobs:
             msys-env: mingw-w64-i686
             suffix: win32
 
+          - name: macOS Clang
+            os: macos-latest
+            compiler: clang
+            shell: bash
+            suffix: macos
+
     steps:
     - name: Install pandoc
       if: runner.os == 'Windows'
@@ -161,6 +130,9 @@ jobs:
           ${{ matrix.config.msys-env}}-gcc
           ${{ matrix.config.msys-env}}-python
           ${{ matrix.config.msys-env}}-SDL2
+
+    - name: Install Homebrew packages
+      run: brew install sdl2 autoconf automake libtool pandoc
 
     - uses: actions/checkout@v3
 
@@ -197,4 +169,18 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         path: "pkg/win32/staging"
+        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
+
+    - name: Make package (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        cd pkg/macos
+        make PACKAGE_VERSION=${{steps.version.outputs.VERSION}} \
+             PACKAGE_STRING="Sopwith build ${{steps.version.outputs.VERSION}}"
+
+    - name: Upload build (macOS)
+      if: runner.os == 'macOS'
+      uses: actions/upload-artifact@v1
+      with:
+        path: "pkg/macos/sdl-sopwith-${{steps.version.outputs.VERSION}}.dmg"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}
