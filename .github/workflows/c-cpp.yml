@@ -3,34 +3,6 @@ name: Continuous Integration
 on: [push, pull_request]
 
 jobs:
-  linux_build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install SDL
-      run: |
-        sudo apt update
-        sudo apt -q install libsdl2-dev
-    - name: autogen
-      run: ./autogen.sh
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make -j4
-    - name: make check
-      run: make check
-    - name: autotools dist check
-      run: |
-        # This checks we can go through the entire process of generating
-        # a distribution package with autotools, and that the package can
-        # be built and installed successfully.
-        make distdir distdir=distdir
-        cd distdir
-        ./configure
-        make -j4
-        make install DESTDIR=/tmp/asdfghj
-
   emscripten_build:
     runs-on: ubuntu-latest
 
@@ -86,6 +58,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - name: Linux GCC
+            os: ubuntu-latest
+            compiler: gcc
+            shell: bash
+
           - name: MSYS2 MINGW64
             os: windows-latest
             compiler: gcc
@@ -134,7 +111,13 @@ jobs:
     - name: Install Homebrew packages
       run: brew install sdl2 autoconf automake libtool pandoc
 
-    - uses: actions/checkout@v3
+    - name: Install build dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt update
+        sudo apt -q install libsdl2-dev
+
+    - uses: actions/checkout@v4
 
     - name: Find Git version
       id: version
