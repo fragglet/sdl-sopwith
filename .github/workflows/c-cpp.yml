@@ -216,8 +216,12 @@ jobs:
         shell: msys2 {0}
 
     steps:
+    - name: Install pandoc
+      shell: cmd
+      run: choco install pandoc
     - name: Set up MSYS2
       uses: msys2/setup-msys2@v2
+      path-type: inherit
       with:
         msystem: MINGW32
         update: true
@@ -231,9 +235,6 @@ jobs:
           mingw-w64-i686-gcc
           mingw-w64-i686-python
           mingw-w64-i686-SDL2
-    - name: Install pandoc
-      shell: cmd
-      run: choco install pandoc
     - uses: actions/checkout@v3
     - name: Find Git version
       id: version
