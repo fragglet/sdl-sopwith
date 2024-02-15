@@ -220,12 +220,12 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: MSYS2 UCRT64
+          - name: MSYS2 MINGW64
             os: windows-latest
             compiler: gcc
             shell: 'msys2 {0}'
             msystem: ucrt64
-            msys-env: mingw-w64-ucrt-x86_64
+            msys-env: mingw-w64-x86_64
             suffix: win64
 
           - name: MSYS2 MINGW32
