@@ -221,9 +221,9 @@ jobs:
       run: choco install pandoc
     - name: Set up MSYS2
       uses: msys2/setup-msys2@v2
-      path-type: inherit
       with:
         msystem: MINGW32
+        path-type: inherit
         update: true
         # TODO: 64-bit build:
         install: >-
