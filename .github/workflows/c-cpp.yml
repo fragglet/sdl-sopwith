@@ -209,33 +209,56 @@ jobs:
 
   # TODO: This will eventually replace the Linux-based MINGW crossbuild above.
   msys2_x86_build:
+    name: ${{ matrix.config.name }}
     runs-on: windows-latest
 
     defaults:
       run:
-        shell: msys2 {0}
+        shell: ${{ matrix.config.shell }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: MSYS2 UCRT64
+            os: windows-latest
+            compiler: gcc
+            shell: 'msys2 {0}'
+            msystem: ucrt64
+            msys-env: mingw-w64-ucrt-x86_64
+            suffix: win64
+
+          - name: MSYS2 MINGW32
+            os: windows-latest
+            compiler: gcc
+            shell: 'msys2 {0}'
+            msystem: mingw32
+            msys-env: mingw-w64-i686
+            suffix: win32
 
     steps:
     - name: Install pandoc
       shell: cmd
       run: choco install pandoc
+
     - name: Set up MSYS2
       uses: msys2/setup-msys2@v2
       with:
-        msystem: MINGW32
+        msystem: ${{ matrix.config.msystem }}
         path-type: inherit
         update: true
-        # TODO: 64-bit build:
         install: >-
           autotools
           base-devel
           dos2unix
           git
           zip
-          mingw-w64-i686-gcc
-          mingw-w64-i686-python
-          mingw-w64-i686-SDL2
+          ${{ matrix.config.msys-env}}-gcc
+          ${{ matrix.config.msys-env}}-python
+          ${{ matrix.config.msys-env}}-SDL2
+
     - uses: actions/checkout@v3
+
     - name: Find Git version
       id: version
       run: |
@@ -245,20 +268,24 @@ jobs:
         else
           VERSION=$(git rev-parse --short HEAD)
         fi
-        VERSION=$VERSION-msys2-win32
+        VERSION=$VERSION-msys2-${{ matrix.config.suffix }}
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         # Patch the version in configure.ac:
         sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
             configure.ac
+
     - name: autogen
       run: |
         ./autogen.sh
+
     - name: make
       run: make -j8
+
     - name: make package
       run: |
         cd pkg/win32
         make
+
     - name: Upload build
       uses: actions/upload-artifact@v1
       with:
