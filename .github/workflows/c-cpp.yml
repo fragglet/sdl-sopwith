@@ -46,7 +46,7 @@ jobs:
         clean: true
         commit-message: "Build from fragglet/sdl-sopwith@${{github.sha}}"
 
-  matrix_build:
+  build:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
 
@@ -86,12 +86,12 @@ jobs:
             suffix: macos
 
     steps:
-    - name: Install pandoc
+    - name: Install build dependencies (Chocolatey, Windows)
       if: runner.os == 'Windows'
       shell: cmd
       run: choco install pandoc
 
-    - name: Set up MSYS2
+    - name: Install build dependencies (MSYS, Windows)
       if: runner.os == 'Windows'
       uses: msys2/setup-msys2@v2
       with:
@@ -108,10 +108,10 @@ jobs:
           ${{ matrix.config.msys-env}}-python
           ${{ matrix.config.msys-env}}-SDL2
 
-    - name: Install Homebrew packages
+    - name: Install build dependencies (Homebrew, macOS)
       run: brew install sdl2 autoconf automake libtool pandoc
 
-    - name: Install build dependencies
+    - name: Install build dependencies (apt, Linux)
       if: runner.os == 'Linux'
       run: |
         sudo apt update
@@ -156,7 +156,7 @@ jobs:
         make -j4
         make install DESTDIR=/tmp/asdfghj
 
-    - name: Package (Windows)
+    - name: Build package (Windows)
       if: runner.os == 'Windows'
       run: |
         cd pkg/win32
@@ -169,7 +169,7 @@ jobs:
         path: "pkg/win32/staging"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}
 
-    - name: Make package (macOS)
+    - name: Build package (macOS)
       if: runner.os == 'macOS'
       run: |
         cd pkg/macos
