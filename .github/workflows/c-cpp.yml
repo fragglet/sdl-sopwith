@@ -110,6 +110,7 @@ jobs:
           ${{ matrix.config.msys-env}}-SDL2
 
     - name: Install build dependencies (Homebrew, macOS)
+      if: runner.os == 'macOS'
       run: brew install sdl2 autoconf automake libtool pandoc
 
     - name: Install build dependencies (apt, Linux)
