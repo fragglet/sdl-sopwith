@@ -111,6 +111,8 @@ jobs:
         clean: true
         commit-message: "Build from fragglet/sdl-sopwith@${{github.sha}}"
 
+  # TODO: Windows crossbuild is in the process of being deprecated in favour
+  # of MSYS2 (below):
   windows_crossbuild:
     strategy:
       matrix:
@@ -199,6 +201,62 @@ jobs:
         pushd pkg/win32
         make
         popd
+    - name: Upload build
+      uses: actions/upload-artifact@v1
+      with:
+        path: "pkg/win32/staging"
+        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
+
+  # TODO: This will eventually replace the Linux-based MINGW crossbuild above.
+  msys2_x86_build:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - name: Set up MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW32
+        update: true
+        # TODO: 64-bit build:
+        install: >-
+          autotools
+          base-devel
+          dos2unix
+          git
+          zip
+          mingw-w64-i686-gcc
+          mingw-w64-i686-SDL2
+    - name: Install pandoc
+      shell: cmd
+      run: choco install pandoc
+    - uses: actions/checkout@v3
+    - name: Find Git version
+      id: version
+      run: |
+        if git describe --exact-match --tags >/dev/null; then
+          VERSION=$(git describe --exact-match --tags)
+          VERSION=${VERSION/#sdl-sopwith-/}
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+        VERSION=$VERSION-msys2-win32
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        # Patch the version in configure.ac:
+        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
+            configure.ac
+    - name: autogen
+      run: |
+        ./autogen.sh
+    - name: make
+      run: make -j8
+    - name: make package
+      run: |
+        cd pkg/win32
+        make
     - name: Upload build
       uses: actions/upload-artifact@v1
       with:
