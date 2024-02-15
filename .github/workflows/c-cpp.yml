@@ -111,104 +111,7 @@ jobs:
         clean: true
         commit-message: "Build from fragglet/sdl-sopwith@${{github.sha}}"
 
-  # TODO: Windows crossbuild is in the process of being deprecated in favour
-  # of MSYS2 (below):
-  windows_crossbuild:
-    strategy:
-      matrix:
-        host: [i686-w64-mingw32, x86_64-w64-mingw32]
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Find Git version
-      id: version
-      run: |
-        if git describe --exact-match --tags >/dev/null; then
-          VERSION=$(git describe --exact-match --tags)
-          VERSION=${VERSION/#sdl-sopwith-/}
-        else
-          VERSION=$(git rev-parse --short HEAD)
-        fi
-        if [[ ${{ matrix.host }} = x86_64-w64-mingw32 ]]; then
-          VERSION=$VERSION-win64
-        else
-          VERSION=$VERSION-win32
-        fi
-        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-        # Patch the version in configure.ac:
-        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
-            configure.ac
-    - name: Install dependencies
-      run: |
-        sudo apt update
-        sudo apt -q install mingw-w64 pandoc
-    - name: Build SDL
-      run: |
-        git clone -b SDL2 --depth 1 https://github.com/libsdl-org/SDL.git
-        pushd SDL
-        mv .git .gitz
-        export AUTOTOOLS_BUILD_PATH=build-artifacts
-        ./configure --host=${{ matrix.host }} --prefix=$PWD/../inst \
-            --disable-alsa                 \
-            --disable-altivec              \
-            --disable-arm-neon             \
-            --disable-arm-simd             \
-            --disable-arts                 \
-            --disable-dbus                 \
-            --disable-diskaudio            \
-            --disable-esd                  \
-            --disable-fcitx                \
-            --disable-fusionsound          \
-            --disable-hidapi-joystick      \
-            --disable-hidapi-libusb        \
-            --disable-ibus                 \
-            --disable-ime                  \
-            --disable-jack                 \
-            --disable-lasx                 \
-            --disable-libdecor             \
-            --disable-libsamplerate        \
-            --disable-libudev              \
-            --disable-lsx                  \
-            --disable-nas                  \
-            --disable-oss                  \
-            --disable-pipewire             \
-            --disable-pulseaudio           \
-            --disable-render-metal         \
-            --disable-sndio                \
-            --disable-video-cocoa          \
-            --disable-video-directfb       \
-            --disable-video-kmsdrm         \
-            --disable-video-metal          \
-            --disable-video-rpi            \
-            --disable-video-vivante        \
-            --disable-video-vulkan         \
-            --disable-video-wayland        \
-            --disable-video-x11
-        make -j8
-        make install
-        popd
-    - name: autogen
-      run: |
-        export PKG_CONFIG_PATH=$PWD/inst/lib/pkgconfig
-        ./autogen.sh --host=${{ matrix.host }}
-    - name: make
-      run: make -j8
-    - name: make package
-      run: |
-        export PATH=$PATH:$PWD/inst/bin
-        pushd pkg/win32
-        make
-        popd
-    - name: Upload build
-      uses: actions/upload-artifact@v1
-      with:
-        path: "pkg/win32/staging"
-        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
-
-  # TODO: This will eventually replace the Linux-based MINGW crossbuild above.
-  msys2_x86_build:
+  matrix_build:
     name: ${{ matrix.config.name }}
     runs-on: windows-latest
 
@@ -270,7 +173,7 @@ jobs:
         else
           VERSION=$(git rev-parse --short HEAD)
         fi
-        VERSION=$VERSION-msys2-${{ matrix.config.suffix }}
+        VERSION=$VERSION-${{ matrix.config.suffix }}
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         # Patch the version in configure.ac:
         sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
