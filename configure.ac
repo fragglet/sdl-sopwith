@@ -83,9 +83,6 @@ AC_CHECK_HEADERS(netinet/in.h winsock.h)
 
 AC_SUBST(ac_aux_dir)
 
-WINDOWS_RC_VERSION=$(echo $PACKAGE_VERSION | sed 's/-.*//; s/\./, /g; s/$/, 0/')
-AC_SUBST(WINDOWS_RC_VERSION)
-
 dnl generate Makefiles
 
 AC_CONFIG_FILES([
