@@ -143,17 +143,14 @@ def get_dll_path():
 		if os.path.exists(path):
 			result[0] |= {path}
 
-	print(os.getenv("PATH"))
-	for p in os.getenv("PATH", "").split(":"):
+	for p in os.getenv("PATH", "").split(os.pathsep):
 		add_bin_path(p)
-	print(result[0])
 
 	if args.ldflags != '':
 		for arg in shlex.split(args.ldflags):
 			if arg.startswith("-L"):
 				add_bin_path(arg[2:])
 
-	print(result[0])
 	return list(result[0])
 
 args = parser.parse_args()
