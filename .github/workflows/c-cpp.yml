@@ -230,9 +230,9 @@ jobs:
           zip
           mingw-w64-i686-gcc
           mingw-w64-i686-SDL2
-    - name: Install build tools
+    - name: Install pandoc
       shell: cmd
-      run: choco install pandoc python3
+      run: choco install pandoc
     - uses: actions/checkout@v3
     - name: Find Git version
       id: version
