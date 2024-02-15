@@ -68,7 +68,7 @@ jobs:
             os: windows-latest
             compiler: gcc
             shell: 'msys2 {0}'
-            msystem: ucrt64
+            msystem: mingw64
             msys-env: mingw-w64-x86_64
             suffix: "-win64"
 
