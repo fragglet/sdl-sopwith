@@ -76,7 +76,7 @@ jobs:
 
   matrix_build:
     name: ${{ matrix.config.name }}
-    runs-on: windows-latest
+    runs-on: ${{ matrix.config.os }}
 
     defaults:
       run:
