@@ -62,6 +62,7 @@ jobs:
             os: ubuntu-latest
             compiler: gcc
             shell: bash
+            suffix: ""
 
           - name: MSYS2 MINGW64
             os: windows-latest
@@ -69,7 +70,7 @@ jobs:
             shell: 'msys2 {0}'
             msystem: ucrt64
             msys-env: mingw-w64-x86_64
-            suffix: win64
+            suffix: "-win64"
 
           - name: MSYS2 MINGW32
             os: windows-latest
@@ -77,13 +78,13 @@ jobs:
             shell: 'msys2 {0}'
             msystem: mingw32
             msys-env: mingw-w64-i686
-            suffix: win32
+            suffix: "-win32"
 
           - name: macOS Clang
             os: macos-latest
             compiler: clang
             shell: bash
-            suffix: macos
+            suffix: "-macos"
 
     steps:
     - name: Install build dependencies (Chocolatey, Windows)
@@ -128,7 +129,7 @@ jobs:
         else
           VERSION=$(git rev-parse --short HEAD)
         fi
-        VERSION=$VERSION-${{ matrix.config.suffix }}
+        VERSION=$VERSION${{ matrix.config.suffix }}
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         # Patch the version in configure.ac:
         sed -i.old "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
