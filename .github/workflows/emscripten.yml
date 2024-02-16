@@ -32,7 +32,7 @@ jobs:
       run: |
         make -C pkg/emscripten
     - name: Upload build
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         path: "pkg/emscripten/page"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}

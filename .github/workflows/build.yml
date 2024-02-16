@@ -123,7 +123,7 @@ jobs:
 
     - name: Upload build (Windows)
       if: runner.os == 'Windows'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         path: "pkg/win32/staging"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}
@@ -137,7 +137,7 @@ jobs:
 
     - name: Upload build (macOS)
       if: runner.os == 'macOS'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         path: "pkg/macos/sdl-sopwith-${{steps.version.outputs.VERSION}}.dmg"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}
