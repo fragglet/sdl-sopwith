@@ -39,7 +39,7 @@
 static const original_ob_t *orig_planes[MAX_PLYR * 2];
 GRNDTYPE *ground;
 
-static int have_savescore = 0;
+static bool have_savescore = false;
 static score_t savescore;		/* save players score on restart  */
 int starting_level = 0;
 
@@ -113,6 +113,11 @@ void initdisp(bool reset)
 static void initscore(score_t *score)
 {
 	memset(score, 0, sizeof(score_t));
+
+	if (have_savescore) {
+		*score = savescore;
+		have_savescore = false;
+	}
 }
 
 static void initflightscore(flight_score_t *score)
@@ -999,12 +1004,12 @@ void swrestart(void)
 		}
 		++gamenum;
 		savescore = ob->ob_score;
-		have_savescore = 1;
+		have_savescore = true;
 	} else {
 		// gamenum = 0;
 		// allow variable start level -- Jesse
 		gamenum = starting_level;
-		have_savescore = 0;
+		have_savescore = false;
 
 		// sh 28/10/2001: go back to the title screen
 
