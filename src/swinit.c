@@ -26,6 +26,7 @@
 #include "swasynio.h"
 #include "swconf.h"
 #include "swdisp.h"
+#include "swgrpha.h"
 #include "swinit.h"
 #include "swgames.h"
 #include "swmain.h"
@@ -992,11 +993,14 @@ void swrestart(void)
 
 		get_endlevel(ob);
 
+		// Count down the remaining lives; the player gets awarded
+		// extra points for each life.
 		while (ob->ob_crashcnt < maxcrash) {
 			++ob->ob_crashcnt;
 			inc += 25;
 			ob->ob_score.score += inc;
 
+			swdisp();
 			Vid_Update();
 			
 			time = Timer_GetMS();
