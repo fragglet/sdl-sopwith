@@ -13,108 +13,118 @@
 // Sprites
 //
 
+#include <string.h>
+
 #include "swsymbol.h"
 
+// Order here is counterintuitive: cyan (1) is brighter than magenta (2):
+static const char *color_chars = " *-#";
+
 // TODO: Generate the data below from strings, for maintainability.
-
-static unsigned char swplnsym[][64] = {
-
-/*  airplane symbols based on the following template file:
-16
-. . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .
-1 1 1 . . . . . . . . . . . . .
-1 1 1 1 . . . . 2 2 2 2 2 2 2 .
-1 1 1 1 1 . . . . . 2 . 2 . . .
-2 2 2 2 2 1 1 1 1 1 2 1 2 1 1 1
-. 1 1 1 1 1 1 1 1 1 2 1 2 1 1 1
-. . 1 1 1 1 1 1 2 2 2 2 2 2 1 1
-. . 1 . . . . . . . . 1 . . . .
-. . . . . . . . . . 1 1 1 . . .
-. . . . . . . . . . . 1 . . . .
-. . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .
-*/
-	{
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x54, 0x0 , 0x0 , 0x0 ,
-		0x55, 0x0 , 0xAA, 0xA8, 0x55, 0x40, 0x8 , 0x80, 0xAA, 0x95,
-		0x59, 0x95, 0x15, 0x55, 0x59, 0x95, 0x5 , 0x55, 0xAA, 0xA5,
-		0x4 , 0x0 , 0x1 , 0x0 , 0x0 , 0x0 , 0x5 , 0x40, 0x0 , 0x0 ,
-		0x1 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 ,
-	},
-	{
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x2 , 0xA0, 0x0 , 0x0 , 0x2A, 0x4 ,
-		0x0 , 0x2 , 0xA2, 0x55, 0x10, 0x0 , 0x19, 0x95, 0x54, 0x41,
-		0x59, 0xA0, 0x55, 0x95, 0x6A, 0x0 , 0x6A, 0x55, 0x60, 0x50,
-		0x15, 0x54, 0x1 , 0x40, 0x1 , 0x40, 0x0 , 0x0 , 0x1 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 ,
-	},
-	{
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x8 , 0x0 , 0x0 , 0x0 ,
-		0x8 , 0x40, 0x0 , 0x0 , 0xA1, 0x50, 0x0 , 0x2 , 0x9 , 0x50,
-		0x0 , 0x8 , 0xA6, 0x80, 0x0 , 0x0 , 0x4A, 0x0 , 0x0 , 0x1 ,
-		0x58, 0x50, 0x0 , 0x5 , 0x60, 0x50, 0x11, 0x55, 0x40, 0x0 ,
-		0x55, 0x95, 0x0 , 0x0 , 0x56, 0x54, 0x0 , 0x0 , 0x19, 0x50,
-		0x0 , 0x0 , 0x0 , 0x10, 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 ,
-	},
-	{
-		0x0 , 0x0 , 0x4 , 0x0 , 0x0 , 0x2 , 0x95, 0x40, 0x0 , 0x2 ,
-		0x15, 0x0 , 0x0 , 0x8 , 0xA6, 0x0 , 0x0 , 0x8 , 0x5A, 0x0 ,
-		0x0 , 0xA , 0xA9, 0x40, 0x0 , 0x20, 0x58, 0x50, 0x0 , 0x1 ,
-		0x60, 0x0 , 0x0 , 0x1 , 0x60, 0x0 , 0x0 , 0x5 , 0x50, 0x0 ,
-		0x0 , 0x15, 0x40, 0x0 , 0x5 , 0x69, 0x40, 0x0 , 0x5 , 0x65,
-		0x0 , 0x0 , 0x15, 0x65, 0x0 , 0x0 , 0x5 , 0x80, 0x40, 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 ,
-	},
+static const char *swplnsym[] = {
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"* * *                           \n"
+	"* * * *         - - - - - - -   \n"
+	"* * * * *           -   -       \n"
+	"- - - - - * * * * * - * - * * * \n"
+	"  * * * * * * * * * - * - * * * \n"
+	"    * * * * * * - - - - - - * * \n"
+	"    *                 *         \n"
+	"                    * * *       \n"
+	"                      *         \n"
+	"                                \n"
+	"                                \n"
+	"                                \n",
+	// -------------------------------
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                      - - -     \n"
+	"                  - - -     *   \n"
+	"              - - -   - * * * * \n"
+	"  *               * - * - * * * \n"
+	"* * *   *     * * * - * - -     \n"
+	"* * * * - * * * * - - -         \n"
+	"* - - - * * * * * -     * *     \n"
+	"  * * * * * *         * *       \n"
+	"      * *                       \n"
+	"      *                         \n"
+	"                                \n"
+	"                                \n"
+	"                                \n",
+	// -------------------------------
+	"                                \n"
+	"                    -           \n"
+	"                    -   *       \n"
+	"                - -   * * *     \n"
+	"              -     - * * *     \n"
+	"            -   - - * - -       \n"
+	"                *   - -         \n"
+	"              * * * -   * *     \n"
+	"            * * * -     * *     \n"
+	"  *   * * * * * *               \n"
+	"* * * * - * * *                 \n"
+	"* * * - * * *                   \n"
+	"  * - * * *                     \n"
+	"          *                     \n"
+	"                                \n"
+	"                                \n",
+	// -------------------------------
+	"                    *           \n"
+	"              - - * * * *       \n"
+	"              -   * * *         \n"
+	"            -   - - * -         \n"
+	"            -   * * - -         \n"
+	"            - - - - - * *       \n"
+	"          -     * * -   * *     \n"
+	"              * * -             \n"
+	"              * * -             \n"
+	"            * * * *             \n"
+	"          * * * *               \n"
+	"    * * * - - * *               \n"
+	"    * * * - * *                 \n"
+	"  * * * * - * *                 \n"
+	"    * * -       *               \n"
+	"                                \n",
 };
 
-static unsigned char swhitsym[][64] = {  /*  Hit plane pixel array  */
-
-/*  airplane symbols based on the following template file:
-16
-. . . . . . 2 2 2 2 2 2 2 2 2 2
-. . . . . . . 2 2 2 1 1 2 2 2 .
-. . . . . . . . 2 2 1 1 2 2 . .
-. . . . . . . . . . 1 1 . . . .
-. . . . . . . . . . 1 1 . . . .
-. . . . . . . . . . 1 1 . . . .
-. . . . . . . . . 1 1 1 1 . . .
-. . . . . . . . . 1 1 1 1 . . .
-. . . . . . . . . 1 1 1 1 . . .
-. . . . . . . . . 1 1 1 1 . . .
-. . 2 2 2 2 2 2 2 2 1 1 2 2 2 2
-2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 .
-2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2
-2 2 2 2 2 2 2 2 2 2 1 1 2 2 . 2
-. . . . . . . . . 1 1 1 1 . . .
-. . . . . . . . . 1 1 1 1 . . .
-*/
-	{
-		0x0 , 0xA , 0xAA, 0xAA, 0x0 , 0x2 , 0xA5, 0xA8, 0x0 , 0x0 ,
-		0xA5, 0xA0, 0x0 , 0x0 , 0x5 , 0x0 , 0x0 , 0x0 , 0x5 , 0x0 ,
-		0x0 , 0x0 , 0x5 , 0x0 , 0x0 , 0x0 , 0x15, 0x40, 0x0 , 0x0 ,
-		0x15, 0x40, 0x0 , 0x0 , 0x15, 0x40, 0x0 , 0x0 , 0x15, 0x40,
-		0xA , 0xAA, 0xA5, 0xAA, 0xAA, 0xAA, 0xA5, 0xA8, 0xAA, 0xAA,
-		0xA5, 0xAA, 0xAA, 0xAA, 0xA5, 0xA2, 0x0 , 0x0 , 0x15, 0x40,
-		0x0 , 0x0 , 0x15, 0x40,
-	},
-	{
-		0x0 , 0x0 , 0x95, 0x0 , 0x0 , 0x1 , 0x95, 0x0 , 0x0 , 0x15,
-		0x95, 0x0 , 0x0 , 0x5 , 0x94, 0x0 , 0x0 , 0x5 , 0x90, 0x0 ,
-		0x0 , 0x5 , 0x40, 0x0 , 0x0 , 0x5 , 0x40, 0x0 , 0x0 , 0x5 ,
-		0x40, 0x0 , 0x0 , 0x9 , 0x48, 0x0 , 0x0 , 0x9 , 0x48, 0x0 ,
-		0x0 , 0x4A, 0xA8, 0x0 , 0x1 , 0x59, 0x48, 0x0 , 0x0 , 0x4A,
-		0xA8, 0x0 , 0x0 , 0x9 , 0x48, 0x0 , 0x0 , 0x5 , 0x48, 0x0 ,
-		0x0 , 0x5 , 0x40, 0x0
-	}
+static const char *swhitsym[] = {
+	"            - - - - - - - - - - \n"
+	"              - - - * * - - -   \n"
+	"                - - * * - -     \n"
+	"                    * *         \n"
+	"                    * *         \n"
+	"                    * *         \n"
+	"                  * * * *       \n"
+	"                  * * * *       \n"
+	"                  * * * *       \n"
+	"                  * * * *       \n"
+	"    - - - - - - - - * * - - - - \n"
+	"- - - - - - - - - - * * - - -   \n"
+	"- - - - - - - - - - * * - - - - \n"
+	"- - - - - - - - - - * * - -   - \n"
+	"                  * * * *       \n"
+	"                  * * * *       \n",
+	// -------------------------------
+	"                - * * *         \n"
+	"              * - * * *         \n"
+	"          * * * - * * *         \n"
+	"            * * - * *           \n"
+	"            * * - *             \n"
+	"            * * *               \n"
+	"            * * *               \n"
+	"            * * *               \n"
+	"            - * *   -           \n"
+	"            - * *   -           \n"
+	"        *   - - - - -           \n"
+	"      * * * - * *   -           \n"
+	"        *   - - - - -           \n"
+	"            - * *   -           \n"
+	"            * * *   -           \n"
+	"            * * *               \n",
 };
 
 
@@ -809,6 +819,58 @@ static symset_t *symset_from_data(unsigned char *data, int w, int h)
 	return s;
 }
 
+static void sopsym_from_text(sopsym_t *sym, const char *text, int w, int h,
+                             int rotations, bool mirror)
+{
+	const char *p, *p2;
+	int x, y, dx, dy, c;
+
+	if ((rotations & 1) == 0) {
+		sym->w = w;
+		sym->h = h;
+	} else {
+		sym->w = h;
+		sym->h = w;
+	}
+	sym->data = malloc(w * h);
+
+	x = 0; y = 0;
+	for (p = text; *p != '\0'; p++) {
+		if (*p == '\n') {
+			x = 0;
+			y++;
+		} else {
+			p2 = strchr(color_chars, *p);
+			if (p2 != NULL) {
+				c = p2 - color_chars;
+			} else {
+				c = 0;
+			}
+
+			if (x < w * 2 && y < h && (x % 2) == 0) {
+				dx = x / 2; dy = y;
+				rotate(&dx, &dy, w, h, rotations, mirror);
+				sym->data[dy * sym->w + dx] = c;
+			}
+			x++;
+		}
+	}
+}
+
+static symset_t *symset_from_text(const char *text, int w, int h)
+{
+	symset_t *s = malloc(sizeof(*s));
+	int r;
+
+	for (r = 0; r < 4; r++)
+	{
+		sopsym_from_text(&s->sym[r], text, w, h, r, false);
+		sopsym_from_text(&s->sym[r + 4], text, w, h, r, true);
+	}
+
+	return s;
+}
+
 // converted symbols:
 
 symset_t *symbol_bomb[2];                 // swbmbsym
@@ -846,6 +908,12 @@ sopsym_t symbol_pixel = {
              (out)[_i] = symset_from_data((data)[_i], (w), (h));  \
         }
 
+#define symsets_from_text(text, w, h, out)                        \
+        { int _i;                                                 \
+          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)         \
+             (out)[_i] = symset_from_text((text)[_i], (w), (h));  \
+        }
+
 void symbol_generate(void)
 {
 	symsets_from_data(swbmbsym, 8, 8, symbol_bomb);
@@ -856,8 +924,8 @@ void symbol_generate(void)
 	symsets_from_data(swoxsym, 16, 16, symbol_ox);
 	symsets_from_data(swmscsym, 8, 8, symbol_missile);
 	symsets_from_data(swbstsym, 8, 8, symbol_burst);
-	symsets_from_data(swplnsym, 16, 16, symbol_plane);
-	symsets_from_data(swhitsym, 16, 16, symbol_plane_hit);
+	symsets_from_text(swplnsym, 16, 16, symbol_plane);
+	symsets_from_text(swhitsym, 16, 16, symbol_plane_hit);
 	symsets_from_data(swwinsym, 16, 16, symbol_plane_win);
 	symsets_from_data(swmedalsym, 8, 12, symbol_medal);
 	symsets_from_data(swribbonsym, 8, 2, symbol_ribbon);
