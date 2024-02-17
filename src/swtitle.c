@@ -87,7 +87,7 @@ void swtitln(void)
 
 	Vid_DispSymbol(40+X_OFFSET, 180, &symbol_plane[0]->sym[0],
 	               OWNER_PLAYER1);
-	Vid_DispSymbol(130+X_OFFSET, 80, &symbol_plane[3]->sym[5],
+	Vid_DispSymbol(130+X_OFFSET, 80, &symbol_plane[1]->sym[6],
 	               OWNER_PLAYER2);
 	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16,
 	               &symbol_targets[3]->sym[0], OWNER_PLAYER2);
