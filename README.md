@@ -13,7 +13,7 @@ Features:
 * Multiple palettes that emulate a selection of old monitors
 * Medals feature
 
-# More Info
+## More Info
 
 More information about SDL Sopwith is available in some of the files
 included here:
@@ -29,7 +29,7 @@ You can find lots more information about the original Sopwith here:
 * https://fragglet.github.io/sdl-sopwith
 * https://en.wikipedia.org/wiki/Sopwith_(video_game)
 
-# Feedback
+## Feedback
 
 If you like SDL Sopwith, email me and let me know!
 
