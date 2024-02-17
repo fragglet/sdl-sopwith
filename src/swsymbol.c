@@ -649,65 +649,6 @@ static void rotate(int *x, int *y, int w, int h, int rotations, bool mirror)
 	}
 }
 
-// sdh 27/6/2002: create a sopsym_t structure from the original
-// raw sprite data.
-// the data in sopsym_t's is in a simpler one-byte-per-pixel format
-// rather than packing 4 pixels into one byte as in the original data.
-// this simplifies various stuff such as collision detection.
-// 'rotations' specified the number of 90 degree rotations to perform
-// on the input data, eg. 3=270 degrees.
-static void sopsym_from_data(sopsym_t *sym, unsigned char *data, int w, int h,
-                             int rotations, bool mirror)
-{
-	unsigned char *d;
-	int x, y, dx, dy;
-
-	if ((rotations & 1) == 0) {
-		sym->w = w;
-		sym->h = h;
-	} else {
-		sym->w = h;
-		sym->h = w;
-	}
-	sym->data = malloc(w * h);
-
-	// decode the symbol data
-	d = data;
-	for (y=0; y<h; ++y) {
-		for (x=0; x<w; x += 4, ++d) {
-			dx = x; dy = y;
-			rotate(&dx, &dy, w, h, rotations, mirror);
-			sym->data[dy * sym->w + dx] = (*d >> 6) & 0x03;
-
-			dx = x + 1; dy = y;
-			rotate(&dx, &dy, w, h, rotations, mirror);
-			sym->data[dy * sym->w + dx] = (*d >> 4) & 0x03;
-
-			dx = x + 2; dy = y;
-			rotate(&dx, &dy, w, h, rotations, mirror);
-			sym->data[dy * sym->w + dx] = (*d >> 2) & 0x03;
-
-			dx = x + 3; dy = y;
-			rotate(&dx, &dy, w, h, rotations, mirror);
-			sym->data[dy * sym->w + dx] = *d & 0x03;
-		}
-	}
-}
-
-static symset_t *symset_from_data(unsigned char *data, int w, int h)
-{
-	symset_t *s = malloc(sizeof(*s));
-	int r;
-
-	for (r = 0; r < 4; r++)
-	{
-		sopsym_from_data(&s->sym[r], data, w, h, r, false);
-		sopsym_from_data(&s->sym[r + 4], data, w, h, r, true);
-	}
-
-	return s;
-}
-
 static void sopsym_from_text(sopsym_t *sym, const char *text, int w, int h,
                              int rotations, bool mirror)
 {
@@ -789,14 +730,7 @@ sopsym_t symbol_pixel = {
 	1
 };
 
-// generate symbols from data
-
-#define symsets_from_data(data, w, h, out)                        \
-        { int _i;                                                 \
-          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)         \
-             (out)[_i] = symset_from_data((data)[_i], (w), (h));  \
-        }
-
+// generate array of symset_t structs from array of strings:
 #define symsets_from_text(text, w, h, out)                        \
         { int _i;                                                 \
           for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)         \
