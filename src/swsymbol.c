@@ -574,109 +574,65 @@ static const char *swbstsym[] = {
 	"  *     *       \n",
 };
 
-static unsigned char swmedalsym[][24] = {
-/* Medal symbols based on the following templates:
-08
-. . 3 3 3 3 . .
-. . 1 1 1 1 . .
-. . 1 1 1 1 . .
-. . 1 1 1 1 . .
-. . 1 1 1 1 . .
-. . . 1 1 . . .
-. 2 2 . . 2 2 .
-2 3 3 2 2 2 2 2
-2 3 2 2 2 2 2 2
-. 2 2 2 2 2 2 .
-. . 2 2 2 2 . .
-. . . 2 2 . . .
-
-08
-. . 3 3 3 3 . .
-. . 1 1 1 1 . .
-. . 1 1 1 1 . .
-. . 1 1 1 1 . .
-. . 1 1 1 1 . .
-. . . 1 1 . . .
-. . . 1 1 . . .
-. . . . . . . .
-. . . 3 3 . . .
-. . 3 2 3 3 . .
-. . 3 2 2 3 . .
-. . . 3 3 . . .
-
-08
-. . 3 3 3 3 . .
-. . 2 2 2 2 . .
-. . 2 2 2 2 . .
-. . 2 2 2 2 . .
-. . . 2 2 . . .
-. . . . . . . .
-. . . 3 3 . . .
-. . . 1 1 . . .
-. 3 1 3 1 1 3 .
-. 3 1 1 1 1 3 .
-. . . 1 1 . . .
-. . . 3 3 . . .
-
-*/
-	{
-	  0x0f, 0xf0,
-	  0x05, 0x50,
-	  0x05, 0x50,
-	  0x05, 0x50,
-	  0x05, 0x50,
-	  0x01, 0x40,
-	  0x28, 0x28,
-	  0xbe, 0xaa,
-	  0xba, 0xaa,
-	  0x2a, 0xa8,
-	  0x0a, 0xa0,
-	  0x02, 0x80
-	},
-	{
-	  0x0f, 0xf0,
-	  0x05, 0x50,
-	  0x05, 0x50,
-	  0x05, 0x50,
-	  0x05, 0x50,
-	  0x01, 0x40,
-	  0x01, 0x40,
-	  0x00, 0x00,
-	  0x03, 0xc0,
-	  0x0e, 0xf0,
-	  0x0e, 0xb0,
-	  0x03, 0xc0
-	},
-	{
-	  0x0f, 0xf0,
-	  0x0a, 0xa0,
-	  0x0a, 0xa0,
-	  0x0a, 0xa0,
-	  0x02, 0x80,
-	  0x00, 0x00,
-	  0x03, 0xc0,
-	  0x01, 0x40,
-	  0x37, 0x5c,
-	  0x35, 0x5c,
-	  0x01, 0x40,
-	  0x03, 0xc0
-	}
+static const char *swmedalsym[] = {
+	"    # # # #     \n"
+	"    * * * *     \n"
+	"    * * * *     \n"
+	"    * * * *     \n"
+	"    * * * *     \n"
+	"      * *       \n"
+	"  - -     - -   \n"
+	"- # # - - - - - \n"
+	"- # - - - - - - \n"
+	"  - - - - - -   \n"
+	"    - - - -     \n"
+	"      - -       \n",
+	//-----------------
+	"    # # # #     \n"
+	"    * * * *     \n"
+	"    * * * *     \n"
+	"    * * * *     \n"
+	"    * * * *     \n"
+	"      * *       \n"
+	"      * *       \n"
+	"                \n"
+	"      # #       \n"
+	"    # - # #     \n"
+	"    # - - #     \n"
+	"      # #       \n",
+	//-----------------
+	"    # # # #     \n"
+	"    - - - -     \n"
+	"    - - - -     \n"
+	"    - - - -     \n"
+	"      - -       \n"
+	"                \n"
+	"      # #       \n"
+	"      * *       \n"
+	"  # * # * * #   \n"
+	"  # * * * * #   \n"
+	"      * *       \n"
+	"      # #       \n",
 };
 
-static unsigned char swribbonsym[][4] = {
-	/* Actual width: 7 pixels */
-	{ 0x57, 0x54,
-	  0x57, 0x54 }, /* CCCWCCC : ACE */
-	{ 0x5d, 0xd4,
-	  0x5d, 0xd4 }, /* CCWCWCC : TOPACE */
-	{ 0xef, 0xec,
-	  0xef, 0xec }, /* WMWWWMW : PERFECT */
-	{ 0xd5, 0x5c,
-	  0xd5, 0x5c }, /* WCCCCCW : SERVICE */
-	{ 0xda, 0x9c,
-	  0xda, 0x9c }, /* WCMMMCW : COMPETENCE2 */
-	{ 0xaf, 0xe8,
-	  0xaf, 0xe8 }	/* MMWWWMM : PREVALOUR */
+static const char *swribbonsym[] = {
+	"* * * # * * *   \n"
+	"* * * # * * *   \n", /* CCCWCCC : ACE */
+
+	"* * # * # * *   \n"
+	"* * # * # * *   \n", /* CCWCWCC : TOPACE */
+
+	"# - # # # - #   \n"
+	"# - # # # - #   \n", /* WMWWWMW : PERFECT */
+
+	"# * * * * * #   \n"
+	"# * * * * * #   \n", /* WCCCCCW : SERVICE */
+
+	"# * - - - * #   \n"
+	"# * - - - * #   \n", /* WCMMMCW : COMPETENCE2 */
+
+	"- - # # # - -   \n"
+	"- - # # # - -   \n", /* MMWWWMM : PREVALOUR */
 };
 
 static void rotate(int *x, int *y, int w, int h, int rotations, bool mirror)
@@ -860,8 +816,8 @@ void symbol_generate(void)
 	symsets_from_text(swplnsym, 16, 16, symbol_plane);
 	symsets_from_text(swhitsym, 16, 16, symbol_plane_hit);
 	symsets_from_text(swwinsym, 16, 16, symbol_plane_win);
-	symsets_from_data(swmedalsym, 8, 12, symbol_medal);
-	symsets_from_data(swribbonsym, 8, 2, symbol_ribbon);
+	symsets_from_text(swmedalsym, 8, 12, symbol_medal);
+	symsets_from_text(swribbonsym, 8, 2, symbol_ribbon);
 
 	symbol_target_hit = symset_from_text(swhtrsym, 16, 16);
 	symbol_shotwin = symset_from_text(swshtsym, 16, 16);
