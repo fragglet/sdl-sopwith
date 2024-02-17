@@ -1121,60 +1121,6 @@ bool hitpln(OBJECTS * obp)
 	return true;
 }
 
-
-bool insertx(OBJECTS *ob, OBJECTS *obp)
-{
-	OBJECTS *obs;
-	int obx;
-
-	obs = obp;
-	obx = ob->ob_x;
-	if (obx < obs->ob_x) {
-		while (obs->ob_xprev != NULL && obx < obs->ob_xprev->ob_x) {
-			obs = obs->ob_xprev;
-		}
-		// Insert between obs->ob_xprev and obs:
-		ob->ob_xprev = obs->ob_xprev;
-		ob->ob_xnext = obs;
-	} else {
-		while (obs->ob_xnext != NULL && obx > obs->ob_xnext->ob_x) {
-			obs = obs->ob_xnext;
-		}
-		// Insert between obs and ob->ob_xnext:
-		ob->ob_xprev = obs;
-		ob->ob_xnext = obs->ob_xnext;
-	}
-	if (ob->ob_xprev != NULL) {
-		ob->ob_xprev->ob_xnext = ob;
-	}
-	if (ob->ob_xnext != NULL) {
-		ob->ob_xnext->ob_xprev = ob;
-	}
-
-	return true;
-}
-
-// Remove from object linked list. Returns a pointer to another object that
-// was "near" this object at the time of removal, that can be supplied as
-// an argument to insertx() above when inserting again.
-OBJECTS *deletex(OBJECTS *ob)
-{
-	OBJECTS *oldpos = objtop;
-
-	if (ob->ob_xprev != NULL) {
-		oldpos = ob->ob_xprev;
-		ob->ob_xprev->ob_xnext = ob->ob_xnext;
-	}
-	if (ob->ob_xnext != NULL) {
-		oldpos = ob->ob_xnext;
-		ob->ob_xnext->ob_xprev = ob->ob_xprev;
-	}
-	ob->ob_xprev = NULL;
-	ob->ob_xnext = NULL;
-
-	return oldpos;
-}
-
 //
 // 2003-02-14: Code was checked into version control; no further entries
 // will be added to this log.
