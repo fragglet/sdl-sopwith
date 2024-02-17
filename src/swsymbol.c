@@ -382,97 +382,85 @@ static const char *swexpsym[] = {
 	"            *   \n",
 };
 
-static unsigned char swflksym[][64] = {
+static const char *swflksym[] = {
 
-/*  flock symbols based on the following template files:
-16                                16
-. 3 . . . . . . . . . . . . . .   3 . 3 . . . . . . . . . . . . .
-3 . 3 . . . . . . . . . . . . .   . 3 . . . . . . . . . . . . . .
-. . . . . . . 3 . 3 . . . . 3 .   . . . . . . . . 3 . . . . 3 . 3
-. . . 3 . . . . 3 . . . . 3 . 3   . . 3 . 3 . . 3 . 3 . . . . 3 .
-. . 3 . 3 . . . . . . . . . . .   . . . 3 . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-3 . 3 . . 3 . 3 . . . . 3 . . .   . 3 . . . . 3 . . . . 3 . 3 . .
-. 3 . . . . 3 . . . . 3 . 3 . .   3 . 3 . . 3 . 3 . . . . 3 . . .
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-. . 3 . 3 . . 3 . . . . 3 . 3 .   . . . 3 . . 3 . 3 . . . . 3 . .
-. . . 3 . . 3 . 3 . . . . 3 . .   . . 3 . 3 . . 3 . . . . 3 . 3 .
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-. . . 3 . . . . . . 3 . . . . .   . . 3 . 3 . . . . 3 . 3 . . . .
-. . 3 . 3 . . . . 3 . 3 . . . .   . . . 3 . . . . . . 3 . . . . .
-. . . . . . 3 . 3 . . . . . . .   . . . . . . . 3 . . . . . . . .
-. . . . . . . 3 . . . . . . . .   . . . . . . 3 . 3 . . . . . . .
-*/
-	{
-		0x30, 0x0 , 0x0 , 0x0 , 0xCC, 0x0 , 0x0 , 0x0 , 0x0 , 0x3 ,
-		0x30, 0xC , 0x3 , 0x0 , 0xC0, 0x33, 0xC , 0xC0, 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0xCC, 0x33, 0x0 , 0xC0, 0x30, 0xC ,
-		0x3 , 0x30, 0x0 , 0x0 , 0x0 , 0x0 , 0xC , 0xC3, 0x0 , 0xCC,
-		0x3 , 0xC , 0xC0, 0x30, 0x0 , 0x0 , 0x0 , 0x0 , 0x3 , 0x0 ,
-		0xC , 0x0 , 0xC , 0xC0, 0x33, 0x0 , 0x0 , 0xC , 0xC0, 0x0 ,
-		0x0 , 0x3 , 0x0 , 0x0 ,
-	},
-	{
-		0xCC, 0x0 , 0x0 , 0x0 , 0x30, 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0xC0, 0x33, 0xC , 0xC3, 0x30, 0xC , 0x3 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x30, 0xC , 0x3 , 0x30, 0xCC, 0x33,
-		0x0 , 0xC0, 0x0 , 0x0 , 0x0 , 0x0 , 0x3 , 0xC , 0xC0, 0x30,
-		0xC , 0xC3, 0x0 , 0xCC, 0x0 , 0x0 , 0x0 , 0x0 , 0xC , 0xC0,
-		0x33, 0x0 , 0x3 , 0x0 , 0xC , 0x0 , 0x0 , 0x3 , 0x0 , 0x0 ,
-		0x0 , 0xC , 0xC0, 0x0
-	},
+	"  #                             \n"
+	"#   #                           \n"
+	"              #   #         #   \n"
+	"      #         #         #   # \n"
+	"    #   #                       \n"
+	"                                \n"
+	"#   #     #   #         #       \n"
+	"  #         #         #   #     \n"
+	"                                \n"
+	"    #   #     #         #   #   \n"
+	"      #     #   #         #     \n"
+	"                                \n"
+	"      #             #           \n"
+	"    #   #         #   #         \n"
+	"            #   #               \n"
+	"              #                 \n",
+	// -------------------------------
+	"#   #                           \n"
+	"  #                             \n"
+	"                #         #   # \n"
+	"    #   #     #   #         #   \n"
+	"      #                         \n"
+	"                                \n"
+	"  #         #         #   #     \n"
+	"#   #     #   #         #       \n"
+	"                                \n"
+	"      #     #   #         #     \n"
+	"    #   #     #         #   #   \n"
+	"                                \n"
+	"    #   #         #   #         \n"
+	"      #             #           \n"
+	"              #                 \n"
+	"            #   #               \n"
 };
 
-static unsigned char swbrdsym[][2] = {
-
-/*  bird symbols based on the following template files:
-4         4
-. 3 . .   3 . 3 .
-3 . 3 .   . 3 . .
-*/
-       {0x30, 0xCC},
-       {0xCC, 0x30}
+static const char *swbrdsym[] = {
+	"  #     \n"
+	"#   #   \n",
+	//---------
+	"#   #   \n"
+	"  #     \n",
 };
 
-static unsigned char swoxsym[][64] = {
-
-/*  ox symbols based on the following template files:
-16                                16
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . . .   . . . . . . . . . . . . . . . .
-. . . . . . . . . . 3 . . 3 . .   . . . . . . . . . . . . . . . .
-. . . . . . . . . . 3 2 2 2 . .   . . . . . . . . . . . . . . . .
-. . . . . . . . . . 2 3 1 3 3 .   . . . . . . . . . . . . . . . .
-. . . 2 2 2 2 2 2 3 2 2 3 3 3 .   . . . . . . . . . . . . . . . .
-. 2 2 2 2 2 2 2 2 3 2 2 3 3 2 3   . . . . . . . . . . . . . . . .
-3 2 2 2 2 2 2 2 2 3 2 2 2 3 3 .   . . . . . . . . . . . . . . . .
-3 2 2 2 2 2 2 2 2 2 3 3 . . . .   . . . . . . . . . . . . 3 . . .
-3 2 2 2 2 2 2 2 2 2 2 2 . . . .   . . 2 2 2 2 2 2 2 2 . 2 2 2 . .
-3 2 2 . 2 2 . . 2 2 . 2 2 . . .   3 2 3 3 2 2 2 2 3 3 2 2 2 3 3 .
-. 2 2 . 2 2 . . 2 2   2 2 . . .   3 2 2 2 2 2 2 2 2 2 2 2 2 3 3 .
-. 3 3 . 3 3 . . 3 3 . 3 3 . . .   3 2 2 3 3 2 2 3 3 2 . 2 2 3 . .
-*/
-	{
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0xC , 0x30, 0x0 , 0x0 , 0xE , 0xA0, 0x0 , 0x0 ,
-		0xB , 0x7C, 0x2 , 0xAA, 0xBA, 0xFC, 0x2A, 0xAA, 0xBA, 0xFB,
-		0xEA, 0xAA, 0xBA, 0xBC, 0xEA, 0xAA, 0xAF, 0x0 , 0xEA, 0xAA,
-		0xAA, 0x0 , 0xE8, 0xA0, 0xA2, 0x80, 0x28, 0xA0, 0xA2, 0x80,
-		0x3C, 0xF0, 0xF3, 0xC0,
-	},
-	{
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0xC0, 0xA , 0xAA,
-		0xA2, 0xA0, 0xEF, 0xAA, 0xFA, 0xBC, 0xEA, 0xAA, 0xAA, 0xBC,
-		0xEB, 0xEB, 0xE2, 0xB0
-	},
+static const char *swoxsym[] = {
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                    #     #     \n"
+	"                    # - - -     \n"
+	"                    - # * # #   \n"
+	"      - - - - - - # - - # # #   \n"
+	"  - - - - - - - - # - - # # - # \n"
+	"# - - - - - - - - # - - - # #   \n"
+	"# - - - - - - - - - # #         \n"
+	"# - - - - - - - - - - -         \n"
+	"# - -   - -     - -   - -       \n"
+	"  - -   - -     - -   - -       \n"
+	"  # #   # #     # #   # #       \n",
+	// -------------------------------
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                        #       \n"
+	"    - - - - - - - -   - - -     \n"
+	"# - # # - - - - # # - - - # #   \n"
+	"# - - - - - - - - - - - - # #   \n"
+	"# - - # # - - # # -   - - #     \n"
 };
 
 static unsigned char swshtsym[] = {
@@ -906,9 +894,9 @@ void symbol_generate(void)
 	symsets_from_text(swbmbsym, 8, 8, symbol_bomb);
 	symsets_from_text(swtrgsym, 16, 16, symbol_targets);
 	symsets_from_text(swexpsym, 8, 8, symbol_debris);
-	symsets_from_data(swflksym, 16, 16, symbol_flock);
-	symsets_from_data(swbrdsym, 4, 2, symbol_bird);
-	symsets_from_data(swoxsym, 16, 16, symbol_ox);
+	symsets_from_text(swflksym, 16, 16, symbol_flock);
+	symsets_from_text(swbrdsym, 4, 2, symbol_bird);
+	symsets_from_text(swoxsym, 16, 16, symbol_ox);
 	symsets_from_data(swmscsym, 8, 8, symbol_missile);
 	symsets_from_data(swbstsym, 8, 8, symbol_burst);
 	symsets_from_text(swplnsym, 16, 16, symbol_plane);
