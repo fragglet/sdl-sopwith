@@ -102,10 +102,12 @@ OBJECTS *allocobj(void)
 	return ob;
 }
 
-void deallobj(OBJECTS * obp)
+void deallobj(OBJECTS *ob)
 {
-	OBJECTS *ob=obp;
 	OBJECTS *obb = ob->ob_prev;
+
+	// Make sure we're unhooked from the X position list.
+	deletex(ob);
 
 	if (obb) {
 		obb->ob_next = ob->ob_next;
