@@ -515,62 +515,63 @@ static const char *swsplsym =
 "* * *     * * *     -           -         *             - * -   \n"
 "* *         *                 -                 *         -     \n";
 
-static unsigned char swmscsym[][16] = {
+static const char *swmscsym[] = {
 
-/*  bomb symbols based on the following template file:
-
-
-08                08                08                08
-. . . . . . . .   . . . . . . . .   . . . . . . . .   . . . . . . . .
-. . . . . . . .   . . . . . . . .   . . . . . 1 1 .   . . . . 1 1 . .
-. 1 1 . . . . .   . . . . . 1 1 .   . . . . 1 1 1 .   . . . . 1 1 . .
-. 1 1 1 1 1 1 .   . . . 1 1 1 1 .   . . . 1 1 1 . .   . . . 1 1 . . .
-. 1 1 1 1 1 1 .   1 1 1 1 1 . . .   . 1 1 1 1 . . .   . . . 1 1 . . .
-. 1 1 . . . . .   . 1 1 1 . . . .   . . 1 1 . . . .   . 1 1 1 . . . .
-. . . . . . . .   . . 1 1 . . . .   . . . 1 . . . .   . . 1 1 1 . . .
-. . . . . . . .   . . . . . . . .   . . . . . . . .   . . . . . . . .
-*/
-	{
-		0x0 , 0x0 , 0x0 , 0x0 , 0x14, 0x0 , 0x15, 0x54, 0x15, 0x54,
-		0x14, 0x0 , 0x0 , 0x0 , 0x0 , 0x0 ,
-	},
-	{
-		0x0 , 0x0 , 0x0 , 0x0 , 0x0 , 0x14, 0x1 , 0x54, 0x55, 0x40,
-		0x15, 0x0 , 0x5 , 0x0 , 0x0 , 0x0 ,
-	},
-	{
-		0x0 , 0x0 , 0x0 , 0x14, 0x0 , 0x54, 0x1 , 0x50, 0x15, 0x40,
-		0x5 , 0x0 , 0x1 , 0x0 , 0x0 , 0x0 ,
-	},
-	{
-		0x0 , 0x0 , 0x0 , 0x50, 0x0 , 0x50, 0x1 , 0x40, 0x1 , 0x40,
-		0x15, 0x0 , 0x5 , 0x40, 0x0 , 0x0 ,
-	},
+	"                \n"
+	"                \n"
+	"  * *           \n"
+	"  * * * * * *   \n"
+	"  * * * * * *   \n"
+	"  * *           \n"
+	"                \n"
+	"                \n",
+	//-----------------
+	"                \n"
+	"                \n"
+	"          * *   \n"
+	"      * * * *   \n"
+	"* * * * *       \n"
+	"  * * *         \n"
+	"    * *         \n"
+	"                \n",
+	//-----------------
+	"                \n"
+	"          * *   \n"
+	"        * * *   \n"
+	"      * * *     \n"
+	"  * * * *       \n"
+	"    * *         \n"
+	"      *         \n"
+	"                \n",
+	//-----------------
+	"                \n"
+	"        * *     \n"
+	"        * *     \n"
+	"      * *       \n"
+	"      * *       \n"
+	"  * * *         \n"
+	"    * * *       \n"
+	"                \n",
 };
 
-static unsigned char swbstsym[][16] = {
-
-
-/*  starburst symbols based on the following template file:
-
-08                 08
-. . . . 1 . . .    . . . 1 . . 1 .
-. 1 . . 1 . 1 .    1 . . 1 . 1 . .
-. . 1 . 1 1 . .    . 1 . 1 1 . . .
-1 1 1 1 1 . . .    . . 1 1 1 1 1 1
-. . . 1 1 1 1 1    1 1 1 1 1 1 . .
-. . 1 1 . 1 . .    . . . 1 1 . 1 .
-. 1 . 1 . . 1 .    . . 1 . 1 . . 1
-. . . 1 . . . .    . 1 . . 1 . . .
-*/
-	{
-		0x0 , 0x40, 0x10, 0x44, 0x4 , 0x50, 0x55, 0x40, 0x1 , 0x55,
-		0x5 , 0x10, 0x11, 0x4 , 0x1 , 0x0 ,
-	},
-	{		
-		0x1 , 0x4 , 0x41, 0x10, 0x11, 0x40, 0x5 , 0x55, 0x55, 0x50,
-		0x1 , 0x44, 0x4 , 0x41, 0x10, 0x40
-	}
+static const char *swbstsym[] = {
+	"        *       \n"
+	"  *     *   *   \n"
+	"    *   * *     \n"
+	"* * * * *       \n"
+	"      * * * * * \n"
+	"    * *   *     \n"
+	"  *   *     *   \n"
+	"      *         \n",
+	//-----------------
+	"      *     *   \n"
+	"*     *   *     \n"
+	"  *   * *       \n"
+	"    * * * * * * \n"
+	"* * * * * *     \n"
+	"      * *   *   \n"
+	"    *   *     * \n"
+	"  *     *       \n",
 };
 
 static unsigned char swmedalsym[][24] = {
@@ -854,8 +855,8 @@ void symbol_generate(void)
 	symsets_from_text(swflksym, 16, 16, symbol_flock);
 	symsets_from_text(swbrdsym, 4, 2, symbol_bird);
 	symsets_from_text(swoxsym, 16, 16, symbol_ox);
-	symsets_from_data(swmscsym, 8, 8, symbol_missile);
-	symsets_from_data(swbstsym, 8, 8, symbol_burst);
+	symsets_from_text(swmscsym, 8, 8, symbol_missile);
+	symsets_from_text(swbstsym, 8, 8, symbol_burst);
 	symsets_from_text(swplnsym, 16, 16, symbol_plane);
 	symsets_from_text(swhitsym, 16, 16, symbol_plane_hit);
 	symsets_from_text(swwinsym, 16, 16, symbol_plane_win);
