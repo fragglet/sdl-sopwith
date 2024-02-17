@@ -291,8 +291,7 @@ OBJECTS *initpln(OBJECTS * obp)
 		ob->ob_target = NULL;
 		insertx(ob, &topobj);
 	} else {
-		deletex(ob);
-		insertx(ob, ob->ob_xnext);
+		insertx(ob, deletex(ob));
 	}
 
 	ob->ob_state = FLYING;

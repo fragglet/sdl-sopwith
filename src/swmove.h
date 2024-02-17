@@ -33,6 +33,6 @@ extern bool moveox(OBJECTS *ob);
 extern bool crashpln(OBJECTS *obp);
 extern bool hitpln(OBJECTS *obp);
 extern bool insertx(OBJECTS *ob, OBJECTS *obp);
-extern void deletex(OBJECTS *obp);
+extern OBJECTS *deletex(OBJECTS *obp);
 
 #endif

@@ -649,8 +649,7 @@ static bool movepln(OBJECTS *ob)
 		nearpln(ob);
 	}
 
-	deletex(ob);
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, deletex(ob));
 
 	if (ob->ob_bdelay) {
 		--ob->ob_bdelay;
@@ -701,9 +700,10 @@ static void adjustfall(OBJECTS *ob)
 
 bool moveshot(OBJECTS *ob)
 {
+	OBJECTS *oldpos;
 	int x, y;
 
-	deletex(ob);
+	oldpos = deletex(ob);
 	
 	--ob->ob_life;
 
@@ -720,7 +720,7 @@ bool moveshot(OBJECTS *ob)
 		return false;
 	}
 
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, oldpos);
 	ob->ob_newsym = &symbol_pixel;
 	return true;
 }
@@ -729,10 +729,11 @@ bool moveshot(OBJECTS *ob)
 
 bool movebomb(OBJECTS *ob)
 {
+	OBJECTS *oldpos;
 	int x, y;
 	int ang;
 
-	deletex(ob);
+	oldpos = deletex(ob);
 
 	if (ob->ob_life < 0) {
 		deallobj(ob);
@@ -757,7 +758,7 @@ bool movebomb(OBJECTS *ob)
 
 	ang = symangle(ob);
 	ob->ob_newsym = &symbol_bomb[ang % 2]->sym[ang / 2];
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, oldpos);
 
 	if (y >= MAX_Y) {
 		return false;
@@ -771,9 +772,9 @@ bool movebomb(OBJECTS *ob)
 bool movemiss(OBJECTS *ob)
 {
 	int x, y, angle;
-	OBJECTS *obt;
+	OBJECTS *obt, *oldpos;
 
-	deletex(ob);
+	oldpos = deletex(ob);
 
 	if (ob->ob_life < 0) {
 		deallobj(ob);
@@ -819,7 +820,7 @@ bool movemiss(OBJECTS *ob)
 
 	ob->ob_newsym =
 		&symbol_missile[ob->ob_angle % 4]->sym[ob->ob_angle / 4];
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, oldpos);
 
 	if (y >= MAX_Y) {
 		return false;
@@ -832,9 +833,10 @@ bool movemiss(OBJECTS *ob)
 
 bool moveburst(OBJECTS *ob)
 {
+	OBJECTS *oldpos;
 	int x, y;
 
-	deletex(ob);
+	oldpos = deletex(ob);
 	if (ob->ob_life < 0) {
 		ob->ob_owner->ob_missiletarget = NULL;
 		deallobj(ob);
@@ -852,7 +854,7 @@ bool moveburst(OBJECTS *ob)
 
 	ob->ob_owner->ob_missiletarget = ob;
 	ob->ob_newsym = &symbol_burst[ob->ob_life & 1]->sym[0];
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, oldpos);
 
 	return y < MAX_Y;
 }
@@ -899,13 +901,13 @@ bool movetarg(OBJECTS *ob)
 
 bool moveexpl(OBJECTS * obp)
 {
-	OBJECTS *ob;
+	OBJECTS *ob, *oldpos;
 	int x, y;
 	int orient;
 
 	ob = obp;
 	orient = ob->ob_orient;
-	deletex(ob);
+	oldpos = deletex(ob);
 	if (ob->ob_life < 0) {
 		if (orient) {
 			stopsound(ob);
@@ -942,7 +944,7 @@ bool moveexpl(OBJECTS * obp)
 	}
 	++ob->ob_hitcount;
 
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, oldpos);
 	ob->ob_newsym = &symbol_debris[ob->ob_orient]->sym[0];
 
 	return y < MAX_Y;
@@ -976,11 +978,11 @@ bool movesmok(OBJECTS * obp)
 
 bool moveflck(OBJECTS * obp)
 {
-	OBJECTS *ob;
+	OBJECTS *ob, *oldpos;
 	int x, y;
 
 	ob = obp;
-	deletex(ob);
+	oldpos = deletex(ob);
 
 	if (ob->ob_life == -1) {
 		deallobj(ob);
@@ -1002,7 +1004,7 @@ bool moveflck(OBJECTS * obp)
 	}
 
 	movexy(ob, &x, &y);
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, oldpos);
 	ob->ob_newsym = &symbol_flock[ob->ob_orient]->sym[0];
 	return true;
 }
@@ -1031,12 +1033,11 @@ static bool checkwall(OBJECTS *obp, int direction)
 
 bool movebird(OBJECTS * obp)
 {
-	OBJECTS *ob;
+	OBJECTS *ob, *oldpos;
 	int x, y;
 
 	ob = obp;
-
-	deletex(ob);
+	oldpos = deletex(ob);
 
 	if (ob->ob_life == -1) {
 		deallobj(ob);
@@ -1061,7 +1062,7 @@ bool movebird(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 
-	insertx(ob, ob->ob_xnext);
+	insertx(ob, oldpos);
 	ob->ob_newsym = &symbol_bird[ob->ob_orient]->sym[0];
 	if (x < 0 || x >= currgame->gm_max_x
 	 || y >= MAX_Y || y <= (int) ground[x]) {
@@ -1153,16 +1154,25 @@ bool insertx(OBJECTS *ob, OBJECTS *obp)
 	return true;
 }
 
-
-
-void deletex(OBJECTS *ob)
+// Remove from object linked list. Returns a pointer to another object that
+// was "near" this object at the time of removal, that can be supplied as
+// an argument to insertx() above when inserting again.
+OBJECTS *deletex(OBJECTS *ob)
 {
+	OBJECTS *oldpos = objtop;
+
 	if (ob->ob_xprev != NULL) {
+		oldpos = ob->ob_xprev;
 		ob->ob_xprev->ob_xnext = ob->ob_xnext;
 	}
 	if (ob->ob_xnext != NULL) {
+		oldpos = ob->ob_xnext;
 		ob->ob_xnext->ob_xprev = ob->ob_xprev;
 	}
+	ob->ob_xprev = NULL;
+	ob->ob_xnext = NULL;
+
+	return oldpos;
 }
 
 //
