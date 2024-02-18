@@ -700,11 +700,8 @@ static void adjustfall(OBJECTS *ob)
 
 bool moveshot(OBJECTS *ob)
 {
-	OBJECTS *oldpos;
 	int x, y;
 
-	oldpos = deletex(ob);
-	
 	--ob->ob_life;
 
 	if (ob->ob_life <= 0) {
@@ -720,7 +717,7 @@ bool moveshot(OBJECTS *ob)
 		return false;
 	}
 
-	insertx(ob, oldpos);
+	updateobjpos(ob);
 	ob->ob_newsym = &symbol_pixel;
 	return true;
 }
@@ -729,11 +726,8 @@ bool moveshot(OBJECTS *ob)
 
 bool movebomb(OBJECTS *ob)
 {
-	OBJECTS *oldpos;
 	int x, y;
 	int ang;
-
-	oldpos = deletex(ob);
 
 	if (ob->ob_life < 0) {
 		deallobj(ob);
@@ -758,7 +752,7 @@ bool movebomb(OBJECTS *ob)
 
 	ang = symangle(ob);
 	ob->ob_newsym = &symbol_bomb[ang % 2]->sym[ang / 2];
-	insertx(ob, oldpos);
+	updateobjpos(ob);
 
 	if (y >= MAX_Y) {
 		return false;
@@ -772,9 +766,7 @@ bool movebomb(OBJECTS *ob)
 bool movemiss(OBJECTS *ob)
 {
 	int x, y, angle;
-	OBJECTS *obt, *oldpos;
-
-	oldpos = deletex(ob);
+	OBJECTS *obt;
 
 	if (ob->ob_life < 0) {
 		deallobj(ob);
@@ -820,7 +812,7 @@ bool movemiss(OBJECTS *ob)
 
 	ob->ob_newsym =
 		&symbol_missile[ob->ob_angle % 4]->sym[ob->ob_angle / 4];
-	insertx(ob, oldpos);
+	updateobjpos(ob);
 
 	if (y >= MAX_Y) {
 		return false;
@@ -833,10 +825,8 @@ bool movemiss(OBJECTS *ob)
 
 bool moveburst(OBJECTS *ob)
 {
-	OBJECTS *oldpos;
 	int x, y;
 
-	oldpos = deletex(ob);
 	if (ob->ob_life < 0) {
 		ob->ob_owner->ob_missiletarget = NULL;
 		deallobj(ob);
@@ -854,7 +844,7 @@ bool moveburst(OBJECTS *ob)
 
 	ob->ob_owner->ob_missiletarget = ob;
 	ob->ob_newsym = &symbol_burst[ob->ob_life & 1]->sym[0];
-	insertx(ob, oldpos);
+	updateobjpos(ob);
 
 	return y < MAX_Y;
 }
