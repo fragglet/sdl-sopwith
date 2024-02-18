@@ -638,8 +638,10 @@ static bool movepln(OBJECTS *ob)
 
 	if (x < 0) {
 		x = ob->ob_x = 0;
+		updateobjpos(ob);
 	} else if (x >= (currgame->gm_max_x - 16)) {
 		x = ob->ob_x = currgame->gm_max_x - 16;
+		updateobjpos(ob);
 	}
 
 	if (!compplane
@@ -648,8 +650,6 @@ static bool movepln(OBJECTS *ob)
 	  || ob->ob_state == WOUNDED || ob->ob_state == WOUNDSTALL)) {
 		nearpln(ob);
 	}
-
-	updateobjpos(ob);
 
 	if (ob->ob_bdelay) {
 		--ob->ob_bdelay;
@@ -717,7 +717,6 @@ bool moveshot(OBJECTS *ob)
 		return false;
 	}
 
-	updateobjpos(ob);
 	ob->ob_newsym = &symbol_pixel;
 	return true;
 }
@@ -752,7 +751,6 @@ bool movebomb(OBJECTS *ob)
 
 	ang = symangle(ob);
 	ob->ob_newsym = &symbol_bomb[ang % 2]->sym[ang / 2];
-	updateobjpos(ob);
 
 	if (y >= MAX_Y) {
 		return false;
@@ -812,7 +810,6 @@ bool movemiss(OBJECTS *ob)
 
 	ob->ob_newsym =
 		&symbol_missile[ob->ob_angle % 4]->sym[ob->ob_angle / 4];
-	updateobjpos(ob);
 
 	if (y >= MAX_Y) {
 		return false;
@@ -844,7 +841,6 @@ bool moveburst(OBJECTS *ob)
 
 	ob->ob_owner->ob_missiletarget = ob;
 	ob->ob_newsym = &symbol_burst[ob->ob_life & 1]->sym[0];
-	updateobjpos(ob);
 
 	return y < MAX_Y;
 }
@@ -933,7 +929,6 @@ bool moveexpl(OBJECTS * obp)
 	}
 	++ob->ob_hitcount;
 
-	updateobjpos(ob);
 	ob->ob_newsym = &symbol_debris[ob->ob_orient]->sym[0];
 
 	return y < MAX_Y;
@@ -992,7 +987,6 @@ bool moveflck(OBJECTS * obp)
 	}
 
 	movexy(ob, &x, &y);
-	updateobjpos(ob);
 	ob->ob_newsym = &symbol_flock[ob->ob_orient]->sym[0];
 	return true;
 }
@@ -1048,7 +1042,6 @@ bool movebird(OBJECTS * obp)
 	}
 
 	movexy(ob, &x, &y);
-	updateobjpos(ob);
 
 	ob->ob_newsym = &symbol_bird[ob->ob_orient]->sym[0];
 	if (x < 0 || x >= currgame->gm_max_x

@@ -83,6 +83,15 @@ void updateobjpos(OBJECTS *ob)
 	insertx(ob, deletex(ob));
 }
 
+void copyobj(OBJECTS *to, OBJECTS *from)
+{
+	*to = *from;
+	to->ob_xprev = NULL;
+	to->ob_xnext = NULL;
+	to->ob_prev = NULL;
+	to->ob_next = NULL;
+}
+
 OBJECTS *allocobj(void)
 {
 	OBJECTS *ob;
@@ -144,7 +153,7 @@ void deallobj(OBJECTS *ob)
 	delbot = ob;
 }
 
-void movexy(OBJECTS * ob, int *x, int *y)
+void movexy(OBJECTS *ob, int *x, int *y)
 {
 	unsigned int pos = 0;
 	//long vel;
@@ -169,6 +178,8 @@ void movexy(OBJECTS * ob, int *x, int *y)
 	ob->ob_y = (unsigned short) (pos >> 16) & 0xffff;
 	ob->ob_ly = (unsigned short) pos & 0xffff;
 	*y = ob->ob_y;
+
+	updateobjpos(ob);
 }
 
 void setdxdy(OBJECTS * obj, int dx, int dy)

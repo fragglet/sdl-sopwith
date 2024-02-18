@@ -17,7 +17,8 @@
 
 extern bool insertx(OBJECTS *ob, OBJECTS *obp);
 extern OBJECTS *deletex(OBJECTS *obp);
-void updateobjpos(OBJECTS *ob);
+extern void updateobjpos(OBJECTS *ob);
+extern void copyobj(OBJECTS *to, OBJECTS *from);
 extern OBJECTS *allocobj(void);
 extern void deallobj(OBJECTS *obp);
 extern void movexy(OBJECTS *ob, int *x, int *y);
