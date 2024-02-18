@@ -297,12 +297,12 @@ static void add_object(original_ob_t *ob, struct yocton_object *yo)
 	struct yocton_prop *p;
 
 	while ((p = yocton_next_prop(yo)) != NULL) {
-		YOCTON_VAR_INT(p, x, int, ob->x);
-		YOCTON_VAR_INT(p, orient, int, ob->orient);
-		YOCTON_VAR_INT(p, territory_l, int, ob->territory_l);
-		YOCTON_VAR_INT(p, territory_r, int, ob->territory_r);
-		YOCTON_VAR_ENUM(p, type, ob->type, obtype_names);
-		YOCTON_VAR_ENUM(p, owner, ob->owner, owner_names);
+		YOCTON_VAR_INT(p, "x", int, ob->x);
+		YOCTON_VAR_INT(p, "orient", int, ob->orient);
+		YOCTON_VAR_INT(p, "territory_l", int, ob->territory_l);
+		YOCTON_VAR_INT(p, "territory_r", int, ob->territory_r);
+		YOCTON_VAR_ENUM(p, "type", ob->type, obtype_names);
+		YOCTON_VAR_ENUM(p, "owner", ob->owner, owner_names);
 	}
 }
 
@@ -313,7 +313,7 @@ static void set_ground(struct yocton_object *yo)
 	while ((p = yocton_next_prop(yo)) != NULL) {
 		yocton_check(yo, "expected prop name '_'",
 		             !strcmp(yocton_prop_name(p), "_"));
-		YOCTON_VAR_INT_ARRAY(p, _, GRNDTYPE, cl.gm_ground,
+		YOCTON_VAR_INT_ARRAY(p, "_", GRNDTYPE, cl.gm_ground,
 		                     cl.gm_max_x);
 	}
 }
@@ -323,12 +323,12 @@ static void process_level(struct yocton_object *obj)
 	struct yocton_prop *p;
 
 	while ((p = yocton_next_prop(obj)) != NULL) {
-		YOCTON_VAR_ARRAY(p, object, cl.gm_objects, cl.gm_num_objects, {
+		YOCTON_VAR_ARRAY(p, "object", cl.gm_objects, cl.gm_num_objects, {
 			add_object(&cl.gm_objects[cl.gm_num_objects],
 				yocton_prop_inner(p));
 			++cl.gm_num_objects;
 		});
-		YOCTON_IF_PROP(p, ground, {
+		YOCTON_IF_PROP(p, "ground", {
 			set_ground(yocton_prop_inner(p));
 		});
 	}
