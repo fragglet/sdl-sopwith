@@ -891,13 +891,12 @@ bool movetarg(OBJECTS *ob)
 
 bool moveexpl(OBJECTS * obp)
 {
-	OBJECTS *ob, *oldpos;
+	OBJECTS *ob;
 	int x, y;
 	int orient;
 
 	ob = obp;
 	orient = ob->ob_orient;
-	oldpos = deletex(ob);
 	if (ob->ob_life < 0) {
 		if (orient) {
 			stopsound(ob);
@@ -934,7 +933,7 @@ bool moveexpl(OBJECTS * obp)
 	}
 	++ob->ob_hitcount;
 
-	insertx(ob, oldpos);
+	updateobjpos(ob);
 	ob->ob_newsym = &symbol_debris[ob->ob_orient]->sym[0];
 
 	return y < MAX_Y;
@@ -968,11 +967,10 @@ bool movesmok(OBJECTS * obp)
 
 bool moveflck(OBJECTS * obp)
 {
-	OBJECTS *ob, *oldpos;
+	OBJECTS *ob;
 	int x, y;
 
 	ob = obp;
-	oldpos = deletex(ob);
 
 	if (ob->ob_life == -1) {
 		deallobj(ob);
@@ -994,7 +992,7 @@ bool moveflck(OBJECTS * obp)
 	}
 
 	movexy(ob, &x, &y);
-	insertx(ob, oldpos);
+	updateobjpos(ob);
 	ob->ob_newsym = &symbol_flock[ob->ob_orient]->sym[0];
 	return true;
 }
@@ -1023,11 +1021,10 @@ static bool checkwall(OBJECTS *obp, int direction)
 
 bool movebird(OBJECTS * obp)
 {
-	OBJECTS *ob, *oldpos;
+	OBJECTS *ob;
 	int x, y;
 
 	ob = obp;
-	oldpos = deletex(ob);
 
 	if (ob->ob_life == -1) {
 		deallobj(ob);
@@ -1051,8 +1048,8 @@ bool movebird(OBJECTS * obp)
 	}
 
 	movexy(ob, &x, &y);
+	updateobjpos(ob);
 
-	insertx(ob, oldpos);
 	ob->ob_newsym = &symbol_bird[ob->ob_orient]->sym[0];
 	if (x < 0 || x >= currgame->gm_max_x
 	 || y >= MAX_Y || y <= (int) ground[x]) {
