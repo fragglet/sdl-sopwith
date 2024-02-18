@@ -196,6 +196,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 					--x;
 				}
 				ob->ob_x = x;
+				updateobjpos(ob);
 			}
 		}
 	}
