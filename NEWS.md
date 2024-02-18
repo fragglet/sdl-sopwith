@@ -1,3 +1,8 @@
+
+* The score is no longer reset between levels (this was a bug).
+* At end of level, the remaining planes now "tick down" properly.
+* A bug was fixed where the app icon was shown as a black silhouette.
+
 # v2.4.0 (2024-02-03)
 
 * There is now an emscripten (web) version, available on the website.
