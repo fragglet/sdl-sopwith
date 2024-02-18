@@ -56,7 +56,7 @@ bool insertx(OBJECTS *ob, OBJECTS *obp)
 // an argument to insertx() above when inserting again.
 OBJECTS *deletex(OBJECTS *ob)
 {
-	OBJECTS *oldpos = objtop;
+	OBJECTS *oldpos = &topobj;
 
 	if (ob->ob_xprev != NULL) {
 		oldpos = ob->ob_xprev;
@@ -70,6 +70,14 @@ OBJECTS *deletex(OBJECTS *ob)
 	ob->ob_xnext = NULL;
 
 	return oldpos;
+}
+
+// Update the object's position in the X position linked list. This should
+// be called whenever the ob_x or ob_dx fields are changed on an object.
+// If the object was not in the list, it is inserted.
+void updateobjpos(OBJECTS *ob)
+{
+	insertx(ob, deletex(ob));
 }
 
 OBJECTS *allocobj(void)

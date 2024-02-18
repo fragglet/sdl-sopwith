@@ -649,7 +649,7 @@ static bool movepln(OBJECTS *ob)
 		nearpln(ob);
 	}
 
-	insertx(ob, deletex(ob));
+	updateobjpos(ob);
 
 	if (ob->ob_bdelay) {
 		--ob->ob_bdelay;

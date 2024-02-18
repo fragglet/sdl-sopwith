@@ -289,10 +289,8 @@ OBJECTS *initpln(OBJECTS * obp)
 		initscore(&ob->ob_score);
 		ob->ob_endsts = PLAYING;
 		ob->ob_target = NULL;
-		insertx(ob, &topobj);
-	} else {
-		insertx(ob, deletex(ob));
 	}
+	updateobjpos(ob);
 
 	ob->ob_state = FLYING;
 	ob->ob_goingsun = false;
