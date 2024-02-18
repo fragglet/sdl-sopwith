@@ -21,6 +21,12 @@ jobs:
             shell: bash
             suffix: ""
 
+          - name: Linux Clang
+            os: ubuntu-latest
+            compiler: clang
+            shell: bash
+            suffix: ""
+
           - name: MSYS2 MINGW64
             os: windows-latest
             compiler: gcc
@@ -74,7 +80,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt update
-        sudo apt -q install libsdl2-dev
+        sudo apt -q install libsdl2-dev ${{ matrix.config.compiler }}
 
     - uses: actions/checkout@v4
 
@@ -94,6 +100,8 @@ jobs:
             configure.ac
 
     - name: autogen
+      env:
+        CC: ${{ matrix.config.compiler }}
       run: |
         ./autogen.sh
 
