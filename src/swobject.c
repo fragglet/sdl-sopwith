@@ -74,9 +74,12 @@ OBJECTS *deletex(OBJECTS *ob)
 
 // Update the object's position in the X position linked list. This should
 // be called whenever the ob_x or ob_dx fields are changed on an object.
-// If the object was not in the list, it is inserted.
 void updateobjpos(OBJECTS *ob)
 {
+	if (ob->ob_xprev == NULL && ob->ob_xnext == NULL) {
+		// Not currently in list.
+		return;
+	}
 	insertx(ob, deletex(ob));
 }
 
