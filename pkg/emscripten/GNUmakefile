@@ -13,6 +13,7 @@ page: $(SOPWITH_JS) $(SOPWITH_WASM) $(DIST_FILES) sopwith.html
 	sed "s/__PACKAGE_STRING__/$(PACKAGE_STRING)/" \
 	     < sopwith.html > $@/sopwith.html
 	cp $(DIST_FILES) $(SOPWITH_WASM) $@/
+	cp $(TOPLEVEL)/icon.png $@/favicon.png
 	cp $(SOPWITH_JS) $@/sopwith.js
 
 clean:
