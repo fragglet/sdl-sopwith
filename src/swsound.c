@@ -607,7 +607,7 @@ void swsndupdate(void)
 	int thisclock = Timer_GetMS();
 
 	if (thisclock > lastclock + 1000 / 18.2) {
-		lastclock = thisclock;
+		lastclock += 1000 / 18.2;
 		soundadj();
 	}
 }

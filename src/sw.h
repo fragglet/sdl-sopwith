@@ -21,8 +21,23 @@
 #include "swsymbol.h"
 #include "config.h"
 
-#if defined(HAVE_NETINET_IN_H) || defined(HAVE_WINSOCK_H)
+// We only enable TCP/IP support if we have the appropriate socket header
+// files. Emscripten doesn't get TCP/IP.
+#if !defined(__EMSCRIPTEN__) && ( \
+    defined(HAVE_NETINET_IN_H) || defined(HAVE_WINSOCK_H))
 #define TCPIP
+#endif
+
+// In Emscripten mode there's nothing we can exit to. This might also be
+// useful when porting to certain systems (eg. games consoles).
+#ifdef __EMSCRIPTEN__
+#define NO_EXIT
+#endif
+
+// In Emcripten mode we don't bother with fullscreen mode. This is also
+// something likely useful for games consoles.
+#ifdef __EMSCRIPTEN__
+#define NO_FULLSCREEN
 #endif
 
 #ifdef _MSC_VER
@@ -165,40 +180,39 @@ struct tt {                     /*  Continuous tone table entry    */
 
 typedef struct tt TONETAB;
 
-#define MEDAL_ID_PURPLEHEART 0
-#define MEDAL_ID_COMPETENCE 1
-#define MEDAL_ID_VALOUR 2
+#define MEDAL_PURPLEHEART   0 /* Returned when damaged */
+#define MEDAL_COMPETENCE    1 /* Dealt nontrivial amount of damage */
+#define MEDAL_VALOUR        2 /* The Iron Cross / Victoria Cross for
+                                 getting enough valour points */
 
-#define RIBBON_ID_ACE 0
-#define RIBBON_ID_TOPACE 1
-#define RIBBON_ID_PERFECT 2
-#define RIBBON_ID_SERVICE 3
-#define RIBBON_ID_COMPETENCE2 4
-#define RIBBON_ID_PREVALOUR 5
+#define RIBBON_ACE          0 /* Five plane kills, returned to base */
+#define RIBBON_TOPACE       1 /* 25 plane kills, returned to base */
+#define RIBBON_PERFECT      2 /* Finished one stage with full planes */
+#define RIBBON_SERVICE      3 /* Returned 3x after doing some damage */
+#define RIBBON_COMPETENCE2  4 /* 2nd Competence medal (ribbon) */
+#define RIBBON_PREVALOUR    5 /* About half-way towards MEDAL_VALOUR */
 
+// Score for the current flight. This gets reset to zero after each crash,
+// landing or new level.
 typedef struct {
-	int		score;
-	int		planekills;	/* # of planes shot down with this plane */
-	int		valour;		/* Points for valourous conduct */
-	int		killscore;	/* Competence count */
-	int		landings;	/* Landings with nontrivial competence */
-	int		medals_nr;	/* Awarded # of medals */
-	int		medalslist[3];	/* Medal display order */
-	int		ribbons_nr;	/* Awarded # of ribbons */
-	int		ribbons[6];	/* Ribbon display order */
-	unsigned int	medals;		/* See below */
-	bool            combatwound;    /* If true, wounding came from a bullet */
-} score_t;
+	int planekills;   /* # of planes shot down with this plane */
+	int valour;       /* Points for valourous conduct */
+	int killscore;    /* Competence count */
+	bool combatwound; /* If true, wounding came from a bullet */
+} flight_score_t;
 
-#define MEDAL_PURPLEHEART	(1<<0)	/* Returned when damaged */
-#define MEDAL_ACE		(1<<1)	/* Five plane kills, returned to base */
-#define MEDAL_TOPACE		(1<<2)	/* 25 plane kills, returned to base */
-#define MEDAL_PERFECT		(1<<3)  /* Finished one stage with full planes */
-#define MEDAL_SERVICE		(1<<4)  /* Returned three times after doing some damage */
-#define MEDAL_COMPETENCE	(1<<5)	/* Dealt nontrivial amount of damage to the enemy */
-#define MEDAL_COMPETENCE2	(1<<6)	/* 2nd Competence medal (ribbon) */
-#define MEDAL_PREVALOUR		(1<<7)	/* A ribbon awarded about half-way towards MEDAL_VALOUR */
-#define MEDAL_VALOUR		(1<<8)	/* The Iron Cross / Victoria Cross for getting enough valour points */
+// Overall score details. Apart from the .score field, everything else
+// only gets updated when the plane is landed or the level is finished.
+typedef struct {
+	int score;
+	int planekills;  /* Total planes shot down (+return to base) */
+	int valour;      /* Total points for valourous conduct */
+	int landings;    /* Landings with nontrivial competence */
+	int medals_nr;   /* Awarded # of medals */
+	int medals[3];   /* Medal display order */
+	int ribbons_nr;  /* Awarded # of ribbons */
+	int ribbons[6];  /* Ribbon display order */
+} score_t;
 
 // Objects in levels are assigned an "owner" player. This is mainly used
 // to control which targets are assigned to which player. However, since
@@ -274,7 +288,7 @@ typedef struct obj {                            /*  Object list             */
 	obendstatus_t  ob_endsts;
 	bool           ob_goingsun;
 	score_t	       ob_score;
-	score_t	       ob_lastscore;
+	flight_score_t ob_flightscore;
 	const original_ob_t *ob_original_ob;
 	// There is a non-orthogonality here. The original X position is
 	// defined in ob_original_ob->x (ie. the definition of the level)

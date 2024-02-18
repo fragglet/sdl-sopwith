@@ -33,8 +33,8 @@ static int shoot(OBJECTS *obt)
 	int rprev;
 	int r, i;
 
-	obsp = obs;
-	obtsp = *obt;
+	copyobj(&obsp, &obs);
+	copyobj(&obtsp, obt);
 	nspeed = obsp.ob_speed + BULSPEED;
 	setdxdy(&obsp,
 		nspeed * COS(obsp.ob_angle),
@@ -196,11 +196,12 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 					--x;
 				}
 				ob->ob_x = x;
+				updateobjpos(ob);
 			}
 		}
 	}
 
-	obs = *ob;
+	copyobj(&obs, ob);
 
 	nspeed = obs.ob_speed + 1;
 	if (nspeed > gmaxspeed && obs.ob_type == PLANE) {
@@ -219,7 +220,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 		calt[i] = ny - currgame->gm_ground[nx + 8];
 		ccrash[i] = tstcrash2(ob, nx, ny, calt[i]);
 
-		obs = *ob;
+		copyobj(&obs, ob);
 	}
 
 

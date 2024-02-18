@@ -42,16 +42,30 @@ VideoPalette VideoPalettes[] = {
 		{{0, 0, 0}, {0, 255, 255}, {255, 0, 255}, {255, 255, 255}}},
 	{"CGA 2", 		// CGA black, red, green, yellow
 		{{0, 0, 0}, {0, 255, 0}, {255, 0, 0}, {255, 255, 0}}},
-	{"CGA Amber",   // Shades of amber from a monochrome CGA display
-		{{0, 0, 0}, {242, 125, 0}, {255, 170, 16}, {255, 226, 52}}},
-	{"CGA Green", 	// Shades of green from a monochrome CGA display
-		{{0, 0, 0}, {8, 202, 48}, {12, 238, 56}, {49, 253, 90}}},
-	{"CGA Grey", 	// Shades of grey from a monochrome CGA display
-		{{0, 0, 0}, {182, 186, 182}, {222, 222, 210}, {255, 255, 255}}},
-	{"LCD 1",		// Toshiba laptop with STN panel
+	{"CGA 3", 		// CGA black, cyan, red, white (aka CGA mode 5)
+		{{0, 0, 0}, {0, 255, 255}, {255, 0, 0}, {255, 255, 255}}},
+	{"Mono Amber",   // Shades of amber from a monochrome CGA display
+		{{0, 0, 0}, {255, 170, 16}, {242, 125, 0}, {255, 226, 52}}},
+	{"Mono Green", 	// Shades of green from a monochrome CGA display
+		{{0, 0, 0}, {12, 238, 56}, {8, 202, 48}, {49, 253, 90}}},
+	{"Mono Grey", 	// Shades of grey from a monochrome CGA display
+		{{0, 0, 0}, {222, 222, 210}, {182, 186, 182}, {255, 255, 255}}},
+	{"Tosh LCD 1",		// Toshiba laptop with STN panel
 		{{213, 226, 138}, {150, 160, 150}, {120, 120, 160}, {0, 20, 200}}},
-	{"LCD 2",		// Toshiba laptop with STN panel, reversed
+	{"Tosh LCD 2",		// Toshiba laptop with STN panel, reversed
 		{{0, 20, 200}, {120, 120, 160}, {150, 160, 150}, {213, 226, 138}}},
+	{"Tosh LCD 3",		// Toshiba T1000 with no backlight
+		{{0x72, 0x88, 0x79}, {0x4b, 0x6e, 0x75},
+		 {0x42, 0x5a, 0x75}, {0x27, 0x46, 0x6d}}},
+	{"IBM LCD",  // IBM PC Convertible
+		{{0x6b, 0x85, 0x88}, {0x56, 0x6b, 0x6e},
+		 {0x42, 0x52, 0x54}, {0x2e, 0x39, 0x3b}}},
+	{"Tandy LCD", // Tandy 1100FD
+		{{0x48, 0xad, 0x68}, {0x36, 0x8c, 0x61},
+		 {0x24, 0x6c, 0x5a}, {0x13, 0x4a, 0x54}}},
+	{"Gas Plasma",
+		{{0x7d, 0x1b, 0x02}, {0xd3, 0x41, 0x00},
+		 {0xa8, 0x2e, 0x01}, {0xfe, 0x54, 0x00}}},
 };
 
 bool vid_fullscreen = false;
@@ -101,6 +115,7 @@ static SDL_Texture *texture_upscaled = NULL;
 #define ICON_SCALE 4
 static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
+	SDL_Color *pal = VideoPalettes[0].color;
 	SDL_Surface *surface = SDL_CreateRGBSurface(
 		0, sym->w * ICON_SCALE, sym->h * ICON_SCALE, 32,
 		0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
@@ -129,7 +144,7 @@ static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 				dst[x] = 0;
 				continue;
 			}
-			p = &cga_pal[src[sx]];
+			p = &pal[src[sx]];
 			dst[x] = (p->r << 24) | (p->g << 16)
 			       | (p->b << 8) | 0xff;
 		}
@@ -202,9 +217,9 @@ static void set_icon(void)
 	sopsym_t *sym;
 
 	if (is_special_day()) {
-		sym = symbol_plane[1][0];
+		sym = &symbol_plane[0]->sym[4];
 	} else {
-		sym = symbol_plane[0][0];
+		sym = &symbol_plane[0]->sym[0];
 	}
 
 	icon = surface_from_sopsym(sym);
@@ -586,10 +601,49 @@ static bool IsSpecialKey(SDL_Keysym *k) {
 	}
 }
 
+static bool CtrlDown(void)
+{
+	return (SDL_GetModState() & KMOD_CTRL) != 0;
+}
+
+static bool AltDown(void)
+{
+	return (SDL_GetModState() & KMOD_ALT) != 0;
+}
+
+static void CtrlKeyPress(SDL_Keycode k)
+{
+	switch (k) {
+#ifndef NO_EXIT
+	case SDLK_c:
+	case SDLK_PAUSE:
+		++ctrlbreak;
+		if (ctrlbreak >= 3) {
+			fprintf(stderr,
+				"user aborted with 3 ^C's\n");
+			exit(-1);
+		}
+		break;
+#endif
+	case SDLK_r:
+		if (!isNetworkGame()) {
+			gamenum = starting_level;
+			swinitlevel();
+		}
+		break;
+	case SDLK_q:
+		if (!isNetworkGame()) {
+			swrestart();
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 static void getevents(void)
 {
 	SDL_Event event;
-	static bool ctrldown = 0, altdown = 0;
 	int need_redraw = 0;
 	int i;
 	sopkey_t translated;
@@ -597,38 +651,22 @@ static void getevents(void)
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_KEYDOWN:
-			if (event.key.keysym.sym == SDLK_LALT || event.key.keysym.sym == SDLK_RALT) {
-				altdown = 1;
-			} else if (event.key.keysym.sym == SDLK_LCTRL
-			        || event.key.keysym.sym == SDLK_RCTRL) {
-				ctrldown = 1;
-			} else if (ctrldown &&
-			           (event.key.keysym.sym == SDLK_c ||
-			            event.key.keysym.sym == SDLK_PAUSE)) {
-				++ctrlbreak;
-				if (ctrlbreak >= 3) {
-					fprintf(stderr,
-						"user aborted with 3 ^C's\n");
-					exit(-1);
-				}
-			} else if (ctrldown && event.key.keysym.sym == SDLK_r && !isNetworkGame()) {
-					gamenum = starting_level;
-					swinitlevel();
-			} else if (ctrldown && event.key.keysym.sym == SDLK_q && !isNetworkGame()) {
-					swrestart();
-			} else if (altdown && (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_KP_ENTER)) {
-					vid_fullscreen = !vid_fullscreen;
-					Vid_Reset();
-					altdown = 0;
-					continue;
-			} else if (!altdown && event.key.keysym.sym == SDLK_KP_ENTER && SDL_IsTextInputActive()) {
-					SDL_Keysym fake;
-					fake.sym = '\n';
-					fake.scancode = SDL_SCANCODE_UNKNOWN;
-					input_buffer_push(fake);
-					continue;
-			}
-			if (!SDL_IsTextInputActive()
+			if (CtrlDown()) {
+				CtrlKeyPress(event.key.keysym.sym);
+			} else if (AltDown() && (event.key.keysym.sym == SDLK_RETURN
+			                      || event.key.keysym.sym == SDLK_KP_ENTER)) {
+#ifndef NO_FULLSCREEN
+				vid_fullscreen = !vid_fullscreen;
+				Vid_Reset();
+				continue;
+#endif
+			} else if (event.key.keysym.sym == SDLK_KP_ENTER && SDL_IsTextInputActive()) {
+				SDL_Keysym fake = {0};
+				fake.sym = '\n';
+				fake.scancode = SDL_SCANCODE_UNKNOWN;
+				input_buffer_push(fake);
+				continue;
+			} else if (!SDL_IsTextInputActive()
 			 || IsSpecialKey(&event.key.keysym)) {
 				input_buffer_push(event.key.keysym);
 			}
@@ -640,24 +678,17 @@ static void getevents(void)
 			break;
 
 		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_LALT || event.key.keysym.sym == SDLK_RALT) {
-				altdown = 0;
-			} else if (event.key.keysym.sym == SDLK_LCTRL
-			        || event.key.keysym.sym == SDLK_RCTRL) {
-				ctrldown = 0;
-			} else {
-				translated = translate_scancode(
-					event.key.keysym.scancode);
-				if (translated != KEY_UNKNOWN) {
-					keysdown[translated] &= ~1;
-				}
+			translated = translate_scancode(
+				event.key.keysym.scancode);
+			if (translated != KEY_UNKNOWN) {
+				keysdown[translated] &= ~1;
 			}
 			break;
 
 		case SDL_TEXTINPUT:
 			for (i = 0; event.text.text[i] != '\0'; ++i) {
 				char c = event.text.text[i];
-				SDL_Keysym fake;
+				SDL_Keysym fake = {0};
 				if (c >= 0x80) {
 					continue;
 				}

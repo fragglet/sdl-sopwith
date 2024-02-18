@@ -1,0 +1,48 @@
+name: Emscripten build
+
+on: [push, pull_request]
+
+jobs:
+  emscripten_build:
+    name: Emscripten build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Emscripten
+      run: |
+        sudo apt update
+        sudo apt -q install emscripten
+    - name: Find Git version
+      id: version
+      run: |
+        if git describe --exact-match --tags >/dev/null; then
+          VERSION=$(git describe --exact-match --tags)
+          VERSION=${VERSION/#sdl-sopwith-/}
+        else
+          VERSION=$(git rev-parse --short HEAD)
+        fi
+        echo "VERSION=$VERSION-js" >> $GITHUB_OUTPUT
+        # Patch the version in configure.ac:
+        sed -i "s/\(AC_INIT([^,]*, \)\[[^]]*\], /\1[$VERSION], /" \
+            configure.ac
+    - name: build
+      run: ./embuild.sh
+    - name: make pkg
+      run: |
+        make -C pkg/emscripten
+    - name: Upload build
+      uses: actions/upload-artifact@v4
+      with:
+        path: "pkg/emscripten/page"
+        name: sdl-sopwith-${{steps.version.outputs.VERSION}}
+
+    - name: Deploy
+      if: ${{ github.ref == 'refs/heads/trunk' }}
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: "pkg/emscripten/page"
+        repository-name: "fragglet/sdl-sopwith-latest"
+        token: "${{secrets.SDL_SOPWITH_LATEST_SECRET}}"
+        clean: true
+        commit-message: "Build from fragglet/sdl-sopwith@${{github.sha}}"

@@ -177,6 +177,7 @@ bool moveplyr(OBJECTS *ob)
 		if (endcount <= 0) {
 			if (playmode != PLAYMODE_ASYNCH && !quit) {
 				swrestart();
+				return true;
 			}
 			swend(NULL, true);
 		}
@@ -612,13 +613,18 @@ static bool movepln(OBJECTS *ob)
 	}
 
 	if (ob->ob_endsts == WINNER && ob->ob_goingsun) {
-		ob->ob_newsym = symbol_plane_win[endcount / 18];
+		ob->ob_newsym = &symbol_plane_win[endcount / 18]->sym[0];
 	} else if (ob->ob_state == FINISHED) {
 		ob->ob_newsym = NULL;
 	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0) {
-		ob->ob_newsym = symbol_plane_hit[ob->ob_orient];
+		ob->ob_newsym = &symbol_plane_hit[ob->ob_orient]->sym[0];
+	} else if (ob->ob_orient) {
+		// Flipped:
+		int a = (16 - ob->ob_angle) % 16;
+		ob->ob_newsym = &symbol_plane[a % 4]->sym[4 + a / 4];
 	} else {
-		ob->ob_newsym = symbol_plane[ob->ob_orient][ob->ob_angle];
+		ob->ob_newsym = &symbol_plane[ob->ob_angle % 4]
+			->sym[ob->ob_angle / 4];
 	}
 
 	//ob->ob_newsym =
@@ -632,8 +638,10 @@ static bool movepln(OBJECTS *ob)
 
 	if (x < 0) {
 		x = ob->ob_x = 0;
+		updateobjpos(ob);
 	} else if (x >= (currgame->gm_max_x - 16)) {
 		x = ob->ob_x = currgame->gm_max_x - 16;
+		updateobjpos(ob);
 	}
 
 	if (!compplane
@@ -642,9 +650,6 @@ static bool movepln(OBJECTS *ob)
 	  || ob->ob_state == WOUNDED || ob->ob_state == WOUNDSTALL)) {
 		nearpln(ob);
 	}
-
-	deletex(ob);
-	insertx(ob, ob->ob_xnext);
 
 	if (ob->ob_bdelay) {
 		--ob->ob_bdelay;
@@ -697,8 +702,6 @@ bool moveshot(OBJECTS *ob)
 {
 	int x, y;
 
-	deletex(ob);
-	
 	--ob->ob_life;
 
 	if (ob->ob_life <= 0) {
@@ -714,7 +717,6 @@ bool moveshot(OBJECTS *ob)
 		return false;
 	}
 
-	insertx(ob, ob->ob_xnext);
 	ob->ob_newsym = &symbol_pixel;
 	return true;
 }
@@ -724,8 +726,7 @@ bool moveshot(OBJECTS *ob)
 bool movebomb(OBJECTS *ob)
 {
 	int x, y;
-
-	deletex(ob);
+	int ang;
 
 	if (ob->ob_life < 0) {
 		deallobj(ob);
@@ -748,8 +749,8 @@ bool movebomb(OBJECTS *ob)
 		return false;
 	}
 
-	ob->ob_newsym = symbol_bomb[symangle(ob)];
-	insertx(ob, ob->ob_xnext);
+	ang = symangle(ob);
+	ob->ob_newsym = &symbol_bomb[ang % 2]->sym[ang / 2];
 
 	if (y >= MAX_Y) {
 		return false;
@@ -764,8 +765,6 @@ bool movemiss(OBJECTS *ob)
 {
 	int x, y, angle;
 	OBJECTS *obt;
-
-	deletex(ob);
 
 	if (ob->ob_life < 0) {
 		deallobj(ob);
@@ -809,8 +808,8 @@ bool movemiss(OBJECTS *ob)
 		return false;
 	}
 
-	ob->ob_newsym = symbol_missile[ob->ob_angle];
-	insertx(ob, ob->ob_xnext);
+	ob->ob_newsym =
+		&symbol_missile[ob->ob_angle % 4]->sym[ob->ob_angle / 4];
 
 	if (y >= MAX_Y) {
 		return false;
@@ -825,7 +824,6 @@ bool moveburst(OBJECTS *ob)
 {
 	int x, y;
 
-	deletex(ob);
 	if (ob->ob_life < 0) {
 		ob->ob_owner->ob_missiletarget = NULL;
 		deallobj(ob);
@@ -842,8 +840,7 @@ bool moveburst(OBJECTS *ob)
 	}
 
 	ob->ob_owner->ob_missiletarget = ob;
-	ob->ob_newsym = symbol_burst[ob->ob_life & 1];
-	insertx(ob, ob->ob_xnext);
+	ob->ob_newsym = &symbol_burst[ob->ob_life & 1]->sym[0];
 
 	return y < MAX_Y;
 }
@@ -878,9 +875,9 @@ bool movetarg(OBJECTS *ob)
 	}
 
 	if (ob->ob_state == STANDING) {
-		ob->ob_newsym = symbol_targets[ob->ob_orient];
+		ob->ob_newsym = &symbol_targets[ob->ob_orient]->sym[0];
 	} else {
-		ob->ob_newsym = symbol_target_hit;
+		ob->ob_newsym = &symbol_target_hit->sym[0];
 	}
 
 	return true;
@@ -896,7 +893,6 @@ bool moveexpl(OBJECTS * obp)
 
 	ob = obp;
 	orient = ob->ob_orient;
-	deletex(ob);
 	if (ob->ob_life < 0) {
 		if (orient) {
 			stopsound(ob);
@@ -933,8 +929,7 @@ bool moveexpl(OBJECTS * obp)
 	}
 	++ob->ob_hitcount;
 
-	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = symbol_debris[ob->ob_orient];
+	ob->ob_newsym = &symbol_debris[ob->ob_orient]->sym[0];
 
 	return y < MAX_Y;
 }
@@ -971,7 +966,6 @@ bool moveflck(OBJECTS * obp)
 	int x, y;
 
 	ob = obp;
-	deletex(ob);
 
 	if (ob->ob_life == -1) {
 		deallobj(ob);
@@ -993,8 +987,7 @@ bool moveflck(OBJECTS * obp)
 	}
 
 	movexy(ob, &x, &y);
-	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = symbol_flock[ob->ob_orient];
+	ob->ob_newsym = &symbol_flock[ob->ob_orient]->sym[0];
 	return true;
 }
 
@@ -1027,8 +1020,6 @@ bool movebird(OBJECTS * obp)
 
 	ob = obp;
 
-	deletex(ob);
-
 	if (ob->ob_life == -1) {
 		deallobj(ob);
 		return false;
@@ -1052,8 +1043,7 @@ bool movebird(OBJECTS * obp)
 
 	movexy(ob, &x, &y);
 
-	insertx(ob, ob->ob_xnext);
-	ob->ob_newsym = symbol_bird[ob->ob_orient];
+	ob->ob_newsym = &symbol_bird[ob->ob_orient]->sym[0];
 	if (x < 0 || x >= currgame->gm_max_x
 	 || y >= MAX_Y || y <= (int) ground[x]) {
 		ob->ob_y -= ob->ob_dy;
@@ -1068,7 +1058,7 @@ bool movebird(OBJECTS * obp)
 
 bool moveox(OBJECTS * ob)
 {
-	ob->ob_newsym = symbol_ox[ob->ob_state != STANDING];
+	ob->ob_newsym = &symbol_ox[ob->ob_state != STANDING]->sym[0];
 	return true;
 }
 
@@ -1109,51 +1099,6 @@ bool hitpln(OBJECTS * obp)
 	ob->ob_athome = false;
 
 	return true;
-}
-
-
-bool insertx(OBJECTS *ob, OBJECTS *obp)
-{
-	OBJECTS *obs;
-	int obx;
-
-	obs = obp;
-	obx = ob->ob_x;
-	if (obx < obs->ob_x) {
-		while (obs->ob_xprev != NULL && obx < obs->ob_xprev->ob_x) {
-			obs = obs->ob_xprev;
-		}
-		// Insert between obs->ob_xprev and obs:
-		ob->ob_xprev = obs->ob_xprev;
-		ob->ob_xnext = obs;
-	} else {
-		while (obs->ob_xnext != NULL && obx > obs->ob_xnext->ob_x) {
-			obs = obs->ob_xnext;
-		}
-		// Insert between obs and ob->ob_xnext:
-		ob->ob_xprev = obs;
-		ob->ob_xnext = obs->ob_xnext;
-	}
-	if (ob->ob_xprev != NULL) {
-		ob->ob_xprev->ob_xnext = ob;
-	}
-	if (ob->ob_xnext != NULL) {
-		ob->ob_xnext->ob_xprev = ob;
-	}
-
-	return true;
-}
-
-
-
-void deletex(OBJECTS *ob)
-{
-	if (ob->ob_xprev != NULL) {
-		ob->ob_xprev->ob_xnext = ob->ob_xnext;
-	}
-	if (ob->ob_xnext != NULL) {
-		ob->ob_xnext->ob_xprev = ob->ob_xprev;
-	}
 }
 
 //

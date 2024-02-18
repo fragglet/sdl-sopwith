@@ -9,6 +9,7 @@ DOC_FILES=            \
         README.md
 
 EXTRA_DIST = $(AUX_DIST_GEN) $(DOC_FILES) \
+             embuild.sh \
              icon.png \
              maps/README.md maps/original.sop maps/empty.sop
 

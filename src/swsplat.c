@@ -89,7 +89,7 @@ void swsplatbird(void)
 
 	splat.x = (unsigned) (seed % (SCR_WDTH - 32));
 	splat.y = (unsigned) (seed % (SCR_HGHT - 60)) + 60;
-	splat.sym = symbol_birdsplat;
+	splat.sym = &symbol_birdsplat->sym[0];
 	splat.clr = OWNER_PLAYER2;
 
 	add_splat(&splat);
@@ -103,7 +103,7 @@ void swwindshot(void)
 
 	splat.x = (unsigned) (seed % (SCR_WDTH - 16));
 	splat.y = (unsigned) (seed % (SCR_HGHT - 50)) + 50;
-	splat.sym = symbol_shotwin;
+	splat.sym = &symbol_shotwin->sym[0];
 	splat.clr = OWNER_PLAYER1;
 
 	add_splat(&splat);

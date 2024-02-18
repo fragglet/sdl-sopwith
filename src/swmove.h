@@ -32,7 +32,5 @@ extern bool movebird(OBJECTS *obp);
 extern bool moveox(OBJECTS *ob);
 extern bool crashpln(OBJECTS *obp);
 extern bool hitpln(OBJECTS *obp);
-extern bool insertx(OBJECTS *ob, OBJECTS *obp);
-extern void deletex(OBJECTS *obp);
 
 #endif

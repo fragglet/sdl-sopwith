@@ -59,6 +59,7 @@ void swputsym(int x, int y, OBJECTS * ob)
 
 static void print_help(void)
 {
+	char buf[64];
 	int i;
 	struct {
 		char *name; int key;
@@ -94,12 +95,19 @@ static void print_help(void)
 	swputs("BEGINNER'S HELP");
 	swcolor(3);
 	for (i = 0; i < arrlen(items); i++) {
-		char buf[64];
 		snprintf(buf, sizeof(buf), "%-11s- %s",
 		        items[i].name, Vid_KeyName(keybindings[items[i].key]));
 		swposcur(1, i + 3);
 		swputs(buf);
 	}
+	snprintf(buf, sizeof(buf), "%-11s- %s", "Restart", "Ctrl-R");
+	swposcur(1, i + 3);
+	swputs(buf);
+	++i;
+
+	snprintf(buf, sizeof(buf), "%-11s- %s", "End Game", "Ctrl-Q");
+	swposcur(1, i + 3);
+	swputs(buf);
 }
 
 void swdisp(void)

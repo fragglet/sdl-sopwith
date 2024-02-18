@@ -18,6 +18,7 @@
 
 #include "video.h"
 
+#include "sw.h"
 #include "swasynio.h"
 #include "swconf.h"
 #include "swend.h"
@@ -67,7 +68,7 @@ void swtitln(void)
 
 	swcolor(3);
 	swposcur(0+X_OFFSET/8, 11);
-	swputs("(c) 2001-2022 Simon Howard, Jesse Smith");
+	swputs("(c) 2001-2024 Simon Howard, Jesse Smith");
 
 	swcolor(3);
 	swposcur(0+X_OFFSET/8, 12);
@@ -84,13 +85,15 @@ void swtitln(void)
 	displx = 507-X_OFFSET;
 	swground();
 
-	Vid_DispSymbol(40+X_OFFSET, 180, symbol_plane[0][0], OWNER_PLAYER1);
-	Vid_DispSymbol(130+X_OFFSET, 80, symbol_plane[1][7], OWNER_PLAYER2);
-	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16, symbol_targets[3],
-	               OWNER_PLAYER2);
-	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, symbol_ox[0],
+	Vid_DispSymbol(40+X_OFFSET, 180, &symbol_plane[0]->sym[0],
 	               OWNER_PLAYER1);
-	Vid_DispSymbol(270+X_OFFSET, 160, symbol_plane_hit[0],
+	Vid_DispSymbol(130+X_OFFSET, 80, &symbol_plane[1]->sym[6],
+	               OWNER_PLAYER2);
+	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16,
+	               &symbol_targets[3]->sym[0], OWNER_PLAYER2);
+	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, &symbol_ox[0]->sym[0],
+	               OWNER_PLAYER1);
+	Vid_DispSymbol(270+X_OFFSET, 160, &symbol_plane_hit[0]->sym[0],
 	               OWNER_PLAYER2);
 
 	for (i = 6, h=165; i; --i, h += 5) {
@@ -215,7 +218,9 @@ void getgamemode(void)
 		swputs("     N - network game\n");
 #endif
 		swputs("     O - game options\n");
+#ifndef NO_EXIT
 		swputs("     Q - quit game\n");
+#endif
 		Vid_Update();
 
 		if (ctlbreak()) {
@@ -244,9 +249,11 @@ void getgamemode(void)
 			}
 			break;
 #endif
+#ifndef NO_EXIT
 		case 'Q':
 			exit(0);
 			break;
+#endif
 		}
 	}
 }

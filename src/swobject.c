@@ -19,6 +19,79 @@
 #include "swmain.h"
 #include "swobject.h"
 
+bool insertx(OBJECTS *ob, OBJECTS *obp)
+{
+	OBJECTS *obs;
+	int obx;
+
+	obs = obp;
+	obx = ob->ob_x;
+	if (obx < obs->ob_x) {
+		while (obs->ob_xprev != NULL && obx < obs->ob_xprev->ob_x) {
+			obs = obs->ob_xprev;
+		}
+		// Insert between obs->ob_xprev and obs:
+		ob->ob_xprev = obs->ob_xprev;
+		ob->ob_xnext = obs;
+	} else {
+		while (obs->ob_xnext != NULL && obx > obs->ob_xnext->ob_x) {
+			obs = obs->ob_xnext;
+		}
+		// Insert between obs and ob->ob_xnext:
+		ob->ob_xprev = obs;
+		ob->ob_xnext = obs->ob_xnext;
+	}
+	if (ob->ob_xprev != NULL) {
+		ob->ob_xprev->ob_xnext = ob;
+	}
+	if (ob->ob_xnext != NULL) {
+		ob->ob_xnext->ob_xprev = ob;
+	}
+
+	return true;
+}
+
+// Remove from object linked list. Returns a pointer to another object that
+// was "near" this object at the time of removal, that can be supplied as
+// an argument to insertx() above when inserting again.
+OBJECTS *deletex(OBJECTS *ob)
+{
+	OBJECTS *oldpos = &topobj;
+
+	if (ob->ob_xprev != NULL) {
+		oldpos = ob->ob_xprev;
+		ob->ob_xprev->ob_xnext = ob->ob_xnext;
+	}
+	if (ob->ob_xnext != NULL) {
+		oldpos = ob->ob_xnext;
+		ob->ob_xnext->ob_xprev = ob->ob_xprev;
+	}
+	ob->ob_xprev = NULL;
+	ob->ob_xnext = NULL;
+
+	return oldpos;
+}
+
+// Update the object's position in the X position linked list. This should
+// be called whenever the ob_x or ob_dx fields are changed on an object.
+void updateobjpos(OBJECTS *ob)
+{
+	if (ob->ob_xprev == NULL && ob->ob_xnext == NULL) {
+		// Not currently in list.
+		return;
+	}
+	insertx(ob, deletex(ob));
+}
+
+void copyobj(OBJECTS *to, OBJECTS *from)
+{
+	*to = *from;
+	to->ob_xprev = NULL;
+	to->ob_xnext = NULL;
+	to->ob_prev = NULL;
+	to->ob_next = NULL;
+}
+
 OBJECTS *allocobj(void)
 {
 	OBJECTS *ob;
@@ -49,10 +122,12 @@ OBJECTS *allocobj(void)
 	return ob;
 }
 
-void deallobj(OBJECTS * obp)
+void deallobj(OBJECTS *ob)
 {
-	OBJECTS *ob=obp;
 	OBJECTS *obb = ob->ob_prev;
+
+	// Make sure we're unhooked from the X position list.
+	deletex(ob);
 
 	if (obb) {
 		obb->ob_next = ob->ob_next;
@@ -78,7 +153,7 @@ void deallobj(OBJECTS * obp)
 	delbot = ob;
 }
 
-void movexy(OBJECTS * ob, int *x, int *y)
+void movexy(OBJECTS *ob, int *x, int *y)
 {
 	unsigned int pos = 0;
 	//long vel;
@@ -103,6 +178,8 @@ void movexy(OBJECTS * ob, int *x, int *y)
 	ob->ob_y = (unsigned short) (pos >> 16) & 0xffff;
 	ob->ob_ly = (unsigned short) pos & 0xffff;
 	*y = ob->ob_y;
+
+	updateobjpos(ob);
 }
 
 void setdxdy(OBJECTS * obj, int dx, int dy)

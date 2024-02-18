@@ -149,33 +149,6 @@ void swposcur(int a, int b)
 	cur_y = b;
 }
 
-
-void swdispd(int n, int size)
-{
-	int i = 0;
-	int d, t;
-	bool first = true;
-
-	if (n < 0) {
-		n = -n;
-		swputc('-');
-		++i;
-	}
-	for (t = 10000; t > 1; n %= t, t /= 10) {
-		d = n / t;
-		if (d || !first) {
-			first = false;
-			swputc(d + '0');
-			++i;
-		}
-	}
-	swputc(n + '0');
-	++i;
-	while (++i <= size) {
-		swputc(' ');
-	}
-}
-
 int swgetc(void)
 {
 	int i;

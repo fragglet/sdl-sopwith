@@ -1,0 +1,5 @@
+" Local vimrc configuration file.  Install the localvimrc.vim vim script.
+setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab cindent
+if &filetype == "markdown"
+	setlocal softtabstop=4 shiftwidth=4 expandtab smartindent nocindent
+endif

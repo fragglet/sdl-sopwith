@@ -134,19 +134,24 @@ def get_dll_path():
 	Returns:
 	  List of filesystem paths to check for DLLs.
 	"""
-	result = set(args.dll_path)
+	result = [set(args.dll_path)]
+
+	def add_bin_path(path):
+		prefix, dirname = os.path.split(path)
+		if dirname == "lib":
+			path = os.path.join(prefix, "bin")
+		if os.path.exists(path):
+			result[0] |= {path}
+
+	for p in os.getenv("PATH", "").split(os.pathsep):
+		add_bin_path(p)
 
 	if args.ldflags != '':
 		for arg in shlex.split(args.ldflags):
 			if arg.startswith("-L"):
-				prefix, libdir = os.path.split(arg[2:])
-				if libdir != "lib":
-					continue
-				bindir = os.path.join(prefix, "bin")
-				if os.path.exists(bindir):
-					result |= {bindir}
+				add_bin_path(arg[2:])
 
-	return list(result)
+	return list(result[0])
 
 args = parser.parse_args()
 

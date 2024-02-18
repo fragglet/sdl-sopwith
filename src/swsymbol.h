@@ -17,6 +17,7 @@
 #define __SWSYMBOL_H__
 
 typedef struct sopsym_s sopsym_t;
+typedef struct symset_s symset_t;
 
 #include "sw.h"
 
@@ -25,22 +26,27 @@ struct sopsym_s {
 	int w, h;
 };
 
-extern sopsym_t *symbol_bomb[8];                 // swbmbsym
-extern sopsym_t *symbol_targets[4];              // swtrgsym
-extern sopsym_t *symbol_target_hit;              // swhtrsym
-extern sopsym_t *symbol_debris[8];               // swexpsym
-extern sopsym_t *symbol_flock[2];                // swflksym
-extern sopsym_t *symbol_bird[2];                 // swbrdsym
-extern sopsym_t *symbol_ox[2];                   // swoxsym
-extern sopsym_t *symbol_shotwin;                 // swshtsym
-extern sopsym_t *symbol_birdsplat;               // swsplsym
-extern sopsym_t *symbol_missile[16];             // swmscsym
-extern sopsym_t *symbol_burst[2];                // swbstsym
-extern sopsym_t *symbol_plane[2][16];            // swplnsym
-extern sopsym_t *symbol_plane_hit[2];            // swhitsym
-extern sopsym_t *symbol_plane_win[4];            // swwinsym
-extern sopsym_t *symbol_medal[3];		  // swmedalsym
-extern sopsym_t *symbol_ribbon[6];		  // swribbonsym
+// All possible rotations of sym[0]:
+struct symset_s {
+	sopsym_t sym[8];
+};
+
+extern symset_t *symbol_bomb[2];                 // swbmbsym
+extern symset_t *symbol_targets[4];              // swtrgsym
+extern symset_t *symbol_target_hit;              // swhtrsym
+extern symset_t *symbol_debris[8];               // swexpsym
+extern symset_t *symbol_flock[2];                // swflksym
+extern symset_t *symbol_bird[2];                 // swbrdsym
+extern symset_t *symbol_ox[2];                   // swoxsym
+extern symset_t *symbol_shotwin;                 // swshtsym
+extern symset_t *symbol_birdsplat;               // swsplsym
+extern symset_t *symbol_missile[4];              // swmscsym
+extern symset_t *symbol_burst[2];                // swbstsym
+extern symset_t *symbol_plane[4];                // swplnsym
+extern symset_t *symbol_plane_hit[2];            // swhitsym
+extern symset_t *symbol_plane_win[4];            // swwinsym
+extern symset_t *symbol_medal[3];		  // swmedalsym
+extern symset_t *symbol_ribbon[6];		  // swribbonsym
 
 extern sopsym_t symbol_pixel;
 

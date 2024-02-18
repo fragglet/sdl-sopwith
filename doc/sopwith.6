@@ -100,6 +100,34 @@ quit
 Ctrl+C Ctrl+C Ctrl+C
 quit immediately
 .
+.SH DASHBOARD
+At the bottom of the screen, the plane's dashboard is shown. This consists of
+several components:
+.TP
+Score
+Your current score, which is accumulated from the enemy targets and planes you
+have successfully destroyed. In multiplayer two scores are shown, so that both
+players can see each others' scores.
+.TP
+Lives (Cyan)
+Number of lives remaining. You have five lives.
+.TP
+Fuel (Cyan)
+Amount of fuel remaining in your aircraft. Once this becomes empty, you need to
+return to your home base to refuel, or your plane will crash.
+.TP
+Bombs (Magenta)
+Number of bombs remaining. You can carry a maximum of five bombs. Once you have
+dropped all of them, you must return to your home base to get more.
+.TP
+Bullets (White)
+Number of bullets left for your machine gun. Once you have used up all your
+ammunition, you mut return to your home base to get more.
+.TP
+Map
+Shows the contents of the level. Cyan and magenta dots indicate the positions
+of allied and enemy planes and ground targets.
+.
 .SH TIPS
 The following are some tips for playing the game:
 .IP \(bu
@@ -119,7 +147,7 @@ The machine gun can be used to destroy ground targets as well as planes. Some
 targets at the edges of the map are much easier to destroy in this way. Since
 the machine gun has a limited range, reducing your speed when attacking a
 ground target can give you more time to aim and attack before you have to pull
-away.
+away. But don't reduce the speed too much or the plane may stall.
 .IP \(bu
 Computer planes will try to tail you so that they can shoot you down. Don't
 allow them to get a clear shot. "Wiggling" the plane by repeatedly pulling up
@@ -127,7 +155,7 @@ and down can be an effective evasive maneuver.
 .IP \(bu
 Firing your machine gun through a flock of birds will cause the birds to
 disperse, and the computer planes will sometimes hit a bird and crash. However,
-this tactic can also backfire.
+this tactic can also backfire for obvious reasons.
 .IP \(bu
 Each computer plane has a "territory" and if you escape that territory they
 will break off their pursuit. At the boundary between territories you can
@@ -142,6 +170,9 @@ break out of the stall before your plane crashes into the ground.
 .IP \(bu
 Wait until you're close to your base with a clear path to the runway before
 pressing the home key - the autopilot sometimes makes mistakes.
+.IP \(bu
+It's possible to fly upside down, but trying to drop bombs while inverted is
+usually unwise.
 .
 .SH MEDALS
 .
@@ -179,7 +210,9 @@ how far away the destroyed object was from the player's base
 Victoria Cross (cyan cross on a magenta ribbon)
 As above, but a few more points
 .PP
-All medals and counters for these are reset once a plane is destroyed.
+Medals are only awarded if you get back to base safely. For example, if you
+destroy some targets but then crash, or if you shoot down a plane but get shot
+down yourself, it doesn't count.
 .
 .SH MULTIPLAYER SERVERS
 .
@@ -238,7 +271,7 @@ The original author, David L. Clark, later released "Sopwith - The Network
 Edition" with several extra features including comical heads-up "splats" and
 wounded planes; a follow-up titled "The Author's Edition" contained the same
 features. This version of Sopwith is based on the released source code to the
-Network Edition.
+Author's Edition.
 .PP
 The real Sopwith Camel F.1 was one of the most famous fighter planes of World
 War I; Camel pilots shot down 1,294 enemy aircraft over the course of the war,
@@ -254,7 +287,7 @@ Copyright \(co 1984, 1985, 1987 BMB Compuscience Inc.
 .br
 Copyright \(co 1984-2000 David L. Clark
 .br
-Copyright \(co 2001-2023 Simon Howard, Jesse Smith
+Copyright \(co 2001-2024 Simon Howard, Jesse Smith
 .PP
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -27,7 +27,7 @@ static void dispribbonrow (int *ribbonid, int ribbons_nr, int y)
 	for (i = 0; i < ribbons_nr; i++) {
 		int ribbon_id = ribbonid[i];
 
-		Vid_DispSymbol(offset, y, symbol_ribbon[ribbon_id],
+		Vid_DispSymbol(offset, y, &symbol_ribbon[ribbon_id]->sym[0],
 		               OWNER_PLAYER1);
 		offset += 8;
 	}
@@ -41,10 +41,11 @@ static void dispmedals(OBJECTS *ob)
 	int i;
 
 	for (i = 0; i < ob->ob_score.medals_nr; i++) {
-		int medal_id = ob->ob_score.medalslist[i];
+		int medal_id = ob->ob_score.medals[i];
 
 		Vid_DispSymbol(medal_offset + medal_offsets[medal_id],
-		               11, symbol_medal[medal_id], OWNER_PLAYER1);
+		               11, &symbol_medal[medal_id]->sym[0],
+		               OWNER_PLAYER1);
 		medal_offset += medal_widths[medal_id];
 	}
 
@@ -60,11 +61,24 @@ static void dispmedals(OBJECTS *ob)
 
 static void dispscore(OBJECTS * ob)
 {
+	char buf[10];
+	int x;
+
 	Vid_Box(0, 16, 48 + 32, 16, 0);
-	
-	swposcur(2, 24);
+
+	// We adjust position for large scores to not overwrite the medals.
+	if (ob->ob_score.score >= 100000 || ob->ob_score.score <= -10000) {
+		// Wow?
+		x = 0;
+	} else if (ob->ob_score.score >= 10000 || ob->ob_score.score <= -1000) {
+		x = 1;
+	} else {
+		x = 2;
+	}
+	swposcur(x, 24);
 	swcolor(ob->ob_clr);
-	swdispd(ob->ob_score.score, 6);
+	snprintf(buf, sizeof(buf), "%d", ob->ob_score.score);
+	swputs(buf);
 }
 
 static void dispgge(int x, int cury, int maxy, int clr)

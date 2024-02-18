@@ -46,6 +46,7 @@ struct yocton_buffer {
 };
 
 enum token_type {
+	TOKEN_NONE,
 	TOKEN_STRING,
 	TOKEN_COLON,
 	TOKEN_OPEN_BRACE,
@@ -69,6 +70,7 @@ struct yocton_instream {
 	// error_buf is non-empty if an error occurs during parsing.
 	char *error_buf;
 	int lineno;
+	int token_lineno;
 	struct yocton_object *root;
 };
 
@@ -190,6 +192,71 @@ static int read_escape_sequence(struct yocton_instream *s, uint8_t *c)
 	}
 }
 
+// Peek ahead in the input stream. If there are any space characters or
+// comments, skip ahead and ignore them. On success, TOKEN_NONE is returned
+// and the following character is not consumed.
+static enum token_type skip_past_spaces(struct yocton_instream *s, uint8_t *c)
+{
+	uint8_t c2, c3;
+
+	// Skip past any spaces. Reaching EOF is not always an error.
+	while (peek_next_byte(s, c)) {
+		if (*c == '/') {
+			// Skip past comment.
+			CHECK_OR_RETURN(
+			    read_next_byte(s, c) && *c == '/'
+			 && read_next_byte(s, &c2) && c2 == '/',
+			    TOKEN_ERROR);
+			while (peek_next_byte(s, c) && *c != '\n') {
+				CHECK_OR_RETURN(read_next_byte(s, c),
+				                TOKEN_ERROR);
+			}
+		} else if (*c == utf8_bom[0]) {
+			CHECK_OR_RETURN(
+			    read_next_byte(s, c) && *c == utf8_bom[0]
+			 && read_next_byte(s, &c2) && c2 == utf8_bom[1]
+			 && read_next_byte(s, &c3) && c3 == utf8_bom[2],
+			    TOKEN_ERROR);
+		} else if (isspace(*c)) {
+			CHECK_OR_RETURN(read_next_byte(s, c), TOKEN_ERROR);
+		} else {
+			return TOKEN_NONE;
+		}
+	}
+
+	return TOKEN_EOF;
+}
+
+// Called at end of a string chunk ('"') to skip forward and see if there is
+// another chunk separated by an '&'. For concatenated/multiline strings.
+static enum token_type next_string_chunk(struct yocton_instream *s)
+{
+	enum token_type tt;
+	uint8_t c;
+
+	tt = skip_past_spaces(s, &c);
+	if (tt == TOKEN_EOF) {
+		return TOKEN_STRING;
+	} else if (tt != TOKEN_NONE) {
+		return tt;
+	} else if (c != '&') {
+		return TOKEN_STRING;
+	}
+	CHECK_OR_RETURN(read_next_byte(s, &c), TOKEN_ERROR);
+	s->token_lineno = s->lineno;
+
+	// We have read the '&' joining operator. Skip ahead to the next '"';
+	// it is an error now if we don't reach one.
+	if (skip_past_spaces(s, &c) != TOKEN_NONE || c != '"') {
+		input_error(s, "quoted string should follow '&' operator");
+		return TOKEN_ERROR;
+	}
+	CHECK_OR_RETURN(read_next_byte(s, &c), TOKEN_ERROR);
+	s->token_lineno = s->lineno;
+
+	return TOKEN_NONE;
+}
+
 // Read quote-delimited "C style" string.
 static enum token_type read_string(struct yocton_instream *s)
 {
@@ -198,7 +265,11 @@ static enum token_type read_string(struct yocton_instream *s)
 	for (;;) {
 		CHECK_OR_RETURN(read_next_byte(s, &c), TOKEN_ERROR);
 		if (c == '"') {
-			return TOKEN_STRING;
+			enum token_type tt = next_string_chunk(s);
+			if (tt != TOKEN_NONE) {
+				return tt;
+			}
+			continue;
 		} else if (c == '\\') {
 			if (!read_escape_sequence(s, &c)) {
 				return TOKEN_ERROR;
@@ -231,38 +302,30 @@ static enum token_type read_symbol(struct yocton_instream *s, uint8_t first)
 
 static enum token_type read_next_token(struct yocton_instream *s)
 {
-	uint8_t c, c2, c3;
+	uint8_t c;
+	enum token_type result;
+
 	if (strlen(s->error_buf) > 0) {
 		return TOKEN_ERROR;
 	}
-	// Skip past any spaces. Reaching EOF is not always an error.
-	do {
-		if (!peek_next_byte(s, &c)) {
-			return TOKEN_EOF;
-		}
-		CHECK_OR_RETURN(read_next_byte(s, &c), TOKEN_ERROR);
-		// If we encounter a comment we skip past it. Note that
-		// ending with EOF is also okay.
-		if (c == '/' && peek_next_byte(s, &c2) && c2 =='/') {
-			while (peek_next_byte(s, &c) && c != '\n') {
-				CHECK_OR_RETURN(read_next_byte(s, &c),
-				                TOKEN_ERROR);
-			}
-			c = ' ';
-		} else if (c == utf8_bom[0]) {
-			CHECK_OR_RETURN(
-			    read_next_byte(s, &c2) && c2 == utf8_bom[1]
-			 && read_next_byte(s, &c3) && c3 == utf8_bom[2],
-			    TOKEN_ERROR);
-			c = ' ';
-		}
-	} while (isspace(c));
+	result = skip_past_spaces(s, &c);
+	if (result != TOKEN_NONE) {
+		// Line number where error/EOF was encountered.
+		s->token_lineno = s->lineno;
+		return result;
+	}
+	CHECK_OR_RETURN(read_next_byte(s, &c), TOKEN_EOF);
 
+	s->token_lineno = s->lineno;
 	switch (c) {
 		case ':':  return TOKEN_COLON;
 		case '{':  return TOKEN_OPEN_BRACE;
 		case '}':  return TOKEN_CLOSE_BRACE;
 		case '\"': return read_string(s);
+		case '&':
+			input_error(s, "'&' operator can only be used to "
+			            "join quoted strings");
+			return TOKEN_ERROR;
 		default:   return read_symbol(s, c);
 	}
 }
@@ -387,7 +450,7 @@ int yocton_have_error(struct yocton_object *obj, int *lineno,
 		return 0;
 	}
 	if (lineno != NULL) {
-		*lineno = obj->instream->lineno;
+		*lineno = obj->instream->token_lineno;
 	}
 	if (error_msg != NULL) {
 		*error_msg = obj->instream->error_buf;
@@ -671,5 +734,22 @@ int __yocton_reserve_array(struct yocton_prop *p, void **array, size_t nmemb,
 	}
 
 	*array = new_array;
+	return 1;
+}
+
+int __yocton_prop_alloc(struct yocton_prop *p, void **ptr, size_t size)
+{
+	if (*ptr != NULL) {
+		input_error(p->parent->instream, "pointer is non-NULL; "
+		            "property may be duplicated unexpectedly");
+		return 0;
+	}
+
+	*ptr = calloc(1, size);
+	if (*ptr == NULL) {
+		input_error(p->parent->instream, ERROR_ALLOC);
+		return 0;
+	}
+
 	return 1;
 }

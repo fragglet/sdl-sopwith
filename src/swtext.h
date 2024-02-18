@@ -22,6 +22,5 @@ extern void swcolor(int a);
 extern void swposcur(int a, int b);
 extern int swgetc(void);
 extern void swflush(void);
-extern void swdispd(int n, int size);
 
 #endif
