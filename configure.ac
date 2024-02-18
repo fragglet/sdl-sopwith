@@ -13,14 +13,10 @@ AC_SUBST(PACKAGE_LICENSE)
 AC_CANONICAL_TARGET
 AC_SEARCH_LIBS([sin], [m])
 
-dnl optimisations
-
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
 AM_INIT_AUTOMAKE([1.8.0 foreign])
-
-dnl check for cc
 
 AC_PROG_CC
 AC_PROG_RANLIB
@@ -29,14 +25,12 @@ AC_CHECK_TOOL(CONVERT, convert, )
 AC_CHECK_HEADERS(stdbool.h)
 AC_CHECK_FUNCS(isatty)
 
-if test "$GCC" = "yes"
-then
+if test "$GCC" = "yes"; then
         WARNINGS="-Wall -Wdeclaration-after-statement -Wredundant-decls"
-        CFLAGS="-O$OPT_LEVEL -g $WARNINGS $CFLAGS"
+        CFLAGS="-O2 -g $WARNINGS $CFLAGS"
 fi
 
-dnl network libraries
-
+dnl network libraries; not all systems have the sockets API in their libc:
 SOCKET_LIBS=
 case "$target" in
     *-*-cygwin* | *-*-mingw32*)
@@ -69,21 +63,11 @@ AM_CONDITIONAL(HAVE_CONVERT, test "$CONVERT" != "")
 AC_CONFIG_HEADERS([config.h:config.hin])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
-dnl install programs
-
 AC_PROG_INSTALL
-
-dnl libraries
-
 PKG_CHECK_MODULES(SDL, [sdl2 >= 2.0.7])
-
-dnl check for TCPIP support
-
 AC_CHECK_HEADERS(netinet/in.h winsock.h)
 
 AC_SUBST(ac_aux_dir)
-
-dnl generate Makefiles
 
 AC_CONFIG_FILES([
 Makefile
