@@ -873,7 +873,9 @@ bool movetarg(OBJECTS *ob)
 {
 	ob->ob_firing = NULL;
 
-	if (ob->ob_state == STANDING && (gamenum > 1 || (countmove & 0x0001))) {
+	if (ob->ob_state == STANDING
+	 && gamenum > 0
+	 && (gamenum > 1 || (countmove & 0x0001))) {
 		target_enemy_planes(ob);
 	}
 
