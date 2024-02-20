@@ -845,27 +845,36 @@ bool moveburst(OBJECTS *ob)
 	return y < MAX_Y;
 }
 
+static void target_enemy_planes(OBJECTS *ob)
+{
+	OBJECTS *obp;
+	int r;
 
-
+	// TODO: We can do better than scanning the entire object list.
+	for (obp = objtop; obp != NULL; obp = obp->ob_next) {
+		// Only shoot at enemy planes.
+		if (obp->ob_type != PLANE || obp->ob_clr == ob->ob_clr) {
+			continue;
+		}
+		if (obp->ob_state != FLYING && obp->ob_state != STALLED
+		 && obp->ob_state != WOUNDED && obp->ob_state != WOUNDSTALL) {
+			continue;
+		}
+		r = range(ob->ob_x, ob->ob_y, obp->ob_x, obp->ob_y);
+		if (r > 0 && r < targrnge) {
+			initshot(ob, obp);
+			ob->ob_firing = obp;
+			break;
+		}
+	}
+}
 
 bool movetarg(OBJECTS *ob)
 {
-	int r;
-	OBJECTS *obp;
-
-	obp = objtop;
 	ob->ob_firing = NULL;
-	if (gamenum
-	 && ob->ob_state == STANDING
-	 && (obp->ob_state == FLYING
-	  || obp->ob_state == STALLED
-	  || obp->ob_state == WOUNDED
-	  || obp->ob_state == WOUNDSTALL)
-	 && ob->ob_clr != obp->ob_clr
-	 && (gamenum > 1 || (countmove & 0x0001))
-	 && ((r = range(ob->ob_x, ob->ob_y, obp->ob_x, obp->ob_y)) > 0)
-	 && r < targrnge) {
-		initshot(ob, ob->ob_firing = obp);
+
+	if (ob->ob_state == STANDING && (gamenum > 1 || (countmove & 0x0001))) {
+		target_enemy_planes(ob);
 	}
 
 	--ob->ob_hitcount;
