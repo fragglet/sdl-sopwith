@@ -852,8 +852,10 @@ static void target_enemy_planes(OBJECTS *ob)
 
 	// TODO: We can do better than scanning the entire object list.
 	for (obp = objtop; obp != NULL; obp = obp->ob_next) {
-		// Only shoot at enemy planes.
-		if (obp->ob_type != PLANE || obp->ob_clr == ob->ob_clr) {
+		// Only shoot at enemy planes. In single player mode, computer
+		// planes do not get targeted.
+		if (obp->ob_type != PLANE || obp->ob_clr == ob->ob_clr ||
+		    (playmode != PLAYMODE_ASYNCH && obp != planes[0])) {
 			continue;
 		}
 		if (obp->ob_state != FLYING && obp->ob_state != STALLED
