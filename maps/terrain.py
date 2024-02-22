@@ -98,7 +98,7 @@ def print_object(o):
 		print("\t\t%s: %s" % (k, v))
 	print("\t}")
 
-def convoy(width=200, max_tanks=3):
+def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 	start_x = len(ground)
 	terrain(width, rockiness=0.05)
 
@@ -119,10 +119,12 @@ objects.append(dict(type="PLANE", x=1270, orient=0, owner="PLAYER1",
 
 objects.append(dict(type="PLANE", x=3000, orient=1, owner="PLAYER2",
                     territory_l=901, territory_r=1835))
+def oxen_field(width=200, max_oxen=3):
+	convoy(width=width, max_tanks=max_oxen, type="OX", orient=0)
 
 left_barrier()
 terrain(500)
-terrain(200, rockiness=0.1)
+oxen_field()
 flat_ground(200)
 terrain(200, rockiness=0.05)
 mountain(end_y=50)
