@@ -6,7 +6,7 @@
 from math import exp
 from random import random
 
-bias = 3.0
+territories = []
 ground = []
 objects = []
 curr_y = 0
@@ -93,10 +93,24 @@ def mountain(width=300, height=150, end_y=None):
 	terrain(width - quarter_width * 3, end_y=end_y)
 
 def print_object(o):
+	o = dict(o)
+	t = o["territory"]
+	del o["territory"]
+	if "territory_l" not in o:
+		o["territory_l"] = territories[t][0]
+		o["territory_r"] = territories[t][1]
 	print("\tobject {")
 	for k, v in sorted(o.items()):
 		print("\t\t%s: %s" % (k, v))
 	print("\t}")
+
+def add_object(**kwargs):
+	kwargs["territory"] = len(territories)
+	objects.append(kwargs)
+
+def new_territory():
+	start_x = (territories or [(0, 0)])[-1][1]
+	territories.append((start_x, len(ground)))
 
 def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 	start_x = len(ground)
@@ -107,20 +121,21 @@ def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 	while tanks < max_tanks and x < start_x + width - 64:
 		ground_slice = ground[x:x+48]
 		if max(ground_slice) - min(ground_slice) < 2:
-			objects.append(dict(type="TARGET", x=x+16, orient=3, owner="PLAYER2"))
+			add_object(type=type, x=x+16, orient=orient,
+			           owner="PLAYER2")
 			tanks += 1
 			x += 32
 			continue
 
 		x += 1
 
-objects.append(dict(type="PLANE", x=1270, orient=0, owner="PLAYER1",
-                    territory_l=901, territory_r=1835))
-
-objects.append(dict(type="PLANE", x=3000, orient=1, owner="PLAYER2",
-                    territory_l=901, territory_r=1835))
 def oxen_field(width=200, max_oxen=3):
 	convoy(width=width, max_tanks=max_oxen, type="OX", orient=0)
+
+add_object(type="PLANE", x=1270, orient=0, owner="PLAYER1",
+           territory_l=901, territory_r=1835)
+add_object(type="PLANE", x=3000, orient=1, owner="PLAYER2",
+           territory_l=901, territory_r=1835)
 
 left_barrier()
 terrain(500)
@@ -129,12 +144,14 @@ flat_ground(200)
 terrain(200, rockiness=0.05)
 mountain(end_y=50)
 mountain(height=90, width=150, end_y=30)
+new_territory()
 mountain(height=140, width=120, end_y=40)
 terrain(300, rockiness=0.1)
 convoy()
 terrain(500, rockiness=0.3)
 terrain(500, rockiness=0.1)
 right_barrier()
+new_territory()
 
 print("level {")
 
