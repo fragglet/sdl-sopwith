@@ -133,9 +133,14 @@ def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 	tanks = 0
 	while tanks < max_tanks and x < start_x + width - 64:
 		ground_slice = ground[x:x+48]
-		if max(ground_slice) - min(ground_slice) < 2:
+		ground_min = min(ground_slice)
+		ground_max = max(ground_slice)
+		if ground_max - ground_min < 2:
 			add_object(type=type, x=x+16, orient=orient,
 			           owner="PLAYER2")
+			# Flatten
+			for x2 in range(x + 8, x + 40):
+				ground[x2] = ground_max
 			tanks += 1
 			x += 32
 			continue
