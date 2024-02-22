@@ -92,6 +92,19 @@ def mountain(width=300, height=150, end_y=None):
 	terrain(quarter_width, end_y=height * 0.9)
 	terrain(width - quarter_width * 3, end_y=end_y)
 
+def airfield(width=200, owner="PLAYER1", right_side=False):
+	x = len(ground)
+	mult = 1
+	flat_ground(width)
+	if right_side:
+		mult = -1
+		x = len(ground) - 16
+	# Oil tank
+	add_object(type="TARGET", x=x, orient=2, owner=owner)
+	# Hangar
+	add_object(type="TARGET", x=x+mult*24, orient=0, owner=owner)
+	add_object(type="PLANE", x=x+mult*48, orient=1 if right_side else 0, owner=owner)
+
 def print_object(o):
 	o = dict(o)
 	t = o["territory"]
@@ -132,15 +145,10 @@ def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 def oxen_field(width=200, max_oxen=3):
 	convoy(width=width, max_tanks=max_oxen, type="OX", orient=0)
 
-add_object(type="PLANE", x=1270, orient=0, owner="PLAYER1",
-           territory_l=901, territory_r=1835)
-add_object(type="PLANE", x=3000, orient=1, owner="PLAYER2",
-           territory_l=901, territory_r=1835)
-
 left_barrier()
 terrain(500)
 oxen_field()
-flat_ground(200)
+airfield()
 terrain(200, rockiness=0.05)
 mountain(end_y=50)
 mountain(height=90, width=150, end_y=30)
@@ -148,6 +156,7 @@ new_territory()
 mountain(height=140, width=120, end_y=40)
 terrain(300, rockiness=0.1)
 convoy()
+airfield(owner="PLAYER2", right_side=True)
 terrain(500, rockiness=0.3)
 terrain(500, rockiness=0.1)
 right_barrier()
