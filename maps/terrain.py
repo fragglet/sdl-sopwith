@@ -127,7 +127,7 @@ def new_territory():
 
 def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 	start_x = len(ground)
-	terrain(width, rockiness=0.05)
+	terrain(width, rockiness=0.03)
 
 	x = start_x
 	tanks = 0
