@@ -11,40 +11,58 @@ ground = []
 objects = []
 curr_y = 0
 
-def shape_fn(x, center=100):
-	if False and x < 4:
-		return 0
+def shape_fn(x, center=150):
 	# No variation at small level or large level.
 	x = (x - center) * 2 / center
 	return max(exp(-(x ** 2)) - 0.03, 0)
 
-def fillground(start_x, end_x, rockiness):
-	if end_x - start_x < 2:
-		 return
+def interpolate_fn(coord0, coord1, coord2):
+	"""Generate quadratic interpolation function from coords."""
+	x0, y0 = coord0
+	x1, y1 = coord1
+	x2, y2 = coord2
+	L0 = lambda x: (x - x1) * (x - x2) / ((x0 - x1) * (x0 - x2))
+	L1 = lambda x: (x - x0) * (x - x2) / ((x1 - x0) * (x1 - x2))
+	L2 = lambda x: (x - x0) * (x - x1) / ((x2 - x0) * (x2 - x1))
+	return lambda x: (y0 * L0(x) + y1 * L1(x) + y2 * L2(x)).real
 
-	start_y = ground[start_x]
-	end_y = ground[end_x]
-	mid_y = (start_y + end_y) / 2
-	width = end_x - start_x
-	yrange = 200 * rockiness * shape_fn(width)
-#print("// start_x: %d end_x: %d width: %d range: %d" % (start_x, end_x, width, yrange))
-
-	min_y = max(30, mid_y - yrange / 2)
-	max_y = min(199, mid_y + yrange / 2)
-	mid_x = int((start_x + end_x) / 2)
-	mid_y = (min_y + max_y) / 2
-	yrange = max_y - min_y
-
+def biased_random(yrange):
+	bias = 3.0
 	brange = (yrange / 2) ** (1 / bias)
-	r = random() ** (width / 500)
+	r = random() ** (yrange / 100)
+	r = ((brange * r) ** bias).real
 	if random() < 0.5:
 		r = -r
-	offset = (brange * r) ** bias
-	ground[mid_x] = mid_y + offset
-#print("// mid_y: %d yrange: %d, [%d]=%d" % (mid_y, yrange, mid_x, ground[mid_x]))
+	return r
 
-	fillground(start_x, mid_x, rockiness)
-	fillground(mid_x, end_x, rockiness)
+def fillground(start_x, end_x, rockiness, guidepoint):
+	"""Fill ground[start_x:end_x] with fractal landscape."""
+	start_y = ground[start_x]
+	end_y = ground[end_x]
+
+	if end_x - start_x < 2:
+		 return (min((start_x, end_x)), min((start_y, end_y)))
+
+	# Generate new interpolated midpoint.
+	mid_x = (start_x + end_x) // 2
+	fn = interpolate_fn(guidepoint, (start_x, start_y), (end_x, end_y))
+	base_y = fn(mid_x)
+
+	width = end_x - start_x
+	yrange = 300 * rockiness * shape_fn(width)
+
+	min_y = max(30, base_y - yrange / 2)
+	max_y = min(180, base_y + yrange / 2)
+	base_y = (min_y + max_y) / 2
+	yrange = max_y - min_y
+
+	offset = biased_random(yrange)
+	ground[mid_x] = base_y + offset
+
+	next_guide = fillground(start_x, mid_x, rockiness, guidepoint)
+	fillground(mid_x, end_x, rockiness, next_guide)
+
+	return (mid_x, base_y + offset)
 
 def terrain(width, end_y=None, rockiness=0.3):
 	global curr_y
@@ -55,7 +73,8 @@ def terrain(width, end_y=None, rockiness=0.3):
 	ground.extend(0 for _ in range(width))
 	ground[start_x] = curr_y
 	ground[end_x - 1] = end_y
-	fillground(start_x, end_x - 1, rockiness)
+	midpoint = (start_x - 32, curr_y)
+	fillground(start_x, end_x - 1, rockiness, midpoint)
 	curr_y = end_y
 
 def flat_ground(width):
