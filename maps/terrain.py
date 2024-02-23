@@ -193,22 +193,3 @@ def write_to_file(filename):
 		print_ground(file)
 		print("}", file=file)
 
-left_barrier()
-terrain(500)
-oxen_field()
-airfield()
-terrain(200, rockiness=0.05)
-mountain(end_y=50)
-mountain(height=90, width=150, end_y=30)
-new_territory()
-mountain(height=140, width=120, end_y=40)
-terrain(300, rockiness=0.1)
-convoy()
-airfield(owner="PLAYER2", right_side=True)
-terrain(500, rockiness=0.3)
-terrain(500, rockiness=0.1)
-right_barrier()
-new_territory()
-
-write_to_file("tank_strike.sop")
-
