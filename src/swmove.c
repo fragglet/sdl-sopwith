@@ -888,7 +888,9 @@ bool movetarg(OBJECTS *ob)
 	}
 
 	if (ob->ob_state == STANDING) {
-		ob->ob_newsym = &symbol_targets[ob->ob_orient]->sym[0];
+		int transform = ob->ob_original_ob->transform;
+		ob->ob_newsym =
+			&symbol_targets[ob->ob_orient]->sym[transform];
 	} else {
 		ob->ob_newsym = &symbol_target_hit->sym[0];
 	}
@@ -1071,7 +1073,8 @@ bool movebird(OBJECTS * obp)
 
 bool moveox(OBJECTS * ob)
 {
-	ob->ob_newsym = &symbol_ox[ob->ob_state != STANDING]->sym[0];
+	int transform = ob->ob_original_ob->transform;
+	ob->ob_newsym = &symbol_ox[ob->ob_state != STANDING]->sym[transform];
 	return true;
 }
 

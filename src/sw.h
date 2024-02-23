@@ -238,6 +238,7 @@ typedef struct {
 	obtype_t type;
 	int x;
 	int orient;
+	int transform;                   /* Rotation/mirroring */
 	int territory_l, territory_r;    /* Computer plane territory */
 	ob_owner_t owner;
 } original_ob_t;

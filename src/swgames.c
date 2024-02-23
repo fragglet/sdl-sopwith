@@ -301,6 +301,7 @@ static void add_object(original_ob_t *ob, struct yocton_object *yo)
 		YOCTON_VAR_INT(p, "orient", int, ob->orient);
 		YOCTON_VAR_INT(p, "territory_l", int, ob->territory_l);
 		YOCTON_VAR_INT(p, "territory_r", int, ob->territory_r);
+		YOCTON_VAR_INT(p, "transform", int, ob->transform);
 		YOCTON_VAR_ENUM(p, "type", ob->type, obtype_names);
 		YOCTON_VAR_ENUM(p, "owner", ob->owner, owner_names);
 	}

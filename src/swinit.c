@@ -852,7 +852,7 @@ static OBJECTS *initox(const original_ob_t *orig_ob)
 	ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
 	    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
 	ob->ob_owner = ob;
-	ob->ob_newsym = &symbol_ox[0]->sym[0];
+	ob->ob_newsym = &symbol_ox[0]->sym[orig_ob->transform];
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveox;
 	ob->ob_clr = 1;
