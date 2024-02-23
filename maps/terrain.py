@@ -124,18 +124,6 @@ def airfield(width=200, owner="PLAYER1", right_side=False):
 	add_object(type="TARGET", x=x+mult*24, orient=0, owner=owner)
 	add_object(type="PLANE", x=x+mult*48, orient=1 if right_side else 0, owner=owner)
 
-def print_object(o):
-	o = dict(o)
-	t = o["territory"]
-	del o["territory"]
-	if "territory_l" not in o:
-		o["territory_l"] = territories[t][0]
-		o["territory_r"] = territories[t][1]
-	print("\tobject {")
-	for k, v in sorted(o.items()):
-		print("\t\t%s: %s" % (k, v))
-	print("\t}")
-
 def add_object(**kwargs):
 	kwargs["territory"] = len(territories)
 	objects.append(kwargs)
@@ -169,6 +157,42 @@ def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 def oxen_field(width=200, max_oxen=3):
 	convoy(width=width, max_tanks=max_oxen, type="OX", orient=0)
 
+def print_object(file, o):
+	o = dict(o)
+	t = o["territory"]
+	del o["territory"]
+	if "territory_l" not in o:
+		o["territory_l"] = territories[t][0]
+		o["territory_r"] = territories[t][1]
+	print("\tobject {", file=file)
+	for k, v in sorted(o.items()):
+		print("\t\t%s: %s" % (k, v), file=file)
+	print("\t}", file=file)
+
+def print_ground(file):
+	print("\tground {", file=file)
+
+	for idx, g in enumerate(ground):
+		if (idx % 8) == 0:
+			print("\t\t", end="", file=file)
+		else:
+			print(" ", end="", file=file)
+		print("_: %3d" % int(g + 0.5), end="", file=file)
+		if (idx % 8) == 7:
+			print("", file=file)
+
+	print("\n\t}", file=file)
+
+def write_to_file(filename):
+	with open(filename, "w") as file:
+		print("level {", file=file)
+
+		for o in objects:
+			print_object(file, o)
+
+		print_ground(file)
+		print("}", file=file)
+
 left_barrier()
 terrain(500)
 oxen_field()
@@ -186,23 +210,5 @@ terrain(500, rockiness=0.1)
 right_barrier()
 new_territory()
 
-print("level {")
-
-for o in objects:
-	print_object(o)
-
-print("\tground {")
-
-for idx, g in enumerate(ground):
-	if (idx % 8) == 0:
-		print("\t\t", end="")
-	else:
-		print(" ", end="")
-	print("_: %3d" % int(g + 0.5), end="")
-	if (idx % 8) == 7:
-		print("")
-	#print('#' * int(g))
-	#print('%d: %d' % (idx, g))
-
-print("\n\t}\n}")
+write_to_file("tank_strike.sop")
 
