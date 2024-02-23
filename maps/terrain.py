@@ -6,6 +6,8 @@
 from math import exp
 from random import random
 
+MIRROR = 6
+
 territories = []
 ground = []
 objects = []
@@ -144,7 +146,7 @@ def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 		ground_max = max(ground_slice)
 		if ground_max - ground_min < 2:
 			add_object(type=type, x=x+16, orient=orient,
-			           owner="PLAYER2")
+			           owner="PLAYER2", transform=MIRROR)
 			# Flatten
 			for x2 in range(x + 8, x + 40):
 				ground[x2] = ground_max
