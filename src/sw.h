@@ -238,9 +238,9 @@ typedef struct {
 	obtype_t type;
 	int x;
 	int orient;
-	int transform;                   /* Rotation/mirroring */
 	int territory_l, territory_r;    /* Computer plane territory */
 	ob_owner_t owner;
+	int transform;                   /* Rotation/mirroring */
 } original_ob_t;
 
 typedef struct obj {                            /*  Object list             */
