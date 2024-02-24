@@ -47,16 +47,21 @@ def defaults(**default_vals):
 	return decorator
 
 class Territory(object):
+	def __init__(self, **kwargs):
+		self.overrides = kwargs
+
 	def __enter__(self):
 		self.start_x = len(ground)
-		self.saved = push_context(territory=len(territories))
+		self.saved = push_context(territory=len(territories),
+		                          **self.overrides)
 
 	def __exit__(self, *_):
 		pop_context(self.saved)
 		territories.append((self.start_x, len(ground)))
 
-def enemy(**kwargs):
-	return Context(owner="PLAYER2", mirror=True)
+def EnemyTerritory(**kwargs):
+	kwargs.setdefault("owner", "PLAYER2")
+	return Territory(**kwargs)
 
 def shape_fn(x, center=150):
 	# No variation at small level or large level.
