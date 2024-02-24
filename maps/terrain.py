@@ -14,19 +14,26 @@ ground = []
 objects = []
 curr_y = 0
 
+def push_context(**overrides):
+	global context_vars
+	result = context_vars
+	context_vars = context_vars.copy()
+	context_vars.update(overrides)
+	return result
+
+def pop_context(old):
+	global context_vars
+	context_vars = old
+
 class Context(object):
 	def __init__(self, **kwargs):
 		self.overrides = kwargs
 
 	def __enter__(self):
-		global context_vars
-		self.saved = context_vars
-		context_vars = context_vars.copy()
-		context_vars.update(self.overrides)
+		self.saved = push_context(**self.overrides)
 
 	def __exit__(self, *_):
-		global context_vars
-		context_vars = self.saved
+		pop_context(self.saved)
 
 def defaults(**default_vals):
 	def decorator(func):
@@ -38,6 +45,15 @@ def defaults(**default_vals):
 			func(*args, **kwargs)
 		return inner
 	return decorator
+
+class Territory(object):
+	def __enter__(self):
+		self.start_x = len(ground)
+		self.saved = push_context(territory=len(territories))
+
+	def __exit__(self, *_):
+		pop_context(self.saved)
+		territories.append((self.start_x, len(ground)))
 
 def enemy(**kwargs):
 	return Context(owner="PLAYER2", mirror=True)
@@ -157,19 +173,16 @@ def airfield(*, mirror, width=200):
 	add_object(type="TARGET", x=x+mult*24, orient=0, mirror=False)
 	add_object(type="PLANE", x=x+mult*48)
 
-@defaults(mirror=False, owner="PLAYER1")
-def add_object(mirror, **kwargs):
+@defaults(mirror=False, owner="PLAYER1", territory=None)
+def add_object(mirror, territory, **kwargs):
 	if mirror:
 		if kwargs["type"] == "PLANE":
 			kwargs["orient"] = 1
 		else:
 			kwargs["transform"] = 6
-	kwargs["territory"] = len(territories)
+	if territory is not None:
+		kwargs["territory"] = territory
 	objects.append(kwargs)
-
-def new_territory():
-	start_x = (territories or [(0, 0)])[-1][1]
-	territories.append((start_x, len(ground)))
 
 @defaults(max_tanks=3, orient=3)
 def convoy(max_tanks, orient, width=200, type="TARGET"):
@@ -202,8 +215,7 @@ def print_object(file, o):
 	t = o["territory"]
 	del o["territory"]
 	if "territory_l" not in o:
-		o["territory_l"] = territories[t][0]
-		o["territory_r"] = territories[t][1]
+		o["territory_l"], o["territory_r"] = territories[t]
 	print("\tobject {", file=file)
 	for k, v in sorted(o.items()):
 		print("\t\t%s: %s" % (k, v), file=file)
