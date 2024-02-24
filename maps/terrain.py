@@ -184,7 +184,7 @@ def plane(x):
 	add_object(type="PLANE", x=x)
 
 def ox(x):
-	add_object(type="OX", x=x)
+	add_object(type="OX", x=x, mirror=random() < 0.5)
 
 @defaults(mirror=False)
 def airfield(*, mirror, width=200):
