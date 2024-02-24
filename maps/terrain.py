@@ -8,10 +8,39 @@ from random import random
 
 MIRROR = 6
 
+context_vars = {}
 territories = []
 ground = []
 objects = []
 curr_y = 0
+
+class Context(object):
+	def __init__(self, **kwargs):
+		self.overrides = kwargs
+
+	def __enter__(self):
+		global context_vars
+		self.saved = context_vars
+		context_vars = context_vars.copy()
+		context_vars.update(self.overrides)
+
+	def __exit__(self, *_):
+		global context_vars
+		context_vars = self.saved
+
+def defaults(**default_vals):
+	def decorator(func):
+		def inner(*args, **kwargs):
+			kwargs = kwargs.copy()
+			for k, v in default_vals.items():
+				if k not in kwargs:
+					kwargs[k] = context_vars.get(k, v)
+			func(*args, **kwargs)
+		return inner
+	return decorator
+
+def enemy(**kwargs):
+	return Context(owner="PLAYER2", mirror=True)
 
 def shape_fn(x, center=150):
 	# No variation at small level or large level.
@@ -66,7 +95,8 @@ def fillground(start_x, end_x, rockiness, guidepoint):
 
 	return (mid_x, base_y + offset)
 
-def terrain(width, end_y=None, rockiness=0.3):
+@defaults(rockiness=0.3)
+def terrain(width, *, rockiness, end_y=None):
 	global curr_y
 	if end_y is None:
 		end_y = curr_y
@@ -113,20 +143,27 @@ def mountain(width=300, height=150, end_y=None):
 	terrain(quarter_width, end_y=height * 0.9)
 	terrain(width - quarter_width * 3, end_y=end_y)
 
-def airfield(width=200, owner="PLAYER1", right_side=False):
+@defaults(mirror=False)
+def airfield(*, mirror, width=200):
 	x = len(ground)
 	mult = 1
 	flat_ground(width)
-	if right_side:
+	if mirror:
 		mult = -1
 		x = len(ground) - 16
 	# Oil tank
-	add_object(type="TARGET", x=x, orient=2, owner=owner)
+	add_object(type="TARGET", x=x, orient=2, mirror=False)
 	# Hangar
-	add_object(type="TARGET", x=x+mult*24, orient=0, owner=owner)
-	add_object(type="PLANE", x=x+mult*48, orient=1 if right_side else 0, owner=owner)
+	add_object(type="TARGET", x=x+mult*24, orient=0, mirror=False)
+	add_object(type="PLANE", x=x+mult*48)
 
-def add_object(**kwargs):
+@defaults(mirror=False, owner="PLAYER1")
+def add_object(mirror, **kwargs):
+	if mirror:
+		if kwargs["type"] == "PLANE":
+			kwargs["orient"] = 1
+		else:
+			kwargs["transform"] = 6
 	kwargs["territory"] = len(territories)
 	objects.append(kwargs)
 
@@ -134,7 +171,8 @@ def new_territory():
 	start_x = (territories or [(0, 0)])[-1][1]
 	territories.append((start_x, len(ground)))
 
-def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
+@defaults(max_tanks=3, orient=3)
+def convoy(max_tanks, orient, width=200, type="TARGET"):
 	start_x = len(ground)
 	terrain(width, rockiness=0.03)
 
@@ -145,8 +183,7 @@ def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 		ground_min = min(ground_slice)
 		ground_max = max(ground_slice)
 		if ground_max - ground_min < 2:
-			add_object(type=type, x=x+16, orient=orient,
-			           owner="PLAYER2", transform=MIRROR)
+			add_object(type=type, x=x+16, orient=orient)
 			# Flatten
 			for x2 in range(x + 8, x + 40):
 				ground[x2] = ground_max
@@ -156,7 +193,8 @@ def convoy(width=200, max_tanks=3, type="TARGET", orient=3):
 
 		x += 1
 
-def oxen_field(width=200, max_oxen=3):
+@defaults(max_oxen=3)
+def oxen_field(max_oxen, width=200):
 	convoy(width=width, max_tanks=max_oxen, type="OX", orient=0)
 
 def print_object(file, o):
