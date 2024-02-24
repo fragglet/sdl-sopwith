@@ -168,6 +168,24 @@ def mountain(width=300, height=150, end_y=None):
 	terrain(quarter_width, end_y=height * 0.9)
 	terrain(width - quarter_width * 3, end_y=end_y)
 
+def hangar(x):
+	add_object(type="TARGET", x=x, orient=0, mirror=False)
+
+def building(x):
+	add_object(type="TARGET", x=x, orient=1, mirror=False)
+
+def oil_tank(x):
+	add_object(type="TARGET", x=x, orient=2, mirror=False)
+
+def tank(x):
+	add_object(type="TARGET", x=x, orient=3, mirror=False)
+
+def plane(x):
+	add_object(type="PLANE", x=x)
+
+def ox(x):
+	add_object(type="OX", x=x)
+
 @defaults(mirror=False)
 def airfield(*, mirror, width=200):
 	x = len(ground)
@@ -177,10 +195,10 @@ def airfield(*, mirror, width=200):
 		mult = -1
 		x = len(ground) - 16
 	# Oil tank
-	add_object(type="TARGET", x=x, orient=2, mirror=False)
+	oil_tank(x=x)
 	# Hangar
-	add_object(type="TARGET", x=x+mult*24, orient=0, mirror=False)
-	add_object(type="PLANE", x=x+mult*48)
+	hangar(x=x+mult*24)
+	plane(x=x+mult*48)
 
 @defaults(mirror=False, owner="PLAYER1", territory=None)
 def add_object(mirror, territory, **kwargs):
@@ -193,8 +211,8 @@ def add_object(mirror, territory, **kwargs):
 		kwargs["territory"] = territory
 	objects.append(kwargs)
 
-@defaults(max_tanks=3, orient=3)
-def convoy(max_tanks, orient, width=200, type="TARGET"):
+@defaults(max_tanks=3)
+def convoy(max_tanks, width=200, callback=tank):
 	start_x = len(ground)
 	terrain(width, rockiness=0.03)
 
@@ -205,7 +223,7 @@ def convoy(max_tanks, orient, width=200, type="TARGET"):
 		ground_min = min(ground_slice)
 		ground_max = max(ground_slice)
 		if ground_max - ground_min < 2:
-			add_object(type=type, x=x+16, orient=orient)
+			callback(x=x+16)
 			# Flatten
 			for x2 in range(x + 8, x + 40):
 				ground[x2] = ground_max
@@ -217,7 +235,7 @@ def convoy(max_tanks, orient, width=200, type="TARGET"):
 
 @defaults(max_oxen=3)
 def oxen_field(max_oxen, width=200):
-	convoy(width=width, max_tanks=max_oxen, type="OX", orient=0)
+	convoy(width=width, max_tanks=max_oxen, callback=ox)
 
 def print_object(file, o):
 	o = dict(o)
