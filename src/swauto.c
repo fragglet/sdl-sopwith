@@ -97,7 +97,12 @@ static bool tstcrash2(OBJECTS *ob, int x, int y, int alt)
 		return false;
 	}
 
-	if (alt < 22) {
+	// If we're going to get too low, don't aim downwards.
+	// The behavior here has been fixed compared to the original
+	// Author's Edition release. It used to be that planes would
+	// sometimes try to take off by flying straight upwards without
+	// full throttle.
+	if (alt < 22 && ob->ob_dy < 0) {
 		return true;
 	}
 
