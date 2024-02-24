@@ -9,7 +9,6 @@ from random import random
 MIRROR = 6
 
 context_vars = {}
-territories = []
 ground = []
 objects = []
 curr_y = 0
@@ -52,12 +51,17 @@ class Territory(object):
 
 	def __enter__(self):
 		self.start_x = len(ground)
-		self.saved = push_context(territory=len(territories),
-		                          **self.overrides)
+		self.first_object = len(objects)
+		self.saved = push_context(**self.overrides)
 
 	def __exit__(self, *_):
 		pop_context(self.saved)
-		territories.append((self.start_x, len(ground)))
+		end_x = len(ground)
+		# Go back and set territory boundaries for all planes.
+		for o in objects[self.first_object:]:
+			if o["type"] == "PLANE":
+				o.setdefault("territory_l", self.start_x)
+				o.setdefault("territory_r", end_x)
 
 def EnemyTerritory(**kwargs):
 	kwargs.setdefault("owner", "PLAYER2")
@@ -217,10 +221,6 @@ def oxen_field(max_oxen, width=200):
 
 def print_object(file, o):
 	o = dict(o)
-	t = o["territory"]
-	del o["territory"]
-	if "territory_l" not in o:
-		o["territory_l"], o["territory_r"] = territories[t]
 	print("\tobject {", file=file)
 	for k, v in sorted(o.items()):
 		print("\t\t%s: %s" % (k, v), file=file)
