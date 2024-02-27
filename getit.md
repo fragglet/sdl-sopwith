@@ -17,6 +17,8 @@ getting SDL Sopwith into as many different package repositories as
 possible. If you don't see your favorite operating system in this list,
 [help us fix that!](https://docs.google.com/spreadsheets/d/1vHihJR5VAL9ltEB10kdl_ofK7LViOhwYC0i6T2mqB64/edit).
 
+| Alpine Linux  | `sudo apk add sopwith`       |
+| Arch Linux    | `yay -S sopwith`             |
 | ALT Linux     | `apt-get install sopwith`    |
 | Debian        | `sudo apt install sopwith`   |
 | Fedora        | `dnf install sopwith`        |
