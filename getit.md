@@ -14,7 +14,8 @@ The latest release is the [2.4.0 release](https://github.com/fragglet/sdl-sopwit
 
 For Linux and other open-source operating systems we focus our efforts on
 getting SDL Sopwith into as many different package repositories as
-possible.
+possible. If you don't see your favorite operating system in this list,
+[help us fix that!](https://docs.google.com/spreadsheets/d/1vHihJR5VAL9ltEB10kdl_ofK7LViOhwYC0i6T2mqB64/edit).
 
 | ALT Linux     | `apt-get install sopwith`    |
 | Debian        | `sudo apt install sopwith`   |
