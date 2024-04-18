@@ -77,6 +77,7 @@ a:visited {
   padding: 30px 30px 10px 30px;
   margin-bottom: 10px;
   background-color: #144;
+  max-width: 400px;
 }
 
 #alert-banner img {
