@@ -1,4 +1,4 @@
-# Next
+# v2.5.0 (2024-04-18)
 
 * There is still no editor for making custom levels, but a Python
   library has been added for programmatically generating levels. An
