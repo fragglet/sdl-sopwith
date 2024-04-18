@@ -73,9 +73,10 @@ a:visited {
 }
 
 #alert-banner {
-  border: 2px solid white;
-  padding: 10px;
-  margin: 10px;
+  border: 3px solid white;
+  padding: 30px 30px 10px 30px;
+  margin-bottom: 10px;
+  background-color: #144;
 }
 
 #alert-banner img {
