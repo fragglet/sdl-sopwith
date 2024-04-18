@@ -429,7 +429,7 @@ static void Vid_SetMode(void)
 	// Important: Set the "logical size" of the rendering context. At the
 	// same time this also defines the aspect ratio that is preserved while
 	// scaling and stretching the texture into the window.
-	SDL_RenderSetLogicalSize(renderer, SCR_WDTH, SCR_HGHT);
+	SDL_RenderSetLogicalSize(renderer, SCR_WDTH, SCR_WDTH * 3 / 4);
 
 	// Blank out the full screen area in case there is any junk in
 	// the borders that won't otherwise be overwritten.
