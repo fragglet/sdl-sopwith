@@ -2,7 +2,7 @@
 title: SDL Sopwith
 ---
 
-<div id="alert-banner">
+<div id="alert-banner" markdown="1">
 ![40th anniversary banner](40th/banner.png)
 
 Sopwith is approaching its 40th birthday on April 24th 2024.
