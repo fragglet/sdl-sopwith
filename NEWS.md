@@ -1,7 +1,19 @@
+# Next
 
+* There is still no editor for making custom levels, but a Python
+  library has been added for programmatically generating levels. An
+  example level has been included, the first custom level!
+* Objects in custom levels can now be arbitrarily mirrored and rotated.
+* The numeric keypad enter key can now be used to switch into
+  fullscreen mode, and also when entering a hostname (thanks TechKnight).
+* A long-standing bug was fixed where the computer planes would try to
+  take off by flying straight up and then immediately stalling.
 * The score is no longer reset between levels (this was a bug).
 * At end of level, the remaining planes now "tick down" properly.
 * A bug was fixed where the app icon was shown as a black silhouette.
+* The manual page now documents the dashboard layout.
+* The score will no longer be drawn over the medals for very large
+  values.
 
 # v2.4.0 (2024-02-03)
 
