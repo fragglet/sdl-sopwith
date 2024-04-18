@@ -11,7 +11,8 @@ DOC_FILES=            \
 EXTRA_DIST = $(AUX_DIST_GEN) $(DOC_FILES) \
              embuild.sh \
              icon.png \
-             maps/README.md maps/original.sop maps/empty.sop
+             maps/README.md maps/original.sop maps/empty.sop \
+             maps/tank_strike.sop
 
 MAINTAINERCLEANFILES = $(AUX_DIST_GEN)
 
