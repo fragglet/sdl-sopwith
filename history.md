@@ -6,7 +6,7 @@ title: History of Sopwith
 
 # History of Sopwith
 
-![Illustration: Sopwith start screen](original-files/sopwith2_001.png)
+![Illustration: IBM PC 5150 with Sopwith start screen](img/sopwith-5150.png)
 
 At the time of writing, Sopwith is approaching its 40th birthday. Sopwith
 is a very old game, and has an interesting history that deserves to be
