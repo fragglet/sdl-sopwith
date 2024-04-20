@@ -111,23 +111,33 @@ jobs:
     - name: make check
       run: make check
 
-    - name: autotools dist check
+    - name: autotools distcheck
       if: runner.os == 'Linux'
       run: |
         # This checks we can go through the entire process of generating
         # a distribution package with autotools, and that the package can
         # be built and installed successfully.
-        make distdir distdir=distdir
-        cd distdir
-        ./configure
-        make -j4
-        make install DESTDIR=/tmp/asdfghj
+        make -j8 distcheck
+
+    - name: Build source package
+      if: runner.os == 'Linux'
+      run: |
+        make dist
+        mkdir srcdist
+        mv *.tar.gz srcdist/
 
     - name: Build package (Windows)
       if: runner.os == 'Windows'
       run: |
         cd pkg/win32
         make
+
+    - name: Upload source package
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        path: "srcdist"
+        name: sdl-sopwith-src-${{steps.version.outputs.VERSION}}
 
     - name: Upload build (Windows)
       if: runner.os == 'Windows'
