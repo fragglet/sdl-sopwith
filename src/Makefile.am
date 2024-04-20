@@ -3,6 +3,9 @@ EXTRA_DIST = sopwith.ico
 appdir = $(prefix)/share/applications
 dist_app_DATA = sopwith.desktop
 
+metainfodir = $(prefix)/share/metainfo
+dist_metainfo_DATA = io.github.fragglet.sdl_sopwith.metainfo.xml
+
 iconsdir = $(prefix)/share/icons/hicolor/128x128/apps
 dist_icons_DATA = sopwith.png
 
