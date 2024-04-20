@@ -20,6 +20,7 @@ jobs:
             compiler: gcc
             shell: bash
             suffix: ""
+            src_package: true
 
           - name: Linux Clang
             os: ubuntu-latest
@@ -112,7 +113,7 @@ jobs:
       run: make check
 
     - name: autotools distcheck
-      if: runner.os == 'Linux' && runner.compiler == 'gcc'
+      if: ${{ matrix.config.src_package }}
       run: |
         # This checks we can go through the entire process of generating
         # a distribution package with autotools, and that the package can
@@ -120,7 +121,7 @@ jobs:
         make -j8 distcheck
 
     - name: Build source package
-      if: runner.os == 'Linux' && runner.compiler == 'gcc'
+      if: ${{ matrix.config.src_package }}
       run: |
         make dist
         mkdir srcdist
@@ -133,7 +134,7 @@ jobs:
         make
 
     - name: Upload source package
-      if: runner.os == 'Linux' && runner.compiler == 'gcc'
+      if: ${{ matrix.config.src_package }}
       uses: actions/upload-artifact@v4
       with:
         path: "srcdist"
