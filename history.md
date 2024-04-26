@@ -46,7 +46,7 @@ versions, and still includes changelog comments that date all the way back to
 
 Sopwith's title screen proudly identifies it as the work of **BMB
 Compuscience**, a Canadian company founded in 1979 and based in Milton, Ontario
-by Bill MacLean, Marcel Brunschweiler and Barbara Brunschweiler.  The initials
+by Bill MacLean, Marcel Brunschweiler and Barbara MacLean.  The initials
 of their first names were the origin of the name BMB. The business originally
 acted as a reseller for Commodore computers, targeting scientists and
 researchers. BMB then pivoted to focus on the IBM PC after it was released

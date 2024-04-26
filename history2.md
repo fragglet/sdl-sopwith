@@ -34,9 +34,11 @@ After the release of the IBM PC in 1981, BMB changed its focus to the new
 platform and it became a successful reseller of PCs through its chain of
 Canadian stores named *The Information Connection*.
 Meanwhile, it set about producing a similar system to MUPET that it called
-*Imaginet*. As with MUPET, it allowed multiple PCs to share a floppy disk. By
-1984 the first version of Imaginet had been made available, and the first
-versions of Sopwith date to this time.
+*Imaginet*. As with MUPET, it allowed multiple PCs to share a floppy disk. But
+with hard drives now becoming common, it could also simulate a virtual floppy
+disk stored on a hard drive on another machine.  By 1984 the first version of
+Imaginet had been made available, and the first versions of Sopwith date to
+this time.
 
 ![Boxed copy of Imaginet showing manual, floppy disks and ISA card](img/imaginet-boxed.jpg)
 
@@ -58,10 +60,10 @@ could mirror a company's corporate structure.
 By far the most detailed technical description of the system can be found in
 [Canadian patent 1172380](articles/canada-patent-1172380.pdf) that BMB obtained
 on the system. The Imaginet card replaced the usual floppy disk controller
-card, forwarding all floppy disk access instead to the host computer. The
-"disk" itself on the host could be a physical disk drive but more often would
-be a floppy disk image stored on the host computer's hard disk. The system also
-allowed printers to be shared.
+card (or coexisting with it, emulating a second drive), forwarding all floppy
+disk access instead to the host computer. The "disk" itself on the host could
+be a physical disk drive but more often would be a floppy disk image stored on
+the host computer's hard disk. The system also allowed printers to be shared.
 
 Imaginet's hardware-based networking seems unusual nowadays, where networking
 is based on protocols and, of course, connection to the Internet. Nonetheless,
