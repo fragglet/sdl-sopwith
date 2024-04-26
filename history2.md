@@ -116,9 +116,8 @@ You can find out more information about BMB and Imaginet in this discussion
 with former BMB employees David L. Clark, Jack Cole and Dave Growden,
 recorded for the game's 40th anniversary:
 
-<div style="max-width: 90%; margin: auto;">
-  <iframe style="width: 100%; aspect-ratio: 16 / 9;"
-          src="https://www.youtube.com/embed/bIoYM_p3HX4?si=T0qB8ZwW6AqlS51W"
+<div class="video-embed">
+  <iframe src="https://www.youtube.com/embed/bIoYM_p3HX4?si=T0qB8ZwW6AqlS51W"
           title="YouTube video player" frameborder="0"
           allow="picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>

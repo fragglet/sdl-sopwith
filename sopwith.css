@@ -48,6 +48,17 @@ img[src*="logos"] {
   width: 64px;
 }
 
+/* For Youtube videos */
+.video-embed {
+  width: 90%;
+  margin: auto;
+}
+
+.video-embed > iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
 a {
   font-weight:bold;
   color: #0ff;
