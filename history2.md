@@ -110,6 +110,19 @@ to have been particuarly successful in the marketplace, it did find some
 customers in Canada, and remains an interesting footnote in the history of PC
 networking.
 
+### More information
+
+You can find out more information about BMB and Imaginet in this discussion
+with former BMB employees David L. Clark, Jack Cole and Dave Growden,
+recorded for the game's 40th anniversary:
+
+<iframe style="max-width: 100%;"
+        src="https://www.youtube.com/embed/bIoYM_p3HX4?si=T0qB8ZwW6AqlS51W"
+        title="YouTube video player" frameborder="0"
+        allow="picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+
 ---
 
 **Next:** [DOS versions](history3.md)
