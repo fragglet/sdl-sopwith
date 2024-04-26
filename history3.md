@@ -57,7 +57,9 @@ The musical theme to this version is
 [Merrily We Roll Along](https://en.wikipedia.org/wiki/Merrily_We_Roll_Along_%28song%29)
 better known as the theme song for the Warner Brothers ***Merry Melodies***
 cartoon. However, the music doesn't play on the title screen unless Sopwith
-is run with the `-s` command line parameter.
+is run with the `-s` command line parameter. Interestingly, David Clark
+[does not remember](https://youtu.be/bIoYM_p3HX4?t=1710) the game ever having
+this music.
 
 The multiplayer feature was thought to be unusable without the original
 Imaginet hardware, but has recently
