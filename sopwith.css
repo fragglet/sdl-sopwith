@@ -51,7 +51,9 @@ img[src*="logos"] {
 /* For Youtube videos */
 .video-embed {
   width: 90%;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
 }
 
 .video-embed > iframe {
