@@ -117,7 +117,7 @@ with former BMB employees David L. Clark, Jack Cole and Dave Growden,
 recorded for the game's 40th anniversary:
 
 <div class="video-embed">
-  <iframe src="https://www.youtube.com/embed/bIoYM_p3HX4?si=T0qB8ZwW6AqlS51W"
+  <iframe src="https://www.youtube.com/embed/bIoYM_p3HX4"
           title="YouTube video player" frameborder="0"
           allow="picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
