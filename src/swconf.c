@@ -312,10 +312,19 @@ static void change_key_binding(struct menuitem *item)
 static void drawmenu(char *title, struct menuitem *menu)
 {
 	int i, y, keynum, said_key = 0;
+	int title_len = strlen(title), x = 19 - title_len / 2;
 	Vid_ClearBuf();
 
+	// Planes on the menus look decorative but serve a real
+	// purpose: they give you an impression of what the game will
+	// look like under the different palettes.
+	Vid_DispSymbol(x * 8 - 32, SCR_HGHT - 10,
+	               &symbol_plane[0]->sym[0], OWNER_PLAYER1);
+	Vid_DispSymbol((x + title_len) * 8 + 16, SCR_HGHT - 10,
+	               &symbol_plane[0]->sym[6], OWNER_PLAYER2);
+
 	swcolor(2);
-	swposcur(19 - strlen(title) / 2, 2);
+	swposcur(x, 2);
 	swputs(title);
 
 	swcolor(3);
