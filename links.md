@@ -106,11 +106,6 @@ title: SDL Sopwith: Links
   by Legia Studios
 * [Great Pilots](https://store.steampowered.com/app/2146550/Great_Pilots/) by KeepPlaying Games
 
-## Sopwith inspired by ...?
-
-* [Looping](https://en.wikipedia.org/wiki/Looping_%28video_game%29) - 1982
-  Italian arcade game.
-
 ### And, uh...
 
 * [Turd Eating Cat](https://www.youtube.com/watch?v=1rZFk9ww29U)
