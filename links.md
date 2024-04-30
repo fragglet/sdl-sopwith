@@ -91,7 +91,8 @@ title: SDL Sopwith: Links
 * [Triplane Turmoil II](http://triplane2.draconus.com/)
 * [Airstrike](http://icculus.org/airstrike/)
 * [Artman's Goplanes!](https://www.mobygames.com/game/artmans-goplanes)
-* [Biplane Duel](https://www.youtube.com/watch?v=WEmhFFFpwjE) for the Amiga
+* [Biplane Duel](https://www.youtube.com/watch?v=Bkp2Ta7Xwo4) for the Amiga
+  (aka Salmon-Pink Max)
 * [BIP!](https://store.steampowered.com/app/1285200/Bip/),
   inspired by Biplane Duel
 * [Sky Fighter (PS3)](https://www.metacritic.com/game/playstation-3/sky-fighter)
