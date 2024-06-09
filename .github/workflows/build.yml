@@ -44,11 +44,17 @@ jobs:
             msys-env: mingw-w64-i686
             suffix: "-win32"
 
-          - name: macOS Clang
+          - name: macOS arm64
+            os: macos-13
+            compiler: clang
+            shell: zsh
+            suffix: "-macos-x86_64"
+
+          - name: macOS x86-64
             os: macos-latest
             compiler: clang
-            shell: bash
-            suffix: "-macos"
+            shell: zsh
+            suffix: "-macos-arm64"
 
     steps:
     - name: Install build dependencies (Chocolatey, Windows)
