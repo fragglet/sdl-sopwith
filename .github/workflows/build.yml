@@ -47,13 +47,13 @@ jobs:
           - name: macOS arm64
             os: macos-13
             compiler: clang
-            shell: zsh
+            shell: bash
             suffix: "-macos-x86_64"
 
           - name: macOS x86-64
             os: macos-latest
             compiler: clang
-            shell: zsh
+            shell: bash
             suffix: "-macos-arm64"
 
     steps:
