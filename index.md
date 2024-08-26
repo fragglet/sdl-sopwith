@@ -2,13 +2,6 @@
 title: SDL Sopwith
 ---
 
-<div id="alert-banner" markdown="1">
-![40th anniversary banner](40th/banner.png)
-
-Sopwith's 40th birthday was on April 24th 2024.
-[Join us in celebrating!](40years.html)
-</div>
-
 ![Illustration: CGA colored Sopwith Camel](sopattack.png)
 SDL Sopwith is a port of the classic biplane shoot 'em-up "Sopwith" to run on modern
 computers and operating systems. It is named "SDL Sopwith" as it uses the

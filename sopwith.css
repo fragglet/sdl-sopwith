@@ -86,13 +86,46 @@ a:visited {
 }
 
 #alert-banner {
-  border: 3px solid white;
-  padding: 30px 30px 10px 30px;
-  margin-bottom: 10px;
+  position: fixed;
+  top: 200px;
+  border: 1px solid white;
+  padding: 10px 10px 10px 10px;
   background-color: #144;
-  max-width: 400px;
+  display: flex;
+  width: 230px;
+  align-items: center;
+}
+
+#alert-banner .text {
+  text-align: center;
+  margin-right: 10px;
 }
 
 #alert-banner img {
-  max-width: 100%;
+  width: 80px;
+}
+
+@media print, screen and (max-width: 960px) {
+  #alert-banner {
+    position: absolute;
+    top: 35px;
+    right: 80px;
+    width: auto;
+    height: auto;
+    padding: 5px 30px 5px 30px;
+  }
+
+  #alert-banner .text {
+    margin-bottom: 0;
+  }
+
+  #alert-banner img {
+    width: auto;
+    width: 40px;
+    right: 0;
+  }
+}
+
+@media print, screen and (max-width: 750px) {
+  #alert-banner { display: none; }
 }
