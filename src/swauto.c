@@ -88,7 +88,7 @@ static bool is_target(OBJECTS *ob)
 	return ob->ob_type == TARGET || ob->ob_type == OX;
 }
 
-static bool tstcrash2(OBJECTS *ob, int x, int y, int alt)
+static bool tstcrash2(OBJECTS *ob, int x, int y, int alt, int dy)
 {
 	OBJECTS *obt;
 	int xl, xr, yt;
@@ -102,7 +102,7 @@ static bool tstcrash2(OBJECTS *ob, int x, int y, int alt)
 	// Author's Edition release. It used to be that planes would
 	// sometimes try to take off by flying straight upwards without
 	// full throttle.
-	if (alt < 22 && ob->ob_dy < 0) {
+	if (alt < 22 && dy < 0) {
 		return true;
 	}
 
@@ -223,7 +223,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 		movexy(&obs, &nx, &ny);
 		crange[i] = range(nx, ny, ax, ay);
 		calt[i] = ny - currgame->gm_ground[nx + 8];
-		ccrash[i] = tstcrash2(ob, nx, ny, calt[i]);
+		ccrash[i] = tstcrash2(ob, nx, ny, calt[i], nspeed * SIN(nangle));
 
 		copyobj(&obs, ob);
 	}
