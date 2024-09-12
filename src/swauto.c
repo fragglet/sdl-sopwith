@@ -82,6 +82,13 @@ static int shoot(OBJECTS *obt)
 	return 0;
 }
 
+static bool within_home_range(OBJECTS *ob, int x, int y)
+{
+	const original_ob_t *orig_ob = ob->ob_original_ob;
+
+	return abs(x - orig_ob->x) < HOME
+	    && abs(y - ob->ob_orig_y) < HOME;
+}
 
 static bool is_target(OBJECTS *ob)
 {
@@ -91,10 +98,18 @@ static bool is_target(OBJECTS *ob)
 static bool tstcrash2(OBJECTS *ob, int x, int y, int alt, int dy)
 {
 	OBJECTS *obt;
-	int xl, xr, yt;
+	int xl, xr, yt, lookahead = 3;
 
 	if (alt > 50) {
 		return false;
+	}
+
+	// If we're heading home and this will be the last step here, we
+	// don't need to look three tics ahead. Otherwise at high speeds the
+	// autopilot can end up endlessly circling the runway, afraid any
+	// downward movement at all will lead to a crash.
+	if (ob->ob_home && within_home_range(ob, x, y)) {
+		lookahead = 1;
 	}
 
 	// If we're going to get too low, don't aim downwards. This is
@@ -107,7 +122,7 @@ static bool tstcrash2(OBJECTS *ob, int x, int y, int alt, int dy)
 	// Author's Edition release. It used to be that planes would
 	// sometimes try to take off by flying straight upwards without
 	// full throttle.
-	if (alt + dy * 3 / 256 < 8) {
+	if (alt + dy * lookahead / 256 < 8) {
 		return true;
 	}
 
@@ -308,17 +323,12 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 
 int gohome(OBJECTS *ob)
 {
-	const original_ob_t *orig_ob;
-
 	if (ob->ob_athome) {
 		return 0;
 	}
 
-	orig_ob = ob->ob_original_ob;
-
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	if (abs(ob->ob_x - orig_ob->x) < HOME
-	 && abs(ob->ob_y - ob->ob_orig_y) < HOME) {
+	if (within_home_range(ob, ob->ob_x, ob->ob_y)) {
 		if (plyrplane) {
 			initplyr(ob);
 			initdisp(true);
@@ -335,7 +345,8 @@ int gohome(OBJECTS *ob)
 	if (ob->ob_state == WOUNDED && (countmove & 1)) {
 		return 0;
 	} else {
-		return aim(ob, orig_ob->x, ob->ob_orig_y, NULL, false);
+		return aim(ob, ob->ob_original_ob->x, ob->ob_orig_y,
+		           NULL, false);
 	}
 }
 
