@@ -97,12 +97,17 @@ static bool tstcrash2(OBJECTS *ob, int x, int y, int alt, int dy)
 		return false;
 	}
 
-	// If we're going to get too low, don't aim downwards.
+	// If we're going to get too low, don't aim downwards. This is
+	// expressed in terms of the speed we will be heading towards
+	// the ground; if we are likely to crash within three tics, we
+	// should try to pull away. This approach is independent of the
+	// speed we are travelling at, so it works at the higher levels
+	// where the plane travels very fast.
 	// The behavior here has been fixed compared to the original
 	// Author's Edition release. It used to be that planes would
 	// sometimes try to take off by flying straight upwards without
 	// full throttle.
-	if (alt < 22 && dy < 0) {
+	if (alt + dy * 3 / 256 < 8) {
 		return true;
 	}
 
