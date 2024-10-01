@@ -58,6 +58,18 @@ Turn off sound (quiet)
 \-m \fIfilename\fR
 Load new mission (level) from the given filename.
 .
+.SH EXAMPLES
+.TP
+sopwith -c -q
+Start a single player game vs. the computer with sound disabled.
+.TP
+sopwith -g 3 -p 9999 -l
+Start a game server, listening on TCP port 9999, playing on level three
+difficulty.
+.TP
+sopwith -j example.com:9999
+Connect to a game server at \fIexample.com\fR on TCP port 9999.
+.
 .SH CONTROLS
 The standard controls on a US layout keyboard are as follows:
 .TP 
