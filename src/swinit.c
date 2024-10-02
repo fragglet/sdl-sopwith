@@ -1042,7 +1042,11 @@ void swinit(int argc, char *argv[])
 	swloadconf();
 
 	for (i=1; i<argc; ++i) {
-		if (!strcasecmp(argv[i], "-n")) {
+		if (!strcasecmp(argv[i], "-v")
+		 || !strcasecmp(argv[i], "--version")) {
+			puts(PACKAGE_STRING);
+			exit(0);
+		} else if (!strcasecmp(argv[i], "-n")) {
 			n = 1;
 		} else if (!strcasecmp(argv[i], "-s")) {
 			s = 1;
