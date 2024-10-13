@@ -1,3 +1,7 @@
+IWYU = iwyu
+IWYU_FLAGS = --error --mapping_file=.iwyu-overrides.imp
+IWYU_TRANSFORMED_FLAGS = $(patsubst %,-Xiwyu %,$(IWYU_FLAGS)) $(CFLAGS)
+
 EXTRA_DIST = sopwith.ico
 
 appdir = $(prefix)/share/applications
@@ -42,6 +46,11 @@ COMMON_SOURCES =                   \
         video.c      video.h       \
         vid_vga.c                  \
         yocton.c     yocton.h
+
+fixincludes:
+	for d in *.c */*.c; do \
+		$(IWYU) $(IWYU_TRANSFORMED_FLAGS) 2>&1 $$d | fix_include; \
+	done
 
 if HAVE_WINDRES
 sopwith_SOURCES = $(COMMON_SOURCES) resource.rc

@@ -1,0 +1,12 @@
+[
+# Override for bugs at time of writing (8.22):
+{ symbol: [ "va_start", private, "<stdarg.h>", public ] },
+{ symbol: [ "va_arg", private, "<stdarg.h>", public ] },
+{ symbol: [ "va_end", private, "<stdarg.h>", public ] },
+{ symbol: [ "SIGIO", private, "<signal.h>", public ] },
+{ symbol: [ "SIGTSTP", private, "<signal.h>", public ] },
+{ symbol: [ "SIGPOLL", private, "<signal.h>", public ] },
+{ symbol: [ "SIGWINCH", private, "<signal.h>", public ] },
+{ symbol: [ "SIGCONT", private, "<signal.h>", public ] },
+{ symbol: [ "size_t", private, "<stdlib.h>", public ] },
+]
