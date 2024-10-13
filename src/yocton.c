@@ -16,17 +16,16 @@
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 //
 
+#include "yocton.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <inttypes.h>
 #include <limits.h>
 #include <string.h>
-
-#include "yocton.h"
 
 #ifdef ALLOC_TESTING
 #include "alloc-testing.h"
