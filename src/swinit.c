@@ -1041,6 +1041,10 @@ void swinit(int argc, char *argv[])
 	// longer be necessary.
 	swloadconf();
 
+	// We must generate symbols early, so that custom map files
+	// can replace symbols:
+	symbol_generate();
+
 	for (i=1; i<argc; ++i) {
 		if (!strcasecmp(argv[i], "-v")
 		 || !strcasecmp(argv[i], "--version")) {
@@ -1098,10 +1102,6 @@ void swinit(int argc, char *argv[])
 	}
 
 	initseed();
-
-	// sdh 27/6/2002: generate symbol objects
-
-	symbol_generate();
 
 	Timer_Init();
 	Vid_Init();
