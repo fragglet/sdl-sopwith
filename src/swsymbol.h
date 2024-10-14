@@ -28,7 +28,12 @@ struct sopsym_s {
 // All possible rotations of sym[0]:
 struct symset_s {
 	sopsym_t sym[8];
+	const char *name;
+	int frame;
+	symset_t *next;
 };
+
+extern symset_t *all_symsets;
 
 extern symset_t symbol_bomb[2];                 // swbmbsym
 extern symset_t symbol_targets[4];              // swtrgsym
@@ -50,6 +55,8 @@ extern symset_t symbol_ribbon[6];               // swribbonsym
 extern sopsym_t symbol_pixel;
 
 extern void symbol_generate(void);
+extern void symset_from_text(symset_t *s, const char *text, int w, int h);
+symset_t *lookup_symset(const char *name, int frame);
 
 #endif
 

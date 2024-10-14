@@ -16,6 +16,9 @@
 
 #include "swsymbol.h"
 
+// Linked list of all symbols, to allow replacement in custom levels:
+symset_t *all_symsets = NULL;
+
 // Order here is counterintuitive: cyan (1) is brighter than magenta (2):
 static const char *color_chars = " *-#";
 
@@ -689,7 +692,7 @@ static void sopsym_from_text(sopsym_t *sym, const char *text, int w, int h,
 	}
 }
 
-static void symset_from_text(symset_t *s, const char *text, int w, int h)
+void symset_from_text(symset_t *s, const char *text, int w, int h)
 {
 	int r;
 
@@ -698,6 +701,27 @@ static void symset_from_text(symset_t *s, const char *text, int w, int h)
 		sopsym_from_text(&s->sym[r], text, w, h, r, false);
 		sopsym_from_text(&s->sym[r + 4], text, w, h, r, true);
 	}
+}
+
+symset_t *lookup_symset(const char *name, int frame)
+{
+	symset_t *s;
+
+	for (s = all_symsets; s != NULL; s = s->next) {
+		if (!strcmp(name, s->name) && frame == s->frame) {
+			return s;
+		}
+	}
+
+	return NULL;
+}
+
+static void init_symset(symset_t *s, const char *name, int frame)
+{
+	s->name = name;
+	s->frame = frame;
+	s->next = all_symsets;
+	all_symsets = s;
 }
 
 // converted symbols:
@@ -732,8 +756,10 @@ sopsym_t symbol_pixel = {
 // generate array of symset_t structs from array of strings:
 #define symsets_from_text(text, w, h, out)                        \
         { int _i;                                                 \
-          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)         \
+          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i) {       \
+             init_symset(&(out)[_i], #text, _i);                  \
              symset_from_text(&(out)[_i], (text)[_i], (w), (h));  \
+          }                                                       \
         }
 
 void symbol_generate(void)
