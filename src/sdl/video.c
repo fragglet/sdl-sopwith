@@ -221,9 +221,9 @@ static void set_icon(void)
 	sopsym_t *sym;
 
 	if (is_special_day()) {
-		sym = &symbol_plane[0]->sym[4];
+		sym = &symbol_plane[0].sym[4];
 	} else {
-		sym = &symbol_plane[0]->sym[0];
+		sym = &symbol_plane[0].sym[0];
 	}
 
 	icon = surface_from_sopsym(sym);

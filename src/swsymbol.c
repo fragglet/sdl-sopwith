@@ -289,23 +289,24 @@ static const char *swtrgsym[] = {
 	"  - - - - - - - - - - - - - -   \n",
 };
 
-static const char *swhtrsym =
-"                                \n"
-"                                \n"
-"                                \n"
-"                                \n"
-"                                \n"
-"                                \n"
-"                                \n"
-"                                \n"
-"                                \n"
-"                                \n"
-"                            *   \n"
-"*                           * * \n"
-"* *       *           -   * * * \n"
-"* *   * * *     * *   - * * * * \n"
-"* * * * - - * * * * - * * * * * \n"
-"* * * * - - * * * - * * * * * * \n";
+static const char *swhtrsym[] = {
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                            *   \n"
+	"*                           * * \n"
+	"* *       *           -   * * * \n"
+	"* *   * * *     * *   - * * * * \n"
+	"* * * * - - * * * * - * * * * * \n"
+	"* * * * - - * * * - * * * * * * \n"
+};
 
 static const char *swexpsym[] = {
 	"* * *   -       \n"
@@ -462,25 +463,26 @@ static const char *swoxsym[] = {
 	"# - - # # - - # # -   - - #     \n"
 };
 
-static const char *swshtsym =
-"                            *   \n"
-"      *                 * *     \n"
-"      *           * * *         \n"
-"        *       *               \n"
-"        *     *     * *         \n"
-"          * * *   *     *       \n"
-"* * * *   * * - *         * *   \n"
-"        * * * - - *           * \n"
-"        * * * - * *             \n"
-"          * - - *   * *         \n"
-"        *   * *         *       \n"
-"      *       *         *       \n"
-"    *         *         *       \n"
-"    *     * * *       *         \n"
-"    *   *               *       \n"
-"          * *             *     \n";
+static const char *swshtsym[] = {
+	"                            *   \n"
+	"      *                 * *     \n"
+	"      *           * * *         \n"
+	"        *       *               \n"
+	"        *     *     * *         \n"
+	"          * * *   *     *       \n"
+	"* * * *   * * - *         * *   \n"
+	"        * * * - - *           * \n"
+	"        * * * - * *             \n"
+	"          * - - *   * *         \n"
+	"        *   * *         *       \n"
+	"      *       *         *       \n"
+	"    *         *         *       \n"
+	"    *     * * *       *         \n"
+	"    *   *               *       \n"
+	"          * *             *     \n"
+};
 
-static const char *swsplsym =
+static const char *swsplsym[] = {
 "                                  - - -                         \n"
 "                                  - * * - -                     \n"
 "      *                             - * * * -             *     \n"
@@ -512,7 +514,8 @@ static const char *swsplsym =
 "      *         - - - - -         -         - - - - - * * * * - \n"
 "  * *       *       -       - - - - - -               - * * * - \n"
 "* * *     * * *     -           -         *             - * -   \n"
-"* *         *                 -                 *         -     \n";
+"* *         *                 -                 *         -     \n"
+};
 
 static const char *swmscsym[] = {
 
@@ -686,9 +689,8 @@ static void sopsym_from_text(sopsym_t *sym, const char *text, int w, int h,
 	}
 }
 
-static symset_t *symset_from_text(const char *text, int w, int h)
+static void symset_from_text(symset_t *s, const char *text, int w, int h)
 {
-	symset_t *s = malloc(sizeof(*s));
 	int r;
 
 	for (r = 0; r < 4; r++)
@@ -696,28 +698,26 @@ static symset_t *symset_from_text(const char *text, int w, int h)
 		sopsym_from_text(&s->sym[r], text, w, h, r, false);
 		sopsym_from_text(&s->sym[r + 4], text, w, h, r, true);
 	}
-
-	return s;
 }
 
 // converted symbols:
 
-symset_t *symbol_bomb[2];                 // swbmbsym
-symset_t *symbol_targets[4];              // swtrgsym
-symset_t *symbol_target_hit;              // swhtrsym
-symset_t *symbol_debris[8];               // swexpsym
-symset_t *symbol_flock[2];                // swflksym
-symset_t *symbol_bird[2];                 // swbrdsym
-symset_t *symbol_ox[2];                   // swoxsym
-symset_t *symbol_shotwin;                 // swshtsym
-symset_t *symbol_birdsplat;               // swsplsym
-symset_t *symbol_missile[4];              // swmscsym
-symset_t *symbol_burst[2];                // swbstsym
-symset_t *symbol_plane[4];                // swplnsym
-symset_t *symbol_plane_hit[2];            // swhitsym
-symset_t *symbol_plane_win[4];            // swwinsym
-symset_t *symbol_medal[3];                // swmedalsym
-symset_t *symbol_ribbon[6];               // swribbonsym
+symset_t symbol_bomb[2];                 // swbmbsym
+symset_t symbol_targets[4];              // swtrgsym
+symset_t symbol_target_hit[1];           // swhtrsym
+symset_t symbol_debris[8];               // swexpsym
+symset_t symbol_flock[2];                // swflksym
+symset_t symbol_bird[2];                 // swbrdsym
+symset_t symbol_ox[2];                   // swoxsym
+symset_t symbol_shotwin[1];              // swshtsym
+symset_t symbol_birdsplat[1];            // swsplsym
+symset_t symbol_missile[4];              // swmscsym
+symset_t symbol_burst[2];                // swbstsym
+symset_t symbol_plane[4];                // swplnsym
+symset_t symbol_plane_hit[2];            // swhitsym
+symset_t symbol_plane_win[4];            // swwinsym
+symset_t symbol_medal[3];                // swmedalsym
+symset_t symbol_ribbon[6];               // swribbonsym
 
 // special symbol for single pixel (bullets etc)
 
@@ -733,7 +733,7 @@ sopsym_t symbol_pixel = {
 #define symsets_from_text(text, w, h, out)                        \
         { int _i;                                                 \
           for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i)         \
-             (out)[_i] = symset_from_text((text)[_i], (w), (h));  \
+             symset_from_text(&(out)[_i], (text)[_i], (w), (h));  \
         }
 
 void symbol_generate(void)
@@ -751,10 +751,9 @@ void symbol_generate(void)
 	symsets_from_text(swwinsym, 16, 16, symbol_plane_win);
 	symsets_from_text(swmedalsym, 8, 12, symbol_medal);
 	symsets_from_text(swribbonsym, 8, 2, symbol_ribbon);
-
-	symbol_target_hit = symset_from_text(swhtrsym, 16, 16);
-	symbol_shotwin = symset_from_text(swshtsym, 16, 16);
-	symbol_birdsplat = symset_from_text(swsplsym, 32, 32);
+	symsets_from_text(swhtrsym, 16, 16, symbol_target_hit);
+	symsets_from_text(swshtsym, 16, 16, symbol_shotwin);
+	symsets_from_text(swsplsym, 32, 32, symbol_birdsplat);
 }
 
 //

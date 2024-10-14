@@ -271,7 +271,7 @@ OBJECTS *initpln(OBJECTS * obp)
 	ob->ob_target = ob->ob_missiletarget = NULL;
 	ob->ob_firing = ob->ob_mfiring = NULL;
 	ob->ob_bombing = ob->ob_bfiring = ob->ob_home = false;
-	ob->ob_newsym = &symbol_plane[0]->sym[ob->ob_orient ? 4 : 0];
+	ob->ob_newsym = &symbol_plane[0].sym[ob->ob_orient ? 4 : 0];
 	ob->ob_athome = true;
 	ob->ob_onmap = true;
 	ob->ob_flightscore.combatwound = false;
@@ -471,7 +471,7 @@ void initbomb(OBJECTS *obo)
 	ob->ob_life = BOMBLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_newsym = &symbol_bomb[0]->sym[0];
+	ob->ob_newsym = &symbol_bomb[0].sym[0];
 	ob->ob_drawf = dispbomb;
 	ob->ob_movef = movebomb;
 
@@ -514,7 +514,7 @@ void initmiss(OBJECTS *obo)
 	ob->ob_life = MISSLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_newsym = &symbol_missile[0]->sym[0];
+	ob->ob_newsym = &symbol_missile[0].sym[0];
 	ob->ob_drawf = NULL;
 	ob->ob_movef = movemiss;
 	ob->ob_missiletarget = obo->ob_mfiring;
@@ -568,7 +568,7 @@ void initburst(OBJECTS *obo)
 	ob->ob_life = BURSTLIFE;
 	ob->ob_owner = obo;
 	ob->ob_clr = obo->ob_clr;
-	ob->ob_newsym = &symbol_burst[0]->sym[0];
+	ob->ob_newsym = &symbol_burst[0].sym[0];
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveburst;
 
@@ -645,7 +645,7 @@ static OBJECTS *inittarget(const original_ob_t *orig_ob)
 			break;
 	}
 	ob->ob_clr = ob->ob_owner->ob_clr;
-	ob->ob_newsym = &symbol_targets[0]->sym[0];
+	ob->ob_newsym = &symbol_targets[0].sym[0];
 	ob->ob_drawf = disptarg;
 	ob->ob_movef = movetarg;
 	ob->ob_onmap = true;
@@ -722,7 +722,7 @@ void initexpl(OBJECTS *obo, int small)
 		ob->ob_lx = ob->ob_ly = ob->ob_hitcount = ob->ob_speed = 0;
 		ob->ob_owner = obo;
 		ob->ob_clr = oboclr;
-		ob->ob_newsym = &symbol_debris[0]->sym[0];
+		ob->ob_newsym = &symbol_debris[0].sym[0];
 		ob->ob_drawf = dispexpl;
 		ob->ob_movef = moveexpl;
 
@@ -784,7 +784,7 @@ static OBJECTS *initflock(const original_ob_t *orig_ob)
 	ob->ob_orient = 0;
 	ob->ob_life = FLOCKLIFE;
 	ob->ob_owner = ob;
-	ob->ob_newsym = &symbol_flock[0]->sym[0];
+	ob->ob_newsym = &symbol_flock[0].sym[0];
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveflck;
 	ob->ob_clr = 1;
@@ -822,7 +822,7 @@ void initbird(OBJECTS *obo, int i)
 	    0;
 	ob->ob_life = BIRDLIFE;
 	ob->ob_owner = obo;
-	ob->ob_newsym = &symbol_bird[0]->sym[0];
+	ob->ob_newsym = &symbol_bird[0].sym[0];
 	ob->ob_drawf = NULL;
 	ob->ob_movef = movebird;
 	ob->ob_clr = obo->ob_clr;
@@ -851,7 +851,7 @@ static OBJECTS *initox(const original_ob_t *orig_ob)
 	ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
 	    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
 	ob->ob_owner = ob;
-	ob->ob_newsym = &symbol_ox[0]->sym[orig_ob->transform];
+	ob->ob_newsym = &symbol_ox[0].sym[orig_ob->transform];
 	ob->ob_drawf = NULL;
 	ob->ob_movef = moveox;
 	ob->ob_clr = 1;

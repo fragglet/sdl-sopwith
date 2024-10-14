@@ -84,15 +84,15 @@ void swtitln(void)
 	displx = 507-X_OFFSET;
 	swground();
 
-	Vid_DispSymbol(40+X_OFFSET, 180, &symbol_plane[0]->sym[0],
+	Vid_DispSymbol(40+X_OFFSET, 180, &symbol_plane[0].sym[0],
 	               OWNER_PLAYER1);
-	Vid_DispSymbol(130+X_OFFSET, 80, &symbol_plane[1]->sym[6],
+	Vid_DispSymbol(130+X_OFFSET, 80, &symbol_plane[1].sym[6],
 	               OWNER_PLAYER2);
 	Vid_DispSymbol(23+X_OFFSET, ground[530] + 16,
-	               &symbol_targets[3]->sym[0], OWNER_PLAYER2);
-	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, &symbol_ox[0]->sym[0],
+	               &symbol_targets[3].sym[0], OWNER_PLAYER2);
+	Vid_DispSymbol(213+X_OFFSET, ground[720] + 16, &symbol_ox[0].sym[0],
 	               OWNER_PLAYER1);
-	Vid_DispSymbol(270+X_OFFSET, 160, &symbol_plane_hit[0]->sym[0],
+	Vid_DispSymbol(270+X_OFFSET, 160, &symbol_plane_hit[0].sym[0],
 	               OWNER_PLAYER2);
 
 	for (i = 6, h=165; i; --i, h += 5) {
