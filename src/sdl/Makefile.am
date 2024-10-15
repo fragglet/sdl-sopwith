@@ -1,4 +1,4 @@
-AM_CFLAGS=@CFLAGS@ @SDL_CFLAGS@ -I$(srcdir)/..
+AM_CFLAGS=-I$(srcdir)/.. @CFLAGS@ @SDL_CFLAGS@
 
 noinst_LIBRARIES = libsdlsopwith.a libsdlsopmain.a
 
