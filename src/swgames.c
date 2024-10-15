@@ -14,6 +14,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <errno.h>
 
 #include "sw.h"
 #include "swgames.h"
@@ -334,6 +335,43 @@ static void process_level(struct yocton_object *obj)
 	}
 }
 
+static void process_symbol(const char *name, struct yocton_object *obj)
+{
+	symset_t *s;
+	struct yocton_prop *p;
+	char *ptr;
+	const char *value;
+	unsigned long l;
+
+	while ((p = yocton_next_prop(obj)) != NULL) {
+
+		errno = 0;
+		l = strtoul(yocton_prop_name(p), &ptr, 10);
+		yocton_check(obj, "expecting frame number as property name",
+		             *ptr == '\0' && errno != ERANGE && l < 256);
+
+		s = lookup_symset(name, l);
+		yocton_check(obj, "expecting valid symbol name and "
+		             "frame number", s != NULL);
+		value = yocton_prop_value(p);
+		if (s != NULL && value != NULL) {
+			// TODO: Symbols must currently be the same size as
+			// the symbol they are replacing.
+			symset_from_text(s, value, s->sym[0].w, s->sym[0].h);
+		}
+	}
+}
+
+static void process_symbols(struct yocton_object *obj)
+{
+	struct yocton_prop *p;
+
+	while ((p = yocton_next_prop(obj)) != NULL) {
+		process_symbol(yocton_prop_name(p),
+		               yocton_prop_inner(p));
+	}
+}
+
 void load_custom_level(const char *filename)
 {
 	FILE *fs;
@@ -364,8 +402,10 @@ void load_custom_level(const char *filename)
 			process_level(yocton_prop_inner(p));
 			processed_level = true;
 		}
+		if (!strcmp(name, "symbols")) {
+			process_symbols(yocton_prop_inner(p));
+		}
 	}
-	yocton_check(obj, "expected level {} block in file", processed_level);
 
 	if (yocton_have_error(obj, &lineno, &error_msg)) {
 		error_exit("Error in %s at line %d:\n%s", filename, lineno,
@@ -373,7 +413,7 @@ void load_custom_level(const char *filename)
 	}
 
 	yocton_free(obj);
-	have_custom_level = true;
+	have_custom_level = processed_level;
 }
 
 #undef cl

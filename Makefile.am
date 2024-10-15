@@ -12,7 +12,7 @@ EXTRA_DIST = $(AUX_DIST_GEN) $(DOC_FILES) \
              embuild.sh \
              icon.png \
              maps/README.md maps/original.sop maps/empty.sop \
-             maps/tank_strike.sop
+             maps/tank_strike.sop maps/triplane.sop
 
 MAINTAINERCLEANFILES = $(AUX_DIST_GEN)
 
