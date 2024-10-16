@@ -25,6 +25,43 @@
 #define PORTB   0x61
 #define SNDSIZE 100
 
+// These tables define the C major scale; this is the most common scale used in
+// western music. The original music code in SOPWITH.EXE used the A natural
+// minor scale where each octave begins begins at A. While this is a perfectly
+// valid choice, it probably wasn't a deliberate one; it's more likely that the
+// programmer who implemented the code didn't know that the usual C major scale
+// begins at C.
+// As a result of this change, the format used in SOPWITH.EXE is slightly
+// different to the format we interpret here. To convert tunes between the two
+// formats, you'll need to move all A and B notes up or down by one octave (add
+// < or > commands)
+
+static const int notefreq[] = {
+	523,  // c
+	554,  // c#
+	587,  // d
+	622,  // d#
+	659,  // e
+	698,  // f
+	740,  // f#
+	784,  // g
+	831,  // g#
+	880,  // a
+	932,  // a#
+	988,  // b
+};
+
+// Maps from a-g to index in notefreq[] above:
+static const int noteindex[] = {
+	9,  // a
+	11, // b
+	0,  // c
+	2,  // d
+	4,  // e
+	5,  // f
+	7   // g
+};
+
 static int soundtype = 32767;		/*  Current sound type and          */
 static int soundparm = 32767;		/*     and priority parameter       */
 static OBJECTS *soundobj = NULL;	/*  Object making sound             */
@@ -45,21 +82,26 @@ static int exploctv;			/*  Octave                          */
 
 //#define SOPWITH1_TUNE
 
+// Tunes found in Sopwith 1 and Sopwith 2. The Sopwith 1 tune is "Merrily We
+// Roll Along" and is only found in that one version, although David Clark
+// doesn't remember the game ever having this tune - a mystery!
+// Note: the tune strings here have been changed from the original versions, to
+// use C major scale as described above.
 char *expltune =
 #ifdef SOPWITH1_TUNE
 	">e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d1/"
-	"d4./c8/b4/c4/d4/c+4/d4/b4/c4/c4/c4/c1/<g4./g+8/"
-	">a4./a-8/<g4./g+8/>a4/a-4/<g4/>d4/d4/d2./<g4./g+8/"
-	">a4./a-8/<g4./g+8/>a4/a-4/<g4/>e4/e4/e2./"
-	"e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d2/c4/<g+4/>a4/"
+	"d4./c8/<b4/>c4/d4/c+4/d4/<b4/>c4/c4/c4/c1/<g4./g+8/"
+	"a4./a-8/g4./g+8/a4/a-4/g4/>d4/d4/d2./<g4./g+8/"
+	"a4./a-8/g4./g+8/a4/a-4/g4/>e4/e4/e2./"
+	"e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d2/c4/<g+4/a4/>"
 	"d2/e2/g1/";
 #else
-	"b4/d8/d2/r16/c8/b8/a8/b4./c4./c+4./d4./"
-	"e4/g8/g2/r16/>a8/<g8/e8/d2./"
-	"b4/d8/d2/r16/c8/b8/a8/b4./c4./c+4./d4./"
-	"e4/>a8/a2/r16/<g8/f+8/e8/d2./"
-	"d8/g2/r16/g8/g+2/r16/g+8/>a2/r16/a8/c2/r16/"
-	"b8/a8/<g8/>b4/<g8/>b4/<g8/>a4./<g1/";
+	"<b4/>d8/d2/r16/c8/<b8/a8/b4./>c4./c+4./d4./"
+	"e4/g8/g2/r16/a8/g8/e8/d2./"
+	"<b4/>d8/d2/r16/c8/<b8/a8/b4./>c4./c+4./d4./"
+	"e4/a8/a2/r16/g8/f+8/e8/d2./"
+	"d8/g2/r16/g8/g+2/r16/g+8/a2/r16/a8/>c2/<r16/"
+	"b8/a8/g8/b4/g8/b4/g8/a4./g1/";
 #endif
 
 static int titlplace;		/*  Place in title tune;            */
@@ -225,11 +267,6 @@ static void tone(unsigned int freq)
 
 static void playnote(void)
 {
-
-	static int noteindex[] = { 0, 2, 3, 5, 7, 8, 10 };
-	static int notefreq[] =
-	    { 440, 466, 494, 523, 554, 587, 622, 659, 698, 740, 784, 831 };
-
 	static int durplace, test, freq, duration;
 	static int index;
 	static int indexadj;
