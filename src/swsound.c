@@ -45,7 +45,7 @@ static int exploctv;			/*  Octave                          */
 
 //#define SOPWITH1_TUNE
 
-static char *expltune =
+char *expltune =
 #ifdef SOPWITH1_TUNE
 	">e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d1/"
 	"d4./c8/b4/c4/d4/c+4/d4/b4/c4/c4/c4/c1/<g4./g+8/"

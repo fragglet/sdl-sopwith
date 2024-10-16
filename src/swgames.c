@@ -18,6 +18,7 @@
 
 #include "sw.h"
 #include "swgames.h"
+#include "swsound.h"
 #include "video.h"
 #include "yocton.h"
 
@@ -362,6 +363,20 @@ static void process_symbol(const char *name, struct yocton_object *obj)
 	}
 }
 
+static void process_sounds(struct yocton_object *obj)
+{
+	struct yocton_prop *p;
+	char *title_tune = NULL;
+
+	while ((p = yocton_next_prop(obj)) != NULL) {
+		YOCTON_VAR_STRING(p, "title_tune", title_tune);
+	}
+
+	if (title_tune != NULL) {
+		expltune = title_tune;
+	}
+}
+
 static void process_symbols(struct yocton_object *obj)
 {
 	struct yocton_prop *p;
@@ -404,6 +419,9 @@ void load_custom_level(const char *filename)
 		}
 		if (!strcmp(name, "symbols")) {
 			process_symbols(yocton_prop_inner(p));
+		}
+		if (!strcmp(name, "sounds")) {
+			process_sounds(yocton_prop_inner(p));
 		}
 	}
 

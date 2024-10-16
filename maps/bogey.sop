@@ -1,0 +1,14 @@
+// Example file that changes the title music to "Colonel Bogey":
+
+sounds {
+	title_tune:
+	"<e4/c+4/r4/r4/r4/c+4/d4/e4/>c+4/r4/c+4/r4/a4/r4/r4/r4/"&
+	"<e4/c+4/r4/r4/r4/c+4/d4/c+4/e4/r4/e4/r4/d4/r4/r4/r4/"&
+	"d4/b4/r4/r4/r4/b4/c+4/d4/e4/c+4/r4/r4/r4/"&
+	"c+4/d+4/c+4/b4/e4/r4/c+4/d+4/b4/r4/f+4/e4/"&
+	"r8/f+8/e4/r8/f+8/e4/d4/c+4/b4/"&
+	"e4/c+4/r4/r4/r4/c+4/d4/e4/>c+4/r4/c+4/r4/a4/r4/r4/r4/"&
+	"<e4/c+4/r4/r4/r4/c+4/d4/c+4/e4/r4/e4/r4/d4/r4/r4/r4/"&
+	"d4/b4/r4/r4/r4/f+4/g+4/f+4/>a4/<e4/r4/r4/r4/"&
+	"e4/d4/c+4/b4/f+4/r4/a4/<g+4/>e4/r4/e4/a4/r2/"
+}
