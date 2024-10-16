@@ -39,45 +39,37 @@ static unsigned soundticks;		/*  Ticks since last sound selection */
 static int numexpls;			/*  Number of explosions currently  */
 					/*  active                          */
 static int explplace;			/*  Place in explosion tune;        */
-static int explline;			/* Line in explosion tune           */
 static unsigned expltone;		/*  Current explosion tone          */
 static int explticks;			/*  Ticks until note change         */
 static int exploctv;			/*  Octave                          */
 
 //#define SOPWITH1_TUNE
 
+static char *expltune =
 #ifdef SOPWITH1_TUNE
-static char      *expltune[7] = {
-	">e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d1/",
+	">e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d1/"
 	"d4./c8/b4/c4/d4/c+4/d4/b4/c4/c4/c4/c1/<g4./g+8/"
-	">a4./a-8/<g4./g+8/>a4/a-4/<g4/>d4/d4/d2./<g4./g+8/",
-	">a4./a-8/<g4./g+8/>a4/a-4/<g4/>e4/e4/e2./",
-	"e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d2/c4/<g+4/>a4/",
-	"d2/e2/g1/",
-	""
-};
+	">a4./a-8/<g4./g+8/>a4/a-4/<g4/>d4/d4/d2./<g4./g+8/"
+	">a4./a-8/<g4./g+8/>a4/a-4/<g4/>e4/e4/e2./"
+	"e4./d8/c4/d4/e4/d+4/e4/c4/d4/d4/d4/d2/c4/<g+4/>a4/"
+	"d2/e2/g1/";
 #else
-static  char     *expltune[7] = {
-	"b4/d8/d2/r16/c8/b8/a8/b4./c4./c+4./d4./",
-	"e4/g8/g2/r16/>a8/<g8/e8/d2./",
-	"b4/d8/d2/r16/c8/b8/a8/b4./c4./c+4./d4./",
-	"e4/>a8/a2/r16/<g8/f+8/e8/d2./",
-	"d8/g2/r16/g8/g+2/r16/g+8/>a2/r16/a8/c2/r16/",
-	"b8/a8/<g8/>b4/<g8/>b4/<g8/>a4./<g1/",
-	""
-};
+	"b4/d8/d2/r16/c8/b8/a8/b4./c4./c+4./d4./"
+	"e4/g8/g2/r16/>a8/<g8/e8/d2./"
+	"b4/d8/d2/r16/c8/b8/a8/b4./c4./c+4./d4./"
+	"e4/>a8/a2/r16/<g8/f+8/e8/d2./"
+	"d8/g2/r16/g8/g+2/r16/g+8/>a2/r16/a8/c2/r16/"
+	"b8/a8/<g8/>b4/<g8/>b4/<g8/>a4./<g1/";
 #endif
 
 static int titlplace;		/*  Place in title tune;            */
-static int titlline;		/* Line in title tune               */
 static unsigned titltone;	/*  Current title tone              */
 static int titlticks;		/*  Ticks until note change         */
 static int titloctv;		/*  Octave                          */
 
 
 
-static char **tune;		/* Tune player statics              */
-static int line;
+static char *tune;		/* Tune player statics              */
 static int place;
 static unsigned tunefreq;
 static int tunedura;
@@ -256,20 +248,15 @@ static void playnote(void)
 	noteoctavefactor = 256;
 
 	for (;;) {
-		if (!line && !place) {
+		if (!place) {
 			octavefactor = 256;
 		}
 
-		charatplace = toupper(tune[line][place]);
+		charatplace = toupper(tune[place]);
 		++place;
 
 		if (!charatplace) {
 			place = 0;
-			++line;
-			charatplace = tune[line][0];
-			if (!charatplace) {
-				line = 0;
-			}
 
 			if (firstplace) {
 				continue;
@@ -378,12 +365,10 @@ static void adjshot(void)
 
 static void explnote(void)
 {
-	line = explline;
 	place = explplace;
 	tune = expltune;
 	octavefactor = exploctv;
 	playnote();
-	explline = line;
 	explplace = place;
 	expltone = tunefreq;
 	explticks += tunedura;
@@ -405,12 +390,10 @@ static void adjexpl(void)
 
 static void titlnote(void)
 {
-	line = titlline;
 	place = titlplace;
 	tune = expltune;
 	octavefactor = titloctv;
 	playnote();
-	titlline = line;
 	titlplace = place;
 	titltone = tunefreq;
 	titlticks += tunedura;
@@ -532,7 +515,6 @@ void sound(int type, int parm, OBJECTS * ob)
 
 	if (type == S_TITLE) {
 		if (!titleflg) {
-			titlline = 0;
 			titlplace = 0;
 			titlnote();
 			toneadj = NULL;
@@ -561,7 +543,6 @@ void initsound(OBJECTS *ob, int type)
 
 	if (ob->ob_type == EXPLOSION) {
 		if (++numexpls == 1) {
-			explline = 0;
 			explplace = 0;
 			explnote();
 		}
