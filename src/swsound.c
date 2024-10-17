@@ -21,8 +21,6 @@
 #include "swmain.h"
 #include "swsound.h"
 
-#define TIMER   0x40
-#define PORTB   0x61
 #define SNDSIZE 100
 
 // These tables define the C major scale; this is the most common scale used in
