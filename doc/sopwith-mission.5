@@ -165,6 +165,96 @@ A flock of birds moves along the top of the screen. The flock acts an obstacle
 and may disperse into many different birds if disturbed. Does not appear in
 novice mode.
 .SH SYMBOLS SECTION
+The \fBsymbols\fR section allows the game's graphics to be replaced. The
+section can contain a number of subsections, one for each type of graphic.
+Graphics are defined as multiline text strings. The following is an example of
+a \fBsymbols\fR section that changes the hangar graphic to add an extra (white)
+flag:
+.PP
+.EX
+  symbols {
+    swtrgsym {
+      0:
+      "    -                 -         \[rs]n" &
+      "    - # # # #         - * * * * \[rs]n" &
+      "    - # # # #         - * * * * \[rs]n" &
+      "    -                 -         \[rs]n" &
+      "    -                 -         \[rs]n" &
+      "    -                 -         \[rs]n" &
+      "    -                 -         \[rs]n" &
+      "* * * * * * * * * * * * * * * * \[rs]n" &
+      "* * * * * * * * * * * * * * * * \[rs]n" &
+      "* * - - - - - - - - - - - - * * \[rs]n" &
+      "* * - * * * * * * * * * * - * * \[rs]n" &
+      "* * - * * * * * * * * * * - * * \[rs]n" &
+      "* * - * * * * * * * * * * - * * \[rs]n" &
+      "* * - * * * * * * * * * * - * * \[rs]n" &
+      "* * - * * * * * * * * * * - * * \[rs]n" &
+      "* * - * * * * * * * * * * - * * \[rs]n"
+    }
+  }
+.EE
+.PP
+Graphics are limited to the original four CGA colors: black (space); cyan
+(asterisk); magenta (hyphen) and white (number sign / pound / octothorpe).
+Cyan and magenta are swapped for enemy planes (single player) and player 2
+(multiplayer).
+.PP
+The following graphics are defined:
+.TP
+\fBswplnsym\fR (16x16)
+Plane. There are four frames, for facing right (0), rotated 22.5 degrees
+counterclockwise (1), 45 degrees (2) and 67.5 degrees (3).
+.TP
+\fBswhitsym\fR (16x16)
+Crashing plane. There are two frames of animation.
+.TP
+\fBswwinsym\fR (16x16)
+Plane flying into the distance after completing the level. There are four
+frames of animation.
+.TP
+\fBswtrgsym\fR (16x16)
+Ground target. Each frame is a different target type and the values match
+those in \fBOBJECT TYPES\fR above.
+.TP
+\fBswhtrsym\fR (16x16)
+Destroyed ground target. There is a single frame.
+.TP
+\fBswoxsym\fR (16x16)
+Ox. There is one frame.
+.TP
+\fBswflksym\fR (16x16)
+Bird flock. There are two frames, for the "flapping wings" animation.
+.TP
+\fBswbrdsym\fR (4x2)
+Bird. There are two frames, for the "flapping wings" animation.
+.TP
+\fBswbmbsym\fR (8x8)
+Falling bomb. There are two frames, for facing right (0) and rotated 45
+degrees counterclockwise (1).
+.TP
+\fBswmscsym\fR (8x8)
+Missile. There are four frames, for facing right (0), rotated 22.5 degrees
+counterclockwise (1), 45 degrees (2) and 67.5 degrees (3).
+.TP
+\fBswbstsym\fR (8x8)
+Starburst (flare). There are two frames of animation.
+.TP
+\fBswexpsym\fR (8x8)
+Debris after an explosion. There are eight frames for different types of
+debris.
+.TP
+\fBswmedalsym\fR (8x12)
+Medals. There are three frames for each different type.
+.TP
+\fBswribbonsym\fR (8x2)
+Ribbons. There are six frames for each different type.
+.TP
+\fBswshtsym\fR (16x16)
+Shot out window. There is a single frame.
+.TP
+\fBswsplsym\fR (32x32)
+Bird "splatted" into window. There is a single frame.
 .SH SOUNDS SECTION
 .SH SEE ALSO
 \fBsopwith\fR(6),
