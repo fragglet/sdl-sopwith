@@ -49,6 +49,22 @@ If 1, display the ground as a solid white block, reproducing the visual
 appearance of "Sopwith 1". If 0, the ground is displayed as a line, reproducing
 the visual appearance of "Sopwith 2". By default this is 0.
 .TP
+\fBconf_video_palette\fR
+Video palette to use for display. Valid values are
+0 (CGA 1),
+1 (CGA 2),
+2 (CGA 3),
+3 (Mono Amber),
+4 (Mono Green),
+5 (Mono Grey),
+6 (Tosh LCD 1),
+7 (Tosh LCD 2),
+8 (Tosh LCD 3),
+9 (IBM LCD),
+10 (Tandy LCD),
+11 (Gas Plasma) or
+12 (Atari).
+.TP
 \fBconf_hudsplats\fR
 If 1, "splats" are shown on the screen when the plane takes damage: splatted
 birds are shown on the screen after a bird strike; windscreen "cracks" are
@@ -147,4 +163,3 @@ Launch starburst (flare) if \fBconf_missiles\fR is enabled. Default key is "C"
 on a US layout keyboard.
 .SH SEE ALSO
 \fBsopwith\fR(6)
-
