@@ -1,0 +1,189 @@
+.TH sopwith-mission 5
+.
+.SH NAME
+ \.sop - Sopwith mission format
+.
+.SH DESCRIPTION
+The Sopwith mission format allows \fBsopwith\fR(6) to load custom user-defined
+levels and other modifications to the game. The files use Yocton as their
+basic format:
+.PP
+.UR https://github.com/fragglet/yocton
+.UE
+.PP
+Each \.sop file can contain three different sections:
+.TP
+\fBlevel\fR
+This section contains level data. If present, the game's level is replaced
+with an entirely new level defined within this section. See \fBLEVEL SECTION\fR
+below.
+.TP
+\fBsymbols\fR
+This section allows the game's symbols (sprites) to be replaced. This allows
+graphical modifications to the game. See \fBSYMBOLS SECTION\fR below.
+.TP
+\fBsounds\fR
+This section allows the game's music to be replaced. See \fBSOUNDS SECTION\fR
+below.
+.SH LEVEL SECTION
+The \fBlevel\fR section allows a complete new level to be defined. At present
+only a single level can be defined, although this may change in the future.
+Each level contains two types of subsection: \fBground\fR, which defines the
+level's terrain, and multiple \fBobject\fR sections, each of which defines
+an in-game object.
+.PP
+The \fBground\fR subsection is a list of decimal integer values that describe
+the level's terrain. Each value is defined through a Yocton property named
+\fB_\fR. Values should be in the range 16-199, and there should be a minimum
+of 320 (ie. one screen's worth). The following is an example:
+.PP
+.EX
+  ground {
+    _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+    ...
+  }
+.EE
+.PP
+Each \fBobject\fR subsection defines an object that appears in the level.
+The following is an example:
+.PP
+.EX
+  object {
+    type: PLANE
+    x: 30
+    orient: 0
+    territory_l: 0
+    territory_r: 0
+    owner: PLAYER1
+  }
+.EE
+.PP
+As seen, each object has a number of different properties:
+.TP
+\fBtype\fR
+See \fBOBJECT TYPES\fR below.
+.TP
+\fBx\fR
+The X coordinate within the level where the object appears. The Y coordinate
+is set automatically depending on the object type and can not be specified.
+.TP
+\fBorient\fR
+Defines the direction in which planes face: 0 (right) or 1 (left). For ground
+targets, this controls the type of ground target; see \fBOBJECT TYPES\fR below.
+.TP
+\fBowner\fR
+Specifies the player to whom the object belongs. Valid values are \fBPLAYER1\fR
+to \fBPLAYER8\fR. In single player mode, the human player is \fBPLAYER1\fR.
+.TP
+\fBterritory_l\fR
+For planes, the left boundary of the range of the level the plane defends.
+.TP
+\fBterritory_r\fR
+For planes, the right boundary of the range of the level the plane defends.
+.PP
+The following is an example of a minimal \fBlevel\fR section that just
+contains a flat ground with no objects other than the player's plane:
+.PP
+.EX
+  level {
+    object {
+      type: PLANE
+      x: 30
+      orient: 0
+      territory_l: 0
+      territory_r: 0
+      owner: PLAYER1
+    }
+    ground {
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+    }
+  }
+.EE
+.SH OBJECT TYPES
+The following object types can appear in a level:
+.TP
+\fBPLANE\fR
+Defines either a player or computer-controlled plane. The \fBowner\fR property
+controls the type; the level should contain at least one plane owned by
+\fBPLAYER1\fR as this is the player's plane. \fBPLAYER2\fR to \fBPLAYER4\fR
+will be computer controlled players in single player "vs. computer" mode, or
+other players in multiplayer mode.
+.
+Computer-controlled planes will defend their "territory", the range of which is
+defined by the \fBterritory_l\fR and \fBterritory_r\fR properties. If the
+player enters this territory, they will take off from their base and attack.
+.TP
+\fBTARGET\fR
+A ground target. The \fBorient\fR property defines the type of target, either
+hangar (0), building (1), fuel tank (2), or tank (3). The \fBowner\fR property
+specifies the plane to whom the target belongs. When one player destroys all
+targets owned by all enemy planes, the game advances to the next level.
+.TP
+\fBOX\fR
+An Ox (type of cattle). The Ox does nothing except act as an obstacle, and does
+not need to be killed to advance to the next level. Does not appear in novice
+mode.
+.TP
+\fBBIRD\fR
+A single bird flies the randomly around the level. The bird acts as an obstacle
+that the player(s) must avoid. Does not appear in novice mode.
+.TP
+\fBFLOCK\fR
+A flock of birds moves along the top of the screen. The flock acts an obstacle
+and may disperse into many different birds if disturbed. Does not appear in
+novice mode.
+.SH SYMBOLS SECTION
+.SH SOUNDS SECTION
+.SH SEE ALSO
+\fBsopwith\fR(6),
+.
+.SH AUTHORS
+This manual page was written by Simon Howard.
+.
+.SH HISTORY
+The original DOS version of Sopwith only supported a single level, although
+later versions increased the difficulty by repeatedly playing the same level
+again at increasing speeds. Some modifications were made by fans by hex-editing
+the DOS .exe file.
+.PP
+Some simple hacks just changed the name shown on the title screen (one changed
+it to "Red Baron", for example). Some more elaborate mods that changed the
+level itself included "Blokwit" and "Sokwith". Andrew Jenner even developed a
+basic level editor that allowed people to make their own maps, although the
+changes that can be made using this technique are inherently limited.
+.PP
+Full support for custom maps did not appear until 2024, with SDL Sopwith's v2.4
+release. There will likely be further future extensions to this format to allow
+people to share more elaborate modifications to the game.
