@@ -47,8 +47,9 @@ $(STAGING_DIR): app.icns
 	cp $(TOPLEVEL)/COPYING.md "$(STAGING_DIR)/Software License"
 	ln -s /Applications "$(STAGING_DIR)"
 
-	./cp-with-libs $(TOPLEVEL)/src/sopwith "$(APP_BIN_DIR)"
-	$(STRIP) "$(APP_BIN_DIR)/sopwith"
+	cp "$(TOPLEVEL)/src/sopwith" .
+	$(STRIP) sopwith
+	./cp-with-libs sopwith "$(APP_BIN_DIR)"
 
 	mkdir -p "$(DOC_DIR)"
 	for d in $(DOC_FILES); do \
