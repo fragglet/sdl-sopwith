@@ -71,6 +71,15 @@ is set automatically depending on the object type and can not be specified.
 Defines the direction in which planes face: 0 (right) or 1 (left). For ground
 targets, this controls the type of ground target; see \fBOBJECT TYPES\fR below.
 .TP
+\fBtransform\fR
+For ground targets, this specifies a "transformation" to apply to the symbol.
+Eight different transformations are supported: 0 (no transformation); 1 (rotate
+90 degrees counterclockwise); 2 (rotate upside-down); 3 (rotate 90 degrees
+clockwise); 4 (flip vertically); 5 (mirror, then rotate 90 degrees
+counterclockwise); 6 (mirror); 7 (mirror and then rotate 90 degrees clockwise).
+If you want to see an Ox do a headstand, this is the property to use, although
+it's more likely you'll want to use it to make tanks face the right direction.
+.TP
 \fBowner\fR
 Specifies the player to whom the object belongs. Valid values are \fBPLAYER1\fR
 to \fBPLAYER8\fR. In single player mode, the human player is \fBPLAYER1\fR.
