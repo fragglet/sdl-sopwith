@@ -267,6 +267,39 @@ Shot out window. There is a single frame.
 \fBswsplsym\fR (32x32)
 Bird "splatted" into window. There is a single frame.
 .SH SOUNDS SECTION
+The \fBsounds\fR section allows the in-game music to be replaced. There is
+only one property at present, named \fBtitle_tune\fR; its value is a string
+containing a sequence of notes to play. The following is an example of a
+\fBsounds\fR section that replaces the title music with the beginning of "Au
+Clair de la Lune":
+.PP
+.EX
+  sounds {
+    title_tune:
+    "g4/r8/g4/r8/g4/r8/a4/r8/b2/r4/a2/r2/" &
+    "g4/r8/b4/r8/a4/r8/a4/r8/g2/r2/"
+  }
+.EE
+.PP
+As seen, the format consists of a number of musical notes (a-g) separated
+by '/' characters. The notes are in the C major scale. Each note is followed
+by a number that indicates the length of the note as a fraction of a whole
+note; for example, 2 means half-note, 4 means quarter-note, etc. The following
+additional syntax is also supported:
+.IP \(bu
+For a rest, use "r" instead of a note character. The syntax is otherwise
+identical to that for a normal note, with the only difference being that no
+note will be played.
+.IP \(bu
+To play a sharp, append a '+' character. For example, "g+4/" represents a
+quarter-length G#. Alternatively you can append a '-' to play a flat; for
+example "e-2/" is a half-length E-flat (aka D#).
+.IP \(bu
+Prefix a note with < or > to shift down or up an octave. All subsequent notes
+will be played in this octave.
+.IP \(bu
+Append a '.' character to play a dotted note. A dotted note plays for 50%
+longer than a normal note.
 .SH SEE ALSO
 \fBsopwith\fR(6),
 .
