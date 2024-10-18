@@ -60,6 +60,8 @@ $(STAGING_DIR): app.icns
 	       $(TOPLEVEL)/doc/sopwith.6
 	pandoc $(PANDOC_FLAGS) -f man -o $(DOC_DIR)/Configuration.html \
 	       $(TOPLEVEL)/doc/sopwith.cfg.5
+	pandoc $(PANDOC_FLAGS) -f man -o $(DOC_DIR)/Mission.html \
+	       $(TOPLEVEL)/doc/sopwith-mission.5
 	cp disk/dir.DS_Store $(STAGING_DIR)/.DS_Store
 	cp disk/background.png $(STAGING_DIR)/background.png
 	cp -R disk/problems.rtfd "$(STAGING_DIR)/Problems Running the Game?.rtfd"
