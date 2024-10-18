@@ -180,6 +180,12 @@ def oil_tank(x):
 def tank(x):
 	add_object(type="TARGET", x=x, orient=3, mirror=False)
 
+def truck(x):
+	add_object(type="TARGET", x=x, orient=4, mirror=False)
+
+def tanker_truck(x):
+	add_object(type="TARGET", x=x, orient=5, mirror=False)
+
 def plane(x):
 	add_object(type="PLANE", x=x)
 
