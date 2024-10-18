@@ -653,6 +653,29 @@ static OBJECTS *inittarget(const original_ob_t *orig_ob)
 	return ob;
 }
 
+// Number of explosion fragments is calculated based on the number of pixels
+// in the "destroyed target" sprite:
+static int target_explosion_size(int target_type)
+{
+	symset_t *ss = &symbol_target_hit[target_type];
+	sopsym_t *s = &ss->sym[0];
+	int i, num_pixels;
+
+	for (i = 0, num_pixels = 0; i < s->w * s->h; i++) {
+		if (s->data[i] != 0) {
+			++num_pixels;
+		}
+	}
+
+	if (num_pixels > 64) {
+		return 64;
+	} else if (num_pixels < 10) {
+		return 10;
+	} else {
+		return num_pixels;
+	}
+}
+
 // explosion
 
 void initexpl(OBJECTS *obo, int small)
@@ -672,6 +695,7 @@ void initexpl(OBJECTS *obo, int small)
 	oboclr = obo->ob_clr;
 
 	obotype = obo->ob_type;
+
 	if (obotype == TARGET
 	 && (obo->ob_orient == 2 || obo->ob_orient == 5)) {
 		ic = 1;
@@ -686,8 +710,19 @@ void initexpl(OBJECTS *obo, int small)
 			speed = gminspeed;
 		}
 	} else {
-		ic = small ? 6 : 2;
 		speed = gminspeed >> ((explseed & 7) != 7);
+		if (small) {
+			ic = 6;
+		} else if (obotype == TARGET) {
+			// For targets we calculate the number of fragments
+			// based on the number of pixels in the destroyed-
+			// target sprite. For the original Sopwith destroyed-
+			// building sprite, this evaluates to 2, which is
+			// the original behavior.
+			ic = 110 / target_explosion_size(obo->ob_orient);
+		} else {
+			ic = 2;
+		}
 	}
 	mansym = obotype == PLANE
 		 && (obo->ob_state == FLYING || obo->ob_state == WOUNDED);
