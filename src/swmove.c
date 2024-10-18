@@ -12,6 +12,8 @@
 //        swmove   -      SW move all objects and players
 //
 
+#include <assert.h>
+
 #include "sw.h"
 #include "swauto.h"
 #include "swcollsn.h"
@@ -870,15 +872,34 @@ static void target_enemy_planes(OBJECTS *ob)
 	}
 }
 
+// This table determines how often targets fire at enemy planes; there is one
+// entry for each target type. An aggression of zero means that type never
+// fires; otherwise the lower the value, the more often it fires.
+static const int target_aggression[] = {
+	2,  // Hangar
+	2,  // Building
+	2,  // Fuel tank
+	2,  // Tank
+	5,  // Truck
+	5,  // Tanker truck
+	0,  // Flagpole
+	0,  // Tent
+};
+
 bool movetarg(OBJECTS *ob)
 {
 	int transform = ob->ob_original_ob->transform;
+	int aggression;
 
 	ob->ob_firing = NULL;
 
+	assert(ob->ob_orient < arrlen(target_aggression));
+	aggression = target_aggression[ob->ob_orient];
+
 	if (ob->ob_state == STANDING
 	 && gamenum > 0
-	 && (gamenum > 1 || (countmove & 0x0001))) {
+	 && aggression > 0
+	 && (gamenum > 1 || (countmove % aggression) == (aggression - 1))) {
 		target_enemy_planes(ob);
 	}
 

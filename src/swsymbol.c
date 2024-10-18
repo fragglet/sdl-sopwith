@@ -324,6 +324,40 @@ static const char *swtrgsym[] = {
 	"- * * - * * - - - - - * * - * * \n"
 	"    - - -               - - -   \n"
 	"      -                   -     \n",
+	// -------------------------------
+	"          -                     \n"
+	"          - * * * * * * *       \n"
+	"          - * * * * * * *       \n"
+	"          - * * * * * * *       \n"
+	"          - * * * * * * *       \n"
+	"          -                     \n"
+	"          -                     \n"
+	"          -                     \n"
+	"          -                     \n"
+	"          -                     \n"
+	"          -                     \n"
+	"          -                     \n"
+	"          -                     \n"
+	"          -                     \n"
+	"        - - -                   \n"
+	"      - - - - -                 \n",
+	// -------------------------------
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"          * * * * * *           \n"
+	"      * * * - - - - * * *       \n"
+	"    * * - - - - - - - - * *     \n"
+	"  # * - - - - - - - - - - * #   \n"
+	"  # * - - - - - - - - - - * #   \n"
+	"#   * - - - - - - - - - - *   # \n"
+	"#   * - - - - - - - - - - *   # \n",
 };
 
 static const char destroyed_building[] =
@@ -362,6 +396,42 @@ static const char destroyed_truck[] =
 	"* * - - - * * - * * * * - -     \n"
 	"- * * - * * * * * * * * * - - * \n";
 
+static const char destroyed_flag[] =
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"        - - -       * * *       \n"
+	"      - - - - - - - - - * *     \n";
+
+static const char destroyed_tent[] =
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"        * * *         * *       \n"
+	"# # * * * * * * * * * * * * #   \n";
+
 // There is one entry in this array for each in swtrgsym, so that different
 // targets can have different "destroyed" symbols:
 static const char *swhtrsym[] = {
@@ -371,6 +441,8 @@ static const char *swhtrsym[] = {
 	destroyed_building,  // Tank
 	destroyed_truck,  // Truck
 	destroyed_truck,  // Tanker truck
+	destroyed_flag,  // Big flag
+	destroyed_tent,  // Tent
 };
 
 static const char *swexpsym[] = {
@@ -789,8 +861,8 @@ static void init_symset(symset_t *s, const char *name, int frame)
 // converted symbols:
 
 symset_t symbol_bomb[2];                 // swbmbsym
-symset_t symbol_targets[6];              // swtrgsym
-symset_t symbol_target_hit[6];           // swhtrsym
+symset_t symbol_targets[8];              // swtrgsym
+symset_t symbol_target_hit[8];           // swhtrsym
 symset_t symbol_debris[8];               // swexpsym
 symset_t symbol_flock[2];                // swflksym
 symset_t symbol_bird[2];                 // swbrdsym

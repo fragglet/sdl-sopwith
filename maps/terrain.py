@@ -168,23 +168,17 @@ def mountain(width=300, height=150, end_y=None):
 	terrain(quarter_width, end_y=height * 0.9)
 	terrain(width - quarter_width * 3, end_y=end_y)
 
-def hangar(x):
-	add_object(type="TARGET", x=x, orient=0, mirror=False)
+def target_type(orient):
+	return lambda x: add_object(type="TARGET", x=x, orient=orient)
 
-def building(x):
-	add_object(type="TARGET", x=x, orient=1, mirror=False)
-
-def oil_tank(x):
-	add_object(type="TARGET", x=x, orient=2, mirror=False)
-
-def tank(x):
-	add_object(type="TARGET", x=x, orient=3, mirror=False)
-
-def truck(x):
-	add_object(type="TARGET", x=x, orient=4, mirror=False)
-
-def tanker_truck(x):
-	add_object(type="TARGET", x=x, orient=5, mirror=False)
+hangar = target_type(0)
+building = target_type(1)
+oil_tank = target_type(2)
+tank = target_type(3)
+truck = target_type(4)
+tanker_truck = target_type(5)
+flag_pole = target_type(6)
+tent = target_type(7)
 
 def plane(x):
 	add_object(type="PLANE", x=x)
