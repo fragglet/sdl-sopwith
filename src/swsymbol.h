@@ -36,7 +36,7 @@ struct symset_s {
 extern symset_t *all_symsets;
 
 extern symset_t symbol_bomb[2];                 // swbmbsym
-extern symset_t symbol_targets[4];              // swtrgsym
+extern symset_t symbol_targets[6];              // swtrgsym
 extern symset_t symbol_target_hit[1];           // swhtrsym
 extern symset_t symbol_debris[8];               // swexpsym
 extern symset_t symbol_flock[2];                // swflksym

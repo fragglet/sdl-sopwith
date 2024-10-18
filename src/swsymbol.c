@@ -290,6 +290,40 @@ static const char *swtrgsym[] = {
 	"- * * * * * * * * * * * * * * - \n"
 	"- * * * * * * * * * * * * * * - \n"
 	"  - - - - - - - - - - - - - -   \n",
+	// -------------------------------
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"* # * * # * * # * *             \n"
+	"* # * * # * * # * *             \n"
+	"* # * * # * * # * * - - -       \n"
+	"* # * * # * * # * * - # #       \n"
+	"* # * * # * * # * * - # #       \n"
+	"* # * * # * * # * * - # #       \n"
+	"- - - - - - - - - - * * - - - - \n"
+	"* * * * * * * * * * * - * * * * \n"
+	"- * * - * * - - - - - * * - * * \n"
+	"    - - -               - - -   \n"
+	"      -                   -     \n",
+	// -------------------------------
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"  * * * * * * *                 \n"
+	"* * * - * - * * * - - - -       \n"
+	"* * * - - - * * * - * # #       \n"
+	"* * * - * - * * * - * # #       \n"
+	"* * * - - - * * * - * # #       \n"
+	"  * * - * - * *   - * * * * *   \n"
+	"- - - - - - - - - * * * - - - - \n"
+	"* * * * * * * * * * * - * * * * \n"
+	"- * * - * * - - - - - * * - * * \n"
+	"    - - -               - - -   \n"
+	"      -                   -     \n",
 };
 
 static const char *swhtrsym[] = {
@@ -727,7 +761,7 @@ static void init_symset(symset_t *s, const char *name, int frame)
 // converted symbols:
 
 symset_t symbol_bomb[2];                 // swbmbsym
-symset_t symbol_targets[4];              // swtrgsym
+symset_t symbol_targets[6];              // swtrgsym
 symset_t symbol_target_hit[1];           // swhtrsym
 symset_t symbol_debris[8];               // swexpsym
 symset_t symbol_flock[2];                // swflksym
