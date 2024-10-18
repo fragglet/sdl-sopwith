@@ -872,6 +872,8 @@ static void target_enemy_planes(OBJECTS *ob)
 
 bool movetarg(OBJECTS *ob)
 {
+	int transform = ob->ob_original_ob->transform;
+
 	ob->ob_firing = NULL;
 
 	if (ob->ob_state == STANDING
@@ -887,11 +889,11 @@ bool movetarg(OBJECTS *ob)
 	}
 
 	if (ob->ob_state == STANDING) {
-		int transform = ob->ob_original_ob->transform;
 		ob->ob_newsym =
 			&symbol_targets[ob->ob_orient].sym[transform];
 	} else {
-		ob->ob_newsym = &symbol_target_hit[0].sym[0];
+		ob->ob_newsym =
+			&symbol_target_hit[ob->ob_orient].sym[transform];
 	}
 
 	return true;

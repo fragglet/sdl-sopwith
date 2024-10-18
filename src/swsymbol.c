@@ -326,7 +326,7 @@ static const char *swtrgsym[] = {
 	"      -                   -     \n",
 };
 
-static const char *swhtrsym[] = {
+static const char destroyed_building[] =
 	"                                \n"
 	"                                \n"
 	"                                \n"
@@ -342,7 +342,35 @@ static const char *swhtrsym[] = {
 	"* *       *           -   * * * \n"
 	"* *   * * *     * *   - * * * * \n"
 	"* * * * - - * * * * - * * * * * \n"
-	"* * * * - - * * * - * * * * * * \n"
+	"* * * * - - * * * - * * * * * * \n";
+
+static const char destroyed_truck[] =
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"    * *   -       * * -         \n"
+	"  * * - * * -   * - - * *       \n"
+	"* * - - - * * - * * * * - -     \n"
+	"- * * - * * * * * * * * * - - * \n";
+
+// There is one entry in this array for each in swtrgsym, so that different
+// targets can have different "destroyed" symbols:
+static const char *swhtrsym[] = {
+	destroyed_building,  // Hangar
+	destroyed_building,  // Building
+	destroyed_building,  // Oil tank
+	destroyed_building,  // Tank
+	destroyed_truck,  // Truck
+	destroyed_truck,  // Tanker truck
 };
 
 static const char *swexpsym[] = {
@@ -762,7 +790,7 @@ static void init_symset(symset_t *s, const char *name, int frame)
 
 symset_t symbol_bomb[2];                 // swbmbsym
 symset_t symbol_targets[6];              // swtrgsym
-symset_t symbol_target_hit[1];           // swhtrsym
+symset_t symbol_target_hit[6];           // swhtrsym
 symset_t symbol_debris[8];               // swexpsym
 symset_t symbol_flock[2];                // swflksym
 symset_t symbol_bird[2];                 // swbrdsym
