@@ -27,7 +27,7 @@ staging:
 	pandoc $(PANDOC_FLAGS) -f man -o $@/Configuration.html \
 	       $(TOPLEVEL)/doc/sopwith.cfg.5
 	pandoc $(PANDOC_FLAGS) -f man -o $@/Mission.html \
-	       $(TOPLEVEL)/doc/sopwith-map.5
+	       $(TOPLEVEL)/doc/sopwith-mission.5
 
 clean:
 	rm -f $(ZIPFILE)
