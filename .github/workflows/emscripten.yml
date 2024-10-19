@@ -41,8 +41,9 @@ jobs:
       id: deploy_folder
       run: |
         case ${{ github.ref }} in
-          refs/heads/trunk)
-            echo DEPLOY_FOLDER=/
+          refs/heads/*)
+            echo "${{github.ref}}" | \
+                sed "s/refs.heads./DEPLOY_FOLDER=branch\//; s/.merge//"
             ;;
           refs/pull/*/merge)
             sed "s/refs.pull./DEPLOY_FOLDER=prs\//; s/.merge//"
