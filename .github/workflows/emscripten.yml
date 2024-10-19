@@ -46,7 +46,7 @@ jobs:
             ;;
           refs/pull/*/merge)
             sed "s/refs.pull./DEPLOY_FOLDER=prs\//; s/.merge//"
-            pr=$(echo "${{github.ref}}" | sed "s/refs.pull./; s/.merge//")
+            pr=$(echo "${{github.ref}}" | sed "s/refs.pull.//; s/.merge//")
             echo "DEPLOY_FOLDER=/prs/$pr"
             echo "PR_NUMBER=$pr"
             ;;
