@@ -45,8 +45,10 @@ jobs:
             echo DEPLOY_FOLDER=/
             ;;
           refs/pull/*/merge)
-            echo "${{github.ref}}" | \
-                sed "s/refs.pull./DEPLOY_FOLDER=prs\//; s/.merge//"
+            sed "s/refs.pull./DEPLOY_FOLDER=prs\//; s/.merge//"
+            pr=$(echo "${{github.ref}}" | sed "s/refs.pull./; s/.merge//")
+            echo "DEPLOY_FOLDER=/prs/$pr"
+            echo "PR_NUMBER=$pr"
             ;;
           refs/tags/*)
             echo "${{github.ref}}" | sed "s/refs.tags./DEPLOY_FOLDER=tags\//"
@@ -64,3 +66,12 @@ jobs:
         target-folder: "${{steps.deploy_folder.outputs.DEPLOY_FOLDER}}"
         clean: true
         commit-message: "Build from fragglet/sdl-sopwith@${{github.sha}}"
+    - name: Comment PR
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: thollander/actions-comment-pull-request@v3
+      with:
+        message: |
+          Thanks for your pull request! A build of your change can be found
+          [here](https://fragglet.github.io/sdl-sopwith-latest${{steps.deploy_folder.outputs.DEPLOY_FOLDER}}/sopwith.html)
+          for people to try.
+        pr_number: ${{steps.deploy_folder.outputs.PR_NUMBER}}
