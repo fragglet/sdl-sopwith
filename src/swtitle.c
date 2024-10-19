@@ -96,7 +96,7 @@ void swtitln(void)
 	               OWNER_PLAYER2);
 
 	for (i = 6, h=165; i; --i, h += 5) {
-		Vid_PlotPixel(280+X_OFFSET, h, 3);
+		Vid_PlotPixel(280+X_OFFSET, h, 2);
 	}
 }
 
