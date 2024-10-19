@@ -1,3 +1,4 @@
+Another test change.
 
 SDL Sopwith is a port of the game "Sopwith", which was originally
 by BMB Compuscience Canada. The original author David L. Clark
