@@ -37,12 +37,31 @@ jobs:
         path: "pkg/emscripten/page"
         name: sdl-sopwith-${{steps.version.outputs.VERSION}}
 
+    - name: Identify deploy folder
+      id: deploy_folder
+      run: |
+        case ${{ github.ref }} in
+          refs/heads/trunk)
+            echo DEPLOY_FOLDER=/
+            ;;
+          refs/pull/*/merge)
+            echo "${{github.ref}}" | \
+                sed "s/refs.pull./DEPLOY_FOLDER=/; s/.merge//"
+            ;;
+          refs/tags/*)
+            echo "${{github.ref}}" | sed "s/refs.tags./DEPLOY_FOLDER=/"
+            ;;
+          *)
+            echo DEPLOY_FOLDER=
+            ;;
+        esac
     - name: Deploy
-      if: ${{ github.ref == 'refs/heads/trunk' }}
+      if: ${{steps.deploy_folder.outputs.DEPLOY_FOLDER != ''}}
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: "pkg/emscripten/page"
         repository-name: "fragglet/sdl-sopwith-latest"
         token: "${{secrets.SDL_SOPWITH_LATEST_SECRET}}"
+        target-folder: "${{steps.deploy_folder.outputs.DEPLOY_FOLDER}}"
         clean: true
         commit-message: "Build from fragglet/sdl-sopwith@${{github.sha}}"
