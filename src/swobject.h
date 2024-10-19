@@ -23,4 +23,8 @@ extern void deallobj(OBJECTS *obp);
 extern void movexy(OBJECTS *ob, int *x, int *y);
 extern void setdxdy(OBJECTS *obj, int dx, int dy);
 
+extern bool plane_is_killed(obstate_t state);
+extern bool plane_is_stalled(obstate_t state);
+extern bool plane_is_wounded(obstate_t state);
+
 #endif

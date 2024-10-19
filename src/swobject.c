@@ -18,6 +18,22 @@
 #include "swmain.h"
 #include "swobject.h"
 
+bool plane_is_killed(obstate_t state)
+{
+	return state != FLYING && state != STALLED
+	    && state != WOUNDED && state != WOUNDSTALL;
+}
+
+bool plane_is_stalled(obstate_t state)
+{
+	return state == STALLED || state == WOUNDSTALL;
+}
+
+bool plane_is_wounded(obstate_t state)
+{
+	return state == WOUNDED || state == WOUNDSTALL;
+}
+
 bool insertx(OBJECTS *ob, OBJECTS *obp)
 {
 	OBJECTS *obs;

@@ -18,6 +18,7 @@
 #include "swinit.h"
 #include "swmain.h"
 #include "swmove.h"
+#include "swobject.h"
 #include "swsound.h"
 #include "swsplat.h"
 
@@ -562,8 +563,7 @@ static int compute_valour(OBJECTS *ob)
 		valour++;
 	}
 
-	if (so->ob_state == WOUNDED
-	    || so->ob_state == WOUNDSTALL) {
+	if (plane_is_wounded(so->ob_state)) {
 		valour = (valour + 1) * 3;
 	} else {
 		valour *= 2;

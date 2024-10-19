@@ -72,10 +72,7 @@ void endgame(int targclr)
 			if (ob->ob_clr == winclr
 			 && (ob->ob_crashcnt < (MAXCRASH - 1)
 			  || (ob->ob_crashcnt < MAXCRASH
-			   && (ob->ob_state == FLYING
-			    || ob->ob_state == STALLED
-			    || ob->ob_state == WOUNDED
-			    || ob->ob_state == WOUNDSTALL)))) {
+			   && !plane_is_killed(ob->ob_state)))) {
 				winner(ob);
 			} else {
 				loser(ob);

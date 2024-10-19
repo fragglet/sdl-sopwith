@@ -235,9 +235,6 @@ bool moveplyr(OBJECTS *ob)
 	return movepln(ob);
 }
 
-
-
-
 static void interpret(OBJECTS *ob, int key)
 {
 	obstate_t state;
@@ -248,8 +245,7 @@ static void interpret(OBJECTS *ob, int key)
 
 	state = ob->ob_state;
 
-	if (state != FLYING && state != STALLED && state != FALLING
-	 && state != WOUNDED && state != WOUNDSTALL) {
+	if (plane_is_killed(state) && state != FALLING) {
 		return;
 	}
 
@@ -280,8 +276,7 @@ static void interpret(OBJECTS *ob, int key)
 		}
 	}
 
-	if ((countmove & 1)
-	 || (state != WOUNDED && state != WOUNDSTALL)) {
+	if (!plane_is_wounded(state) || (countmove & 1) != 0) {
 		if (key & K_FLAPU) {
 			++ob->ob_flaps;
 			ob->ob_home = false;
@@ -504,8 +499,7 @@ static bool movepln(OBJECTS *ob)
 		}
 
 		if (ob->ob_life <= 0 && !ob->ob_athome
-		 && (state == FLYING || state == STALLED
-		  || state == WOUNDED || state == WOUNDSTALL)) {
+		 && !plane_is_killed(state)) {
 			hitpln(ob);
 			scorepln(ob, GROUND);
 			return movepln(ob);
@@ -647,8 +641,7 @@ static bool movepln(OBJECTS *ob)
 
 	if (!compplane
 	 && consoleplayer->ob_endsts == PLAYING
-	 && (ob->ob_state == FLYING || ob->ob_state == STALLED
-	  || ob->ob_state == WOUNDED || ob->ob_state == WOUNDSTALL)) {
+	 && !plane_is_killed(ob->ob_state)) {
 		nearpln(ob);
 	}
 
@@ -668,8 +661,7 @@ static bool movepln(OBJECTS *ob)
 
 	if (y < MAX_Y && y >= 0) {
 		if (ob->ob_state == FALLING
-		 || ob->ob_state == WOUNDED
-		 || ob->ob_state == WOUNDSTALL) {
+		 || plane_is_wounded(ob->ob_state)) {
 			initsmok(ob);
 		}
 		return plyrplane || ob->ob_state < FINISHED;
@@ -859,8 +851,7 @@ static void target_enemy_planes(OBJECTS *ob)
 		    (playmode != PLAYMODE_ASYNCH && obp != planes[0])) {
 			continue;
 		}
-		if (obp->ob_state != FLYING && obp->ob_state != STALLED
-		 && obp->ob_state != WOUNDED && obp->ob_state != WOUNDSTALL) {
+		if (plane_is_killed(obp->ob_state)) {
 			continue;
 		}
 		r = range(ob->ob_x, ob->ob_y, obp->ob_x, obp->ob_y);
@@ -976,17 +967,17 @@ bool moveexpl(OBJECTS * obp)
 bool movesmok(OBJECTS * obp)
 {
 	OBJECTS *ob;
-	obstate_t state;
+	obstate_t planestate;
 
 	ob = obp;
 
-	state = ob->ob_owner->ob_state;
+	planestate = ob->ob_owner->ob_state;
 
 	--ob->ob_life;
 
 	if (ob->ob_life <= 0
-	 || (state != FALLING && state != WOUNDED
-	  && state != WOUNDSTALL && state != CRASHED)) {
+	 || (planestate != FALLING && planestate != CRASHED
+	  && !plane_is_wounded(planestate))) {
 		deallobj(ob);
 		return false;
 	}
