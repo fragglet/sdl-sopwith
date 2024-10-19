@@ -1,4 +1,6 @@
 
+This is just a test to see if Emscripten build is deploying PR versions too
+
 SDL Sopwith is a port of the game "Sopwith", which was originally
 by BMB Compuscience Canada. The original author David L. Clark
 has kindly released the source code under the GNU GPL.
