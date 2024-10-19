@@ -52,9 +52,8 @@ jobs:
             echo "${{github.ref}}" | sed "s/refs.tags./DEPLOY_FOLDER=/"
             ;;
           *)
-            echo DEPLOY_FOLDER=
             ;;
-        esac
+        esac | tee "$GITHUB_OUTPUT"
     - name: Deploy
       if: ${{steps.deploy_folder.outputs.DEPLOY_FOLDER != ''}}
       uses: JamesIves/github-pages-deploy-action@v4
