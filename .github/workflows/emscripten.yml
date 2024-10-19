@@ -46,10 +46,10 @@ jobs:
             ;;
           refs/pull/*/merge)
             echo "${{github.ref}}" | \
-                sed "s/refs.pull./DEPLOY_FOLDER=/; s/.merge//"
+                sed "s/refs.pull./DEPLOY_FOLDER=prs\//; s/.merge//"
             ;;
           refs/tags/*)
-            echo "${{github.ref}}" | sed "s/refs.tags./DEPLOY_FOLDER=/"
+            echo "${{github.ref}}" | sed "s/refs.tags./DEPLOY_FOLDER=tags\//"
             ;;
           *)
             ;;
