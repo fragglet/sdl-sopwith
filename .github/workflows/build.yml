@@ -81,7 +81,7 @@ jobs:
 
     - name: Install build dependencies (Homebrew, macOS)
       if: runner.os == 'macOS'
-      run: brew install sdl2 autoconf automake libtool pandoc
+      run: brew install -q sdl2 autoconf automake libtool pandoc
 
     - name: Install build dependencies (apt, Linux)
       if: runner.os == 'Linux'
