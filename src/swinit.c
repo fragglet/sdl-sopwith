@@ -697,7 +697,10 @@ void initexpl(OBJECTS *obo, int small)
 	obotype = obo->ob_type;
 
 	if (obotype == TARGET
-	 && (obo->ob_orient == 2 || obo->ob_orient == 5)) {
+	 && (obo->ob_orient == TARGET_OIL_TANK
+	  || obo->ob_orient == TARGET_TANKER_TRUCK
+	  || obo->ob_orient == TARGET_CUSTOM5
+	  || obo->ob_orient == TARGET_CUSTOM_PASSIVE5)) {
 		ic = 1;
 		// sdh: Oil tank explosions were changed in Sopwith "Network
 		// Edition" to be much less intense; we make this change

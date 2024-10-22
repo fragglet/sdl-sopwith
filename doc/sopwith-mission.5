@@ -68,8 +68,9 @@ The X coordinate within the level where the object appears. The Y coordinate
 is set automatically depending on the object type and can not be specified.
 .TP
 \fBorient\fR
-Defines the direction in which planes face: 0 (right) or 1 (left). For ground
-targets, this controls the type of ground target; see \fBOBJECT TYPES\fR below.
+For planes, defines the direction in which planes face: 0 (right) or 1 (left).
+For ground targets, this controls the type of ground target; see \fBTARGET
+TYPES\fR below.
 .TP
 \fBtransform\fR
 For ground targets, this specifies a "transformation" to apply to the symbol.
@@ -155,11 +156,10 @@ defined by the \fBterritory_l\fR and \fBterritory_r\fR properties. If the
 player enters this territory, they will take off from their base and attack.
 .TP
 \fBTARGET\fR
-A ground target. The \fBorient\fR property defines the type of target, either
-hangar (0), building (1), fuel tank (2), tank (3), truck (4), tanker truck (5),
-flagpole (6) or tent (7). The \fBowner\fR property specifies the plane to whom
-the target belongs. When one player destroys all targets owned by all enemy
-planes, the game advances to the next level.
+A ground target. The value of the \fBorient\fR property defines the type of
+target, see \fBTARGET TYPES\fR below. The value of the \fBowner\fR property
+specifies the plane to whom the target belongs. When one player destroys all
+targets owned by all enemy planes, the game advances to the next level.
 .TP
 \fBOX\fR
 An Ox (type of cattle). The Ox does nothing except act as an obstacle, and does
@@ -224,12 +224,13 @@ Plane flying into the distance after completing the level. There are four
 frames of animation.
 .TP
 \fBswtrgsym\fR (16x16)
-Ground target. Each frame is a different target type and the values match
-those in \fBOBJECT TYPES\fR above.
+Ground target. Each frame is a different target type and the values are those
+from \fBTARGET TYPES\fR below.
 .TP
 \fBswhtrsym\fR (16x16)
-Destroyed ground target. There is one frame for each entry in \fBswtrgsym\fR,
-the symbol that is shown after a target of that type is destroyed.
+Destroyed ground target. Each frame a different target type; the values are
+those from \fBTARGET TYPES\fR below. The number of pixels in the symbol control
+the size of the explosion when the target is destroyed.
 .TP
 \fBswoxsym\fR (16x16)
 Ox. There is one frame.
@@ -266,6 +267,40 @@ Shot out window. There is a single frame.
 .TP
 \fBswsplsym\fR (32x32)
 Bird "splatted" into window. There is a single frame.
+.SH TARGET TYPES
+.TP
+0
+Hangar
+.TP
+1
+Factory
+.TP
+2
+fuel tank
+.TP
+3
+Tank
+.TP
+4
+Truck
+.TP
+5
+Tanker truck
+.TP
+6
+Flag
+.TP
+7
+Tent
+.TP
+8-12
+User-defined target; the \fBsymbols\fR section should be used to supply the
+graphics (see \fBSYMBOLS SECTION\fR above). Type 12 produces a big explosion
+like an oil tank when destroyed.
+.TP
+13-17
+"Passive" user-defined target (does not fire at enemy planes). Type 17 produces
+a big explosion like an oil tank when destroyed.
 .SH SOUNDS SECTION
 The \fBsounds\fR section allows the in-game music to be replaced. There is
 only one property at present, named \fBtitle_tune\fR; its value is a string

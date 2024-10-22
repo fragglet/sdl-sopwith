@@ -221,6 +221,25 @@ static const char *swbmbsym[] = {
 	"      *         \n"
 };
 
+static const char custom_target_sym[] = {
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"  * * * * * * * * * * * * * * * \n"
+	"  * * * * * * * * * * * * * * * \n"
+	"  * * * * * * * * * * * * * * * \n"
+	"  * * * * * * * * * * * * * * * \n"
+	"  * * * * * * * * * * * * * * * \n"
+	"  * * * * * * * * * * * * * * * \n"
+	"  * * * * * * * * * * * * * * * \n",
+};
+
 static const char *swtrgsym[] = {
 
 	"                      -         \n"
@@ -239,7 +258,8 @@ static const char *swtrgsym[] = {
 	"* * - * * * * * * * * * * - * * \n"
 	"* * - * * * * * * * * * * - * * \n"
 	"* * - * * * * * * * * * * - * * \n",
-	// -------------------------------
+
+	// TARGET_FACTORY:
 	"                    - -     - - \n"
 	"                    - -     - - \n"
 	"                    - -     - - \n"
@@ -256,7 +276,8 @@ static const char *swtrgsym[] = {
 	"* * * - * - * - * - * - * * - - \n"
 	"* * * * * * * * * * * * * * - - \n"
 	"* * * * * * * * * * * * * * - - \n",
-	// -------------------------------
+
+	// TARGET_OIL_TANK:
 	"                                \n"
 	"                                \n"
 	"                                \n"
@@ -273,7 +294,8 @@ static const char *swtrgsym[] = {
 	"    - -     -   -       - -     \n"
 	"    - -     - - -       - -     \n"
 	"    - -     -   -       - -     \n",
-	// -------------------------------
+
+	// TARGET_TANK:
 	"                                \n"
 	"                                \n"
 	"                                \n"
@@ -290,7 +312,8 @@ static const char *swtrgsym[] = {
 	"- * * * * * * * * * * * * * * - \n"
 	"- * * * * * * * * * * * * * * - \n"
 	"  - - - - - - - - - - - - - -   \n",
-	// -------------------------------
+
+	// TARGET_TRUCK:
 	"                                \n"
 	"                                \n"
 	"                                \n"
@@ -307,7 +330,8 @@ static const char *swtrgsym[] = {
 	"- * * - * * - - - - - * * - * * \n"
 	"    - - -               - - -   \n"
 	"      -                   -     \n",
-	// -------------------------------
+
+	// TARGET_TANKER_TRUCK:
 	"                                \n"
 	"                                \n"
 	"                                \n"
@@ -324,7 +348,8 @@ static const char *swtrgsym[] = {
 	"- * * - * * - - - - - * * - * * \n"
 	"    - - -               - - -   \n"
 	"      -                   -     \n",
-	// -------------------------------
+
+	// TARGET_FLAG:
 	"          -                     \n"
 	"          - * * * * * * *       \n"
 	"          - * * * * * * *       \n"
@@ -341,7 +366,8 @@ static const char *swtrgsym[] = {
 	"          -                     \n"
 	"        - - -                   \n"
 	"      - - - - -                 \n",
-	// -------------------------------
+
+	// TARGET_TENT:
 	"                                \n"
 	"                                \n"
 	"                                \n"
@@ -358,6 +384,19 @@ static const char *swtrgsym[] = {
 	"  # * - - - - - - - - - - * #   \n"
 	"#   * - - - - - - - - - - *   # \n"
 	"#   * - - - - - - - - - - *   # \n",
+
+	// User-defined target types:
+	custom_target_sym,  // TARGET_CUSTOM1
+	custom_target_sym,  // TARGET_CUSTOM2
+	custom_target_sym,  // TARGET_CUSTOM3
+	custom_target_sym,  // TARGET_CUSTOM4
+	custom_target_sym,  // TARGET_CUSTOM5
+	custom_target_sym,  // TARGET_CUSTOM_PASSIVE1
+	custom_target_sym,  // TARGET_CUSTOM_PASSIVE2
+	custom_target_sym,  // TARGET_CUSTOM_PASSIVE3
+	custom_target_sym,  // TARGET_CUSTOM_PASSIVE4
+	custom_target_sym,  // TARGET_CUSTOM_PASSIVE5
+
 };
 
 static const char destroyed_building[] =
@@ -432,17 +471,45 @@ static const char destroyed_tent[] =
 	"        * * *         * *       \n"
 	"# # * * * * * * * * * * * * #   \n";
 
+static const char destroyed_custom[] =
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"                                \n"
+	"  * * * * * * * * * * * * * * * \n"
+	"  * * * * * * * * * * * * * * * \n";
+
 // There is one entry in this array for each in swtrgsym, so that different
 // targets can have different "destroyed" symbols:
 static const char *swhtrsym[] = {
-	destroyed_building,  // Hangar
-	destroyed_building,  // Building
-	destroyed_building,  // Oil tank
-	destroyed_building,  // Tank
-	destroyed_truck,  // Truck
-	destroyed_truck,  // Tanker truck
-	destroyed_flag,  // Big flag
-	destroyed_tent,  // Tent
+	destroyed_building,  // TARGET_HANGAR
+	destroyed_building,  // TARGET_FACTORY
+	destroyed_building,  // TARGET_OIL_TANK
+	destroyed_building,  // TARGET_TANK
+	destroyed_truck,  // TARGET_TRUCK
+	destroyed_truck,  // TARGET_TANKER_TRUCK
+	destroyed_flag,  // TARGET_FLAG
+	destroyed_tent,  // TARGET_TENT
+	destroyed_custom,  // TARGET_CUSTOM1
+	destroyed_custom,  // TARGET_CUSTOM2
+	destroyed_custom,  // TARGET_CUSTOM3
+	destroyed_custom,  // TARGET_CUSTOM4
+	destroyed_custom,  // TARGET_CUSTOM5
+	destroyed_custom,  // TARGET_CUSTOM_PASSIVE1
+	destroyed_custom,  // TARGET_CUSTOM_PASSIVE2
+	destroyed_custom,  // TARGET_CUSTOM_PASSIVE3
+	destroyed_custom,  // TARGET_CUSTOM_PASSIVE4
+	destroyed_custom,  // TARGET_CUSTOM_PASSIVE5
 };
 
 static const char *swexpsym[] = {
@@ -861,8 +928,8 @@ static void init_symset(symset_t *s, const char *name, int frame)
 // converted symbols:
 
 symset_t symbol_bomb[2];                 // swbmbsym
-symset_t symbol_targets[8];              // swtrgsym
-symset_t symbol_target_hit[8];           // swhtrsym
+symset_t symbol_targets[NUM_TARGET_TYPES];    // swtrgsym
+symset_t symbol_target_hit[NUM_TARGET_TYPES]; // swhtrsym
 symset_t symbol_debris[8];               // swexpsym
 symset_t symbol_flock[2];                // swflksym
 symset_t symbol_bird[2];                 // swbrdsym

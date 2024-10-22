@@ -299,7 +299,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		initexpl(ob, 0);
 
 		blast_target(ob, ttype);
-		scoretarg(ob, ob->ob_orient == 2 ? 200 : 100);
+		scoretarg(ob, ob->ob_orient == TARGET_OIL_TANK ? 200 : 100);
 
 		--numtarg[ob->ob_clr - 1];
 		if (numtarg[ob->ob_clr - 1] <= 0

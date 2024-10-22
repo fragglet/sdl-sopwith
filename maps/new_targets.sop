@@ -1,6 +1,54 @@
-// This is an example level that shows some of the new target types.
+// This is an example level that shows some of the new target types. It also
+// uses one of the custom target types with custom graphics.
+
+symbols {
+	swtrgsym {
+		8:
+		"                                \n"&
+		"                                \n"&
+		"                                \n"&
+		"                                \n"&
+		"          # # # # # #           \n"&
+		"        #             #         \n"&
+		"      #                 #       \n"&
+		"    #                     #     \n"&
+		"    #     -         -     #     \n"&
+		"    #                     #     \n"&
+		"    #                     #     \n"&
+		"    #     *         *     #     \n"&
+		"    #       * * * *       #     \n"&
+		"      #                 #       \n"&
+		"        #             #         \n"&
+		"          # # # # # #           \n"
+	}
+	swhtrsym {
+		8:
+		"                                \n"&
+		"                                \n"&
+		"                                \n"&
+		"                                \n"&
+		"          # # # # # #           \n"&
+		"        #             #         \n"&
+		"      #                 #       \n"&
+		"    #   -   -     -   -   #     \n"&
+		"    #     -         -     #     \n"&
+		"    #   -   -     -   -   #     \n"&
+		"    #                     #     \n"&
+		"    #       * * * *       #     \n"&
+		"    #     *         *     #     \n"&
+		"      #                 #       \n"&
+		"        #             #         \n"&
+		"          # # # # # #           \n"
+	}
+}
 
 level {
+	object {  // Custom target type
+		type: TARGET
+		x: 270
+		orient: 8
+		owner: PLAYER1
+	}
 	object {
 		type: TARGET
 		x: 385
@@ -132,6 +180,12 @@ level {
 		x: 1560
 		orient: 5
 		transform: 6
+		owner: PLAYER2
+	}
+	object {  // Custom target type
+		type: TARGET
+		x: 1680
+		orient: 8
 		owner: PLAYER2
 	}
 

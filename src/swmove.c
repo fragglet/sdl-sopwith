@@ -866,15 +866,25 @@ static void target_enemy_planes(OBJECTS *ob)
 // This table determines how often targets fire at enemy planes; there is one
 // entry for each target type. An aggression of zero means that type never
 // fires; otherwise the lower the value, the more often it fires.
-static const int target_aggression[] = {
-	2,  // Hangar
-	2,  // Building
-	2,  // Fuel tank
-	2,  // Tank
-	5,  // Truck
-	5,  // Tanker truck
-	0,  // Flagpole
-	0,  // Tent
+static const int target_aggression[NUM_TARGET_TYPES] = {
+	2,  // TARGET_HANGAR
+	2,  // TARGET_FACTORY
+	2,  // TARGET_OIL_TANK
+	2,  // TARGET_TANK
+	5,  // TARGET_TRUCK
+	5,  // TARGET_TANKER_TRUCK
+	0,  // TARGET_FLAG
+	0,  // TARGET_TENT
+	2,  // TARGET_CUSTOM1
+	2,  // TARGET_CUSTOM2
+	2,  // TARGET_CUSTOM3
+	5,  // TARGET_CUSTOM4
+	5,  // TARGET_CUSTOM5
+	0,  // TARGET_CUSTOM_PASSIVE1
+	0,  // TARGET_CUSTOM_PASSIVE2
+	0,  // TARGET_CUSTOM_PASSIVE3
+	0,  // TARGET_CUSTOM_PASSIVE4
+	0,  // TARGET_CUSTOM_PASSIVE5
 };
 
 bool movetarg(OBJECTS *ob)

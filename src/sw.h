@@ -17,8 +17,32 @@
 
 #include "std.h"
 #include <setjmp.h>
-#include "swsymbol.h"
 #include "config.h"
+
+// This is defined here before sw.h for silly include-order reasons.
+typedef enum {
+	TARGET_HANGAR,
+	TARGET_FACTORY,
+	TARGET_OIL_TANK,
+	TARGET_TANK,
+	TARGET_TRUCK,
+	TARGET_TANKER_TRUCK,
+	TARGET_FLAG,
+	TARGET_TENT,
+	TARGET_CUSTOM1,
+	TARGET_CUSTOM2,
+	TARGET_CUSTOM3,
+	TARGET_CUSTOM4,
+	TARGET_CUSTOM5,
+	TARGET_CUSTOM_PASSIVE1,
+	TARGET_CUSTOM_PASSIVE2,
+	TARGET_CUSTOM_PASSIVE3,
+	TARGET_CUSTOM_PASSIVE4,
+	TARGET_CUSTOM_PASSIVE5,
+	NUM_TARGET_TYPES,
+} target_type_t;
+
+#include "swsymbol.h"
 
 // We only enable TCP/IP support if we have the appropriate socket header
 // files. Emscripten doesn't get TCP/IP.
