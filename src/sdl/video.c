@@ -113,7 +113,7 @@ static SDL_Texture *texture_upscaled = NULL;
 
 // convert a sopsym_t into a surface
 #define ICON_SCALE 4
-static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
+static SDL_Surface *SurfaceFromSopsym(sopsym_t *sym)
 {
 	const SDL_Color *pal = video_palettes[0].color;
 	SDL_Surface *surface = SDL_CreateRGBSurface(
@@ -190,7 +190,7 @@ void Vid_Update(void)
 	SDL_LockSurface(screenbuf);
 }
 
-static bool is_special_day(void)
+static bool IsSpecialDay(void)
 {
 	time_t now = time(NULL);
 	struct tm *t = localtime(&now);
@@ -209,18 +209,18 @@ static bool is_special_day(void)
 	 || (t->tm_mon == 3 && t->tm_mday == 24);
 }
 
-static void set_icon(void)
+static void SetIcon(void)
 {
 	SDL_Surface *icon;
 	sopsym_t *sym;
 
-	if (is_special_day()) {
+	if (IsSpecialDay()) {
 		sym = &symbol_plane[0].sym[4];
 	} else {
 		sym = &symbol_plane[0].sym[0];
 	}
 
-	icon = surface_from_sopsym(sym);
+	icon = SurfaceFromSopsym(sym);
 	if (icon == NULL) {
 		return;
 	}
@@ -410,15 +410,15 @@ static void Vid_SetMode(void)
 		error_exit("Failed to open SDL window: %s", SDL_GetError());
 	}
 
-        SDL_StopTextInput();
+	SDL_StopTextInput();
 
-        pixel_format = SDL_GetWindowPixelFormat(window);
+	pixel_format = SDL_GetWindowPixelFormat(window);
 
 	for (n = 0; n < NUM_KEYS; ++n) {
 		keysdown[n] = 0;
 	}
 
-	set_icon();
+	SetIcon();
 	SDL_ShowCursor(0);
 
 	renderer_flags = SDL_RENDERER_PRESENTVSYNC;

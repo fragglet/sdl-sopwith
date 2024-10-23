@@ -84,7 +84,7 @@ static confoption_t confoptions[] = {
 	{"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}},
 };
 
-static void chomp(char *s)
+static void Chomp(char *s)
 {
 	char *p;
 	for (p=s+strlen(s)-1; isspace(*p) && p > s; --p) {
@@ -92,7 +92,7 @@ static void chomp(char *s)
 	}
 }
 
-static confoption_t *confoption_by_name(char *name)
+static confoption_t *ConfOptionByName(char *name)
 {
 	int i;
 
@@ -105,14 +105,14 @@ static confoption_t *confoption_by_name(char *name)
 	return NULL;
 }
 
-static void parse_config_line(char *config_file, int lineno, char *line)
+static void ParseConfigLine(char *config_file, int lineno, char *line)
 {
 	char *name, *value, *p;
 	int key;
 	confoption_t *opt;
 
 	p = line;
-	chomp(p);
+	Chomp(p);
 
 	// skip whitespace and discard comments.
 	while (*p != '\0' && isspace(*p)) {
@@ -138,7 +138,7 @@ static void parse_config_line(char *config_file, int lineno, char *line)
 	for (; isspace(*p); ++p);
 	value = p;
 
-	opt = confoption_by_name(name);
+	opt = ConfOptionByName(name);
 	if (opt == NULL) {
 		fprintf(stderr,
 		        "swloadconf: %s:%d: unknown config option '%s'\n",
@@ -203,7 +203,7 @@ void swloadconf(void)
 	while (!feof(fs)) {
 		fgets(inbuf, sizeof(inbuf), fs);
 		++lineno;
-		parse_config_line(config_file, lineno, inbuf);
+		ParseConfigLine(config_file, lineno, inbuf);
 	}
 
 	fclose(fs);
@@ -265,7 +265,7 @@ struct menuitem {
 
 static const char menukeys[] = "1234567890ABCDEFGHIJKL";
 
-static void change_key_binding(struct menuitem *item)
+static void ChangeKeyBinding(struct menuitem *item)
 {
 	confoption_t *opt;
 	int key;
@@ -299,14 +299,14 @@ static void change_key_binding(struct menuitem *item)
 		return;
 	}
 
-	opt = confoption_by_name(item->config_name);
+	opt = ConfOptionByName(item->config_name);
 	if (opt == NULL) {
 		return;
 	}
 	*opt->value.i = key;
 }
 
-static void drawmenu(char *title, struct menuitem *menu)
+static void DrawMenu(char *title, struct menuitem *menu)
 {
 	int i, y, keynum, said_key = 0;
 	int title_len = strlen(title), x = 19 - title_len / 2;
@@ -363,7 +363,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 		}
 
 		swposcur(28, 5+y);
-		opt = confoption_by_name(menu[i].config_name);
+		opt = ConfOptionByName(menu[i].config_name);
 		if (opt == NULL) {
 			continue;
 		}
@@ -392,7 +392,7 @@ static void drawmenu(char *title, struct menuitem *menu)
 	Vid_Update();
 }
 
-static struct menuitem *menuitem_for_key(struct menuitem *menu, int key)
+static struct menuitem *MenuItemForKey(struct menuitem *menu, int key)
 {
 	int i, keynum;
 
@@ -417,14 +417,14 @@ static struct menuitem *menuitem_for_key(struct menuitem *menu, int key)
 // Present the given menu to the user. Returns zero if escape was pushed
 // to exit the menu, or if a >jump item was chosen, it returns the key
 // binding associated with it.
-static int runmenu(char *title, struct menuitem *menu)
+static int RunMenu(char *title, struct menuitem *menu)
 {
 	struct menuitem *pressed;
 	confoption_t *opt;
 	int key;
 
 	for (;;) {
-		drawmenu(title, menu);
+		DrawMenu(title, menu);
 
 		if (ctlbreak()) {
 			swend(NULL, false);
@@ -436,7 +436,7 @@ static int runmenu(char *title, struct menuitem *menu)
 		}
 
 		// check if a number has been pressed for a menu option
-		pressed = menuitem_for_key(menu, key);
+		pressed = MenuItemForKey(menu, key);
 		if (pressed == NULL) {
 			continue;
 		}
@@ -445,7 +445,7 @@ static int runmenu(char *title, struct menuitem *menu)
 			return pressed->config_name[1];
 		}
 
-		opt = confoption_by_name(pressed->config_name);
+		opt = ConfOptionByName(pressed->config_name);
 		if (opt == NULL) {
 			continue;
 		}
@@ -460,7 +460,7 @@ static int runmenu(char *title, struct menuitem *menu)
 			}
 			break;
 		case CONF_KEY:
-			change_key_binding(pressed);
+			ChangeKeyBinding(pressed);
 			break;
 		default:
 			break;
@@ -507,11 +507,11 @@ static struct menuitem options_menu[] = {
 void setconfig(void)
 {
 	for (;;) {
-		switch (runmenu("OPTIONS", options_menu)) {
+		switch (RunMenu("OPTIONS", options_menu)) {
 			case 0:
 				return;
 			case 'K':
-				runmenu("OPTIONS > KEY BINDINGS", keys_menu);
+				RunMenu("OPTIONS > KEY BINDINGS", keys_menu);
 				break;
 		}
 	}

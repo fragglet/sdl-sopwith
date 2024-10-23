@@ -36,23 +36,23 @@ char asynhost[128];
 
 static int timeout_time;
 
-static void settimeout(void)
+static void SetTimeout(void)
 {
 	timeout_time = Timer_GetMS() + TIMEOUT_LEN_MS;
 }
 
-static bool timeout(void)
+static bool TimedOut(void)
 {
 	return Timer_GetMS() >= timeout_time;
 }
 
-static inline void sendshort(int s)
+static inline void SendShort(int s)
 {
 	commout(s & 0xff);
 	commout((s >> 8) & 0xff);
 }
 
-static inline int try_readshort(void)
+static inline int TryReadShort(void)
 {
 	int s, t;
 
@@ -62,26 +62,26 @@ static inline int try_readshort(void)
 		return -1;
 	}
 
-	settimeout();
+	SetTimeout();
 
 	while ((t = commin()) < 0) {
-		if (timeout()) {
-			error_exit("readshort: timeout on read");
+		if (TimedOut()) {
+			error_exit("ReadShort: timeout on read");
 		}
 	}
 
 	return (t << 8) + s;
 }
 
-static int readshort(void)
+static int ReadShort(void)
 {
 	int i;
 
-	settimeout();
+	SetTimeout();
 
-	for (i=-1; i < 0; i = try_readshort()) {
-		if (timeout()) {
-			error_exit("readshort: timeout on read");
+	for (i=-1; i < 0; i = TryReadShort()) {
+		if (TimedOut()) {
+			error_exit("ReadShort: timeout on read");
 		}
 	}
 
@@ -90,7 +90,7 @@ static int readshort(void)
 
 void asynput(int movekey)
 {
-	sendshort(movekey);
+	SendShort(movekey);
 }
 
 char *asynclos(void)
@@ -99,12 +99,11 @@ char *asynclos(void)
 	return NULL;
 }
 
-
 void asynupdate(void)
 {
 	int i, ticnum;
 
-	i = try_readshort();
+	i = TryReadShort();
 
 	if (i >= 0) {
 		int netplayer;
@@ -122,7 +121,7 @@ void asynupdate(void)
 
 #define PROTOHEADER_FMT (PACKAGE_STRING ", player %d")
 
-static void synchronize(void)
+static void Synchronize(void)
 {
 	char *buf, *p;
 
@@ -136,13 +135,13 @@ static void synchronize(void)
 
 	// now listen for response
 	snprintf(buf, sizeof(PROTOHEADER_FMT) + 5, PROTOHEADER_FMT, !player);
-	settimeout();
+	SetTimeout();
 
 	for (p = buf; *p;) {
 		int c;
 
-		if (timeout()) {
-			error_exit("synchronize: timeout on connect");
+		if (TimedOut()) {
+			error_exit("Synchronize: timeout on connect");
 		}
 
 		c = commin();
@@ -152,7 +151,7 @@ static void synchronize(void)
 				++p;
 			} else if (c != SYNC_IM_PLAYER0
 			        && c != SYNC_IM_PLAYER1) {
-				error_exit("synchronize: invalid protocol "
+				error_exit("Synchronize: invalid protocol "
 				           "header received.");
 			}
 		}
@@ -161,24 +160,24 @@ static void synchronize(void)
 	free(buf);
 
 	if (player) {
-		explseed = readshort();
+		explseed = ReadShort();
 
 		printf("random seed: %i\n", explseed);
-		conf_missiles = readshort() != 0;
-		conf_wounded = readshort() != 0;
-		conf_animals = readshort() != 0;
-		conf_big_explosions = readshort() != 0;
-		starting_level = readshort();
+		conf_missiles = ReadShort() != 0;
+		conf_wounded = ReadShort() != 0;
+		conf_animals = ReadShort() != 0;
+		conf_big_explosions = ReadShort() != 0;
+		starting_level = ReadShort();
 	} else {
 		// send settings
-		sendshort(explseed);
+		SendShort(explseed);
 
 		printf("random seed: %i\n", explseed);
-		sendshort(conf_missiles);
-		sendshort(conf_wounded);
-		sendshort(conf_animals);
-		sendshort(conf_big_explosions);
-		sendshort(starting_level);
+		SendShort(conf_missiles);
+		SendShort(conf_wounded);
+		SendShort(conf_animals);
+		SendShort(conf_big_explosions);
+		SendShort(starting_level);
 	}
 	gamenum = starting_level;
 }
@@ -266,7 +265,7 @@ void init1asy(void)
 	asyninit();
 	clrprmpt();
 	swputs("  Waiting for other player...");
-	synchronize();
+	Synchronize();
 #endif
 }
 

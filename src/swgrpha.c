@@ -56,7 +56,7 @@ void swputsym(int x, int y, OBJECTS * ob)
 	Vid_DispSymbol(x, y, ob->ob_newsym, ob_color(ob));
 }
 
-static void print_help(void)
+static void PrintHelp(void)
 {
 	char buf[64];
 	int i;
@@ -131,7 +131,7 @@ void swdisp(void)
 	// player demonstrates the ability to take off successfully.
 	if (consoleplayer->ob_athome && !successful_flight && gamenum == 0
 	 && consoleplayer->ob_state == FLYING) {
-		print_help();
+		PrintHelp();
 	}
 
 	// calculate displx from the player position

@@ -194,7 +194,7 @@ static float OversampledSquareWave(int i)
 }
 
 // SDL callback function to generate sound output
-static void snd_callback(void *userdata, Uint8 *stream8, int len)
+static void SoundCallback(void *userdata, Uint8 *stream8, int len)
 {
 	static int lasttime;
 	static float lastfreq;
@@ -312,7 +312,7 @@ void Speaker_Init(void)
 	audiospec.freq = 48000;
 	audiospec.format = AUDIO_S16SYS;
 	audiospec.channels = 1;
-	audiospec.callback = &snd_callback;
+	audiospec.callback = &SoundCallback;
 
 	audio_dev = SDL_OpenAudioDevice(NULL, 0, &audiospec, &audiospec_actual,
 	                                SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
