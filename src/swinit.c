@@ -1090,31 +1090,31 @@ void swinit(int argc, char *argv[])
 			puts(PACKAGE_STRING);
 			exit(0);
 		} else if (!strcasecmp(argv[i], "-n")) {
-			n = 1;
+			n = true;
 		} else if (!strcasecmp(argv[i], "-s")) {
-			s = 1;
+			s = true;
 		} else if (!strcasecmp(argv[i], "-c")) {
-			c = 1;
+			c = true;
 		} else if (!strcasecmp(argv[i], "-f")) {
 			vid_fullscreen = 1;
 		} else if (!strncasecmp(argv[i], "-g", 2)) {
 			sscanf(& (argv[i][2]), "%d", &starting_level);
 			gamenum = starting_level;
 		} else if (!strcasecmp(argv[i], "-q")) {
-			soundflg = 1;
+			soundflg = true;
 		} else if (!strcmp(argv[i], "-m") && (i + 1) < argc) {
 			load_custom_level(argv[i + 1]);
 			++i;
 		} else
 #ifdef TCPIP
 		if (!strcasecmp(argv[i], "-l")) {
-			a = 1;
+			a = true;
 			asynmode = ASYN_LISTEN;
 		} else if (!strcasecmp(argv[i], "-j")) {
 			if (i + 1 >= argc) {
 				error_exit("insufficient arguments to -j");
 			}
-			a = 1;
+			a = true;
 			asynmode = ASYN_CONNECT;
 			++i;
 			snprintf(asynhost, sizeof(asynhost), "%s", argv[i]);

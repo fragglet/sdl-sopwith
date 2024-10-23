@@ -15,6 +15,8 @@
 #ifndef __SDLSOUND_H__
 #define __SDLSOUND_H__
 
+#include "std.h"
+
 void Speaker_Init(void);
 void Speaker_Off(void);
 
@@ -29,6 +31,6 @@ void Speaker_Off(void);
 
 void Speaker_Output(unsigned short count);
 
-extern int snd_tinnyfilter;
+extern bool snd_tinnyfilter;
 
 #endif

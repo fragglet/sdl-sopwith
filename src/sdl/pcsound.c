@@ -45,11 +45,12 @@ struct filter {
 	int samples_next;
 };
 
-int snd_tinnyfilter = 1;
+bool snd_tinnyfilter = 1;
+static bool sound_initted = false;
+static bool speaker_on = false;
 static SDL_AudioDeviceID audio_dev;
 static int output_freq;
 static struct filter tinny_filter;
-static int speaker_on = 0;
 static float current_freq = 0xff;
 
 static float FilterNext(struct filter *f, float sample)
@@ -245,19 +246,17 @@ void Speaker_Output(unsigned short count)
 {
 	if (!count) {
 		current_freq = 0;
-		speaker_on = 0;
+		speaker_on = false;
 		return;
 	}
-	speaker_on = 1;
+	speaker_on = true;
 	current_freq = TIMER_FREQ / (float) count;
 }
 
 void Speaker_Off(void)
 {
-	speaker_on = 0;
+	speaker_on = false;
 }
-
-static int sound_initted = 0;
 
 void Speaker_Shutdown(void)
 {
@@ -267,7 +266,7 @@ void Speaker_Shutdown(void)
 
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
-	sound_initted = 0;
+	sound_initted = false;
 }
 
 static void InitializeTinnyFilter(unsigned int sample_rate)
@@ -309,7 +308,6 @@ static void InitializeNullFilter(void)
 	one_sample = 0.0;
 }
 
-
 // initialize sound
 void Speaker_Init(void)
 {
@@ -338,7 +336,7 @@ void Speaker_Init(void)
 	output_freq = audiospec_actual.freq;
 
 	atexit(Speaker_Shutdown);
-	sound_initted = 1;
+	sound_initted = true;
 	if (snd_tinnyfilter) {
 		InitializeTinnyFilter(audiospec.freq);
 	} else {

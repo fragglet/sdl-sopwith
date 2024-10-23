@@ -17,7 +17,6 @@
 
 #include "std.h"
 #include <setjmp.h>
-#include "config.h"
 
 // This is defined here before sw.h for silly include-order reasons.
 typedef enum {

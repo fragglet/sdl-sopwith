@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "config.h"
+
 // Almost everything is C99-compliant nowadays; MSC might be the only
 // exception, so just in case -
 #ifdef HAVE_STDBOOL_H

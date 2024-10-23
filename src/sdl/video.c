@@ -95,7 +95,7 @@ int keybindings[NUM_KEYS] = {
 };
 
 static int ctrlbreak = 0;
-static bool initted = 0;
+static bool initted = false;
 static SDL_Window *window = NULL;
 static uint32_t pixel_format;
 static SDL_Renderer *renderer;
@@ -488,7 +488,7 @@ void Vid_Shutdown(void)
 
 	SDL_FreeSurface(screenbuf);
 
-	initted = 0;
+	initted = false;
 }
 
 void Vid_Init(void)
@@ -508,7 +508,7 @@ void Vid_Init(void)
 	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0,
 	                     arrlen(cga_pal));
 
-	initted = 1;
+	initted = true;
 
 	atexit(Vid_Shutdown);
 
@@ -648,7 +648,7 @@ static void CtrlKeyPress(SDL_Keycode k)
 static void getevents(void)
 {
 	SDL_Event event;
-	int need_redraw = 0;
+	bool need_redraw = false;
 	int i;
 	sopkey_t translated;
 
@@ -712,7 +712,7 @@ static void getevents(void)
 				// When we get one of these events, we redraw
 				// the screen immediately, as we may be in a
 				// menu waiting for a keypress.
-				need_redraw = 1;
+				need_redraw = true;
 				break;
 			}
 		}

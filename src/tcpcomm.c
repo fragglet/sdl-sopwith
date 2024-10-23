@@ -50,7 +50,7 @@ static int tcp_sock = -1;
 
 static void comminit(void)
 {
-	static int initialized = 0;
+	static bool initialized = false;
 
 	if (initialized) {
 		return;
@@ -66,7 +66,7 @@ static void comminit(void)
 		}
 	}
 #endif
-	initialized = 1;
+	initialized = true;
 }
 
 // poll_socket returns 1 if there appears to be new data ready on the given

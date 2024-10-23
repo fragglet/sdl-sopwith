@@ -26,14 +26,14 @@ typedef struct {
 
 #define MAX_SPLATS 64
 
-static int oxsplatted = 0;
+static bool oxsplatted = false;
 static splat_t splats[MAX_SPLATS];
 static int num_splats = 0;
 
 void swclearsplats(void)
 {
 	num_splats = 0;
-	oxsplatted = 0;
+	oxsplatted = false;
 }
 
 void swdispsplats(void)
@@ -110,5 +110,5 @@ void swwindshot(void)
 
 void swsplatox(void)
 {
-	oxsplatted = 1;
+	oxsplatted = true;
 }
