@@ -34,6 +34,7 @@
 
 void swtitln(void)
 {
+	const char *version_string;
 	int i, h;
 
 	sound(S_TITLE, 0, NULL);
@@ -49,8 +50,9 @@ void swtitln(void)
 	swposcur(13+X_OFFSET/8, 4);
 	swputs("S O P W I T H");
 
-	swposcur(13+X_OFFSET/8, 6);
-	swputs("Version " PACKAGE_VERSION);
+	version_string = "Version " PACKAGE_VERSION;
+	swposcur((40 - strlen(version_string)) / 2 + X_OFFSET / 8, 6);
+	swputs(version_string);
 
 	swcolor(3);
 	swposcur(0+X_OFFSET/8, 9);
