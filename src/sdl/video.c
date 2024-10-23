@@ -24,15 +24,16 @@
 #include "video.h"
 #include "sw.h"
 #include "swinit.h"
+#include "swmain.h"
 
-static SDL_Color cga_pal[] = {{}, {}, {}, {}};
+#define INPUT_BUFFER_LEN 32
 
 typedef struct {
 	char name[13]; // Up to 12 characters will display correctly on the menu
 	SDL_Color color[4];
 } VideoPalette;
 
-static const VideoPalette VideoPalettes[] = {
+static const VideoPalette video_palettes[] = {
 	{"CGA 1", 		// CGA black, cyan, magenta, white (Sopwith's default color scheme)
 		{{0, 0, 0}, {0, 255, 255}, {255, 0, 255}, {255, 255, 255}}},
 	{"CGA 2", 		// CGA black, red, green, yellow
@@ -68,11 +69,8 @@ static const VideoPalette VideoPalettes[] = {
 		 {0xff, 0x00, 0x00}, {0xff, 0xff, 0xff}}},
 };
 
-bool vid_fullscreen = false;
-
 extern unsigned char *vid_vram;
 extern unsigned int vid_pitch;
-extern int gamenum;
 extern bool isNetworkGame(void);
 
 int keybindings[NUM_KEYS] = {
@@ -90,11 +88,16 @@ int keybindings[NUM_KEYS] = {
 	SDL_SCANCODE_S,       // KEY_SOUND
 };
 
+bool vid_fullscreen = false;
 static int ctrlbreak = 0;
 static bool initted = false;
 static SDL_Window *window = NULL;
 static uint32_t pixel_format;
 static SDL_Renderer *renderer;
+static SDL_Keysym input_buffer[INPUT_BUFFER_LEN];
+static int input_buffer_head = 0, input_buffer_tail = 0;
+
+static SDL_Color cga_pal[] = {{}, {}, {}, {}};
 
 // Maximum number of pixels to use for intermediate scale buffer.
 static int max_scaling_buffer_pixels = 16000000;
@@ -114,7 +117,7 @@ static SDL_Texture *texture_upscaled = NULL;
 #define ICON_SCALE 4
 static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
-	const SDL_Color *pal = VideoPalettes[0].color;
+	const SDL_Color *pal = video_palettes[0].color;
 	SDL_Surface *surface = SDL_CreateRGBSurface(
 		0, sym->w * ICON_SCALE, sym->h * ICON_SCALE, 32,
 		0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
@@ -518,16 +521,15 @@ void Vid_Reset(void)
 	Vid_SetMode();
 
 	// need to redraw buffer to screen
-
 	Vid_Update();
 }
 
 void Vid_SetVideoPalette(int palette)
 {
-	cga_pal[0] = VideoPalettes[palette].color[0];
-	cga_pal[1] = VideoPalettes[palette].color[1];
-	cga_pal[2] = VideoPalettes[palette].color[2];
-	cga_pal[3] = VideoPalettes[palette].color[3];
+	cga_pal[0] = video_palettes[palette].color[0];
+	cga_pal[1] = video_palettes[palette].color[1];
+	cga_pal[2] = video_palettes[palette].color[2];
+	cga_pal[3] = video_palettes[palette].color[3];
 	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0,
 	                     arrlen(cga_pal));
 	Vid_Update();
@@ -535,17 +537,13 @@ void Vid_SetVideoPalette(int palette)
 
 const char* Vid_GetVideoPaletteName(int palette)
 {
-        return VideoPalettes[palette].name;
+	return video_palettes[palette].name;
 }
 
 int Vid_GetNumVideoPalettes(void)
 {
-	return arrlen(VideoPalettes);
+	return arrlen(video_palettes);
 }
-
-#define INPUT_BUFFER_LEN 32
-static SDL_Keysym input_buffer[INPUT_BUFFER_LEN];
-static int input_buffer_head = 0, input_buffer_tail = 0;
 
 static void InputBufferPush(SDL_Keysym c)
 {
