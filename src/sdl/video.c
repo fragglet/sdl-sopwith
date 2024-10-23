@@ -547,7 +547,7 @@ int Vid_GetNumVideoPalettes(void)
 static SDL_Keysym input_buffer[INPUT_BUFFER_LEN];
 static int input_buffer_head = 0, input_buffer_tail = 0;
 
-static void input_buffer_push(SDL_Keysym c)
+static void InputBufferPush(SDL_Keysym c)
 {
 	int tail_next = (input_buffer_tail + 1) % INPUT_BUFFER_LEN;
 	if (tail_next == input_buffer_head) {
@@ -557,7 +557,7 @@ static void input_buffer_push(SDL_Keysym c)
 	input_buffer_tail = tail_next;
 }
 
-static SDL_Keysym input_buffer_pop(void)
+static SDL_Keysym InputBufferPop(void)
 {
 	SDL_Keysym result;
 
@@ -572,7 +572,7 @@ static SDL_Keysym input_buffer_pop(void)
 	return result;
 }
 
-static sopkey_t translate_scancode(int sdl_scancode)
+static sopkey_t TranslateScancode(int sdl_scancode)
 {
 	int i;
 
@@ -638,48 +638,59 @@ static void CtrlKeyPress(SDL_Keycode k)
 	}
 }
 
-static void getevents(void)
+static void KeyDown(SDL_KeyboardEvent *event)
+{
+	sopkey_t translated;
+
+	if (CtrlDown()) {
+		CtrlKeyPress(event->keysym.sym);
+		return;
+	} else if (AltDown() && (event->keysym.sym == SDLK_RETURN
+	                      || event->keysym.sym == SDLK_KP_ENTER)) {
+#ifndef NO_FULLSCREEN
+		vid_fullscreen = !vid_fullscreen;
+		Vid_Reset();
+#endif
+		return;
+	} else if (event->keysym.sym == SDLK_KP_ENTER
+	        && SDL_IsTextInputActive()) {
+		SDL_Keysym fake = {0};
+		fake.sym = '\n';
+		fake.scancode = SDL_SCANCODE_UNKNOWN;
+		InputBufferPush(fake);
+		return;
+	} else if (!SDL_IsTextInputActive() || IsSpecialKey(&event->keysym)) {
+		InputBufferPush(event->keysym);
+	}
+
+	translated = TranslateScancode(event->keysym.scancode);
+	if (translated != KEY_UNKNOWN) {
+		keysdown[translated] |= 3;
+	}
+}
+
+static void KeyUp(SDL_KeyboardEvent *event)
+{
+	sopkey_t translated = TranslateScancode(event->keysym.scancode);
+	if (translated != KEY_UNKNOWN) {
+		keysdown[translated] &= ~1;
+	}
+}
+
+static void GetEvents(void)
 {
 	SDL_Event event;
 	bool need_redraw = false;
 	int i;
-	sopkey_t translated;
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_KEYDOWN:
-			if (CtrlDown()) {
-				CtrlKeyPress(event.key.keysym.sym);
-			} else if (AltDown() && (event.key.keysym.sym == SDLK_RETURN
-			                      || event.key.keysym.sym == SDLK_KP_ENTER)) {
-#ifndef NO_FULLSCREEN
-				vid_fullscreen = !vid_fullscreen;
-				Vid_Reset();
-				continue;
-#endif
-			} else if (event.key.keysym.sym == SDLK_KP_ENTER && SDL_IsTextInputActive()) {
-				SDL_Keysym fake = {0};
-				fake.sym = '\n';
-				fake.scancode = SDL_SCANCODE_UNKNOWN;
-				input_buffer_push(fake);
-				continue;
-			} else if (!SDL_IsTextInputActive()
-			 || IsSpecialKey(&event.key.keysym)) {
-				input_buffer_push(event.key.keysym);
-			}
-			translated = translate_scancode(
-				event.key.keysym.scancode);
-			if (translated != KEY_UNKNOWN) {
-				keysdown[translated] |= 3;
-			}
+			KeyDown(&event.key);
 			break;
 
 		case SDL_KEYUP:
-			translated = translate_scancode(
-				event.key.keysym.scancode);
-			if (translated != KEY_UNKNOWN) {
-				keysdown[translated] &= ~1;
-			}
+			KeyUp(&event.key);
 			break;
 
 		case SDL_TEXTINPUT:
@@ -691,7 +702,7 @@ static void getevents(void)
 				}
 				fake.sym = c;
 				fake.scancode = SDL_SCANCODE_UNKNOWN;
-				input_buffer_push(fake);
+				InputBufferPush(fake);
 			}
 			break;
 
@@ -729,16 +740,16 @@ void Vid_StopTextInput(void)
 int Vid_GetKey(void)
 {
 	SDL_Keysym k;
-	getevents();
-	k = input_buffer_pop();
+	GetEvents();
+	k = InputBufferPop();
 	return k.scancode;
 }
 
 int Vid_GetChar(void)
 {
 	int result;
-	getevents();
-	result = input_buffer_pop().sym;
+	GetEvents();
+	result = InputBufferPop().sym;
 	if (result == '\r') {
 		result = '\n';
 	}
@@ -747,7 +758,7 @@ int Vid_GetChar(void)
 
 bool Vid_GetCtrlBreak(void)
 {
-	getevents();
+	GetEvents();
 	return ctrlbreak;
 }
 
