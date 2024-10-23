@@ -28,12 +28,12 @@
 
 #define INPUT_BUFFER_LEN 32
 
-typedef struct {
+struct palette {
 	char name[13]; // Up to 12 characters will display correctly on the menu
 	SDL_Color color[4];
-} VideoPalette;
+};
 
-static const VideoPalette video_palettes[] = {
+static const struct palette video_palettes[] = {
 	{"CGA 1", 		// CGA black, cyan, magenta, white (Sopwith's default color scheme)
 		{{0, 0, 0}, {0, 255, 255}, {255, 0, 255}, {255, 255, 255}}},
 	{"CGA 2", 		// CGA black, red, green, yellow
