@@ -957,7 +957,7 @@ sopsym_t symbol_pixel = {
 // generate array of symset_t structs from array of strings:
 #define symsets_from_text(text, w, h, out)                        \
         { int _i;                                                 \
-          for (_i=0; _i<sizeof(out)/sizeof(*(out)); ++_i) {       \
+          for (_i = 0; _i < arrlen(out); ++_i) {                  \
              init_symset(&(out)[_i], #text, _i);                  \
              symset_from_text(&(out)[_i], (text)[_i], (w), (h));  \
           }                                                       \

@@ -506,7 +506,7 @@ void Vid_Init(void)
 	vid_vram = screenbuf->pixels;
 	vid_pitch = screenbuf->pitch;
 	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0,
-	                     sizeof(cga_pal) / sizeof(*cga_pal));
+	                     arrlen(cga_pal));
 
 	initted = 1;
 
@@ -535,7 +535,8 @@ void Vid_SetVideoPalette(int palette)
 	cga_pal[1] = VideoPalettes[palette].color[1];
 	cga_pal[2] = VideoPalettes[palette].color[2];
 	cga_pal[3] = VideoPalettes[palette].color[3];
-	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0, sizeof(cga_pal) / sizeof(*cga_pal));
+	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0,
+	                     arrlen(cga_pal));
 	Vid_Update();
 }
 
@@ -546,8 +547,7 @@ const char* Vid_GetVideoPaletteName(int palette)
 
 int Vid_GetNumVideoPalettes(void)
 {
-    int numPalettes = sizeof(VideoPalettes) / sizeof(VideoPalettes[0]);
-	return numPalettes;
+	return arrlen(VideoPalettes);
 }
 
 #define INPUT_BUFFER_LEN 32

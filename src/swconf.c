@@ -84,8 +84,6 @@ static confoption_t confoptions[] = {
 	{"key_starburst",  CONF_KEY, {&keybindings[KEY_STARBURST]}},
 };
 
-static int num_confoptions = sizeof(confoptions) / sizeof(*confoptions);
-
 static void chomp(char *s)
 {
 	char *p;
@@ -98,7 +96,7 @@ static confoption_t *confoption_by_name(char *name)
 {
 	int i;
 
-	for (i=0; i<num_confoptions; ++i) {
+	for (i = 0; i < arrlen(confoptions); ++i) {
 		if (!strcasecmp(name, confoptions[i].name)) {
 			return &confoptions[i];
 		}
@@ -238,7 +236,7 @@ void swsaveconf(void)
 	fprintf(fs, "# Configuration file for " PACKAGE_NAME "\n"
 	            "# Created by " PACKAGE_STRING "\n\n");
 
-	for (i=0; i<num_confoptions; ++i) {
+	for (i = 0; i < arrlen(confoptions); ++i) {
 		fprintf(fs, "%-20s", confoptions[i].name);
 		switch (confoptions[i].type) {
 		case CONF_BOOL:
