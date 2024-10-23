@@ -18,8 +18,6 @@
 #include <SDL.h>
 #include "sw.h"
 
-// get time in milliseconds
-
 int Timer_GetMS(void)
 {
 	return SDL_GetTicks();

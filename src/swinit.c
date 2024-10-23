@@ -1146,15 +1146,14 @@ void swinit(int argc, char *argv[])
 	Vid_Init();
 	Vid_SetVideoPalette(conf_video_palette);
 
-	// dont init speaker if started with -q (quiet)
+	// Don't init speaker if started with -q (quiet)
 	if (soundflg) {
-		Speaker_Init();		// init pc speaker
+		Speaker_Init();
 	}
 
 	initsndt();
 	
 	// set playmode if we can, from command line options
-
 	playmode =
 		n ? PLAYMODE_NOVICE :
 		s ? PLAYMODE_SINGLE :

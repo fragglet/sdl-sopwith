@@ -25,10 +25,6 @@
 #include "sw.h"
 #include "swinit.h"
 
-// lcd mode to emulate my old laptop i used to play sopwith on :)
-
-//#define LCD
-
 static SDL_Color cga_pal[] = {{}, {}, {}, {}};
 
 typedef struct {
@@ -158,8 +154,6 @@ static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 
 	return surface;
 }
-
-// 2x scale
 
 void Vid_Update(void)
 {

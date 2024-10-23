@@ -8,13 +8,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //
 //
-// SDL Sound Code
-//
-// This cleverly imitates a pc speaker using SDL sound routines
-//
-// Note: I have made this API compatible with a small library I wrote
-// for DJGPP to drive the pc speaker, in case a DOS version is ever
-// wanted.
+// SDL PC speaker code. This emulates a PC speaker using SDL's audio API
 //
 
 #include <SDL.h>
@@ -177,20 +171,19 @@ static void AddFilters(struct filter *f1, struct filter *f2)
 	}
 }
 
-// square wave function for sound generation
 static inline float SquareWave(float time)
 {
 	int l = (int) time;
 	return time - l < 0.5 ? -0.5 : 0.5;
 }
 
+// In generating samples, we oversample the square wave output; this helps
+// to avoid aliasing artifacts.
 static float OversampledSquareWave(int i)
 {
 	float presample;
 	int j;
 
-	// Sample the square wave at close to TIMER_FREQ and downsample
-	// using a simple low-pass filter. This reduces aliasing artifacts.
 	presample = 0;
 	for (j = 0; j < OVERSAMPLE_FACTOR; j++) {
 		float t = i + ((float) j) / OVERSAMPLE_FACTOR;
@@ -200,7 +193,7 @@ static float OversampledSquareWave(int i)
 	return presample / ((float) OVERSAMPLE_FACTOR);
 }
 
-// callback function to generate sound
+// SDL callback function to generate sound output
 static void snd_callback(void *userdata, Uint8 *stream8, int len)
 {
 	static int lasttime;
@@ -213,12 +206,10 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 
 	swsndupdate();
 
-	// lasttime stores the time offset from the last call
-	// we save the time so that the multiple time slices
-	// all fit together smoothly
-
-	// if we have changed frequency since last time, we need
-	// to adjust lasttime to the new frequency
+	// lasttime stores the time offset from the last call.
+	// We save the time so that the multiple time slices all fit together
+	// smoothly. If we have changed frequency since last time, we need to
+	// adjust lasttime to the new frequency
 
 	lasttime *= lastfreq / current_freq;
 
@@ -240,8 +231,6 @@ static void snd_callback(void *userdata, Uint8 *stream8, int len)
 	lastfreq = current_freq;
 }
 
-// set the speaker tone
-// f is the 'count' sent to the timer chip to specify the frequency
 void Speaker_Output(unsigned short count)
 {
 	if (!count) {
