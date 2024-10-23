@@ -30,7 +30,7 @@ void Timer_Sleep(int usec)
 
 static void Timer_Shutdown(void)
 {
-	SDL_QuitSubSystem(SDL_INIT_AUDIO);
+	SDL_QuitSubSystem(SDL_INIT_TIMER);
 }
 
 void Timer_Init(void)
