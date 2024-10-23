@@ -97,8 +97,6 @@ static SDL_Renderer *renderer;
 static SDL_Keysym input_buffer[INPUT_BUFFER_LEN];
 static int input_buffer_head = 0, input_buffer_tail = 0;
 
-static SDL_Color cga_pal[] = {{}, {}, {}, {}};
-
 // Maximum number of pixels to use for intermediate scale buffer.
 static int max_scaling_buffer_pixels = 16000000;
 
@@ -501,8 +499,9 @@ void Vid_Init(void)
 	                                 0, 0, 0, 0);
 	vid_vram = screenbuf->pixels;
 	vid_pitch = screenbuf->pitch;
-	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0,
-	                     arrlen(cga_pal));
+	SDL_SetPaletteColors(screenbuf->format->palette,
+	                     video_palettes[0].color, 0,
+	                     arrlen(video_palettes[0].color));
 
 	initted = true;
 
@@ -526,12 +525,9 @@ void Vid_Reset(void)
 
 void Vid_SetVideoPalette(int palette)
 {
-	cga_pal[0] = video_palettes[palette].color[0];
-	cga_pal[1] = video_palettes[palette].color[1];
-	cga_pal[2] = video_palettes[palette].color[2];
-	cga_pal[3] = video_palettes[palette].color[3];
-	SDL_SetPaletteColors(screenbuf->format->palette, cga_pal, 0,
-	                     arrlen(cga_pal));
+	SDL_SetPaletteColors(screenbuf->format->palette,
+	                     video_palettes[palette].color, 0,
+	                     arrlen(video_palettes[palette].color));
 	Vid_Update();
 }
 
