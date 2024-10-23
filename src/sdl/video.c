@@ -32,7 +32,7 @@ typedef struct {
 	SDL_Color color[4];
 } VideoPalette;
 
-VideoPalette VideoPalettes[] = {
+static const VideoPalette VideoPalettes[] = {
 	{"CGA 1", 		// CGA black, cyan, magenta, white (Sopwith's default color scheme)
 		{{0, 0, 0}, {0, 255, 255}, {255, 0, 255}, {255, 255, 255}}},
 	{"CGA 2", 		// CGA black, red, green, yellow
@@ -110,12 +110,11 @@ static SDL_Surface *argbbuffer = NULL;
 static SDL_Texture *texture = NULL;
 static SDL_Texture *texture_upscaled = NULL;
 
-
 // convert a sopsym_t into a surface
 #define ICON_SCALE 4
 static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 {
-	SDL_Color *pal = VideoPalettes[0].color;
+	const SDL_Color *pal = VideoPalettes[0].color;
 	SDL_Surface *surface = SDL_CreateRGBSurface(
 		0, sym->w * ICON_SCALE, sym->h * ICON_SCALE, 32,
 		0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
@@ -138,7 +137,7 @@ static SDL_Surface *surface_from_sopsym(sopsym_t *sym)
 		dst = (uint32_t *) ((uint8_t *) surface->pixels +
 		                    y * surface->pitch);
 		for (x = 0; x < surface->w; ++x) {
-			SDL_Color *p;
+			const SDL_Color *p;
 			sx = x / ICON_SCALE;
 			if (src[sx] == 0) {
 				dst[x] = 0;
