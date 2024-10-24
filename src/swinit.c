@@ -130,7 +130,7 @@ static void initflightscore(flight_score_t *score)
 #define VALOUR_PRELIMIT 175
 #define VALOUR_LIMIT 250
 
-static bool have_medal(int *medals, int medals_nr, int medal_id)
+static bool HaveMedal(int *medals, int medals_nr, int medal_id)
 {
 	int i;
 
@@ -143,25 +143,25 @@ static bool have_medal(int *medals, int medals_nr, int medal_id)
 	return false;
 }
 
-static void give_medal(OBJECTS *ob, int medal_id)
+static void GiveMedal(OBJECTS *ob, int medal_id)
 {
 	score_t *sc = &ob->ob_score;
-	if (!have_medal(sc->medals, sc->medals_nr, medal_id)) {
+	if (!HaveMedal(sc->medals, sc->medals_nr, medal_id)) {
 		assert(sc->medals_nr < 3);
 		sc->medals[sc->medals_nr++] = medal_id;
 	}
 }
 
-static void give_ribbon(OBJECTS *ob, int ribbon_id)
+static void GiveRibbon(OBJECTS *ob, int ribbon_id)
 {
 	score_t *sc = &ob->ob_score;
-	if (!have_medal(sc->ribbons, sc->ribbons_nr, ribbon_id)) {
+	if (!HaveMedal(sc->ribbons, sc->ribbons_nr, ribbon_id)) {
 		assert(sc->ribbons_nr < 6);
 		sc->ribbons[sc->ribbons_nr++] = ribbon_id;
 	}
 }
 
-static void get_awards(OBJECTS *ob)
+static void GetAwards(OBJECTS *ob)
 {
 	flight_score_t *fsc = &ob->ob_flightscore;
 	score_t *sc = &ob->ob_score;
@@ -169,7 +169,7 @@ static void get_awards(OBJECTS *ob)
 	// We only award purple heart if wounded in combat (=hit by bullet),
 	// not from a bird strike or flying into an ox.
 	if (fsc->combatwound) {
-		give_medal(ob, MEDAL_PURPLEHEART);
+		GiveMedal(ob, MEDAL_PURPLEHEART);
 	}
 
 	// We count up the number of planes shot down, but they only count if
@@ -177,10 +177,10 @@ static void get_awards(OBJECTS *ob)
 	sc->planekills += fsc->planekills;
 	//printf("planes %d %d\n", sc->planekills, fsc->planekills);
 	if (sc->planekills >= 5) {
-		give_ribbon(ob, RIBBON_ACE);
+		GiveRibbon(ob, RIBBON_ACE);
 	}
 	if (sc->planekills >= 25) {
-		give_ribbon(ob, RIBBON_TOPACE);
+		GiveRibbon(ob, RIBBON_TOPACE);
 	}
 
 	// We count the number of landings during which we did a decent amount
@@ -190,16 +190,16 @@ static void get_awards(OBJECTS *ob)
 	}
 	//printf("kills %d landings %d\n", fsc->killscore, sc->landings);
 	if (sc->landings >= 3) {
-		give_ribbon(ob, RIBBON_SERVICE);
+		GiveRibbon(ob, RIBBON_SERVICE);
 	}
 
 	// If a huge number of damage is done, we give a medal (first time) or
 	// ribbon (second time)
 	if (fsc->killscore >= COMPETENCE_KILLSCORE) {
-		if (!have_medal(sc->medals, sc->medals_nr, MEDAL_COMPETENCE)) {
-			give_medal(ob, MEDAL_COMPETENCE);
+		if (!HaveMedal(sc->medals, sc->medals_nr, MEDAL_COMPETENCE)) {
+			GiveMedal(ob, MEDAL_COMPETENCE);
 		} else {
-			give_ribbon(ob, RIBBON_COMPETENCE2);
+			GiveRibbon(ob, RIBBON_COMPETENCE2);
 		}
 	}
 
@@ -208,19 +208,19 @@ static void get_awards(OBJECTS *ob)
 	sc->valour += fsc->valour;
 	//printf("valour %d %d\n", sc->valour, fsc->valour);
 	if (sc->valour >= VALOUR_PRELIMIT) {
-		give_ribbon(ob, RIBBON_PREVALOUR);
+		GiveRibbon(ob, RIBBON_PREVALOUR);
 	}
 	if (sc->valour >= VALOUR_LIMIT) {
-		give_medal(ob, MEDAL_VALOUR);
+		GiveMedal(ob, MEDAL_VALOUR);
 	}
 }
 
-static void get_endlevel(OBJECTS *ob)
+static void GetEndLevel(OBJECTS *ob)
 {
-	get_awards(ob);
+	GetAwards(ob);
 
 	if (ob->ob_crashcnt == 0) {
-		give_ribbon(ob, RIBBON_PERFECT);
+		GiveRibbon(ob, RIBBON_PERFECT);
 	}
 }
 
@@ -243,7 +243,7 @@ OBJECTS *initpln(OBJECTS * obp)
 
 	if (obp && ob->ob_state != CRASHED && !ob->ob_athome) {
 		/* Just returned home */
-		get_awards(ob);
+		GetAwards(ob);
 	}
 
 	initflightscore(&ob->ob_flightscore);
@@ -655,7 +655,7 @@ static OBJECTS *inittarget(const original_ob_t *orig_ob)
 
 // Number of explosion fragments is calculated based on the number of pixels
 // in the "destroyed target" sprite:
-static int target_explosion_size(int target_type)
+static int TargetExplosionSize(int target_type)
 {
 	symset_t *ss = &symbol_target_hit[target_type];
 	sopsym_t *s = &ss->sym[0];
@@ -722,7 +722,7 @@ void initexpl(OBJECTS *obo, int small)
 			// target sprite. For the original Sopwith destroyed-
 			// building sprite, this evaluates to 2, which is
 			// the original behavior.
-			ic = 110 / target_explosion_size(obo->ob_orient);
+			ic = 110 / TargetExplosionSize(obo->ob_orient);
 		} else {
 			ic = 2;
 		}
@@ -1028,7 +1028,7 @@ void swrestart(void)
 		ob = planes[player];
 		inc = 0;
 
-		get_endlevel(ob);
+		GetEndLevel(ob);
 
 		// Count down the remaining lives; the player gets awarded
 		// extra points for each life.
@@ -1082,7 +1082,7 @@ void swinit(int argc, char *argv[])
 
 	// We must generate symbols early, so that custom map files
 	// can replace symbols:
-	symbol_generate();
+	GenerateSymbols();
 
 	for (i=1; i<argc; ++i) {
 		if (!strcasecmp(argv[i], "-v")
@@ -1103,7 +1103,7 @@ void swinit(int argc, char *argv[])
 		} else if (!strcasecmp(argv[i], "-q")) {
 			soundflg = true;
 		} else if (!strcmp(argv[i], "-m") && (i + 1) < argc) {
-			load_custom_level(argv[i + 1]);
+			LoadCustomLevel(argv[i + 1]);
 			++i;
 		} else
 #ifdef TCPIP

@@ -109,10 +109,9 @@ static int skip_time;
 
 /* possibly advance the game */
 
-static int can_move(void)
+static bool CanMove(void)
 {
-	int i;
-	int lowtic = countmove + MAX_NET_LAG;
+	int i, lowtic = countmove + MAX_NET_LAG;
 
 	/* we can only advance the game if latest_player_time for all
 	 * players is > countmove. */
@@ -128,7 +127,7 @@ static int can_move(void)
 
 /* Calculate lag between the controls and the game */
 
-static void calculate_lag(void)
+static void CalculateLag(void)
 {
 	int lag = Timer_GetMS() - player_command_time[countmove % MAX_NET_LAG];
 	int compensation;
@@ -151,7 +150,7 @@ static void calculate_lag(void)
 	skip_time += compensation;
 }
 
-static void new_move(void)
+static void NewMove(void)
 {
 	int multkey;
 	int tictime;
@@ -181,7 +180,7 @@ static void new_move(void)
 }
 
 #if 0
-static void dump_cmds(void)
+static void DumpCmds(void)
 {
 	printf("%i: %i, %i\n", countmove,
 		latest_player_commands[0][countmove % MAX_NET_LAG],
@@ -228,7 +227,7 @@ restart:
 		if (nowtime > nexttic
 		 && latest_player_time[player] - countmove < MAX_NET_LAG) {
 
-			new_move();
+			NewMove();
 
 			/* Be accurate (exact amount between tics);
 			 * However, if a large spike occurs between tics,
@@ -252,9 +251,9 @@ restart:
 
 		/* if we have all the tic commands we need, we can move */
 
-		if (can_move()) {
-			calculate_lag();
-			//dump_cmds();
+		if (CanMove()) {
+			CalculateLag();
+			//DumpCmds();
 			swmove();
 			swdisp();
 			swcollsn();

@@ -282,7 +282,7 @@ bool have_custom_level;
 
 #define cl custom_level
 
-static void free_custom_level(void)
+static void FreeCustomLevel(void)
 {
 	free(cl.gm_objects);
 	cl.gm_objects = NULL;
@@ -293,7 +293,7 @@ static void free_custom_level(void)
 	cl.gm_rseed = 12345;
 }
 
-static void add_object(original_ob_t *ob, struct yocton_object *yo)
+static void AddObject(original_ob_t *ob, struct yocton_object *yo)
 {
 	struct yocton_prop *p;
 
@@ -308,7 +308,7 @@ static void add_object(original_ob_t *ob, struct yocton_object *yo)
 	}
 }
 
-static void set_ground(struct yocton_object *yo)
+static void SetGround(struct yocton_object *yo)
 {
 	struct yocton_prop *p;
 
@@ -320,23 +320,23 @@ static void set_ground(struct yocton_object *yo)
 	}
 }
 
-static void process_level(struct yocton_object *obj)
+static void ProcessLevel(struct yocton_object *obj)
 {
 	struct yocton_prop *p;
 
 	while ((p = yocton_next_prop(obj)) != NULL) {
 		YOCTON_VAR_ARRAY(p, "object", cl.gm_objects, cl.gm_num_objects, {
-			add_object(&cl.gm_objects[cl.gm_num_objects],
-				yocton_prop_inner(p));
+			AddObject(&cl.gm_objects[cl.gm_num_objects],
+			          yocton_prop_inner(p));
 			++cl.gm_num_objects;
 		});
 		YOCTON_IF_PROP(p, "ground", {
-			set_ground(yocton_prop_inner(p));
+			SetGround(yocton_prop_inner(p));
 		});
 	}
 }
 
-static void process_symbol(const char *name, struct yocton_object *obj)
+static void ProcessSymbol(const char *name, struct yocton_object *obj)
 {
 	symset_t *s;
 	struct yocton_prop *p;
@@ -351,19 +351,19 @@ static void process_symbol(const char *name, struct yocton_object *obj)
 		yocton_check(obj, "expecting frame number as property name",
 		             *ptr == '\0' && errno != ERANGE && l < 256);
 
-		s = lookup_symset(name, l);
+		s = LookupSymset(name, l);
 		yocton_check(obj, "expecting valid symbol name and "
 		             "frame number", s != NULL);
 		value = yocton_prop_value(p);
 		if (s != NULL && value != NULL) {
 			// TODO: Symbols must currently be the same size as
 			// the symbol they are replacing.
-			symset_from_text(s, value, s->sym[0].w, s->sym[0].h);
+			SymsetFromText(s, value, s->sym[0].w, s->sym[0].h);
 		}
 	}
 }
 
-static void process_sounds(struct yocton_object *obj)
+static void ProcessSounds(struct yocton_object *obj)
 {
 	struct yocton_prop *p;
 	char *title_tune = NULL;
@@ -377,17 +377,17 @@ static void process_sounds(struct yocton_object *obj)
 	}
 }
 
-static void process_symbols(struct yocton_object *obj)
+static void ProcessSymbols(struct yocton_object *obj)
 {
 	struct yocton_prop *p;
 
 	while ((p = yocton_next_prop(obj)) != NULL) {
-		process_symbol(yocton_prop_name(p),
-		               yocton_prop_inner(p));
+		ProcessSymbol(yocton_prop_name(p),
+		              yocton_prop_inner(p));
 	}
 }
 
-void load_custom_level(const char *filename)
+void LoadCustomLevel(const char *filename)
 {
 	FILE *fs;
 	struct yocton_object *obj;
@@ -396,7 +396,7 @@ void load_custom_level(const char *filename)
 	struct yocton_prop *p;
 	bool processed_level = false;
 
-	free_custom_level();
+	FreeCustomLevel();
 
 	fs = fopen(filename, "r");
 	if (fs == NULL) {
@@ -414,14 +414,14 @@ void load_custom_level(const char *filename)
 		if (!strcmp(name, "level")) {
 			yocton_check(obj, "only one level per file supported",
 			             !processed_level);
-			process_level(yocton_prop_inner(p));
+			ProcessLevel(yocton_prop_inner(p));
 			processed_level = true;
 		}
 		if (!strcmp(name, "symbols")) {
-			process_symbols(yocton_prop_inner(p));
+			ProcessSymbols(yocton_prop_inner(p));
 		}
 		if (!strcmp(name, "sounds")) {
-			process_sounds(yocton_prop_inner(p));
+			ProcessSounds(yocton_prop_inner(p));
 		}
 	}
 

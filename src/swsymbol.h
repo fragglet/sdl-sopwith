@@ -54,9 +54,9 @@ extern symset_t symbol_ribbon[6];               // swribbonsym
 
 extern sopsym_t symbol_pixel;
 
-extern void symbol_generate(void);
-extern void symset_from_text(symset_t *s, const char *text, int w, int h);
-symset_t *lookup_symset(const char *name, int frame);
+extern void GenerateSymbols(void);
+extern void SymsetFromText(symset_t *s, const char *text, int w, int h);
+symset_t *LookupSymset(const char *name, int frame);
 
 #endif
 

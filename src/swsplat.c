@@ -71,7 +71,7 @@ static unsigned long randsd(void)
 	return 0;
 }
 
-static void add_splat(splat_t *splat)
+static void AddSplat(splat_t *splat)
 {
 	if (num_splats < MAX_SPLATS) {
 		memcpy(&splats[num_splats], splat, sizeof(splat_t));
@@ -91,7 +91,7 @@ void swsplatbird(void)
 	splat.sym = &symbol_birdsplat[0].sym[0];
 	splat.clr = OWNER_PLAYER2;
 
-	add_splat(&splat);
+	AddSplat(&splat);
 }
 
 void swwindshot(void)
@@ -105,7 +105,7 @@ void swwindshot(void)
 	splat.sym = &symbol_shotwin[0].sym[0];
 	splat.clr = OWNER_PLAYER1;
 
-	add_splat(&splat);
+	AddSplat(&splat);
 }
 
 void swsplatox(void)

@@ -18,6 +18,6 @@ extern const GAMES original_level;
 extern GAMES custom_level;
 extern bool have_custom_level;
 
-void load_custom_level(const char *filename);
+void LoadCustomLevel(const char *filename);
 
 #endif

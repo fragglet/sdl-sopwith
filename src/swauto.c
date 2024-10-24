@@ -81,7 +81,7 @@ static int shoot(OBJECTS *obt)
 	return 0;
 }
 
-static bool within_home_range(OBJECTS *ob, int x, int y)
+static bool WithinHomeRange(OBJECTS *ob, int x, int y)
 {
 	const original_ob_t *orig_ob = ob->ob_original_ob;
 
@@ -89,7 +89,7 @@ static bool within_home_range(OBJECTS *ob, int x, int y)
 	    && abs(y - ob->ob_orig_y) < HOME;
 }
 
-static bool is_target(OBJECTS *ob)
+static bool IsTarget(OBJECTS *ob)
 {
 	return ob->ob_type == TARGET || ob->ob_type == OX;
 }
@@ -107,7 +107,7 @@ static bool tstcrash2(OBJECTS *ob, int x, int y, int alt, int dy)
 	// don't need to look three tics ahead. Otherwise at high speeds the
 	// autopilot can end up endlessly circling the runway, afraid any
 	// downward movement at all will lead to a crash.
-	if (ob->ob_home && within_home_range(ob, x, y)) {
+	if (ob->ob_home && WithinHomeRange(ob, x, y)) {
 		lookahead = 1;
 	}
 
@@ -144,7 +144,7 @@ static bool tstcrash2(OBJECTS *ob, int x, int y, int alt, int dy)
 
 
 	for (; obt->ob_xnext != NULL; obt = obt->ob_xnext) {
-		if (!is_target(obt) || obt->ob_x < xl) {
+		if (!IsTarget(obt) || obt->ob_x < xl) {
 			continue;
 		}
 		if (obt->ob_x > xr) {
@@ -327,7 +327,7 @@ int gohome(OBJECTS *ob)
 	}
 
 	courseadj = ((countmove & 0x001F) < 16) << 4;
-	if (within_home_range(ob, ob->ob_x, ob->ob_y)) {
+	if (WithinHomeRange(ob, ob->ob_x, ob->ob_y)) {
 		if (plyrplane) {
 			initplyr(ob);
 			initdisp(true);

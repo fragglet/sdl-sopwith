@@ -841,7 +841,7 @@ static const char *swribbonsym[] = {
 	"- - # # # - -   \n", /* MMWWWMM : PREVALOUR */
 };
 
-static void rotate(int *x, int *y, int w, int h, int rotations, bool mirror)
+static void Rotate(int *x, int *y, int w, int h, int rotations, bool mirror)
 {
 	int i, tmp;
 
@@ -855,8 +855,8 @@ static void rotate(int *x, int *y, int w, int h, int rotations, bool mirror)
 	}
 }
 
-static void sopsym_from_text(sopsym_t *sym, const char *text, int w, int h,
-                             int rotations, bool mirror)
+static void SopsymFromText(sopsym_t *sym, const char *text, int w, int h,
+                           int rotations, bool mirror)
 {
 	const char *p, *p2;
 	int x, y, dx, dy, c;
@@ -885,7 +885,7 @@ static void sopsym_from_text(sopsym_t *sym, const char *text, int w, int h,
 
 			if (x < w * 2 && y < h && (x % 2) == 0) {
 				dx = x / 2; dy = y;
-				rotate(&dx, &dy, w, h, rotations, mirror);
+				Rotate(&dx, &dy, w, h, rotations, mirror);
 				sym->data[dy * sym->w + dx] = c;
 			}
 			x++;
@@ -893,18 +893,18 @@ static void sopsym_from_text(sopsym_t *sym, const char *text, int w, int h,
 	}
 }
 
-void symset_from_text(symset_t *s, const char *text, int w, int h)
+void SymsetFromText(symset_t *s, const char *text, int w, int h)
 {
 	int r;
 
 	for (r = 0; r < 4; r++)
 	{
-		sopsym_from_text(&s->sym[r], text, w, h, r, false);
-		sopsym_from_text(&s->sym[r + 4], text, w, h, r, true);
+		SopsymFromText(&s->sym[r], text, w, h, r, false);
+		SopsymFromText(&s->sym[r + 4], text, w, h, r, true);
 	}
 }
 
-symset_t *lookup_symset(const char *name, int frame)
+symset_t *LookupSymset(const char *name, int frame)
 {
 	symset_t *s;
 
@@ -917,7 +917,7 @@ symset_t *lookup_symset(const char *name, int frame)
 	return NULL;
 }
 
-static void init_symset(symset_t *s, const char *name, int frame)
+static void InitSymset(symset_t *s, const char *name, int frame)
 {
 	s->name = name;
 	s->frame = frame;
@@ -955,32 +955,32 @@ sopsym_t symbol_pixel = {
 };
 
 // generate array of symset_t structs from array of strings:
-#define symsets_from_text(text, w, h, out)                        \
+#define SYMSETS_FROM_TEXT(text, w, h, out)                        \
         { int _i;                                                 \
           for (_i = 0; _i < arrlen(out); ++_i) {                  \
-             init_symset(&(out)[_i], #text, _i);                  \
-             symset_from_text(&(out)[_i], (text)[_i], (w), (h));  \
+             InitSymset(&(out)[_i], #text, _i);                   \
+             SymsetFromText(&(out)[_i], (text)[_i], (w), (h));    \
           }                                                       \
         }
 
-void symbol_generate(void)
+void GenerateSymbols(void)
 {
-	symsets_from_text(swbmbsym, 8, 8, symbol_bomb);
-	symsets_from_text(swtrgsym, 16, 16, symbol_targets);
-	symsets_from_text(swexpsym, 8, 8, symbol_debris);
-	symsets_from_text(swflksym, 16, 16, symbol_flock);
-	symsets_from_text(swbrdsym, 4, 2, symbol_bird);
-	symsets_from_text(swoxsym, 16, 16, symbol_ox);
-	symsets_from_text(swmscsym, 8, 8, symbol_missile);
-	symsets_from_text(swbstsym, 8, 8, symbol_burst);
-	symsets_from_text(swplnsym, 16, 16, symbol_plane);
-	symsets_from_text(swhitsym, 16, 16, symbol_plane_hit);
-	symsets_from_text(swwinsym, 16, 16, symbol_plane_win);
-	symsets_from_text(swmedalsym, 8, 12, symbol_medal);
-	symsets_from_text(swribbonsym, 8, 2, symbol_ribbon);
-	symsets_from_text(swhtrsym, 16, 16, symbol_target_hit);
-	symsets_from_text(swshtsym, 16, 16, symbol_shotwin);
-	symsets_from_text(swsplsym, 32, 32, symbol_birdsplat);
+	SYMSETS_FROM_TEXT(swbmbsym, 8, 8, symbol_bomb);
+	SYMSETS_FROM_TEXT(swtrgsym, 16, 16, symbol_targets);
+	SYMSETS_FROM_TEXT(swexpsym, 8, 8, symbol_debris);
+	SYMSETS_FROM_TEXT(swflksym, 16, 16, symbol_flock);
+	SYMSETS_FROM_TEXT(swbrdsym, 4, 2, symbol_bird);
+	SYMSETS_FROM_TEXT(swoxsym, 16, 16, symbol_ox);
+	SYMSETS_FROM_TEXT(swmscsym, 8, 8, symbol_missile);
+	SYMSETS_FROM_TEXT(swbstsym, 8, 8, symbol_burst);
+	SYMSETS_FROM_TEXT(swplnsym, 16, 16, symbol_plane);
+	SYMSETS_FROM_TEXT(swhitsym, 16, 16, symbol_plane_hit);
+	SYMSETS_FROM_TEXT(swwinsym, 16, 16, symbol_plane_win);
+	SYMSETS_FROM_TEXT(swmedalsym, 8, 12, symbol_medal);
+	SYMSETS_FROM_TEXT(swribbonsym, 8, 2, symbol_ribbon);
+	SYMSETS_FROM_TEXT(swhtrsym, 16, 16, symbol_target_hit);
+	SYMSETS_FROM_TEXT(swshtsym, 16, 16, symbol_shotwin);
+	SYMSETS_FROM_TEXT(swsplsym, 32, 32, symbol_birdsplat);
 }
 
 //

@@ -838,7 +838,7 @@ bool moveburst(OBJECTS *ob)
 	return y < MAX_Y;
 }
 
-static void target_enemy_planes(OBJECTS *ob)
+static void TargetEnemyPlanes(OBJECTS *ob)
 {
 	OBJECTS *obp;
 	int r;
@@ -901,7 +901,7 @@ bool movetarg(OBJECTS *ob)
 	 && gamenum > 0
 	 && aggression > 0
 	 && (gamenum > 1 || (countmove % aggression) == (aggression - 1))) {
-		target_enemy_planes(ob);
+		TargetEnemyPlanes(ob);
 	}
 
 	--ob->ob_hitcount;

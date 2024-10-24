@@ -69,10 +69,10 @@ static void comminit(void)
 	initialized = true;
 }
 
-// poll_socket returns 1 if there appears to be new data ready on the given
+// PollSocket returns 1 if there appears to be new data ready on the given
 // socket. It uses select() because this works everywhere, while every OS
 // seems to have their own unique way of setting a non-blocking socket.
-static int poll_socket(int s)
+static int PollSocket(int s)
 {
 	fd_set in_fds, except_fds;
 	struct timeval timeout = { 0, 1 };  // 1us = ~immediate
@@ -201,7 +201,7 @@ void commlisten(void)
 			error_exit("commlisten: user aborted connect");
 		}
 
-		if (!poll_socket(server_sock)) {
+		if (!PollSocket(server_sock)) {
 			Timer_Sleep(50);
 			continue;
 		}
@@ -236,7 +236,7 @@ int commin(void)
 		return -1;
 	}
 
-	if (!poll_socket(tcp_sock)) {
+	if (!PollSocket(tcp_sock)) {
 		return -1;
 	}
 

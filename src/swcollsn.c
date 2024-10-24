@@ -23,7 +23,7 @@
 #include "swsplat.h"
 
 static void tstcrash(OBJECTS *obp);
-static void blast_target(OBJECTS *ob, obtype_t type);
+static void BlastTarget(OBJECTS *ob, obtype_t type);
 
 static OBJECTS *killed[MAX_OBJS*2], *killer[MAX_OBJS*2];
 static int killptr;
@@ -298,7 +298,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 		ob->ob_onmap = false;
 		initexpl(ob, 0);
 
-		blast_target(ob, ttype);
+		BlastTarget(ob, ttype);
 		scoretarg(ob, ob->ob_orient == TARGET_OIL_TANK ? 200 : 100);
 
 		--numtarg[ob->ob_clr - 1];
@@ -527,10 +527,7 @@ static void tstcrash(OBJECTS *obp)
 	}
 }
 
-
-/* Determine valour factor */
-
-static int compute_valour(OBJECTS *ob)
+static int ComputeValour(OBJECTS *ob)
 {
 	int reverse;
 	OBJECTS *so = get_score_obj(ob, &reverse);
@@ -572,7 +569,7 @@ static int compute_valour(OBJECTS *ob)
 	return valour;
 }
 
-static void blast_target(OBJECTS *ob, obtype_t type)
+static void BlastTarget(OBJECTS *ob, obtype_t type)
 {
 	int reverse;
 	OBJECTS *so = get_score_obj(ob, &reverse);
@@ -583,7 +580,7 @@ static void blast_target(OBJECTS *ob, obtype_t type)
 
 	if (type == BOMB || type == SHOT || type == MISSILE || type == PLANE) {
 		so->ob_flightscore.killscore += 4;
-		so->ob_flightscore.valour += 3 * compute_valour (ob);
+		so->ob_flightscore.valour += 3 * ComputeValour (ob);
 	}
 }
 
@@ -602,7 +599,7 @@ void scorepln(OBJECTS * ob, obtype_t type)
 					scobj->ob_flightscore.planekills++;
 				}
 				scobj->ob_flightscore.valour +=
-					4 * (2 + compute_valour (ob));
+					4 * (2 + ComputeValour (ob));
 			}
 
 			scobj->ob_flightscore.killscore += 3;
