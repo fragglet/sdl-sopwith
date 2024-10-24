@@ -12,9 +12,12 @@
 #ifndef __SWASYNIO_H__
 #define __SWASYNIO_H__
 
-typedef enum { ASYN_LISTEN, ASYN_CONNECT } asynmode_t;
+enum asyn_mode {
+	ASYN_LISTEN,
+	ASYN_CONNECT,
+};
 
-extern asynmode_t asynmode;
+extern enum asyn_mode asynmode;
 extern char asynhost[128];
 extern int asynport;
 

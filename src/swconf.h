@@ -17,8 +17,7 @@
 #ifndef __SWCONF_H__
 #define __SWCONF_H__
 
-typedef struct
-{
+struct conf_option {
 	char *name;
 	enum {
 		CONF_BOOL,
@@ -30,7 +29,7 @@ typedef struct
 		bool *b;
 		int *i;
 	} value;
-} confoption_t;
+};
 
 extern void swloadconf(void);
 extern void swsaveconf(void);

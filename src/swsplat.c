@@ -18,16 +18,16 @@
 #include "swsplat.h"
 #include "swsymbol.h"
 
-typedef struct {
+struct splat {
 	int x, y;
 	int clr;
 	sopsym_t *sym;
-} splat_t;
+};
 
 #define MAX_SPLATS 64
 
 static bool oxsplatted = false;
-static splat_t splats[MAX_SPLATS];
+static struct splat splats[MAX_SPLATS];
 static int num_splats = 0;
 
 void swclearsplats(void)
@@ -71,10 +71,10 @@ static unsigned long randsd(void)
 	return 0;
 }
 
-static void AddSplat(splat_t *splat)
+static void AddSplat(struct splat *splat)
 {
 	if (num_splats < MAX_SPLATS) {
-		memcpy(&splats[num_splats], splat, sizeof(splat_t));
+		memcpy(&splats[num_splats], splat, sizeof(struct splat));
 		++num_splats;
 	}
 }
@@ -82,7 +82,7 @@ static void AddSplat(splat_t *splat)
 
 void swsplatbird(void)
 {
-	splat_t splat;
+	struct splat splat;
 	
 	randsd();
 
@@ -96,7 +96,7 @@ void swsplatbird(void)
 
 void swwindshot(void)
 {
-	splat_t splat;
+	struct splat splat;
 
 	randsd();
 

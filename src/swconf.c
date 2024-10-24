@@ -58,7 +58,7 @@ static char *GetConfigFilename(void)
 	return result;
 }
 
-static confoption_t confoptions[] = {
+static const struct conf_option confoptions[] = {
 	{"conf_missiles",       CONF_BOOL, {&conf_missiles}},
 	{"conf_solidground",    CONF_BOOL, {&conf_solidground}},
 	{"conf_hudsplats",      CONF_BOOL, {&conf_hudsplats}},
@@ -69,8 +69,7 @@ static confoption_t confoptions[] = {
 	{"conf_medals",         CONF_BOOL, {&conf_medals}},
 	{"vid_fullscreen",      CONF_BOOL, {&vid_fullscreen}},
 	{"snd_tinnyfilter",     CONF_BOOL, {&snd_tinnyfilter}},
-
-	{"conf_video_palette",	CONF_INT, {&conf_video_palette}},
+	{"conf_video_palette",  CONF_INT, {&conf_video_palette}},
 
 	{"key_accelerate", CONF_KEY, {&keybindings[KEY_ACCEL]}},
 	{"key_decelerate", CONF_KEY, {&keybindings[KEY_DECEL]}},
@@ -92,7 +91,7 @@ static void Chomp(char *s)
 	}
 }
 
-static confoption_t *ConfOptionByName(char *name)
+static const struct conf_option *ConfOptionByName(char *name)
 {
 	int i;
 
@@ -109,7 +108,7 @@ static void ParseConfigLine(char *config_file, int lineno, char *line)
 {
 	char *name, *value, *p;
 	int key;
-	confoption_t *opt;
+	const struct conf_option *opt;
 
 	p = line;
 	Chomp(p);
@@ -267,7 +266,7 @@ static const char menukeys[] = "1234567890ABCDEFGHIJKL";
 
 static void ChangeKeyBinding(struct menuitem *item)
 {
-	confoption_t *opt;
+	const struct conf_option *opt;
 	int key;
 
 	Vid_ClearBuf();
@@ -327,7 +326,7 @@ static void DrawMenu(char *title, struct menuitem *menu)
 	swcolor(3);
 
 	for (i=0, y=0, keynum=0; menu[i].config_name != NULL; ++i, ++y) {
-		confoption_t *opt;
+		const struct conf_option *opt;
 		char *suffix;
 		char buf[40];
 		int key;
@@ -420,7 +419,7 @@ static struct menuitem *MenuItemForKey(struct menuitem *menu, int key)
 static int RunMenu(char *title, struct menuitem *menu)
 {
 	struct menuitem *pressed;
-	confoption_t *opt;
+	const struct conf_option *opt;
 	int key;
 
 	for (;;) {

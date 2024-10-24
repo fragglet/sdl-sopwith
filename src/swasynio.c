@@ -27,7 +27,7 @@
 #define ABORTMSG "\n\n         (Ctrl-C to abort)"
 
 int asynport = DEFAULT_PORT;
-asynmode_t asynmode;
+enum asyn_mode asynmode;
 char asynhost[128];
 
 #define SYNC_IM_PLAYER0 '?'
