@@ -2,12 +2,11 @@
 title: SDL Sopwith: Get it!
 ---
 
-The latest release is the [{{ site.relversion }} release](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-{{ site.relversion }}) (released October 2024).
-<!-- test -->
+The latest release is the [{{ site.relversion }} release](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-{{ site.relversion }}) (released {{ site.reldate }}).
 
-| ![Apple logo](logos/Apple_logo.png) | [macOS package](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.6.0/sdl-sopwith-2.6.0-macos.dmg) (x86 64-bit; macOS 10.7+) |
-| ![Windows logo](logos/Windows_logo.png) | [Windows binary](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.6.0/sdl-sopwith-2.6.0-win32.zip) (32-bit; .zip archive) |
-| ![Open source logo](logos/Open_source_logo.png) | [Source code](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.6.0/sdl-sopwith-2.6.0.tar.gz)  (.tar.gz format, GNU GPL v2+) |
+| ![Apple logo](logos/Apple_logo.png) | [macOS package](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}-macos.dmg) (x86 64-bit; macOS 10.7+) |
+| ![Windows logo](logos/Windows_logo.png) | [Windows binary](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}-win32.zip) (32-bit; .zip archive) |
+| ![Open source logo](logos/Open_source_logo.png) | [Source code](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}.tar.gz)  (.tar.gz format, GNU GPL v2+) |
 
 ![Tux and Beastie](logos/Tux-and-beastie.png)
 
