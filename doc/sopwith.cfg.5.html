@@ -60,6 +60,10 @@
     img {
       max-width: 100%;
     }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
     h1, h2, h3, h4, h5, h6 {
       margin-top: 1.4em;
     }
@@ -250,18 +254,19 @@ usually indicating "false" and a non-zero value indicating "true".</p>
 <p>If 1, the game runs full screen rather than in a window. By default
 this is 0.</p>
 </dd>
-<dt><strong>snd_tinnyfilter</strong></dt>
-<dd>
-<p>If 1, a filter is applied to the sound output so that it sounds more
-like a tinny PC speaker that's inside a metal PC case. By default this
-is 1.</p>
-</dd>
 <dt><strong>conf_solidground</strong></dt>
 <dd>
 <p>If 1, display the ground as a solid white block, reproducing the
 visual appearance of "Sopwith 1". If 0, the ground is displayed as a
 line, reproducing the visual appearance of "Sopwith 2". By default this
 is 0.</p>
+</dd>
+<dt><strong>conf_video_palette</strong></dt>
+<dd>
+<p>Video palette to use for display. Valid values are 0 (CGA 1), 1 (CGA
+2), 2 (CGA 3), 3 (Mono Amber), 4 (Mono Green), 5 (Mono Grey), 6 (Tosh
+LCD 1), 7 (Tosh LCD 2), 8 (Tosh LCD 3), 9 (IBM LCD), 10 (Tandy LCD), 11
+(Gas Plasma) or 12 (Atari).</p>
 </dd>
 <dt><strong>conf_hudsplats</strong></dt>
 <dd>
@@ -364,6 +369,12 @@ layout keyboard.</p>
 via the options menu, and editing the configuration file is the only way
 to change them.</p>
 <dl>
+<dt><strong>snd_tinnyfilter</strong></dt>
+<dd>
+<p>If 1, a filter is applied to the sound output so that it sounds more
+like a tinny PC speaker that's inside a metal PC case. By default this
+is 1.</p>
+</dd>
 <dt><strong>conf_missiles</strong></dt>
 <dd>
 <p>Enable missiles and starbursts (flares). This is a feature that was
