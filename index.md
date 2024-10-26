@@ -8,7 +8,7 @@ computers and operating systems. It is named "SDL Sopwith" as it uses the
 [LibSDL](https://www.libsdl.org/) cross-platform library.
 
 * [Screenshots](sshot.md) of it in action.
-* [Play now](web/sopwith.html) in your browser, or [download it](getit.md).
+* [Play now](https://fragglet.github.io/sdl-sopwith-builds/tags/sdl-sopwith-{{ site.relversion }}/sopwith.html) in your browser, or [download it](getit.md).
 * [History of the Game](history.md).
 * [Github Page](https://github.com/fragglet/sdl-sopwith) where you can browse
   the source code, file bugs and contribute to development of the project.
