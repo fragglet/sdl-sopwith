@@ -6,6 +6,7 @@ baseurl: /sdl-sopwith
 url: https://fragglet.github.io
 image: /sdl-sopwith/img/start-screen-wide.png
 favicon: /sdl-sopwith/icon.png
+relversion: 2.6.0
 
 # Build settings
 remote_theme: pages-themes/minimal@v0.2.0

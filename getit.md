@@ -2,7 +2,8 @@
 title: SDL Sopwith: Get it!
 ---
 
-The latest release is the [2.6.0 release](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-2.6.0) (released October 2024).
+The latest release is the [{{ site.relversion }} release](https://github.com/fragglet/sdl-sopwith/releases/tag/sdl-sopwith-{{ site.relversion }}) (released October 2024).
+<!-- test -->
 
 | ![Apple logo](logos/Apple_logo.png) | [macOS package](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.6.0/sdl-sopwith-2.6.0-macos.dmg) (x86 64-bit; macOS 10.7+) |
 | ![Windows logo](logos/Windows_logo.png) | [Windows binary](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-2.6.0/sdl-sopwith-2.6.0-win32.zip) (32-bit; .zip archive) |
