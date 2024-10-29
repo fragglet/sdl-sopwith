@@ -18,13 +18,20 @@ would attract attention at trade shows.
 
 BMB's previous focus had been the Commodore PET, where it had developed a
 system named MUPET that had enjoyed some moderate success. MUPET allowed
-multiple computers to share a floppy drive. The following articles (and video
-demonstration) give some details of how it worked:
+multiple computers to share a floppy drive.
+
+![Photo of MUPET controller device](img/mupet-controller.jpg) \
+MUPET controller; photo credit: eBay user vintageisgreen
+
+The following articles (plus video demonstration!) give some details of how it
+worked:
 
 * [MUPET brochure](articles/mupet-brochure.pdf)
 (credit to vintagecomputer.ca).
 * [Photo of the MUPET hardware](https://www.flickr.com/photos/stompr/4581759820)
 (credit to R Stomphorst for sharing this photo on Flickr).
+* [eBay auction](https://archive.is/utJJF) that went on sale in October 2024 for
+one of the MUPET controller boxes.
 * [Video demonstration of the MUPET system](https://youtu.be/FvBC-83rk2w) (credit
 goes to Harry McCracken who originally shared this on Twitter).
 
