@@ -2,7 +2,7 @@
 title: History of Sopwith: Original DOS versions
 ---
 
-[ [Introduction](history.md) | [Imaginet](history2.md) | **DOS versions** | [On the Internet](history4.md) ]
+[ [Introduction](history.md) \| [Imaginet](history2.md) \| **DOS versions** \| [On the Internet](history4.md) ]
 
 # Original DOS Sopwith versions
 
