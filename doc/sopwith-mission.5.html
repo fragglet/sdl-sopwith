@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>sopwith-mission</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  
+  <!-- Tweaks to the pandoc output style to make the resulting HTML
+       look much nicer. -->
+
+  <style>
+  body {
+      background-color: white;
+      margin-top: 1.5em;
+      margin-bottom: 4em;
+
+      max-width: 38em;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+
+      padding: 0;
+      padding-left: 1.3em;
+      padding-right: 1.3em;
+
+      font-size: large;
+      color: #555;
+      line-height: 1.6;
+
+      text-align: justify;
+      overflow-wrap: break-word;
+  }
+
+  header {
+        font-family: serif;
+        margin-top: 0;
+        margin-bottom: 0.2em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+        margin-top: 0.5em;
+        margin-bottom: 0.2em;
+  }
+
+  p {
+        margin-top: 0;
+        margin-bottom: 0.8em;
+  }
+
+  dl {
+        margin-block-start: 0.5em;
+  }
+  </style>
+
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">sopwith-mission</h1>
+</header>
+<h1>NAME</h1>
+<p>.sop - Sopwith mission format</p>
+<h1>DESCRIPTION</h1>
+<p>The Sopwith mission format allows <strong>sopwith</strong>(6) to load
+custom user-defined levels and other modifications to the game. The
+files use Yocton as their basic format:</p>
+<p><a href="https://github.com/fragglet/yocton"></a></p>
+<p>Each .sop file can contain three different sections:</p>
+<dl>
+<dt><strong>level</strong></dt>
+<dd>
+<p>This section contains level data. If present, the game's level is
+replaced with an entirely new level defined within this section. See
+<strong>LEVEL SECTION</strong> below.</p>
+</dd>
+<dt><strong>symbols</strong></dt>
+<dd>
+<p>This section allows the game's symbols (sprites) to be replaced. This
+allows graphical modifications to the game. See <strong>SYMBOLS
+SECTION</strong> below.</p>
+</dd>
+<dt><strong>sounds</strong></dt>
+<dd>
+<p>This section allows the game's music to be replaced. See
+<strong>SOUNDS SECTION</strong> below.</p>
+</dd>
+</dl>
+<h1>LEVEL SECTION</h1>
+<p>The <strong>level</strong> section allows a complete new level to be
+defined. At present only a single level can be defined, although this
+may change in the future. Each level contains two types of subsection:
+<strong>ground</strong>, which defines the level's terrain, and multiple
+<strong>object</strong> sections, each of which defines an in-game
+object.</p>
+<p>The <strong>ground</strong> subsection is a list of decimal integer
+values that describe the level's terrain. Each value is defined through
+a Yocton property named <strong>_</strong>. Values should be in the
+range 16-199, and there should be a minimum of 320 (ie. one screen's
+worth). The following is an example:</p>
+<pre><code>  ground {
+    _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+    ...
+  }</code></pre>
+<p>Each <strong>object</strong> subsection defines an object that
+appears in the level. The following is an example:</p>
+<pre><code>  object {
+    type: PLANE
+    x: 30
+    orient: 0
+    territory_l: 0
+    territory_r: 0
+    owner: PLAYER1
+  }</code></pre>
+<p>As seen, each object has a number of different properties:</p>
+<dl>
+<dt><strong>type</strong></dt>
+<dd>
+<p>See <strong>OBJECT TYPES</strong> below.</p>
+</dd>
+<dt><strong>x</strong></dt>
+<dd>
+<p>The X coordinate within the level where the object appears. The Y
+coordinate is set automatically depending on the object type and can not
+be specified.</p>
+</dd>
+<dt><strong>orient</strong></dt>
+<dd>
+<p>For planes, defines the direction in which planes face: 0 (right) or
+1 (left). For ground targets, this controls the type of ground target;
+see <strong>TARGET</strong> TYPES below.</p>
+</dd>
+<dt><strong>transform</strong></dt>
+<dd>
+<p>For ground targets, this specifies a "transformation" to apply to the
+symbol. Eight different transformations are supported: 0 (no
+transformation); 1 (rotate 90 degrees counterclockwise); 2 (rotate
+upside-down); 3 (rotate 90 degrees clockwise); 4 (flip vertically); 5
+(mirror, then rotate 90 degrees counterclockwise); 6 (mirror); 7 (mirror
+and then rotate 90 degrees clockwise). If you want to see an Ox do a
+headstand, this is the property to use, although it's more likely you'll
+want to use it to make tanks face the right direction.</p>
+</dd>
+<dt><strong>owner</strong></dt>
+<dd>
+<p>Specifies the player to whom the object belongs. Valid values are
+<strong>PLAYER1</strong> to <strong>PLAYER8</strong>. In single player
+mode, the human player is <strong>PLAYER1</strong>.</p>
+</dd>
+<dt><strong>territory_l</strong></dt>
+<dd>
+<p>For planes, the left boundary of the range of the level the plane
+defends.</p>
+</dd>
+<dt><strong>territory_r</strong></dt>
+<dd>
+<p>For planes, the right boundary of the range of the level the plane
+defends.</p>
+</dd>
+</dl>
+<p>The following is an example of a minimal <strong>level</strong>
+section that just contains a flat ground with no objects other than the
+player's plane:</p>
+<pre><code>  level {
+    object {
+      type: PLANE
+      x: 30
+      orient: 0
+      territory_l: 0
+      territory_r: 0
+      owner: PLAYER1
+    }
+    ground {
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+      _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64 _: 64
+    }
+  }</code></pre>
+<h1>OBJECT TYPES</h1>
+<p>The following object types can appear in a level:</p>
+<dl>
+<dt><strong>PLANE</strong></dt>
+<dd>
+<p>Defines either a player or computer-controlled plane. The
+<strong>owner</strong> property controls the type; the level should
+contain at least one plane owned by <strong>PLAYER1</strong> as this is
+the player's plane. <strong>PLAYER2</strong> to <strong>PLAYER4</strong>
+will be computer controlled players in single player "vs. computer"
+mode, or other players in multiplayer mode. Computer-controlled planes
+will defend their "territory", the range of which is defined by the
+<strong>territory_l</strong> and <strong>territory_r</strong>
+properties. If the player enters this territory, they will take off from
+their base and attack.</p>
+</dd>
+<dt><strong>TARGET</strong></dt>
+<dd>
+<p>A ground target. The value of the <strong>orient</strong> property
+defines the type of target, see <strong>TARGET TYPES</strong> below. The
+value of the <strong>owner</strong> property specifies the plane to whom
+the target belongs. When one player destroys all targets owned by all
+enemy planes, the game advances to the next level.</p>
+</dd>
+<dt><strong>OX</strong></dt>
+<dd>
+<p>An Ox (type of cattle). The Ox does nothing except act as an
+obstacle, and does not need to be killed to advance to the next level.
+Does not appear in novice mode.</p>
+</dd>
+<dt><strong>BIRD</strong></dt>
+<dd>
+<p>A single bird flies the randomly around the level. The bird acts as
+an obstacle that the player(s) must avoid. Does not appear in novice
+mode.</p>
+</dd>
+<dt><strong>FLOCK</strong></dt>
+<dd>
+<p>A flock of birds moves along the top of the screen. The flock acts an
+obstacle and may disperse into many different birds if disturbed. Does
+not appear in novice mode.</p>
+</dd>
+</dl>
+<h1>SYMBOLS SECTION</h1>
+<p>The <strong>symbols</strong> section allows the game's graphics to be
+replaced. The section can contain a number of subsections, one for each
+type of graphic. Graphics are defined as multiline text strings. The
+following is an example of a <strong>symbols</strong> section that
+changes the hangar graphic to add an extra (white) flag:</p>
+<pre><code>  symbols {
+    swtrgsym {
+      0:
+      &quot;    -                 -         \n&quot; &amp;
+      &quot;    - # # # #         - * * * * \n&quot; &amp;
+      &quot;    - # # # #         - * * * * \n&quot; &amp;
+      &quot;    -                 -         \n&quot; &amp;
+      &quot;    -                 -         \n&quot; &amp;
+      &quot;    -                 -         \n&quot; &amp;
+      &quot;    -                 -         \n&quot; &amp;
+      &quot;* * * * * * * * * * * * * * * * \n&quot; &amp;
+      &quot;* * * * * * * * * * * * * * * * \n&quot; &amp;
+      &quot;* * - - - - - - - - - - - - * * \n&quot; &amp;
+      &quot;* * - * * * * * * * * * * - * * \n&quot; &amp;
+      &quot;* * - * * * * * * * * * * - * * \n&quot; &amp;
+      &quot;* * - * * * * * * * * * * - * * \n&quot; &amp;
+      &quot;* * - * * * * * * * * * * - * * \n&quot; &amp;
+      &quot;* * - * * * * * * * * * * - * * \n&quot; &amp;
+      &quot;* * - * * * * * * * * * * - * * \n&quot;
+    }
+  }</code></pre>
+<p>Graphics are limited to the original four CGA colors: black (space);
+cyan (asterisk); magenta (hyphen) and white (number sign / pound /
+octothorpe). Cyan and magenta are swapped for enemy planes (single
+player) and player 2 (multiplayer).</p>
+<p>The following graphics are defined:</p>
+<dl>
+<dt><strong>swplnsym</strong> (16x16)</dt>
+<dd>
+<p>Plane. There are four frames, for facing right (0), rotated 22.5
+degrees counterclockwise (1), 45 degrees (2) and 67.5 degrees (3).</p>
+</dd>
+<dt><strong>swhitsym</strong> (16x16)</dt>
+<dd>
+<p>Crashing plane. There are two frames of animation.</p>
+</dd>
+<dt><strong>swwinsym</strong> (16x16)</dt>
+<dd>
+<p>Plane flying into the distance after completing the level. There are
+four frames of animation.</p>
+</dd>
+<dt><strong>swtrgsym</strong> (16x16)</dt>
+<dd>
+<p>Ground target. Each frame is a different target type and the values
+are those from <strong>TARGET TYPES</strong> below.</p>
+</dd>
+<dt><strong>swhtrsym</strong> (16x16)</dt>
+<dd>
+<p>Destroyed ground target. Each frame a different target type; the
+values are those from <strong>TARGET TYPES</strong> below. The number of
+pixels in the symbol control the size of the explosion when the target
+is destroyed.</p>
+</dd>
+<dt><strong>swoxsym</strong> (16x16)</dt>
+<dd>
+<p>Ox. There is one frame.</p>
+</dd>
+<dt><strong>swflksym</strong> (16x16)</dt>
+<dd>
+<p>Bird flock. There are two frames, for the "flapping wings"
+animation.</p>
+</dd>
+<dt><strong>swbrdsym</strong> (4x2)</dt>
+<dd>
+<p>Bird. There are two frames, for the "flapping wings" animation.</p>
+</dd>
+<dt><strong>swbmbsym</strong> (8x8)</dt>
+<dd>
+<p>Falling bomb. There are two frames, for facing right (0) and rotated
+45 degrees counterclockwise (1).</p>
+</dd>
+<dt><strong>swmscsym</strong> (8x8)</dt>
+<dd>
+<p>Missile. There are four frames, for facing right (0), rotated 22.5
+degrees counterclockwise (1), 45 degrees (2) and 67.5 degrees (3).</p>
+</dd>
+<dt><strong>swbstsym</strong> (8x8)</dt>
+<dd>
+<p>Starburst (flare). There are two frames of animation.</p>
+</dd>
+<dt><strong>swexpsym</strong> (8x8)</dt>
+<dd>
+<p>Debris after an explosion. There are eight frames for different types
+of debris.</p>
+</dd>
+<dt><strong>swmedalsym</strong> (8x12)</dt>
+<dd>
+<p>Medals. There are three frames for each different type.</p>
+</dd>
+<dt><strong>swribbonsym</strong> (8x2)</dt>
+<dd>
+<p>Ribbons. There are six frames for each different type.</p>
+</dd>
+<dt><strong>swshtsym</strong> (16x16)</dt>
+<dd>
+<p>Shot out window. There is a single frame.</p>
+</dd>
+<dt><strong>swsplsym</strong> (32x32)</dt>
+<dd>
+<p>Bird "splatted" into window. There is a single frame.</p>
+</dd>
+</dl>
+<h1>TARGET TYPES</h1>
+<dl>
+<dt>0</dt>
+<dd>
+<p>Hangar</p>
+</dd>
+<dt>1</dt>
+<dd>
+<p>Factory</p>
+</dd>
+<dt>2</dt>
+<dd>
+<p>fuel tank</p>
+</dd>
+<dt>3</dt>
+<dd>
+<p>Tank</p>
+</dd>
+<dt>4</dt>
+<dd>
+<p>Truck</p>
+</dd>
+<dt>5</dt>
+<dd>
+<p>Tanker truck</p>
+</dd>
+<dt>6</dt>
+<dd>
+<p>Flag</p>
+</dd>
+<dt>7</dt>
+<dd>
+<p>Tent</p>
+</dd>
+<dt>8-12</dt>
+<dd>
+<p>User-defined target; the <strong>symbols</strong> section should be
+used to supply the graphics (see <strong>SYMBOLS SECTION</strong>
+above). Type 12 produces a big explosion like an oil tank when
+destroyed.</p>
+</dd>
+<dt>13-17</dt>
+<dd>
+<p>"Passive" user-defined target (does not fire at enemy planes). Type
+17 produces a big explosion like an oil tank when destroyed.</p>
+</dd>
+</dl>
+<h1>SOUNDS SECTION</h1>
+<p>The <strong>sounds</strong> section allows the in-game music to be
+replaced. There is only one property at present, named
+<strong>title_tune</strong>; its value is a string containing a sequence
+of notes to play. The following is an example of a
+<strong>sounds</strong> section that replaces the title music with the
+beginning of "Au Clair de la Lune":</p>
+<pre><code>  sounds {
+    title_tune:
+    &quot;g4/r8/g4/r8/g4/r8/a4/r8/b2/r4/a2/r2/&quot; &amp;
+    &quot;g4/r8/b4/r8/a4/r8/a4/r8/g2/r2/&quot;
+  }</code></pre>
+<p>As seen, the format consists of a number of musical notes (a-g)
+separated by '/' characters. The notes are in the C major scale. Each
+note is followed by a number that indicates the length of the note as a
+fraction of a whole note; for example, 2 means half-note, 4 means
+quarter-note, etc. The following additional syntax is also
+supported:</p>
+<ul>
+<li><p>For a rest, use "r" instead of a note character. The syntax is
+otherwise identical to that for a normal note, with the only difference
+being that no note will be played.</p></li>
+<li><p>To play a sharp, append a '+' character. For example, "g+4/"
+represents a quarter-length G#. Alternatively you can append a '-' to
+play a flat; for example "e-2/" is a half-length E-flat (aka
+D#).</p></li>
+<li><p>Prefix a note with &lt; or &gt; to shift down or up an octave.
+All subsequent notes will be played in this octave.</p></li>
+<li><p>Append a '.' character to play a dotted note. A dotted note plays
+for 50% longer than a normal note.</p></li>
+</ul>
+<p>The original DOS version of Sopwith interpreted notes as being in the
+A minor scale, but this is believed to have been a mistake and notes are
+now assumed to be in the more common C major scale. This does, however,
+mean that tunes from DOS .exe hacks will play differently; any A or B
+notes will need to be shifted down one octave to convert to the C major
+scale.</p>
+<h1>SEE ALSO</h1>
+<p><strong>sopwith</strong>(6),</p>
+<h1>AUTHORS</h1>
+<p>This manual page was written by Simon Howard.</p>
+<h1>HISTORY</h1>
+<p>The original DOS version of Sopwith only supported a single level,
+although later versions increased the difficulty by repeatedly playing
+the same level again at increasing speeds. Some modifications were made
+by fans by hex-editing the DOS .exe file.</p>
+<p>Some simple hacks just changed the name shown on the title screen
+(one changed it to "Red Baron", for example). Some more elaborate mods
+that changed the level itself included "Blokwit" and "Sokwith". Andrew
+Jenner even developed a basic level editor that allowed people to make
+their own maps, although the changes that can be made using this
+technique are inherently limited.</p>
+<p>Full support for custom maps did not appear until 2024, with SDL
+Sopwith's v2.4 release. There will likely be further future extensions
+to this format to allow people to share more elaborate modifications to
+the game.</p>
+</body>
+</html>
