@@ -2,9 +2,9 @@
 title: History of Sopwith: Sopwith meets the Internet
 ---
 
-[ [Introduction](history.md) \| [Imaginet](history2.md) \| [DOS versions](history3.md) \| **On the Internet** ]
+# History of Sopwith part 4: Sopwith meets the Internet
 
-# Sopwith meets the Internet
+[ [Introduction](history.md) \| [Imaginet](history2.md) \| [DOS versions](history3.md) \| **On the Internet** ]
 
 With the advent of the Internet, people inevitably started talking about
 Sopwith. Newsgroup [alt.games.sopwith](https://groups.google.com/g/alt.games.sopwith)

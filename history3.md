@@ -2,9 +2,9 @@
 title: History of Sopwith: Original DOS versions
 ---
 
-[ [Introduction](history.md) \| [Imaginet](history2.md) \| **DOS versions** \| [On the Internet](history4.md) ]
+# History of Sopwith part 3: the DOS versions
 
-# Original DOS Sopwith versions
+[ [Introduction](history.md) \| [Imaginet](history2.md) \| **DOS versions** \| [On the Internet](history4.md) ]
 
 Sopwith was (originally) an MS-DOS game and several different versions
 are known to exist. These different versions contain different features

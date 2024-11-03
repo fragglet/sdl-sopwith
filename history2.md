@@ -2,9 +2,9 @@
 title: History of Sopwith: Imaginet
 ---
 
-[ [Introduction](history.md) \| **Imaginet** \| [DOS versions](history3.md) \| [On the Internet](history4.md) ]
+# History of Sopwith part 2: Imaginet
 
-## Imaginet
+[ [Introduction](history.md) \| **Imaginet** \| [DOS versions](history3.md) \| [On the Internet](history4.md) ]
 
 ![Illustration: Imaginet logo](img/imaginet.png)
 
