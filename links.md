@@ -36,12 +36,10 @@ title: SDL Sopwith: Links
 
 * [Sopwith (video game)](https://en.wikipedia.org/wiki/Sopwith_%28video_game%29)
   on Wikipedia.
+* [A selection of articles](articles/index.md) about Sopwith, Imaginet and
+  BMB Compuscience.
 * [Decoded: Sopwith](http://www.maizure.org/projects/decoded-sopwith/),
   MaiZure's analysis of the Sopwith source code
-* [A review of Sopwith](free-ibmpc.md) from the book "Free and user supported
-  software for the IBM PC" (1990).
-* [Several articles about Imaginet](imaginet.md) that give some background on the
-  system.
 * ["The Search for Nostalgic PC Games Digs Out a Forgotten Gem"](https://medium.com/sepia-sententiae/the-search-for-nostalgic-pc-games-digs-out-a-forgotten-gem-d4e67f1297be),
   by The Secret Aspirant
 * [Memory Cache: Sopwith](https://www.abc.net.au/tv/goodgame/stories/s4295505.htm)

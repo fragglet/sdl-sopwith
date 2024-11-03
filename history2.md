@@ -49,12 +49,12 @@ this time.
 
 ![Boxed copy of Imaginet showing manual, floppy disks and ISA card](img/imaginet-boxed.jpg)
 
-Some [articles](imaginet.md) describe the system, including a multi-page ad
-written by Jack Cole, one of the system's technical architects, who gives some
-details about the system and the underlying philosophy behind its design.
-A virtual drive could be accesed by multiple other client machines, and the
-shared drive would appear to those clients as though it was just another floppy
-drive.
+Some [articles](articles/imaginet.md) describe the system, including a
+multi-page ad written by Jack Cole, one of the system's technical architects,
+who gives some details about the system and the underlying philosophy behind
+its design.  A virtual drive could be accesed by multiple other client
+machines, and the shared drive would appear to those clients as though it was
+just another floppy drive.
 
 Marketing materials for Imaginet emphasized this "transparency" that allowed
 normal DOS software to interface with the network.  This was the origin of the
@@ -81,7 +81,7 @@ them until 1987 with the release of MS-DOS 3.0. The hardware-based approach
 also meant that any operating system could be used - IBM originally offered
 multiple options including CP/M-86.
 
-* [Some published articles about Imaginet](imaginet.md) that give some
+* [Some published articles about Imaginet](articles/imaginet.md) that give some
 technical information about the system and how it worked.
 * [Canadian patent 1172380](articles/canada-patent-1172380.pdf) and the
 equivalent [US patent 4792896](articles/us-patent-4792896.pdf).

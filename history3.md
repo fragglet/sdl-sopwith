@@ -67,7 +67,7 @@ Imaginet hardware, but has recently
 having multiple instances of QEMU sharing a floppy disk image.
 
 A review was published of this version in the book "Free and user supported
-software for the IBM PC"; you can read it [here](free-ibmpc.md).
+software for the IBM PC"; you can read it [here](articles/free-ibmpc.md).
 
 * [Download (.zip)](original-files/sopwith1.zip)
 * [Documentation](original-files/sopwith1_docs.txt) for this version.

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
-    <link rel="stylesheet" href="sopwith.css">
+    <link rel="stylesheet" href="{{ "/sopwith.css" | relative_url }}">
     <title>{{ page.title | default: site.title }}</title>
     <meta property="og:title" content="{{ page.title | default: site.title }}" />
     <meta property="og:description" content="{{ page.description | default: site.description }}" />
@@ -20,14 +20,14 @@
     <div class="wrapper">
       <div id="alert-banner">
         <div class="text">
-          <a href="40years.html">Come celebrate Sopwith's 40th birthday!</a>
+          <a href="{{ "/40years.html" | absolute_url }}">Come celebrate Sopwith's 40th birthday!</a>
         </div>
-        <img src="40th/mug.png">
+        <img src="{{ "/40th/mug.png" | absolute_url }}">
       </div>
 
       <header>
         <h1>
-          <img src="img/big-sopwith.png" id="sopwith-header-icon">
+          <img src="{{ "/img/big-sopwith.png" | absolute_url}}" id="sopwith-header-icon">
           <a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a>
         </h1>
 
