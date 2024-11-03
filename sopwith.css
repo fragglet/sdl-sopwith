@@ -126,6 +126,12 @@ a:visited {
   }
 }
 
-@media print, screen and (max-width: 750px) {
+@media print, screen and (max-width: 780px) {
   #alert-banner { display: none; }
+}
+
+#sopwith-header-icon {
+  height: 0.8em;
+  margin-right: 0.5em;
+  border: 0;
 }
