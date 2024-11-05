@@ -12,9 +12,8 @@ title: History of Sopwith
 
 ![Illustration: IBM PC 5150 with Sopwith start screen](img/sopwith-5150.png)
 
-At the time of writing, Sopwith is approaching its 40th birthday. Sopwith
-is a very old game, and has an interesting history that deserves to be
-documented.
+Sopwith recently celebrated its 40th birthday, making it a very old game.
+It has an interesting history that deserves to be documented.
 
 First released in 1984, Sopwith was one of the first games for the IBM PC.
 Released less than three years after the release of the
