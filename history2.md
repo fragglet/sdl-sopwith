@@ -4,7 +4,11 @@ title: History of Sopwith: Imaginet
 
 # History of Sopwith part 2: Imaginet
 
-[ [Introduction](history.md) \| **Imaginet** \| [DOS versions](history3.md) \| [On the Internet](history4.md) ]
+[ [Introduction](history.md) \|
+**Imaginet** \|
+[Sopwith escapes](history3.md) \|
+[DOS versions](history4.md) \|
+[On the Internet](history5.md) ]
 
 ![Illustration: Imaginet logo](img/imaginet.png)
 
@@ -133,5 +137,5 @@ recorded for the game's 40th anniversary:
 
 ---
 
-**Next:** [DOS versions](history3.md)
+**Next:** [Sopwith escapes the lab](history3.md)
 

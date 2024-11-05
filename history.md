@@ -4,7 +4,11 @@ title: History of Sopwith
 
 # History of Sopwith
 
-[ **Introduction** \| [Imaginet](history2.md) \| [DOS versions](history3.md) \| [On the Internet](history4.md) ]
+[ **Introduction** \|
+[Imaginet](history2.md) \|
+[Sopwith escapes](history3.md) \|
+[DOS versions](history4.md) \|
+[On the Internet](history5.md) ]
 
 ![Illustration: IBM PC 5150 with Sopwith start screen](img/sopwith-5150.png)
 
