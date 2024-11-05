@@ -19,9 +19,10 @@ for sale as part of collections of games for the IBM PC:
 Ad from [PC Magazine's August 1986
 edition](https://archive.org/details/PC-Mag-1986-08-01/page/n89/mode/2up?q=sopwith)
 
-They weren't the only one. Moorshead Publications boasted in 1988 of Sopwith's
-"superb graphics" - high praise for a four-color CGA game when PC gamers were
-now enjoying 16-color EGA graphics!
+They weren't the only one. Moorshead Publications [boasted in
+1988](https://archive.org/details/ElectronicsTechnologyToday1988198919901991/ElectronicsTechnologyToday1988-09/page/n30/mode/1up?q=Sopwith)
+of Sopwith's "superb graphics" - high praise for a four-color CGA game when PC
+gamers were now enjoying 16-color EGA graphics!
 
 ![1988 Moorshead Publications catalog entry for
 Sopwith](img/moorshead_publications_1988_ad.png)
@@ -31,7 +32,9 @@ these distributors were passing off Sopwith as "public domain software".
 Keypunch Software took things a step further by hacking the game to rename it
 "Red Baron" and selling along with several other aviation-themed games as part
 of its "[Strike
-Force](https://www.computinghistory.org.uk/det/63910/Strike-Force/)" collection.
+Force](https://www.computinghistory.org.uk/det/63910/Strike-Force/)"
+collection. The BMB name was stripped from the title screen and replaced by
+the words "PUBLIC DOMAIN".
 
 ## Reviews
 
