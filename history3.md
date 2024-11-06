@@ -49,7 +49,7 @@ about
 it](https://archive.org/details/P100-Magazine/1989-01/page/15/mode/1up?q=Sopwith)
 in his column for Portable 100 magazine:
 
-![Extract from article from Portable 100 magazine](img/portable_100_1989_review.png)
+![Extract from article from Portable 100 magazine](articles/portable_100_1989_review.png)
 
 And perhaps most notably of all was [Sopwith's
 appearance](articles/free-ibmpc.md) in the 1990 book "Free and user supported

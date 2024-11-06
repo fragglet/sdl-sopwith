@@ -19,9 +19,8 @@ destroy "quaint Bavarian villages" (?) including "schools and water towers"
 
 ![Pico magazine Programmer's Guild ad](pico-ad.png)
 
-The following year Bob published [another
-article](https://archive.org/details/P100-Magazine/1989-01/page/15/mode/1up?q=Sopwith)
-about the same package in Portable 100 magazine. But wait! A quick search
+The following year Bob published [another article](portable-100-magazine.md) in
+Portable 100 magazine about the same package. But wait! A quick search
 [reveals](https://gamingafter40.blogspot.com/2011/02/catching-up-with-bob-liddil-aka-captain.html)
-that Bob Liddil was in fact the founder of The Programmer's Guild! Certainly an
+that Bob Liddil was himself the founder of The Programmer's Guild! Certainly an
 interesting coincidence, no doubt about that.
