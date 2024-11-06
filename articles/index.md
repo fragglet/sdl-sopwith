@@ -11,6 +11,8 @@ title: Articles about Sopwith and BMB Compuscience
 
 # Articles about Sopwith
 
+* ["Review"](pico-magazine.md) from Pico Magazine of of *The SSB Portable
+  Passtime Package* which included Sopwith.
 * [Review](free-ibmpc.md) from the book "Free and user supported software for
   the IBM PC" (1990)
 
