@@ -31,6 +31,12 @@ gamers were now enjoying 16-color EGA graphics!
 ![1988 Moorshead Publications catalog entry for
 Sopwith](img/moorshead_publications_1988_ad.png)
 
+*The Programmer's Guild* included Sopwith in their "Portable Pastime Package",
+the ad for which claimed Sopwith's gameplay involved "blowing up schools" in
+"quaint Bavarian villages":
+
+![1988 Programmer's Guild ad](articles/pico-ad.png)
+
 Needless to say, BMB were not getting any money out of these sales and most of
 these distributors were passing off Sopwith as "public domain software".
 Keypunch Software took things a step further by hacking the game to rename it
@@ -44,20 +50,28 @@ the words "PUBLIC DOMAIN".
 
 Because it had never had any official release as a commercial game, there
 weren't a lot of contemporary reviews of Sopwith. Nevertheless it did get a
-bit of attention. Bob Liddil loved Sopwith's gameplay so much that he [wrote
-about
-it](https://archive.org/details/P100-Magazine/1989-01/page/15/mode/1up?q=Sopwith)
-in his column for Portable 100 magazine:
-
-![Extract from article from Portable 100 magazine](articles/portable_100_1989_review.png)
-
-And perhaps most notably of all was [Sopwith's
+bit of attention. Perhaps most notably of all was [Sopwith's
 appearance](articles/free-ibmpc.md) in the 1990 book "Free and user supported
-software for the IBM PC" where it was described as a "very enjoyable game
-which offers solid entertainment" and received an overall evaluation of
-"excellent":
+software for the IBM PC" where it was described as a "very enjoyable game which
+offers solid entertainment" and received an overall evaluation of "excellent":
 
 ![Page from the book "Free and user supported software for the IBM
 PC"](articles/free-ibmpc-page2.png)
+
+In 1988 Bob Liddil reviewed Sopwith in *Pico Magaine* as part of an article on
+the previously-mentioned *Personal Pastime Package*:
+
+![Pico magazine article](articles/pico-article.png) \
+Article by Bob Liddil discussing Sopwith (partially reconstructed)
+
+In fact, Bob loved Sopwith's gameplay so much that he [wrote about
+it again](https://archive.org/details/P100-Magazine/1989-01/page/15/mode/1up?q=Sopwith)
+in his column for Portable 100 magazine the following year:
+
+![Extract from article from Portable 100 magazine](articles/portable_100_1989_review.png)
+
+But wait! A quick search
+[reveals](https://gamingafter40.blogspot.com/2011/02/catching-up-with-bob-liddil-aka-captain.html)
+that Bob was himself the founder of The Programmer's Guild. What a coincidence!
 
 **Next:** [Original DOS versions](history4.md)
