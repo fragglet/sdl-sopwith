@@ -1,5 +1,5 @@
 ---
-title: Bob Liddil (Captain 80) review of The SSB Portable Passtime Package
+title: Bob Liddil (Captain 80) review of The SSB Portable Pastime Package
 ---
 
 Below is part of an article by Bob Liddil published in 1988 in "Pico: The
