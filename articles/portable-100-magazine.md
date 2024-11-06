@@ -2,8 +2,9 @@
 title: Bob Liddil Portable 100 review of Sopwith
 ---
 
-Below is a review of Sopwith by Bob Liddil published in 1989 in
-"Portable 100 Magazine".
+Below is a review of Sopwith published in 1989 as part of an article by Bob
+Liddil in "Portable 100 Magazine" (the full article [can be found
+here](https://archive.org/details/P100-Magazine/1989-01/page/15/mode/1up?q=Sopwith)).
 
 ![Article](portable_100_1989_review.png)
 
