@@ -20,25 +20,25 @@
     <div class="wrapper">
       <div id="alert-banner">
         <div class="text">
-          <a href="{{ "/40years.html" | absolute_url }}">Come celebrate Sopwith's 40th birthday!</a>
+          <a href="{{ "/40years.html" | relative_url }}">Come celebrate Sopwith's 40th birthday!</a>
         </div>
-        <img src="{{ "/40th/mug.png" | absolute_url }}">
+        <img src="{{ "/40th/mug.png" | relative_url }}">
       </div>
 
       <header>
         <h1>
-          <img src="{{ "/img/big-sopwith.png" | absolute_url}}" id="sopwith-header-icon">
-          <a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a>
+          <img src="{{ "/img/big-sopwith.png" | relative_url}}" id="sopwith-header-icon">
+          <a href="{{ "/" | relative_url }}">{{ site.title | default: site.github.repository_name }}</a>
         </h1>
 
         [
         <a href="https://fragglet.github.io/sdl-sopwith-builds/tags/sdl-sopwith-{{ site.relversion }}/sopwith.html">Play in browser</a> |
-        <a href="getit.html">Download</a> |
-        <a href="sshot.html">Screenshots</a> |
+        <a href="{{ "/getit.html" | relative_url }}">Download</a> |
+        <a href="{{ "/sshot.html" | relative_url }}">Screenshots</a> |
         <a href="https://github.com/fragglet/sdl-sopwith">Github Page</a> |
         <a href="https://discord.gg/S2P5wUUzNU">Discord</a> |
-        <a href="history.html">History</a> |
-        <a href="links.html">Links</a>
+        <a href="{{ "/history.html" | relative_url }}">History</a> |
+        <a href="{{ "/links.html" | relative_url }}">Links</a>
         ]
 
       </header>
