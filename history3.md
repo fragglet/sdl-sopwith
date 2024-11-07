@@ -23,32 +23,29 @@ for sale as part of collections of games for the IBM PC:
 Ad from [PC Magazine's August 1986
 edition](https://archive.org/details/PC-Mag-1986-08-01/page/n89/mode/2up?q=sopwith)
 
-They weren't the only one. Moorshead Publications [boasted in
-1988](https://archive.org/details/ElectronicsTechnologyToday1988198919901991/ElectronicsTechnologyToday1988-09/page/n30/mode/1up?q=Sopwith)
-of Sopwith's "superb graphics" - high praise for a four-color CGA game when PC
-gamers were now enjoying 16-color EGA graphics!
-
-![1988 Moorshead Publications catalog entry for
-Sopwith](img/moorshead_publications_1988_ad.png)
-
 *The Programmer's Guild* included Sopwith in their "Portable Pastime Package",
 the ad for which claimed for some reason that Sopwith's gameplay involved
 "blowing up schools" in "quaint Bavarian villages":
 
 ![1988 Programmer's Guild ad](articles/pico-ad.png)
 
+And it wasn't just in North America. Distributors in Europe in countries like
+Germany and Italy were also selling copies:
+
+![Selection of ads from Germany and Italy](img/european-freeware-ads.png)
+
 Needless to say, BMB were not getting any money out of these sales and most of
 these distributors were passing off Sopwith as "public domain software".
 Keypunch Software took things a step further by hacking the game to rename it
-"Red Baron" and selling along with several other aviation-themed games as part
-of its "[Strike
+"Red Baron" and selling it along with several other aviation-themed games as
+part of its "[Strike
 Force](https://www.computinghistory.org.uk/det/63910/Strike-Force/)"
 collection. The BMB name was stripped from the title screen and replaced by
 the words "PUBLIC DOMAIN".
 
 ## Reviews
 
-Because it had never had any official release as a commercial game, there
+Because it never had any official release as a commercial game, there
 weren't a lot of contemporary reviews of Sopwith. Nevertheless it did get a
 bit of attention.
 Perhaps most notably of all was [Sopwith's appearance](articles/free-ibmpc.md)
