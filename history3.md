@@ -32,8 +32,8 @@ gamers were now enjoying 16-color EGA graphics!
 Sopwith](img/moorshead_publications_1988_ad.png)
 
 *The Programmer's Guild* included Sopwith in their "Portable Pastime Package",
-the ad for which claimed Sopwith's gameplay involved "blowing up schools" in
-"quaint Bavarian villages":
+the ad for which claimed for some reason that Sopwith's gameplay involved
+"blowing up schools" in "quaint Bavarian villages":
 
 ![1988 Programmer's Guild ad](articles/pico-ad.png)
 
