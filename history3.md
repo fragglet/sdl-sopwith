@@ -59,8 +59,9 @@ received an overall evaluation of "excellent":
 ![Page from the book "Free and user supported software for the IBM
 PC"](articles/free-ibmpc-page2.png)
 
-In 1988 Bob Liddil reviewed Sopwith in *Pico Magazine* as part of an article on
-the previously-mentioned *Personal Pastime Package*:
+In 1988 Bob Liddil reviewed Sopwith in *Pico Magazine* as part of
+[an article](articles/pico-magazine.md) on the previously-mentioned *Personal
+Pastime Package*:
 
 ![Pico magazine article](articles/pico-article.png) \
 Article by Bob Liddil discussing Sopwith (partially reconstructed)
