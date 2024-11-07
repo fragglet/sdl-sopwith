@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>{{ page.title | default: site.title }}</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: white;
+      }
+      img {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="{{ "/img/error-404.png" | relative_url }}">
+  </body>
+</html>
+
