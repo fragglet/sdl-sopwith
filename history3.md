@@ -65,9 +65,9 @@ the previously-mentioned *Personal Pastime Package*:
 ![Pico magazine article](articles/pico-article.png) \
 Article by Bob Liddil discussing Sopwith (partially reconstructed)
 
-In fact, Bob loved Sopwith's gameplay so much that he [wrote about
-it again](https://archive.org/details/P100-Magazine/1989-01/page/15/mode/1up?q=Sopwith)
-in his column for Portable 100 magazine the following year:
+In fact, Bob loved Sopwith's gameplay so much that he
+[wrote about it again](articles/portable-100-magazine.md) in his column for
+Portable 100 magazine the following year:
 
 ![Extract from article from Portable 100 magazine](articles/portable_100_1989_review.png)
 
