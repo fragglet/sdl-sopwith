@@ -50,10 +50,11 @@ the words "PUBLIC DOMAIN".
 
 Because it had never had any official release as a commercial game, there
 weren't a lot of contemporary reviews of Sopwith. Nevertheless it did get a
-bit of attention. Perhaps most notably of all was [Sopwith's
-appearance](articles/free-ibmpc.md) in the 1990 book "Free and user supported
-software for the IBM PC" where it was described as a "very enjoyable game which
-offers solid entertainment" and received an overall evaluation of "excellent":
+bit of attention.
+Perhaps most notably of all was [Sopwith's appearance](articles/free-ibmpc.md)
+in the 1990 book "Free and user supported software for the IBM PC" where it was
+described as a "very enjoyable game which offers solid entertainment" and
+received an overall evaluation of "excellent":
 
 ![Page from the book "Free and user supported software for the IBM
 PC"](articles/free-ibmpc-page2.png)
