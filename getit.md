@@ -9,6 +9,11 @@ The latest release is the [{{ site.relversion }} release](https://github.com/fra
 | ![Windows logo](logos/Windows_logo.png) | [Windows binary](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}-win32.zip) (32-bit; .zip archive) |
 | ![Open source logo](logos/Open_source_logo.png) | [Source code](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}.tar.gz)  (.tar.gz format, GNU GPL v2+) |
 
+Manual pages:
+[sopwith(6)](https://fragglet.github.io/sdl-sopwith-builds/tags/sdl-sopwith-{{ site.relversion }}/doc/sopwith.html),
+[sopwith.cfg(5)](https://fragglet.github.io/sdl-sopwith-builds/tags/sdl-sopwith-{{ site.relversion }}/doc/sopwith.cfg.html),
+[sopwith-mission(5)](https://fragglet.github.io/sdl-sopwith-builds/tags/sdl-sopwith-{{ site.relversion }}/doc/sopwith-mission.html).
+
 ![Tux and Beastie](logos/Tux-and-beastie.png)
 
 ## Linux and BSD
