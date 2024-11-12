@@ -15,6 +15,10 @@ SDL Sopwith running under macOS.
 SDL Sopwith's use of the SDL library means that it will even run on more
 niche OSes such as [Haiku](https://www.haiku-os.org/).
 
+![Screenshot of a custom level showing new types of objects](sshot/custom-mission.png) \
+Custom mission support allows new levels to be created including custom
+graphics and sounds.
+
 ![Screenshot, NetBSD](sshot/sopwith-netbsd.png) \
 Looks can sometimes be deceptive. This is actually SDL Sopwith running under
 NetBSD on a Raspberry Pi. In the screenshot you can see a splatted bird that
