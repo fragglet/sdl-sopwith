@@ -14,6 +14,9 @@ title: SDL Sopwith: Links
 * ["Wild Blue Yonder"](https://en.wikipedia.org/wiki/The_U.S._Air_Force_%28song%29)
   aka "The U.S. Air Force", the song played on the Sopwith title screen and in
   the game.
+* [Imaginot](https://github.com/fragglet/imaginot), an adapter program that
+  makes the multiplayer in the original DOS versions work over the IPX
+  protocol.
 * [Sopwith Youtube Videos](https://www.youtube.com/playlist?list=PLHt4bcu83-6QJexQ8pYlS42jEkmA3C7RW):
   a curated playlist.
 * [Sopwith Camel N6254 RFC](https://www.aerialvisuals.ca/AirframeDossier.php?Serial=29479),
