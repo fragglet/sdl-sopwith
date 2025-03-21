@@ -7,8 +7,8 @@ url: https://fragglet.github.io
 image: /sdl-sopwith/img/start-screen-wide.png
 favicon: /sdl-sopwith/icon.png
 
-relversion: 2.7.0
-reldate: November 2024
+relversion: 2.8.0
+reldate: March 2025
 
 # Build settings
 remote_theme: pages-themes/minimal@v0.2.0
