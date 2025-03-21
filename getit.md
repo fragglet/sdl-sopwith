@@ -6,7 +6,7 @@ The latest release is the [{{ site.relversion }} release](https://github.com/fra
 
 | ![Browser logos](logos/browsers.png) | [You can play in your browser here](https://fragglet.github.io/sdl-sopwith-builds/tags/sdl-sopwith-{{ site.relversion }}/sopwith.html) without even needing to install anything! |
 | ![Apple logo](logos/Apple_logo.png) | [macOS package](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}-macos-x86_64.dmg) (x86 64-bit; macOS 10.7+) |
-| ![Windows logo](logos/Windows_logo.png) | [Windows binary](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}-win32.zip) (32-bit; .zip archive) |
+| ![Windows logo](logos/Windows_logo.png) | [Windows binary](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}-win64.zip) (64-bit; .zip archive) |
 | ![Open source logo](logos/Open_source_logo.png) | [Source code](https://github.com/fragglet/sdl-sopwith/releases/download/sdl-sopwith-{{ site.relversion }}/sdl-sopwith-{{ site.relversion }}.tar.gz)  (.tar.gz format, GNU GPL v2+) |
 
 Manual pages:
