@@ -30,6 +30,7 @@ possible. If you don't see your favorite operating system in this list,
 | Fedora        | `dnf install sopwith`        |
 | Flatpak       | `flatpak install flathub io.github.fragglet.sdl_sopwith` |
 | FreeBSD       | `pkg install sopwith`        |
+| OpenBSD       | `pkg_add sdl-sopwith`        |
 | OpenSuSE      | `zypper install sopwith`     |
 | Ubuntu        | `sudo apt install sopwith`   |
 | Void Linux    | `sudo xbps-install sopwith`  |
