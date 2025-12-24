@@ -177,8 +177,8 @@ void movexy(OBJECTS *ob, int *x, int *y)
 {
 	unsigned int pos = 0;
 
-	pos = (ob->ob_x + ob->ob_dx) << 16;
-	pos += ob->ob_lx + ob->ob_ldx;
+	pos = (ob->ob_x << 16) + ob->ob_ndx;
+	pos += ob->ob_lx;
 
 	// Adding this to avoid range errors -- Jesse
 	pos = clamp_range(0, pos, (currgame->gm_max_x - 10) << 16);
@@ -197,8 +197,7 @@ void movexy(OBJECTS *ob, int *x, int *y)
 
 void setdxdy(OBJECTS * obj, int dx, int dy)
 {
-	obj->ob_dx = (dx >> 8);
-	obj->ob_ldx = (dx << 8) & 0xffff;
+	obj->ob_ndx = dx << 8;
 	obj->ob_ndy = dy << 8;
 }
 

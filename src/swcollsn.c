@@ -432,7 +432,7 @@ static void swkill(OBJECTS * ob1, OBJECTS * ob2)
 				collxadj = -collxadj;
 				collyadj = -collyadj;
 				collsdx[collptr]
-				    = ((ob->ob_dx + obt->ob_dx) >> 1)
+				    = (FIXED_IP(ob->ob_ndx + obt->ob_ndx) >> 1)
 				    + collxadj;
 				collsdy[collptr]
 				    = (FIXED_IP(ob->ob_ndy + obt->ob_ndy) >> 1)
@@ -530,7 +530,7 @@ void swcollsn(void)
 	obkd = collsno;
 	for (i = 0; i < collptr; ++i, ++obkd) {
 		ob = *obkd;
-		ob->ob_dx = collsdx[i];
+		ob->ob_ndx = collsdx[i] * FIXED_UNIT;
 		ob->ob_ndy = collsdy[i] * FIXED_UNIT;
 	}
 }

@@ -232,7 +232,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 	} else {
 		int height;
 
-		if (ob->ob_dx && (dx < 0) == (ob->ob_dx < 0)) {
+		if (FIXED_IP(ob->ob_ndx) != 0 && (dx < 0) == (ob->ob_ndx < 0)) {
 			if (!ob->ob_hitcount) {
 				ob->ob_hitcount = (y > (MAX_Y - 50)) ? 2 : 1;
 			}
@@ -370,7 +370,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 	ob->ob_flaps = cflaps[n];
 	if (ob->ob_type == PLANE && !ob->ob_flaps) {
 		if (ob->ob_speed) {
-			ob->ob_orient = ob->ob_dx < 0;
+			ob->ob_orient = ob->ob_ndx < 0;
 		}
 	}
 	return 0;

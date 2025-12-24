@@ -128,7 +128,7 @@ static int symangle(OBJECTS * ob)
 {
 	int dx, dy;
 
-	dx = ob->ob_dx;
+	dx = FIXED_IP(ob->ob_ndx);
 	dy = FIXED_IP(ob->ob_ndy);
 	if (dx == 0) {
 		if (dy < 0) {
@@ -408,7 +408,7 @@ bool movecomp(OBJECTS *ob)
 
 static bool stallpln(OBJECTS *ob)
 {
-	ob->ob_ldx = ob->ob_orient = ob->ob_dx = 0;
+	ob->ob_orient = ob->ob_ndx = 0;
 	ob->ob_angle = 7 * ANGLES / 8;
 	ob->ob_speed = 0;
 	ob->ob_ndy = 0;
@@ -445,8 +445,8 @@ static bool movepln(OBJECTS *ob)
 
 	case FALLING:
 		ob->ob_hitcount -= 2;
-		if (FIXED_IP(ob->ob_ndy) < 0 && ob->ob_dx) {
-			if (ob->ob_orient ^ (ob->ob_dx < 0)) {
+		if (FIXED_IP(ob->ob_ndy) < 0 && FIXED_IP(ob->ob_ndx)) {
+			if (ob->ob_orient ^ (ob->ob_ndx < 0)) {
 				ob->ob_hitcount -= ob->ob_flaps;
 			} else {
 				ob->ob_hitcount += ob->ob_flaps;
@@ -455,10 +455,10 @@ static bool movepln(OBJECTS *ob)
 
 		if (ob->ob_hitcount <= 0) {
 			if (FIXED_IP(ob->ob_ndy) < 0) {
-				if (ob->ob_dx < 0) {
-					++ob->ob_dx;
-				} else if (ob->ob_dx > 0) {
-					--ob->ob_dx;
+				if (FIXED_IP(ob->ob_ndx) < 0) {
+					ob->ob_ndx += FIXED_UNIT;
+				} else if (FIXED_IP(ob->ob_ndx) > 0) {
+					ob->ob_ndx -= FIXED_UNIT;
 				} else {
 					++ob->ob_orient;
 				}
@@ -583,7 +583,7 @@ static bool movepln(OBJECTS *ob)
 			ob->ob_angle = nangle;
 
 			if (stalled) {
-				ob->ob_dx = ob->ob_ldx = 0;
+				ob->ob_ndx = 0;
 				ob->ob_ndy = -nspeed * FIXED_UNIT;
 			} else {
 				setdxdy(ob,
@@ -621,7 +621,8 @@ static bool movepln(OBJECTS *ob)
 		ob->ob_symbol = &symbol_plane_win[endcount / 18].sym[0];
 	} else if (ob->ob_state == FINISHED) {
 		ob->ob_symbol = NULL;
-	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_ndy < 0) {
+	} else if (ob->ob_state == FALLING && FIXED_IP(ob->ob_ndx) == 0
+	        && ob->ob_ndy < 0) {
 		ob->ob_symbol = &symbol_plane_hit[ob->ob_orient % 4].sym[0];
 	} else if (ob->ob_orient) {
 		// Flipped:
@@ -674,10 +675,10 @@ static void adjustfall(OBJECTS *ob)
 	--ob->ob_life;
 	if (ob->ob_life <= 0) {
 		if (ob->ob_ndy < 0) {
-			if (ob->ob_dx < 0) {
-				++ob->ob_dx;
-			} else if (ob->ob_dx > 0) {
-				--ob->ob_dx;
+			if (FIXED_IP(ob->ob_ndx) < 0) {
+				ob->ob_ndx += FIXED_UNIT;
+			} else if (FIXED_IP(ob->ob_ndx) > 0) {
+				ob->ob_ndx -= FIXED_UNIT;
 			}
 		}
 		if (FIXED_IP(ob->ob_ndy) > -10) {
@@ -972,10 +973,10 @@ bool moveexpl(OBJECTS * obp)
 
 	if (ob->ob_life <= 0) {
 		if (ob->ob_ndy < 0) {
-			if (ob->ob_dx < 0) {
-				++ob->ob_dx;
-			} else if (ob->ob_dx > 0) {
-				--ob->ob_dx;
+			if (FIXED_IP(ob->ob_ndx) < 0) {
+				ob->ob_ndx += FIXED_UNIT;
+			} else if (FIXED_IP(ob->ob_ndx) > 0) {
+				ob->ob_ndx -= FIXED_UNIT;
 			}
 		}
 		if ((ob->ob_orient && FIXED_IP(ob->ob_ndy) > -10)
@@ -1044,9 +1045,9 @@ bool moveflck(OBJECTS * obp)
 
 	// Flocks fly back and forth within their "territory".
 	if (ob->ob_x < ob->ob_original_ob->territory_l) {
-		ob->ob_dx = abs(ob->ob_dx);
+		ob->ob_ndx = abs(ob->ob_ndx);
 	} else if (ob->ob_x > ob->ob_original_ob->territory_r) {
-		ob->ob_dx = -abs(ob->ob_dx);
+		ob->ob_ndx = -abs(ob->ob_ndx);
 	}
 
 	movexy(ob, &x, &y);
@@ -1087,8 +1088,7 @@ bool moveballoon(OBJECTS *ob)
 	// cancel out and we never drift out of the same area of the map.
 	dx = SIN(step / 7) * 128;
 	dy = SIN(step / 3) * 128;
-	ob->ob_dx =  dx >> 16;
-	ob->ob_ldx = dx & 0xffff;
+	ob->ob_ndx = dx;
 	ob->ob_ndy = dy;
 	movexy(ob, &x, &y);
 
@@ -1134,11 +1134,11 @@ bool movebird(OBJECTS * obp)
 		return false;
 	} else if (ob->ob_life == -2) {
 		ob->ob_ndy = -ob->ob_ndy;
-		ob->ob_dx = (countmove & 7) - 4;
+		ob->ob_ndx = ((countmove & 7) - 4) * FIXED_UNIT;
 		// Don't move in a direction where we might (continue to?)
 		// fly into a wall. Fixes a crasher bug.
-		if (checkwall(ob, ob->ob_dx)) {
-			ob->ob_dx = -ob->ob_dx;
+		if (checkwall(ob, FIXED_IP(ob->ob_ndx))) {
+			ob->ob_ndx = -ob->ob_ndx;
 		}
 		ob->ob_life = BIRDLIFE;
 	} else {
@@ -1173,7 +1173,7 @@ bool crashpln(OBJECTS *ob)
 {
 	const original_ob_t *orig_ob = ob->ob_original_ob;
 
-	if (ob->ob_dx < 0) {
+	if (ob->ob_ndx < 0) {
 		ob->ob_angle = (ob->ob_angle + 2) % ANGLES;
 	} else {
 		ob->ob_angle = (ob->ob_angle + ANGLES - 2) % ANGLES;
@@ -1181,7 +1181,7 @@ bool crashpln(OBJECTS *ob)
 
 	ob->ob_state = CRASHED;
 	ob->ob_athome = false;
-	ob->ob_dx = ob->ob_ndy = ob->ob_ldx = ob->ob_speed = 0;
+	ob->ob_ndx = ob->ob_ndy = ob->ob_speed = 0;
 
 	ob->ob_hitcount = ((abs(orig_ob->x - ob->ob_x) < SAFERESET)
 	                && (abs(ob->ob_orig_y - ob->ob_y) < SAFERESET))
@@ -1195,7 +1195,6 @@ bool hitpln(OBJECTS * obp)
 	OBJECTS *ob;
 
 	ob = obp;
-	ob->ob_ldx = 0;
 	ob->ob_hitcount = FALLCOUNT;
 	ob->ob_state = FALLING;
 	ob->ob_athome = false;
