@@ -281,10 +281,17 @@ typedef struct {
 	transform_t transform;           /* Rotation/mirroring */
 } original_ob_t;
 
+#define FIXED_UNIT (1 << 16)
+#define FIXED_IP(x) ((x) / FIXED_UNIT)
+#define FIXED_FP(x) ((x) & (FIXED_UNIT - 1))
+
+typedef int32_t fixedint;
+
 typedef struct obj {                            /*  Object list             */
 	obstate_t      ob_state;
 	int            ob_x, ob_y;
-	int            ob_dx, ob_dy;
+	int            ob_dx;
+	fixedint       ob_ndy;
 	int            ob_angle;
 	int            ob_orient;
 	int            ob_speed;
@@ -300,7 +307,7 @@ typedef struct obj {                            /*  Object list             */
 	int            ob_bombs;
 	int            ob_clr;
 	int            ob_lx, ob_ly;
-	int            ob_ldx, ob_ldy;
+	int            ob_ldx;
 	struct obj    *ob_next;
 	struct obj    *ob_prev;
 	void        ( *ob_soundf ) (struct obj *);

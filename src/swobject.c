@@ -186,8 +186,8 @@ void movexy(OBJECTS *ob, int *x, int *y)
 	ob->ob_x = (unsigned short) (pos >> 16) & 0xffff;
 	ob->ob_lx = (unsigned short) pos & 0xffff;
 	*x = ob->ob_x;
-	pos = (ob->ob_y + ob->ob_dy) << 16;
-	pos += ob->ob_ly + ob->ob_ldy;
+	pos = (ob->ob_y << 16) + ob->ob_ndy;
+	pos += ob->ob_ly;
 	ob->ob_y = (unsigned short) (pos >> 16) & 0xffff;
 	ob->ob_ly = (unsigned short) pos & 0xffff;
 	*y = ob->ob_y;
@@ -199,8 +199,7 @@ void setdxdy(OBJECTS * obj, int dx, int dy)
 {
 	obj->ob_dx = (dx >> 8);
 	obj->ob_ldx = (dx << 8) & 0xffff;
-	obj->ob_dy = (dy >> 8);
-	obj->ob_ldy = (dy << 8) & 0xffff;
+	obj->ob_ndy = dy << 8;
 }
 
 //

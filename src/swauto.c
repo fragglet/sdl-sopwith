@@ -361,7 +361,7 @@ int aim(OBJECTS *ob, int ax, int ay, OBJECTS *obt, bool longway)
 			clamp_min(1, ahead->ob_accel - 2);
 	}
 	else if (behind != NULL && abs(behind->ob_x - ob->ob_x) > 32
-	 && ob->ob_dy == 0) {
+	 && FIXED_IP(ob->ob_ndy) == 0) {
 		// The closest wingman is a long way behind us, so slow
 		// down and let it catch up.
 		ob->ob_accel = clamp_min(1, behind->ob_accel - 2);

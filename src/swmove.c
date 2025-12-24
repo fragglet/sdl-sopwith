@@ -129,7 +129,7 @@ static int symangle(OBJECTS * ob)
 	int dx, dy;
 
 	dx = ob->ob_dx;
-	dy = ob->ob_dy;
+	dy = FIXED_IP(ob->ob_ndy);
 	if (dx == 0) {
 		if (dy < 0) {
 			return 6;
@@ -163,7 +163,7 @@ static void PlaneSoundCallback(OBJECTS *ob)
 	} else {
 		switch (ob->ob_state) {
 		case FALLING:
-			if (ob->ob_dy >= 0) {
+			if (FIXED_IP(ob->ob_ndy) >= 0) {
 				sound(S_HIT, 0, ob);
 			} else {
 				sound(S_FALLING, ob->ob_y, ob);
@@ -408,10 +408,10 @@ bool movecomp(OBJECTS *ob)
 
 static bool stallpln(OBJECTS *ob)
 {
-	ob->ob_ldx = ob->ob_ldy = ob->ob_orient = ob->ob_dx = 0;
+	ob->ob_ldx = ob->ob_orient = ob->ob_dx = 0;
 	ob->ob_angle = 7 * ANGLES / 8;
 	ob->ob_speed = 0;
-	ob->ob_dy = 0;
+	ob->ob_ndy = 0;
 	ob->ob_hitcount = STALLCOUNT;
 	ob->ob_state =
 		ob->ob_state == WOUNDED ? WOUNDSTALL : STALLED;
@@ -445,7 +445,7 @@ static bool movepln(OBJECTS *ob)
 
 	case FALLING:
 		ob->ob_hitcount -= 2;
-		if ((ob->ob_dy < 0) && ob->ob_dx) {
+		if (FIXED_IP(ob->ob_ndy) < 0 && ob->ob_dx) {
 			if (ob->ob_orient ^ (ob->ob_dx < 0)) {
 				ob->ob_hitcount -= ob->ob_flaps;
 			} else {
@@ -454,7 +454,7 @@ static bool movepln(OBJECTS *ob)
 		}
 
 		if (ob->ob_hitcount <= 0) {
-			if (ob->ob_dy < 0) {
+			if (FIXED_IP(ob->ob_ndy) < 0) {
 				if (ob->ob_dx < 0) {
 					++ob->ob_dx;
 				} else if (ob->ob_dx > 0) {
@@ -464,13 +464,13 @@ static bool movepln(OBJECTS *ob)
 				}
 			}
 
-			if (ob->ob_dy > -10) {
-				--ob->ob_dy;
+			if (FIXED_IP(ob->ob_ndy) > -10) {
+				ob->ob_ndy -= FIXED_UNIT;
 			}
 			ob->ob_hitcount = FALLCOUNT;
 		}
 		ob->ob_angle = symangle(ob) * 2;
-		if (ob->ob_dy <= 0) {
+		if (ob->ob_ndy <= 0) {
 			initsound(ob, S_FALLING);
 		}
 		break;
@@ -583,8 +583,8 @@ static bool movepln(OBJECTS *ob)
 			ob->ob_angle = nangle;
 
 			if (stalled) {
-				ob->ob_dx = ob->ob_ldx = ob->ob_ldy = 0;
-				ob->ob_dy = -nspeed;
+				ob->ob_dx = ob->ob_ldx = 0;
+				ob->ob_ndy = -nspeed * FIXED_UNIT;
 			} else {
 				setdxdy(ob,
 				        nspeed * COS(nangle),
@@ -621,7 +621,7 @@ static bool movepln(OBJECTS *ob)
 		ob->ob_symbol = &symbol_plane_win[endcount / 18].sym[0];
 	} else if (ob->ob_state == FINISHED) {
 		ob->ob_symbol = NULL;
-	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_dy < 0) {
+	} else if (ob->ob_state == FALLING && !ob->ob_dx && ob->ob_ndy < 0) {
 		ob->ob_symbol = &symbol_plane_hit[ob->ob_orient % 4].sym[0];
 	} else if (ob->ob_orient) {
 		// Flipped:
@@ -673,15 +673,15 @@ static void adjustfall(OBJECTS *ob)
 {
 	--ob->ob_life;
 	if (ob->ob_life <= 0) {
-		if (ob->ob_dy < 0) {
+		if (ob->ob_ndy < 0) {
 			if (ob->ob_dx < 0) {
 				++ob->ob_dx;
 			} else if (ob->ob_dx > 0) {
 				--ob->ob_dx;
 			}
 		}
-		if (ob->ob_dy > -10) {
-			--ob->ob_dy;
+		if (FIXED_IP(ob->ob_ndy) > -10) {
+			ob->ob_ndy -= FIXED_UNIT;
 		}
 		ob->ob_life = BOMBLIFE;
 	}
@@ -712,7 +712,7 @@ bool moveshot(OBJECTS *ob)
 
 static void BombSoundCallback(OBJECTS *ob)
 {
-	if (ob->ob_dy <= 0) {
+	if (ob->ob_ndy <= 0) {
 		sound(S_BOMB, -ob->ob_y, ob);
 	}
 }
@@ -732,7 +732,7 @@ bool movebomb(OBJECTS *ob)
 
 	adjustfall(ob);
 
-	if (ob->ob_dy <= 0) {
+	if (ob->ob_ndy <= 0) {
 		initsound(ob, S_BOMB);
 	}
 
@@ -971,16 +971,16 @@ bool moveexpl(OBJECTS * obp)
 	--ob->ob_life;
 
 	if (ob->ob_life <= 0) {
-		if (ob->ob_dy < 0) {
+		if (ob->ob_ndy < 0) {
 			if (ob->ob_dx < 0) {
 				++ob->ob_dx;
 			} else if (ob->ob_dx > 0) {
 				--ob->ob_dx;
 			}
 		}
-		if ((ob->ob_orient && ob->ob_dy > -10)
-		 || (!ob->ob_orient && ob->ob_dy > -gminspeed)) {
-			--ob->ob_dy;
+		if ((ob->ob_orient && FIXED_IP(ob->ob_ndy) > -10)
+		 || (!ob->ob_orient && FIXED_IP(ob->ob_ndy) > -gminspeed)) {
+			ob->ob_ndy -= FIXED_UNIT;
 		}
 		ob->ob_life = EXPLLIFE;
 	}
@@ -1089,8 +1089,7 @@ bool moveballoon(OBJECTS *ob)
 	dy = SIN(step / 3) * 128;
 	ob->ob_dx =  dx >> 16;
 	ob->ob_ldx = dx & 0xffff;
-	ob->ob_dy = dy >> 16;
-	ob->ob_ldy = dy & 0xffff;
+	ob->ob_ndy = dy;
 	movexy(ob, &x, &y);
 
 	// Which way are we drifting?
@@ -1134,7 +1133,7 @@ bool movebird(OBJECTS * obp)
 		deallobj(ob);
 		return false;
 	} else if (ob->ob_life == -2) {
-		ob->ob_dy = -ob->ob_dy;
+		ob->ob_ndy = -ob->ob_ndy;
 		ob->ob_dx = (countmove & 7) - 4;
 		// Don't move in a direction where we might (continue to?)
 		// fly into a wall. Fixes a crasher bug.
@@ -1156,7 +1155,7 @@ bool movebird(OBJECTS * obp)
 	ob->ob_symbol = &symbol_bird[ob->ob_orient].sym[0];
 	if (!in_range(0, x, currgame->gm_max_x - 1)
 	 || !in_range((int) ground[x] + 1, y, MAX_Y - 1)) {
-		ob->ob_y -= ob->ob_dy;
+		ob->ob_y -= FIXED_IP(ob->ob_ndy);
 		ob->ob_life = -2;
 		return false;
 	}
@@ -1182,7 +1181,7 @@ bool crashpln(OBJECTS *ob)
 
 	ob->ob_state = CRASHED;
 	ob->ob_athome = false;
-	ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = ob->ob_speed = 0;
+	ob->ob_dx = ob->ob_ndy = ob->ob_ldx = ob->ob_speed = 0;
 
 	ob->ob_hitcount = ((abs(orig_ob->x - ob->ob_x) < SAFERESET)
 	                && (abs(ob->ob_orig_y - ob->ob_y) < SAFERESET))
@@ -1196,7 +1195,7 @@ bool hitpln(OBJECTS * obp)
 	OBJECTS *ob;
 
 	ob = obp;
-	ob->ob_ldx = ob->ob_ldy = 0;
+	ob->ob_ldx = 0;
 	ob->ob_hitcount = FALLCOUNT;
 	ob->ob_state = FALLING;
 	ob->ob_athome = false;

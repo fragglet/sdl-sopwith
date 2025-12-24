@@ -394,7 +394,7 @@ static void AdjustBullet(OBJECTS *bullet, OBJECTS *src)
 			bullet->ob_x += 2;
 		}
 
-		if (bullet->ob_dy < 0) {
+		if (bullet->ob_ndy < 0) {
 			bullet->ob_y -= 2;
 		} else {
 			bullet->ob_y += 2;
@@ -426,7 +426,7 @@ void initshot(OBJECTS *obo, OBJECTS * targ)
 
 	if (targ) {
 		x = targ->ob_x + (targ->ob_dx << 2);
-		y = targ->ob_y + (targ->ob_dy << 2);
+		y = targ->ob_y + (FIXED_IP(targ->ob_ndy) << 2);
 		dx = x - obo->ob_x;
 		dy = y - obo->ob_y;
 
@@ -436,8 +436,8 @@ void initshot(OBJECTS *obo, OBJECTS * targ)
 			return;
 		}
 		ob->ob_dx = (dx * bspeed) / r;
-		ob->ob_dy = (dy * bspeed) / r;
-		ob->ob_ldx = ob->ob_ldy = 0;
+		ob->ob_ndy = (dy * bspeed * FIXED_UNIT) / r;
+		ob->ob_ldx = 0;
 	} else {
 		nspeed = obo->ob_speed + bspeed;
 		nangle = obo->ob_angle;
@@ -493,7 +493,7 @@ void initbomb(OBJECTS *obo)
 	ob->ob_type = BOMB;
 	ob->ob_state = FALLING;
 	ob->ob_dx = obo->ob_dx;
-	ob->ob_dy = obo->ob_dy;
+	ob->ob_ndy = obo->ob_ndy;
 	ob->ob_onmap = true;
 
 	if (obo->ob_orient) {
@@ -504,7 +504,7 @@ void initbomb(OBJECTS *obo)
 
 	ob->ob_x = obo->ob_x + ((COS(angle) * 10) >> 8) + 4;
 	ob->ob_y = obo->ob_y + ((SIN(angle) * 10) >> 8) - 4;
-	ob->ob_lx = ob->ob_ly = ob->ob_ldx = ob->ob_ldy = 0;
+	ob->ob_lx = ob->ob_ly = ob->ob_ldx = 0;
 
 	ob->ob_life = BOMBLIFE;
 	ob->ob_owner = obo;
@@ -591,7 +591,7 @@ void initburst(OBJECTS *obo)
 
 	setdxdy(ob, gminspeed * COS(angle), gminspeed * SIN(angle));
 	ob->ob_dx += obo->ob_dx;
-	ob->ob_dy += obo->ob_dy;
+	ob->ob_ndy += obo->ob_ndy;
 
 	ob->ob_x = obo->ob_x + ((COS(angle) * 10) >> 10) + 4;
 	ob->ob_y = obo->ob_y + ((SIN(angle) * 10) >> 10) - 4;
@@ -671,8 +671,8 @@ static OBJECTS *inittarget(const original_ob_t *orig_ob)
 		ground[x] = aveh;
 	}
 
-	ob->ob_dx = ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx
-	    = ob->ob_ldy = ob->ob_angle = ob->ob_hitcount = 0;
+	ob->ob_dx = ob->ob_ndy = ob->ob_lx = ob->ob_ly = ob->ob_ldx
+	    = ob->ob_angle = ob->ob_hitcount = 0;
 	ob->ob_type = TARGET;
 	ob->ob_state = STANDING;
 	ob->ob_orient = orig_ob->orient;
@@ -727,7 +727,7 @@ void initexpl(OBJECTS *obo, int small)
 	obox = obo->ob_x + (obo->ob_symbol->w / 2);
 	oboy = obo->ob_y + (obo->ob_symbol->h / 2);
 	obodx = obo->ob_dx >> 2;
-	obody = obo->ob_dy >> 2;
+	obody = FIXED_IP(obo->ob_ndy) >> 2;
 	oboclr = obo->ob_clr;
 
 	obotype = obo->ob_type;
@@ -776,10 +776,10 @@ void initexpl(OBJECTS *obo, int small)
 
 		setdxdy(ob, COS(i) * speed, SIN(i) * speed);
 		ob->ob_dx += obodx;
-		ob->ob_dy += obody;
+		ob->ob_ndy += obody * FIXED_UNIT;
 
 		ob->ob_x = obox + ob->ob_dx;
-		ob->ob_y = oboy + ob->ob_dy;
+		ob->ob_y = oboy + FIXED_IP(ob->ob_ndy);
 		ApplySpriteSizeOffset(ob, obo, i);
 
 		explseed *= ob->ob_x * ob->ob_y;
@@ -794,7 +794,7 @@ void initexpl(OBJECTS *obo, int small)
 			orient = ob->ob_orient = 0;
 			mansym = false;
 			ob->ob_dx = obodx;
-			ob->ob_dy = -gminspeed;
+			ob->ob_ndy = -gminspeed * FIXED_UNIT;
 		}
 
 		ob->ob_lx = ob->ob_ly = ob->ob_hitcount = ob->ob_speed = 0;
@@ -826,8 +826,8 @@ void initsmok(OBJECTS *obo)
 	ob->ob_x = obo->ob_x + 8;
 	ob->ob_y = obo->ob_y - 8;
 	ob->ob_dx = obo->ob_dx;
-	ob->ob_dy = obo->ob_dy;
-	ob->ob_lx = ob->ob_ly = ob->ob_ldx = ob->ob_ldy = 0;
+	ob->ob_ndy = obo->ob_ndy;
+	ob->ob_lx = ob->ob_ly = ob->ob_ldx = 0;
 	ob->ob_life = SMOKELIFE;
 	ob->ob_owner = obo;
 	ob->ob_soundf = NULL;
@@ -855,7 +855,7 @@ static OBJECTS *initflock(const original_ob_t *orig_ob)
 	ob->ob_x = orig_ob->x;
 	ob->ob_y = MAX_Y - 1;
 	ob->ob_dx = ob->ob_x < (currgame->gm_max_x / 2) ? 2 : -2;
-	ob->ob_dy = ob->ob_lx = ob->ob_ly = ob->ob_ldx = ob->ob_ldy = 0;
+	ob->ob_ndy = ob->ob_lx = ob->ob_ly = ob->ob_ldx = 0;
 	ob->ob_orient = 0;
 	ob->ob_life = FLOCKLIFE;
 	ob->ob_faction = FACTION_NONE;
@@ -891,9 +891,8 @@ void initbird(OBJECTS *obo, int i)
 	ob->ob_x = obo->ob_x + ibx[i];
 	ob->ob_y = obo->ob_y - iby[i];
 	ob->ob_dx = ibdx[i];
-	ob->ob_dy = ibdy[i];
-	ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx = ob->ob_ldy =
-	    0;
+	ob->ob_ndy = ibdy[i] * FIXED_UNIT;
+	ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx = 0;
 	ob->ob_life = BIRDLIFE;
 	ob->ob_faction = obo->ob_faction;
 	ob->ob_symbol = &symbol_bird[0].sym[0];
@@ -918,7 +917,7 @@ static OBJECTS *initballoon(const original_ob_t *orig_ob)
 	ob->ob_x = orig_ob->x;
 	ob->ob_y = MAX_Y - 16 + SIN(orig_ob->x) / 32;
 	ob->ob_dx = 0;
-	ob->ob_dy = 0;
+	ob->ob_ndy = 0;
 	ob->ob_orient = 0;
 	ob->ob_symbol = &symbol_balloon[0].sym[0];
 	ob->ob_soundf = NULL;
@@ -950,7 +949,7 @@ static OBJECTS *initox(const original_ob_t *orig_ob)
 	ob->ob_x = orig_ob->x;
 	ob->ob_y = ground[ob->ob_x] + 16;
 	ob->ob_orient = ob->ob_lx = ob->ob_ly = ob->ob_ldx =
-	    ob->ob_ldy = ob->ob_dx = ob->ob_dy = 0;
+	    ob->ob_dx = ob->ob_ndy = 0;
 	ob->ob_faction = FACTION_NONE;
 	ob->ob_symbol = &symbol_ox[0].sym[orig_ob->transform];
 	ob->ob_soundf = NULL;

@@ -72,7 +72,7 @@ void winner(OBJECTS *ob)
 {
 	ob->ob_endsts = WINNER;
 	ob->ob_goingsun = true;
-	ob->ob_dx = ob->ob_dy = ob->ob_ldx = ob->ob_ldy = 0;
+	ob->ob_dx = ob->ob_ndy = ob->ob_ldx = 0;
 	ob->ob_state = FLYING;
 	ob->ob_life = MAXFUEL;
 	ob->ob_speed = MIN_SPEED;
