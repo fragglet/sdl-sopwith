@@ -73,6 +73,28 @@ acquired by UnitedHealth Group in 2015.
 * [National Post article from 1985](articles/natpost_nov_1985.pdf) which
 provides some details about BMB.
 
+## The author
+
+![Illustration: David L. Clark](img/dave.jpg)
+
+David L. Clark created Sopwith in the spring of 1984 when he joined BMB
+Compuscience as an R&D programmer. His colleague Dave Growden (aka "Ox") served
+as primary playtester.
+
+Besides Sopwith, David is also active in astronomy, conducting research at the
+University of Western Ontario [as part of](https://physics.uwo.ca/~dclark56/)
+the UWO Meteor Group. He has [a number of academic
+publications](https://orcid.org/0000-0002-1203-764X).
+
+David is also the author of the
+[ClearSky](https://web.archive.org/web/20191226222852/http://davidlclark.com/ClearSky)
+solar system animation and celestial data analysis program that he has been
+developing since the 1980s.
+
+* [David's website](https://web.archive.org/web/20200125192943/http://davidlclark.com/)
+  (archived; it is currently down at the time of writing but we hope it will be
+  back soon!)
+
 ## The inspiration
 
 ![Illustration: Sopwith Camel](img/camel_photo.jpg)
