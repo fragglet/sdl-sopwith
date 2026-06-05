@@ -36,8 +36,12 @@ EXTRA_DIST = $(AUX_DIST_GEN) $(DOC_FILES) $(missions_DATA) \
 
 MAINTAINERCLEANFILES = $(AUX_DIST_GEN)
 
-docdir=$(prefix)/share/doc/@PACKAGE@
 SUBDIRS=src doc pkg
+if HAVE_TESTS
+SUBDIRS+=tests
+endif
+
+docdir=$(prefix)/share/doc/@PACKAGE@
 
 format:
 	clang-format -i src/*.[ch] src/sdl/*.[ch]

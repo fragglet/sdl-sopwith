@@ -83,6 +83,16 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_PROG_INSTALL
 PKG_CHECK_MODULES(SDL, [sdl2 >= 2.0.7])
+
+dnl Unit tests using Check framework
+AC_ARG_ENABLE([tests],
+              [AS_HELP_STRING([--enable-tests],
+                              [build unit tests (requires Check framework)])])
+if test "x$enable_tests" = "xyes"; then
+    PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
+    AC_DEFINE([HAVE_TESTS], [1], [Define if unit tests are enabled])
+fi
+AM_CONDITIONAL([HAVE_TESTS], [test "x$enable_tests" = "xyes"])
 AC_CHECK_HEADERS(netinet/in.h winsock.h)
 
 AC_SUBST(ac_aux_dir)
@@ -96,6 +106,7 @@ pkg/Makefile
 src/Makefile
 src/resource.rc
 src/sdl/Makefile
+tests/Makefile
 ])
 AC_OUTPUT
 
