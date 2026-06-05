@@ -1,7 +1,7 @@
 # Unit tests using Check framework
 
-TESTS = swconf_test
-check_PROGRAMS = swconf_test
+TESTS = swconf_test swcollsn_test
+check_PROGRAMS = swconf_test swcollsn_test
 
 # Use the same compiler flags as the main build
 AM_CFLAGS = $(CFLAGS) -I$(top_srcdir)/src
@@ -12,3 +12,7 @@ swconf_test_CFLAGS = $(CHECK_CFLAGS)
 
 # Test source files
 swconf_test_SOURCES = swconf_test.c
+
+swcollsn_test_SOURCES = swcollsn_test.c
+swcollsn_test_LDADD = $(top_builddir)/src/swcollsn.o $(CHECK_LIBS)
+swcollsn_test_CFLAGS = $(CHECK_CFLAGS)
