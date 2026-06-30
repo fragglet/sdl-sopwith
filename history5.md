@@ -23,7 +23,7 @@ known at the time. The site shared the various different versions along with
 mods and tools such as unofficial level editors. The site is still online to
 this day, although it has been mostly dormant in recent years.
 
-More recently a [Discord server](https://discord.gg/S2P5wUUzNU) has been set
+More recently a [Discord server](https://discord.gg/UHhe82RSaw) has been set
 up for fans to talk about the game and arrange multiplayer games.
 
 ## The source code release
