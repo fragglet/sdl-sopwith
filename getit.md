@@ -15,7 +15,7 @@ Manual pages:
 
 ![Tux and Beastie](logos/Tux-and-beastie.png)
 
-## Linux and BSD
+## Linux and other systems
 
 For Linux and other open-source operating systems we focus our efforts on
 getting SDL Sopwith into as many different package repositories as
@@ -29,6 +29,7 @@ possible. If you don't see your favorite operating system in this list,
 | Fedora        | `dnf install sopwith`        |
 | Flatpak       | `flatpak install flathub io.github.fragglet.sdl_sopwith` |
 | FreeBSD       | `pkg install sopwith`        |
+| Haiku         | `pkgman install sdl_sopwith` |
 | OpenBSD       | `pkg_add sdl-sopwith`        |
 | OpenSuSE      | `zypper install sopwith`     |
 | Ubuntu        | `apt install sopwith`        |
