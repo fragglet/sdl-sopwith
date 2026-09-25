@@ -38,6 +38,8 @@ worked:
 one of the MUPET controller boxes.
 * [Video demonstration of the MUPET system](https://youtu.be/FvBC-83rk2w) (credit
 goes to Harry McCracken who originally shared this on Twitter).
+* [MUPET demonstration from WORC 2026](https://www.youtube.com/watch?v=8RK54ZAsW78) -
+a nice five-machine demo from a recent retro-computing event
 
 ### The pivot to PCs
 
