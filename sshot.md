@@ -2,8 +2,8 @@
 title: SDL Sopwith: Screenshots
 ---
 
-![Screenshot, Windows 7](sshot/sopwith-win7.png) \
-SDL Sopwith running under Windows 7 (screenshot credit: Alaux)
+![Screenshot, Windows 7](sshot/sopwith-win11.png) \
+SDL Sopwith running under Windows 11
 
 ![Screenshot, Linux XFCE](sshot/sopwith-linux-xfce.png) \
 SDL Sopwith running under Linux with the XFCE desktop.
