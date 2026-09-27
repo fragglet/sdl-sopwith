@@ -170,7 +170,9 @@ hardware. Under DOSbox you will need the
 to be able to load the drivers.
 
 * [Download (.zip)](original-files/swnet.zip)
-* [Download drivers (.zip)](original-files/SopwithDrivers.zip)
+* [Download drivers (.zip)](original-files/SopwithDrivers.zip) and a
+  [README file](original-files/SopwithDrivers-readme.txt) with some brief
+  documentation for the SERIAL.SYS driver.
 
 <img src="original-files/swnet_title.png" width="320"> <img
      src="original-files/swnet_001.png" width="320"> <img
