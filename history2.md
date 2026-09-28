@@ -53,6 +53,9 @@ of its business to focus on its own hardware and software products.
 
 * [National Post article from 1985](articles/natpost_nov_1985.pdf) which
 provides some details about BMB.
+* [1984 full-page ad from the Edmonton Journal](articles/edmonton_journal_oct1984.pdf)
+with some photos of the Information Connection stores, and announcing the
+launch of Imaginet as a product.
 
 ### Imaginet
 
@@ -94,14 +97,17 @@ compatibility - that was likely unmatched by competing products. MS-DOS at the
 time did not have any native interfaces for networking, and would not gain
 them until 1987 with the release of MS-DOS 3.0. The hardware-based approach
 also meant that any operating system could be used - IBM originally offered
-multiple options including CP/M-86.
+multiple operating system options including CP/M-86.
+
+Later versions of Imaginet added support for the
+[Atari ST](https://en.wikipedia.org/wiki/Atari_ST) machines after they appeared
+on the market in 1985. The Sopwith source code even includes some code for an
+Atari port of the game, although it is unclear that this was ever completed.
 
 * [Some published articles about Imaginet](articles/imaginet.md) that give some
 technical information about the system and how it worked.
 * [Canadian patent 1172380](articles/canada-patent-1172380.pdf) and the
 equivalent [US patent 4792896](articles/us-patent-4792896.pdf).
-* [1984 full-page ad from the Edmonton Journal](articles/edmonton_journal_oct1984.pdf)
-about BMB and Imaginet.
 * [Cover photo from BMB's annual report](https://www.flickr.com/photos/stompr/4302616998)
 that shows boxed copies of the Imaginet software, NetMail, and other BMB
 software (credit to R Stomphorst for sharing this photo on Flickr).
