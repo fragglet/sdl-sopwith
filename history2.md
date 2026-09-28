@@ -10,19 +10,20 @@ title: History of Sopwith: BMB Compuscience and Imaginet
 [DOS versions](history4.md) \|
 [On the Internet](history5.md) ]
 
-![Illustration: Imaginet logo](img/imaginet.png)
+![Illustration: BMB Compuscience logo](img/bmb_logo.png)
 
-BMB was not a games company; Sopwith was developed as a demo application for
-the Imaginet networking system, an early form of
-[LAN](https://en.wikipedia.org/wiki/Local_area_network) that networked IBM
-PCs and Atari STs. David Clark has described Sopwith as something he hoped
-would attract attention at trade shows.
+Sopwith's title screen proudly identifies it as the work of **BMB
+Compuscience**, a Canadian company founded in 1979 and based in Milton, Ontario
+by Bill MacLean, Marcel Brunschweiler and Barbara MacLean. The initials of
+their first names were the origin of the name BMB.
 
 ### MUPET
 
-BMB's previous focus had been the Commodore PET, where it had developed a
-system named MUPET that had enjoyed some moderate success. MUPET allowed
-multiple PETs to share floppy drives and hard drives. A nice
+BMB originally acted as a reseller for Commodore's PET computers, targeting
+scientists and researchers. As part of this, it developed a system named MUPET
+that had enjoyed some moderate success. MUPET allowed multiple PETs to share
+floppy drives and hard drives, and was a very similar system to the Imaginet
+system that would come later. A nice
 [demonstration video](https://www.youtube.com/watch?v=8RK54ZAsW78)
 shows it in use at a recent retro-computing event to network five PETs
 together.
@@ -30,7 +31,7 @@ together.
 ![Photo of MUPET controller device](img/mupet-controller.jpg) \
 MUPET controller; photo credit: eBay user vintageisgreen
 
-The following articles give some details of how it worked:
+The following give some details of how it worked:
 
 * [MUPET brochure](articles/mupet-brochure.pdf)
 (credit to vintagecomputer.ca).
@@ -43,15 +44,23 @@ one of the MUPET controller boxes.
 
 ### The pivot to PCs
 
-After the release of the IBM PC in 1981, BMB changed its focus to the new
-platform and it became a successful reseller of PCs through its chain of
-Canadian stores named *The Information Connection*.
-Meanwhile, it set about producing a similar system to MUPET that it called
-*Imaginet*. As with MUPET, it allowed multiple PCs to share a floppy disk. But
-with hard drives now becoming common, it could also simulate a virtual floppy
-disk stored on a hard drive on another machine.  By 1984 the first version of
-Imaginet had been made available, and the first versions of Sopwith date to
-this time.
+After the IBM PC was released in 1981, BMB pivoted to make it the company's
+main focus. This proved to be a smart move; it became a successful reseller of
+PCs through its chain of Canadian stores named *The Information Connection*.
+The company went public in 1983 but then experienced difficulties the following
+year after a market downturn. BMB responded by discontinuing the retail side
+of its business to focus on its own hardware and software products.
+
+* [National Post article from 1985](articles/natpost_nov_1985.pdf) which
+provides some details about BMB.
+
+### Imaginet
+
+With the pivot to PCs, BMB set about producing a similar system to MUPET that
+it called *Imaginet*. As with MUPET, it allowed multiple PCs to share floppy
+disks and hard drives. It could also simulate a virtual floppy disk stored on a
+hard drive on another machine. By 1984 the first version of Imaginet had been
+made available, and the first versions of Sopwith date to this time.
 
 ![Boxed copy of Imaginet showing manual, floppy disks and ISA card](img/imaginet-boxed.jpg)
 
@@ -122,6 +131,18 @@ another company's trademark (BMB won the case). While Imaginet does not appear
 to have been particuarly successful in the marketplace, it did find some
 customers in Canada, and remains an interesting footnote in the history of PC
 networking.
+
+### Where is BMB now?
+
+Some websites have suggested that BMB went out of business as a result of
+litigation but this is not the case. BMB *was* involved in a landmark ruling in
+Canadian trademark law named *BMB Compuscience Canada Ltd v Bramalea Ltd.* and
+this appears to be the origin of this myth. The company continued into the '90s
+before [being acquired by Systems Xcellence Inc.](https://opencorporates.com/companies/ca/1689681)
+in 1994 in a [reverse takeover](https://en.wikipedia.org/wiki/Reverse_takeover).
+The company later changed its name to SXC Health Solutions, and then [Catamaran
+Corporation](https://en.wikipedia.org/wiki/Catamaran_Corporation), before being
+acquired by UnitedHealth Group in 2015.
 
 ### More information
 

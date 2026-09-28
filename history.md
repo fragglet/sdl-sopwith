@@ -43,36 +43,6 @@ SDL Sopwith is directly derived from the source code to the original DOS
 versions, and still includes changelog comments that date all the way back to
 1984.
 
-## About BMB Compuscience
-
-![Illustration: BMB Compuscience logo](img/bmb_logo.png)
-
-Sopwith's title screen proudly identifies it as the work of **BMB
-Compuscience**, a Canadian company founded in 1979 and based in Milton, Ontario
-by Bill MacLean, Marcel Brunschweiler and Barbara MacLean.  The initials
-of their first names were the origin of the name BMB. The business originally
-acted as a reseller for Commodore computers, targeting scientists and
-researchers. BMB then pivoted to focus on the IBM PC after it was released
-in 1981. This proved to be a smart move and BMB racked up enough in sales that it
-was able to open six retail stores.
-
-The company went public in 1983 but then experienced difficulties the following
-year after a market downturn. BMB responded by discontinuing the retail side
-of its business to focus on its own hardware and software products.
-
-Some websites have suggested that BMB went out of business as a result of
-litigation but this is not the case. BMB *was* involved in a landmark ruling in
-Canadian trademark law named *BMB Compuscience Canada Ltd v Bramalea Ltd.* and
-this appears to be the origin of this myth. The company continued into the '90s
-before [being acquired by Systems Xcellence Inc.](https://opencorporates.com/companies/ca/1689681)
-in 1994 in a [reverse takeover](https://en.wikipedia.org/wiki/Reverse_takeover).
-The company later changed its name to SXC Health Solutions, and then [Catamaran
-Corporation](https://en.wikipedia.org/wiki/Catamaran_Corporation), before being
-acquired by UnitedHealth Group in 2015.
-
-* [National Post article from 1985](articles/natpost_nov_1985.pdf) which
-provides some details about BMB.
-
 ## The author
 
 ![Illustration: David L. Clark](img/dave.jpg)
