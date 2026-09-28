@@ -5,7 +5,7 @@ title: History of Sopwith
 # History of Sopwith
 
 [ **Introduction** \|
-[Imaginet](history2.md) \|
+[BMB and Imaginet](history2.md) \|
 [Sopwith escapes](history3.md) \|
 [DOS versions](history4.md) \|
 [On the Internet](history5.md) ]
@@ -130,5 +130,5 @@ comic strip (in his imagined dogfights with "The Red Baron").
 
 ---
 
-**Next:** [Imaginet](history2.md)
+**Next:** [BMB and Imaginet](history2.md)
 

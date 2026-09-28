@@ -5,7 +5,7 @@ title: History of Sopwith: Sopwith meets the Internet
 # History of Sopwith part 5: Sopwith meets the Internet
 
 [ [Introduction](history.md) \|
-[Imaginet](history2.md) \|
+[BMB and Imaginet](history2.md) \|
 [Sopwith escapes](history3.md) \|
 [DOS versions](history4.md) \|
 **On the Internet** ]

@@ -1,11 +1,11 @@
 ---
-title: History of Sopwith: Imaginet
+title: History of Sopwith: BMB Compuscience and Imaginet
 ---
 
-# History of Sopwith part 2: Imaginet
+# History of Sopwith part 2: BMB Compuscience and Imaginet
 
 [ [Introduction](history.md) \|
-**Imaginet** \|
+**BMB and Imaginet** \|
 [Sopwith escapes](history3.md) \|
 [DOS versions](history4.md) \|
 [On the Internet](history5.md) ]

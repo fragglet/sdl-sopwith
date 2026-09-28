@@ -5,7 +5,7 @@ title: History of Sopwith: Sopwith escapes the lab
 # History of Sopwith part 3: Sopwith escapes the lab
 
 [ [Introduction](history.md) \|
-[Imaginet](history2.md) \|
+[BMB and Imaginet](history2.md) \|
 **Sopwith escapes** \|
 [DOS versions](history4.md) \|
 [On the Internet](history5.md) ]

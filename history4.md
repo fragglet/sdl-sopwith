@@ -5,7 +5,7 @@ title: History of Sopwith: Original DOS versions
 # History of Sopwith part 4: the DOS versions
 
 [ [Introduction](history.md) \|
-[Imaginet](history2.md) \|
+[BMB and Imaginet](history2.md) \|
 [Sopwith escapes](history3.md) \|
 **DOS versions** \|
 [On the Internet](history5.md) ]
