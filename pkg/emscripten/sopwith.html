@@ -116,6 +116,7 @@
           var filename = "/file" + index + ".sop"
           FS.writeFile(filename, text)
           Module.arguments.push("-m", filename)
+          index++
         }
       }
 
